@@ -1,0 +1,1021 @@
+schema {
+  query: query_root
+  mutation: mutation_root
+  subscription: subscription_root
+}
+
+"""
+expression to compare columns of type Boolean. All fields are combined with logical 'AND'.
+"""
+input Boolean_comparison_exp {
+  _eq: Boolean
+  _gt: Boolean
+  _gte: Boolean
+  _in: [Boolean!]
+  _is_null: Boolean
+  _lt: Boolean
+  _lte: Boolean
+  _neq: Boolean
+  _nin: [Boolean!]
+}
+
+"""
+columns and relationships of "category"
+"""
+type category {
+  categoryId: Int!
+  description: String
+  isActive: Boolean!
+  name: String!
+}
+
+"""
+aggregated selection of "category"
+"""
+type category_aggregate {
+  aggregate: category_aggregate_fields
+  nodes: [category!]!
+}
+
+"""
+aggregate fields of "category"
+"""
+type category_aggregate_fields {
+  avg: category_avg_fields
+  count(columns: [category_select_column!], distinct: Boolean): Int
+  max: category_max_fields
+  min: category_min_fields
+  stddev: category_stddev_fields
+  stddev_pop: category_stddev_pop_fields
+  stddev_samp: category_stddev_samp_fields
+  sum: category_sum_fields
+  var_pop: category_var_pop_fields
+  var_samp: category_var_samp_fields
+  variance: category_variance_fields
+}
+
+"""
+order by aggregate values of table "category"
+"""
+input category_aggregate_order_by {
+  avg: category_avg_order_by
+  count: order_by
+  max: category_max_order_by
+  min: category_min_order_by
+  stddev: category_stddev_order_by
+  stddev_pop: category_stddev_pop_order_by
+  stddev_samp: category_stddev_samp_order_by
+  sum: category_sum_order_by
+  var_pop: category_var_pop_order_by
+  var_samp: category_var_samp_order_by
+  variance: category_variance_order_by
+}
+
+"""
+input type for inserting array relation for remote table "category"
+"""
+input category_arr_rel_insert_input {
+  data: [category_insert_input!]!
+  on_conflict: category_on_conflict
+}
+
+"""aggregate avg on columns"""
+type category_avg_fields {
+  categoryId: Float
+}
+
+"""
+order by avg() on columns of table "category"
+"""
+input category_avg_order_by {
+  categoryId: order_by
+}
+
+"""
+Boolean expression to filter rows from the table "category". All fields are combined with a logical 'AND'.
+"""
+input category_bool_exp {
+  _and: [category_bool_exp]
+  _not: category_bool_exp
+  _or: [category_bool_exp]
+  categoryId: Int_comparison_exp
+  description: String_comparison_exp
+  isActive: Boolean_comparison_exp
+  name: String_comparison_exp
+}
+
+"""
+unique or primary key constraints on table "category"
+"""
+enum category_constraint {
+  """unique or primary key constraint"""
+  PK_8a300c5ce0f70ed7945e877a537
+}
+
+"""
+input type for incrementing integer column in table "category"
+"""
+input category_inc_input {
+  categoryId: Int
+}
+
+"""
+input type for inserting data into table "category"
+"""
+input category_insert_input {
+  categoryId: Int
+  description: String
+  isActive: Boolean
+  name: String
+}
+
+"""aggregate max on columns"""
+type category_max_fields {
+  categoryId: Int
+  description: String
+  name: String
+}
+
+"""
+order by max() on columns of table "category"
+"""
+input category_max_order_by {
+  categoryId: order_by
+  description: order_by
+  name: order_by
+}
+
+"""aggregate min on columns"""
+type category_min_fields {
+  categoryId: Int
+  description: String
+  name: String
+}
+
+"""
+order by min() on columns of table "category"
+"""
+input category_min_order_by {
+  categoryId: order_by
+  description: order_by
+  name: order_by
+}
+
+"""
+response of any mutation on the table "category"
+"""
+type category_mutation_response {
+  """number of affected rows by the mutation"""
+  affected_rows: Int!
+
+  """data of the affected rows by the mutation"""
+  returning: [category!]!
+}
+
+"""
+input type for inserting object relation for remote table "category"
+"""
+input category_obj_rel_insert_input {
+  data: category_insert_input!
+  on_conflict: category_on_conflict
+}
+
+"""
+on conflict condition type for table "category"
+"""
+input category_on_conflict {
+  constraint: category_constraint!
+  update_columns: [category_update_column!]!
+  where: category_bool_exp
+}
+
+"""
+ordering options when selecting data from "category"
+"""
+input category_order_by {
+  categoryId: order_by
+  description: order_by
+  isActive: order_by
+  name: order_by
+}
+
+"""
+primary key columns input for table: "category"
+"""
+input category_pk_columns_input {
+  categoryId: Int!
+}
+
+"""
+select columns of table "category"
+"""
+enum category_select_column {
+  """column name"""
+  categoryId
+
+  """column name"""
+  description
+
+  """column name"""
+  isActive
+
+  """column name"""
+  name
+}
+
+"""
+input type for updating data in table "category"
+"""
+input category_set_input {
+  categoryId: Int
+  description: String
+  isActive: Boolean
+  name: String
+}
+
+"""aggregate stddev on columns"""
+type category_stddev_fields {
+  categoryId: Float
+}
+
+"""
+order by stddev() on columns of table "category"
+"""
+input category_stddev_order_by {
+  categoryId: order_by
+}
+
+"""aggregate stddev_pop on columns"""
+type category_stddev_pop_fields {
+  categoryId: Float
+}
+
+"""
+order by stddev_pop() on columns of table "category"
+"""
+input category_stddev_pop_order_by {
+  categoryId: order_by
+}
+
+"""aggregate stddev_samp on columns"""
+type category_stddev_samp_fields {
+  categoryId: Float
+}
+
+"""
+order by stddev_samp() on columns of table "category"
+"""
+input category_stddev_samp_order_by {
+  categoryId: order_by
+}
+
+"""aggregate sum on columns"""
+type category_sum_fields {
+  categoryId: Int
+}
+
+"""
+order by sum() on columns of table "category"
+"""
+input category_sum_order_by {
+  categoryId: order_by
+}
+
+"""
+update columns of table "category"
+"""
+enum category_update_column {
+  """column name"""
+  categoryId
+
+  """column name"""
+  description
+
+  """column name"""
+  isActive
+
+  """column name"""
+  name
+}
+
+"""aggregate var_pop on columns"""
+type category_var_pop_fields {
+  categoryId: Float
+}
+
+"""
+order by var_pop() on columns of table "category"
+"""
+input category_var_pop_order_by {
+  categoryId: order_by
+}
+
+"""aggregate var_samp on columns"""
+type category_var_samp_fields {
+  categoryId: Float
+}
+
+"""
+order by var_samp() on columns of table "category"
+"""
+input category_var_samp_order_by {
+  categoryId: order_by
+}
+
+"""aggregate variance on columns"""
+type category_variance_fields {
+  categoryId: Float
+}
+
+"""
+order by variance() on columns of table "category"
+"""
+input category_variance_order_by {
+  categoryId: order_by
+}
+
+"""
+expression to compare columns of type Int. All fields are combined with logical 'AND'.
+"""
+input Int_comparison_exp {
+  _eq: Int
+  _gt: Int
+  _gte: Int
+  _in: [Int!]
+  _is_null: Boolean
+  _lt: Int
+  _lte: Int
+  _neq: Int
+  _nin: [Int!]
+}
+
+"""mutation root"""
+type mutation_root {
+  """
+  delete data from the table: "category"
+  """
+  delete_category(
+    """filter the rows which have to be deleted"""
+    where: category_bool_exp!
+  ): category_mutation_response
+
+  """
+  delete single row from the table: "category"
+  """
+  delete_category_by_pk(categoryId: Int!): category
+
+  """
+  delete data from the table: "spicies"
+  """
+  delete_spicies(
+    """filter the rows which have to be deleted"""
+    where: spicies_bool_exp!
+  ): spicies_mutation_response
+
+  """
+  delete single row from the table: "spicies"
+  """
+  delete_spicies_by_pk(spiciesId: Int!): spicies
+
+  """
+  insert data into the table: "category"
+  """
+  insert_category(
+    """the rows to be inserted"""
+    objects: [category_insert_input!]!
+
+    """on conflict condition"""
+    on_conflict: category_on_conflict
+  ): category_mutation_response
+
+  """
+  insert a single row into the table: "category"
+  """
+  insert_category_one(
+    """the row to be inserted"""
+    object: category_insert_input!
+
+    """on conflict condition"""
+    on_conflict: category_on_conflict
+  ): category
+
+  """
+  insert data into the table: "spicies"
+  """
+  insert_spicies(
+    """the rows to be inserted"""
+    objects: [spicies_insert_input!]!
+
+    """on conflict condition"""
+    on_conflict: spicies_on_conflict
+  ): spicies_mutation_response
+
+  """
+  insert a single row into the table: "spicies"
+  """
+  insert_spicies_one(
+    """the row to be inserted"""
+    object: spicies_insert_input!
+
+    """on conflict condition"""
+    on_conflict: spicies_on_conflict
+  ): spicies
+
+  """
+  update data of the table: "category"
+  """
+  update_category(
+    """increments the integer columns with given value of the filtered values"""
+    _inc: category_inc_input
+
+    """sets the columns of the filtered rows to the given values"""
+    _set: category_set_input
+
+    """filter the rows which have to be updated"""
+    where: category_bool_exp!
+  ): category_mutation_response
+
+  """
+  update single row of the table: "category"
+  """
+  update_category_by_pk(
+    """increments the integer columns with given value of the filtered values"""
+    _inc: category_inc_input
+
+    """sets the columns of the filtered rows to the given values"""
+    _set: category_set_input
+    pk_columns: category_pk_columns_input!
+  ): category
+
+  """
+  update data of the table: "spicies"
+  """
+  update_spicies(
+    """increments the integer columns with given value of the filtered values"""
+    _inc: spicies_inc_input
+
+    """sets the columns of the filtered rows to the given values"""
+    _set: spicies_set_input
+
+    """filter the rows which have to be updated"""
+    where: spicies_bool_exp!
+  ): spicies_mutation_response
+
+  """
+  update single row of the table: "spicies"
+  """
+  update_spicies_by_pk(
+    """increments the integer columns with given value of the filtered values"""
+    _inc: spicies_inc_input
+
+    """sets the columns of the filtered rows to the given values"""
+    _set: spicies_set_input
+    pk_columns: spicies_pk_columns_input!
+  ): spicies
+}
+
+"""column ordering options"""
+enum order_by {
+  """in the ascending order, nulls last"""
+  asc
+
+  """in the ascending order, nulls first"""
+  asc_nulls_first
+
+  """in the ascending order, nulls last"""
+  asc_nulls_last
+
+  """in the descending order, nulls first"""
+  desc
+
+  """in the descending order, nulls first"""
+  desc_nulls_first
+
+  """in the descending order, nulls last"""
+  desc_nulls_last
+}
+
+"""query root"""
+type query_root {
+  """
+  fetch data from the table: "category"
+  """
+  category(
+    """distinct select on columns"""
+    distinct_on: [category_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [category_order_by!]
+
+    """filter the rows returned"""
+    where: category_bool_exp
+  ): [category!]!
+
+  """
+  fetch aggregated fields from the table: "category"
+  """
+  category_aggregate(
+    """distinct select on columns"""
+    distinct_on: [category_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [category_order_by!]
+
+    """filter the rows returned"""
+    where: category_bool_exp
+  ): category_aggregate!
+
+  """fetch data from the table: "category" using primary key columns"""
+  category_by_pk(categoryId: Int!): category
+
+  """
+  fetch data from the table: "spicies"
+  """
+  spicies(
+    """distinct select on columns"""
+    distinct_on: [spicies_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [spicies_order_by!]
+
+    """filter the rows returned"""
+    where: spicies_bool_exp
+  ): [spicies!]!
+
+  """
+  fetch aggregated fields from the table: "spicies"
+  """
+  spicies_aggregate(
+    """distinct select on columns"""
+    distinct_on: [spicies_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [spicies_order_by!]
+
+    """filter the rows returned"""
+    where: spicies_bool_exp
+  ): spicies_aggregate!
+
+  """fetch data from the table: "spicies" using primary key columns"""
+  spicies_by_pk(spiciesId: Int!): spicies
+}
+
+"""
+columns and relationships of "spicies"
+"""
+type spicies {
+  description: String
+  isActive: Boolean!
+  isBreeding: Boolean!
+  name: String!
+  spiciesId: Int!
+}
+
+"""
+aggregated selection of "spicies"
+"""
+type spicies_aggregate {
+  aggregate: spicies_aggregate_fields
+  nodes: [spicies!]!
+}
+
+"""
+aggregate fields of "spicies"
+"""
+type spicies_aggregate_fields {
+  avg: spicies_avg_fields
+  count(columns: [spicies_select_column!], distinct: Boolean): Int
+  max: spicies_max_fields
+  min: spicies_min_fields
+  stddev: spicies_stddev_fields
+  stddev_pop: spicies_stddev_pop_fields
+  stddev_samp: spicies_stddev_samp_fields
+  sum: spicies_sum_fields
+  var_pop: spicies_var_pop_fields
+  var_samp: spicies_var_samp_fields
+  variance: spicies_variance_fields
+}
+
+"""
+order by aggregate values of table "spicies"
+"""
+input spicies_aggregate_order_by {
+  avg: spicies_avg_order_by
+  count: order_by
+  max: spicies_max_order_by
+  min: spicies_min_order_by
+  stddev: spicies_stddev_order_by
+  stddev_pop: spicies_stddev_pop_order_by
+  stddev_samp: spicies_stddev_samp_order_by
+  sum: spicies_sum_order_by
+  var_pop: spicies_var_pop_order_by
+  var_samp: spicies_var_samp_order_by
+  variance: spicies_variance_order_by
+}
+
+"""
+input type for inserting array relation for remote table "spicies"
+"""
+input spicies_arr_rel_insert_input {
+  data: [spicies_insert_input!]!
+  on_conflict: spicies_on_conflict
+}
+
+"""aggregate avg on columns"""
+type spicies_avg_fields {
+  spiciesId: Float
+}
+
+"""
+order by avg() on columns of table "spicies"
+"""
+input spicies_avg_order_by {
+  spiciesId: order_by
+}
+
+"""
+Boolean expression to filter rows from the table "spicies". All fields are combined with a logical 'AND'.
+"""
+input spicies_bool_exp {
+  _and: [spicies_bool_exp]
+  _not: spicies_bool_exp
+  _or: [spicies_bool_exp]
+  description: String_comparison_exp
+  isActive: Boolean_comparison_exp
+  isBreeding: Boolean_comparison_exp
+  name: String_comparison_exp
+  spiciesId: Int_comparison_exp
+}
+
+"""
+unique or primary key constraints on table "spicies"
+"""
+enum spicies_constraint {
+  """unique or primary key constraint"""
+  PK_563a9682557cbbf04a2bb6eea6c
+}
+
+"""
+input type for incrementing integer column in table "spicies"
+"""
+input spicies_inc_input {
+  spiciesId: Int
+}
+
+"""
+input type for inserting data into table "spicies"
+"""
+input spicies_insert_input {
+  description: String
+  isActive: Boolean
+  isBreeding: Boolean
+  name: String
+  spiciesId: Int
+}
+
+"""aggregate max on columns"""
+type spicies_max_fields {
+  description: String
+  name: String
+  spiciesId: Int
+}
+
+"""
+order by max() on columns of table "spicies"
+"""
+input spicies_max_order_by {
+  description: order_by
+  name: order_by
+  spiciesId: order_by
+}
+
+"""aggregate min on columns"""
+type spicies_min_fields {
+  description: String
+  name: String
+  spiciesId: Int
+}
+
+"""
+order by min() on columns of table "spicies"
+"""
+input spicies_min_order_by {
+  description: order_by
+  name: order_by
+  spiciesId: order_by
+}
+
+"""
+response of any mutation on the table "spicies"
+"""
+type spicies_mutation_response {
+  """number of affected rows by the mutation"""
+  affected_rows: Int!
+
+  """data of the affected rows by the mutation"""
+  returning: [spicies!]!
+}
+
+"""
+input type for inserting object relation for remote table "spicies"
+"""
+input spicies_obj_rel_insert_input {
+  data: spicies_insert_input!
+  on_conflict: spicies_on_conflict
+}
+
+"""
+on conflict condition type for table "spicies"
+"""
+input spicies_on_conflict {
+  constraint: spicies_constraint!
+  update_columns: [spicies_update_column!]!
+  where: spicies_bool_exp
+}
+
+"""
+ordering options when selecting data from "spicies"
+"""
+input spicies_order_by {
+  description: order_by
+  isActive: order_by
+  isBreeding: order_by
+  name: order_by
+  spiciesId: order_by
+}
+
+"""
+primary key columns input for table: "spicies"
+"""
+input spicies_pk_columns_input {
+  spiciesId: Int!
+}
+
+"""
+select columns of table "spicies"
+"""
+enum spicies_select_column {
+  """column name"""
+  description
+
+  """column name"""
+  isActive
+
+  """column name"""
+  isBreeding
+
+  """column name"""
+  name
+
+  """column name"""
+  spiciesId
+}
+
+"""
+input type for updating data in table "spicies"
+"""
+input spicies_set_input {
+  description: String
+  isActive: Boolean
+  isBreeding: Boolean
+  name: String
+  spiciesId: Int
+}
+
+"""aggregate stddev on columns"""
+type spicies_stddev_fields {
+  spiciesId: Float
+}
+
+"""
+order by stddev() on columns of table "spicies"
+"""
+input spicies_stddev_order_by {
+  spiciesId: order_by
+}
+
+"""aggregate stddev_pop on columns"""
+type spicies_stddev_pop_fields {
+  spiciesId: Float
+}
+
+"""
+order by stddev_pop() on columns of table "spicies"
+"""
+input spicies_stddev_pop_order_by {
+  spiciesId: order_by
+}
+
+"""aggregate stddev_samp on columns"""
+type spicies_stddev_samp_fields {
+  spiciesId: Float
+}
+
+"""
+order by stddev_samp() on columns of table "spicies"
+"""
+input spicies_stddev_samp_order_by {
+  spiciesId: order_by
+}
+
+"""aggregate sum on columns"""
+type spicies_sum_fields {
+  spiciesId: Int
+}
+
+"""
+order by sum() on columns of table "spicies"
+"""
+input spicies_sum_order_by {
+  spiciesId: order_by
+}
+
+"""
+update columns of table "spicies"
+"""
+enum spicies_update_column {
+  """column name"""
+  description
+
+  """column name"""
+  isActive
+
+  """column name"""
+  isBreeding
+
+  """column name"""
+  name
+
+  """column name"""
+  spiciesId
+}
+
+"""aggregate var_pop on columns"""
+type spicies_var_pop_fields {
+  spiciesId: Float
+}
+
+"""
+order by var_pop() on columns of table "spicies"
+"""
+input spicies_var_pop_order_by {
+  spiciesId: order_by
+}
+
+"""aggregate var_samp on columns"""
+type spicies_var_samp_fields {
+  spiciesId: Float
+}
+
+"""
+order by var_samp() on columns of table "spicies"
+"""
+input spicies_var_samp_order_by {
+  spiciesId: order_by
+}
+
+"""aggregate variance on columns"""
+type spicies_variance_fields {
+  spiciesId: Float
+}
+
+"""
+order by variance() on columns of table "spicies"
+"""
+input spicies_variance_order_by {
+  spiciesId: order_by
+}
+
+"""
+expression to compare columns of type String. All fields are combined with logical 'AND'.
+"""
+input String_comparison_exp {
+  _eq: String
+  _gt: String
+  _gte: String
+  _ilike: String
+  _in: [String!]
+  _is_null: Boolean
+  _like: String
+  _lt: String
+  _lte: String
+  _neq: String
+  _nilike: String
+  _nin: [String!]
+  _nlike: String
+  _nsimilar: String
+  _similar: String
+}
+
+"""subscription root"""
+type subscription_root {
+  """
+  fetch data from the table: "category"
+  """
+  category(
+    """distinct select on columns"""
+    distinct_on: [category_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [category_order_by!]
+
+    """filter the rows returned"""
+    where: category_bool_exp
+  ): [category!]!
+
+  """
+  fetch aggregated fields from the table: "category"
+  """
+  category_aggregate(
+    """distinct select on columns"""
+    distinct_on: [category_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [category_order_by!]
+
+    """filter the rows returned"""
+    where: category_bool_exp
+  ): category_aggregate!
+
+  """fetch data from the table: "category" using primary key columns"""
+  category_by_pk(categoryId: Int!): category
+
+  """
+  fetch data from the table: "spicies"
+  """
+  spicies(
+    """distinct select on columns"""
+    distinct_on: [spicies_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [spicies_order_by!]
+
+    """filter the rows returned"""
+    where: spicies_bool_exp
+  ): [spicies!]!
+
+  """
+  fetch aggregated fields from the table: "spicies"
+  """
+  spicies_aggregate(
+    """distinct select on columns"""
+    distinct_on: [spicies_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [spicies_order_by!]
+
+    """filter the rows returned"""
+    where: spicies_bool_exp
+  ): spicies_aggregate!
+
+  """fetch data from the table: "spicies" using primary key columns"""
+  spicies_by_pk(spiciesId: Int!): spicies
+}

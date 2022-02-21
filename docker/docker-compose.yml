@@ -1,0 +1,60 @@
+version: "3.6"
+services:
+  postgres:
+    image: postgres:12
+    restart: always
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_USER
+      - POSTGRES_PASSWORD
+      - POSTGRES_DB
+    ports:
+      - "5432:5432"
+    expose:
+      - "5432"
+  pgadmin-compose:
+    image: dpage/pgadmin4
+    restart: always
+    environment:
+      PGADMIN_DEFAULT_EMAIL: "admin@admin.com"
+      PGADMIN_DEFAULT_PASSWORD: "admin"
+    ports:
+      - "16543:80"
+    depends_on:
+      - "postgres"
+  graphql-engine:
+    image: hasura/graphql-engine:v1.3.3
+    ports:
+      - "8080:8080"
+    depends_on:
+      - "postgres"
+    restart: always
+    environment:
+      - HASURA_GRAPHQL_ADMIN_SECRET
+      - HASURA_GRAPHQL_DATABASE_URL
+      - HASURA_GRAPHQL_ENABLE_CONSOLE
+      - HASURA_GRAPHQL_DEV_MODE
+      - HASURA_GRAPHQL_ENABLED_LOG_TYPES
+      - HASURA_GRAPHQL_JWT_SECRET
+  petapp-backend:
+    image: binhtt13122000/petcare-be:latest
+    restart: always
+    depends_on:
+      - "postgres"
+    ports:
+      - "4000:4000"
+    expose:
+      - "4000"
+    environment:
+      - POSTGRES_HOST
+      - POSTGRES_PORT
+      - POSTGRES_USER
+      - POSTGRES_PASSWORD
+      - POSTGRES_DB
+      - API_PORT
+      - API_ROOT_URL
+      - WEB_ADMIN_ROOT_URL
+      - HASURA_ROOT_URL
+volumes:
+  db_data:
