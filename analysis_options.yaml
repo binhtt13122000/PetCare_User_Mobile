@@ -23,7 +23,7 @@ linter:
   # producing the lint.
   rules:
     - avoid_print  # Uncomment to disable the `avoid_print` rule
-    - prefer_double_quotes  # Uncomment to enable the `prefer_single_quotes` rule
+    #- prefer_double_quotes  # Uncomment to enable the `prefer_single_quotes` rule
     # Style rules 
     - camel_case_types
     - library_names
