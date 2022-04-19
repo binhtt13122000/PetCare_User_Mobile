@@ -6,10 +6,12 @@ part 'media_model.g.dart';
 class MediaModel {
   final int id;
   final String url;
+  final String? type;
 
   MediaModel({
     required this.id,
     required this.url,
+    this.type,
   });
 
   factory MediaModel.fromJson(Map<String, dynamic> json) =>

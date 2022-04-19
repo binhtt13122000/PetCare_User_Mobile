@@ -7,6 +7,7 @@ import 'package:petapp_mobile/configs/theme.dart';
 import 'package:petapp_mobile/controllers/purchase_posts_page_controller.dart';
 import 'package:petapp_mobile/models/post_model/post_model.dart';
 import 'package:petapp_mobile/utilities/utilities.dart';
+import 'package:petapp_mobile/views/customer/deposit_page/deposit_page.dart';
 
 class PostDetaiPage extends GetView<PurchasePostsPageController> {
   const PostDetaiPage({Key? key, required this.postModel}) : super(key: key);
@@ -396,7 +397,7 @@ class PostDetaiPage extends GetView<PurchasePostsPageController> {
               children: [
                 Container(
                   height: 45,
-                  width: 110,
+                  width: 150,
                   alignment: Alignment.center,
                   decoration: BoxDecoration(
                     borderRadius: const BorderRadius.all(
@@ -415,22 +416,25 @@ class PostDetaiPage extends GetView<PurchasePostsPageController> {
                         fontWeight: FontWeight.w500),
                   ),
                 ),
-                Container(
-                  height: 45,
-                  width: 200,
-                  alignment: Alignment.center,
-                  decoration: const BoxDecoration(
-                    color: PRIMARY_COLOR,
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(15),
+                InkWell(
+                  onTap: () => Get.to(DepositPage(postModel: postModel)),
+                  child: Container(
+                    height: 45,
+                    width: 150,
+                    alignment: Alignment.center,
+                    decoration: const BoxDecoration(
+                      color: PRIMARY_COLOR,
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(15),
+                      ),
                     ),
-                  ),
-                  child: Text(
-                    'Contact to deposit',
-                    style: GoogleFonts.itim(
-                      fontSize: 17,
-                      color: WHITE_COLOR,
-                      fontWeight: FontWeight.w500,
+                    child: Text(
+                      'Deposit',
+                      style: GoogleFonts.itim(
+                        fontSize: 17,
+                        color: WHITE_COLOR,
+                        fontWeight: FontWeight.w500,
+                      ),
                     ),
                   ),
                 )

@@ -11,8 +11,8 @@ import 'package:petapp_mobile/graphql/query_mutation/post.dart';
 import 'package:petapp_mobile/graphql/query_mutation/species.dart';
 import 'package:petapp_mobile/models/post_model/post_model.dart';
 import 'package:petapp_mobile/models/species_model/species_model.dart';
-import 'package:petapp_mobile/services/post_services/post_services.dart';
-import 'package:petapp_mobile/services/species_services/species_services.dart';
+import 'package:petapp_mobile/services/post_services.dart';
+import 'package:petapp_mobile/services/species_services.dart';
 import 'package:petapp_mobile/utilities/utilities.dart';
 import 'package:petapp_mobile/views/customer/post_detail_page/post_detail_page.dart';
 
@@ -54,8 +54,8 @@ class PurchasePostsPage extends GetView<PurchasePostsPageController> {
                     ),
                   ),
                   Expanded(
-                    child: Obx(
-                      () => Query(
+                    child: MixinBuilder<PurchasePostsPageController>(
+                      builder: (controller) => Query(
                         options: controller.selectedBreedMap[
                                         controller.selectedSpeciesId.value] !=
                                     null &&
@@ -351,81 +351,80 @@ class PurchasePostsPage extends GetView<PurchasePostsPageController> {
             //!Gender
             Row(
               children: [
-                Obx(
-                  () => InkWell(
+                GetBuilder<PurchasePostsPageController>(
+                  builder: (controller) => InkWell(
                     onTap: () {
                       if (controller.selectedGenderList.contains('MALE') &&
-                          controller.selectedGenderList.length == 2) {
-                        controller.selectedGenderList.remove('MALE');
-                      } else if (!controller.selectedGenderList
+                          controller.selectedGenderList.contains('FEMALE')) {
+                        controller.selectedGenderList = ['MALE'];
+                      } else if (controller.selectedGenderList
                           .contains('MALE')) {
-                        controller.selectedGenderList.add('MALE');
+                        controller.selectedGenderList = ['FEMALE'];
+                      } else {
+                        controller.selectedGenderList = ['MALE', 'FEMALE'];
                       }
+                      controller.update();
                     },
-                    child: Container(
-                      height: 30,
-                      width: 45,
-                      alignment: Alignment.center,
-                      decoration: BoxDecoration(
-                        color: controller.selectedGenderList.contains('MALE')
-                            ? const Color.fromARGB(255, 99, 194, 238)
-                            : DARK_GREY_COLOR.withOpacity(0.1),
-                        borderRadius: const BorderRadius.horizontal(
-                          left: Radius.circular(15),
+                    child: Row(
+                      children: [
+                        Container(
+                          height: 30,
+                          width: 45,
+                          alignment: Alignment.center,
+                          decoration: BoxDecoration(
+                            color:
+                                controller.selectedGenderList.contains('MALE')
+                                    ? const Color.fromARGB(255, 99, 194, 238)
+                                    : DARK_GREY_COLOR.withOpacity(0.1),
+                            borderRadius: const BorderRadius.horizontal(
+                              left: Radius.circular(15),
+                            ),
+                            border: Border.all(
+                              color:
+                                  controller.selectedGenderList.contains('MALE')
+                                      ? const Color.fromARGB(255, 99, 194, 238)
+                                      : DARK_GREY_COLOR.withOpacity(0.2),
+                              width: 1,
+                            ),
+                          ),
+                          child: SvgPicture.asset(
+                            ICON_PATH + MALE_SVG,
+                            height: 17,
+                            color:
+                                controller.selectedGenderList.contains('MALE')
+                                    ? WHITE_COLOR
+                                    : DARK_GREY_COLOR.withOpacity(0.3),
+                          ),
                         ),
-                        border: Border.all(
-                          color: controller.selectedGenderList.contains('MALE')
-                              ? const Color.fromARGB(255, 99, 194, 238)
-                              : DARK_GREY_COLOR.withOpacity(0.2),
-                          width: 1,
-                        ),
-                      ),
-                      child: SvgPicture.asset(
-                        ICON_PATH + MALE_SVG,
-                        height: 17,
-                        color: controller.selectedGenderList.contains('MALE')
-                            ? WHITE_COLOR
-                            : DARK_GREY_COLOR.withOpacity(0.3),
-                      ),
-                    ),
-                  ),
-                ),
-                Obx(
-                  () => InkWell(
-                    onTap: () {
-                      if (controller.selectedGenderList.contains('FEMALE') &&
-                          controller.selectedGenderList.length == 2) {
-                        controller.selectedGenderList.remove('FEMALE');
-                      } else if (!controller.selectedGenderList
-                          .contains('FEMALE')) {
-                        controller.selectedGenderList.add('FEMALE');
-                      }
-                    },
-                    child: Container(
-                      height: 30,
-                      width: 45,
-                      alignment: Alignment.center,
-                      decoration: BoxDecoration(
-                        color: controller.selectedGenderList.contains('FEMALE')
-                            ? const Color.fromARGB(255, 240, 128, 171)
-                            : DARK_GREY_COLOR.withOpacity(0.1),
-                        borderRadius: const BorderRadius.horizontal(
-                            right: Radius.circular(15)),
-                        border: Border.all(
-                          color:
-                              controller.selectedGenderList.contains('FEMALE')
+                        Container(
+                          height: 30,
+                          width: 45,
+                          alignment: Alignment.center,
+                          decoration: BoxDecoration(
+                            color:
+                                controller.selectedGenderList.contains('FEMALE')
+                                    ? const Color.fromARGB(255, 240, 128, 171)
+                                    : DARK_GREY_COLOR.withOpacity(0.1),
+                            borderRadius: const BorderRadius.horizontal(
+                                right: Radius.circular(15)),
+                            border: Border.all(
+                              color: controller.selectedGenderList
+                                      .contains('FEMALE')
                                   ? const Color.fromARGB(255, 240, 128, 171)
                                   : DARK_GREY_COLOR.withOpacity(0.2),
-                          width: 1,
+                              width: 1,
+                            ),
+                          ),
+                          child: SvgPicture.asset(
+                            ICON_PATH + FEMALE_SVG,
+                            height: 17,
+                            color:
+                                controller.selectedGenderList.contains('FEMALE')
+                                    ? WHITE_COLOR
+                                    : DARK_GREY_COLOR.withOpacity(0.3),
+                          ),
                         ),
-                      ),
-                      child: SvgPicture.asset(
-                        ICON_PATH + FEMALE_SVG,
-                        height: 17,
-                        color: controller.selectedGenderList.contains('FEMALE')
-                            ? WHITE_COLOR
-                            : DARK_GREY_COLOR.withOpacity(0.3),
-                      ),
+                      ],
                     ),
                   ),
                 ),

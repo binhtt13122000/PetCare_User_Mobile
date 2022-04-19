@@ -9,10 +9,12 @@ part of 'media_model.dart';
 MediaModel _$MediaModelFromJson(Map<String, dynamic> json) => MediaModel(
       id: json['id'] as int,
       url: json['url'] as String,
+      type: json['type'] as String?,
     );
 
 Map<String, dynamic> _$MediaModelToJson(MediaModel instance) =>
     <String, dynamic>{
       'id': instance.id,
       'url': instance.url,
+      'type': instance.type,
     };

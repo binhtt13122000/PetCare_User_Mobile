@@ -14,22 +14,34 @@ class PurchasePostsWidget extends GetView<HomePageController> {
   @override
   Widget build(BuildContext context) => Container(
         padding: const EdgeInsets.symmetric(horizontal: 14),
-        child: CustomScrollView(
-          slivers: [
-            SliverGrid.count(
-              crossAxisCount: 2,
-              childAspectRatio: 0.63,
-              mainAxisSpacing: 5,
-              crossAxisSpacing: 4,
-              children: controller.postList
-                  .asMap()
-                  .entries
-                  .map(
-                    (e) => purchasePostItemWidget(index: e.key),
-                  )
-                  .toList(),
-            )
-          ],
+        // child: CustomScrollView(
+        //   slivers: [
+        //     SliverGrid.count(
+        //       crossAxisCount: 2,
+        //       childAspectRatio: 0.63,
+        //       mainAxisSpacing: 5,
+        //       crossAxisSpacing: 4,
+        //       children: controller.postList
+        //           .asMap()
+        //           .entries
+        //           .map(
+        //             (e) => purchasePostItemWidget(index: e.key),
+        //           )
+        //           .toList(),
+        //     )
+        //   ],
+        // ),
+        child: SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          child: Column(
+            children: controller.postList
+                .asMap()
+                .entries
+                .map(
+                  (e) => purchasePostItemWidget(index: e.key),
+                )
+                .toList(),
+          ),
         ),
       );
 

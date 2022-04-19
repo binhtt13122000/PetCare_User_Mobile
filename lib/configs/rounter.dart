@@ -12,12 +12,14 @@ var HOME_PAGE_ROUNTER = '/home';
 var POST_DETAIL_PAGE_ROUNTER = '/home/post_detail';
 var PURCHASE_POSTS_PAGE_ROUNTER = '/home/purchase_posts';
 var PURCHASE_POSTS_FILTER_PAGE_ROUNTER = '/home/purchase_posts_filter';
+var DEPOSIT_PAGE_ROUNTER = '/home/deposit_page';
+var NOTIFICATION_PAGE_ROUNTER = '/home/notification_page';
 
 //action
 var ACTION_PAGE_ROUNTER = '/action';
-var CREATE_TICKET_PAGE_ROUNTER = '/action/create_ticket';
+var CREATE_POST_PAGE_ROUNTER = '/action/create_post';
 var TRANSACTION_PAGE_ROUNTER = '/action/transaction';
-var TICKET_MANAGEMENT_PAGE_ROUNTER = '/action/ticket_management';
+var POST_MANAGEMENT_PAGE_ROUNTER = '/action/post_management';
 
 //support
 var SUPPORT_PAGE_ROUNTER = '/support';

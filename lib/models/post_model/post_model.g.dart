@@ -26,6 +26,10 @@ PostModel _$PostModelFromJson(Map<String, dynamic> json) => PostModel(
       mediaModels: (json['media'] as List<dynamic>?)
           ?.map((e) => MediaModel.fromJson(e as Map<String, dynamic>))
           .toList(),
+      mediaHealthCheckModels:
+          (json['mediaByPostheathcheckid'] as List<dynamic>?)
+              ?.map((e) => MediaModel.fromJson(e as Map<String, dynamic>))
+              .toList(),
     );
 
 Map<String, dynamic> _$PostModelToJson(PostModel instance) => <String, dynamic>{
@@ -40,4 +44,6 @@ Map<String, dynamic> _$PostModelToJson(PostModel instance) => <String, dynamic>{
       'type': instance.type,
       'pet': instance.petModel?.toJson(),
       'media': instance.mediaModels?.map((e) => e.toJson()).toList(),
+      'mediaByPostheathcheckid':
+          instance.mediaHealthCheckModels?.map((e) => e.toJson()).toList(),
     };

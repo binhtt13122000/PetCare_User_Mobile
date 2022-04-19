@@ -162,7 +162,8 @@ class AcctionPage extends GetView {
                           MaterialButton(
                             height: 50,
                             minWidth: 500,
-                            onPressed: () {},
+                            onPressed: () =>
+                                Get.toNamed(POST_MANAGEMENT_PAGE_ROUNTER),
                             color: PRIMARY_LIGHT_COLOR,
                             child: Text(
                               'Post Management',
@@ -184,24 +185,6 @@ class AcctionPage extends GetView {
                             color: PRIMARY_LIGHT_COLOR,
                             child: Text(
                               'Pet Mamagement',
-                              style: GoogleFonts.quicksand(
-                                fontSize: 23,
-                                color: PRIMARY_COLOR,
-                                fontWeight: FontWeight.w500,
-                              ),
-                            ),
-                          ),
-                          const SizedBox(
-                            height: 15,
-                          ),
-                          MaterialButton(
-                            height: 50,
-                            minWidth: 500,
-                            onPressed: () =>
-                                Get.toNamed(TICKET_MANAGEMENT_PAGE_ROUNTER),
-                            color: PRIMARY_LIGHT_COLOR,
-                            child: Text(
-                              'Ticket Management',
                               style: GoogleFonts.quicksand(
                                 fontSize: 23,
                                 color: PRIMARY_COLOR,

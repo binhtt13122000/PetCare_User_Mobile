@@ -122,7 +122,7 @@ class SignInPage extends GetView<SignInPageController> {
                                   bottom: 4,
                                 ),
                                 child: DropdownButton<String>(
-                                  value: controller.areaCode.value,
+                                  value: controller.selectedAreaCode.value,
                                   style: GoogleFonts.itim(
                                     color: PRIMARY_COLOR,
                                     fontSize: 15,
@@ -132,7 +132,7 @@ class SignInPage extends GetView<SignInPageController> {
                                     color: PRIMARY_COLOR,
                                   ),
                                   onChanged: (String? value) {
-                                    controller.areaCode.value = value!;
+                                    controller.selectedAreaCode.value = value!;
                                   },
                                   items: controller.areaCodeMap.entries
                                       .map(
@@ -234,11 +234,13 @@ class SignInPage extends GetView<SignInPageController> {
                               controller.isLoadingPhoneCredential.value = false;
                             } else {
                               await controller.auth.verifyPhoneNumber(
-                                  phoneNumber: controller.areaCode.value +
-                                      controller.phoneNumber.value,
+                                  phoneNumber:
+                                      controller.selectedAreaCode.value +
+                                          controller.phoneNumber.value,
                                   verificationCompleted:
                                       (phoneAuthCredential) async {
-                                    controller.isLoadingPhoneCredential.value = false;
+                                    controller.isLoadingPhoneCredential.value =
+                                        false;
                                     controller.signInWithPhoneAuthCredential(
                                         phoneAuthCredential);
                                     //Get.toNamed(VERIFICATION_OTP_PAGE_ROUNTER);
@@ -246,13 +248,15 @@ class SignInPage extends GetView<SignInPageController> {
                                   },
                                   verificationFailed:
                                       (verificationFailed) async {
-                                    controller.isLoadingPhoneCredential.value = false;
+                                    controller.isLoadingPhoneCredential.value =
+                                        false;
                                     //Get.toNamed(VERIFICATION_OTP_PAGE_ROUNTER);
                                     //print('2' + verificationFailed.toString());
                                   },
                                   codeSent:
                                       (verificationId, resendingToken) async {
-                                    controller.isLoadingPhoneCredential.value = false;
+                                    controller.isLoadingPhoneCredential.value =
+                                        false;
                                     controller.verificationId = verificationId;
                                     controller.countDownTime.value =
                                         controller.maxTime;
@@ -262,7 +266,8 @@ class SignInPage extends GetView<SignInPageController> {
                                   codeAutoRetrievalTimeout: (verificationId) {
                                     //Get.toNamed(VERIFICATION_OTP_PAGE_ROUNTER);
                                     //print(4);
-                                    controller.isLoadingPhoneCredential.value = false;
+                                    controller.isLoadingPhoneCredential.value =
+                                        false;
                                   });
                             }
                           },

@@ -19,20 +19,22 @@ class PostModel {
   final PetModel? petModel;
   @JsonKey(name: 'media')
   final List<MediaModel>? mediaModels;
+  @JsonKey(name: 'mediaByPostheathcheckid')
+  final List<MediaModel>? mediaHealthCheckModels;
 
-  PostModel({
-    required this.id,
-    required this.title,
-    required this.createTime,
-    required this.effectiveTime,
-    required this.price,
-    required this.deposit,
-    required this.description,
-    required this.status,
-    required this.type,
-    this.petModel,
-    required this.mediaModels,
-  });
+  PostModel(
+      {required this.id,
+      required this.title,
+      required this.createTime,
+      required this.effectiveTime,
+      required this.price,
+      required this.deposit,
+      required this.description,
+      required this.status,
+      required this.type,
+      this.petModel,
+      required this.mediaModels,
+      required this.mediaHealthCheckModels});
 
   factory PostModel.fromJson(Map<String, dynamic> json) =>
       _$PostModelFromJson(json);

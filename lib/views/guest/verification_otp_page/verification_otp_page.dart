@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -13,6 +14,24 @@ class VerificationOTPPage extends GetView<SignInPageController> {
 
   @override
   Widget build(BuildContext context) {
+    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+      RemoteNotification? remoteNotification = message.notification;
+      AndroidNotification? androidNotification = message.notification?.android;
+      print('co tin nhan: ');
+
+      if (remoteNotification != null && androidNotification != null) {
+        print('co tin nhan: ' + remoteNotification.body!);
+      }
+    });
+
+    FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
+      RemoteNotification? remoteNotification = message.notification;
+      AndroidNotification? androidNotification = message.notification?.android;
+      print('co tin nhan: ');
+      if (remoteNotification != null && androidNotification != null) {
+        print('co tin nhan: ' + remoteNotification.body!);
+      }
+    });
     return Scaffold(
       body: SafeArea(
         child: Stack(
@@ -98,7 +117,7 @@ class VerificationOTPPage extends GetView<SignInPageController> {
                             ),
                             Text(
                               'Enter the OTP you received from: ' +
-                                  controller.areaCode.value +
+                                  controller.selectedAreaCode.value +
                                   controller.phoneNumber.value,
                               style: GoogleFonts.itim(
                                 textStyle:

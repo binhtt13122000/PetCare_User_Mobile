@@ -11,7 +11,7 @@ class PurchasePostsPageController extends GetxController {
 
   late RxList<PostModel> postList;
 
-  RxList<dynamic> selectedGenderList = ['MALE', 'FEMALE'].obs;
+  List<dynamic> selectedGenderList = ['MALE', 'FEMALE'];
 
   RxMap<int, RxList<int>> selectedBreedMap = <int, RxList<int>>{}.obs;
   Map<int, RxList<BreedModel>> breedsMap = {};

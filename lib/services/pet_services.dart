@@ -32,21 +32,21 @@ class PetService {
     try {
       FormData formData;
       formData = FormData.fromMap({
-        "ageRange": ageRange,
-        "bloodGroup": bloodGroup,
-        "categoryId": categoryId,
-        "color": "black",
-        "description": description,
-        "dob": dob,
-        "gender": gender,
-        "isSeed": isSeed,
-        "name": name,
-        "status": "NOT_VERIFIED",
-        "ownerId": accountId,
-        "file": await MultipartFile.fromFile(filePath),
+        'ageRange': ageRange,
+        'bloodGroup': bloodGroup,
+        'categoryId': categoryId,
+        'color': 'black',
+        'description': description,
+        'dob': dob,
+        'gender': gender,
+        'isSeed': isSeed,
+        'name': name,
+        'status': 'NOT_VERIFIED',
+        'ownerId': accountId,
+        'file': await MultipartFile.fromFile(filePath),
       });
 
-      Response response = await Dio().post("http://10.0.2.2:4000/pets",
+      Response response = await Dio().post('http://10.0.2.2:4000/pets',
           data: formData,
           options: Options(headers: <String, String>{
             HttpHeaders.contentTypeHeader: 'multipart/form-data',

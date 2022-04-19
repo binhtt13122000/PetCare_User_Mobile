@@ -36,6 +36,16 @@ query MyQuery($ltPrice: Int, $gtePrice: Int, $gender: [pet_gender_enum!], $isSee
         }
       }
     }
+    media {
+      id
+      url
+      type
+    }
+    mediaByPostheathcheckid {
+      id
+      type
+      url
+    }
   }
 }
 ''';
@@ -76,6 +86,16 @@ query MyQuery($ltPrice: Int, $gtePrice: Int, $gender: [pet_gender_enum!], $isSee
         }
       }
     }
+    media {
+      id
+      url
+      type
+    }
+    mediaByPostheathcheckid {
+      id
+      type
+      url
+    }
   }
 }
 ''';
@@ -115,6 +135,16 @@ query MyQuery {
           description
         }
       }
+    }
+    media {
+      id
+      url
+      type
+    }
+    mediaByPostheathcheckid {
+      id
+      type
+      url
     }
   }
 }

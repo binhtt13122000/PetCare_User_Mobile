@@ -1,8 +1,5 @@
 import 'package:get/get.dart';
 import 'package:petapp_mobile/configs/path.dart';
-import 'package:petapp_mobile/graphql/graphql_config.dart';
-import 'package:graphql_flutter/graphql_flutter.dart';
-import 'package:flutter/material.dart';
 import 'package:petapp_mobile/models/post_model/post_model.dart';
 import 'package:petapp_mobile/models/services_model/services_model.dart';
 
@@ -10,7 +7,6 @@ class HomePageController extends GetxController {
   late RxInt selectedServiceIndex;
   List<ServiceModel> services = List.empty(growable: true);
   //List<PurchasePostModel> purchasePosts = List.empty(growable: true);
-  ValueNotifier<GraphQLClient> graphqlClient = GRAPHQL_CLIENT;
   late List<PostModel> postList;
 
   HomePageController() {

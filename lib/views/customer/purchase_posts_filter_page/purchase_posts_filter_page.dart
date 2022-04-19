@@ -8,7 +8,7 @@ import 'package:petapp_mobile/configs/theme.dart';
 import 'package:petapp_mobile/controllers/purchase_posts_page_controller.dart';
 import 'package:petapp_mobile/graphql/query_mutation/breed.dart';
 import 'package:petapp_mobile/models/breed_model/breed_model.dart';
-import 'package:petapp_mobile/services/breed_services/breed_servies.dart';
+import 'package:petapp_mobile/services/breed_servies.dart';
 
 class PurchasePostsFilterPage extends GetView<PurchasePostsPageController> {
   const PurchasePostsFilterPage({Key? key}) : super(key: key);
@@ -259,63 +259,57 @@ class PurchasePostsFilterPage extends GetView<PurchasePostsPageController> {
                         ),
                       ),
                       Padding(
-                        padding: const EdgeInsets.only(
-                          left: 20,
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 20,
                         ),
-                        child: Obx(
-                          () => Row(
-                            children: [
-                              InkWell(
+                        child: Row(
+                          children: [
+                            GetBuilder<PurchasePostsPageController>(
+                              builder: (controller) => InkWell(
                                 onTap: () {
                                   if (controller.selectedGenderList
                                           .contains('MALE') &&
-                                      controller.selectedGenderList.length ==
-                                          2) {
-                                    controller.selectedGenderList
-                                        .remove('MALE');
-                                  } else if (!controller.selectedGenderList
+                                      controller.selectedGenderList
+                                          .contains('FEMALE')) {
+                                    controller.selectedGenderList = ['MALE'];
+                                  } else if (controller.selectedGenderList
                                       .contains('MALE')) {
-                                    controller.selectedGenderList.add('MALE');
+                                    controller.selectedGenderList = ['FEMALE'];
+                                  } else {
+                                    controller.selectedGenderList = [
+                                      'MALE',
+                                      'FEMALE'
+                                    ];
                                   }
+                                  controller.update();
                                 },
-                                child: Container(
-                                  height: 35,
-                                  width: 85,
-                                  alignment: Alignment.center,
-                                  decoration: BoxDecoration(
-                                    color: controller.selectedGenderList
-                                            .contains('MALE')
-                                        ? const Color.fromARGB(
-                                            255, 99, 194, 238)
-                                        : DARK_GREY_COLOR.withOpacity(0.1),
-                                    borderRadius: const BorderRadius.horizontal(
-                                      left: Radius.circular(15),
-                                    ),
-                                    border: Border.all(
-                                      color: controller.selectedGenderList
-                                              .contains('MALE')
-                                          ? const Color.fromARGB(
-                                              255, 99, 194, 238)
-                                          : DARK_GREY_COLOR.withOpacity(0.2),
-                                      width: 1,
-                                    ),
-                                  ),
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceEvenly,
-                                    children: [
-                                      Text(
-                                        'MALE',
-                                        style: GoogleFonts.itim(
+                                child: Row(
+                                  children: [
+                                    Container(
+                                      height: 30,
+                                      width: 45,
+                                      alignment: Alignment.center,
+                                      decoration: BoxDecoration(
+                                        color: controller.selectedGenderList
+                                                .contains('MALE')
+                                            ? const Color.fromARGB(
+                                                255, 99, 194, 238)
+                                            : DARK_GREY_COLOR.withOpacity(0.1),
+                                        borderRadius:
+                                            const BorderRadius.horizontal(
+                                          left: Radius.circular(15),
+                                        ),
+                                        border: Border.all(
                                           color: controller.selectedGenderList
                                                   .contains('MALE')
-                                              ? WHITE_COLOR
+                                              ? const Color.fromARGB(
+                                                  255, 99, 194, 238)
                                               : DARK_GREY_COLOR
-                                                  .withOpacity(0.3),
-                                          fontSize: 17,
+                                                  .withOpacity(0.2),
+                                          width: 1,
                                         ),
                                       ),
-                                      SvgPicture.asset(
+                                      child: SvgPicture.asset(
                                         ICON_PATH + MALE_SVG,
                                         height: 17,
                                         color: controller.selectedGenderList
@@ -323,60 +317,31 @@ class PurchasePostsFilterPage extends GetView<PurchasePostsPageController> {
                                             ? WHITE_COLOR
                                             : DARK_GREY_COLOR.withOpacity(0.3),
                                       ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                              InkWell(
-                                onTap: () {
-                                  if (controller.selectedGenderList
-                                          .contains('FEMALE') &&
-                                      controller.selectedGenderList.length ==
-                                          2) {
-                                    controller.selectedGenderList
-                                        .remove('FEMALE');
-                                  } else if (!controller.selectedGenderList
-                                      .contains('FEMALE')) {
-                                    controller.selectedGenderList.add('FEMALE');
-                                  }
-                                },
-                                child: Container(
-                                  height: 34,
-                                  width: 85,
-                                  alignment: Alignment.center,
-                                  decoration: BoxDecoration(
-                                    color: controller.selectedGenderList
-                                            .contains('FEMALE')
-                                        ? const Color.fromARGB(
-                                            255, 240, 128, 171)
-                                        : DARK_GREY_COLOR.withOpacity(0.1),
-                                    borderRadius: const BorderRadius.horizontal(
-                                        right: Radius.circular(15)),
-                                    border: Border.all(
-                                      color: controller.selectedGenderList
-                                              .contains('FEMALE')
-                                          ? const Color.fromARGB(
-                                              255, 240, 128, 171)
-                                          : DARK_GREY_COLOR.withOpacity(0.2),
-                                      width: 1,
                                     ),
-                                  ),
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceEvenly,
-                                    children: [
-                                      Text(
-                                        'FEMALE',
-                                        style: GoogleFonts.itim(
+                                    Container(
+                                      height: 30,
+                                      width: 45,
+                                      alignment: Alignment.center,
+                                      decoration: BoxDecoration(
+                                        color: controller.selectedGenderList
+                                                .contains('FEMALE')
+                                            ? const Color.fromARGB(
+                                                255, 240, 128, 171)
+                                            : DARK_GREY_COLOR.withOpacity(0.1),
+                                        borderRadius:
+                                            const BorderRadius.horizontal(
+                                                right: Radius.circular(15)),
+                                        border: Border.all(
                                           color: controller.selectedGenderList
                                                   .contains('FEMALE')
-                                              ? WHITE_COLOR
+                                              ? const Color.fromARGB(
+                                                  255, 240, 128, 171)
                                               : DARK_GREY_COLOR
-                                                  .withOpacity(0.3),
-                                          fontSize: 17,
+                                                  .withOpacity(0.2),
+                                          width: 1,
                                         ),
                                       ),
-                                      SvgPicture.asset(
+                                      child: SvgPicture.asset(
                                         ICON_PATH + FEMALE_SVG,
                                         height: 17,
                                         color: controller.selectedGenderList
@@ -384,12 +349,12 @@ class PurchasePostsFilterPage extends GetView<PurchasePostsPageController> {
                                             ? WHITE_COLOR
                                             : DARK_GREY_COLOR.withOpacity(0.3),
                                       ),
-                                    ],
-                                  ),
+                                    ),
+                                  ],
                                 ),
                               ),
-                            ],
-                          ),
+                            ),
+                          ],
                         ),
                       ),
                       //!Price

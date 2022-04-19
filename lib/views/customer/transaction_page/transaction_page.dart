@@ -7,7 +7,7 @@ import 'package:petapp_mobile/configs/path.dart';
 import 'package:petapp_mobile/configs/theme.dart';
 import 'package:petapp_mobile/controllers/transaction_page_controller.dart';
 import 'package:petapp_mobile/graphql/query_mutation/sale_transaction.dart';
-import 'package:petapp_mobile/services/sale_transaction_services/sale_transaction_services.dart';
+import 'package:petapp_mobile/services/sale_transaction_services.dart';
 import 'package:petapp_mobile/utilities/utilities.dart';
 import 'package:petapp_mobile/views/customer/sale_transaction_detail_for_buyer_page/sale_transaction_detail_for_buyer_page.dart';
 import 'package:petapp_mobile/views/customer/sale_transaction_detail_for_seller_page/sale_transaction_detail_for_seller_page.dart';

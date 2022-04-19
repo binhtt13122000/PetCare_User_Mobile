@@ -1,3 +1,6 @@
+import 'dart:ui';
+
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
@@ -7,10 +10,12 @@ import 'package:petapp_mobile/configs/path.dart';
 import 'package:petapp_mobile/configs/rounter.dart';
 import 'package:petapp_mobile/configs/theme.dart';
 import 'package:petapp_mobile/controllers/home_page_controller.dart';
+import 'package:petapp_mobile/graphql/graphql_config.dart';
 import 'package:petapp_mobile/graphql/query_mutation/post.dart';
 import 'package:petapp_mobile/models/post_model/post_model.dart';
-import 'package:petapp_mobile/services/post_services/post_services.dart';
+import 'package:petapp_mobile/services/post_services.dart';
 import 'package:petapp_mobile/utilities/utilities.dart';
+
 import 'package:petapp_mobile/views/customer/custom_bottom_navigation_bar/custom_bottom_navigator_bar.dart';
 import 'package:petapp_mobile/views/customer/home_page/widgets/pet_services_widget.dart';
 import 'package:petapp_mobile/views/customer/home_page/widgets/top_navigation_bar.dart';
@@ -21,237 +26,77 @@ class HomePage extends GetView<HomePageController> {
 
   @override
   Widget build(BuildContext context) {
+    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+      RemoteNotification? remoteNotification = message.notification;
+      //AndroidNotification? androidNotification = message.notification?.android;
+
+      if (remoteNotification != null) {}
+    });
+
+    // FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
+    //   print('co tin nhan2: ');
+
+    //   RemoteNotification? remoteNotification = message.notification;
+    //   AndroidNotification? androidNotification = message.notification?.android;
+    //   if (remoteNotification != null && androidNotification != null) {
+    //     print('co tin nhan: ' + remoteNotification.body!);
+    //   }
+    // });
+
     return GraphQLProvider(
-      client: controller.graphqlClient,
+      client: GRAPHQL_CLIENT,
       child: Scaffold(
-        backgroundColor: WHITE_COLOR,
+        backgroundColor: Color.fromARGB(255, 247, 248, 250),
         extendBody: true,
         body: SafeArea(
           child: Stack(
             children: [
               Column(
                 children: [
-                  //!Top navigation
-                  const SizedBox(
-                    height: 135,
-                    child: TopNavigationBar(),
-                  ),
-                  //!Pet services
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 15),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          'Pet Services',
-                          style: GoogleFonts.quicksand(
-                            textStyle: const TextStyle(
-                              color: Color.fromARGB(185, 32, 32, 32),
-                            ),
-                            fontWeight: FontWeight.w700,
-                            fontSize: 15,
-                          ),
-                        ),
-                        Text(
-                          'View All',
-                          style: GoogleFonts.quicksand(
-                            textStyle: TextStyle(
-                              color: PRIMARY_COLOR.withOpacity(0.8),
-                            ),
-                            fontWeight: FontWeight.w600,
-                            fontSize: 15,
-                            decoration: TextDecoration.underline,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  const PetServiceWidget(),
-                  //!Purchase Cart
-                  Padding(
-                    padding: const EdgeInsets.only(
-                      left: 15,
-                      right: 15,
-                      top: 5,
+                  const TopNavigationBar(),
+                  //*Pet services
+                  //petServiceTitle(),
+                  const ListPetServiceWidget(),
+                  //*Purchase Cart
+                  Container(
+                    color: DARK_GREY_COLOR.withOpacity(0.2),
+                    height: 1,
+                    margin: const EdgeInsets.only(
+                      right: 20,
+                      left: 20,
                       bottom: 10,
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          'Suggestions for You',
-                          style: GoogleFonts.quicksand(
-                            textStyle: const TextStyle(
-                              color: Color.fromARGB(185, 32, 32, 32),
-                            ),
-                            fontWeight: FontWeight.w700,
-                            fontSize: 15,
-                          ),
-                        ),
-                        InkWell(
-                          onTap: () => Get.toNamed(PURCHASE_POSTS_PAGE_ROUNTER),
-                          child: Text(
-                            'View All',
-                            style: GoogleFonts.quicksand(
-                              textStyle: TextStyle(
-                                color: PRIMARY_COLOR.withOpacity(
-                                  0.8,
-                                ),
-                              ),
-                              fontWeight: FontWeight.w600,
-                              fontSize: 15,
-                              decoration: TextDecoration.underline,
-                            ),
-                          ),
-                        ),
-                      ],
                     ),
                   ),
 
-                  // Obx(
-                  //   () => Expanded(
-                  //     child: Visibility(
-                  //       visible: controller.selectedServiceIndex.value == 1,
-                  //       child: Query(
-                  //         options: QueryOptions(
-                  //           document: gql(FETCH_PURCHASE_POST_LIST),
-                  //           variables: {
-                  //             "_ilike": "D%",
-                  //           },
-                  //         ),
-                  //         builder: (
-                  //           QueryResult result, {
-                  //           VoidCallback? refetch,
-                  //           FetchMore? fetchMore,
-                  //         }) {
-                  //           if (result.hasException) {
-                  //             return Text(result.exception.toString());
-                  //           }
-                  //           if (result.isLoading) {
-                  //             return const Center(
-                  //               child: CircularProgressIndicator(),
-                  //             );
-                  //           }
-                  //           controller.postList =
-                  //               PostService.getPostList(result.data!);
-                  //           return Column(
-                  //             children: const [
-                  //               Expanded(child: PurchasePostsWidget()),
-                  //               SizedBox(
-                  //                 height: 60,
-                  //               ),
-                  //             ],
-                  //           );
-                  //         },
-                  //       ),
-                  //     ),
-                  //   ),
-                  // ),
-                  Expanded(
-                    child: Query(
-                      options: QueryOptions(
-                          document: gql(FETCH_ALL_PURCHASE_POST_LIST),
-                          variables: {}),
-                      builder: (
-                        QueryResult result, {
-                        VoidCallback? refetch,
-                        FetchMore? fetchMore,
-                      }) {
-                        if (result.hasException) {
-                          return Text(result.exception.toString());
-                        }
-                        if (result.isLoading) {
-                          return const Center(
-                            child: CircularProgressIndicator(),
-                          );
-                        }
-                        controller.postList =
-                            PostService.getPostList(result.data!).obs;
-                        return Column(
-                          children: [
-                            Expanded(
-                              child: Container(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 14),
-                                child: CustomScrollView(
-                                  slivers: [
-                                    SliverGrid.count(
-                                      crossAxisCount: 2,
-                                      childAspectRatio: 0.63,
-                                      mainAxisSpacing: 5,
-                                      crossAxisSpacing: 4,
-                                      children: controller.postList
-                                          .asMap()
-                                          .entries
-                                          .map(
-                                            (e) => purchasePostItemWidget(
-                                                postModel: e.value),
-                                          )
-                                          .toList(),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ],
-                        );
-                      },
-                    ),
+                  Obx(
+                    () => controller.selectedServiceIndex.value == 1
+                        ? Expanded(
+                            child: Column(
+                            children: [
+                              petSuggestTitleWidget(),
+                              purchasePostListWidget(),
+                            ],
+                          ))
+                        : const SizedBox.shrink(),
                   ),
                   Obx(
                     () => controller.selectedServiceIndex.value == 2
-                        ? Expanded(
-                            child: Column(
-                              children: [
-                                Text(
-                                  'Veterinary',
-                                  style: GoogleFonts.itim(fontSize: 35),
-                                )
-                              ],
-                            ),
-                          )
+                        ? veterinaryServicesWidget()
                         : const SizedBox.shrink(),
                   ),
                   Obx(
                     () => controller.selectedServiceIndex.value == 3
-                        ? Expanded(
-                            child: Column(
-                              children: [
-                                Text(
-                                  'Grooming',
-                                  style: GoogleFonts.itim(fontSize: 35),
-                                )
-                              ],
-                            ),
-                          )
+                        ? groomingServicesWidget()
                         : const SizedBox.shrink(),
                   ),
                   Obx(
                     () => controller.selectedServiceIndex.value == 4
-                        ? Expanded(
-                            child: Column(
-                              children: [
-                                Text(
-                                  'Breeding',
-                                  style: GoogleFonts.itim(fontSize: 35),
-                                )
-                              ],
-                            ),
-                          )
+                        ? breedServicesWidget()
                         : const SizedBox.shrink(),
                   ),
                   Obx(
                     () => controller.selectedServiceIndex.value == 5
-                        ? Expanded(
-                            child: Column(
-                              children: [
-                                Text(
-                                  'Training',
-                                  style: GoogleFonts.itim(fontSize: 35),
-                                )
-                              ],
-                            ),
-                          )
+                        ? trainingServicesWidget()
                         : const SizedBox.shrink(),
                   ),
                   const SizedBox(
@@ -275,233 +120,491 @@ class HomePage extends GetView<HomePageController> {
           Get.to(() => PostDetaiPage(postModel: postModel));
         },
         child: Container(
-          margin: const EdgeInsets.all(5),
+          padding: const EdgeInsets.only(bottom: 10),
+          margin: const EdgeInsets.all(15),
+          width: 320,
           decoration: BoxDecoration(
             color: Colors.white,
-            borderRadius: BorderRadius.circular(7),
+            borderRadius: BorderRadius.circular(20),
             boxShadow: [
               BoxShadow(
-                color: DARK_GREY_COLOR.withOpacity(0.3),
-                blurRadius: 6,
+                color: DARK_GREY_COLOR.withOpacity(0.1),
+                blurRadius: 8,
+                offset: const Offset(5, 5),
               )
             ],
           ),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Expanded(
-                child: Stack(
-                  alignment: Alignment.center,
+              Padding(
+                padding: const EdgeInsets.all(10),
+                child: Row(
                   children: [
-                    ClipRRect(
-                      borderRadius: const BorderRadius.vertical(
-                        top: Radius.circular(7),
-                      ),
-                      child: Container(
-                        alignment: Alignment.topCenter,
-                        decoration: BoxDecoration(
-                          image: DecorationImage(
-                            alignment: Alignment.topCenter,
-                            image: NetworkImage(postModel.petModel!.avatar),
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                      ),
+                    const CircleAvatar(
+                      radius: 18,
+                      backgroundColor: PRIMARY_COLOR,
+                      backgroundImage: NetworkImage(
+                          'https://lh3.googleusercontent.com/a-/AOh14Giq7w5GSupG5JXnHM2i-4yAYESAoR3VpEdVFQ1Bkg=s288-p-rw-no'),
                     ),
-                    Positioned(
-                      top: 5.5,
-                      left: 6.5,
-                      child: Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 5),
-                        child: Text(
-                          postModel.petModel!.breedModel.name,
-                          style: GoogleFonts.satisfy(
-                            color: PRIMARY_COLOR.withOpacity(0.8),
-                            fontSize: 18,
-                          ),
-                        ),
-                      ),
-                    ),
-                    Positioned(
-                      top: 5,
-                      left: 5,
-                      child: Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 5),
-                        decoration: const BoxDecoration(
-                          color: Color.fromARGB(71, 123, 6, 212),
-                          borderRadius: BorderRadius.all(
-                            Radius.elliptical(15, 10),
-                          ),
-                        ),
-                        child: Text(
-                          postModel.petModel!.breedModel.name,
-                          style: GoogleFonts.satisfy(
-                            color: WHITE_COLOR,
-                            fontSize: 18,
-                          ),
-                        ),
-                      ),
-                    ),
-                    //*Time Created
-                    Positioned(
-                      bottom: 5,
-                      right: 5,
+                    Padding(
+                      padding: const EdgeInsets.only(left: 10),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: [
+                          Text(
+                            'Lập đẹp trai',
+                            textAlign: TextAlign.left,
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                            style: GoogleFonts.quicksand(
+                              fontSize: 15,
+                              color: const Color.fromARGB(211, 32, 32, 32),
+                              height: 1,
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 3,
+                          ),
                           Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
                             children: [
                               SvgPicture.asset(
                                 ICON_PATH + CLOCK_SVG,
                                 height: 11,
-                                color: WHITE_COLOR,
+                                color: DARK_GREY_COLOR.withAlpha(170),
                               ),
                               const SizedBox(
                                 width: 3.5,
                               ),
                               Text(
                                 FORMAT_DATE_TIME(
-                                    dateTime: postModel.createTime!,
-                                    pattern: TIME_PATTERN),
+                                    dateTime: DateTime.now(),
+                                    pattern: DATE_TIME_PATTERN),
+                                textAlign: TextAlign.left,
+                                maxLines: 2,
+                                overflow: TextOverflow.ellipsis,
                                 style: GoogleFonts.quicksand(
-                                  color: WHITE_COLOR,
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w600,
+                                  fontSize: 13,
+                                  color: DARK_GREY_COLOR.withAlpha(170),
+                                  height: 1,
+                                  fontWeight: FontWeight.w500,
                                 ),
                               ),
                             ],
                           ),
-                          Text(
-                            FORMAT_DATE_TIME(
-                                dateTime: postModel.createTime!,
-                                pattern: DATE_PATTERN),
-                            style: GoogleFonts.quicksand(
-                              color: WHITE_COLOR,
-                              fontSize: 12,
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
                         ],
+                      ),
+                    ),
+                    Expanded(
+                      child: Align(
+                        alignment: Alignment.centerRight,
+                        child: SvgPicture.asset(
+                          ICON_PATH + ELLIPSIS_SVG,
+                          height: 18,
+                          color: const Color.fromARGB(255, 180, 204, 226),
+                        ),
                       ),
                     ),
                   ],
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.only(
-                    left: 10, right: 10, bottom: 5, top: 5),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+              Container(
+                alignment: Alignment.centerLeft,
+                padding: const EdgeInsets.symmetric(horizontal: 10),
+                child: Row(
                   children: [
+                    Expanded(
+                      child: Text(
+                        postModel.description!,
+                        textAlign: TextAlign.left,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: GoogleFonts.quicksand(
+                          fontSize: 13,
+                          color: DARK_GREY_COLOR.withAlpha(170),
+                          height: 1,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ),
                     Text(
-                      postModel.title!,
+                      'Detail',
                       textAlign: TextAlign.left,
-                      maxLines: 2,
+                      maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       style: GoogleFonts.quicksand(
                         fontSize: 13,
-                        color: const Color.fromARGB(211, 32, 32, 32),
+                        color: PRIMARY_COLOR.withAlpha(120),
                         height: 1,
                         fontWeight: FontWeight.w500,
+                        decoration: TextDecoration.underline,
+                        //fontStyle: FontStyle.italic,
                       ),
                     ),
-                    RichText(
-                      text: TextSpan(
-                        text: 'Price: ',
-                        style: GoogleFonts.quicksand(
-                          color: DARK_GREY_COLOR.withOpacity(0.8),
-                          fontSize: 12,
-                          fontStyle: FontStyle.italic,
-                        ),
-                        children: <TextSpan>[
-                          TextSpan(
-                            text: FORMAT_MONEY(price: postModel.price!),
-                            style: GoogleFonts.quicksand(
-                              fontWeight: FontWeight.w700,
-                              color: PRIMARY_COLOR,
-                              fontSize: 17,
-                              height: 1.4,
-                            ),
+                  ],
+                ),
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              Stack(
+                children: [
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(20),
+                    child: ImageFiltered(
+                      imageFilter: ImageFilter.blur(sigmaY: 8, sigmaX: 8),
+                      child: Container(
+                        height: 270,
+                        width: 300,
+                        alignment: Alignment.topCenter,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(20),
+                          image: DecorationImage(
+                            fit: BoxFit.cover,
+                            alignment: Alignment.topCenter,
+                            image: NetworkImage(postModel.mediaModels![0].url),
                           ),
-                        ],
+                        ),
                       ),
                     ),
-                    const SizedBox(
-                      height: 2,
+                  ),
+                  Container(
+                    height: 220,
+                    width: 300,
+                    alignment: Alignment.topCenter,
+                    decoration: BoxDecoration(
+                      borderRadius: const BorderRadius.vertical(
+                        top: Radius.circular(20),
+                      ),
+                      image: DecorationImage(
+                          fit: BoxFit.cover,
+                          alignment: Alignment.topCenter,
+                          image: NetworkImage(postModel.mediaModels![0].url)),
                     ),
-                    Wrap(
-                      spacing: 8,
-                      children: [
-                        SizedBox(
-                          height: 25,
-                          width: 70,
-                          child: Material(
-                            borderRadius: const BorderRadius.all(
-                              Radius.circular(25),
-                            ),
-                            color: postModel.petModel!.gender == 'MALE'
-                                ? const Color.fromARGB(255, 225, 233, 248)
-                                : const Color.fromARGB(255, 253, 228, 242),
-                            child: Wrap(
-                              spacing: 4,
-                              alignment: WrapAlignment.center,
-                              crossAxisAlignment: WrapCrossAlignment.center,
-                              runAlignment: WrapAlignment.center,
+                  ),
+                  Positioned(
+                    bottom: 0,
+                    child: Container(
+                      height: 50,
+                      width: 300,
+                      decoration: const BoxDecoration(
+                        borderRadius: BorderRadius.vertical(
+                          bottom: Radius.circular(20),
+                        ),
+                        gradient: LinearGradient(
+                          begin: Alignment.topRight,
+                          end: Alignment.bottomLeft,
+                          colors: [
+                            Color.fromARGB(20, 250, 2, 118),
+                            Color.fromARGB(20, 171, 2, 250),
+                            Color.fromARGB(20, 98, 0, 255),
+                            Color.fromARGB(80, 32, 125, 248),
+                          ],
+                        ),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 10),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Row(
+                              crossAxisAlignment: CrossAxisAlignment.end,
                               children: [
-                                SvgPicture.asset(
-                                  postModel.petModel!.gender == 'MALE'
-                                      ? ICON_PATH + MALE_SVG
-                                      : ICON_PATH + FEMALE_SVG,
-                                  color: postModel.petModel!.gender == 'MALE'
-                                      ? const Color.fromARGB(255, 39, 111, 245)
-                                      : const Color.fromARGB(255, 244, 55, 165),
-                                  height: 12,
+                                Text(
+                                  postModel.petModel!.breedModel.name,
+                                  textAlign: TextAlign.left,
+                                  maxLines: 2,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: GoogleFonts.quicksand(
+                                    fontSize: 15,
+                                    color: WHITE_COLOR,
+                                    height: 1.2,
+                                    fontWeight: FontWeight.w700,
+                                  ),
                                 ),
                                 Text(
-                                  postModel.petModel!.gender,
-                                  textAlign: TextAlign.center,
+                                  ' (' +
+                                      postModel.petModel!.breedModel
+                                          .speciesModel!.name +
+                                      ')',
+                                  textAlign: TextAlign.left,
+                                  maxLines: 2,
+                                  overflow: TextOverflow.ellipsis,
                                   style: GoogleFonts.quicksand(
-                                    fontSize: 12,
-                                    color: postModel.petModel!.gender == 'MALE'
-                                        ? const Color.fromARGB(
-                                            255, 39, 111, 245)
-                                        : const Color.fromARGB(
-                                            255, 244, 55, 165),
+                                    fontSize: 13,
+                                    color: WHITE_COLOR,
+                                    height: 1,
                                     fontWeight: FontWeight.w500,
                                   ),
                                 ),
                               ],
                             ),
-                          ),
-                        ),
-                        Container(
-                          alignment: Alignment.center,
-                          height: 25,
-                          width: 70,
-                          decoration: BoxDecoration(
-                            color: DARK_GREY_COLOR.withOpacity(0.13),
-                            borderRadius: const BorderRadius.all(
-                              Radius.circular(25),
+                            Text(
+                              FORMAT_MONEY(price: postModel.price!),
+                              style: GoogleFonts.quicksand(
+                                fontWeight: FontWeight.w600,
+                                color: WHITE_COLOR,
+                                fontSize: 18,
+                              ),
                             ),
-                          ),
-                          child: Text(
-                            postModel.petModel!.ageRange.toString() + ' Month',
-                            textAlign: TextAlign.center,
-                            style: GoogleFonts.quicksand(
-                              fontSize: 12,
-                              color: DARK_GREY_COLOR.withOpacity(0.7),
-                              height: 1.5,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
+                            // Row(
+                            //   children: [
+                            //     Text(
+                            //       '15',
+                            //       textAlign: TextAlign.left,
+                            //       maxLines: 2,
+                            //       overflow: TextOverflow.ellipsis,
+                            //       style: GoogleFonts.quicksand(
+                            //         fontSize: 17,
+                            //         color: WHITE_COLOR,
+                            //         height: 1,
+                            //         fontWeight: FontWeight.w600,
+                            //       ),
+                            //     ),
+                            //     const SizedBox(
+                            //       width: 5,
+                            //     ),
+                            //     SvgPicture.asset(
+                            //       ICON_PATH + BOOKMARK_SVG,
+                            //       height: 20,
+                            //       color: WHITE_COLOR,
+                            //     ),
+                            //   ],
+                            // )
+                          ],
                         ),
-                      ],
+                      ),
                     ),
-                  ],
-                ),
-              )
+                  ),
+                  Positioned(
+                    bottom: 65,
+                    child: SizedBox(
+                      width: 300,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const CircleAvatar(
+                            radius: 5,
+                            backgroundColor: WHITE_COLOR,
+                          ),
+                          const SizedBox(
+                            width: 5,
+                          ),
+                          CircleAvatar(
+                            radius: 5,
+                            backgroundColor: WHITE_COLOR.withOpacity(0.7),
+                          ),
+                          const SizedBox(
+                            width: 5,
+                          ),
+                          CircleAvatar(
+                            radius: 5,
+                            backgroundColor: WHITE_COLOR.withOpacity(0.7),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  Positioned(
+                    top: 15,
+                    right: 15,
+                    child: SvgPicture.asset(
+                      ICON_PATH + BOOKMARK_SVG,
+                      height: 22,
+                      color: WHITE_COLOR,
+                    ),
+                  )
+                ],
+              ),
             ],
           ),
+        ),
+      );
+
+  Widget petServiceTitle() => Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 15),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              'Pet Services',
+              style: GoogleFonts.quicksand(
+                textStyle: const TextStyle(
+                  color: Color.fromARGB(185, 32, 32, 32),
+                ),
+                fontWeight: FontWeight.w700,
+                fontSize: 15,
+              ),
+            ),
+            Text(
+              'View All',
+              style: GoogleFonts.quicksand(
+                textStyle: TextStyle(
+                  color: PRIMARY_COLOR.withOpacity(0.8),
+                ),
+                fontWeight: FontWeight.w600,
+                fontSize: 15,
+                decoration: TextDecoration.underline,
+              ),
+            ),
+          ],
+        ),
+      );
+
+  Widget petSuggestTitleWidget() => Padding(
+        padding: const EdgeInsets.only(
+          left: 20,
+          right: 20,
+          top: 5,
+          bottom: 10,
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              'Pet suggestions for you',
+              style: GoogleFonts.quicksand(
+                textStyle: const TextStyle(
+                  color: PRIMARY_COLOR,
+                ),
+                fontWeight: FontWeight.w700,
+                fontSize: 14,
+              ),
+            ),
+            InkWell(
+              onTap: () => Get.toNamed(PURCHASE_POSTS_PAGE_ROUNTER),
+              child: Text(
+                'View All',
+                style: GoogleFonts.quicksand(
+                  textStyle: TextStyle(
+                    color: PRIMARY_COLOR.withOpacity(
+                      0.8,
+                    ),
+                  ),
+                  fontWeight: FontWeight.w600,
+                  fontSize: 15,
+                  decoration: TextDecoration.underline,
+                ),
+              ),
+            ),
+          ],
+        ),
+      );
+
+  Widget purchasePostListWidget() => Query(
+        options: QueryOptions(
+            document: gql(FETCH_ALL_PURCHASE_POST_LIST), variables: {}),
+        builder: (
+          QueryResult result, {
+          VoidCallback? refetch,
+          FetchMore? fetchMore,
+        }) {
+          if (result.hasException) {
+            return Text(result.exception.toString());
+          }
+          if (result.isLoading) {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+          controller.postList = PostService.getPostList(result.data!).obs;
+          // return Column(
+          //   children: [
+          //     Expanded(
+          //       child: Container(
+          //         padding: const EdgeInsets.symmetric(horizontal: 14),
+          //         // child: CustomScrollView(
+          //         //   slivers: [
+          //         //     SliverGrid.count(
+          //         //       crossAxisCount: 2,
+          //         //       childAspectRatio: 0.63,
+          //         //       mainAxisSpacing: 5,
+          //         //       crossAxisSpacing: 4,
+          //         //       children: controller.postList
+          //         //           .asMap()
+          //         //           .entries
+          //         //           .map(
+          //         //             (e) =>
+          //         //                 purchasePostItemWidget(postModel: e.value),
+          //         //           )
+          //         //           .toList(),
+          //         //     ),
+          //         //   ],
+          //         // ),
+          //         child: SingleChildScrollView(
+          //           child: Column(
+          //             children: controller.postList
+          //                 .asMap()
+          //                 .entries
+          //                 .map(
+          //                   (e) => purchasePostItemWidget(postModel: e.value),
+          //                 )
+          //                 .toList(),
+          //           ),
+          //         ),
+          //       ),
+          //     ),
+          //   ],
+          // );
+          return Expanded(
+            child: SingleChildScrollView(
+              child: Column(
+                children: controller.postList
+                    .asMap()
+                    .entries
+                    .map(
+                      (e) => purchasePostItemWidget(postModel: e.value),
+                    )
+                    .toList(),
+              ),
+            ),
+          );
+        },
+      );
+
+  Widget veterinaryServicesWidget() => Expanded(
+        child: Column(
+          children: [
+            Text(
+              'Veterinary',
+              style: GoogleFonts.itim(fontSize: 35),
+            )
+          ],
+        ),
+      );
+
+  Widget groomingServicesWidget() => Expanded(
+        child: Column(
+          children: [
+            Text(
+              'Grooming',
+              style: GoogleFonts.itim(fontSize: 35),
+            )
+          ],
+        ),
+      );
+
+  Widget breedServicesWidget() => Expanded(
+        child: Column(
+          children: [
+            Text(
+              'Breeding',
+              style: GoogleFonts.itim(fontSize: 35),
+            )
+          ],
+        ),
+      );
+
+  Widget trainingServicesWidget() => Expanded(
+        child: Column(
+          children: [
+            Text(
+              'Training',
+              style: GoogleFonts.itim(fontSize: 35),
+            )
+          ],
         ),
       );
 }

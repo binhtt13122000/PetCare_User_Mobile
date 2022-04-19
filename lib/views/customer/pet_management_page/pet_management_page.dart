@@ -10,7 +10,7 @@ import 'package:petapp_mobile/controllers/pet_management_page_controller.dart';
 //import 'package:petapp_mobile/controllers/sign_in_page_controller.dart';
 import 'package:petapp_mobile/graphql/query_mutation/pet.dart';
 import 'package:petapp_mobile/models/pet_model/pet_model.dart';
-import 'package:petapp_mobile/services/pet_services/pet_services.dart';
+import 'package:petapp_mobile/services/pet_services.dart';
 import 'package:petapp_mobile/views/customer/custom_bottom_navigation_bar/custom_bottom_navigator_bar.dart';
 import 'package:petapp_mobile/views/customer/pet_detail_page/pet_detail_page.dart';
 

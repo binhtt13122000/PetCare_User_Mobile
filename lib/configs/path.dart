@@ -21,6 +21,7 @@ const DOG_PNG = 'dog.png';
 const CAT_PNG = 'cat.png';
 const FISH_PNG = 'fish.png';
 const BACKGROUND_ONE_PNG = 'background_one.png';
+const VISA_PNG = 'visa.png';
 
 //icons
 const ICON_PATH = 'assets/icons/';
@@ -50,3 +51,10 @@ const CLOCK_SVG = 'clock.svg';
 const ADD_SVG = 'add.svg';
 const BELL_NOTIFICATION_SVG = 'bell_notification.svg';
 const NO_VIDEO_SVG = 'no_video.svg';
+const VISA_SVG = 'visa.svg';
+const UP_ARROW_SVG = 'up_arrow.svg';
+const CHAT_SVG = 'chat.svg';
+const CLOSE_SVG = 'close.svg';
+const ELLIPSIS_SVG = 'ellipsis.svg';
+const BELL_SVG = 'bell.svg';
+const SEARCH_SVG = 'search.svg';

@@ -10,6 +10,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:petapp_mobile/graphql/graphql_config.dart';
 import 'package:petapp_mobile/models/breed_model/breed_model.dart';
 import 'package:petapp_mobile/models/species_model/species_model.dart';
+import 'package:tflite/tflite.dart';
 
 class AddPetPageController extends GetxController {
   File? avatar;
@@ -32,7 +33,7 @@ class AddPetPageController extends GetxController {
   DateTime? tmpDOB;
   DateTime? dOB;
   RxString dOBText = ''.obs;
-  RxString ageRange = ''.obs;
+  String ageRange = '';
 
   RxMap<int, RxInt> selectedBreedMap = <int, RxInt>{}.obs;
   RxMap<int, RxList<BreedModel>> breedsMap = <int, RxList<BreedModel>>{}.obs;
@@ -65,6 +66,16 @@ class AddPetPageController extends GetxController {
       avatar = tmpImage;
     } on PlatformException catch (e) {
       print(e.toString());
+    } finally {
+      var output = await Tflite.runModelOnImage(
+          path: avatarUrl.value,
+          numResults: 2,
+          threshold: 0.5,
+          imageMean: 127.5,
+          imageStd: 127.5);
+
+      tmp = output;
+      update();
     }
   }
 
@@ -82,4 +93,6 @@ class AddPetPageController extends GetxController {
       print(e.toString());
     }
   }
+
+  List<dynamic>? tmp;
 }

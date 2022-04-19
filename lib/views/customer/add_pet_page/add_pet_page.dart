@@ -14,17 +14,20 @@ import 'package:petapp_mobile/graphql/query_mutation/breed.dart';
 import 'package:petapp_mobile/graphql/query_mutation/species.dart';
 import 'package:petapp_mobile/models/breed_model/breed_model.dart';
 import 'package:petapp_mobile/models/species_model/species_model.dart';
-import 'package:petapp_mobile/services/breed_services/breed_servies.dart';
-import 'package:petapp_mobile/services/species_services/species_services.dart';
+import 'package:petapp_mobile/services/breed_servies.dart';
+import 'package:petapp_mobile/services/species_services.dart';
 import 'package:petapp_mobile/utilities/utilities.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
-import 'package:petapp_mobile/services/pet_services/pet_services.dart';
+import 'package:petapp_mobile/services/pet_services.dart';
+import 'package:tflite/tflite.dart';
 
 class AddPetPage extends GetView<AddPetPageController> {
   const AddPetPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    loadModel();
+
     return GraphQLProvider(
       client: controller.graphqlClient,
       child: Scaffold(
@@ -102,6 +105,13 @@ class AddPetPage extends GetView<AddPetPageController> {
                             ),
                           ),
                           avatarWidget(),
+                          GetBuilder<AddPetPageController>(
+                            builder: (_) => controller.tmp == null
+                                ? const Text('Hello')
+                                : Text(controller.tmp![0]['label']
+                                    .toString()
+                                    .replaceAll(RegExp(r'[0-9]'), '')),
+                          ),
                           Row(
                             children: [
                               //*Gender
@@ -167,19 +177,8 @@ class AddPetPage extends GetView<AddPetPageController> {
                           ),
                           listBloodGroup(),
                           //*Age range
-                          Container(
-                            alignment: Alignment.centerLeft,
-                            padding: const EdgeInsets.only(
-                              left: 40,
-                              bottom: 0,
-                              top: 20,
-                            ),
-                            child: Text(
-                              'Born',
-                              style: GoogleFonts.itim(
-                                  fontSize: 22,
-                                  color: DARK_GREY_COLOR.withAlpha(200)),
-                            ),
+                          const SizedBox(
+                            height: 20,
                           ),
                           Padding(
                             padding: const EdgeInsets.symmetric(
@@ -717,7 +716,9 @@ class AddPetPage extends GetView<AddPetPageController> {
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   InkWell(
-                    onTap: () => controller.pickImageFromGallery(),
+                    onTap: () {
+                      controller.pickImageFromGallery();
+                    },
                     child: CircleAvatar(
                       radius: 20,
                       backgroundColor: PRIMARY_COLOR.withOpacity(0.6),
@@ -947,11 +948,11 @@ class AddPetPage extends GetView<AddPetPageController> {
           onChanged: (value) {
             try {
               controller.dOB = DateFormat(DATE_PATTERN_2).parse(value);
-              controller.ageRange.value = controller.ageRange.value =
+              controller.ageRange = controller.ageRange =
                   (DateTime.now().difference(controller.dOB!).inDays ~/ 30)
                       .toString();
             } on FormatException catch (_) {
-              controller.ageRange.value = '';
+              controller.ageRange = '';
             } finally {
               controller.dOBText.value = value;
             }
@@ -974,26 +975,29 @@ class AddPetPage extends GetView<AddPetPageController> {
   Widget ageRangeTextFieldWidget() => Expanded(
         child: SizedBox(
           height: 45,
-          child: TextFormField(
-            initialValue: controller.ageRange.value,
-            onChanged: (value) {
-              if (int.tryParse(value) != null) {
-                controller.dOB = DateTime.now().add(
-                  Duration(
-                    days: -int.parse(value) * 30,
-                  ),
-                );
-                controller.dOBText.value = FORMAT_DATE_TIME(
-                  dateTime: controller.dOB!,
-                  pattern: DATE_PATTERN_2,
-                );
-              }
-              controller.ageRange.value = value;
-            },
-            decoration: const InputDecoration(
-              labelText: 'month',
-              //errorText: 'Error message',
-              border: OutlineInputBorder(),
+          child: GetBuilder<AddPetPageController>(
+            init: AddPetPageController(),
+            builder: (controller) => TextFormField(
+              initialValue: controller.ageRange,
+              onChanged: (value) {
+                if (int.tryParse(value) != null) {
+                  controller.dOB = DateTime.now().add(
+                    Duration(
+                      days: -int.parse(value) * 30,
+                    ),
+                  );
+                  controller.dOBText.value = FORMAT_DATE_TIME(
+                    dateTime: controller.dOB!,
+                    pattern: DATE_PATTERN_2,
+                  );
+                }
+                controller.ageRange = value;
+              },
+              decoration: const InputDecoration(
+                labelText: 'month',
+                //errorText: 'Error message',
+                border: OutlineInputBorder(),
+              ),
             ),
           ),
         ),
@@ -1031,7 +1035,7 @@ class AddPetPage extends GetView<AddPetPageController> {
             PetService.INSERT_PET(
               accountId: 3,
               filePath: controller.avatarUrl.value,
-              ageRange: int.parse(controller.ageRange.value),
+              ageRange: int.parse(controller.ageRange),
               bloodGroup: controller.selectedDogBloodGroup.value,
               description: controller.description.value,
               dob: controller.dOB!,
@@ -1110,13 +1114,14 @@ class AddPetPage extends GetView<AddPetPageController> {
                             dateTime: controller.dOB!,
                             pattern: DATE_PATTERN_2,
                           );
-                          controller.ageRange.value =
-                              controller.ageRange.value = (DateTime.now()
+                          controller.ageRange = controller.ageRange =
+                              (DateTime.now()
                                           .difference(controller.dOB!)
                                           .inDays ~/
                                       30)
                                   .toString();
                           controller.isDisplayCalender.value = false;
+                          controller.update();
                         },
                         color: PRIMARY_COLOR,
                         child: Text(
@@ -1135,4 +1140,11 @@ class AddPetPage extends GetView<AddPetPageController> {
           ),
         ),
       );
+
+  loadModel() async {
+    await Tflite.loadModel(
+      model: 'assets/model_unquant.tflite',
+      labels: 'assets/labels.txt',
+    );
+  }
 }

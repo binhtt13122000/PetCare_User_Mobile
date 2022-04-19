@@ -5,6 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:petapp_mobile/configs/theme.dart';
 import 'package:petapp_mobile/controllers/bottom_navigation_bar_controller.dart';
 import 'package:petapp_mobile/models/bottom_bar_item_model/bottom_bar_item_model.dart';
+import 'package:petapp_mobile/views/widgets/customize_widget.dart';
 
 class CustomBottomNavigatorBar extends StatelessWidget {
   const CustomBottomNavigatorBar({Key? key}) : super(key: key);
@@ -55,29 +56,49 @@ class BottomBarItemWidget extends GetView<BottomNavigationBarController> {
         Get.toNamed(bottomBarItem.rounterName);
       },
       child: SizedBox(
-        height: 30,
-        width: isSelectedItem ? 90 : 30,
+        height: 35,
+        width: isSelectedItem ? 110 : 30,
         child: Material(
-          color: isSelectedItem ? PRIMARY_LIGHT_COLOR : WHITE_COLOR,
+          color: isSelectedItem
+              ? PRIMARY_LIGHT_COLOR.withOpacity(0.4)
+              : WHITE_COLOR,
           borderRadius: const BorderRadius.all(
             Radius.circular(10),
           ),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              SvgPicture.asset(
-                bottomBarItem.iconURL,
-                color: isSelectedItem ? PRIMARY_COLOR : SUPPER_LIGHT_GREY_COLOR,
-                height: 23,
-              ),
               isSelectedItem
-                  ? Text(
-                      bottomBarItem.name,
-                      textAlign: TextAlign.center,
-                      style: GoogleFonts.itim(
-                        fontSize: 14,
-                        color: PRIMARY_COLOR,
-                        height: 1.5,
+                  ? GRADIENT_WIDGET(
+                      gradient: const LinearGradient(colors: [
+                        Color.fromARGB(255, 1, 206, 206),
+                        Color.fromARGB(255, 114, 35, 241),
+                      ]),
+                      child: SvgPicture.asset(
+                        bottomBarItem.iconURL,
+                        color: SUPPER_LIGHT_GREY_COLOR,
+                        height: isSelectedItem ? 26 : 23,
+                      ),
+                    )
+                  : SvgPicture.asset(
+                      bottomBarItem.iconURL,
+                      color: SUPPER_LIGHT_GREY_COLOR,
+                      height: isSelectedItem ? 26 : 23,
+                    ),
+              isSelectedItem
+                  ? GRADIENT_WIDGET(
+                      gradient: const LinearGradient(colors: [
+                        Color.fromARGB(255, 114, 35, 241),
+                        Color.fromARGB(255, 1, 221, 221),
+                      ]),
+                      child: Text(
+                        bottomBarItem.name,
+                        textAlign: TextAlign.center,
+                        style: GoogleFonts.itim(
+                          fontSize: 18,
+                          color: PRIMARY_COLOR,
+                          height: 1.5,
+                        ),
                       ),
                     )
                   : const SizedBox.shrink(),
