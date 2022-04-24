@@ -14,8 +14,9 @@ class AccountService {
     required String idToken,
     required String userDeviceToken,
   }) async {
+    print("acccccccc:" + idToken);
     final response = await http.post(
-      Uri.parse('http://10.0.2.2:4000/auth/login'),
+      Uri.parse('http://10.0.2.2:4000/v1/api/auth/login'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -23,6 +24,7 @@ class AccountService {
         'accessToken': idToken,
         'loginType': 1,
         'fcmToken': userDeviceToken,
+        'role': 'CUSTOMER'
       }),
     );
 
@@ -30,7 +32,9 @@ class AccountService {
       case 200:
       case 201:
       case 202:
-        return getAccount(json.decode(response.body)['data']);
+        print(json.decode(response.body));
+        break;
+      //return getAccount(json.decode(response.body)['data']);
       default:
         throw Exception('Error ${response.statusCode}, cannot login');
     }

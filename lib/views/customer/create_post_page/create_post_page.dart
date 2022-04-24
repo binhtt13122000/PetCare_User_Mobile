@@ -25,9 +25,11 @@ class CreatePostPage extends GetView<CreatePostPageController> {
 
   @override
   Widget build(BuildContext context) {
+    Get.put(SignInPageController());
     SignInPageController signInPageController =
         Get.find<SignInPageController>();
-    final accountId = signInPageController.accountModel!.id;
+    final accountId = 1;
+    // signInPageController.accountModel!.id;
 
     return GraphQLProvider(
       client: GRAPHQL_CLIENT,

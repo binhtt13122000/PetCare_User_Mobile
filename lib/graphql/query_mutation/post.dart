@@ -2,20 +2,18 @@
 
 const FETCH_PURCHASE_POST_LIST = r'''
 query MyQuery($ltPrice: Int, $gtePrice: Int, $gender: [pet_gender_enum!], $isSeed: [Boolean!], $ltAgeRange: Int, $gteAgeRange: Int, $breedName: order_by, $price: order_by, $speciesId: Int, $status: post_status_enum, $breeds: [Int!]) {
-  post(where: {pet: {category: {species: {id: {_eq: $speciesId}}, id: {_in: $breeds}}, gender: {_in: $gender}, isSeed: {_in: $isSeed}, ageRange: {_lt: $ltAgeRange}, _and: {ageRange: {_gte: $gteAgeRange}}}, price: {_lt: $ltPrice}, _and: {price: {_gte: $gtePrice}, status: {_eq: $status}}}, order_by: {pet: {category: {name: $breedName}}, price: $price}) {
+  post(where: {pet: {breed: {species: {id: {_eq: $speciesId}}, id: {_in: $breeds}}, gender: {_in: $gender}, isSeed: {_in: $isSeed}, ageRange: {_lt: $ltAgeRange}, _and: {ageRange: {_gte: $gteAgeRange}}}, price: {_lt: $ltPrice}, _and: {price: {_gte: $gtePrice}, status: {_eq: $status}}}, order_by: {pet: {breed: {name: $breedName}}, price: $price}) {
     createTime
-    deposit
     description
-    effectiveTime
     id
-    price
+    provisionalTotal
     status
-    title
+    sellerReceive
     type
+    shopFee
     pet {
       ageRange
       avatar
-      bloodGroup
       description
       color
       dob
@@ -24,7 +22,7 @@ query MyQuery($ltPrice: Int, $gtePrice: Int, $gender: [pet_gender_enum!], $isSee
       isSeed
       name
       status
-      category {
+      breed {
         id
         name
         description
@@ -41,31 +39,25 @@ query MyQuery($ltPrice: Int, $gtePrice: Int, $gender: [pet_gender_enum!], $isSee
       url
       type
     }
-    mediaByPostheathcheckid {
-      id
-      type
-      url
-    }
+    
   }
 }
 ''';
 
 const FETCH_PURCHASE_POST_LIST_WITHOUT_BREED = r'''
 query MyQuery($ltPrice: Int, $gtePrice: Int, $gender: [pet_gender_enum!], $isSeed: [Boolean!], $ltAgeRange: Int, $gteAgeRange: Int, $breedName: order_by, $price: order_by, $speciesId: Int, $status: post_status_enum) {
-  post(where: {pet: {category: {species: {id: {_eq: $speciesId}}}, gender: {_in: $gender}, isSeed: {_in: $isSeed}, ageRange: {_lt: $ltAgeRange}, _and: {ageRange: {_gte: $gteAgeRange}}}, price: {_lt: $ltPrice}, _and: {price: {_gte: $gtePrice}, status: {_eq: $status}}}, order_by: {pet: {category: {name: $breedName}}, price: $price}) {
+  post(where: {pet: {breed: {species: {id: {_eq: $speciesId}}}, gender: {_in: $gender}, isSeed: {_in: $isSeed}, ageRange: {_lt: $ltAgeRange}, _and: {ageRange: {_gte: $gteAgeRange}}}, provisionalTotal: {_lt: $ltPrice}, _and: {provisionalTotal: {_gte: $gtePrice}, status: {_eq: $status}}}, order_by: {pet: {breed: {name: $breedName}}, provisionalTotal: $price}) {
     createTime
-    deposit
     description
-    effectiveTime
     id
-    price
+    provisionalTotal
     status
-    title
+    sellerReceive
     type
+    shopFee
     pet {
       ageRange
       avatar
-      bloodGroup
       description
       color
       dob
@@ -74,7 +66,7 @@ query MyQuery($ltPrice: Int, $gtePrice: Int, $gender: [pet_gender_enum!], $isSee
       isSeed
       name
       status
-      category {
+      breed {
         id
         name
         description
@@ -90,11 +82,6 @@ query MyQuery($ltPrice: Int, $gtePrice: Int, $gender: [pet_gender_enum!], $isSee
       id
       url
       type
-    }
-    mediaByPostheathcheckid {
-      id
-      type
-      url
     }
   }
 }
@@ -104,18 +91,16 @@ const FETCH_ALL_PURCHASE_POST_LIST = r'''
 query MyQuery {
   post(where: {status: {_eq: "PUBLISHED"}}) {
     createTime
-    deposit
     description
-    effectiveTime
     id
-    price
+    provisionalTotal
     status
-    title
+    sellerReceive
     type
+    shopFee
     pet {
       ageRange
       avatar
-      bloodGroup
       description
       color
       dob
@@ -124,7 +109,7 @@ query MyQuery {
       isSeed
       name
       status
-      category {
+      breed {
         id
         name
         description
@@ -141,11 +126,7 @@ query MyQuery {
       url
       type
     }
-    mediaByPostheathcheckid {
-      id
-      type
-      url
-    }
+    
   }
 }
 ''';

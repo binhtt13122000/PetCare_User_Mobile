@@ -15,7 +15,7 @@ class PetModel {
   final String? color;
   final String status;
   final DateTime? dob;
-  @JsonKey(name: 'category')
+  @JsonKey(name: 'breed')
   final BreedModel breedModel;
 
   PetModel({

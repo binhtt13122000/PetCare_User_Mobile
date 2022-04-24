@@ -1033,10 +1033,9 @@ class AddPetPage extends GetView<AddPetPageController> {
           ),
           onPressed: () {
             PetService.INSERT_PET(
-              accountId: 3,
+              accountId: 1,
               filePath: controller.avatarUrl.value,
               ageRange: int.parse(controller.ageRange),
-              bloodGroup: controller.selectedDogBloodGroup.value,
               description: controller.description.value,
               dob: controller.dOB!,
               gender: controller.selectedGender.value,

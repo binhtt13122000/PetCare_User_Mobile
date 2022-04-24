@@ -44,7 +44,9 @@ dependencies:
   syncfusion_flutter_datepicker: null
   dio: null
   tflite: null
-  firebase_messaging:
+  firebase_messaging: null
+  flutter_rating_bar: null
+  flutter_html: null
 
 dev_dependencies:
   build_runner: null

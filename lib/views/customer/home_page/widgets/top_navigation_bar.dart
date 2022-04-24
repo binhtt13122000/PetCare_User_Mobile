@@ -59,9 +59,11 @@ class TopNavigationBar extends GetView<HomePageController> {
         // ),
 
         Padding(
-          padding: const EdgeInsets.symmetric(
-            vertical: 15,
-            horizontal: 20,
+          padding: const EdgeInsets.only(
+            left: 15,
+            right: 15,
+            top: 5,
+            bottom: 20,
           ),
           child:
               //*App logo

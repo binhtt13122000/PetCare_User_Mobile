@@ -254,7 +254,8 @@ class DepositPage extends GetView<DepositPageController> {
                                                 ),
                                                 Text(
                                                   FORMAT_MONEY(
-                                                      price: (postModel.price! /
+                                                      price: (postModel
+                                                                  .provisionalTotal /
                                                               100 *
                                                               5)
                                                           .toInt()),
@@ -291,7 +292,8 @@ class DepositPage extends GetView<DepositPageController> {
                                                 ),
                                                 Text(
                                                   FORMAT_MONEY(
-                                                      price: (postModel.price! /
+                                                      price: (postModel
+                                                                  .provisionalTotal /
                                                               100 *
                                                               95)
                                                           .toInt()),
@@ -432,17 +434,17 @@ class DepositPage extends GetView<DepositPageController> {
                           height: 1,
                         ),
                       ),
-                      Text(
-                        FORMAT_MONEY(price: postModel.deposit!),
-                        textAlign: TextAlign.center,
-                        style: GoogleFonts.quicksand(
-                          textStyle:
-                              TextStyle(color: DARK_GREY_COLOR.withAlpha(190)),
-                          fontWeight: FontWeight.w600,
-                          fontSize: 16,
-                          height: 1,
-                        ),
-                      ),
+                      // Text(
+                      //   FORMAT_MONEY(price: postModel.deposit!),
+                      //   textAlign: TextAlign.center,
+                      //   style: GoogleFonts.quicksand(
+                      //     textStyle:
+                      //         TextStyle(color: DARK_GREY_COLOR.withAlpha(190)),
+                      //     fontWeight: FontWeight.w600,
+                      //     fontSize: 16,
+                      //     height: 1,
+                      //   ),
+                      // ),
                     ],
                   ),
                   const SizedBox(
@@ -463,7 +465,7 @@ class DepositPage extends GetView<DepositPageController> {
                         ),
                       ),
                       Text(
-                        FORMAT_MONEY(price: postModel.price!),
+                        FORMAT_MONEY(price: postModel.provisionalTotal),
                         textAlign: TextAlign.center,
                         style: GoogleFonts.quicksand(
                           textStyle:
@@ -576,16 +578,16 @@ class DepositPage extends GetView<DepositPageController> {
                           height: 1,
                         ),
                       ),
-                      Text(
-                        FORMAT_MONEY(price: postModel.deposit!),
-                        textAlign: TextAlign.center,
-                        style: GoogleFonts.quicksand(
-                          textStyle: const TextStyle(color: PRIMARY_DARK_COLOR),
-                          fontWeight: FontWeight.w700,
-                          fontSize: 22,
-                          height: 1,
-                        ),
-                      ),
+                      // Text(
+                      //   FORMAT_MONEY(price: postModel.deposit!),
+                      //   textAlign: TextAlign.center,
+                      //   style: GoogleFonts.quicksand(
+                      //     textStyle: const TextStyle(color: PRIMARY_DARK_COLOR),
+                      //     fontWeight: FontWeight.w700,
+                      //     fontSize: 22,
+                      //     height: 1,
+                      //   ),
+                      // ),
                     ],
                   ),
                 ),

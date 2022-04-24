@@ -1,14 +1,9 @@
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:graphql_flutter/graphql_flutter.dart';
-import 'package:petapp_mobile/graphql/graphql_config.dart';
 import 'package:petapp_mobile/models/breed_model/breed_model.dart';
 import 'package:petapp_mobile/models/post_model/post_model.dart';
 import 'package:petapp_mobile/models/species_model/species_model.dart';
 
 class PurchasePostsPageController extends GetxController {
-  ValueNotifier<GraphQLClient> graphqlClient = GRAPHQL_CLIENT;
-
   late RxList<PostModel> postList;
 
   List<dynamic> selectedGenderList = ['MALE', 'FEMALE'];
@@ -16,7 +11,7 @@ class PurchasePostsPageController extends GetxController {
   RxMap<int, RxList<int>> selectedBreedMap = <int, RxList<int>>{}.obs;
   Map<int, RxList<BreedModel>> breedsMap = {};
 
-  RxInt selectedSpeciesId = 1.obs;
+  RxInt selectedSpeciesId = (-1).obs;
   late List<SpeciesModel> species;
 
   RxInt ltPrice = 999999999.obs;

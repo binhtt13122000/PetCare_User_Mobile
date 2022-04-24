@@ -6,6 +6,7 @@ import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:petapp_mobile/configs/path.dart';
 import 'package:petapp_mobile/configs/theme.dart';
 import 'package:petapp_mobile/controllers/purchase_posts_page_controller.dart';
+import 'package:petapp_mobile/graphql/graphql_config.dart';
 import 'package:petapp_mobile/graphql/query_mutation/breed.dart';
 import 'package:petapp_mobile/models/breed_model/breed_model.dart';
 import 'package:petapp_mobile/services/breed_servies.dart';
@@ -16,7 +17,7 @@ class PurchasePostsFilterPage extends GetView<PurchasePostsPageController> {
   @override
   Widget build(BuildContext context) {
     return GraphQLProvider(
-      client: controller.graphqlClient,
+      client: GRAPHQL_CLIENT,
       child: Scaffold(
         body: SafeArea(
           child: Column(

@@ -172,7 +172,7 @@ class PurchasePostsWidget extends GetView<HomePageController> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      controller.postList[index].title!,
+                      controller.postList[index].description!,
                       textAlign: TextAlign.left,
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
@@ -194,7 +194,8 @@ class PurchasePostsWidget extends GetView<HomePageController> {
                         children: <TextSpan>[
                           TextSpan(
                             text: FORMAT_MONEY(
-                                price: controller.postList[index].price!),
+                                price: controller
+                                    .postList[index].provisionalTotal),
                             style: GoogleFonts.quicksand(
                               fontWeight: FontWeight.w700,
                               color: PRIMARY_COLOR,

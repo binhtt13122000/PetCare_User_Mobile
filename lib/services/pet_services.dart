@@ -27,20 +27,20 @@ class PetService {
       required DateTime dob,
       required String description,
       required int categoryId,
-      required String bloodGroup,
       required int ageRange}) async {
     try {
       FormData formData;
       formData = FormData.fromMap({
         'ageRange': ageRange,
-        'bloodGroup': bloodGroup,
-        'categoryId': categoryId,
+        'breedId': categoryId,
         'color': 'black',
+        'vaccineDescription': '',
         'description': description,
         'dob': dob,
         'gender': gender,
         'isSeed': isSeed,
         'name': name,
+        'specialMarkings': '',
         'status': 'NOT_VERIFIED',
         'ownerId': accountId,
         'file': await MultipartFile.fromFile(filePath),

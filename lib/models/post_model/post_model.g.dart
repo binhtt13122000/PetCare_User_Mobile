@@ -8,15 +8,10 @@ part of 'post_model.dart';
 
 PostModel _$PostModelFromJson(Map<String, dynamic> json) => PostModel(
       id: json['id'] as int,
-      title: json['title'] as String?,
       createTime: json['createTime'] == null
           ? null
           : DateTime.parse(json['createTime'] as String),
-      effectiveTime: json['effectiveTime'] == null
-          ? null
-          : DateTime.parse(json['effectiveTime'] as String),
-      price: json['price'] as int?,
-      deposit: json['deposit'] as int?,
+      provisionalTotal: json['provisionalTotal'] as int,
       description: json['description'] as String?,
       status: json['status'] as String?,
       type: json['type'] as String?,
@@ -26,24 +21,29 @@ PostModel _$PostModelFromJson(Map<String, dynamic> json) => PostModel(
       mediaModels: (json['media'] as List<dynamic>?)
           ?.map((e) => MediaModel.fromJson(e as Map<String, dynamic>))
           .toList(),
-      mediaHealthCheckModels:
-          (json['mediaByPostheathcheckid'] as List<dynamic>?)
-              ?.map((e) => MediaModel.fromJson(e as Map<String, dynamic>))
-              .toList(),
+      sellerReceive: json['sellerReceive'] as int,
+      staffId: json['staffId'] as int?,
+      reasonCancel: json['reasonCancel'] as String?,
+      approveTime: json['approveTime'] == null
+          ? null
+          : DateTime.parse(json['approveTime'] as String),
+      cancelTime: json['cancelTime'] == null
+          ? null
+          : DateTime.parse(json['cancelTime'] as String),
     );
 
 Map<String, dynamic> _$PostModelToJson(PostModel instance) => <String, dynamic>{
       'id': instance.id,
-      'title': instance.title,
       'createTime': instance.createTime?.toIso8601String(),
-      'effectiveTime': instance.effectiveTime?.toIso8601String(),
-      'price': instance.price,
-      'deposit': instance.deposit,
+      'provisionalTotal': instance.provisionalTotal,
       'description': instance.description,
       'status': instance.status,
       'type': instance.type,
+      'staffId': instance.staffId,
+      'reasonCancel': instance.reasonCancel,
+      'approveTime': instance.approveTime?.toIso8601String(),
+      'cancelTime': instance.cancelTime?.toIso8601String(),
+      'sellerReceive': instance.sellerReceive,
       'pet': instance.petModel?.toJson(),
       'media': instance.mediaModels?.map((e) => e.toJson()).toList(),
-      'mediaByPostheathcheckid':
-          instance.mediaHealthCheckModels?.map((e) => e.toJson()).toList(),
     };

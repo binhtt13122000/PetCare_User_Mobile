@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -21,6 +22,8 @@ import 'package:petapp_mobile/views/customer/home_page/widgets/pet_services_widg
 import 'package:petapp_mobile/views/customer/home_page/widgets/top_navigation_bar.dart';
 import 'package:petapp_mobile/views/customer/post_detail_page/post_detail_page.dart';
 
+import '../../../controllers/purchase_post_detail_page_controller.dart';
+
 class HomePage extends GetView<HomePageController> {
   const HomePage({Key? key}) : super(key: key);
 
@@ -32,6 +35,13 @@ class HomePage extends GetView<HomePageController> {
 
       if (remoteNotification != null) {}
     });
+
+    SystemChrome.setSystemUIOverlayStyle(
+      const SystemUiOverlayStyle(
+        statusBarColor: Color.fromARGB(255, 247, 248, 250),
+        statusBarIconBrightness: Brightness.dark,
+      ),
+    );
 
     // FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
     //   print('co tin nhan2: ');
@@ -46,7 +56,7 @@ class HomePage extends GetView<HomePageController> {
     return GraphQLProvider(
       client: GRAPHQL_CLIENT,
       child: Scaffold(
-        backgroundColor: Color.fromARGB(255, 247, 248, 250),
+        backgroundColor: const Color.fromARGB(255, 247, 248, 250),
         extendBody: true,
         body: SafeArea(
           child: Stack(
@@ -117,7 +127,9 @@ class HomePage extends GetView<HomePageController> {
 
   Widget purchasePostItemWidget({required PostModel postModel}) => InkWell(
         onTap: () {
-          Get.to(() => PostDetaiPage(postModel: postModel));
+          Get.delete<PurchasePostDetailPageController>();
+          Get.put(PurchasePostDetailPageController(postModel: postModel));
+          Get.to(() => const PurchasePostDetaiPage());
         },
         child: Container(
           padding: const EdgeInsets.only(bottom: 10),
@@ -342,7 +354,7 @@ class HomePage extends GetView<HomePageController> {
                               ],
                             ),
                             Text(
-                              FORMAT_MONEY(price: postModel.price!),
+                              FORMAT_MONEY(price: postModel.provisionalTotal),
                               style: GoogleFonts.quicksand(
                                 fontWeight: FontWeight.w600,
                                 color: WHITE_COLOR,

@@ -58,3 +58,5 @@ const CLOSE_SVG = 'close.svg';
 const ELLIPSIS_SVG = 'ellipsis.svg';
 const BELL_SVG = 'bell.svg';
 const SEARCH_SVG = 'search.svg';
+const NEEEDLE_SVG = 'needle.svg';
+const INJECTION_SVG = 'injection.svg';
