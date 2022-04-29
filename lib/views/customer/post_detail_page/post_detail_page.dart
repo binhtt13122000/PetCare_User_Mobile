@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:petapp_mobile/configs/theme.dart';
 import 'package:petapp_mobile/controllers/purchase_post_detail_page_controller.dart';
@@ -14,41 +13,30 @@ class PurchasePostDetaiPage extends GetView<PurchasePostDetailPageController> {
   const PurchasePostDetaiPage({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    SystemChrome.setSystemUIOverlayStyle(
-      const SystemUiOverlayStyle(
-        statusBarColor: Colors.transparent,
-        statusBarIconBrightness: Brightness.dark,
-        systemNavigationBarColor: Colors.transparent,
-        systemNavigationBarIconBrightness: Brightness.dark,
-      ),
-    );
-
-    return Scaffold(
-      backgroundColor: WHITE_COLOR,
-      body: Column(
-        children: [
-          const PostMainImageWidget(),
-          Expanded(
-            child: Scrollbar(
-              controller: controller.mainScrollController,
-              child: SingleChildScrollView(
+  Widget build(BuildContext context) => Scaffold(
+        backgroundColor: WHITE_COLOR,
+        body: Column(
+          children: [
+            const PostMainImageWidget(),
+            Expanded(
+              child: Scrollbar(
                 controller: controller.mainScrollController,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: const [
-                    PostImageListWidget(),
-                    PostGeneralInformationWidget(),
-                    SellerInformationWidget(),
-                    PostDetailInformationWidget(),
-                  ],
+                child: SingleChildScrollView(
+                  controller: controller.mainScrollController,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: const [
+                      PostImageListWidget(),
+                      PostGeneralInformationWidget(),
+                      SellerInformationWidget(),
+                      PostDetailInformationWidget(),
+                    ],
+                  ),
                 ),
               ),
             ),
-          ),
-          const BottomWidget(),
-        ],
-      ),
-    );
-  }
+            const BottomWidget(),
+          ],
+        ),
+      );
 }

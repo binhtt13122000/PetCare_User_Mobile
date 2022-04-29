@@ -248,8 +248,9 @@ class VerificationOTPPage extends GetView<SignInPageController> {
                                 PhoneAuthProvider.credential(
                                     verificationId: controller.verificationId,
                                     smsCode: controller.otp.value);
-                            controller.signInWithPhoneAuthCredential(
-                                phoneAuthCredential);
+                            controller.accountModel =
+                                await controller.signInWithPhoneAuthCredential(
+                                    phoneAuthCredential);
                           },
                         ),
                       ),

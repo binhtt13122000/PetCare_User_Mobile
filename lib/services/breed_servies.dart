@@ -5,7 +5,7 @@ class BreedService {
       BreedModel.fromJson(jsonData);
 
   static List<BreedModel> getBreedList(Map<String, dynamic> jsonData) {
-    final breedListJson = jsonData['Breed'] as List;
+    final breedListJson = jsonData['breed'] as List;
     final List<BreedModel> breedList = List.empty(growable: true);
     for (var element in breedListJson) {
       breedList.add(getBreed(element));

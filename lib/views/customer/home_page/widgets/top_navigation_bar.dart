@@ -13,58 +13,11 @@ class TopNavigationBar extends GetView<HomePageController> {
 
   @override
   Widget build(BuildContext context) {
-    //Size size = MediaQuery.of(context).size;
-
     return Stack(
       children: [
-        // Container(
-        //   height: 100,
-        //   decoration: const BoxDecoration(
-        //     image: DecorationImage(
-        //       image: AssetImage(IMAGE_PATH + SWEET_HOME_PNG),
-        //       fit: BoxFit.cover,
-        //     ),
-        //   ),
-        // ),
-        // Container(
-        //   height: 100,
-        //   alignment: Alignment.centerLeft,
-        //   padding: const EdgeInsets.only(
-        //     left: 22.5,
-        //     bottom: 14,
-        //   ),
-        //   child:
-        //       //*App logo
-        //       Row(
-        //     children: [
-        //       SvgPicture.asset(
-        //         ICON_PATH + PET_LOGO_SVG,
-        //         color: PRIMARY_COLOR,
-        //         height: 29,
-        //       ),
-        //       const SizedBox(
-        //         width: 2,
-        //       ),
-        //       Text(
-        //         'iU Petshop',
-        //         style: GoogleFonts.satisfy(
-        //           textStyle: const TextStyle(color: PRIMARY_COLOR),
-        //           fontWeight: FontWeight.w700,
-        //           fontSize: 25,
-        //           height: 1,
-        //         ),
-        //       ),
-        //     ],
-        //   ),
-        // ),
-
         Padding(
-          padding: const EdgeInsets.only(
-            left: 15,
-            right: 15,
-            top: 5,
-            bottom: 20,
-          ),
+          padding:
+              const EdgeInsets.only(left: 15, right: 15, top: 30, bottom: 20),
           child:
               //*App logo
               Row(
@@ -123,7 +76,7 @@ class TopNavigationBar extends GetView<HomePageController> {
                       alignment: Alignment.center,
                       child: SvgPicture.asset(
                         ICON_PATH + SEARCH_SVG,
-                        color: DARK_GREY_COLOR,
+                        color: const Color.fromARGB(255, 110, 117, 131),
                         height: 23,
                       ),
                     ),
@@ -154,7 +107,7 @@ class TopNavigationBar extends GetView<HomePageController> {
                             left: 5,
                             child: SvgPicture.asset(
                               ICON_PATH + BELL_SVG,
-                              color: DARK_GREY_COLOR,
+                              color: const Color.fromARGB(255, 110, 117, 131),
                               height: 25,
                             ),
                           ),
@@ -183,7 +136,12 @@ class TopNavigationBar extends GetView<HomePageController> {
             ],
           ),
         ),
-        // //!Search bar
+      ],
+    );
+  }
+}
+
+//*Search bar
         // Align(
         //   alignment: Alignment.bottomCenter,
         //   child: Container(
@@ -234,7 +192,3 @@ class TopNavigationBar extends GetView<HomePageController> {
         //     ),
         //   ),
         // )
-      ],
-    );
-  }
-}

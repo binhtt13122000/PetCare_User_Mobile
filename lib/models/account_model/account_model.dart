@@ -1,4 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
+import 'package:petapp_mobile/models/customer_model/customer_model.dart';
 
 part 'account_model.g.dart';
 
@@ -6,28 +7,21 @@ part 'account_model.g.dart';
 class AccountModel {
   final int id;
   final String? email;
-  final String firstName;
-  final String lastName;
   final String phoneNumber;
-  final String? address;
-  final DateTime registerTime;
-  final bool isActive;
   final int roleId;
-  final DateTime? dob;
+  @JsonKey(ignore: true)
+  late CustomerModel customerModel;
   @JsonKey(ignore: true)
   late String jwtToken;
+  @JsonKey(ignore: true)
+  late String refreshToken;
 
-  AccountModel(
-      {required this.id,
-      this.email,
-      required this.firstName,
-      required this.lastName,
-      required this.phoneNumber,
-      this.address,
-      required this.registerTime,
-      required this.isActive,
-      required this.roleId,
-      this.dob});
+  AccountModel({
+    required this.id,
+    this.email,
+    required this.phoneNumber,
+    required this.roleId,
+  });
 
   factory AccountModel.fromJson(Map<String, dynamic> json) =>
       _$AccountModelFromJson(json);

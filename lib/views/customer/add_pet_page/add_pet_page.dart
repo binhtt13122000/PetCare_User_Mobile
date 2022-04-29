@@ -19,14 +19,14 @@ import 'package:petapp_mobile/services/species_services.dart';
 import 'package:petapp_mobile/utilities/utilities.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 import 'package:petapp_mobile/services/pet_services.dart';
-import 'package:tflite/tflite.dart';
+//import 'package:tflite/tflite.dart';
 
 class AddPetPage extends GetView<AddPetPageController> {
   const AddPetPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    loadModel();
+    //loadModel();
 
     return GraphQLProvider(
       client: controller.graphqlClient,
@@ -1140,10 +1140,10 @@ class AddPetPage extends GetView<AddPetPageController> {
         ),
       );
 
-  loadModel() async {
-    await Tflite.loadModel(
-      model: 'assets/model_unquant.tflite',
-      labels: 'assets/labels.txt',
-    );
-  }
+  // loadModel() async {
+  //   await Tflite.loadModel(
+  //     model: 'assets/model_unquant.tflite',
+  //     labels: 'assets/labels.txt',
+  //   );
+  // }
 }

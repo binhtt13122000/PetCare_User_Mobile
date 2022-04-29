@@ -12,7 +12,6 @@ query MyQuery($ltPrice: Int, $gtePrice: Int, $gender: [pet_gender_enum!], $isSee
     type
     shopFee
     pet {
-      ageRange
       avatar
       description
       color
@@ -56,7 +55,6 @@ query MyQuery($ltPrice: Int, $gtePrice: Int, $gender: [pet_gender_enum!], $isSee
     type
     shopFee
     pet {
-      ageRange
       avatar
       description
       color
@@ -99,7 +97,6 @@ query MyQuery {
     type
     shopFee
     pet {
-      ageRange
       avatar
       description
       color

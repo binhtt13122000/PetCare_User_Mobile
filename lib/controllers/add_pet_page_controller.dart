@@ -10,7 +10,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:petapp_mobile/graphql/graphql_config.dart';
 import 'package:petapp_mobile/models/breed_model/breed_model.dart';
 import 'package:petapp_mobile/models/species_model/species_model.dart';
-import 'package:tflite/tflite.dart';
+//import 'package:tflite/tflite.dart';
 
 class AddPetPageController extends GetxController {
   File? avatar;
@@ -67,14 +67,14 @@ class AddPetPageController extends GetxController {
     } on PlatformException catch (e) {
       print(e.toString());
     } finally {
-      var output = await Tflite.runModelOnImage(
-          path: avatarUrl.value,
-          numResults: 2,
-          threshold: 0.5,
-          imageMean: 127.5,
-          imageStd: 127.5);
+      // var output = await Tflite.runModelOnImage(
+      //     path: avatarUrl.value,
+      //     numResults: 2,
+      //     threshold: 0.5,
+      //     imageMean: 127.5,
+      //     imageStd: 127.5);
 
-      tmp = output;
+      //tmp = output;
       update();
     }
   }

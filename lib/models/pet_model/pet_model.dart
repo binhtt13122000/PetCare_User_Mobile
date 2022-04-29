@@ -8,7 +8,8 @@ class PetModel {
   final int id;
   final String name;
   final String avatar;
-  final int ageRange;
+  @JsonKey(ignore: true)
+  late String ageRange;
   final String? description;
   final String gender;
   final String? bloodGroup;
@@ -22,7 +23,6 @@ class PetModel {
     required this.id,
     required this.name,
     required this.avatar,
-    required this.ageRange,
     this.description,
     this.bloodGroup,
     this.color,
@@ -30,7 +30,9 @@ class PetModel {
     required this.breedModel,
     this.dob,
     required this.gender,
-  });
+  }) {
+    ageRange = '123';
+  }
 
   factory PetModel.fromJson(Map<String, dynamic> json) =>
       _$PetModelFromJson(json);

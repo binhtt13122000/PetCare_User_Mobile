@@ -68,6 +68,8 @@ services:
             - VNPAY_HASH_SECRET
             - VNPAY_URL
             - VNPAY_VERSION
+            - REFRESH_TOKEN_SECRET
+            - REFRESH_TOKEN_EXPIRATION
     redis-server:
         image: redis
         command: redis-server --appendonly yes

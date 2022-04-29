@@ -4,30 +4,24 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:get/get_navigation/get_navigation.dart';
 import 'package:petapp_mobile/bindings/add_pet_page_binding.dart';
 import 'package:petapp_mobile/bindings/create_post_page_binding.dart';
 import 'package:petapp_mobile/bindings/home_page_binding.dart';
 import 'package:petapp_mobile/bindings/notification_page_binding.dart';
 import 'package:petapp_mobile/bindings/sign_in_page_binding.dart';
-import 'package:petapp_mobile/bindings/pet_detail_page_binding.dart';
 import 'package:petapp_mobile/bindings/pet_management_page_binding.dart';
 import 'package:petapp_mobile/bindings/purchase_posts_page_binding.dart';
 import 'package:petapp_mobile/bindings/post_management_page_binding.dart';
 import 'package:petapp_mobile/bindings/transaction_page_binding.dart';
 import 'package:petapp_mobile/configs/rounter.dart';
-import 'package:petapp_mobile/configs/theme.dart';
 import 'package:petapp_mobile/controllers/sign_in_page_controller.dart';
 import 'package:petapp_mobile/services/account_services.dart';
 import 'package:petapp_mobile/views/customer/action_page/action_page.dart';
 import 'package:petapp_mobile/views/customer/add_pet_page/add_pet_page.dart';
 import 'package:petapp_mobile/views/customer/create_post_page/create_post_page.dart';
-import 'package:petapp_mobile/views/customer/deposit_page/deposit_page.dart';
 import 'package:petapp_mobile/views/customer/home_page/home_page.dart';
 import 'package:petapp_mobile/views/customer/notification_page/notification_page.dart';
-import 'package:petapp_mobile/views/customer/pet_detail_page/pet_detail_page.dart';
 import 'package:petapp_mobile/views/customer/pet_management_page/pet_management_page.dart';
-import 'package:petapp_mobile/views/customer/post_detail_page/post_detail_page.dart';
 import 'package:petapp_mobile/views/customer/post_management_page/post_management_page.dart';
 import 'package:petapp_mobile/views/customer/profile_page/profile.dart';
 import 'package:petapp_mobile/views/customer/purchase_posts_filter_page/purchase_posts_filter_page.dart';
@@ -67,6 +61,15 @@ void main() async {
       userDeviceToken: signInPageController.userDeviceToken,
     );
   }
+
+  SystemChrome.setSystemUIOverlayStyle(
+    const SystemUiOverlayStyle(
+      statusBarColor: Colors.transparent,
+      statusBarIconBrightness: Brightness.dark,
+      systemNavigationBarColor: Colors.transparent,
+      systemNavigationBarIconBrightness: Brightness.dark,
+    ),
+  );
 
   runApp(MainApp(initRounter: initRounter));
 }

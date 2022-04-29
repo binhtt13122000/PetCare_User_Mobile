@@ -19,6 +19,7 @@ class PostGeneralInformationWidget
               top: 12,
             ),
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 petBreedInforWidget(),
                 Text(

@@ -37,7 +37,8 @@ class SignInPageController extends GetxController {
     UNITED_STATES_PNG: '+1',
   };
 
-  signInWithPhoneAuthCredential(PhoneAuthCredential phoneAuthCredential) async {
+  Future<AccountModel?> signInWithPhoneAuthCredential(
+      PhoneAuthCredential phoneAuthCredential) async {
     isLoadingPhoneCredential.value = true;
     try {
       Get.offAndToNamed(HOME_PAGE_ROUNTER);
@@ -48,14 +49,14 @@ class SignInPageController extends GetxController {
       String idToken = await authCredential.user!.getIdToken();
       if (authCredential.user != null) {
         await setUserDeviceToken();
-        print('userDeviceToken' + userDeviceToken);
-        AccountService.signIn(
+        return await AccountService.signIn(
             idToken: idToken, userDeviceToken: userDeviceToken);
       }
     } on FirebaseAuthException catch (e) {
       print(e);
       isLoadingPhoneCredential.value = false;
     }
+    return null;
   }
 
   startTimer() {

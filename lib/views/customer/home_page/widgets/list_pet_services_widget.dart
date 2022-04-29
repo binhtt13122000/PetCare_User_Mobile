@@ -63,7 +63,7 @@ class ListPetServiceWidget extends GetView<HomePageController> {
                               height: 52.5,
                               width: 52.5,
                               decoration: BoxDecoration(
-                                color: LIGHT_GREY_COLOR.withOpacity(0.07),
+                                color: const Color.fromARGB(255, 204, 216, 235),
                                 borderRadius: BorderRadius.circular(17),
                                 boxShadow: [
                                   BoxShadow(
@@ -146,7 +146,7 @@ class ListPetServiceWidget extends GetView<HomePageController> {
                     : Text(
                         service.name,
                         style: GoogleFonts.quicksand(
-                          color: DARK_GREY_COLOR.withOpacity(0.55),
+                          color: const Color.fromARGB(255, 140, 149, 163),
                           fontSize: 12,
                           fontWeight: FontWeight.w700,
                           height: 1.5,

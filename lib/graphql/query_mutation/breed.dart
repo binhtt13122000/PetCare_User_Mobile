@@ -2,7 +2,7 @@
 
 const FETCH_BREED_BY_SPECIES_ID = r'''
 query MyQuery($species_id: Int) {
-  Breed(where: {species: {id: {_eq: $species_id}}}) {
+  breed(where: {species: {id: {_eq: $species_id}}}) {
     id
     name
     description
