@@ -16,6 +16,8 @@ class CustomerModel {
   final String? bankName;
   final String? bankCode;
   final String? bankBranch;
+  @JsonKey(ignore: true)
+  late String avatarCharacter;
 
   CustomerModel({
     required this.id,
@@ -31,7 +33,10 @@ class CustomerModel {
     this.bankName,
     this.bankCode,
     this.bankBranch,
-  });
+  }) {
+    List<String> words = lastName.split(' ');
+    avatarCharacter = words[words.length - 1][0];
+  }
 
   factory CustomerModel.fromJson(Map<String, dynamic> json) =>
       _$CustomerModelFromJson(json);

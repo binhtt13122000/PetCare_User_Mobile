@@ -27,10 +27,10 @@ class BottomNavigationBarController extends GetxController {
         name: 'Profile',
         iconURL: ICON_PATH + USER_SVG,
         rounterName: PROFILE_PAGE_ROUNTER),
-    BottomBarItemModel(
-        id: 4,
-        name: 'Setting',
-        iconURL: ICON_PATH + SETTING_SVG,
-        rounterName: SETTING_PAGE_ROUNTER)
+    // BottomBarItemModel(
+    //     id: 4,
+    //     name: 'Setting',
+    //     iconURL: ICON_PATH + SETTING_SVG,
+    //     rounterName: SETTING_PAGE_ROUNTER)
   ];
 }

@@ -15,13 +15,17 @@ class AccountModel {
   late String jwtToken;
   @JsonKey(ignore: true)
   late String refreshToken;
+  @JsonKey(ignore: true)
+  late String hiddenPhoneNumber;
 
   AccountModel({
     required this.id,
     this.email,
     required this.phoneNumber,
     required this.roleId,
-  });
+  }) {
+    hiddenPhoneNumber = phoneNumber.replaceRange(5, 10, '*****');
+  }
 
   factory AccountModel.fromJson(Map<String, dynamic> json) =>
       _$AccountModelFromJson(json);

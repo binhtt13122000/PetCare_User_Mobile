@@ -1,6 +1,9 @@
 // ignore_for_file: constant_identifier_names
 
-//images
+//*gifs
+const CRYSTAL_GIF = 'crystal.gif';
+
+//*images
 const IMAGE_PATH = 'assets/images/';
 const SWEET_HOME_PNG = 'sweet_home.png';
 const VERTERINARIAN_PNG = 'veterinarian.png';
@@ -22,8 +25,10 @@ const CAT_PNG = 'cat.png';
 const FISH_PNG = 'fish.png';
 const BACKGROUND_ONE_PNG = 'background_one.png';
 const VISA_PNG = 'visa.png';
+const CAT_ART_1_PNG = 'cat_art_1.png';
+const PRETTY_PET_PNG = 'pretty_pet.png';
 
-//icons
+//*icons
 const ICON_PATH = 'assets/icons/';
 const HOME_PAGE_SVG = 'homepage.svg';
 const SETTING_SVG = 'setting.svg';
@@ -60,3 +65,4 @@ const BELL_SVG = 'bell.svg';
 const SEARCH_SVG = 'search.svg';
 const NEEEDLE_SVG = 'needle.svg';
 const INJECTION_SVG = 'injection.svg';
+const EDITING_SVG = 'editing.svg';

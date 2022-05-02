@@ -12,6 +12,7 @@ import 'package:petapp_mobile/views/customer/create_post_page/widgets/pet_filter
 import 'package:petapp_mobile/views/customer/create_post_page/widgets/post_price_widget.dart';
 import 'package:petapp_mobile/views/customer/create_post_page/widgets/select_pet_widget.dart';
 import 'package:petapp_mobile/views/customer/create_post_page/widgets/top_widget.dart';
+import 'package:petapp_mobile/views/customer/create_post_page/widgets/video_displayer_widget.dart';
 
 class CreatePostPage extends GetView<CreatePostPageController> {
   const CreatePostPage({Key? key}) : super(key: key);
@@ -36,6 +37,7 @@ class CreatePostPage extends GetView<CreatePostPageController> {
                   controller: controller.mainScrollController,
                   child: Column(
                     children: const [
+                      VideoApp(),
                       BodyWidget(),
                       PostPriceWidget(),
                       SelectPetWidget(),

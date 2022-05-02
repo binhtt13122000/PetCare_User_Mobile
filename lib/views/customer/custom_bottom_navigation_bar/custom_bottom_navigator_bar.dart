@@ -22,16 +22,16 @@ class CustomBottomNavigatorBar extends StatelessWidget {
           height: 1,
         ),
         Container(
-          height: 50,
+          height: 45,
           padding: const EdgeInsets.only(top: 10),
           decoration: const BoxDecoration(
             color: WHITE_COLOR,
-            boxShadow: [
-              BoxShadow(
-                color: Color.fromARGB(255, 224, 230, 243),
-                blurRadius: 6,
-              )
-            ],
+            // boxShadow: [
+            //   BoxShadow(
+            //     color: Color.fromARGB(255, 224, 230, 243),
+            //     blurRadius: 6,
+            //   )
+            // ],
           ),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
