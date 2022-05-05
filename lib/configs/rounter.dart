@@ -32,3 +32,4 @@ var PROFILE_PAGE_ROUNTER = '/profile';
 var PET_MANAGEMENT_PAGE_ROUNTER = '/profile/pet_management';
 var PET_DETAIL_PAGE_ROUNTER = '/profile/pet_management/pet_detail';
 var ADD_PET_PAGE_ROUNTER = '/profile/pet_management/add_pet';
+var PERSONAl_INFOMATION_PAGE_ROUNTER = '/profile/personal_information';

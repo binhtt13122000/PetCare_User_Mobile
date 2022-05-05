@@ -181,7 +181,7 @@ class ProfilePageTopWidget extends GetView {
                 vertical: 12,
               ),
               child: InkWell(
-                onTap: (() {}),
+                onTap: () => Get.toNamed(PERSONAl_INFOMATION_PAGE_ROUNTER),
                 child: Container(
                   height: 35,
                   alignment: Alignment.center,

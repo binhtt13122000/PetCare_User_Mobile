@@ -8,6 +8,7 @@ import 'package:petapp_mobile/bindings/add_pet_page_binding.dart';
 import 'package:petapp_mobile/bindings/create_post_page_binding.dart';
 import 'package:petapp_mobile/bindings/home_page_binding.dart';
 import 'package:petapp_mobile/bindings/notification_page_binding.dart';
+import 'package:petapp_mobile/bindings/personal_information_page_binding.dart';
 import 'package:petapp_mobile/bindings/sign_in_page_binding.dart';
 import 'package:petapp_mobile/bindings/pet_management_page_binding.dart';
 import 'package:petapp_mobile/bindings/purchase_posts_page_binding.dart';
@@ -21,9 +22,10 @@ import 'package:petapp_mobile/views/customer/add_pet_page/add_pet_page.dart';
 import 'package:petapp_mobile/views/customer/create_post_page/create_post_page.dart';
 import 'package:petapp_mobile/views/customer/home_page/home_page.dart';
 import 'package:petapp_mobile/views/customer/notification_page/notification_page.dart';
+import 'package:petapp_mobile/views/customer/personal_infomation_page/personal_infomation_page.dart';
 import 'package:petapp_mobile/views/customer/pet_management_page/pet_management_page.dart';
 import 'package:petapp_mobile/views/customer/post_management_page/post_management_page.dart';
-import 'package:petapp_mobile/views/customer/profile_page/profile.dart';
+import 'package:petapp_mobile/views/customer/profile_page/profile_page.dart';
 import 'package:petapp_mobile/views/customer/purchase_posts_filter_page/purchase_posts_filter_page.dart';
 import 'package:petapp_mobile/views/customer/purchase_posts_page/purchase_posts_page.dart';
 import 'package:petapp_mobile/views/customer/setting_page/setting.dart';
@@ -168,6 +170,11 @@ class MainApp extends StatelessWidget {
           name: ADD_PET_PAGE_ROUNTER,
           page: () => const AddPetPage(),
           binding: AddPetPagePageBinding(),
+        ),
+        GetPage(
+          name: PERSONAl_INFOMATION_PAGE_ROUNTER,
+          page: () => const PersonalInformationPage(),
+          binding: PersonalInformationPageBinding(),
         ),
         // GetPage(
         //   name: PET_DETAIL_PAGE_ROUNTER,

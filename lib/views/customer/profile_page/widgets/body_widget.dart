@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:petapp_mobile/configs/path.dart';
+import 'package:petapp_mobile/configs/rounter.dart';
 import 'package:petapp_mobile/configs/theme.dart';
 import 'package:petapp_mobile/models/account_model/account_model.dart';
 
@@ -51,8 +53,13 @@ class ProfilePageBodyWidget extends GetView {
                   onTap: () {},
                 ),
                 buttonCartWidget(
+                  svgUrl: ICON_PATH + POSTS_SVG,
+                  title: 'Posts management',
+                  onTap: () => Get.toNamed(POST_MANAGEMENT_PAGE_ROUNTER),
+                ),
+                buttonCartWidget(
                   iconData: Icons.bookmark_border_outlined,
-                  title: 'Posts bookmarked',
+                  title: 'Posts marked',
                   onTap: () {},
                 ),
                 buttonCartWidget(
@@ -126,7 +133,7 @@ class ProfilePageBodyWidget extends GetView {
             ),
             Positioned(
               bottom: 5,
-              right: 110,
+              right: 80,
               child: Container(
                 height: 25,
                 width: 130,
@@ -167,7 +174,8 @@ class ProfilePageBodyWidget extends GetView {
       );
 
   Widget buttonCartWidget(
-          {required IconData iconData,
+          {IconData? iconData,
+          String? svgUrl,
           required String title,
           required Function()? onTap}) =>
       Padding(
@@ -192,10 +200,16 @@ class ProfilePageBodyWidget extends GetView {
                   ],
                 ),
                 alignment: Alignment.center,
-                child: Icon(
-                  iconData,
-                  color: const Color.fromARGB(255, 62, 68, 87),
-                ),
+                child: iconData != null
+                    ? Icon(
+                        iconData,
+                        color: const Color.fromARGB(255, 62, 68, 87),
+                      )
+                    : SvgPicture.asset(
+                        svgUrl!,
+                        height: 22,
+                        color: const Color.fromARGB(255, 62, 68, 87),
+                      ),
               ),
               Padding(
                 padding: const EdgeInsets.only(left: 20),
@@ -214,61 +228,72 @@ class ProfilePageBodyWidget extends GetView {
         ),
       );
 
-  Widget addPetProfileCard() => ClipRRect(
-        borderRadius: BorderRadius.circular(10),
-        child: Stack(
-          children: [
-            Image.asset(
-              IMAGE_PATH + CAT_ART_1_PNG,
-              width: 170,
-              height: 210,
-              fit: BoxFit.cover,
-            ),
-            Positioned(
-              bottom: 15,
-              left: 0,
-              right: 0,
-              child: Center(
-                child: Container(
-                  height: 30,
-                  width: 150,
-                  margin: const EdgeInsets.only(top: 15),
-                  decoration: BoxDecoration(
-                    // color: const Color.fromARGB(255, 203, 210, 233),
-                    color: PRIMARY_COLOR.withOpacity(0.7),
-                    borderRadius: BorderRadius.circular(3),
-                    border: Border.all(
-                      color: PRIMARY_COLOR,
-                    ),
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        'Add pet profile',
-                        textAlign: TextAlign.center,
-                        style: GoogleFonts.quicksand(
-                          color: const Color.fromARGB(255, 240, 243, 247),
-                          fontSize: 15,
-                          fontWeight: FontWeight.w700,
-                        ),
+  Widget addPetProfileCard() => InkWell(
+        onTap: () => Get.toNamed(ADD_PET_PAGE_ROUNTER),
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(10),
+          child: Stack(
+            children: [
+              Image.asset(
+                IMAGE_PATH + CAT_ART_1_PNG,
+                width: 160,
+                height: 210,
+                fit: BoxFit.cover,
+              ),
+              Positioned(
+                bottom: 15,
+                left: 0,
+                right: 0,
+                child: Center(
+                  child: Container(
+                    height: 30,
+                    width: 140,
+                    margin: const EdgeInsets.only(top: 15),
+                    alignment: Alignment.center,
+                    decoration: BoxDecoration(
+                      color: PRIMARY_COLOR.withOpacity(0.7),
+                      borderRadius: BorderRadius.circular(3),
+                      border: Border.all(
+                        color: PRIMARY_COLOR,
                       ),
-                    ],
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          'Add pet profile',
+                          textAlign: TextAlign.center,
+                          style: GoogleFonts.quicksand(
+                            color: const Color.fromARGB(255, 240, 243, 247),
+                            fontSize: 15,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 5),
+                          child: SvgPicture.asset(
+                            ICON_PATH + ADD_SVG,
+                            color: const Color.fromARGB(255, 240, 243, 247),
+                            height: 19,
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       );
 
   Widget pointCardWidget() => Stack(
         children: [
           Container(
-            width: 170,
+            width: 160,
             height: 250,
             decoration: BoxDecoration(
-              color: const Color.fromARGB(255, 17, 16, 23),
+              color: const Color.fromARGB(253, 17, 16, 23),
               borderRadius: BorderRadius.circular(10),
             ),
             child: Padding(
@@ -287,7 +312,7 @@ class ProfilePageBodyWidget extends GetView {
           Positioned(
             top: 125,
             child: SizedBox(
-              width: 170,
+              width: 160,
               child: Column(
                 children: [
                   Text(
@@ -313,7 +338,7 @@ class ProfilePageBodyWidget extends GetView {
                   ),
                   Container(
                     height: 30,
-                    width: 150,
+                    width: 140,
                     margin: const EdgeInsets.only(top: 18),
                     decoration: BoxDecoration(
                       color: const Color.fromARGB(255, 203, 210, 233),
@@ -322,6 +347,13 @@ class ProfilePageBodyWidget extends GetView {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
+                        Padding(
+                          padding: const EdgeInsets.only(right: 7),
+                          child: Image.asset(
+                            IMAGE_PATH + CRYSTAL_POINTS_PNG,
+                            height: 20,
+                          ),
+                        ),
                         Text(
                           accountModel.customerModel.point.toString() +
                               ' points',

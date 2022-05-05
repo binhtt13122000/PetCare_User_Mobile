@@ -11,7 +11,7 @@ class PostManagementPageController extends GetxController {
     'Status': 0,
     'Create time': 0,
   }.obs;
-  List<String> postTypeList = ['All Type', 'PURCHASE', 'BREEDING'];
+  List<String> postTypeList = ['All type', 'Purchase', 'Breeding'];
   late RxString selectedTicketType;
   RxList<PostModel> postList = <PostModel>[].obs;
 

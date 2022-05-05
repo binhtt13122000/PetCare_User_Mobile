@@ -29,7 +29,6 @@ class ProfilePage extends GetView {
                         accountModel: signInPageController.accountModel!),
                   ),
                 ),
-
                 // InkWell(
                 //   child: const Text(
                 //     'Pet Manager',

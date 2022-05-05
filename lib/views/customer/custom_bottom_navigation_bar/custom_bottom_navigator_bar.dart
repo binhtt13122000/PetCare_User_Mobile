@@ -6,7 +6,7 @@ import 'package:petapp_mobile/configs/theme.dart';
 import 'package:petapp_mobile/controllers/bottom_navigation_bar_controller.dart';
 import 'package:petapp_mobile/models/bottom_bar_item_model/bottom_bar_item_model.dart';
 
-class CustomBottomNavigatorBar extends StatelessWidget {
+class CustomBottomNavigatorBar extends GetView<BottomNavigationBarController> {
   const CustomBottomNavigatorBar({Key? key}) : super(key: key);
 
   @override
@@ -22,8 +22,7 @@ class CustomBottomNavigatorBar extends StatelessWidget {
           height: 1,
         ),
         Container(
-          height: 45,
-          padding: const EdgeInsets.only(top: 10),
+          height: 50,
           decoration: const BoxDecoration(
             color: WHITE_COLOR,
             // boxShadow: [
@@ -65,29 +64,32 @@ class BottomBarItemWidget extends GetView<BottomNavigationBarController> {
         Get.toNamed(bottomBarItem.rounterName);
       },
       child: Container(
-        height: 35,
+        height: 30,
         width: isSelectedItem ? 110 : 30,
         decoration: BoxDecoration(
-          color: isSelectedItem ? PRIMARY_LIGHT_COLOR : WHITE_COLOR,
+          color: isSelectedItem
+              ? const Color.fromARGB(255, 230, 234, 243)
+              : WHITE_COLOR,
           borderRadius: const BorderRadius.all(
             Radius.circular(10),
           ),
           border: Border.all(
             color: isSelectedItem
-                ? PRIMARY_COLOR.withOpacity(0.5)
+                ? const Color.fromARGB(255, 173, 188, 214)
                 : Colors.transparent,
             width: 1,
           ),
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             SvgPicture.asset(
               bottomBarItem.iconURL,
               color: isSelectedItem
-                  ? PRIMARY_COLOR
+                  ? const Color.fromARGB(255, 67, 80, 102)
                   : const Color.fromARGB(255, 167, 178, 197),
-              height: 23,
+              height: 15,
             ),
             isSelectedItem
                 ? Padding(
@@ -95,10 +97,12 @@ class BottomBarItemWidget extends GetView<BottomNavigationBarController> {
                     child: Text(
                       bottomBarItem.name,
                       textAlign: TextAlign.center,
-                      style: GoogleFonts.itim(
-                        fontSize: 18,
-                        color: PRIMARY_COLOR,
+                      style: GoogleFonts.quicksand(
+                        fontSize: 13,
+                        color: const Color.fromARGB(255, 67, 80, 102),
                         height: 1.5,
+                        fontWeight: FontWeight.w700,
+                        letterSpacing: 1.5,
                       ),
                     ),
                   )

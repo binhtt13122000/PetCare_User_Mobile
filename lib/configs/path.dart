@@ -27,6 +27,7 @@ const BACKGROUND_ONE_PNG = 'background_one.png';
 const VISA_PNG = 'visa.png';
 const CAT_ART_1_PNG = 'cat_art_1.png';
 const PRETTY_PET_PNG = 'pretty_pet.png';
+const CRYSTAL_POINTS_PNG = 'crystal_points.png';
 
 //*icons
 const ICON_PATH = 'assets/icons/';
@@ -66,3 +67,6 @@ const SEARCH_SVG = 'search.svg';
 const NEEEDLE_SVG = 'needle.svg';
 const INJECTION_SVG = 'injection.svg';
 const EDITING_SVG = 'editing.svg';
+const USER_PROFILE_SVG = 'user_profile.svg';
+const POSTS_SVG = 'posts.svg';
+const PLANET_EARTH_SVG = 'planet_earth.svg';
