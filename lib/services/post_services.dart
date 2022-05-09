@@ -65,7 +65,7 @@ class PostService {
         );
       }
 
-      Response response = await Dio().post('http://172.16.1.41:4000/posts',
+      Response response = await Dio().post('http://10.1.72.127:4000/posts',
           data: formData,
           options: Options(headers: <String, String>{
             HttpHeaders.contentTypeHeader: 'multipart/form-data',

@@ -6,8 +6,8 @@ import 'package:petapp_mobile/views/guest/register_page/widgets/bottom_widget.da
 import 'package:petapp_mobile/views/guest/register_page/widgets/pick_image_widget.dart';
 import 'package:petapp_mobile/views/guest/register_page/widgets/top_widget.dart';
 
-class RegisterPage extends GetView<RegisterPageController> {
-  const RegisterPage({Key? key}) : super(key: key);
+class RegisterUserInformationPage extends GetView<RegisterPageController> {
+  const RegisterUserInformationPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

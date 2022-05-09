@@ -29,6 +29,8 @@ const CAT_ART_1_PNG = 'cat_art_1.png';
 const PRETTY_PET_PNG = 'pretty_pet.png';
 const CRYSTAL_POINTS_PNG = 'crystal_points.png';
 const GUEST_AVATAR_PNG = 'guest_avatar.png';
+const LORETTA_PNG = 'loretta.png';
+const OTP_WALLPAPER_PNG = 'otp_wallpaper.png';
 
 //*icons
 const ICON_PATH = 'assets/icons/';

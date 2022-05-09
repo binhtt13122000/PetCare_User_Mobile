@@ -1,4 +1,5 @@
 // import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
@@ -33,7 +34,9 @@ import 'package:petapp_mobile/views/customer/setting_page/setting.dart';
 import 'package:petapp_mobile/views/customer/support_page/support.dart';
 import 'package:petapp_mobile/views/customer/transaction_page/transaction_page.dart';
 import 'package:petapp_mobile/views/guest/landing_page/landing_page.dart';
+import 'package:petapp_mobile/views/guest/register_otp_page/register_otp_page.dart';
 import 'package:petapp_mobile/views/guest/register_page/register_page.dart';
+import 'package:petapp_mobile/views/guest/register_phone_number_page/register_phone_number_page.dart';
 import 'package:petapp_mobile/views/guest/sign_in_page/sign_in_page.dart';
 import 'package:petapp_mobile/views/guest/verification_otp_page/verification_otp_page.dart';
 
@@ -54,17 +57,18 @@ void main() async {
   );
 
   String initRounter = LANDING_PAGE_ROUNTER;
-  // if (FirebaseAuth.instance.currentUser == null) {
-  //   initRounter = LANDING_PAGE_ROUNTER;
-  // } else {
-  //   String idToken = await FirebaseAuth.instance.currentUser!.getIdToken();
-  //   SignInPageController signInPageController = Get.put(SignInPageController());
-  //   await signInPageController.setUserDeviceToken();
-  //   signInPageController.accountModel = await AccountService.signIn(
-  //     idToken: idToken,
-  //     userDeviceToken: signInPageController.userDeviceToken,
-  //   );
-  // }
+  if (FirebaseAuth.instance.currentUser == null) {
+    //initRounter = LANDING_PAGE_ROUNTER;
+  } else {
+    //String idToken = await FirebaseAuth.instance.currentUser!.getIdToken();
+    // SignInPageController signInPageController = Get.put(SignInPageController());
+    // await signInPageController.setUserDeviceToken();
+    // signInPageController.accountModel = await AccountService.signIn(
+    //   idToken: idToken,
+    //   userDeviceToken: signInPageController.userDeviceToken,
+    // );
+    FirebaseAuth.instance.signOut();
+  }
 
   SystemChrome.setSystemUIOverlayStyle(
     const SystemUiOverlayStyle(
@@ -112,9 +116,17 @@ class MainApp extends StatelessWidget {
         ),
         //*Register page
         GetPage(
-          name: REGISTER_PAGE_ROUNTER,
-          page: () => const RegisterPage(),
+          name: REGISTER_PHONE_NUMBER_PAGE_ROUNTER,
+          page: () => const RegisterPhoneNumberPage(),
           binding: RegisterPageBinding(),
+        ),
+        GetPage(
+          name: REGISTER_USER_INFORMATION_PAGE_ROUNTER,
+          page: () => const RegisterUserInformationPage(),
+        ),
+        GetPage(
+          name: REGISTER_OTP_PAGE_ROUNTER,
+          page: () => const RegisterOTPPage(),
         ),
         //!Customer
         //*Home

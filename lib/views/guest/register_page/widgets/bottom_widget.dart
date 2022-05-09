@@ -13,7 +13,7 @@ class RegisterPageBottomWidget extends GetView<RegisterPageController> {
           Padding(
             padding: const EdgeInsets.only(left: 12, right: 12),
             child: InkWell(
-              onTap: () => AccountService.register(
+              onTap: () async => AccountService.register(
                 email: controller.email.value,
                 firstName: controller.firstName.value,
                 lastName: controller.lastName.value,
@@ -22,6 +22,7 @@ class RegisterPageBottomWidget extends GetView<RegisterPageController> {
                 adrress: controller.address.value,
                 gender: controller.gender.value,
                 avatarFilePath: controller.avatarfilePath.value,
+                accessToken: controller.accessToken,
               ),
               child: Container(
                 height: 40,

@@ -85,7 +85,8 @@ class GuestLandingBodyWidget extends GetView {
                     borderRadius: BorderRadius.circular(4),
                   ),
                   child: InkWell(
-                    onTap: () => Get.toNamed(REGISTER_PAGE_ROUNTER),
+                    onTap: () =>
+                        Get.toNamed(REGISTER_PHONE_NUMBER_PAGE_ROUNTER),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
