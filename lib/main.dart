@@ -1,4 +1,4 @@
-import 'package:firebase_auth/firebase_auth.dart';
+// import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
@@ -9,14 +9,15 @@ import 'package:petapp_mobile/bindings/create_post_page_binding.dart';
 import 'package:petapp_mobile/bindings/home_page_binding.dart';
 import 'package:petapp_mobile/bindings/notification_page_binding.dart';
 import 'package:petapp_mobile/bindings/personal_information_page_binding.dart';
+import 'package:petapp_mobile/bindings/register_page_binding.dart';
 import 'package:petapp_mobile/bindings/sign_in_page_binding.dart';
 import 'package:petapp_mobile/bindings/pet_management_page_binding.dart';
 import 'package:petapp_mobile/bindings/purchase_posts_page_binding.dart';
 import 'package:petapp_mobile/bindings/post_management_page_binding.dart';
 import 'package:petapp_mobile/bindings/transaction_page_binding.dart';
 import 'package:petapp_mobile/configs/rounter.dart';
-import 'package:petapp_mobile/controllers/sign_in_page_controller.dart';
-import 'package:petapp_mobile/services/account_services.dart';
+// import 'package:petapp_mobile/controllers/sign_in_page_controller.dart';
+// import 'package:petapp_mobile/services/account_services.dart';
 import 'package:petapp_mobile/views/customer/action_page/action_page.dart';
 import 'package:petapp_mobile/views/customer/add_pet_page/add_pet_page.dart';
 import 'package:petapp_mobile/views/customer/create_post_page/create_post_page.dart';
@@ -32,6 +33,7 @@ import 'package:petapp_mobile/views/customer/setting_page/setting.dart';
 import 'package:petapp_mobile/views/customer/support_page/support.dart';
 import 'package:petapp_mobile/views/customer/transaction_page/transaction_page.dart';
 import 'package:petapp_mobile/views/guest/landing_page/landing_page.dart';
+import 'package:petapp_mobile/views/guest/register_page/register_page.dart';
 import 'package:petapp_mobile/views/guest/sign_in_page/sign_in_page.dart';
 import 'package:petapp_mobile/views/guest/verification_otp_page/verification_otp_page.dart';
 
@@ -51,18 +53,18 @@ void main() async {
     sound: true,
   );
 
-  String initRounter = HOME_PAGE_ROUNTER;
-  if (FirebaseAuth.instance.currentUser == null) {
-    initRounter = LANDING_PAGE_ROUNTER;
-  } else {
-    String idToken = await FirebaseAuth.instance.currentUser!.getIdToken();
-    SignInPageController signInPageController = Get.put(SignInPageController());
-    await signInPageController.setUserDeviceToken();
-    signInPageController.accountModel = await AccountService.signIn(
-      idToken: idToken,
-      userDeviceToken: signInPageController.userDeviceToken,
-    );
-  }
+  String initRounter = LANDING_PAGE_ROUNTER;
+  // if (FirebaseAuth.instance.currentUser == null) {
+  //   initRounter = LANDING_PAGE_ROUNTER;
+  // } else {
+  //   String idToken = await FirebaseAuth.instance.currentUser!.getIdToken();
+  //   SignInPageController signInPageController = Get.put(SignInPageController());
+  //   await signInPageController.setUserDeviceToken();
+  //   signInPageController.accountModel = await AccountService.signIn(
+  //     idToken: idToken,
+  //     userDeviceToken: signInPageController.userDeviceToken,
+  //   );
+  // }
 
   SystemChrome.setSystemUIOverlayStyle(
     const SystemUiOverlayStyle(
@@ -93,10 +95,12 @@ class MainApp extends StatelessWidget {
       initialRoute: initRounter,
       getPages: [
         //!Guest
+        //*Landing page
         GetPage(
           name: LANDING_PAGE_ROUNTER,
-          page: () => const LandingPage(),
+          page: () => const GuestLandingPage(),
         ),
+        //*Login page
         GetPage(
           name: SIGN_IN_PAGE_ROUNTER,
           page: () => const SignInPage(),
@@ -105,6 +109,12 @@ class MainApp extends StatelessWidget {
         GetPage(
           name: VERIFICATION_OTP_PAGE_ROUNTER,
           page: () => const VerificationOTPPage(),
+        ),
+        //*Register page
+        GetPage(
+          name: REGISTER_PAGE_ROUNTER,
+          page: () => const RegisterPage(),
+          binding: RegisterPageBinding(),
         ),
         //!Customer
         //*Home

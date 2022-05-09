@@ -15,7 +15,7 @@ AccountModel _$AccountModelFromJson(Map<String, dynamic> json) => AccountModel(
 
 Map<String, dynamic> _$AccountModelToJson(AccountModel instance) =>
     <String, dynamic>{
-      'id': instance.id,
+      // 'id': instance.id,
       'email': instance.email,
       'phoneNumber': instance.phoneNumber,
       'roleId': instance.roleId,

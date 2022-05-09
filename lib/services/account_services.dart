@@ -2,6 +2,8 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:petapp_mobile/models/account_model/account_model.dart';
 import 'package:petapp_mobile/models/customer_model/customer_model.dart';
+import 'package:dio/dio.dart';
+import 'dart:io';
 
 class AccountService {
   static AccountModel getAccount(Map<String, dynamic> jsonData) {
@@ -19,24 +21,69 @@ class AccountService {
     required String userDeviceToken,
   }) async {
     final response = await http.post(
-      Uri.parse('http://192.168.137.1:4000/v1/api/auth/login'),
+      Uri.parse('http://172.16.1.41:4000/v1/api/auth/login/phone-number'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
       body: jsonEncode({
         'accessToken': idToken,
-        'loginType': 1,
         'fcmToken': userDeviceToken,
-        'role': 'CUSTOMER'
       }),
     );
     switch (response.statusCode) {
       case 200:
       case 201:
       case 202:
+        print(response.body);
+        print('idtoken::::::' + idToken);
+        print('device::::::' + userDeviceToken);
         return getAccount(json.decode(response.body)['data']);
       default:
         throw Exception('Error ${response.statusCode}, cannot login');
+    }
+  }
+
+  static Future register({
+    required String email,
+    required String firstName,
+    required String lastName,
+    required String phoneNumber,
+    required String adrress,
+    required String gender,
+    required String avatarFilePath,
+  }) async {
+    try {
+      FormData formData;
+      formData = FormData.fromMap({
+        'email': email,
+        'firstName': firstName,
+        'lastName': lastName,
+        'phoneNumber': phoneNumber,
+        'address': adrress,
+        'gender': gender,
+        'password': '213123',
+        'conFirmPassword': '213123',
+        'dateOfBirth': DateTime.now(),
+      });
+      avatarFilePath.isNotEmpty
+          ? formData.files.add(
+              MapEntry(
+                'file',
+                await MultipartFile.fromFile(avatarFilePath),
+              ),
+            )
+          : null;
+      Response response =
+          await Dio().post('http://172.16.1.41:4000/v1/api/auth/register',
+              data: formData,
+              options: Options(headers: <String, String>{
+                HttpHeaders.contentTypeHeader: 'multipart/form-data',
+              }));
+
+      return response.data;
+    } on DioError catch (e) {
+      print(e.error + e.response!.data.toString());
+      return e.response!.statusCode;
     }
   }
 }

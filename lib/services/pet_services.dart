@@ -46,7 +46,7 @@ class PetService {
         'file': await MultipartFile.fromFile(filePath),
       });
 
-      Response response = await Dio().post('http://192.168.137.1:4000/pets',
+      Response response = await Dio().post('http://172.16.1.41:4000/pets',
           data: formData,
           options: Options(headers: <String, String>{
             HttpHeaders.contentTypeHeader: 'multipart/form-data',

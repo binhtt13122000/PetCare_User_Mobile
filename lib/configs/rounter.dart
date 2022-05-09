@@ -7,6 +7,9 @@ var LANDING_PAGE_ROUNTER = '/landing';
 var SIGN_IN_PAGE_ROUNTER = '/landing/sign_in';
 var VERIFICATION_OTP_PAGE_ROUNTER = '/landing/sign_in/verification_otp';
 
+//register
+var REGISTER_PAGE_ROUNTER = '/register';
+
 //home
 var HOME_PAGE_ROUNTER = '/home';
 var POST_DETAIL_PAGE_ROUNTER = '/home/post_detail';
