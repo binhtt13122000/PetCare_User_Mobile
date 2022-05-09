@@ -140,7 +140,7 @@ class RegisterPageBodyWidget extends GetView<RegisterPageController> {
                   ),
                   decoration: controller.email.value.isEmpty
                       ? const InputDecoration(
-                          errorText: 'The field title is required',
+                          errorText: 'Email field is required',
                           suffixIcon: Icon(
                             Icons.error,
                             color: Color.fromARGB(255, 241, 99, 88),
