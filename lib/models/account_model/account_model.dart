@@ -6,7 +6,6 @@ part 'account_model.g.dart';
 @JsonSerializable(explicitToJson: true)
 class AccountModel {
   final int id;
-  final String? email;
   final String phoneNumber;
   final int roleId;
   @JsonKey(ignore: true)
@@ -20,7 +19,6 @@ class AccountModel {
 
   AccountModel({
     required this.id,
-    this.email,
     required this.phoneNumber,
     required this.roleId,
   }) {

@@ -1,4 +1,3 @@
-// import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -17,8 +16,8 @@ import 'package:petapp_mobile/bindings/purchase_posts_page_binding.dart';
 import 'package:petapp_mobile/bindings/post_management_page_binding.dart';
 import 'package:petapp_mobile/bindings/transaction_page_binding.dart';
 import 'package:petapp_mobile/configs/rounter.dart';
-// import 'package:petapp_mobile/controllers/sign_in_page_controller.dart';
-// import 'package:petapp_mobile/services/account_services.dart';
+import 'package:petapp_mobile/controllers/sign_in_page_controller.dart';
+import 'package:petapp_mobile/services/account_services.dart';
 import 'package:petapp_mobile/views/customer/action_page/action_page.dart';
 import 'package:petapp_mobile/views/customer/add_pet_page/add_pet_page.dart';
 import 'package:petapp_mobile/views/customer/create_post_page/create_post_page.dart';
@@ -56,18 +55,17 @@ void main() async {
     sound: true,
   );
 
-  String initRounter = LANDING_PAGE_ROUNTER;
+  String initRounter = HOME_PAGE_ROUNTER;
   if (FirebaseAuth.instance.currentUser == null) {
-    //initRounter = LANDING_PAGE_ROUNTER;
+    initRounter = LANDING_PAGE_ROUNTER;
   } else {
-    //String idToken = await FirebaseAuth.instance.currentUser!.getIdToken();
-    // SignInPageController signInPageController = Get.put(SignInPageController());
-    // await signInPageController.setUserDeviceToken();
-    // signInPageController.accountModel = await AccountService.signIn(
-    //   idToken: idToken,
-    //   userDeviceToken: signInPageController.userDeviceToken,
-    // );
-    FirebaseAuth.instance.signOut();
+    String idToken = await FirebaseAuth.instance.currentUser!.getIdToken();
+    SignInPageController signInPageController = Get.put(SignInPageController());
+    await signInPageController.setUserDeviceToken();
+    signInPageController.accountModel = await AccountService.signIn(
+      idToken: idToken,
+      userDeviceToken: signInPageController.userDeviceToken,
+    );
   }
 
   SystemChrome.setSystemUIOverlayStyle(

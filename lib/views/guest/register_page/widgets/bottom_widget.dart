@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:petapp_mobile/configs/rounter.dart';
 import 'package:petapp_mobile/configs/theme.dart';
 import 'package:petapp_mobile/controllers/register_page_controller.dart';
+import 'package:petapp_mobile/controllers/sign_in_page_controller.dart';
 import 'package:petapp_mobile/services/account_services.dart';
 
 class RegisterPageBottomWidget extends GetView<RegisterPageController> {
@@ -13,17 +15,31 @@ class RegisterPageBottomWidget extends GetView<RegisterPageController> {
           Padding(
             padding: const EdgeInsets.only(left: 12, right: 12),
             child: InkWell(
-              onTap: () async => AccountService.register(
-                email: controller.email.value,
-                firstName: controller.firstName.value,
-                lastName: controller.lastName.value,
-                phoneNumber:
-                    controller.selectedAreaCode + controller.phoneNumber.value,
-                adrress: controller.address.value,
-                gender: controller.gender.value,
-                avatarFilePath: controller.avatarfilePath.value,
-                accessToken: controller.accessToken,
-              ),
+              onTap: () async {
+                controller.isLoadingRegister.value = true;
+                controller.accountModel = await AccountService.register(
+                  email: controller.email.value,
+                  firstName: controller.firstName.value,
+                  lastName: controller.lastName.value,
+                  phoneNumber: controller.selectedAreaCode +
+                      controller.phoneNumber.value,
+                  adrress: controller.address.value,
+                  gender: controller.gender.value,
+                  avatarFilePath: controller.avatarfilePath.value,
+                  accessToken: controller.accessToken,
+                  deviceToken: controller.userDeviceToken,
+                );
+                if (controller.accountModel != null) {
+                  Get.put(SignInPageController())
+                    ..accountModel = controller.accountModel
+                    ..auth = controller.auth
+                    ..userDeviceToken = controller.userDeviceToken;
+                  Get.toNamed(HOME_PAGE_ROUNTER);
+                  controller.isLoadingRegister.value = false;
+                } else {
+                  controller.isLoadingRegister.value = false;
+                }
+              },
               child: Container(
                 height: 40,
                 decoration: BoxDecoration(

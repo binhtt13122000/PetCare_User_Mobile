@@ -44,6 +44,8 @@ class RegisterPageController extends GetxController {
   RxInt countDownTime = 0.obs;
   int maxTime = 60;
 
+  RxBool isLoadingRegister = false.obs;
+
   final FirebaseMessagingService firebaseMessagingService =
       FirebaseMessagingService.instance;
   late String userDeviceToken;

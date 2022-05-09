@@ -106,14 +106,15 @@ class PersonalInformationBodyWidget
                 height: 45,
                 child: TextFormField(
                   cursorColor: PRIMARY_COLOR,
-                  initialValue: controller.accountModel.email,
+                  initialValue: controller.accountModel.customerModel.email,
                   maxLength: 40,
                   style: GoogleFonts.quicksand(
                     fontWeight: FontWeight.w500,
                     color: const Color.fromARGB(255, 78, 98, 124),
                     fontSize: 16,
                   ),
-                  decoration: controller.accountModel.email!.isEmpty
+                  decoration: controller
+                          .accountModel.customerModel.email.isEmpty
                       ? const InputDecoration(
                           errorText: 'The field title is required',
                           suffixIcon: Icon(
@@ -128,7 +129,8 @@ class PersonalInformationBodyWidget
                             widthFactor: 1,
                             heightFactor: 1,
                             child: Text(
-                              controller.accountModel.email!.length.toString() +
+                              controller.accountModel.customerModel.email.length
+                                      .toString() +
                                   '/40',
                               style: GoogleFonts.quicksand(
                                 fontWeight: FontWeight.w500,
@@ -180,7 +182,7 @@ class PersonalInformationBodyWidget
               height: 100,
               child: TextFormField(
                 cursorColor: PRIMARY_COLOR,
-                initialValue: 'No 157/265',
+                initialValue: controller.accountModel.customerModel.address,
                 maxLength: 200,
                 maxLines: 3,
                 style: GoogleFonts.quicksand(

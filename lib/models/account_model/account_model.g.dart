@@ -8,15 +8,13 @@ part of 'account_model.dart';
 
 AccountModel _$AccountModelFromJson(Map<String, dynamic> json) => AccountModel(
       id: json['id'] as int,
-      email: json['email'] as String?,
       phoneNumber: json['phoneNumber'] as String,
       roleId: json['roleId'] as int,
     );
 
 Map<String, dynamic> _$AccountModelToJson(AccountModel instance) =>
     <String, dynamic>{
-      // 'id': instance.id,
-      'email': instance.email,
+      'id': instance.id,
       'phoneNumber': instance.phoneNumber,
       'roleId': instance.roleId,
     };
