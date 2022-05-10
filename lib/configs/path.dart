@@ -75,5 +75,7 @@ const POSTS_SVG = 'posts.svg';
 const PLANET_EARTH_SVG = 'planet_earth.svg';
 const MESSENGER_SVG = 'messenger.svg';
 
-const API_SERVER = 'http://10.1.86.218:4000';
-const GRAPHL_SERVER = 'http://10.1.86.218:8080';
+// const API_SERVER = 'http://10.1.86.218:4000';
+// const GRAPHL_SERVER = 'http://10.1.86.218:8080';
+const API_SERVER = 'http://172.16.1.41:4000';
+const GRAPHL_SERVER = 'http://172.16.1.41:8080';

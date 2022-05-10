@@ -26,6 +26,7 @@ import 'package:petapp_mobile/views/customer/chatting_landing_page/chatting_land
 import 'package:petapp_mobile/views/customer/create_post_page/create_post_page.dart';
 import 'package:petapp_mobile/views/customer/home_page/home_page.dart';
 import 'package:petapp_mobile/views/customer/notification_page/notification_page.dart';
+import 'package:petapp_mobile/views/customer/payment_page/payment_page.dart';
 import 'package:petapp_mobile/views/customer/personal_infomation_page/personal_infomation_page.dart';
 import 'package:petapp_mobile/views/customer/pet_management_page/pet_management_page.dart';
 import 'package:petapp_mobile/views/customer/post_management_page/post_management_page.dart';
@@ -79,6 +80,7 @@ void main() async {
       systemNavigationBarIconBrightness: Brightness.dark,
     ),
   );
+
   runApp(MainApp(initRounter: initRounter));
 }
 
@@ -217,7 +219,11 @@ class MainApp extends StatelessWidget {
         GetPage(
           name: CHATTING_DETAIL_PAGE_ROUNTER,
           page: () => const ChattingDetailPage(),
-        )
+        ), //*Payment
+        GetPage(
+          name: PAYMENT_PAGE_ROUNTER,
+          page: () => const PaymentPage(),
+        ),
       ],
     );
   }

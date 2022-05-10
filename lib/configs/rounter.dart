@@ -42,3 +42,6 @@ var PERSONAl_INFOMATION_PAGE_ROUNTER = '/profile/personal_information';
 //chatting
 var CHATTING_LANDING_PAGE_ROUNTER = '/chatting';
 var CHATTING_DETAIL_PAGE_ROUNTER = '/chatting/deatil';
+
+//payment
+var PAYMENT_PAGE_ROUNTER = '/payment';
