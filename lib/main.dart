@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:petapp_mobile/bindings/add_pet_page_binding.dart';
+import 'package:petapp_mobile/bindings/chatting_page_binding.dart';
 import 'package:petapp_mobile/bindings/create_post_page_binding.dart';
 import 'package:petapp_mobile/bindings/home_page_binding.dart';
 import 'package:petapp_mobile/bindings/notification_page_binding.dart';
@@ -20,6 +21,8 @@ import 'package:petapp_mobile/controllers/sign_in_page_controller.dart';
 import 'package:petapp_mobile/services/account_services.dart';
 import 'package:petapp_mobile/views/customer/action_page/action_page.dart';
 import 'package:petapp_mobile/views/customer/add_pet_page/add_pet_page.dart';
+import 'package:petapp_mobile/views/customer/chatting_detail_page/chatting_detail_page.dart';
+import 'package:petapp_mobile/views/customer/chatting_landing_page/chatting_landing_page.dart';
 import 'package:petapp_mobile/views/customer/create_post_page/create_post_page.dart';
 import 'package:petapp_mobile/views/customer/home_page/home_page.dart';
 import 'package:petapp_mobile/views/customer/notification_page/notification_page.dart';
@@ -76,7 +79,6 @@ void main() async {
       systemNavigationBarIconBrightness: Brightness.dark,
     ),
   );
-
   runApp(MainApp(initRounter: initRounter));
 }
 
@@ -206,6 +208,16 @@ class MainApp extends StatelessWidget {
           name: SETTING_PAGE_ROUNTER,
           page: () => const SettingPage(),
         ),
+        //*Chatting
+        GetPage(
+          name: CHATTING_LANDING_PAGE_ROUNTER,
+          page: () => const ChattingLandingPage(),
+          binding: ChattingPageBinding(),
+        ),
+        GetPage(
+          name: CHATTING_DETAIL_PAGE_ROUNTER,
+          page: () => const ChattingDetailPage(),
+        )
       ],
     );
   }

@@ -52,7 +52,7 @@ class ProfilePageTopWidget extends GetView {
   Widget topIconWidget() => Row(
         children: [
           InkWell(
-            onTap: () => Get.toNamed(NOTIFICATION_PAGE_ROUNTER),
+            onTap: () => Get.toNamed(CHATTING_LANDING_PAGE_ROUNTER),
             child: Container(
               height: 35,
               width: 35,

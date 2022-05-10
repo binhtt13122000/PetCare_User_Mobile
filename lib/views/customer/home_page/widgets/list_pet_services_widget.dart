@@ -65,13 +65,6 @@ class ListPetServiceWidget extends GetView<HomePageController> {
                               decoration: BoxDecoration(
                                 color: const Color.fromARGB(255, 204, 216, 235),
                                 borderRadius: BorderRadius.circular(17),
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: DARK_GREY_COLOR.withOpacity(0.05),
-                                    blurRadius: 10,
-                                    offset: const Offset(5, 5),
-                                  )
-                                ],
                               ),
                             ),
                       Container(
@@ -97,30 +90,31 @@ class ListPetServiceWidget extends GetView<HomePageController> {
                             color: controller.selectedServiceIndex.value ==
                                     service.id
                                 ? PRIMARY_COLOR.withOpacity(0.7)
-                                : const Color.fromARGB(255, 245, 235, 255),
+                                : const Color.fromARGB(255, 255, 255, 255),
+
                             // gradient: const LinearGradient(colors: [
                             //   Color.fromARGB(255, 123, 41, 255),
                             //   Color.fromARGB(255, 90, 253, 253),
                             // ]),
                             borderRadius: BorderRadius.circular(15),
-                            // boxShadow: [
-                            //   BoxShadow(
-                            //     color: controller.selectedServiceIndex.value ==
-                            //             service.id
-                            //         ? PRIMARY_COLOR
-                            //         : WHITE_COLOR,
-                            //     blurRadius: 3.5,
-                            //   )
-                            // ],
+                            boxShadow: [
+                              BoxShadow(
+                                color: controller.selectedServiceIndex.value ==
+                                        service.id
+                                    ? Colors.transparent
+                                    : PRIMARY_COLOR.withOpacity(0.7),
+                                blurRadius: 2,
+                              )
+                            ],
                             border: Border.all(
-                              color: const Color.fromARGB(255, 248, 244, 244),
+                              color: const Color.fromARGB(255, 255, 255, 255),
                               width: 2,
                             ),
                           ),
                           child: Center(
                             child: Image.asset(
                               service.imageUrl,
-                              height: 30,
+                              height: 33,
                             ),
                           ),
                         ),
@@ -146,7 +140,7 @@ class ListPetServiceWidget extends GetView<HomePageController> {
                     : Text(
                         service.name,
                         style: GoogleFonts.quicksand(
-                          color: const Color.fromARGB(255, 140, 149, 163),
+                          color: const Color.fromARGB(255, 122, 133, 153),
                           fontSize: 12,
                           fontWeight: FontWeight.w700,
                           height: 1.5,
