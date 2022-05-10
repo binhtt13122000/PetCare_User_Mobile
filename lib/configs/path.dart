@@ -73,3 +73,7 @@ const EDITING_SVG = 'editing.svg';
 const USER_PROFILE_SVG = 'user_profile.svg';
 const POSTS_SVG = 'posts.svg';
 const PLANET_EARTH_SVG = 'planet_earth.svg';
+const MESSENGER_SVG = 'messenger.svg';
+
+const API_SERVER = 'http://10.1.86.218:4000';
+const GRAPHL_SERVER = 'http://10.1.86.218:8080';

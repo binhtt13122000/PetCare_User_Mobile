@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:petapp_mobile/configs/path.dart';
 import 'package:petapp_mobile/models/account_model/account_model.dart';
 import 'package:petapp_mobile/models/customer_model/customer_model.dart';
 import 'package:dio/dio.dart';
@@ -21,7 +22,7 @@ class AccountService {
     required String userDeviceToken,
   }) async {
     final response = await http.post(
-      Uri.parse('http://172.16.1.41:4000/v1/api/auth/login/phone-number'),
+      Uri.parse('$API_SERVER/v1/api/auth/login/phone-number'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -34,9 +35,6 @@ class AccountService {
       case 200:
       case 201:
       case 202:
-        print(response.body);
-        print('idtoken::::::' + idToken);
-        print('device::::::' + userDeviceToken);
         return getAccount(json.decode(response.body)['data']);
       default:
         throw Exception('Error ${response.statusCode}, cannot login');
@@ -47,8 +45,7 @@ class AccountService {
     required String phoneNumber,
   }) async {
     final response = await http.get(
-      Uri.parse(
-          'http://172.16.1.41:4000/v1/api/auth/phone-number/$phoneNumber'),
+      Uri.parse('$API_SERVER/v1/api/auth/phone-number/$phoneNumber'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -94,19 +91,16 @@ class AccountService {
               ),
             )
           : null;
-      Response response =
-          await Dio().post('http://172.16.1.41:4000/v1/api/auth/register',
-              data: formData,
-              options: Options(headers: <String, String>{
-                HttpHeaders.contentTypeHeader: 'multipart/form-data',
-              }));
+      Response response = await Dio().post('$API_SERVER/v1/api/auth/register',
+          data: formData,
+          options: Options(headers: <String, String>{
+            HttpHeaders.contentTypeHeader: 'multipart/form-data',
+          }));
 
       switch (response.statusCode) {
         case 200:
         case 201:
         case 202:
-          print(response.data);
-
           return getAccount(response.data['data']);
         default:
           print(response.data);

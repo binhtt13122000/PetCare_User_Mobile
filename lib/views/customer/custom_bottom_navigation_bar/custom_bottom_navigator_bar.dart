@@ -68,8 +68,8 @@ class BottomBarItemWidget extends GetView<BottomNavigationBarController> {
         width: isSelectedItem ? 110 : 30,
         decoration: BoxDecoration(
           color: isSelectedItem
-              ? const Color.fromARGB(255, 230, 234, 243)
-              : WHITE_COLOR,
+              ? const Color.fromARGB(255, 242, 243, 247)
+              : Colors.transparent,
           borderRadius: const BorderRadius.all(
             Radius.circular(10),
           ),
@@ -88,8 +88,8 @@ class BottomBarItemWidget extends GetView<BottomNavigationBarController> {
               bottomBarItem.iconURL,
               color: isSelectedItem
                   ? const Color.fromARGB(255, 67, 80, 102)
-                  : const Color.fromARGB(255, 167, 178, 197),
-              height: 15,
+                  : const Color.fromARGB(255, 138, 156, 189),
+              height: 16,
             ),
             isSelectedItem
                 ? Padding(

@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:petapp_mobile/configs/path.dart';
 import 'dart:io';
 
 import 'package:petapp_mobile/models/post_model/post_model.dart';
@@ -65,7 +66,7 @@ class PostService {
         );
       }
 
-      Response response = await Dio().post('http://172.16.1.41:4000/posts',
+      Response response = await Dio().post('$API_SERVER/posts',
           data: formData,
           options: Options(headers: <String, String>{
             HttpHeaders.contentTypeHeader: 'multipart/form-data',
