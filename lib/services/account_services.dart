@@ -43,7 +43,27 @@ class AccountService {
     }
   }
 
-  static Future register({
+  static Future<bool> checkPhoneNumber({
+    required String phoneNumber,
+  }) async {
+    final response = await http.get(
+      Uri.parse(
+          'http://172.16.1.41:4000/v1/api/auth/phone-number/$phoneNumber'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+    );
+    switch (response.statusCode) {
+      case 200:
+      case 201:
+      case 202:
+        return json.decode(response.body)['data'];
+      default:
+        throw Exception('Error ${response.statusCode}, cannot login');
+    }
+  }
+
+  static Future<AccountModel?> register({
     required String email,
     required String firstName,
     required String lastName,
@@ -51,6 +71,8 @@ class AccountService {
     required String adrress,
     required String gender,
     required String avatarFilePath,
+    required String accessToken,
+    required String deviceToken,
   }) async {
     try {
       FormData formData;
@@ -61,9 +83,8 @@ class AccountService {
         'phoneNumber': phoneNumber,
         'address': adrress,
         'gender': gender,
-        'password': '213123',
-        'conFirmPassword': '213123',
-        'dateOfBirth': DateTime.now(),
+        'accessToken': accessToken,
+        'fcmToken': deviceToken,
       });
       avatarFilePath.isNotEmpty
           ? formData.files.add(
@@ -80,10 +101,20 @@ class AccountService {
                 HttpHeaders.contentTypeHeader: 'multipart/form-data',
               }));
 
-      return response.data;
+      switch (response.statusCode) {
+        case 200:
+        case 201:
+        case 202:
+          print(response.data);
+
+          return getAccount(response.data['data']);
+        default:
+          print(response.data);
+      }
     } on DioError catch (e) {
       print(e.error + e.response!.data.toString());
-      return e.response!.statusCode;
+      return null;
     }
+    return null;
   }
 }

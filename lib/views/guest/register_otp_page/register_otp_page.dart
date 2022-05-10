@@ -3,13 +3,12 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
 import 'package:petapp_mobile/configs/theme.dart';
 import 'package:petapp_mobile/controllers/register_page_controller.dart';
-import 'package:petapp_mobile/views/guest/register_page/widgets/body_widget.dart';
-import 'package:petapp_mobile/views/guest/register_page/widgets/bottom_widget.dart';
-import 'package:petapp_mobile/views/guest/register_page/widgets/pick_image_widget.dart';
-import 'package:petapp_mobile/views/guest/register_page/widgets/top_widget.dart';
+import 'package:petapp_mobile/views/guest/register_otp_page/widgets/body_widget.dart';
+import 'package:petapp_mobile/views/guest/register_otp_page/widgets/bottom_widget.dart';
+import 'package:petapp_mobile/views/guest/register_otp_page/widgets/top_widget.dart';
 
-class RegisterUserInformationPage extends GetView<RegisterPageController> {
-  const RegisterUserInformationPage({Key? key}) : super(key: key);
+class RegisterOTPPage extends GetView<RegisterPageController> {
+  const RegisterOTPPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -17,17 +16,18 @@ class RegisterUserInformationPage extends GetView<RegisterPageController> {
       backgroundColor: const Color.fromARGB(255, 250, 251, 255),
       body: Stack(
         children: [
-          Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: const [
-              RegisterPageTopWidget(),
-              RegisterPageBodyWidget(),
-              RegisterPageBottomWidget(),
-            ],
+          SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: const [
+                RegisterOTPPageTopWidget(),
+                RegisterOTPPageBodyWidget(),
+                RegisterOTPPageBottomWidget(),
+              ],
+            ),
           ),
-          const PickImageWidget(),
           Obx(
-            () => controller.isLoadingRegister.value
+            () => controller.isLoadingOTP.value
                 ? Container(
                     color: const Color.fromARGB(75, 249, 236, 253),
                     child: const SpinKitSpinningLines(

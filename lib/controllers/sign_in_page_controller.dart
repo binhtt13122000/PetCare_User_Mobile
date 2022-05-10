@@ -24,13 +24,13 @@ class SignInPageController extends GetxController {
   RxString otp = ''.obs;
 
   FirebaseAuth auth = FirebaseAuth.instance;
+  late String verificationId;
 
   final FirebaseMessagingService firebaseMessagingService =
       FirebaseMessagingService.instance;
   late String userDeviceToken;
   AccountModel? accountModel;
 
-  late String verificationId;
   RxString selectedAreaCode = '+84'.obs;
   Map<String, String> areaCodeMap = {
     VIETNAM_PNG: '+84',

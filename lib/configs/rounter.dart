@@ -8,7 +8,9 @@ var SIGN_IN_PAGE_ROUNTER = '/landing/sign_in';
 var VERIFICATION_OTP_PAGE_ROUNTER = '/landing/sign_in/verification_otp';
 
 //register
-var REGISTER_PAGE_ROUNTER = '/register';
+var REGISTER_USER_INFORMATION_PAGE_ROUNTER = '/register/user_information';
+var REGISTER_PHONE_NUMBER_PAGE_ROUNTER = '/register/phone_number';
+var REGISTER_OTP_PAGE_ROUNTER = '/register/otp';
 
 //home
 var HOME_PAGE_ROUNTER = '/home';

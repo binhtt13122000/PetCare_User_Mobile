@@ -27,7 +27,6 @@ class RegisterPageBodyWidget extends GetView<RegisterPageController> {
                     firstNameWidget(),
                     lastNameWidget(),
                     genderWidget(),
-                    phoneNumberWidget(),
                     emailWidget(),
                   ],
                 ),
@@ -138,40 +137,33 @@ class RegisterPageBodyWidget extends GetView<RegisterPageController> {
                     color: const Color.fromARGB(255, 78, 98, 124),
                     fontSize: 16,
                   ),
-                  decoration: controller.email.value.isEmpty
-                      ? const InputDecoration(
-                          errorText: 'The field title is required',
-                          suffixIcon: Icon(
-                            Icons.error,
-                            color: Color.fromARGB(255, 241, 99, 88),
-                            size: 20,
-                          ),
-                        )
-                      : InputDecoration(
-                          counterText: '',
-                          suffixIcon: Align(
-                            widthFactor: 1,
-                            heightFactor: 1,
-                            child: Text(
-                              controller.email.value.length.toString() + '/40',
-                              style: GoogleFonts.quicksand(
-                                fontWeight: FontWeight.w500,
-                                color: const Color.fromARGB(255, 78, 98, 124),
-                                fontSize: 13,
-                              ),
-                            ),
-                          ),
-                          enabledBorder: const OutlineInputBorder(
-                            borderSide: BorderSide(
-                              color: Color.fromARGB(255, 136, 154, 180),
-                            ),
-                          ),
-                          focusedBorder: const OutlineInputBorder(
-                            borderSide: BorderSide(
-                              color: Color.fromARGB(255, 136, 154, 180),
-                            ),
+                  decoration: InputDecoration(
+                    counterText: '',
+                    suffixIcon: Obx(
+                      () => Align(
+                        widthFactor: 1,
+                        heightFactor: 1,
+                        child: Text(
+                          controller.email.value.length.toString() + '/40',
+                          style: GoogleFonts.quicksand(
+                            fontWeight: FontWeight.w500,
+                            color: const Color.fromARGB(255, 78, 98, 124),
+                            fontSize: 13,
                           ),
                         ),
+                      ),
+                    ),
+                    enabledBorder: const OutlineInputBorder(
+                      borderSide: BorderSide(
+                        color: Color.fromARGB(255, 136, 154, 180),
+                      ),
+                    ),
+                    focusedBorder: const OutlineInputBorder(
+                      borderSide: BorderSide(
+                        color: Color.fromARGB(255, 136, 154, 180),
+                      ),
+                    ),
+                  ),
                   onChanged: (String? value) {
                     controller.email.value = value ?? '';
                   },
@@ -212,55 +204,47 @@ class RegisterPageBodyWidget extends GetView<RegisterPageController> {
               ),
             ),
             SizedBox(
-              height: 60,
+              height: 90,
               child: TextFormField(
                 cursorColor: PRIMARY_COLOR,
                 initialValue: controller.address.value,
                 maxLength: 200,
-                maxLines: 2,
+                maxLines: 3,
                 style: GoogleFonts.quicksand(
                   fontWeight: FontWeight.w500,
                   color: const Color.fromARGB(255, 138, 154, 175),
                   fontSize: 14,
                 ),
-                decoration: false
-                    ? const InputDecoration(
-                        errorText: 'The field title is required',
-                        suffixIcon: Icon(
-                          Icons.error,
-                          color: Color.fromARGB(255, 241, 99, 88),
-                          size: 20,
-                        ),
-                      )
-                    : InputDecoration(
-                        counterText: '',
-                        suffixIcon: Container(
-                          width: 30,
-                          alignment: Alignment.bottomRight,
-                          child: Padding(
-                            padding: const EdgeInsets.only(bottom: 5, right: 5),
-                            child: Text(
-                              controller.address.value.length.toString() +
-                                  '/200',
-                              style: GoogleFonts.quicksand(
-                                fontWeight: FontWeight.w500,
-                                color: const Color.fromARGB(255, 78, 98, 124),
-                                fontSize: 13,
-                              ),
-                            ),
-                          ),
-                        ),
-                        enabledBorder: const OutlineInputBorder(
-                          borderSide: BorderSide(
-                            color: Color.fromARGB(255, 136, 154, 180),
-                          ),
-                        ),
-                        focusedBorder: const OutlineInputBorder(
-                          borderSide: BorderSide(
-                            color: Color.fromARGB(255, 136, 154, 180),
+                decoration: InputDecoration(
+                  counterText: '',
+                  suffixIcon: Container(
+                    width: 55,
+                    alignment: Alignment.bottomRight,
+                    child: Padding(
+                      padding: const EdgeInsets.only(bottom: 5, right: 5),
+                      child: Obx(
+                        () => Text(
+                          controller.address.value.length.toString() + '/200',
+                          style: GoogleFonts.quicksand(
+                            fontWeight: FontWeight.w500,
+                            color: const Color.fromARGB(255, 78, 98, 124),
+                            fontSize: 13,
                           ),
                         ),
                       ),
+                    ),
+                  ),
+                  enabledBorder: const OutlineInputBorder(
+                    borderSide: BorderSide(
+                      color: Color.fromARGB(255, 136, 154, 180),
+                    ),
+                  ),
+                  focusedBorder: const OutlineInputBorder(
+                    borderSide: BorderSide(
+                      color: Color.fromARGB(255, 136, 154, 180),
+                    ),
+                  ),
+                ),
                 onChanged: (String? value) {
                   controller.address.value = value ?? '';
                 },
@@ -346,142 +330,6 @@ class RegisterPageBodyWidget extends GetView<RegisterPageController> {
                 color: const Color.fromARGB(255, 61, 78, 100),
                 fontSize: 16,
               ),
-            ),
-          ],
-        ),
-      );
-
-  Widget phoneNumberWidget() => Padding(
-        padding: const EdgeInsets.only(bottom: 12),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(right: 25, bottom: 10),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Text(
-                    'Phone number',
-                    style: GoogleFonts.quicksand(
-                      fontWeight: FontWeight.w500,
-                      color: const Color.fromARGB(255, 61, 78, 100),
-                      fontSize: 16,
-                    ),
-                  ),
-                  Text(
-                    '*',
-                    style: GoogleFonts.quicksand(
-                      fontWeight: FontWeight.w800,
-                      color: const Color.fromARGB(255, 241, 99, 88),
-                      fontSize: 20,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Obx(
-                  () => Container(
-                    height: 45,
-                    margin: const EdgeInsets.only(right: 15),
-                    padding: const EdgeInsets.only(left: 10, right: 3),
-                    decoration: BoxDecoration(
-                      border: Border.all(
-                        color: const Color.fromARGB(255, 136, 154, 180),
-                      ),
-                      borderRadius: BorderRadius.circular(5),
-                    ),
-                    child: DropdownButton<String>(
-                      value: controller.selectedAreaCode.value,
-                      style: GoogleFonts.quicksand(
-                        color: PRIMARY_COLOR,
-                        fontSize: 15,
-                        fontWeight: FontWeight.w700,
-                        letterSpacing: 1,
-                      ),
-                      underline: const SizedBox.shrink(),
-                      onChanged: (String? value) {
-                        controller.selectedAreaCode.value = value!;
-                      },
-                      items: controller.areaCodeMap.entries
-                          .map(
-                            (e) => DropdownMenuItem(
-                              child: Row(
-                                children: [
-                                  Image.asset(
-                                    IMAGE_PATH + e.key,
-                                    height: 30,
-                                  ),
-                                  Text(' ' + e.value),
-                                ],
-                              ),
-                              value: e.value,
-                            ),
-                          )
-                          .toList(),
-                    ),
-                  ),
-                ),
-                Expanded(
-                  child: SizedBox(
-                    height: 45,
-                    child: TextFormField(
-                      cursorColor: PRIMARY_COLOR,
-                      initialValue: controller.phoneNumber.value,
-                      maxLength: 15,
-                      style: GoogleFonts.quicksand(
-                        fontWeight: FontWeight.w500,
-                        color: const Color.fromARGB(255, 78, 98, 124),
-                        fontSize: 16,
-                      ),
-                      decoration: false
-                          ? const InputDecoration(
-                              errorText: 'The field title is required',
-                              suffixIcon: Icon(
-                                Icons.error,
-                                color: Color.fromARGB(255, 241, 99, 88),
-                                size: 20,
-                              ),
-                            )
-                          : InputDecoration(
-                              counterText: '',
-                              suffixIcon: Align(
-                                widthFactor: 1,
-                                heightFactor: 1,
-                                child: Text(
-                                  controller.phoneNumber.value.length
-                                          .toString() +
-                                      '/15',
-                                  style: GoogleFonts.quicksand(
-                                    fontWeight: FontWeight.w500,
-                                    color:
-                                        const Color.fromARGB(255, 78, 98, 124),
-                                    fontSize: 13,
-                                  ),
-                                ),
-                              ),
-                              enabledBorder: const OutlineInputBorder(
-                                borderSide: BorderSide(
-                                  color: Color.fromARGB(255, 136, 154, 180),
-                                ),
-                              ),
-                              focusedBorder: const OutlineInputBorder(
-                                borderSide: BorderSide(
-                                  color: Color.fromARGB(255, 136, 154, 180),
-                                ),
-                              ),
-                            ),
-                      onChanged: (String? value) {
-                        controller.phoneNumber.value = value ?? '';
-                      },
-                    ),
-                  ),
-                ),
-              ],
             ),
           ],
         ),
