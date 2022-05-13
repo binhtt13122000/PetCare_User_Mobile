@@ -105,15 +105,15 @@ class PostDetailInformationWidget
                   controller.isShowDescription.value =
                       !controller.isShowDescription.value;
 
-                  WidgetsBinding.instance!.addPostFrameCallback((_) {
-                    controller.mainScrollController.animateTo(
-                      controller.mainScrollController.position.maxScrollExtent,
-                      duration: Duration(
-                          milliseconds:
-                              controller.isShowDescription.value ? 2000 : 500),
-                      curve: Curves.ease,
-                    );
-                  });
+                  // WidgetsBinding.instance!.addPostFrameCallback((_) {
+                  //   controller.mainScrollController.animateTo(
+                  //     controller.mainScrollController.position.maxScrollExtent,
+                  //     duration: Duration(
+                  //         milliseconds:
+                  //             controller.isShowDescription.value ? 2000 : 500),
+                  //     curve: Curves.ease,
+                  //   );
+                  // });
                 },
                 child: SizedBox(
                   width: 180,
