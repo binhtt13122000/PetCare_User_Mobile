@@ -3,26 +3,348 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:petapp_mobile/configs/path.dart';
+import 'package:petapp_mobile/configs/rounter.dart';
 import 'package:petapp_mobile/configs/theme.dart';
 import 'package:petapp_mobile/controllers/chatting_page_controller.dart';
+import 'package:petapp_mobile/controllers/payment_pay_controller.dart';
+import 'package:petapp_mobile/controllers/sign_in_page_controller.dart';
+import 'package:petapp_mobile/models/account_model/account_model.dart';
+import 'package:petapp_mobile/utilities/utilities.dart';
 
 class ChattingDetailTopWidget extends GetView<ChattingPageController> {
   const ChattingDetailTopWidget({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) => Column(
-        children: [
-          topTitleWidget(),
-          Container(
-            height: 1,
-            margin: const EdgeInsets.only(top: 10, bottom: 5),
-            color: const Color.fromARGB(255, 151, 163, 179),
+  Widget build(BuildContext context) {
+    SignInPageController _signInPageController =
+        Get.find<SignInPageController>();
+    return Stack(
+      children: [
+        Column(
+          children: [
+            topTitleWidget(accountModel: _signInPageController.accountModel!),
+            Container(
+              height: 1,
+              margin: const EdgeInsets.only(bottom: 5),
+              color: const Color.fromARGB(255, 151, 163, 179),
+            ),
+            Obx(
+              () => controller.showPost.value
+                  ? postGeneralInfo()
+                  : const SizedBox(
+                      height: 20,
+                    ),
+            ),
+          ],
+        ),
+        showPostButtonWidget(),
+      ],
+    );
+  }
+
+  Widget showPostButtonWidget() => Positioned(
+        top: 65,
+        right: 20,
+        child: Obx(
+          () => InkWell(
+            onTap: () {
+              controller.showPost.value = !controller.showPost.value;
+            },
+            child: Container(
+              height: 30,
+              width: 30,
+              decoration: BoxDecoration(
+                color: WHITE_COLOR,
+                borderRadius: BorderRadius.circular(100),
+                border: Border.all(color: PRIMARY_COLOR),
+              ),
+              alignment: Alignment.center,
+              child: Icon(
+                controller.showPost.value
+                    ? Icons.arrow_drop_down
+                    : Icons.arrow_drop_up,
+                color: PRIMARY_COLOR,
+                size: 24,
+              ),
+            ),
           ),
-        ],
+        ),
       );
 
-  Widget topTitleWidget() => Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 12),
+  Widget postGeneralInfo() => Container(
+        color: WHITE_COLOR,
+        child: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 12),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(5),
+                      border: Border.all(
+                        color: const Color.fromARGB(255, 76, 85, 117),
+                      ),
+                    ),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(5),
+                      child: Image.network(
+                        controller.postModel.mediaModels![0].url,
+                        height: 40,
+                        width: 40,
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                  ),
+                  Text(
+                    'Pet: ${controller.postModel.petModel!.breedModel.name} - ${controller.postModel.petModel!.breedModel.speciesModel!.name}',
+                    textAlign: TextAlign.start,
+                    overflow: TextOverflow.clip,
+                    style: GoogleFonts.quicksand(
+                      color: PRIMARY_COLOR,
+                      fontSize: 14,
+                      fontWeight: FontWeight.w500,
+                      letterSpacing: 0.5,
+                    ),
+                  ),
+                  Text(
+                    'Price: ${FORMAT_MONEY(price: controller.postModel.provisionalTotal)}',
+                    textAlign: TextAlign.start,
+                    overflow: TextOverflow.clip,
+                    style: GoogleFonts.quicksand(
+                      color: PRIMARY_COLOR,
+                      fontSize: 15,
+                      fontWeight: FontWeight.w500,
+                      letterSpacing: 0.5,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(top: 5),
+              child: Obx(
+                () => Column(
+                  children: [
+                    Visibility(
+                      visible: controller.requestStatus.value == 'NOT_SEND',
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          endChatWidget(),
+                          createTransactionRequestButtonWidget(),
+                        ],
+                      ),
+                    ),
+                    Visibility(
+                      visible: controller.requestStatus.value == 'ACCEPTED',
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          viewTransactionDetailWidget(),
+                          paymentButtonWidget(),
+                        ],
+                      ),
+                    )
+                  ],
+                ),
+              ),
+            ),
+            Container(
+              height: 1,
+              margin: const EdgeInsets.only(top: 5, bottom: 15),
+              color: const Color.fromARGB(255, 151, 163, 179),
+            ),
+          ],
+        ),
+      );
+
+  Widget createTransactionRequestButtonWidget() => InkWell(
+        onTap: () => controller.isShowCreateRequest.value = true,
+        child: Container(
+          height: 35,
+          width: 230,
+          decoration: BoxDecoration(
+            color: const Color.fromARGB(255, 60, 202, 190),
+            borderRadius: BorderRadius.circular(100),
+            border: Border.all(
+              color: const Color.fromARGB(255, 35, 170, 159),
+              width: 1,
+            ),
+            boxShadow: [
+              BoxShadow(
+                color: DARK_GREY_COLOR.withOpacity(0.1),
+                blurRadius: 5,
+                offset: const Offset(2, 2),
+              ),
+            ],
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                'Create transaction request',
+                textAlign: TextAlign.start,
+                overflow: TextOverflow.clip,
+                style: GoogleFonts.quicksand(
+                  color: WHITE_COLOR,
+                  fontSize: 14,
+                  fontWeight: FontWeight.w500,
+                  letterSpacing: 0.5,
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 3),
+                child: SvgPicture.asset(
+                  ICON_PATH + ADD_SVG,
+                  height: 16,
+                  color: WHITE_COLOR,
+                ),
+              ),
+            ],
+          ),
+        ),
+      );
+
+  Widget viewTransactionDetailWidget() => InkWell(
+        onTap: () => Get.back(),
+        child: Container(
+          height: 35,
+          width: 180,
+          decoration: BoxDecoration(
+            color: WHITE_COLOR,
+            borderRadius: BorderRadius.circular(100),
+            border: Border.all(
+              color: const Color.fromARGB(255, 151, 161, 197),
+              width: 0.5,
+            ),
+            boxShadow: [
+              BoxShadow(
+                color: DARK_GREY_COLOR.withOpacity(0.1),
+                blurRadius: 5,
+                offset: const Offset(2, 2),
+              ),
+            ],
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                'View transaction detail',
+                textAlign: TextAlign.start,
+                overflow: TextOverflow.clip,
+                style: GoogleFonts.quicksand(
+                  color: const Color.fromARGB(255, 76, 85, 117),
+                  fontSize: 14,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+            ],
+          ),
+        ),
+      );
+
+  Widget paymentButtonWidget() => InkWell(
+        onTap: () {
+          Get.put(PaymentPageController()).postModel = controller.postModel;
+          Get.toNamed(PAYMENT_PAGE_ROUNTER);
+        },
+        child: Container(
+          height: 35,
+          width: 150,
+          decoration: BoxDecoration(
+            color: const Color.fromARGB(255, 55, 134, 224),
+            borderRadius: BorderRadius.circular(100),
+            border: Border.all(
+              color: const Color.fromARGB(255, 39, 94, 156),
+              width: 1,
+            ),
+            boxShadow: [
+              BoxShadow(
+                color: DARK_GREY_COLOR.withOpacity(0.1),
+                blurRadius: 5,
+                offset: const Offset(2, 2),
+              ),
+            ],
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                'Payment',
+                textAlign: TextAlign.start,
+                overflow: TextOverflow.clip,
+                style: GoogleFonts.quicksand(
+                  color: WHITE_COLOR,
+                  fontSize: 14,
+                  fontWeight: FontWeight.w500,
+                  letterSpacing: 1,
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 3),
+                child: SvgPicture.asset(
+                  ICON_PATH + ADD_SVG,
+                  height: 16,
+                  color: WHITE_COLOR,
+                ),
+              ),
+            ],
+          ),
+        ),
+      );
+
+  Widget endChatWidget() => InkWell(
+        onTap: () => Get.back(),
+        child: Container(
+          height: 35,
+          width: 100,
+          decoration: BoxDecoration(
+            color: WHITE_COLOR,
+            borderRadius: BorderRadius.circular(100),
+            border: Border.all(
+              color: const Color.fromARGB(255, 228, 134, 151),
+              width: 0.5,
+            ),
+            boxShadow: [
+              BoxShadow(
+                color: DARK_GREY_COLOR.withOpacity(0.1),
+                blurRadius: 5,
+                offset: const Offset(2, 2),
+              ),
+            ],
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                'End chat',
+                textAlign: TextAlign.start,
+                overflow: TextOverflow.clip,
+                style: GoogleFonts.quicksand(
+                  color: const Color.fromARGB(255, 226, 66, 93),
+                  fontSize: 14,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 5),
+                child: SvgPicture.asset(
+                  ICON_PATH + CLOSE_SVG,
+                  height: 12,
+                  color: const Color.fromARGB(255, 226, 66, 93),
+                ),
+              ),
+            ],
+          ),
+        ),
+      );
+
+  Widget topTitleWidget({required AccountModel accountModel}) => Container(
+        padding:
+            const EdgeInsets.only(top: 30, left: 12, right: 12, bottom: 10),
+        color: PRIMARY_COLOR,
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
@@ -32,21 +354,14 @@ class ChattingDetailTopWidget extends GetView<ChattingPageController> {
                 height: 35,
                 width: 35,
                 decoration: BoxDecoration(
-                  color: WHITE_COLOR,
+                  color: Colors.transparent,
                   borderRadius: BorderRadius.circular(100),
-                  boxShadow: [
-                    BoxShadow(
-                      color: DARK_GREY_COLOR.withOpacity(0.1),
-                      blurRadius: 5,
-                      offset: const Offset(2, 2),
-                    ),
-                  ],
                 ),
                 alignment: Alignment.center,
                 child: const Icon(
                   Icons.arrow_back_ios_new_outlined,
-                  color: Color.fromARGB(255, 61, 78, 100),
-                  size: 18,
+                  color: WHITE_COLOR,
+                  size: 24,
                 ),
               ),
             ),
@@ -69,15 +384,15 @@ class ChattingDetailTopWidget extends GetView<ChattingPageController> {
                     height: 40,
                     width: 40,
                     alignment: Alignment.bottomLeft,
-                    child: const CircleAvatar(
+                    child: CircleAvatar(
                       minRadius: 15,
                       maxRadius: 15,
-                      backgroundColor: Color.fromARGB(255, 250, 251, 255),
+                      backgroundColor: const Color.fromARGB(255, 250, 251, 255),
                       child: CircleAvatar(
                         minRadius: 14,
                         maxRadius: 14,
                         backgroundImage:
-                            AssetImage(IMAGE_PATH + GUEST_AVATAR_PNG),
+                            NetworkImage(accountModel.customerModel.avatar),
                       ),
                     ),
                   ),
@@ -88,13 +403,13 @@ class ChattingDetailTopWidget extends GetView<ChattingPageController> {
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 5),
                 child: Text(
-                  'Demo chat group',
+                  'Post #${controller.postModel.id} Chats',
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   textAlign: TextAlign.center,
                   style: GoogleFonts.quicksand(
-                    color: const Color.fromARGB(255, 62, 68, 87),
-                    fontSize: 18,
+                    color: WHITE_COLOR,
+                    fontSize: 17,
                     fontWeight: FontWeight.w700,
                     letterSpacing: 2,
                   ),
@@ -107,32 +422,25 @@ class ChattingDetailTopWidget extends GetView<ChattingPageController> {
                 height: 35,
                 width: 35,
                 decoration: BoxDecoration(
-                  color: WHITE_COLOR,
+                  color: Colors.transparent,
                   borderRadius: BorderRadius.circular(100),
-                  boxShadow: [
-                    BoxShadow(
-                      color: DARK_GREY_COLOR.withOpacity(0.1),
-                      blurRadius: 5,
-                      offset: const Offset(2, 2),
-                    ),
-                  ],
                 ),
                 alignment: Alignment.center,
                 child: const Icon(
                   Icons.call,
-                  color: Color.fromARGB(255, 61, 78, 100),
-                  size: 18,
+                  color: WHITE_COLOR,
+                  size: 25,
                 ),
               ),
             ),
             Padding(
-              padding: const EdgeInsets.only(left: 15),
+              padding: const EdgeInsets.only(left: 10),
               child: InkWell(
                 onTap: () => Get.back(),
                 child: SvgPicture.asset(
                   ICON_PATH + ELLIPSIS_SVG,
-                  height: 15,
-                  color: const Color.fromARGB(255, 61, 78, 100),
+                  height: 18,
+                  color: WHITE_COLOR,
                 ),
               ),
             ),

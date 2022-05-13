@@ -21,7 +21,6 @@ class PostImageListWidget extends GetView<PurchasePostDetailPageController> {
         ),
         Container(
           height: 1,
-          margin: const EdgeInsets.only(top: 10),
           color: LIGHT_GREY_COLOR.withOpacity(0.1),
         ),
         Container(
@@ -94,8 +93,8 @@ class PostImageListWidget extends GetView<PurchasePostDetailPageController> {
                           width: 78,
                           margin: const EdgeInsets.only(
                             left: 12,
-                            top: 12,
-                            bottom: 10,
+                            top: 5,
+                            bottom: 5,
                           ),
                           decoration: BoxDecoration(
                             borderRadius: const BorderRadius.all(

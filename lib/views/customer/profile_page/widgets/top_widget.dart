@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
@@ -28,25 +29,31 @@ class ProfilePageTopWidget extends GetView {
         ],
       );
 
-  Widget phoneNumberWidget() => Row(
-        children: [
-          Text(
-            accountModel.hiddenPhoneNumber,
-            style: GoogleFonts.quicksand(
-              color: const Color.fromARGB(255, 64, 69, 87),
-              fontSize: 18,
-              fontWeight: FontWeight.w700,
+  Widget phoneNumberWidget() => InkWell(
+        onTap: () {
+          FirebaseAuth.instance.signOut();
+          Get.offAllNamed(LANDING_PAGE_ROUNTER);
+        },
+        child: Row(
+          children: [
+            Text(
+              accountModel.hiddenPhoneNumber,
+              style: GoogleFonts.quicksand(
+                color: const Color.fromARGB(255, 64, 69, 87),
+                fontSize: 18,
+                fontWeight: FontWeight.w700,
+              ),
             ),
-          ),
-          const Padding(
-            padding: EdgeInsets.only(left: 5),
-            child: Icon(
-              Icons.keyboard_arrow_down_outlined,
-              color: Color.fromARGB(255, 110, 115, 128),
-              size: 23,
-            ),
-          )
-        ],
+            const Padding(
+              padding: EdgeInsets.only(left: 5),
+              child: Icon(
+                Icons.keyboard_arrow_down_outlined,
+                color: Color.fromARGB(255, 110, 115, 128),
+                size: 23,
+              ),
+            )
+          ],
+        ),
       );
 
   Widget topIconWidget() => Row(

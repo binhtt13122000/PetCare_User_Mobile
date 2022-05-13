@@ -12,53 +12,34 @@ class ChattingDetailBodyWidget extends GetView<ChattingPageController> {
   @override
   Widget build(BuildContext context) => Expanded(
         child: SingleChildScrollView(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              ownerChatCardWidget(
-                chatContent:
-                    ' dog of mastiff type. It may also be known as the English Bulldog or British Bulldog. It is of medium size, a muscular, hefty dog with a wrinkled face and a distinctive pushed-in nose.',
-              ),
-              ownerChatCardWidget(
-                  chatContent: 'British breed of dosh', isLastChat: true),
-              otherChatCardWidget(
-                  chatContent: '12345678901234567', isLastChat: true),
-              ownerChatCardWidget(
-                chatContent:
-                    'The Bul of doh Bulldog. Iinkled face and a distinctive pushed-in nose.',
-                isLastChat: true,
-              ),
-              otherChatCardWidget(chatContent: 'chatContent'),
-              otherChatCardWidget(
-                  chatContent:
-                      '1234567890' '1234567890' '1234567899 afd aeo 23423 ads'),
-              otherChatCardWidget(
-                  chatContent:
-                      'The Bulldog is a British brze, a muscular, hefty dog with a wrinkled face and a distinctive pushed-in nose.',
-                  isLastChat: true),
-              ownerChatCardWidget(chatContent: '12345667899 afd aeo 23423 ads'),
-              ownerChatCardWidget(
-                chatContent:
-                    'h e known as the English Bullmuscular, hefty dog with a wrinkled face and a distinctive pushed-in nose.',
-                isLastChat: true,
-              ),
-              otherChatCardWidget(
-                  chatContent:
-                      'as the English Bullmuscular, hefty dog with a wrinkled face'),
-              otherChatCardWidget(
-                  chatContent: 'aaag is a British breed of dosh',
-                  isLastChat: true),
-              ownerChatCardWidget(
-                  chatContent:
-                      '1234567890' '1234567890' '1234567899 afd aeo 23423 ads',
-                  isLastChat: true),
-            ],
+          controller: controller.scrollController,
+          child: GetBuilder<ChattingPageController>(
+            builder: (controller) => Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: controller.chatModelsList
+                  .asMap()
+                  .entries
+                  .map((e) => e.value.isOwnerChat
+                      ? ownerChatCardWidget(
+                          chatContent: e.value.chatContent,
+                          isLastChat: e.value.isLastChat,
+                          chatTime: e.value.chatTime,
+                        )
+                      : otherChatCardWidget(
+                          chatContent: e.value.chatContent,
+                          isLastChat: e.value.isLastChat,
+                          chatTime: e.value.chatTime,
+                        ))
+                  .toList(),
+            ),
           ),
         ),
       );
 
   Widget ownerChatCardWidget(
-          {required String chatContent, bool isLastChat = false}) =>
+          {required String chatContent,
+          bool isLastChat = false,
+          required DateTime chatTime}) =>
       Align(
         alignment: Alignment.topRight,
         child: Padding(
@@ -101,8 +82,7 @@ class ChattingDetailBodyWidget extends GetView<ChattingPageController> {
                       padding: const EdgeInsets.only(right: 12, top: 2),
                       child: Text(
                         FORMAT_DATE_TIME(
-                            dateTime: DateTime.now(),
-                            pattern: DATE_TIME_PATTERN),
+                            dateTime: chatTime, pattern: DATE_TIME_PATTERN),
                         textAlign: TextAlign.start,
                         overflow: TextOverflow.clip,
                         style: GoogleFonts.quicksand(
@@ -119,7 +99,9 @@ class ChattingDetailBodyWidget extends GetView<ChattingPageController> {
       );
 
   Widget otherChatCardWidget(
-          {required String chatContent, bool isLastChat = false}) =>
+          {required String chatContent,
+          bool isLastChat = false,
+          required DateTime chatTime}) =>
       Align(
         alignment: Alignment.topLeft,
         child: Padding(
@@ -178,8 +160,7 @@ class ChattingDetailBodyWidget extends GetView<ChattingPageController> {
                       padding: const EdgeInsets.only(left: 31, top: 2),
                       child: Text(
                         FORMAT_DATE_TIME(
-                            dateTime: DateTime.now(),
-                            pattern: DATE_TIME_PATTERN),
+                            dateTime: chatTime, pattern: DATE_TIME_PATTERN),
                         textAlign: TextAlign.start,
                         overflow: TextOverflow.clip,
                         style: GoogleFonts.quicksand(
