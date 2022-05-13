@@ -15,7 +15,7 @@ class PetModel {
   final String? bloodGroup;
   final String? color;
   final String status;
-  final DateTime? dob;
+  final DateTime dob;
   @JsonKey(name: 'breed')
   final BreedModel breedModel;
 
@@ -28,10 +28,17 @@ class PetModel {
     this.color,
     required this.status,
     required this.breedModel,
-    this.dob,
+    required this.dob,
     required this.gender,
   }) {
-    ageRange = '123';
+    var diff = DateTime.now().difference(dob);
+    int dateAge = diff.inDays;
+    if (dateAge > 365) {
+      ageRange = '${dateAge ~/ 365} years\n'
+          '${(dateAge - (dateAge ~/ 365) * 365) ~/ 30} months';
+    } else {
+      ageRange = '${dateAge ~/ 30} months';
+    }
   }
 
   factory PetModel.fromJson(Map<String, dynamic> json) =>

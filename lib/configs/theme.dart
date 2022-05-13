@@ -10,5 +10,3 @@ const PRIMARY_LIGHT_COLOR = Color(0xFFF1E6FF);
 const LIGHT_GREY_COLOR = Color.fromRGBO(0, 0, 0, 0.54);
 const DARK_GREY_COLOR = Color.fromARGB(199, 31, 30, 30);
 const WHITE_COLOR = Colors.white;
-//const PRIMARY_TRANSPARENT_COLOR = Color(0x956F35A5);
-const PRIMARY_TRANSPARENT_COLOR = Color.fromARGB(137, 155, 39, 245);

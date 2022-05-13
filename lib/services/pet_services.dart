@@ -2,6 +2,7 @@
 
 import 'dart:io';
 import 'package:dio/dio.dart';
+import 'package:petapp_mobile/configs/path.dart';
 
 import 'package:petapp_mobile/models/pet_model/pet_model.dart';
 
@@ -46,7 +47,7 @@ class PetService {
         'file': await MultipartFile.fromFile(filePath),
       });
 
-      Response response = await Dio().post('http://172.16.1.41:4000/pets',
+      Response response = await Dio().post('$API_SERVER/pets',
           data: formData,
           options: Options(headers: <String, String>{
             HttpHeaders.contentTypeHeader: 'multipart/form-data',

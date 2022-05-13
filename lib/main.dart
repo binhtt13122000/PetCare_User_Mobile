@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:petapp_mobile/bindings/add_pet_page_binding.dart';
+import 'package:petapp_mobile/bindings/chatting_page_binding.dart';
 import 'package:petapp_mobile/bindings/create_post_page_binding.dart';
 import 'package:petapp_mobile/bindings/home_page_binding.dart';
 import 'package:petapp_mobile/bindings/notification_page_binding.dart';
@@ -20,9 +21,13 @@ import 'package:petapp_mobile/controllers/sign_in_page_controller.dart';
 import 'package:petapp_mobile/services/account_services.dart';
 import 'package:petapp_mobile/views/customer/action_page/action_page.dart';
 import 'package:petapp_mobile/views/customer/add_pet_page/add_pet_page.dart';
+import 'package:petapp_mobile/views/customer/chatting_detail_page/chatting_detail_page.dart';
+import 'package:petapp_mobile/views/customer/chatting_landing_page/chatting_landing_page.dart';
 import 'package:petapp_mobile/views/customer/create_post_page/create_post_page.dart';
 import 'package:petapp_mobile/views/customer/home_page/home_page.dart';
 import 'package:petapp_mobile/views/customer/notification_page/notification_page.dart';
+import 'package:petapp_mobile/views/customer/payment_method_page/payment_method_page.dart';
+import 'package:petapp_mobile/views/customer/payment_page/payment_page.dart';
 import 'package:petapp_mobile/views/customer/personal_infomation_page/personal_infomation_page.dart';
 import 'package:petapp_mobile/views/customer/pet_management_page/pet_management_page.dart';
 import 'package:petapp_mobile/views/customer/post_management_page/post_management_page.dart';
@@ -56,6 +61,7 @@ void main() async {
   );
 
   String initRounter = HOME_PAGE_ROUNTER;
+
   if (FirebaseAuth.instance.currentUser == null) {
     initRounter = LANDING_PAGE_ROUNTER;
   } else {
@@ -67,6 +73,7 @@ void main() async {
       userDeviceToken: signInPageController.userDeviceToken,
     );
   }
+
 
   SystemChrome.setSystemUIOverlayStyle(
     const SystemUiOverlayStyle(
@@ -205,6 +212,24 @@ class MainApp extends StatelessWidget {
         GetPage(
           name: SETTING_PAGE_ROUNTER,
           page: () => const SettingPage(),
+        ),
+        //*Chatting
+        GetPage(
+          name: CHATTING_LANDING_PAGE_ROUNTER,
+          page: () => const ChattingLandingPage(),
+          binding: ChattingPageBinding(),
+        ),
+        GetPage(
+          name: CHATTING_DETAIL_PAGE_ROUNTER,
+          page: () => const ChattingDetailPage(),
+        ), //*Payment
+        GetPage(
+          name: PAYMENT_PAGE_ROUNTER,
+          page: () => const PaymentPage(),
+        ),
+        GetPage(
+          name: PAYMENT_METHOD_PAGE_ROUNTER,
+          page: () => const PaymentMethodPage(),
         ),
       ],
     );

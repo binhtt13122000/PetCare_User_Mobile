@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -33,8 +34,13 @@ class PurchasePostGirdsWidget extends GetView<HomePageController> {
             return Text(result.exception.toString());
           }
           if (result.isLoading) {
-            return const Center(
-              child: CircularProgressIndicator(),
+            return const Expanded(
+              child: Center(
+                child: SpinKitSpinningLines(
+                  color: PRIMARY_COLOR,
+                  size: 150,
+                ),
+              ),
             );
           }
           controller.postList = PostService.getPostList(result.data!).obs;
@@ -190,6 +196,41 @@ class PurchasePostGirdsWidget extends GetView<HomePageController> {
                               fontWeight: FontWeight.w500,
                             ),
                           ),
+                          Container(
+                            height: 18,
+                            width: 25,
+                            margin: const EdgeInsets.only(left: 5),
+                            decoration: BoxDecoration(
+                              border: Border.all(
+                                color: postModel.petModel!.gender == 'MALE'
+                                    ? const Color.fromARGB(255, 152, 188, 255)
+                                    : const Color.fromARGB(255, 255, 146, 210),
+                              ),
+                              borderRadius: const BorderRadius.all(
+                                Radius.circular(25),
+                              ),
+                              color: postModel.petModel!.gender == 'MALE'
+                                  ? const Color.fromARGB(255, 215, 243, 252)
+                                  : const Color.fromARGB(255, 253, 228, 242),
+                            ),
+                            child: Wrap(
+                              spacing: 4,
+                              alignment: WrapAlignment.center,
+                              crossAxisAlignment: WrapCrossAlignment.center,
+                              runAlignment: WrapAlignment.center,
+                              children: [
+                                SvgPicture.asset(
+                                  postModel.petModel!.gender == 'MALE'
+                                      ? ICON_PATH + MALE_SVG
+                                      : ICON_PATH + FEMALE_SVG,
+                                  color: postModel.petModel!.gender == 'MALE'
+                                      ? const Color.fromARGB(255, 39, 111, 245)
+                                      : const Color.fromARGB(255, 244, 55, 165),
+                                  height: 12,
+                                ),
+                              ],
+                            ),
+                          ),
                         ],
                       ),
                     ),
@@ -200,7 +241,7 @@ class PurchasePostGirdsWidget extends GetView<HomePageController> {
                         height: 28,
                         width: 28,
                         decoration: BoxDecoration(
-                          color: PRIMARY_LIGHT_COLOR.withOpacity(0.65),
+                          color: PRIMARY_LIGHT_COLOR.withOpacity(0.8),
                           borderRadius: BorderRadius.circular(5),
                         ),
                         child: Row(
@@ -239,93 +280,21 @@ class PurchasePostGirdsWidget extends GetView<HomePageController> {
                       ),
                     ),
                     const SizedBox(
-                      height: 10,
+                      height: 5,
                     ),
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        SizedBox(
-                          width: 90,
-                          child: FittedBox(
-                            alignment: Alignment.centerLeft,
-                            fit: BoxFit.scaleDown,
-                            child: Text(
-                              FORMAT_MONEY(price: postModel.provisionalTotal),
-                              style: GoogleFonts.quicksand(
-                                fontWeight: FontWeight.w500,
-                                color: PRIMARY_COLOR,
-                                fontSize: 18,
-                                height: 1,
-                              ),
-                            ),
-                          ),
+                    FittedBox(
+                      alignment: Alignment.centerLeft,
+                      fit: BoxFit.scaleDown,
+                      child: Text(
+                        FORMAT_MONEY(price: postModel.provisionalTotal),
+                        style: GoogleFonts.quicksand(
+                          fontWeight: FontWeight.w600,
+                          color: PRIMARY_COLOR,
+                          fontSize: 20,
+                          height: 1,
+                          letterSpacing: 0.5,
                         ),
-                        Row(
-                          children: [
-                            SizedBox(
-                              height: 18,
-                              width: 25,
-                              child: Material(
-                                borderRadius: const BorderRadius.all(
-                                  Radius.circular(25),
-                                ),
-                                color: const Color.fromARGB(255, 223, 250, 246),
-                                child: Wrap(
-                                  spacing: 4,
-                                  alignment: WrapAlignment.center,
-                                  crossAxisAlignment: WrapCrossAlignment.center,
-                                  runAlignment: WrapAlignment.center,
-                                  children: [
-                                    SvgPicture.asset(
-                                      ICON_PATH + INJECTION_SVG,
-                                      color: const Color.fromARGB(
-                                          255, 15, 219, 192),
-                                      height: 16,
-                                      fit: BoxFit.cover,
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                            const SizedBox(
-                              width: 5,
-                            ),
-                            SizedBox(
-                              height: 18,
-                              width: 25,
-                              child: Material(
-                                borderRadius: const BorderRadius.all(
-                                  Radius.circular(25),
-                                ),
-                                color: postModel.petModel!.gender == 'MALE'
-                                    ? const Color.fromARGB(255, 215, 243, 252)
-                                    : const Color.fromARGB(255, 253, 228, 242),
-                                child: Wrap(
-                                  spacing: 4,
-                                  alignment: WrapAlignment.center,
-                                  crossAxisAlignment: WrapCrossAlignment.center,
-                                  runAlignment: WrapAlignment.center,
-                                  children: [
-                                    SvgPicture.asset(
-                                      postModel.petModel!.gender == 'MALE'
-                                          ? ICON_PATH + MALE_SVG
-                                          : ICON_PATH + FEMALE_SVG,
-                                      color:
-                                          postModel.petModel!.gender == 'MALE'
-                                              ? const Color.fromARGB(
-                                                  255, 39, 111, 245)
-                                              : const Color.fromARGB(
-                                                  255, 244, 55, 165),
-                                      height: 12,
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
+                      ),
                     ),
                     const SizedBox(
                       height: 10,

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:petapp_mobile/configs/rounter.dart';
 import 'package:petapp_mobile/configs/theme.dart';
+import 'package:petapp_mobile/controllers/chatting_page_controller.dart';
 import 'package:petapp_mobile/controllers/purchase_post_detail_page_controller.dart';
 
 class BottomWidget extends GetView<PurchasePostDetailPageController> {
@@ -24,8 +26,8 @@ class BottomWidget extends GetView<PurchasePostDetailPageController> {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 Container(
-                  height: 45,
-                  width: 140,
+                  height: 40,
+                  width: 150,
                   alignment: Alignment.center,
                   decoration: BoxDecoration(
                     borderRadius: const BorderRadius.all(
@@ -38,17 +40,23 @@ class BottomWidget extends GetView<PurchasePostDetailPageController> {
                   ),
                   child: Text(
                     'View health check',
-                    style: GoogleFonts.itim(
-                        fontSize: 15,
-                        color: PRIMARY_COLOR,
-                        fontWeight: FontWeight.w500),
+                    style: GoogleFonts.quicksand(
+                      fontSize: 14,
+                      color: PRIMARY_COLOR,
+                      fontWeight: FontWeight.w500,
+                      letterSpacing: 1,
+                    ),
                   ),
                 ),
                 InkWell(
-                  //onTap: () => Get.to(DepositPage(postModel: postModel)),
+                  onTap: () {
+                    Get.put(ChattingPageController()).postModel =
+                        controller.postModel;
+                    Get.toNamed(CHATTING_DETAIL_PAGE_ROUNTER);
+                  },
                   child: Container(
-                    height: 45,
-                    width: 200,
+                    height: 40,
+                    width: 190,
                     alignment: Alignment.center,
                     decoration: const BoxDecoration(
                       color: PRIMARY_COLOR,
@@ -58,10 +66,11 @@ class BottomWidget extends GetView<PurchasePostDetailPageController> {
                     ),
                     child: Text(
                       'Contact seller to buy',
-                      style: GoogleFonts.itim(
-                        fontSize: 17,
+                      style: GoogleFonts.quicksand(
+                        fontSize: 14,
                         color: WHITE_COLOR,
                         fontWeight: FontWeight.w500,
+                        letterSpacing: 1,
                       ),
                     ),
                   ),
