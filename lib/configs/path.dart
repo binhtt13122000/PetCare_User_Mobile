@@ -31,6 +31,7 @@ const CRYSTAL_POINTS_PNG = 'crystal_points.png';
 const GUEST_AVATAR_PNG = 'guest_avatar.png';
 const LORETTA_PNG = 'loretta.png';
 const OTP_WALLPAPER_PNG = 'otp_wallpaper.png';
+const VNPAY_PNG = 'vnpay.png';
 
 //*icons
 const ICON_PATH = 'assets/icons/';
@@ -74,6 +75,9 @@ const USER_PROFILE_SVG = 'user_profile.svg';
 const POSTS_SVG = 'posts.svg';
 const PLANET_EARTH_SVG = 'planet_earth.svg';
 const MESSENGER_SVG = 'messenger.svg';
+const LOCATION_SVG = 'location.svg';
 
-const API_SERVER = 'http://10.1.86.218:4000';
-const GRAPHL_SERVER = 'http://10.1.86.218:8080';
+const API_SERVER = 'http://10.1.125.191:4000';
+const GRAPHL_SERVER = 'http://10.1.125.191:8080';
+// const API_SERVER = 'http://172.16.1.41:4000';
+// const GRAPHL_SERVER = 'http://172.16.1.41:8080';

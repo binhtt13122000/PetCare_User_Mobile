@@ -172,7 +172,7 @@ class PetDetaiPage extends GetView<PetManagementPageController> {
                   ),
                   Text(
                     FORMAT_DATE_TIME(
-                        dateTime: petModel.dob!, pattern: DATE_PATTERN),
+                        dateTime: petModel.dob, pattern: DATE_PATTERN),
                     style: GoogleFonts.quicksand(
                       fontSize: 15,
                       color: Colors.black54,

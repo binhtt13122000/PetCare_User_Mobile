@@ -50,7 +50,7 @@ class HomePage extends GetView<HomePageController> {
             const Align(
               alignment: Alignment.bottomCenter,
               child: CustomBottomNavigatorBar(),
-            )
+            ),
           ],
         ),
       ),

@@ -37,7 +37,7 @@ class PostMainImageWidget extends GetView<PurchasePostDetailPageController> {
       );
 
   Widget backButtonWidget() => Positioned(
-        left: 30,
+        left: 15,
         top: 30,
         child: InkWell(
           onTap: () => Get.back(),
@@ -54,7 +54,7 @@ class PostMainImageWidget extends GetView<PurchasePostDetailPageController> {
       );
 
   Widget bookmarkButtonBackgroundWidget() => Positioned(
-        right: 82,
+        right: 67,
         top: 30,
         child: CircleAvatar(
           radius: 20,
@@ -74,7 +74,7 @@ class PostMainImageWidget extends GetView<PurchasePostDetailPageController> {
       );
 
   Widget bookmarkButtonForegroundWidget() => Positioned(
-        right: 90.5,
+        right: 75.5,
         top: 38,
         child: InkWell(
           child: SvgPicture.asset(
@@ -86,7 +86,7 @@ class PostMainImageWidget extends GetView<PurchasePostDetailPageController> {
       );
 
   Widget moreInformationButtonBackgroundWidget() => Positioned(
-        right: 30,
+        right: 15,
         top: 30,
         child: InkWell(
           child: CircleAvatar(
@@ -112,7 +112,7 @@ class PostMainImageWidget extends GetView<PurchasePostDetailPageController> {
       );
 
   Widget moreInformationButtonForegroundWidget() => Positioned(
-        right: 41.7,
+        right: 26.7,
         top: 40.8,
         child: InkWell(
           child: SvgPicture.asset(

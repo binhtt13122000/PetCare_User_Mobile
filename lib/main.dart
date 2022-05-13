@@ -27,6 +27,8 @@ import 'package:petapp_mobile/views/customer/chatting_landing_page/chatting_land
 import 'package:petapp_mobile/views/customer/create_post_page/create_post_page.dart';
 import 'package:petapp_mobile/views/customer/home_page/home_page.dart';
 import 'package:petapp_mobile/views/customer/notification_page/notification_page.dart';
+import 'package:petapp_mobile/views/customer/payment_method_page/payment_method_page.dart';
+import 'package:petapp_mobile/views/customer/payment_page/payment_page.dart';
 import 'package:petapp_mobile/views/customer/personal_infomation_page/personal_infomation_page.dart';
 import 'package:petapp_mobile/views/customer/pet_management_page/pet_management_page.dart';
 import 'package:petapp_mobile/views/customer/post_management_page/post_management_page.dart';
@@ -42,7 +44,6 @@ import 'package:petapp_mobile/views/guest/register_page/register_page.dart';
 import 'package:petapp_mobile/views/guest/register_phone_number_page/register_phone_number_page.dart';
 import 'package:petapp_mobile/views/guest/sign_in_page/sign_in_page.dart';
 import 'package:petapp_mobile/views/guest/verification_otp_page/verification_otp_page.dart';
-import 'package:socket_io_client/socket_io_client.dart' as io;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -61,6 +62,7 @@ void main() async {
   );
 
   String initRounter = HOME_PAGE_ROUNTER;
+
   if (FirebaseAuth.instance.currentUser == null) {
     initRounter = LANDING_PAGE_ROUNTER;
   } else {
@@ -73,6 +75,7 @@ void main() async {
     );
   }
 
+
   SystemChrome.setSystemUIOverlayStyle(
     const SystemUiOverlayStyle(
       statusBarColor: Colors.transparent,
@@ -82,16 +85,6 @@ void main() async {
     ),
   );
 
-  io.Socket socket = io.io('$API_SERVER/chat', <String, dynamic>{
-    'transports': ['websocket'],
-    'autoConnect': false,
-  });
-
-  socket.connect();
-  socket.onConnect(
-    (data) => print('adsfasdfasdfdfasdfasdfsdfasdfasdfasfd'),
-  );
-  print(socket.connected.toString() + 'connected');
   runApp(MainApp(initRounter: initRounter));
 }
 
@@ -230,7 +223,15 @@ class MainApp extends StatelessWidget {
         GetPage(
           name: CHATTING_DETAIL_PAGE_ROUNTER,
           page: () => const ChattingDetailPage(),
-        )
+        ), //*Payment
+        GetPage(
+          name: PAYMENT_PAGE_ROUNTER,
+          page: () => const PaymentPage(),
+        ),
+        GetPage(
+          name: PAYMENT_METHOD_PAGE_ROUNTER,
+          page: () => const PaymentMethodPage(),
+        ),
       ],
     );
   }

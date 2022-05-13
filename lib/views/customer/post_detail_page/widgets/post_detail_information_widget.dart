@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -53,13 +52,12 @@ class PostDetailInformationWidget
               genderCardWidget(),
               textCardWidgetWithInfoIcon(
                 keyText: 'Age',
-                valueText: controller.postModel.petModel!.ageRange.toString() +
-                    ' months',
+                valueText: controller.postModel.petModel!.ageRange,
               ),
               textCardWidget(
                 keyText: 'Date of birth',
                 valueText: FORMAT_DATE_TIME(
-                  dateTime: controller.postModel.petModel!.dob!,
+                  dateTime: controller.postModel.petModel!.dob,
                   pattern: DATE_PATTERN,
                 ),
               ),
@@ -155,22 +153,22 @@ class PostDetailInformationWidget
                   ),
                 ),
               ),
-              controller.isShowDescription.value
-                  ? Html(
-                      padding: const EdgeInsets.symmetric(horizontal: 12),
-                      data: r"""<div>
-          <h1>Demo Page</h1>
-          <p>This is a fantastic product that you should buy!</p>
-          <h3>Features</h3>
-          <ul>
-            <li>It actually works</li>
-            <li>It exists</li>
-            <li>It doesn't cost much!</li>
-          </ul>
-          <!--You can pretty much put any html in here!-->
-              </div>""",
-                    )
-                  : const SizedBox.shrink(),
+              //     controller.isShowDescription.value
+              //         ? Html(
+              //             padding: const EdgeInsets.symmetric(horizontal: 12),
+              //             data: r"""<div>
+              // <h1>Demo Page</h1>
+              // <p>This is a fantastic product that you should buy!</p>
+              // <h3>Features</h3>
+              // <ul>
+              //   <li>It actually works</li>
+              //   <li>It exists</li>
+              //   <li>It doesn't cost much!</li>
+              // </ul>
+              // <!--You can pretty much put any html in here!-->
+              //     </div>""",
+              //           )
+              //         : const SizedBox.shrink(),
             ],
           ),
         ),
@@ -310,6 +308,7 @@ class PostDetailInformationWidget
             ),
             Text(
               valueText,
+              textAlign: TextAlign.right,
               style: GoogleFonts.quicksand(
                 fontSize: 15,
                 fontWeight: FontWeight.w600,

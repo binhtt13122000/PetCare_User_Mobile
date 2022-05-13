@@ -25,9 +25,10 @@ class PostGeneralInformationWidget
                 Text(
                   controller.postModel.description!,
                   style: GoogleFonts.quicksand(
-                    fontSize: 16,
-                    color: const Color.fromARGB(255, 78, 98, 124),
+                    fontSize: 15,
+                    color: const Color.fromARGB(255, 59, 71, 85),
                     fontWeight: FontWeight.w500,
+                    letterSpacing: 0.5,
                   ),
                 ),
                 priceWidget(),
@@ -89,14 +90,14 @@ class PostGeneralInformationWidget
                   'Price: ',
                   style: GoogleFonts.quicksand(
                     fontSize: 17,
-                    color: const Color.fromARGB(255, 122, 141, 163),
+                    color: const Color.fromARGB(255, 95, 114, 136),
                     fontWeight: FontWeight.w500,
                   ),
                 ),
                 Text(
                   FORMAT_MONEY(price: controller.postModel.provisionalTotal),
                   style: GoogleFonts.quicksand(
-                    fontSize: 23,
+                    fontSize: 20,
                     // color:
                     //     const Color.fromARGB(255, 244, 55, 159),
                     color: PRIMARY_COLOR,
@@ -116,7 +117,7 @@ class PostGeneralInformationWidget
                   'Deposit: ',
                   style: GoogleFonts.quicksand(
                     fontSize: 15,
-                    color: const Color.fromARGB(255, 122, 141, 163),
+                    color: const Color.fromARGB(255, 95, 114, 136),
                     fontWeight: FontWeight.w600,
                   ),
                 ),
@@ -163,7 +164,7 @@ class PostGeneralInformationWidget
                     'Type',
                     style: GoogleFonts.quicksand(
                       fontSize: 14,
-                      color: Colors.black38,
+                      color: const Color.fromARGB(255, 95, 114, 136),
                     ),
                   ),
                   Text(
@@ -196,7 +197,7 @@ class PostGeneralInformationWidget
                     'Gender',
                     style: GoogleFonts.quicksand(
                       fontSize: 14,
-                      color: Colors.black38,
+                      color: const Color.fromARGB(255, 95, 114, 136),
                     ),
                   ),
                   Text(
@@ -231,16 +232,25 @@ class PostGeneralInformationWidget
                     'Age',
                     style: GoogleFonts.quicksand(
                       fontSize: 14,
-                      color: Colors.black38,
+                      color: const Color.fromARGB(255, 95, 114, 136),
                     ),
                   ),
-                  Text(
-                    controller.postModel.petModel!.ageRange.toString() +
-                        ' months',
-                    style: GoogleFonts.quicksand(
-                        fontSize: 13,
-                        color: const Color.fromARGB(255, 68, 89, 114),
-                        fontWeight: FontWeight.w500),
+                  SizedBox(
+                    width: 60,
+                    child: FittedBox(
+                      alignment: Alignment.center,
+                      fit: BoxFit.scaleDown,
+                      child: Text(
+                        controller.postModel.petModel!.ageRange,
+                        textAlign: TextAlign.center,
+                        style: GoogleFonts.quicksand(
+                          fontSize: 13,
+                          color: const Color.fromARGB(255, 68, 89, 114),
+                          fontWeight: FontWeight.w500,
+                          letterSpacing: 1,
+                        ),
+                      ),
+                    ),
                   ),
                 ],
               ),
@@ -265,7 +275,7 @@ class PostGeneralInformationWidget
                     'Weight',
                     style: GoogleFonts.quicksand(
                       fontSize: 14,
-                      color: Colors.black38,
+                      color: const Color.fromARGB(255, 95, 114, 136),
                     ),
                   ),
                   Text(

@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -33,8 +34,13 @@ class PurchasePostGirdsWidget extends GetView<HomePageController> {
             return Text(result.exception.toString());
           }
           if (result.isLoading) {
-            return const Center(
-              child: CircularProgressIndicator(),
+            return const Expanded(
+              child: Center(
+                child: SpinKitSpinningLines(
+                  color: PRIMARY_COLOR,
+                  size: 150,
+                ),
+              ),
             );
           }
           controller.postList = PostService.getPostList(result.data!).obs;
@@ -235,7 +241,7 @@ class PurchasePostGirdsWidget extends GetView<HomePageController> {
                         height: 28,
                         width: 28,
                         decoration: BoxDecoration(
-                          color: PRIMARY_LIGHT_COLOR.withOpacity(0.65),
+                          color: PRIMARY_LIGHT_COLOR.withOpacity(0.8),
                           borderRadius: BorderRadius.circular(5),
                         ),
                         child: Row(

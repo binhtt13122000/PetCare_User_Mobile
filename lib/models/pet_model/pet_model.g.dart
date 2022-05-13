@@ -15,7 +15,7 @@ PetModel _$PetModelFromJson(Map<String, dynamic> json) => PetModel(
       color: json['color'] as String?,
       status: json['status'] as String,
       breedModel: BreedModel.fromJson(json['breed'] as Map<String, dynamic>),
-      dob: json['dob'] == null ? null : DateTime.parse(json['dob'] as String),
+      dob: DateTime.parse(json['dob'] as String),
       gender: json['gender'] as String,
     );
 
@@ -28,6 +28,6 @@ Map<String, dynamic> _$PetModelToJson(PetModel instance) => <String, dynamic>{
       'bloodGroup': instance.bloodGroup,
       'color': instance.color,
       'status': instance.status,
-      'dob': instance.dob?.toIso8601String(),
+      'dob': instance.dob.toIso8601String(),
       'breed': instance.breedModel.toJson(),
     };
