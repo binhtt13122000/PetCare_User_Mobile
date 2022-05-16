@@ -15,6 +15,8 @@ import 'package:petapp_mobile/bindings/sign_in_page_binding.dart';
 import 'package:petapp_mobile/bindings/pet_management_page_binding.dart';
 import 'package:petapp_mobile/bindings/purchase_posts_page_binding.dart';
 import 'package:petapp_mobile/bindings/post_management_page_binding.dart';
+import 'package:petapp_mobile/bindings/payment_for_transaction_at_center_page_binding.dart';
+import 'package:petapp_mobile/bindings/transaction_at_center_detail_page_binding.dart';
 import 'package:petapp_mobile/bindings/transaction_page_binding.dart';
 import 'package:petapp_mobile/configs/rounter.dart';
 import 'package:petapp_mobile/controllers/sign_in_page_controller.dart';
@@ -26,6 +28,7 @@ import 'package:petapp_mobile/views/customer/chatting_landing_page/chatting_land
 import 'package:petapp_mobile/views/customer/create_post_page/create_post_page.dart';
 import 'package:petapp_mobile/views/customer/home_page/home_page.dart';
 import 'package:petapp_mobile/views/customer/notification_page/notification_page.dart';
+import 'package:petapp_mobile/views/customer/payment_for_transaction_at_center/payment_for_transaction_at_center.dart';
 import 'package:petapp_mobile/views/customer/payment_method_page/payment_method_page.dart';
 import 'package:petapp_mobile/views/customer/payment_page/payment_page.dart';
 import 'package:petapp_mobile/views/customer/personal_infomation_page/personal_infomation_page.dart';
@@ -36,7 +39,7 @@ import 'package:petapp_mobile/views/customer/purchase_posts_filter_page/purchase
 import 'package:petapp_mobile/views/customer/purchase_posts_page/purchase_posts_page.dart';
 import 'package:petapp_mobile/views/customer/setting_page/setting.dart';
 import 'package:petapp_mobile/views/customer/support_page/support.dart';
-import 'package:petapp_mobile/views/customer/transaction_at_center_detail/transaction_at_center_detail.dart';
+import 'package:petapp_mobile/views/customer/transaction_at_center_detail_page/payment_for_transaction_at_center.dart';
 import 'package:petapp_mobile/views/customer/transaction_page/transaction_page.dart';
 import 'package:petapp_mobile/views/guest/landing_page/landing_page.dart';
 import 'package:petapp_mobile/views/guest/register_otp_page/register_otp_page.dart';
@@ -179,8 +182,14 @@ class MainApp extends StatelessWidget {
           binding: TransactionPageBinding(),
         ),
         GetPage(
-          name: TRANSACTION_AT_CENTER_DETAIL,
+          name: PAYMENT_FOR_TRANSACTION_AT_CENTER_PAGE_ROUNTER,
+          page: () => const PaymentForTransactionAtCenterPage(),
+          binding: PaymentForTransactionAtCenterPageBinding(),
+        ),
+        GetPage(
+          name: TRANSACTION_AT_CENTER_DETAIL_PAGE_ROUNTER,
           page: () => const TransactionAtCenterDetailPage(),
+          binding: TransactionAtCenterDetailPageBinding(),
         ),
         //*Support
         GetPage(

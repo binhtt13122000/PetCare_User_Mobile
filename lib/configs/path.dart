@@ -79,7 +79,7 @@ const LOCATION_SVG = 'location.svg';
 
 // const API_SERVER = 'http://10.1.125.191:4000';
 // const GRAPHL_SERVER = 'http://10.1.125.191:8080';
-const API_SERVER = 'http://10.0.2.2:4000';
-const GRAPHL_SERVER = 'http://10.0.2.2:8080';
-// const API_SERVER = 'http://172.16.1.41:4000';
-// const GRAPHL_SERVER = 'http://172.16.1.41:8080';
+// const API_SERVER = 'http://10.1.85.238:4000';
+// const GRAPHL_SERVER = 'http://10.1.85.238:8080';
+const API_SERVER = 'http://172.16.1.96:4000';
+const GRAPHL_SERVER = 'http://172.16.1.96:8080';
