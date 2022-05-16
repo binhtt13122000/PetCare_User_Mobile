@@ -10,6 +10,7 @@ import 'package:petapp_mobile/bindings/create_post_page_binding.dart';
 import 'package:petapp_mobile/bindings/home_page_binding.dart';
 import 'package:petapp_mobile/bindings/notification_page_binding.dart';
 import 'package:petapp_mobile/bindings/personal_information_page_binding.dart';
+import 'package:petapp_mobile/bindings/pet_detail_page_binding.dart';
 import 'package:petapp_mobile/bindings/register_page_binding.dart';
 import 'package:petapp_mobile/bindings/sign_in_page_binding.dart';
 import 'package:petapp_mobile/bindings/pet_management_page_binding.dart';
@@ -32,6 +33,7 @@ import 'package:petapp_mobile/views/customer/payment_for_transaction_at_center/p
 import 'package:petapp_mobile/views/customer/payment_method_page/payment_method_page.dart';
 import 'package:petapp_mobile/views/customer/payment_page/payment_page.dart';
 import 'package:petapp_mobile/views/customer/personal_infomation_page/personal_infomation_page.dart';
+import 'package:petapp_mobile/views/customer/pet_detail_page/pet_detail_page.dart';
 import 'package:petapp_mobile/views/customer/pet_management_page/pet_management_page.dart';
 import 'package:petapp_mobile/views/customer/post_management_page/post_management_page.dart';
 import 'package:petapp_mobile/views/customer/profile_page/profile_page.dart';
@@ -216,11 +218,11 @@ class MainApp extends StatelessWidget {
           page: () => const PersonalInformationPage(),
           binding: PersonalInformationPageBinding(),
         ),
-        // GetPage(
-        //   name: PET_DETAIL_PAGE_ROUNTER,
-        //   page: () => const PetDetaiPage(),
-        //   binding: PetDetailPageBinding(),
-        // ),
+        GetPage(
+          name: PET_DETAIL_PAGE_ROUNTER,
+          page: () => const PetDetaiPage(),
+          binding: PetDetailPageBinding(),
+        ),
         //*Setting
         GetPage(
           name: SETTING_PAGE_ROUNTER,

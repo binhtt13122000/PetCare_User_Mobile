@@ -50,7 +50,7 @@ class ProfilePageBodyWidget extends GetView {
                 buttonCartWidget(
                   iconData: Icons.pets,
                   title: 'Pets management',
-                  onTap: () {},
+                  onTap: () => Get.toNamed(PET_DETAIL_PAGE_ROUNTER),
                 ),
                 buttonCartWidget(
                   svgUrl: ICON_PATH + POSTS_SVG,

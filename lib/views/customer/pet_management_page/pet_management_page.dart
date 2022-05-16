@@ -228,7 +228,7 @@ class PetManagementPage extends GetView<PetManagementPageController> {
                 child: Query(
                   options: QueryOptions(
                       document: gql(FETCH_PET_LIST_BY_ACCOUNT_ID),
-                      variables: {
+                      variables: const {
                         //"_eq": signInPageController.accountID.value,
                         "_eq": 3,
                       }),
@@ -347,7 +347,7 @@ class PetManagementPage extends GetView<PetManagementPageController> {
       Column(
         children: [
           InkWell(
-            onTap: () => Get.to(() => PetDetaiPage(petModel: petModel)),
+            onTap: () {},
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
