@@ -30,16 +30,16 @@ dependencies:
   cupertino_icons: ^1.0.2
   flutter:
     sdk: flutter
-  flutter_svg: null
-  get: null
-  google_fonts: null
-  graphql_flutter: null
-  image_picker: null
-  intl: null
-  firebase_auth: null
-  firebase_core: null
-  fluttertoast: null
-  flutter_spinkit: null
+  flutter_svg: 1.0.3
+  get: 4.6.1
+  google_fonts: 2.3.2
+  graphql_flutter: 5.1.0
+  image_picker: 0.8.5+3
+  intl: 0.17.0
+  firebase_auth: 3.3.18
+  firebase_core: 1.17.0
+  #fluttertoast: null
+  flutter_spinkit: 5.1.0
   json_serializable: 6.2.0
   syncfusion_flutter_datepicker: 20.1.55
   dio: 4.0.6
@@ -50,7 +50,8 @@ dependencies:
   #html_editor_enhanced: null
   flutter_quill: 4.1.9
   video_player: 2.4.2
-  #adhara_socket_io: null
+  #adhara_socket_io: 1.0.1+1
+  socket_io_client: 2.0.0-beta.4-nullsafety.0
 
 dev_dependencies:
   build_runner: null

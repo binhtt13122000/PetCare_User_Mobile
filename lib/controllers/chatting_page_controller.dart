@@ -1,3 +1,5 @@
+//import 'package:adhara_socket_io/adhara_socket_io.dart';
+import 'package:socket_io_client/socket_io_client.dart' as io;
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:petapp_mobile/models/chat_model/chat_model.dart';
@@ -17,38 +19,66 @@ class ChattingPageController extends GetxController {
   RxBool isShowCreateRequest = false.obs;
   ScrollController scrollController = ScrollController();
   RxBool isUseOwnerAddress = false.obs;
+  late io.Socket socket;
 
-  List<ChatModel> chatModelsList = [
-    ChatModel(
-      isOwnerChat: true,
-      isLastChat: true,
-      chatContent: 'Hello shop.',
-      chatTime: DateTime.now(),
-    ),
-    ChatModel(
-      isOwnerChat: false,
-      isLastChat: false,
-      chatContent: 'Hi, nice to meet you!',
-      chatTime: DateTime.now(),
-    ),
-    ChatModel(
-      isOwnerChat: false,
-      isLastChat: true,
-      chatContent: 'What are you looking for?',
-      chatTime: DateTime.now(),
-    ),
-    ChatModel(
-      isOwnerChat: true,
-      isLastChat: true,
-      chatContent: 'How about British Shorthair cat?',
-      chatTime: DateTime.now(),
-    ),
-    ChatModel(
-      isOwnerChat: false,
-      isLastChat: true,
-      chatContent:
-          'The British Shorthair is the pedigreed version of the traditional British domestic cat, with a distinctively stocky body, dense coat, and broad face.',
-      chatTime: DateTime.now(),
-    ),
-  ];
+  ChattingPageController() {
+    initSocketIO();
+  }
+
+  Future initSocketIO() async {
+    socket = io.io(
+        'http://127.0.1.1:4000',
+        io.OptionBuilder()
+            .setTransports(['websocket']) // for Flutter or Dart VM
+            .disableAutoConnect() // disable auto-connection
+            .setExtraHeaders({'foo': 'bar'}) // optional
+            .build());
+    socket.onConnect((_) {
+      print('connect');
+      socket.emit('chatToServer', 'test');
+    });
+    socket.on('event', (data) => print(data));
+    socket.onDisconnect((_) => print('disconnect'));
+    socket.on('fromServer', (_) => print(_));
+    socket.connect();
+    // SocketIOManager socketIOManager = SocketIOManager();
+    // SocketOptions socketOptions = SocketOptions(
+    //   // 'https://socketio-chat-h9jt.herokuapp.com/',
+    //   'http://54.215.144.186/',
+    //   enableLogging: true,
+    //   transports: [
+    //     Transports.webSocket,
+    //     // Transports.polling,
+    //   ],
+    // );
+    // socketIO = await socketIOManager.createInstance(socketOptions);
+    // socketIO.onConnect.listen((event) {
+    //   print('connectedttttttttttttttttttttttttttttttttttt');
+    //   // List<String> listUser = [];
+    //   // listUser.add('LapDeptrai');
+    //   // socketIO.emit('add user', listUser);
+    // });
+    // socketIO.on('login').listen((event) {
+    //   print('login' + event.toString());
+    // });
+    // socketIO.onConnectError.listen((event) {
+    //   event.printError();
+    // });
+    // socketIO.on('new message').listen((event) {
+    //   chatModelsList.add(
+    //     ChatModel(
+    //       isOwnerChat: false,
+    //       isLastChat: true,
+    //       chatContent: event[0]['message'],
+    //       chatTime: DateTime.now(),
+    //     ),
+    //   );
+    //   update();
+    //   scrollController.animateTo(scrollController.position.maxScrollExtent,
+    //       duration: const Duration(seconds: 1), curve: Curves.ease);
+    // });
+    // socketIO.connect();
+  }
+
+  List<ChatModel> chatModelsList = [];
 }
