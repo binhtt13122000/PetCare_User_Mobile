@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:petapp_mobile/configs/theme.dart';
+import 'package:petapp_mobile/controllers/payment_for_transaction_at_center_page_controller.dart';
 
-class TransactionAtCenterDetailTopWidget extends GetView {
-  const TransactionAtCenterDetailTopWidget({Key? key}) : super(key: key);
+class PaymentForTransactionAtCenterTopWidget
+    extends GetView<PaymentForTransactionAtCenterPageController> {
+  const PaymentForTransactionAtCenterTopWidget({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) => Column(
@@ -12,7 +14,6 @@ class TransactionAtCenterDetailTopWidget extends GetView {
           topWidget(),
           Container(
             height: 1,
-            margin: const EdgeInsets.only(bottom: 10),
             color: DARK_GREY_COLOR.withAlpha(30),
           ),
         ],
@@ -52,7 +53,7 @@ class TransactionAtCenterDetailTopWidget extends GetView {
             //*app logo
             Expanded(
               child: Text(
-                'Transaction Detail',
+                'Payment Page',
                 textAlign: TextAlign.center,
                 style: GoogleFonts.quicksand(
                   color: const Color.fromARGB(255, 62, 68, 87),

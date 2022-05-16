@@ -161,7 +161,7 @@ class PaymentBodyWidget extends GetView<PaymentPageController> {
                 ),
                 Expanded(
                   child: Container(
-                    margin: const EdgeInsets.only(top: 20),
+                    margin: const EdgeInsets.only(top: 25),
                     color: const Color.fromARGB(255, 242, 244, 247),
                   ),
                 ),
@@ -400,183 +400,221 @@ class PaymentBodyWidget extends GetView<PaymentPageController> {
 
   Widget postGeneralInfoWidget() => Column(
         children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(
-              horizontal: 12,
-            ),
+          Container(
+            height: 25,
+            padding: const EdgeInsets.symmetric(horizontal: 12),
+            color: const Color.fromARGB(255, 242, 244, 247),
             child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Container(
-                  margin: const EdgeInsets.only(right: 12),
-                  decoration: BoxDecoration(
-                    border: Border.all(
-                      color: const Color.fromARGB(255, 146, 152, 179),
+                Text(
+                  'Transaction ID',
+                  textAlign: TextAlign.start,
+                  style: GoogleFonts.quicksand(
+                    textStyle: const TextStyle(
+                      color: Color.fromARGB(255, 126, 128, 138),
                     ),
-                    borderRadius: BorderRadius.circular(11),
-                  ),
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(10),
-                    child: Image.network(
-                      controller.postModel.mediaModels![0].url,
-                      height: 100,
-                    ),
+                    fontWeight: FontWeight.w500,
+                    fontSize: 12,
+                    height: 1,
+                    letterSpacing: 0.5,
                   ),
                 ),
-                Expanded(
-                  child: SizedBox(
-                    height: 90,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              'Pet breed',
-                              textAlign: TextAlign.start,
-                              style: GoogleFonts.quicksand(
-                                textStyle: const TextStyle(
-                                  color: Color.fromARGB(255, 77, 82, 105),
-                                ),
-                                fontWeight: FontWeight.w500,
-                                fontSize: 15,
-                                height: 1,
-                                letterSpacing: 0.5,
-                              ),
-                            ),
-                            Text(
-                              controller.postModel.petModel!.breedModel.name +
-                                  ' - ' +
-                                  controller.postModel.petModel!.breedModel
-                                      .speciesModel!.name,
-                              textAlign: TextAlign.center,
-                              style: GoogleFonts.quicksand(
-                                textStyle: const TextStyle(
-                                  color: Color.fromARGB(255, 77, 82, 105),
-                                ),
-                                fontWeight: FontWeight.w600,
-                                fontSize: 15,
-                                height: 1,
-                                letterSpacing: 0.5,
-                              ),
-                            ),
-                          ],
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              'Pet name',
-                              textAlign: TextAlign.start,
-                              style: GoogleFonts.quicksand(
-                                textStyle: const TextStyle(
-                                  color: Color.fromARGB(255, 77, 82, 105),
-                                ),
-                                fontWeight: FontWeight.w500,
-                                fontSize: 15,
-                                height: 1,
-                                letterSpacing: 0.5,
-                              ),
-                            ),
-                            Text(
-                              controller.postModel.petModel!.name,
-                              textAlign: TextAlign.center,
-                              style: GoogleFonts.quicksand(
-                                textStyle: const TextStyle(
-                                  color: Color.fromARGB(255, 77, 82, 105),
-                                ),
-                                fontWeight: FontWeight.w600,
-                                fontSize: 15,
-                                height: 1,
-                                letterSpacing: 0.5,
-                              ),
-                            ),
-                          ],
-                        ),
-                        Container(
-                          height: 0.5,
-                          margin: const EdgeInsets.symmetric(
-                              horizontal: 10, vertical: 3),
-                          color: const Color.fromARGB(255, 209, 213, 233),
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              'Deposit',
-                              textAlign: TextAlign.start,
-                              style: GoogleFonts.quicksand(
-                                textStyle: const TextStyle(
-                                  color: Color.fromARGB(255, 77, 82, 105),
-                                ),
-                                fontWeight: FontWeight.w500,
-                                fontSize: 15,
-                                height: 1,
-                                letterSpacing: 0.5,
-                              ),
-                            ),
-                            Text(
-                              FORMAT_MONEY(price: 0),
-                              textAlign: TextAlign.center,
-                              style: GoogleFonts.quicksand(
-                                textStyle: const TextStyle(
-                                  color: Color.fromARGB(255, 77, 82, 105),
-                                ),
-                                fontWeight: FontWeight.w600,
-                                fontSize: 16,
-                                height: 1,
-                                letterSpacing: 0.5,
-                              ),
-                            ),
-                          ],
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              'Price',
-                              textAlign: TextAlign.start,
-                              style: GoogleFonts.quicksand(
-                                textStyle: const TextStyle(
-                                  color: Color.fromARGB(255, 77, 82, 105),
-                                ),
-                                fontWeight: FontWeight.w500,
-                                fontSize: 15,
-                                height: 1,
-                                letterSpacing: 0.5,
-                              ),
-                            ),
-                            Text(
-                              FORMAT_MONEY(
-                                  price: controller.postModel.provisionalTotal),
-                              textAlign: TextAlign.center,
-                              style: GoogleFonts.quicksand(
-                                textStyle: const TextStyle(
-                                  color: Color.fromARGB(255, 77, 82, 105),
-                                ),
-                                fontWeight: FontWeight.w600,
-                                fontSize: 16,
-                                height: 1,
-                                letterSpacing: 0.5,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
+                Text(
+                  '#01AxByCz',
+                  textAlign: TextAlign.center,
+                  style: GoogleFonts.quicksand(
+                    color: const Color.fromARGB(255, 126, 128, 138),
+                    fontWeight: FontWeight.w600,
+                    fontSize: 12,
+                    height: 1,
+                    letterSpacing: 0.5,
                   ),
                 ),
               ],
             ),
           ),
-          Container(
-            height: 1,
-            margin: const EdgeInsets.only(top: 10),
-            color: DARK_GREY_COLOR.withAlpha(30),
-          ),
-          Container(
-            height: 15,
-            color: const Color.fromARGB(255, 242, 244, 247),
+          Column(
+            children: [
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+                child: Row(
+                  children: [
+                    Container(
+                      margin: const EdgeInsets.only(right: 12),
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          color: const Color.fromARGB(255, 146, 152, 179),
+                        ),
+                        borderRadius: BorderRadius.circular(11),
+                      ),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(10),
+                        child: Image.network(
+                          controller.postModel.mediaModels![0].url,
+                          height: 100,
+                        ),
+                      ),
+                    ),
+                    Expanded(
+                      child: SizedBox(
+                        height: 90,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  'Pet breed',
+                                  textAlign: TextAlign.start,
+                                  style: GoogleFonts.quicksand(
+                                    textStyle: const TextStyle(
+                                      color: Color.fromARGB(255, 77, 82, 105),
+                                    ),
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 15,
+                                    height: 1,
+                                    letterSpacing: 0.5,
+                                  ),
+                                ),
+                                Text(
+                                  controller
+                                          .postModel.petModel!.breedModel.name +
+                                      ' - ' +
+                                      controller.postModel.petModel!.breedModel
+                                          .speciesModel!.name,
+                                  textAlign: TextAlign.center,
+                                  style: GoogleFonts.quicksand(
+                                    textStyle: const TextStyle(
+                                      color: Color.fromARGB(255, 77, 82, 105),
+                                    ),
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 15,
+                                    height: 1,
+                                    letterSpacing: 0.5,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  'Pet name',
+                                  textAlign: TextAlign.start,
+                                  style: GoogleFonts.quicksand(
+                                    textStyle: const TextStyle(
+                                      color: Color.fromARGB(255, 77, 82, 105),
+                                    ),
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 15,
+                                    height: 1,
+                                    letterSpacing: 0.5,
+                                  ),
+                                ),
+                                Text(
+                                  controller.postModel.petModel!.name,
+                                  textAlign: TextAlign.center,
+                                  style: GoogleFonts.quicksand(
+                                    textStyle: const TextStyle(
+                                      color: Color.fromARGB(255, 77, 82, 105),
+                                    ),
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 15,
+                                    height: 1,
+                                    letterSpacing: 0.5,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            Container(
+                              height: 0.5,
+                              margin: const EdgeInsets.symmetric(
+                                  horizontal: 10, vertical: 3),
+                              color: const Color.fromARGB(255, 209, 213, 233),
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  'Deposit',
+                                  textAlign: TextAlign.start,
+                                  style: GoogleFonts.quicksand(
+                                    textStyle: const TextStyle(
+                                      color: Color.fromARGB(255, 77, 82, 105),
+                                    ),
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 15,
+                                    height: 1,
+                                    letterSpacing: 0.5,
+                                  ),
+                                ),
+                                Text(
+                                  FORMAT_MONEY(price: 0),
+                                  textAlign: TextAlign.center,
+                                  style: GoogleFonts.quicksand(
+                                    textStyle: const TextStyle(
+                                      color: Color.fromARGB(255, 77, 82, 105),
+                                    ),
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 16,
+                                    height: 1,
+                                    letterSpacing: 0.5,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  'Price',
+                                  textAlign: TextAlign.start,
+                                  style: GoogleFonts.quicksand(
+                                    textStyle: const TextStyle(
+                                      color: Color.fromARGB(255, 77, 82, 105),
+                                    ),
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 15,
+                                    height: 1,
+                                    letterSpacing: 0.5,
+                                  ),
+                                ),
+                                Text(
+                                  FORMAT_MONEY(
+                                      price: controller
+                                          .postModel.provisionalTotal),
+                                  textAlign: TextAlign.center,
+                                  style: GoogleFonts.quicksand(
+                                    textStyle: const TextStyle(
+                                      color: Color.fromARGB(255, 77, 82, 105),
+                                    ),
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 16,
+                                    height: 1,
+                                    letterSpacing: 0.5,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Container(
+                height: 1,
+                color: DARK_GREY_COLOR.withAlpha(30),
+              ),
+              Container(
+                height: 15,
+                color: const Color.fromARGB(255, 242, 244, 247),
+              ),
+            ],
           ),
         ],
       );

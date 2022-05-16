@@ -26,7 +26,10 @@ const ACTION_PAGE_ROUNTER = '/action';
 const CREATE_POST_PAGE_ROUNTER = '/action/create-post';
 const TRANSACTION_PAGE_ROUNTER = '/action/transaction';
 const POST_MANAGEMENT_PAGE_ROUNTER = '/action/post-management';
-const TRANSACTION_AT_CENTER_DETAIL = '/transaction-at-center-detail';
+const PAYMENT_FOR_TRANSACTION_AT_CENTER_PAGE_ROUNTER =
+    '/payment-for-transaction-at-center';
+const TRANSACTION_AT_CENTER_DETAIL_PAGE_ROUNTER =
+    '/transaction-at-center-detail';
 
 //support
 const SUPPORT_PAGE_ROUNTER = '/support';
