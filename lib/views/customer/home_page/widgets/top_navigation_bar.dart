@@ -29,6 +29,9 @@ class TopNavigationBar extends GetView<HomePageController> {
                     child: SvgPicture.asset(
                       ICON_PATH + PET_LOGO_SVG,
                       height: 29,
+                      width: 29,
+                      fit: BoxFit.cover,
+                      allowDrawingOutsideViewBox: true,
                     ),
                     gradient: const LinearGradient(colors: [
                       Color.fromARGB(255, 90, 253, 253),
@@ -78,6 +81,9 @@ class TopNavigationBar extends GetView<HomePageController> {
                         ICON_PATH + SEARCH_SVG,
                         color: const Color.fromARGB(255, 110, 117, 131),
                         height: 23,
+                        width: 23,
+                        fit: BoxFit.cover,
+                        allowDrawingOutsideViewBox: true,
                       ),
                     ),
                   ),
@@ -109,6 +115,9 @@ class TopNavigationBar extends GetView<HomePageController> {
                               ICON_PATH + BELL_SVG,
                               color: const Color.fromARGB(255, 110, 117, 131),
                               height: 25,
+                              width: 25,
+                              fit: BoxFit.cover,
+                              allowDrawingOutsideViewBox: true,
                             ),
                           ),
                           Positioned(

@@ -168,7 +168,9 @@ class ChattingDetailBottomWidget extends GetView<ChattingPageController> {
                 : Padding(
                     padding: const EdgeInsets.only(left: 7),
                     child: InkWell(
-                      onTap: () {
+                      onTap: () async {
+                        controller.socket.emit(
+                            'chatToServer', [controller.chatTextValue.value]);
                         controller.chatModelsList.add(
                           ChatModel(
                             isOwnerChat: true,

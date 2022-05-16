@@ -77,7 +77,9 @@ const PLANET_EARTH_SVG = 'planet_earth.svg';
 const MESSENGER_SVG = 'messenger.svg';
 const LOCATION_SVG = 'location.svg';
 
-const API_SERVER = 'http://10.1.125.191:4000';
-const GRAPHL_SERVER = 'http://10.1.125.191:8080';
+// const API_SERVER = 'http://10.1.125.191:4000';
+// const GRAPHL_SERVER = 'http://10.1.125.191:8080';
+const API_SERVER = 'http://10.0.2.2:4000';
+const GRAPHL_SERVER = 'http://10.0.2.2:8080';
 // const API_SERVER = 'http://172.16.1.41:4000';
 // const GRAPHL_SERVER = 'http://172.16.1.41:8080';

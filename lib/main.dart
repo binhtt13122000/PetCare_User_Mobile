@@ -16,7 +16,6 @@ import 'package:petapp_mobile/bindings/pet_management_page_binding.dart';
 import 'package:petapp_mobile/bindings/purchase_posts_page_binding.dart';
 import 'package:petapp_mobile/bindings/post_management_page_binding.dart';
 import 'package:petapp_mobile/bindings/transaction_page_binding.dart';
-import 'package:petapp_mobile/configs/path.dart';
 import 'package:petapp_mobile/configs/rounter.dart';
 import 'package:petapp_mobile/controllers/sign_in_page_controller.dart';
 import 'package:petapp_mobile/services/account_services.dart';
@@ -37,6 +36,7 @@ import 'package:petapp_mobile/views/customer/purchase_posts_filter_page/purchase
 import 'package:petapp_mobile/views/customer/purchase_posts_page/purchase_posts_page.dart';
 import 'package:petapp_mobile/views/customer/setting_page/setting.dart';
 import 'package:petapp_mobile/views/customer/support_page/support.dart';
+import 'package:petapp_mobile/views/customer/transaction_at_center_detail/transaction_at_center_detail.dart';
 import 'package:petapp_mobile/views/customer/transaction_page/transaction_page.dart';
 import 'package:petapp_mobile/views/guest/landing_page/landing_page.dart';
 import 'package:petapp_mobile/views/guest/register_otp_page/register_otp_page.dart';
@@ -74,7 +74,6 @@ void main() async {
       userDeviceToken: signInPageController.userDeviceToken,
     );
   }
-
 
   SystemChrome.setSystemUIOverlayStyle(
     const SystemUiOverlayStyle(
@@ -178,6 +177,10 @@ class MainApp extends StatelessWidget {
           name: TRANSACTION_PAGE_ROUNTER,
           page: () => const TransactionPage(),
           binding: TransactionPageBinding(),
+        ),
+        GetPage(
+          name: TRANSACTION_AT_CENTER_DETAIL,
+          page: () => const TransactionAtCenterDetailPage(),
         ),
         //*Support
         GetPage(

@@ -130,7 +130,10 @@ class ServicesBodyWidget extends GetView<HomePageController> {
                               SvgPicture.asset(
                                 ICON_PATH + CLOCK_SVG,
                                 height: 11,
+                                width: 11,
                                 color: DARK_GREY_COLOR.withAlpha(170),
+                                allowDrawingOutsideViewBox: true,
+                                fit: BoxFit.cover,
                               ),
                               const SizedBox(
                                 width: 3.5,
@@ -160,7 +163,10 @@ class ServicesBodyWidget extends GetView<HomePageController> {
                         child: SvgPicture.asset(
                           ICON_PATH + ELLIPSIS_SVG,
                           height: 18,
+                          width: 18,
+                          fit: BoxFit.cover,
                           color: const Color.fromARGB(255, 180, 204, 226),
+                          allowDrawingOutsideViewBox: true,
                         ),
                       ),
                     ),
@@ -370,7 +376,10 @@ class ServicesBodyWidget extends GetView<HomePageController> {
                     child: SvgPicture.asset(
                       ICON_PATH + BOOKMARK_SVG,
                       height: 22,
+                      width: 22,
+                      fit: BoxFit.cover,
                       color: WHITE_COLOR,
+                      allowDrawingOutsideViewBox: true,
                     ),
                   )
                 ],
@@ -426,7 +435,7 @@ class ServicesBodyWidget extends GetView<HomePageController> {
 
   Widget purchasePostListWidget() => Query(
         options: QueryOptions(
-            document: gql(FETCH_ALL_PURCHASE_POST_LIST), variables: {}),
+            document: gql(FETCH_ALL_PURCHASE_POST_LIST), variables: const {}),
         builder: (
           QueryResult result, {
           VoidCallback? refetch,
