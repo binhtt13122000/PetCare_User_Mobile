@@ -1,14 +1,13 @@
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:petapp_mobile/configs/path.dart';
-import 'package:petapp_mobile/graphql/graphql_config.dart';
+import 'package:petapp_mobile/models/normal_transaction_model/normal_transaction_model.dart';
 import 'package:petapp_mobile/models/sale_transaction_model/sale_transaction_model.dart';
 import 'package:petapp_mobile/models/services_model/services_model.dart';
 
 class TransactionPageController extends GetxController {
-  ValueNotifier<GraphQLClient> graphqlClient = GRAPHQL_CLIENT;
-
+  bool isFirstInit = true;
+  Function()? refetchGraphql;
+  RxString selectedTransactionType = 'All Transactions'.obs;
   List<ServiceModel> services = List.empty(growable: true);
   List<String> sorts = [
     'Recently transaction',
@@ -18,9 +17,9 @@ class TransactionPageController extends GetxController {
   late RxString selectedSort;
   late RxString selectedSevices;
   late RxList<SaleTransactionModel> saleTransactions;
+  late List<NormalTransactionModel> normalTransactionList;
   TransactionPageController() {
     selectedSort = sorts[0].obs;
-
     services.add(
       ServiceModel(
           id: 1,

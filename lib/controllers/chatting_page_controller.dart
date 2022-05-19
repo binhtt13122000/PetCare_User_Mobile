@@ -30,16 +30,19 @@ class ChattingPageController extends GetxController {
         'http://127.0.1.1:4000',
         io.OptionBuilder()
             .setTransports(['websocket']) // for Flutter or Dart VM
-            .disableAutoConnect() // disable auto-connection
             .setExtraHeaders({'foo': 'bar'}) // optional
             .build());
     socket.onConnect((_) {
       print('connect');
-      socket.emit('chatToServer', 'test');
     });
     socket.on('event', (data) => print(data));
     socket.onDisconnect((_) => print('disconnect'));
     socket.on('fromServer', (_) => print(_));
+    socket.emit('joinRoom', '628543ae50adfd01065edf37');
+    socket.emit('chatToServer', '6285417450adfd01065edf31');
+    socket.on('joinedRoom', (data) => print(data));
+    //socket.emit('leaveRoom', '628543ae50adfd01065edf37');
+    socket.on('leftRoom', (data) => print(data));
     socket.connect();
     // SocketIOManager socketIOManager = SocketIOManager();
     // SocketOptions socketOptions = SocketOptions(

@@ -1,10 +1,12 @@
 import 'package:get/get.dart';
+import 'package:petapp_mobile/models/normal_transaction_model/normal_transaction_model.dart';
 import 'package:petapp_mobile/models/promotion_model.dart/promotion_model.dart';
 
 class TransactionAtCenterDetailPageController extends GetxController {
   PromotionModel? selectedPromotion;
   RxInt disccountAmount = 0.obs;
   RxString selectedPromotionName = 'ADD A PROMO'.obs;
+  late NormalTransactionModel normalTransactionModel;
   List<PromotionModel> promotionModels = [
     PromotionModel(
       name: 'VS1605',
@@ -23,4 +25,6 @@ class TransactionAtCenterDetailPageController extends GetxController {
       ),
     ),
   ];
+  Function()? refetchGraphql;
+  List<int> currentTransactionIdList = [];
 }

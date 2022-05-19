@@ -21,8 +21,8 @@ class TransactionAtCenterDetailBottomWidget
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
               child: InkWell(
-                onTap: () =>
-                    Get.toNamed(PAYMENT_FOR_TRANSACTION_AT_CENTER_PAGE_ROUNTER),
+                onTap: () => Get.toNamed(
+                    '$PAYMENT_FOR_TRANSACTION_AT_CENTER_PAGE_ROUNTER/${controller.normalTransactionModel.id}'),
                 child: Container(
                   height: 45,
                   alignment: Alignment.center,
@@ -31,7 +31,9 @@ class TransactionAtCenterDetailBottomWidget
                     color: PRIMARY_COLOR,
                   ),
                   child: Text(
-                    'Go to the Payment page',
+                    controller.normalTransactionModel.status == 'WAITING'
+                        ? 'Go to the Payment page'
+                        : 'Service Quality Assessment',
                     textAlign: TextAlign.center,
                     style: GoogleFonts.quicksand(
                       textStyle: const TextStyle(color: WHITE_COLOR),

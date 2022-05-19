@@ -107,6 +107,9 @@ class MainApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(),
       initialRoute: initRounter,
+      // routingCallback: (routing) {
+      //   print('callback' + routing!.current);
+      // },
       getPages: [
         //!Guest
         //*Landing page
@@ -184,12 +187,13 @@ class MainApp extends StatelessWidget {
           binding: TransactionPageBinding(),
         ),
         GetPage(
-          name: PAYMENT_FOR_TRANSACTION_AT_CENTER_PAGE_ROUNTER,
+          name:
+              '$PAYMENT_FOR_TRANSACTION_AT_CENTER_PAGE_ROUNTER/:transactionId',
           page: () => const PaymentForTransactionAtCenterPage(),
           binding: PaymentForTransactionAtCenterPageBinding(),
         ),
         GetPage(
-          name: TRANSACTION_AT_CENTER_DETAIL_PAGE_ROUNTER,
+          name: '$TRANSACTION_AT_CENTER_DETAIL_PAGE_ROUNTER/:transactionId',
           page: () => const TransactionAtCenterDetailPage(),
           binding: TransactionAtCenterDetailPageBinding(),
         ),

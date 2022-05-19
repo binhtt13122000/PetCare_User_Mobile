@@ -22,7 +22,7 @@ class AccountService {
     required String userDeviceToken,
   }) async {
     final response = await http.post(
-      Uri.parse('$API_SERVER/v1/api/auth/login/phone-number'),
+      Uri.http(API_SERVER, '/v1/api/auth/login/phone-number'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -45,7 +45,7 @@ class AccountService {
     required String phoneNumber,
   }) async {
     final response = await http.get(
-      Uri.parse('$API_SERVER/v1/api/auth/phone-number/$phoneNumber'),
+      Uri.http(API_SERVER, '/v1/api/auth/phone-number/$phoneNumber'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
