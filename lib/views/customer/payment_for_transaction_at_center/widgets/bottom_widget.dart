@@ -6,7 +6,6 @@ import 'package:petapp_mobile/configs/path.dart';
 import 'package:petapp_mobile/configs/rounter.dart';
 import 'package:petapp_mobile/configs/theme.dart';
 import 'package:petapp_mobile/controllers/payment_for_transaction_at_center_page_controller.dart';
-import 'package:petapp_mobile/controllers/sign_in_page_controller.dart';
 import 'package:petapp_mobile/services/payment_services.dart';
 import 'package:petapp_mobile/utilities/utilities.dart';
 
@@ -152,18 +151,15 @@ class PaymentForTransactionAtCenterBottomWidget
                   Expanded(
                     child: InkWell(
                       onTap: () async {
-                        SignInPageController _signInPageController =
-                            Get.find<SignInPageController>();
                         controller.paymentUrl.value =
                             await PaymentServices.payment(
-                          message: _signInPageController
-                                  .accountModel!.customerModel.lastName +
+                          message: controller
+                                  .accountModel.customerModel.lastName +
                               'paymented ${controller.normalTransactionModel.provisionalTotal - controller.disccountAmount.value}',
                           locale: 'vi',
                           paymentMethod: 'VNPAY',
                           transactionId: controller.normalTransactionModel.id,
-                          customerId: _signInPageController
-                              .accountModel!.customerModel.id,
+                          customerId: controller.accountModel.customerModel.id,
                           branchId:
                               controller.normalTransactionModel.branchModel.id,
                           orderTotal: controller

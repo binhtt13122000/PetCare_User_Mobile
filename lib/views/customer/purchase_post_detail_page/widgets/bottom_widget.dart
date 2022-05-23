@@ -3,11 +3,12 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:petapp_mobile/configs/rounter.dart';
 import 'package:petapp_mobile/configs/theme.dart';
-import 'package:petapp_mobile/controllers/chatting_page_controller.dart';
 import 'package:petapp_mobile/controllers/purchase_post_detail_page_controller.dart';
+import 'package:petapp_mobile/services/chat_services.dart';
 
-class BottomWidget extends GetView<PurchasePostDetailPageController> {
-  const BottomWidget({Key? key}) : super(key: key);
+class PurchasePostDetailBottomWidget
+    extends GetView<PurchasePostDetailPageController> {
+  const PurchasePostDetailBottomWidget({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) => Column(
@@ -49,10 +50,15 @@ class BottomWidget extends GetView<PurchasePostDetailPageController> {
                   ),
                 ),
                 InkWell(
-                  onTap: () {
-                    Get.put(ChattingPageController()).postModel =
-                        controller.postModel;
-                    Get.toNamed(CHATTING_DETAIL_PAGE_ROUNTER);
+                  onTap: () async {
+                    String? chatRoomId = await ChatServices.fetchChatRoomId(
+                        buyerId: controller.accountModel.customerModel.id,
+                        postId: controller.postModel.id);
+                    chatRoomId != null
+                        ? Get.toNamed(
+                            '$CHATTING_DETAIL_PAGE_ROUNTER?chatRoomId=$chatRoomId')
+                        : Get.toNamed(
+                            '$CHATTING_DETAIL_PAGE_ROUNTER?sellerId=${controller.postModel.customerId}&postId=${controller.postModel.id}');
                   },
                   child: Container(
                     height: 40,

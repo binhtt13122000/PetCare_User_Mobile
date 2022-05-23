@@ -82,7 +82,11 @@ class TransactionAtCenterDetailBodyWidget
                     ),
                   ),
                 ),
-                const TransactionAtCenterDetailBottomWidget(),
+                Visibility(
+                    visible:
+                        controller.normalTransactionModel.status == 'WAITING' ||
+                            (controller.normalTransactionModel.star == 0),
+                    child: const TransactionAtCenterDetailBottomWidget()),
               ],
             ),
           );
@@ -436,10 +440,13 @@ class TransactionAtCenterDetailBodyWidget
                               ),
                             ),
                             Text(
-                              FORMAT_DATE_TIME(
-                                  dateTime: controller
-                                      .normalTransactionModel.paymentTime!,
-                                  pattern: DATE_TIME_PATTERN),
+                              controller.normalTransactionModel.paymentTime !=
+                                      null
+                                  ? FORMAT_DATE_TIME(
+                                      dateTime: controller
+                                          .normalTransactionModel.paymentTime!,
+                                      pattern: DATE_TIME_PATTERN)
+                                  : '',
                               textAlign: TextAlign.center,
                               style: GoogleFonts.quicksand(
                                 color: const Color.fromARGB(255, 77, 82, 105),
@@ -470,7 +477,8 @@ class TransactionAtCenterDetailBodyWidget
                               ),
                             ),
                             Text(
-                              controller.normalTransactionModel.paymentMethod!,
+                              controller.normalTransactionModel.paymentMethod ??
+                                  '',
                               textAlign: TextAlign.center,
                               style: GoogleFonts.quicksand(
                                 color: const Color.fromARGB(255, 77, 82, 105),
@@ -598,9 +606,11 @@ class TransactionAtCenterDetailBodyWidget
                               ),
                             ),
                             Text(
-                              FORMAT_MONEY(
-                                  price: controller
-                                      .normalTransactionModel.payment!),
+                              controller.normalTransactionModel.payment != null
+                                  ? FORMAT_MONEY(
+                                      price: controller
+                                          .normalTransactionModel.payment!)
+                                  : '',
                               textAlign: TextAlign.center,
                               style: GoogleFonts.quicksand(
                                 color: PRIMARY_COLOR,

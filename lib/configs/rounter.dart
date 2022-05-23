@@ -15,7 +15,7 @@ const REGISTER_OTP_PAGE_ROUNTER = '/register/otp';
 
 //home
 const HOME_PAGE_ROUNTER = '/home';
-const POST_DETAIL_PAGE_ROUNTER = '/home/post-detail';
+const PURCHASE_POST_DETAIL_PAGE_ROUNTER = '/home/purchase-post-detail';
 const PURCHASE_POSTS_PAGE_ROUNTER = '/home/purchase-posts';
 const PURCHASE_POSTS_FILTER_PAGE_ROUNTER = '/home/purchase-posts-filter';
 const DEPOSIT_PAGE_ROUNTER = '/home/deposit-page';
@@ -45,8 +45,8 @@ const ADD_PET_PAGE_ROUNTER = '/profile/pet-management/add-pet';
 const PERSONAl_INFOMATION_PAGE_ROUNTER = '/profile/personal-information';
 
 //chatting
-const CHATTING_LANDING_PAGE_ROUNTER = '/chatting';
-const CHATTING_DETAIL_PAGE_ROUNTER = '/chatting/deatil';
+const CHATTING_LIST_PAGE_ROUNTER = '/chatting-list';
+const CHATTING_DETAIL_PAGE_ROUNTER = '/chatting-deatil';
 
 //payment
 const PAYMENT_PAGE_ROUNTER = '/payment';

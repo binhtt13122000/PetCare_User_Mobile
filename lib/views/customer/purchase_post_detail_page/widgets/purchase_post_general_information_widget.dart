@@ -5,9 +5,10 @@ import 'package:petapp_mobile/configs/theme.dart';
 import 'package:petapp_mobile/controllers/purchase_post_detail_page_controller.dart';
 import 'package:petapp_mobile/utilities/utilities.dart';
 
-class PostGeneralInformationWidget
+class PurchasePostDetailGeneralInformationWidget
     extends GetView<PurchasePostDetailPageController> {
-  const PostGeneralInformationWidget({Key? key}) : super(key: key);
+  const PurchasePostDetailGeneralInformationWidget({Key? key})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) => Column(
@@ -23,7 +24,7 @@ class PostGeneralInformationWidget
               children: [
                 petBreedInforWidget(),
                 Text(
-                  controller.postModel.description!,
+                  controller.postModel.description ?? '',
                   style: GoogleFonts.quicksand(
                     fontSize: 15,
                     color: const Color.fromARGB(255, 59, 71, 85),
@@ -168,7 +169,7 @@ class PostGeneralInformationWidget
                     ),
                   ),
                   Text(
-                    controller.postModel.type!,
+                    controller.postModel.type,
                     style: GoogleFonts.quicksand(
                         fontSize: 12,
                         color: PRIMARY_COLOR,

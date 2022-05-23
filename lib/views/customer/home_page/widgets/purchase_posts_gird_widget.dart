@@ -7,14 +7,13 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:petapp_mobile/configs/path.dart';
+import 'package:petapp_mobile/configs/rounter.dart';
 import 'package:petapp_mobile/configs/theme.dart';
 import 'package:petapp_mobile/controllers/home_page_controller.dart';
-import 'package:petapp_mobile/controllers/purchase_post_detail_page_controller.dart';
 import 'package:petapp_mobile/graphql/query_mutation/post.dart';
 import 'package:petapp_mobile/models/post_model/post_model.dart';
 import 'package:petapp_mobile/services/post_services.dart';
 import 'package:petapp_mobile/utilities/utilities.dart';
-import 'package:petapp_mobile/views/customer/post_detail_page/post_detail_page.dart';
 import 'package:petapp_mobile/views/widgets/customize_widget.dart';
 
 class PurchasePostGirdsWidget extends GetView<HomePageController> {
@@ -24,6 +23,7 @@ class PurchasePostGirdsWidget extends GetView<HomePageController> {
   Widget build(BuildContext context) => Query(
         options: QueryOptions(
           document: gql(FETCH_ALL_PURCHASE_POST_LIST),
+          variables: {'_customerId': controller.accountModel.customerModel.id},
         ),
         builder: (
           QueryResult result, {
@@ -85,9 +85,7 @@ class PurchasePostGirdsWidget extends GetView<HomePageController> {
 
   Widget purchasePostItemWidget({required PostModel postModel}) => InkWell(
         onTap: () {
-          Get.delete<PurchasePostDetailPageController>();
-          Get.put(PurchasePostDetailPageController(postModel: postModel));
-          Get.to(() => const PurchasePostDetaiPage());
+          Get.toNamed('$PURCHASE_POST_DETAIL_PAGE_ROUNTER/${postModel.id}');
         },
         child: Container(
           margin: const EdgeInsets.all(5),
@@ -274,7 +272,7 @@ class PurchasePostGirdsWidget extends GetView<HomePageController> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      postModel.description!,
+                      postModel.description ?? '',
                       textAlign: TextAlign.left,
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,

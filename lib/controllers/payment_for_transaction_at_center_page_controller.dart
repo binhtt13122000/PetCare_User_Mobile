@@ -1,9 +1,12 @@
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:get/get.dart';
+import 'package:petapp_mobile/controllers/sign_in_page_controller.dart';
+import 'package:petapp_mobile/models/account_model/account_model.dart';
 import 'package:petapp_mobile/models/normal_transaction_model/normal_transaction_model.dart';
 import 'package:petapp_mobile/models/promotion_model.dart/promotion_model.dart';
 
 class PaymentForTransactionAtCenterPageController extends GetxController {
+  AccountModel accountModel = Get.find<SignInPageController>().accountModel!;
   RxBool isShowPopup = false.obs;
   late Function() refetchGraphql;
   late NormalTransactionModel normalTransactionModel;

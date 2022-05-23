@@ -5,12 +5,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:petapp_mobile/bindings/add_pet_page_binding.dart';
-import 'package:petapp_mobile/bindings/chatting_page_binding.dart';
+import 'package:petapp_mobile/bindings/chatting_detail_page_binding.dart';
+import 'package:petapp_mobile/bindings/chatting_list_page_binding.dart';
 import 'package:petapp_mobile/bindings/create_post_page_binding.dart';
 import 'package:petapp_mobile/bindings/home_page_binding.dart';
 import 'package:petapp_mobile/bindings/notification_page_binding.dart';
 import 'package:petapp_mobile/bindings/personal_information_page_binding.dart';
 import 'package:petapp_mobile/bindings/pet_detail_page_binding.dart';
+import 'package:petapp_mobile/bindings/purchase_post_detail_page_binding.dart';
 import 'package:petapp_mobile/bindings/register_page_binding.dart';
 import 'package:petapp_mobile/bindings/sign_in_page_binding.dart';
 import 'package:petapp_mobile/bindings/pet_management_page_binding.dart';
@@ -25,7 +27,7 @@ import 'package:petapp_mobile/services/account_services.dart';
 import 'package:petapp_mobile/views/customer/action_page/action_page.dart';
 import 'package:petapp_mobile/views/customer/add_pet_page/add_pet_page.dart';
 import 'package:petapp_mobile/views/customer/chatting_detail_page/chatting_detail_page.dart';
-import 'package:petapp_mobile/views/customer/chatting_landing_page/chatting_landing_page.dart';
+import 'package:petapp_mobile/views/customer/chatting_list_page/chatting_list_page.dart';
 import 'package:petapp_mobile/views/customer/create_post_page/create_post_page.dart';
 import 'package:petapp_mobile/views/customer/home_page/home_page.dart';
 import 'package:petapp_mobile/views/customer/notification_page/notification_page.dart';
@@ -37,6 +39,7 @@ import 'package:petapp_mobile/views/customer/pet_detail_page/pet_detail_page.dar
 import 'package:petapp_mobile/views/customer/pet_management_page/pet_management_page.dart';
 import 'package:petapp_mobile/views/customer/post_management_page/post_management_page.dart';
 import 'package:petapp_mobile/views/customer/profile_page/profile_page.dart';
+import 'package:petapp_mobile/views/customer/purchase_post_detail_page/purchase_post_detail_page.dart';
 import 'package:petapp_mobile/views/customer/purchase_posts_filter_page/purchase_posts_filter_page.dart';
 import 'package:petapp_mobile/views/customer/purchase_posts_page/purchase_posts_page.dart';
 import 'package:petapp_mobile/views/customer/setting_page/setting.dart';
@@ -79,6 +82,7 @@ void main() async {
       userDeviceToken: signInPageController.userDeviceToken,
     );
   }
+  //initRounter = LANDING_PAGE_ROUNTER;
 
   SystemChrome.setSystemUIOverlayStyle(
     const SystemUiOverlayStyle(
@@ -166,6 +170,10 @@ class MainApp extends StatelessWidget {
           page: () => const NotificationPage(),
           binding: NotificationPageBinding(),
         ),
+        GetPage(
+            name: '$PURCHASE_POST_DETAIL_PAGE_ROUNTER/:purchasePostId',
+            page: () => const PurchasePostDetaiPage(),
+            binding: PurchasePostDetailPageBinding()),
         //*Action
         GetPage(
           name: ACTION_PAGE_ROUNTER,
@@ -234,13 +242,15 @@ class MainApp extends StatelessWidget {
         ),
         //*Chatting
         GetPage(
-          name: CHATTING_LANDING_PAGE_ROUNTER,
-          page: () => const ChattingLandingPage(),
-          binding: ChattingPageBinding(),
+          name: CHATTING_LIST_PAGE_ROUNTER,
+          page: () => const ChattingListPage(),
+          binding: ChattingListPageBinding(),
         ),
+
         GetPage(
           name: CHATTING_DETAIL_PAGE_ROUNTER,
           page: () => const ChattingDetailPage(),
+          binding: ChattingDetailPageBinding(),
         ), //*Payment
         GetPage(
           name: PAYMENT_PAGE_ROUNTER,

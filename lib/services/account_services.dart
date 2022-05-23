@@ -91,11 +91,12 @@ class AccountService {
               ),
             )
           : null;
-      Response response = await Dio().post('$API_SERVER/v1/api/auth/register',
-          data: formData,
-          options: Options(headers: <String, String>{
-            HttpHeaders.contentTypeHeader: 'multipart/form-data',
-          }));
+      Response response =
+          await Dio().post('http://$API_SERVER/v1/api/auth/register',
+              data: formData,
+              options: Options(headers: <String, String>{
+                HttpHeaders.contentTypeHeader: 'multipart/form-data',
+              }));
 
       switch (response.statusCode) {
         case 200:

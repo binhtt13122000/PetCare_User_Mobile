@@ -46,14 +46,14 @@ class SellerInformationWidget
                     radius: 19.5,
                   ),
                 ),
-                const CircleAvatar(
+                CircleAvatar(
                   radius: 19.5,
                   backgroundColor: Colors.transparent,
                   child: CircleAvatar(
                     radius: 18,
                     backgroundColor: PRIMARY_COLOR,
                     backgroundImage: NetworkImage(
-                        'https://lh3.googleusercontent.com/a-/AOh14Giq7w5GSupG5JXnHM2i-4yAYESAoR3VpEdVFQ1Bkg=s288-p-rw-no'),
+                        controller.postModel.customerModel!.avatar),
                   ),
                 ),
               ],
@@ -67,7 +67,7 @@ class SellerInformationWidget
                   Row(
                     children: [
                       Text(
-                        'Lập đẹp trai',
+                        '${controller.postModel.customerModel!.firstName} ${controller.postModel.customerModel!.lastName}',
                         textAlign: TextAlign.left,
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
@@ -111,7 +111,7 @@ class SellerInformationWidget
                       ),
                       Text(
                         FORMAT_DATE_TIME(
-                            dateTime: controller.postModel.createTime!,
+                            dateTime: controller.postModel.createTime,
                             pattern: DATE_TIME_PATTERN),
                         textAlign: TextAlign.left,
                         maxLines: 2,
@@ -165,7 +165,8 @@ class SellerInformationWidget
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Text(
-                  '9',
+                  controller.postModel.customerModel!.numberReviewers
+                      .toString(),
                   style: GoogleFonts.quicksand(
                     fontSize: 15,
                     fontWeight: FontWeight.w600,
@@ -192,7 +193,7 @@ class SellerInformationWidget
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 RatingBar.builder(
-                  initialRating: 3.5,
+                  initialRating: controller.postModel.customerModel!.star,
                   itemCount: 5,
                   itemSize: 17,
                   allowHalfRating: true,
@@ -223,7 +224,8 @@ class SellerInformationWidget
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Text(
-                  '5',
+                  controller.postModel.customerModel!.numberFollowers
+                      .toString(),
                   style: GoogleFonts.quicksand(
                     fontSize: 15,
                     fontWeight: FontWeight.w600,

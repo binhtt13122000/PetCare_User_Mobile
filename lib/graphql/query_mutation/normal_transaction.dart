@@ -48,6 +48,8 @@ query MyQuery($_orderId: Int) {
       representativeName
       star
     }
+    star
+    review
     description
     id
     orderTotal

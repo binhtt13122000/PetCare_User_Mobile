@@ -34,14 +34,11 @@ class PaymentServices {
         'point': orderTotal ~/ 100000
       }),
     );
-    print(
-        'bodyyyyyyyyyyyyyyyy:${response.statusCode.toString() + response.body},');
-
     switch (response.statusCode) {
       case 200:
       case 201:
       case 202:
-        return jsonDecode(response.body)['url'];
+        return jsonDecode(response.body)['data']['url'];
       default:
         print(response.body);
         throw Exception('Error ${response.statusCode}, cannot payment');

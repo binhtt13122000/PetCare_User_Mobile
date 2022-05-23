@@ -7,9 +7,9 @@ import 'package:petapp_mobile/configs/theme.dart';
 import 'package:petapp_mobile/controllers/purchase_post_detail_page_controller.dart';
 import 'package:petapp_mobile/utilities/utilities.dart';
 
-class PostDetailInformationWidget
+class PurchasePostDetailInformationWidget
     extends GetView<PurchasePostDetailPageController> {
-  const PostDetailInformationWidget({Key? key}) : super(key: key);
+  const PurchasePostDetailInformationWidget({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

@@ -4,10 +4,10 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:petapp_mobile/configs/path.dart';
 import 'package:petapp_mobile/configs/theme.dart';
-import 'package:petapp_mobile/controllers/chatting_page_controller.dart';
+import 'package:petapp_mobile/controllers/chatting_list_page_controller.dart';
 
-class ChattingLandingTopWidget extends GetView<ChattingPageController> {
-  const ChattingLandingTopWidget({Key? key}) : super(key: key);
+class ChattingListTopWidget extends GetView<ChattingListPageController> {
+  const ChattingListTopWidget({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) => Padding(

@@ -15,7 +15,6 @@ import 'package:petapp_mobile/models/post_model/post_model.dart';
 import 'package:petapp_mobile/services/post_services.dart';
 import 'package:petapp_mobile/utilities/utilities.dart';
 import 'package:petapp_mobile/views/customer/home_page/widgets/purchase_posts_gird_widget.dart';
-import 'package:petapp_mobile/views/customer/post_detail_page/post_detail_page.dart';
 
 class ServicesBodyWidget extends GetView<HomePageController> {
   const ServicesBodyWidget({Key? key}) : super(key: key);
@@ -73,8 +72,7 @@ class ServicesBodyWidget extends GetView<HomePageController> {
   Widget purchasePostItemWidget({required PostModel postModel}) => InkWell(
         onTap: () {
           Get.delete<PurchasePostDetailPageController>();
-          Get.put(PurchasePostDetailPageController(postModel: postModel));
-          Get.to(() => const PurchasePostDetaiPage());
+          Get.toNamed(PURCHASE_POSTS_PAGE_ROUNTER);
         },
         child: Container(
           padding: const EdgeInsets.only(bottom: 10),

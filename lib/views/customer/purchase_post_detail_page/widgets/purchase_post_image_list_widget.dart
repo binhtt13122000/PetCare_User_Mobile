@@ -3,8 +3,9 @@ import 'package:get/get.dart';
 import 'package:petapp_mobile/configs/theme.dart';
 import 'package:petapp_mobile/controllers/purchase_post_detail_page_controller.dart';
 
-class PostImageListWidget extends GetView<PurchasePostDetailPageController> {
-  const PostImageListWidget({Key? key}) : super(key: key);
+class PurchasePostDetailImageListWidget
+    extends GetView<PurchasePostDetailPageController> {
+  const PurchasePostDetailImageListWidget({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

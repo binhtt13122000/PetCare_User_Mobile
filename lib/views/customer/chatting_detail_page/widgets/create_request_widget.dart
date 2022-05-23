@@ -4,18 +4,15 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:petapp_mobile/configs/path.dart';
 import 'package:petapp_mobile/configs/theme.dart';
-import 'package:petapp_mobile/controllers/chatting_page_controller.dart';
-import 'package:petapp_mobile/controllers/sign_in_page_controller.dart';
+import 'package:petapp_mobile/controllers/chatting_detail_page_controller.dart';
 import 'package:petapp_mobile/utilities/utilities.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
-class CreateRequestWidget extends GetView<ChattingPageController> {
+class CreateRequestWidget extends GetView<ChattingDetailPageController> {
   const CreateRequestWidget({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    SignInPageController _signInPageController =
-        Get.find<SignInPageController>();
     return Obx(
       () => Visibility(
         visible: controller.isShowCreateRequest.value,
@@ -51,8 +48,8 @@ class CreateRequestWidget extends GetView<ChattingPageController> {
                         ),
                         transactionTimeWidget(),
                         transactionLocationWidget(
-                            ownerAddress: _signInPageController
-                                .accountModel!.customerModel.address!),
+                            ownerAddress:
+                                controller.accountModel.customerModel.address!),
                         descriptionWidget(),
                         sendRequestWidget(),
                       ],
@@ -73,7 +70,6 @@ class CreateRequestWidget extends GetView<ChattingPageController> {
         child: InkWell(
           onTap: () {
             controller.isShowCreateRequest.value = false;
-            controller.requestStatus.value = 'ACCEPTED';
           },
           child: Container(
             height: 35,

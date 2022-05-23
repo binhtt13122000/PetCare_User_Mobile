@@ -10,7 +10,6 @@ NormalTransactionModel _$NormalTransactionModelFromJson(
         Map<String, dynamic> json) =>
     NormalTransactionModel(
       id: json['id'] as int,
-      branchModel: BranchModel.fromJson(json['branch'] as Map<String, dynamic>),
       description: json['description'] as String?,
       orderTotal: json['orderTotal'] as int,
       payment: json['payment'] as int?,
@@ -21,6 +20,9 @@ NormalTransactionModel _$NormalTransactionModelFromJson(
       point: json['point'] as int?,
       status: json['status'] as String,
       provisionalTotal: json['provisionalTotal'] as int,
+      star: json['star'] as int,
+      review: json['review'] as String?,
+      branchModel: BranchModel.fromJson(json['branch'] as Map<String, dynamic>),
       normalTransactionDetailModelList: (json['order_details']
               as List<dynamic>?)
           ?.map((e) =>
@@ -40,6 +42,8 @@ Map<String, dynamic> _$NormalTransactionModelToJson(
       'point': instance.point,
       'status': instance.status,
       'provisionalTotal': instance.provisionalTotal,
+      'star': instance.star,
+      'review': instance.review,
       'branch': instance.branchModel.toJson(),
       'order_details': instance.normalTransactionDetailModelList
           ?.map((e) => e.toJson())
