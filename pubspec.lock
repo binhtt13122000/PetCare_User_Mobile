@@ -399,7 +399,7 @@ packages:
     source: hosted
     version: "0.18.3"
   flutter_inappwebview:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: flutter_inappwebview
       url: "https://pub.dartlang.org"

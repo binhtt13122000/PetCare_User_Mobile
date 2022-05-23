@@ -7,13 +7,11 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:petapp_mobile/configs/path.dart';
 import 'package:petapp_mobile/configs/theme.dart';
-import 'package:petapp_mobile/controllers/purchase_post_detail_page_controller.dart';
 import 'package:petapp_mobile/controllers/purchase_posts_page_controller.dart';
 import 'package:petapp_mobile/graphql/query_mutation/post.dart';
 import 'package:petapp_mobile/models/post_model/post_model.dart';
 import 'package:petapp_mobile/services/post_services.dart';
 import 'package:petapp_mobile/utilities/utilities.dart';
-import 'package:petapp_mobile/views/customer/post_detail_page/post_detail_page.dart';
 import 'package:petapp_mobile/views/widgets/customize_widget.dart';
 
 class PurchasePostListWidget extends GetView<PurchasePostsPageController> {
@@ -93,7 +91,7 @@ class PurchasePostListWidget extends GetView<PurchasePostsPageController> {
                           'ltPrice': controller.ltPrice.value,
                           'gtePrice': controller.gtePrice.value,
                           'gender': controller.selectedGenderList,
-                          'isSeed': [true, false],
+                          'isSeed': const [true, false],
                           'ltAgeRange': controller.ltAge.value,
                           'gteAgeRange': controller.gteAge.value,
                           'breedName': controller.orderByBreed.isNotEmpty
@@ -113,7 +111,7 @@ class PurchasePostListWidget extends GetView<PurchasePostsPageController> {
                           'ltPrice': controller.ltPrice.value,
                           'gtePrice': controller.gtePrice.value,
                           'gender': controller.selectedGenderList,
-                          'isSeed': [true, false],
+                          'isSeed': const [true, false],
                           'ltAgeRange': controller.ltAge.value,
                           'gteAgeRange': controller.gteAge.value,
                           'breedName': controller.orderByBreed.isNotEmpty
@@ -172,9 +170,9 @@ class PurchasePostListWidget extends GetView<PurchasePostsPageController> {
 
   Widget purchasePostItemWidget({required PostModel postModel}) => InkWell(
         onTap: () {
-          Get.delete<PurchasePostDetailPageController>();
-          Get.put(PurchasePostDetailPageController(postModel: postModel));
-          Get.to(() => const PurchasePostDetaiPage());
+          // Get.delete<PurchasePostDetailPageController>();
+          // Get.put(PurchasePostDetailPageController(postModel: postModel));
+          // Get.to(() => const PurchasePostDetaiPage());
         },
         child: Container(
           margin: const EdgeInsets.all(5),

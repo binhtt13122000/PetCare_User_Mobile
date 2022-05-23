@@ -5,7 +5,6 @@ import 'dart:async';
 import 'package:get/get.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:petapp_mobile/configs/path.dart';
-import 'package:petapp_mobile/configs/rounter.dart';
 import 'package:petapp_mobile/models/account_model/account_model.dart';
 import 'package:petapp_mobile/services/firebase_messaging_services.dart';
 import 'package:petapp_mobile/services/account_services.dart';
@@ -41,8 +40,6 @@ class SignInPageController extends GetxController {
       PhoneAuthCredential phoneAuthCredential) async {
     isLoadingPhoneCredential.value = true;
     try {
-      Get.offAndToNamed(HOME_PAGE_ROUNTER);
-
       final UserCredential authCredential =
           await auth.signInWithCredential(phoneAuthCredential);
       isLoadingPhoneCredential.value = false;

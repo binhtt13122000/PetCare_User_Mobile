@@ -85,11 +85,13 @@ class BottomBarItemWidget extends GetView<BottomNavigationBarController> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             SvgPicture.asset(
-              bottomBarItem.iconURL,
+              isSelectedItem
+                  ? bottomBarItem.iconSelectedURL
+                  : bottomBarItem.iconUnselectedURL,
               color: isSelectedItem
                   ? const Color.fromARGB(255, 67, 80, 102)
                   : const Color.fromARGB(255, 138, 156, 189),
-              height: 16,
+              height: 10,
             ),
             isSelectedItem
                 ? Padding(
@@ -112,70 +114,4 @@ class BottomBarItemWidget extends GetView<BottomNavigationBarController> {
       ),
     );
   }
-// class BottomBarItemWidget extends GetView<BottomNavigationBarController> {
-//   const BottomBarItemWidget({Key? key, required this.bottomBarItem})
-//       : super(key: key);
-//   final BottomBarItemModel bottomBarItem;
-//   @override
-//   Widget build(BuildContext context) {
-//     bool isSelectedItem =
-//         controller.selectedItemIndex.value == bottomBarItem.id;
-//     return InkWell(
-//       onTap: () {
-//         controller.selectedItemIndex.value = bottomBarItem.id;
-//         Get.toNamed(bottomBarItem.rounterName);
-//       },
-//       child: SizedBox(
-//         height: 35,
-//         width: isSelectedItem ? 110 : 30,
-//         child: Material(
-//           color: isSelectedItem
-//               ? const Color.fromARGB(255, 241, 247, 255)
-//               : WHITE_COLOR,
-//           borderRadius: const BorderRadius.all(
-//             Radius.circular(10),
-//           ),
-//           child: Row(
-//             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-//             children: [
-//               isSelectedItem
-//                   ? GRADIENT_WIDGET(
-//                       gradient: const LinearGradient(colors: [
-//                         Color.fromARGB(255, 1, 206, 206),
-//                         Color.fromARGB(255, 114, 35, 241),
-//                       ]),
-//                       child: SvgPicture.asset(
-//                         bottomBarItem.iconURL,
-//                         color: SUPPER_LIGHT_GREY_COLOR,
-//                         height: isSelectedItem ? 26 : 23,
-//                       ),
-//                     )
-//                   : SvgPicture.asset(
-//                       bottomBarItem.iconURL,
-//                       color: const Color.fromARGB(255, 167, 178, 197),
-//                       height: isSelectedItem ? 26 : 23,
-//                     ),
-//               isSelectedItem
-//                   ? GRADIENT_WIDGET(
-//                       gradient: const LinearGradient(colors: [
-//                         Color.fromARGB(255, 114, 35, 241),
-//                         Color.fromARGB(255, 1, 221, 221),
-//                       ]),
-//                       child: Text(
-//                         bottomBarItem.name,
-//                         textAlign: TextAlign.center,
-//                         style: GoogleFonts.itim(
-//                           fontSize: 18,
-//                           color: PRIMARY_COLOR,
-//                           height: 1.5,
-//                         ),
-//                       ),
-//                     )
-//                   : const SizedBox.shrink(),
-//             ],
-//           ),
-//         ),
-//       ),
-//     );
-//   }
 }

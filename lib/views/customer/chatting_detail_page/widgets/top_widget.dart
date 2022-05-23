@@ -5,24 +5,20 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:petapp_mobile/configs/path.dart';
 import 'package:petapp_mobile/configs/rounter.dart';
 import 'package:petapp_mobile/configs/theme.dart';
-import 'package:petapp_mobile/controllers/chatting_page_controller.dart';
+import 'package:petapp_mobile/controllers/chatting_detail_page_controller.dart';
 import 'package:petapp_mobile/controllers/payment_pay_controller.dart';
-import 'package:petapp_mobile/controllers/sign_in_page_controller.dart';
-import 'package:petapp_mobile/models/account_model/account_model.dart';
 import 'package:petapp_mobile/utilities/utilities.dart';
 
-class ChattingDetailTopWidget extends GetView<ChattingPageController> {
+class ChattingDetailTopWidget extends GetView<ChattingDetailPageController> {
   const ChattingDetailTopWidget({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    SignInPageController _signInPageController =
-        Get.find<SignInPageController>();
     return Stack(
       children: [
         Column(
           children: [
-            topTitleWidget(accountModel: _signInPageController.accountModel!),
+            topTitleWidget(),
             Container(
               height: 1,
               margin: const EdgeInsets.only(bottom: 5),
@@ -75,81 +71,61 @@ class ChattingDetailTopWidget extends GetView<ChattingPageController> {
         color: WHITE_COLOR,
         child: Column(
           children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 12),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(5),
-                      border: Border.all(
-                        color: const Color.fromARGB(255, 76, 85, 117),
+            SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 12),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    Container(
+                      margin: const EdgeInsets.only(right: 5),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(5),
+                        border: Border.all(
+                          color: const Color.fromARGB(255, 76, 85, 117),
+                        ),
+                      ),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(5),
+                        child: Image.network(
+                          controller.postModel.mediaModels![0].url,
+                          height: 40,
+                          width: 40,
+                          fit: BoxFit.cover,
+                        ),
                       ),
                     ),
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(5),
-                      child: Image.network(
-                        controller.postModel.mediaModels![0].url,
-                        height: 40,
-                        width: 40,
-                        fit: BoxFit.cover,
+                    Text(
+                      'Pet: ${controller.postModel.petModel!.breedModel.name} - ${controller.postModel.petModel!.breedModel.speciesModel!.name}',
+                      textAlign: TextAlign.start,
+                      overflow: TextOverflow.clip,
+                      style: GoogleFonts.quicksand(
+                        color: PRIMARY_COLOR,
+                        fontSize: 14,
+                        fontWeight: FontWeight.w500,
+                        letterSpacing: 0.5,
                       ),
                     ),
-                  ),
-                  Text(
-                    'Pet: ${controller.postModel.petModel!.breedModel.name} - ${controller.postModel.petModel!.breedModel.speciesModel!.name}',
-                    textAlign: TextAlign.start,
-                    overflow: TextOverflow.clip,
-                    style: GoogleFonts.quicksand(
-                      color: PRIMARY_COLOR,
-                      fontSize: 14,
-                      fontWeight: FontWeight.w500,
-                      letterSpacing: 0.5,
+                    Text(
+                      'Price: ${FORMAT_MONEY(price: controller.postModel.provisionalTotal)}',
+                      textAlign: TextAlign.start,
+                      overflow: TextOverflow.clip,
+                      style: GoogleFonts.quicksand(
+                        color: PRIMARY_COLOR,
+                        fontSize: 15,
+                        fontWeight: FontWeight.w500,
+                        letterSpacing: 0.5,
+                      ),
                     ),
-                  ),
-                  Text(
-                    'Price: ${FORMAT_MONEY(price: controller.postModel.provisionalTotal)}',
-                    textAlign: TextAlign.start,
-                    overflow: TextOverflow.clip,
-                    style: GoogleFonts.quicksand(
-                      color: PRIMARY_COLOR,
-                      fontSize: 15,
-                      fontWeight: FontWeight.w500,
-                      letterSpacing: 0.5,
-                    ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
             Padding(
               padding: const EdgeInsets.only(top: 5),
-              child: Obx(
-                () => Column(
-                  children: [
-                    Visibility(
-                      visible: controller.requestStatus.value == 'NOT_SEND',
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          endChatWidget(),
-                          createTransactionRequestButtonWidget(),
-                        ],
-                      ),
-                    ),
-                    Visibility(
-                      visible: controller.requestStatus.value == 'ACCEPTED',
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          viewTransactionDetailWidget(),
-                          paymentButtonWidget(),
-                        ],
-                      ),
-                    )
-                  ],
-                ),
-              ),
+              child: GetBuilder<ChattingDetailPageController>(
+                  builder: (_) => chatRoomStatusWiget()),
             ),
             Container(
               height: 1,
@@ -159,6 +135,54 @@ class ChattingDetailTopWidget extends GetView<ChattingPageController> {
           ],
         ),
       );
+
+  Widget chatRoomStatusWiget() {
+    //*Check exist room
+    if (controller.chatRoomModel != null) {
+      //*Check customer role is buyer or not
+      if (controller.accountModel.customerModel.id ==
+          controller.chatRoomModel!.buyerId) {
+        switch (controller.chatRoomModel!.status) {
+          case 'CREATED':
+            return controller.chatRoomModel!.transactionId == null
+                ? Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      endChatWidget(),
+                      createTransactionRequestButtonWidget(),
+                    ],
+                  )
+                : Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      viewTransactionDetailWidget(),
+                      paymentButtonWidget(),
+                    ],
+                  );
+          default:
+            return const SizedBox.shrink();
+        }
+      } else {
+        switch (controller.chatRoomModel!.status) {
+          case 'CREATED':
+            return controller.chatRoomModel!.transactionId == null
+                ? const SizedBox.shrink()
+                : Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      viewTransactionDetailWidget(),
+                    ],
+                  );
+          case 'REQUESTED':
+            return viewBuyerTransactionRequestWidget();
+          default:
+            return const SizedBox.shrink();
+        }
+      }
+    } else {
+      return const SizedBox.shrink();
+    }
+  }
 
   Widget createTransactionRequestButtonWidget() => InkWell(
         onTap: () => controller.isShowCreateRequest.value = true,
@@ -208,7 +232,7 @@ class ChattingDetailTopWidget extends GetView<ChattingPageController> {
       );
 
   Widget viewTransactionDetailWidget() => InkWell(
-        onTap: () => Get.back(),
+        onTap: () => Get.toNamed(CHATTING_LIST_PAGE_ROUNTER),
         child: Container(
           height: 35,
           width: 180,
@@ -238,6 +262,45 @@ class ChattingDetailTopWidget extends GetView<ChattingPageController> {
                   color: const Color.fromARGB(255, 76, 85, 117),
                   fontSize: 14,
                   fontWeight: FontWeight.w500,
+                ),
+              ),
+            ],
+          ),
+        ),
+      );
+
+  Widget viewBuyerTransactionRequestWidget() => InkWell(
+        onTap: () => controller.isShowBuyerRequest.value = true,
+        child: Container(
+          height: 35,
+          width: 300,
+          decoration: BoxDecoration(
+            color: WHITE_COLOR,
+            borderRadius: BorderRadius.circular(100),
+            border: Border.all(
+              color: const Color.fromARGB(255, 151, 161, 197),
+              width: 0.5,
+            ),
+            boxShadow: [
+              BoxShadow(
+                color: DARK_GREY_COLOR.withOpacity(0.1),
+                blurRadius: 5,
+                offset: const Offset(2, 2),
+              ),
+            ],
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                'View buyer transaction request',
+                textAlign: TextAlign.start,
+                overflow: TextOverflow.clip,
+                style: GoogleFonts.quicksand(
+                  color: const Color.fromARGB(255, 76, 85, 117),
+                  fontSize: 14,
+                  fontWeight: FontWeight.w500,
+                  letterSpacing: 1,
                 ),
               ),
             ],
@@ -295,6 +358,52 @@ class ChattingDetailTopWidget extends GetView<ChattingPageController> {
         ),
       );
 
+  Widget denineRequestWidget() => InkWell(
+        onTap: () => Get.back(),
+        child: Container(
+          height: 35,
+          width: 100,
+          decoration: BoxDecoration(
+            color: WHITE_COLOR,
+            borderRadius: BorderRadius.circular(100),
+            border: Border.all(
+              color: const Color.fromARGB(255, 228, 134, 151),
+              width: 0.5,
+            ),
+            boxShadow: [
+              BoxShadow(
+                color: DARK_GREY_COLOR.withOpacity(0.1),
+                blurRadius: 5,
+                offset: const Offset(2, 2),
+              ),
+            ],
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                'Denice',
+                textAlign: TextAlign.start,
+                overflow: TextOverflow.clip,
+                style: GoogleFonts.quicksand(
+                  color: const Color.fromARGB(255, 226, 66, 93),
+                  fontSize: 14,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 5),
+                child: SvgPicture.asset(
+                  ICON_PATH + CLOSE_SVG,
+                  height: 12,
+                  color: const Color.fromARGB(255, 226, 66, 93),
+                ),
+              ),
+            ],
+          ),
+        ),
+      );
+
   Widget endChatWidget() => InkWell(
         onTap: () => Get.back(),
         child: Container(
@@ -341,7 +450,7 @@ class ChattingDetailTopWidget extends GetView<ChattingPageController> {
         ),
       );
 
-  Widget topTitleWidget({required AccountModel accountModel}) => Container(
+  Widget topTitleWidget() => Container(
         padding:
             const EdgeInsets.only(top: 30, left: 12, right: 12, bottom: 10),
         color: PRIMARY_COLOR,
@@ -349,7 +458,13 @@ class ChattingDetailTopWidget extends GetView<ChattingPageController> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             InkWell(
-              onTap: () => Get.back(),
+              onTap: () {
+                controller.chatRoomModel != null
+                    ? controller.socket
+                        .emit('leaveRoom', controller.chatRoomModel!.id)
+                    : null;
+                Get.offNamed(CHATTING_LIST_PAGE_ROUNTER);
+              },
               child: Container(
                 height: 35,
                 width: 35,
@@ -373,11 +488,11 @@ class ChattingDetailTopWidget extends GetView<ChattingPageController> {
                     height: 40,
                     width: 40,
                     alignment: Alignment.topRight,
-                    child: const CircleAvatar(
+                    child: CircleAvatar(
                       minRadius: 14,
                       maxRadius: 14,
                       backgroundImage:
-                          AssetImage(IMAGE_PATH + GUEST_AVATAR_PNG),
+                          NetworkImage(controller.anotherChatRoomMember.avatar),
                     ),
                   ),
                   Container(
@@ -391,8 +506,8 @@ class ChattingDetailTopWidget extends GetView<ChattingPageController> {
                       child: CircleAvatar(
                         minRadius: 14,
                         maxRadius: 14,
-                        backgroundImage:
-                            NetworkImage(accountModel.customerModel.avatar),
+                        backgroundImage: NetworkImage(
+                            controller.accountModel.customerModel.avatar),
                       ),
                     ),
                   ),

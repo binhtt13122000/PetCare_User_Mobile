@@ -23,3 +23,15 @@ final ValueNotifier<GraphQLClient> GRAPHQL_CLIENT =
     cache: GraphQLCache(),
   ),
 );
+
+GraphQLClient CLIENT_TO_QUERY() {
+  AuthLink authLink = AuthLink(getToken: () {
+    return null;
+  });
+
+  final Link link = authLink.concat(_httpLink);
+  return GraphQLClient(
+    cache: GraphQLCache(),
+    link: link,
+  );
+}

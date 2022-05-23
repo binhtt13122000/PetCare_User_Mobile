@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:petapp_mobile/configs/rounter.dart';
 import 'package:petapp_mobile/configs/theme.dart';
 import 'package:petapp_mobile/controllers/transaction_at_center_detail_page_controller.dart';
 
@@ -27,7 +28,7 @@ class TransactionAtCenterDetailTopWidget
           children: [
             //*back button
             InkWell(
-              onTap: () => Get.back(),
+              onTap: () => Get.toNamed(TRANSACTION_PAGE_ROUNTER),
               child: Container(
                 height: 35,
                 width: 35,

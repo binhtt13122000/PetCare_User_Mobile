@@ -6,6 +6,7 @@ import 'package:petapp_mobile/configs/path.dart';
 import 'package:petapp_mobile/configs/rounter.dart';
 import 'package:petapp_mobile/configs/theme.dart';
 import 'package:petapp_mobile/controllers/payment_for_transaction_at_center_page_controller.dart';
+import 'package:petapp_mobile/services/payment_services.dart';
 import 'package:petapp_mobile/utilities/utilities.dart';
 
 class PaymentForTransactionAtCenterBottomWidget
@@ -111,7 +112,9 @@ class PaymentForTransactionAtCenterBottomWidget
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
                         Text(
-                          FORMAT_MONEY(price: 1500000),
+                          FORMAT_MONEY(
+                              price: controller
+                                  .normalTransactionModel.provisionalTotal),
                           textAlign: TextAlign.start,
                           style: GoogleFonts.quicksand(
                             textStyle: const TextStyle(
@@ -124,38 +127,62 @@ class PaymentForTransactionAtCenterBottomWidget
                             letterSpacing: 0.5,
                           ),
                         ),
-                        Text(
-                          FORMAT_MONEY(price: 1200000),
-                          textAlign: TextAlign.start,
-                          style: GoogleFonts.quicksand(
-                            textStyle: const TextStyle(
-                              color: PRIMARY_COLOR,
+                        Obx(
+                          () => Text(
+                            FORMAT_MONEY(
+                                price: controller.normalTransactionModel
+                                        .provisionalTotal -
+                                    controller.disccountAmount.value),
+                            textAlign: TextAlign.start,
+                            style: GoogleFonts.quicksand(
+                              textStyle: const TextStyle(
+                                color: PRIMARY_COLOR,
+                              ),
+                              fontWeight: FontWeight.w500,
+                              fontSize: 20,
+                              height: 1,
+                              letterSpacing: 0.5,
                             ),
-                            fontWeight: FontWeight.w500,
-                            fontSize: 20,
-                            height: 1,
-                            letterSpacing: 0.5,
                           ),
                         ),
                       ],
                     ),
                   ),
                   Expanded(
-                    child: Container(
-                      alignment: Alignment.center,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(5),
-                        color: PRIMARY_COLOR,
-                      ),
-                      child: Text(
-                        'Payment',
-                        textAlign: TextAlign.center,
-                        style: GoogleFonts.quicksand(
-                          textStyle: const TextStyle(color: WHITE_COLOR),
-                          fontWeight: FontWeight.w600,
-                          fontSize: 20,
-                          height: 1,
-                          letterSpacing: 2,
+                    child: InkWell(
+                      onTap: () async {
+                        controller.paymentUrl.value =
+                            await PaymentServices.payment(
+                          message: controller
+                                  .accountModel.customerModel.lastName +
+                              'paymented ${controller.normalTransactionModel.provisionalTotal - controller.disccountAmount.value}',
+                          locale: 'vi',
+                          paymentMethod: 'VNPAY',
+                          transactionId: controller.normalTransactionModel.id,
+                          customerId: controller.accountModel.customerModel.id,
+                          branchId:
+                              controller.normalTransactionModel.branchModel.id,
+                          orderTotal: controller
+                                  .normalTransactionModel.provisionalTotal -
+                              controller.disccountAmount.value,
+                        );
+                      },
+                      child: Container(
+                        alignment: Alignment.center,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(5),
+                          color: PRIMARY_COLOR,
+                        ),
+                        child: Text(
+                          'Payment',
+                          textAlign: TextAlign.center,
+                          style: GoogleFonts.quicksand(
+                            textStyle: const TextStyle(color: WHITE_COLOR),
+                            fontWeight: FontWeight.w600,
+                            fontSize: 20,
+                            height: 1,
+                            letterSpacing: 2,
+                          ),
                         ),
                       ),
                     ),
