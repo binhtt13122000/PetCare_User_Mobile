@@ -1,11 +1,12 @@
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:graphql_flutter/graphql_flutter.dart';
-import 'package:petapp_mobile/graphql/graphql_config.dart';
+import 'package:petapp_mobile/controllers/sign_in_page_controller.dart';
+import 'package:petapp_mobile/models/account_model/account_model.dart';
 import 'package:petapp_mobile/models/post_model/post_model.dart';
 
 class PostManagementPageController extends GetxController {
-  ValueNotifier<GraphQLClient> graphqlClient = GRAPHQL_CLIENT;
+  AccountModel accountModel = Get.find<SignInPageController>().accountModel!;
+
+  RxBool isLoadingPostList = false.obs;
   final RxMap<String, int> postManagementTableHeaders = {
     'Title': 0,
     'Status': 0,
@@ -13,7 +14,7 @@ class PostManagementPageController extends GetxController {
   }.obs;
   List<String> postTypeList = ['All type', 'Purchase', 'Breeding'];
   late RxString selectedTicketType;
-  RxList<PostModel> postList = <PostModel>[].obs;
+  List<PostModel> postList = <PostModel>[].obs;
 
   PostManagementPageController() {
     selectedTicketType = postTypeList[0].obs;

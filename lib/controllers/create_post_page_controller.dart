@@ -3,9 +3,9 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:image_picker/image_picker.dart';
+import 'package:petapp_mobile/controllers/sign_in_page_controller.dart';
+import 'package:petapp_mobile/models/account_model/account_model.dart';
 import 'package:petapp_mobile/models/breed_model/breed_model.dart';
 import 'package:petapp_mobile/models/pet_model/pet_model.dart';
 import 'package:petapp_mobile/models/species_model/species_model.dart';
@@ -19,14 +19,16 @@ class CreatePostPageController extends GetxController {
   RxString title = ''.obs;
   String description = '';
   RxInt price = 0.obs;
-  RxString moneyReceived = ''.obs;
-  RxInt deposit = 0.obs;
+  RxString deposit = ''.obs;
   RxString selectedTicketType = 'PURCHASE'.obs;
   bool isFirstInputPrice = true;
   bool isFirstInputTitle = true;
   bool isFirstInputDescription = true;
   RxBool isShowPetFilter = false.obs;
   RxBool isShowPetDropdownList = false.obs;
+  RxString receivedMoney = ''.obs;
+  RxBool isShowLoadingWidget = false.obs;
+  RxBool isShowSuccessfullyPopup = false.obs;
 
   quill.QuillController quillController = quill.QuillController.basic();
 
@@ -40,34 +42,5 @@ class CreatePostPageController extends GetxController {
   int selectedPetId = -1;
 
   ScrollController mainScrollController = ScrollController();
-
-  Future pickImageFromGallery() async {
-    try {
-      final image = await ImagePicker().pickImage(source: ImageSource.gallery);
-
-      if (image == null) return;
-
-      final tmpImage = File(image.path);
-
-      evidences.add(tmpImage);
-      evidencesPath.add(tmpImage.path);
-    } on PlatformException catch (e) {
-      print(e.toString());
-    }
-  }
-
-  Future pickImageFromCamera() async {
-    try {
-      final image = await ImagePicker().pickImage(source: ImageSource.camera);
-
-      if (image == null) return;
-
-      final tmpImage = File(image.path);
-
-      evidences.add(tmpImage);
-      evidencesPath.add(tmpImage.path);
-    } on PlatformException catch (e) {
-      print(e.toString());
-    }
-  }
+  AccountModel accountModel = Get.find<SignInPageController>().accountModel!;
 }

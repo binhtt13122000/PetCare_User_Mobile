@@ -19,6 +19,13 @@ FORMAT_MONEY({required int price}) {
   return moneyText;
 }
 
+FORMAT_MONEY_WITHOUT_SYMBOL({required int price}) {
+  String moneyText =
+      NumberFormat.currency(locale: 'vi', symbol: '', decimalDigits: 0)
+          .format(price);
+  return moneyText;
+}
+
 FORMAT_DATE_TIME({required DateTime dateTime, required String pattern}) {
   DateFormat dateFormat = DateFormat(pattern);
   return dateFormat.format(dateTime);

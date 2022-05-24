@@ -19,39 +19,43 @@ class PetService {
     return petList;
   }
 
-  static Future INSERT_PET(
-      {required int accountId,
-      required String filePath,
-      required String name,
-      required bool isSeed,
-      required String gender,
-      required DateTime dob,
-      required String description,
-      required int categoryId,
-      required int ageRange}) async {
+  static Future createPet({
+    required int ownerId,
+    required String avtarFilePath,
+    required String name,
+    required bool isSeed,
+    required String gender,
+    required DateTime dob,
+    String? description,
+    required int breedId,
+    required String status,
+    String? color,
+    String? specialMarkings,
+    String? vaccineDescription,
+  }) async {
     try {
       FormData formData;
       formData = FormData.fromMap({
-        'ageRange': ageRange,
-        'breedId': categoryId,
-        'color': 'black',
-        'vaccineDescription': '',
-        'description': description,
+        'name': name,
         'dob': dob,
         'gender': gender,
+        'description': description ?? '',
         'isSeed': isSeed,
-        'name': name,
-        'specialMarkings': '',
-        'status': 'NOT_VERIFIED',
-        'ownerId': accountId,
-        'file': await MultipartFile.fromFile(filePath),
+        'status': status,
+        'color': color ?? '',
+        'breedId': breedId,
+        'ownerId': ownerId,
+        'specialMarkings': specialMarkings ?? '',
+        'vaccineDescription': vaccineDescription ?? '',
+        'file': await MultipartFile.fromFile(avtarFilePath),
       });
 
-      Response response = await Dio().post('$API_SERVER/pets',
+      Response response = await Dio().post('http://$API_SERVER/v1/api/pets',
           data: formData,
           options: Options(headers: <String, String>{
             HttpHeaders.contentTypeHeader: 'multipart/form-data',
           }));
+      print(response.data);
 
       return response.statusCode;
     } on DioError catch (e) {

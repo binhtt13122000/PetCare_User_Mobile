@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:petapp_mobile/configs/theme.dart';
-import 'package:petapp_mobile/controllers/create_post_page_controller.dart';
-import 'package:petapp_mobile/controllers/post_management_page_controller.dart';
+import 'package:petapp_mobile/controllers/add_pet_page_controller.dart';
+import 'package:petapp_mobile/controllers/pet_management_page_controller.dart';
 
-class CreatePostTopWidget extends GetView<CreatePostPageController> {
-  const CreatePostTopWidget({Key? key}) : super(key: key);
+class CreatePetTopWidget extends GetView<CreatePetPageController> {
+  const CreatePetTopWidget({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) => Padding(
@@ -34,7 +34,7 @@ class CreatePostTopWidget extends GetView<CreatePostPageController> {
             InkWell(
               onTap: () => Get
                 ..back()
-                ..find<PostManagementPageController>().update(),
+                ..find<PetManagementPageController>().update(),
               child: Container(
                 height: 35,
                 width: 35,
@@ -61,7 +61,7 @@ class CreatePostTopWidget extends GetView<CreatePostPageController> {
               child: Padding(
                 padding: const EdgeInsets.only(right: 35),
                 child: Text(
-                  'Create Post Page',
+                  'Create Pet Page',
                   textAlign: TextAlign.center,
                   style: GoogleFonts.quicksand(
                     color: const Color.fromARGB(255, 62, 68, 87),
