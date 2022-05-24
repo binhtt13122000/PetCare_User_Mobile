@@ -95,6 +95,9 @@ class DescriptionWidget extends GetView<CreatePostPageController> {
               ],
             ),
           ),
+          const SizedBox(
+            height: 30,
+          )
         ],
       ),
     );

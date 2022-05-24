@@ -31,9 +31,6 @@ const PAYMENT_FOR_TRANSACTION_AT_CENTER_PAGE_ROUNTER =
 const TRANSACTION_AT_CENTER_DETAIL_PAGE_ROUNTER =
     '/transaction-at-center-detail';
 
-//support
-const SUPPORT_PAGE_ROUNTER = '/support';
-
 //setting
 const SETTING_PAGE_ROUNTER = '/setting';
 

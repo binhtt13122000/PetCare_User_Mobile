@@ -85,7 +85,10 @@ class MediaPickerWidget extends GetView<CreatePostPageController> {
         child: InkWell(
           onTap: () async {
             File? mediaFile = await PICK_IMAGE(isPickFromGalley: true);
-            mediaFile != null ? controller.evidences.add(mediaFile) : null;
+            if (mediaFile != null) {
+              controller.evidences.add(mediaFile);
+              controller.evidencesPath.add(mediaFile.path);
+            }
           },
           child: Container(
             height: 40,
@@ -122,7 +125,10 @@ class MediaPickerWidget extends GetView<CreatePostPageController> {
         child: InkWell(
           onTap: () async {
             File? mediaFile = await PICK_IMAGE(isPickFromGalley: false);
-            mediaFile != null ? controller.evidences.add(mediaFile) : null;
+            if (mediaFile != null) {
+              controller.evidences.add(mediaFile);
+              controller.evidencesPath.add(mediaFile.path);
+            }
           },
           child: Container(
             height: 40,

@@ -26,7 +26,7 @@ class BottomNavigationBarController extends GetxController {
       name: 'Chat',
       iconSelectedURL: ICON_PATH + CHAT_SELECTED_SVG,
       iconUnselectedURL: ICON_PATH + CHAT_UNSELECTED_SVG,
-      rounterName: SUPPORT_PAGE_ROUNTER,
+      rounterName: CHATTING_LIST_PAGE_ROUNTER,
     ),
     BottomBarItemModel(
       id: 3,

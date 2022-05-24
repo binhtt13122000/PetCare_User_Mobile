@@ -41,7 +41,7 @@ class PostService {
         'provisionalTotal': provisionalTotal,
         'createTime': createTime,
         'meetingTime': meetingTime,
-        'type ': type,
+        'type': type,
         'description': description ?? '',
         'status': status,
         'petId': petId,
@@ -65,6 +65,7 @@ class PostService {
       return response.statusCode;
     } on DioError catch (e) {
       print(e.error);
+      print(e.response!.data);
       return e.response!.statusCode;
     }
   }

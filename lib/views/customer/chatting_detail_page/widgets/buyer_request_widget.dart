@@ -13,59 +13,58 @@ class BuyerRequestWidget extends GetView<ChattingDetailPageController> {
   @override
   Widget build(BuildContext context) {
     return Obx(
-      () => Visibility(
-        visible: controller.isShowBuyerRequest.value,
-        child: Stack(
-          children: [
-            InkWell(
-              onTap: () => controller.isShowBuyerRequest.value = false,
-              child: Container(
-                color: const Color.fromARGB(106, 198, 188, 201),
-                alignment: Alignment.center,
-                child: InkWell(
-                  onTap: () {},
+      () => controller.isShowBuyerRequest.value
+          ? Stack(
+              children: [
+                InkWell(
+                  onTap: () => controller.isShowBuyerRequest.value = false,
                   child: Container(
-                    width: 300,
-                    height: 470,
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 12, vertical: 12),
-                    decoration: BoxDecoration(
-                      color: WHITE_COLOR,
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: Column(
-                      children: [
-                        Text(
-                          'Buyer Transaction Request',
-                          textAlign: TextAlign.center,
-                          style: GoogleFonts.quicksand(
-                            color: PRIMARY_COLOR,
-                            fontSize: 16,
-                            fontWeight: FontWeight.w700,
-                            letterSpacing: 1,
-                          ),
+                    color: const Color.fromARGB(106, 198, 188, 201),
+                    alignment: Alignment.center,
+                    child: InkWell(
+                      onTap: () {},
+                      child: Container(
+                        width: 300,
+                        height: 470,
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 12, vertical: 12),
+                        decoration: BoxDecoration(
+                          color: WHITE_COLOR,
+                          borderRadius: BorderRadius.circular(10),
                         ),
-                        transactionTimeWidget(),
-                        transactionLocationWidget(
-                            ownerAddress:
-                                controller.accountModel.customerModel.address!),
-                        descriptionWidget(),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        child: Column(
                           children: [
-                            denineBuyerRequestWidget(),
-                            acceptBuyerRequestWidget(),
+                            Text(
+                              'Buyer Transaction Request',
+                              textAlign: TextAlign.center,
+                              style: GoogleFonts.quicksand(
+                                color: PRIMARY_COLOR,
+                                fontSize: 16,
+                                fontWeight: FontWeight.w700,
+                                letterSpacing: 1,
+                              ),
+                            ),
+                            transactionTimeWidget(),
+                            transactionLocationWidget(
+                                ownerAddress: controller
+                                    .accountModel.customerModel.address!),
+                            descriptionWidget(),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                denineBuyerRequestWidget(),
+                                acceptBuyerRequestWidget(),
+                              ],
+                            )
                           ],
-                        )
-                      ],
+                        ),
+                      ),
                     ),
                   ),
                 ),
-              ),
-            ),
-          ],
-        ),
-      ),
+              ],
+            )
+          : const SizedBox.shrink(),
     );
   }
 
