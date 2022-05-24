@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
@@ -5,6 +7,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:petapp_mobile/configs/path.dart';
 import 'package:petapp_mobile/configs/theme.dart';
 import 'package:petapp_mobile/controllers/create_post_page_controller.dart';
+import 'package:petapp_mobile/utilities/utilities.dart';
 
 class MediaPickerWidget extends GetView<CreatePostPageController> {
   const MediaPickerWidget({Key? key}) : super(key: key);
@@ -80,8 +83,9 @@ class MediaPickerWidget extends GetView<CreatePostPageController> {
   Widget pickMediasFromGalleryWidget() => Padding(
         padding: const EdgeInsets.symmetric(horizontal: 50),
         child: InkWell(
-          onTap: () {
-            controller.pickImageFromGallery();
+          onTap: () async {
+            File? mediaFile = await PICK_IMAGE(isPickFromGalley: true);
+            mediaFile != null ? controller.evidences.add(mediaFile) : null;
           },
           child: Container(
             height: 40,
@@ -116,8 +120,9 @@ class MediaPickerWidget extends GetView<CreatePostPageController> {
   Widget pickMediasFromCameraWidget() => Padding(
         padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 10),
         child: InkWell(
-          onTap: () {
-            controller.pickImageFromGallery();
+          onTap: () async {
+            File? mediaFile = await PICK_IMAGE(isPickFromGalley: false);
+            mediaFile != null ? controller.evidences.add(mediaFile) : null;
           },
           child: Container(
             height: 40,
@@ -168,7 +173,7 @@ class MediaPickerWidget extends GetView<CreatePostPageController> {
                 )
               : Container(
                   height: 110,
-                  width: 220,
+                  margin: const EdgeInsets.symmetric(horizontal: 40),
                   alignment: Alignment.center,
                   decoration: const BoxDecoration(
                     color: Color.fromARGB(255, 237, 240, 243),
@@ -187,6 +192,7 @@ class MediaPickerWidget extends GetView<CreatePostPageController> {
                           fontSize: 16,
                           fontStyle: FontStyle.italic,
                           color: const Color.fromARGB(255, 127, 136, 148),
+                          letterSpacing: 1,
                         ),
                       ),
                       // SvgPicture.asset(

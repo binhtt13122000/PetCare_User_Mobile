@@ -41,7 +41,7 @@ const SETTING_PAGE_ROUNTER = '/setting';
 const PROFILE_PAGE_ROUNTER = '/profile';
 const PET_MANAGEMENT_PAGE_ROUNTER = '/profile/pet-management';
 const PET_DETAIL_PAGE_ROUNTER = '/profile/pet_management/pet-detail';
-const ADD_PET_PAGE_ROUNTER = '/profile/pet-management/add-pet';
+const CREATE_PET_PAGE_ROUNTER = '/profile/pet-management/add-pet';
 const PERSONAl_INFOMATION_PAGE_ROUNTER = '/profile/personal-information';
 
 //chatting

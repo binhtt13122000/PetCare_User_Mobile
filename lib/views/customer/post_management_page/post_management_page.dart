@@ -6,6 +6,7 @@ import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:petapp_mobile/configs/path.dart';
 import 'package:petapp_mobile/configs/theme.dart';
 import 'package:petapp_mobile/controllers/post_management_page_controller.dart';
+import 'package:petapp_mobile/graphql/graphql_config.dart';
 import 'package:petapp_mobile/views/customer/post_management_page/widgets/body_widget.dart';
 import 'package:petapp_mobile/views/customer/post_management_page/widgets/bottom_widget.dart';
 import 'package:petapp_mobile/views/customer/post_management_page/widgets/top_widget.dart';
@@ -16,59 +17,13 @@ class PostManagementPage extends GetView<PostManagementPageController> {
   @override
   Widget build(BuildContext context) {
     return GraphQLProvider(
-      client: controller.graphqlClient,
+      client: GRAPHQL_CLIENT,
       child: Scaffold(
         backgroundColor: const Color.fromARGB(255, 250, 251, 255),
         body: Column(
           children: const [
             PostsManagementTopWidget(),
             Expanded(child: PostsManagementBodyWidget()),
-            //Obx(
-            // () =>
-            // Expanded(
-            //   child: Query(
-            //     options: QueryOptions(
-            //         document: gql(FETCH_TICKET_LIST_BY_PHONE_NUMBER),
-            //         variables: {
-            //           'phoneNumber': '+84901605667',
-            //         }),
-            //     builder: (
-            //       QueryResult result, {
-            //       VoidCallback? refetch,
-            //       FetchMore? fetchMore,
-            //     }) {
-            //       if (result.hasException) {
-            //         return Text(result.exception.toString());
-            //       }
-            //       if (result.isLoading) {
-            //         return const Center(
-            //           child: CircularProgressIndicator(),
-            //         );
-            //       }
-            //       controller.postList =
-            //           TicketServices.getTicketList(result.data!).obs;
-            //       return SizedBox(
-            //         height: 300,
-            //         child: SingleChildScrollView(
-            //           child: Column(
-            //             children: controller.postList
-            //                 .asMap()
-            //                 .entries
-            //                 .map(
-            //                   (e) => ticketItemWidget(
-            //                       ticketModel: e.value,
-            //                       isLastIndex: e.key !=
-            //                           controller.postList.length - 1),
-            //                 )
-            //                 .toList(),
-            //           ),
-            //         ),
-            //       );
-            //     },
-            //   ),
-            // ),
-            //),
-
             PostsManagementBottomWidget(),
           ],
         ),

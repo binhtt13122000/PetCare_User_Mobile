@@ -19,54 +19,44 @@ class PostService {
 
   static Future createPost({
     required String title,
-    required int price,
-    required int deposit,
-    required String refund,
-    required DateTime effectiveTime,
-    required String description,
+    required int sellerReceive,
+    required int shopFee,
+    required int provisionalTotal,
+    required int deposits,
+    String? description,
+    required DateTime createTime,
+    required DateTime meetingTime,
     required String type,
     String status = 'PUBLISHED',
     required int petId,
-    required int sellerId,
-    required List<String> evidenceFilesPath,
-    required List<String> healthCheckFilesPath,
+    required int customerId,
+    required List<String> filesPath,
   }) async {
     try {
       FormData formData;
       formData = FormData.fromMap({
         'title': title,
-        'price': price,
-        'deposit': deposit,
-        'refund': refund,
-        'effectiveTime': effectiveTime,
-        'description': description,
-        'type': type,
+        'sellerReceive': sellerReceive,
+        'shopFee': shopFee,
+        'provisionalTotal': provisionalTotal,
+        'createTime': createTime,
+        'meetingTime': meetingTime,
+        'type ': type,
+        'description': description ?? '',
         'status': status,
         'petId': petId,
-        'sellerId': sellerId,
-        'staffId': sellerId,
-        'approveTime': DateTime.now(),
-        'cancelTime': DateTime.now(),
+        'customerId': customerId,
       });
-      for (var element in evidenceFilesPath) {
+      for (var element in filesPath) {
         formData.files.add(
           MapEntry(
-            'evidenceFiles',
+            'files',
             await MultipartFile.fromFile(element),
           ),
         );
       }
 
-      for (var element in evidenceFilesPath) {
-        formData.files.add(
-          MapEntry(
-            'healthCheckFiles',
-            await MultipartFile.fromFile(element),
-          ),
-        );
-      }
-
-      Response response = await Dio().post('$API_SERVER/posts',
+      Response response = await Dio().post('http://$API_SERVER/v1/api/posts',
           data: formData,
           options: Options(headers: <String, String>{
             HttpHeaders.contentTypeHeader: 'multipart/form-data',

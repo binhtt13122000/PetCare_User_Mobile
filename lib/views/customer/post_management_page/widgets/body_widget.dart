@@ -1,9 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:petapp_mobile/configs/path.dart';
+import 'package:petapp_mobile/configs/theme.dart';
 import 'package:petapp_mobile/controllers/post_management_page_controller.dart';
+import 'package:petapp_mobile/graphql/graphql_config.dart';
+import 'package:petapp_mobile/graphql/query_mutation/post.dart';
+import 'package:petapp_mobile/models/post_model/post_model.dart';
+import 'package:petapp_mobile/services/post_services.dart';
 import 'package:petapp_mobile/utilities/utilities.dart';
 
 class PostsManagementBodyWidget extends GetView<PostManagementPageController> {
@@ -21,19 +28,46 @@ class PostsManagementBodyWidget extends GetView<PostManagementPageController> {
           color: const Color.fromARGB(255, 217, 222, 241),
         ),
         Expanded(
-          child: SingleChildScrollView(
-            child: Column(
-              children: [
-                postCardWidget(),
-                postCardDarkThemeWidget(),
-                postCardWidget(),
-                postCardDarkThemeWidget(),
-                postCardWidget(),
-                postCardDarkThemeWidget(),
-                postCardWidget(),
-                postCardDarkThemeWidget(),
-              ],
-            ),
+          child: GetBuilder<PostManagementPageController>(
+            builder: (_) {
+              controller.isLoadingPostList.value = true;
+              WidgetsBinding.instance!.addPostFrameCallback((_) async {
+                QueryResult result = await CLIENT_TO_QUERY().query(
+                  QueryOptions(
+                      document:
+                          gql(FETCH_ALL_PURCHASE_POST_LIST_BY_CUSTOMER_ID),
+                      variables: {
+                        'customerId': controller.accountModel.customerModel.id
+                      }),
+                );
+
+                if (result.data != null) {
+                  controller.postList = PostService.getPostList(result.data!);
+                  controller.isLoadingPostList.value = false;
+                }
+              });
+              return Obx(
+                () => controller.isLoadingPostList.value
+                    ? Container(
+                        color: const Color.fromARGB(106, 198, 188, 201),
+                        alignment: Alignment.center,
+                        child: const SpinKitSpinningLines(
+                          color: PRIMARY_COLOR,
+                          size: 150,
+                        ),
+                      )
+                    : SingleChildScrollView(
+                        child: Column(
+                        children: controller.postList
+                            .asMap()
+                            .entries
+                            .map((e) => e.key.isEven
+                                ? postCardWidget(postModel: e.value)
+                                : postCardDarkThemeWidget(postModel: e.value))
+                            .toList(),
+                      )),
+              );
+            },
           ),
         ),
       ],
@@ -169,7 +203,7 @@ class PostsManagementBodyWidget extends GetView<PostManagementPageController> {
         ),
       );
 
-  Widget postCardWidget() => Container(
+  Widget postCardWidget({required PostModel postModel}) => Container(
         height: 70,
         margin: const EdgeInsets.symmetric(horizontal: 12),
         decoration: const BoxDecoration(),
@@ -242,7 +276,7 @@ class PostsManagementBodyWidget extends GetView<PostManagementPageController> {
         ),
       );
 
-  Widget postCardDarkThemeWidget() => Column(
+  Widget postCardDarkThemeWidget({required PostModel postModel}) => Column(
         children: [
           Container(
             height: 1,

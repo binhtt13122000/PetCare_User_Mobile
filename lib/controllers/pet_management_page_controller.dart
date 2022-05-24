@@ -1,86 +1,85 @@
 // ignore_for_file: avoid_print
 
-import 'dart:io';
-
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:graphql_flutter/graphql_flutter.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:petapp_mobile/graphql/graphql_config.dart';
+import 'package:petapp_mobile/controllers/sign_in_page_controller.dart';
+import 'package:petapp_mobile/models/account_model/account_model.dart';
 import 'package:petapp_mobile/models/pet_model/pet_model.dart';
+import 'package:petapp_mobile/models/post_model/post_model.dart';
 
 class PetManagementPageController extends GetxController {
-  RxList<dynamic> images = List.empty(growable: true).obs;
-  ValueNotifier<GraphQLClient> graphqlClient = GRAPHQL_CLIENT;
+  List<PetModel> petList = [];
+  AccountModel accountModel = Get.find<SignInPageController>().accountModel!;
+  RxBool isLoadingPetList = false.obs;
 
-  late RxList<PetModel> pets;
+  PetManagementPageController() {
+    selectedTicketType = postTypeList[0].obs;
+  }
+  // RxList<dynamic> images = List.empty(growable: true).obs;
+  // ValueNotifier<GraphQLClient> graphqlClient = GRAPHQL_CLIENT;
 
-  final RxMap<String, int> petManagementTableHeaders = {
-    'Name': 0,
-    'Breed': 0,
-    'Sex': 0,
+  // late RxList<PetModel> pets;
+
+  // final RxMap<String, int> petManagementTableHeaders = {
+  //   'Name': 0,
+  //   'Breed': 0,
+  //   'Sex': 0,
+  // }.obs;
+
+  // setHeaderFilter(String headerKey) {
+  //   petManagementTableHeaders.forEach((key, value) {
+  //     if (key == headerKey) {
+  //       if (value == 0 || value == 2) {
+  //         petManagementTableHeaders[key] = 1;
+  //         switch (headerKey) {
+  //           case 'Name':
+  //             break;
+  //           case 'Breed':
+  //             break;
+  //           case 'Age':
+  //             break;
+  //           case 'Gender':
+  //             break;
+  //         }
+  //       } else {
+  //         petManagementTableHeaders[key] = 2;
+  //         switch (headerKey) {
+  //           case 'Name':
+  //             break;
+  //           case 'Breed':
+  //             break;
+  //           case 'Age':
+  //             break;
+  //           case 'Gender':
+  //             break;
+  //         }
+  //       }
+  //     } else {
+  //       petManagementTableHeaders[key] = 0;
+  //     }
+  //   });
+  // }
+
+  final RxMap<String, int> postManagementTableHeaders = {
+    'Title': 0,
+    'Status': 0,
+    'Create time': 0,
   }.obs;
+  List<String> postTypeList = ['All status', 'Normal', 'In a post'];
+  late RxString selectedTicketType;
+  RxList<PostModel> postList = <PostModel>[].obs;
 
   setHeaderFilter(String headerKey) {
-    petManagementTableHeaders.forEach((key, value) {
+    postManagementTableHeaders.forEach((key, value) {
       if (key == headerKey) {
-        if (value == 0 || value == 2) {
-          petManagementTableHeaders[key] = 1;
-          switch (headerKey) {
-            case 'Name':
-              break;
-            case 'Breed':
-              break;
-            case 'Age':
-              break;
-            case 'Gender':
-              break;
-          }
+        if (value != 2) {
+          postManagementTableHeaders[key] =
+              postManagementTableHeaders[key]! + 1;
         } else {
-          petManagementTableHeaders[key] = 2;
-          switch (headerKey) {
-            case 'Name':
-              break;
-            case 'Breed':
-              break;
-            case 'Age':
-              break;
-            case 'Gender':
-              break;
-          }
+          postManagementTableHeaders[key] = 0;
         }
       } else {
-        petManagementTableHeaders[key] = 0;
+        postManagementTableHeaders[key] = 0;
       }
     });
-  }
-
-  Future pickImageFromGallery() async {
-    try {
-      final image = await ImagePicker().pickImage(source: ImageSource.gallery);
-
-      if (image == null) return;
-
-      final tmpImage = File(image.path);
-
-      images.add(tmpImage);
-    } on PlatformException catch (e) {
-      print(e.toString());
-    }
-  }
-
-  Future pickImageFromCamera() async {
-    try {
-      final image = await ImagePicker().pickImage(source: ImageSource.camera);
-
-      if (image == null) return;
-
-      final tmpImage = File(image.path);
-
-      images.add(tmpImage);
-    } on PlatformException catch (e) {
-      print(e.toString());
-    }
   }
 }

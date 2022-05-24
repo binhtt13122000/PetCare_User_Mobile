@@ -25,9 +25,9 @@ import 'package:petapp_mobile/configs/rounter.dart';
 import 'package:petapp_mobile/controllers/sign_in_page_controller.dart';
 import 'package:petapp_mobile/services/account_services.dart';
 import 'package:petapp_mobile/views/customer/action_page/action_page.dart';
-import 'package:petapp_mobile/views/customer/add_pet_page/add_pet_page.dart';
 import 'package:petapp_mobile/views/customer/chatting_detail_page/chatting_detail_page.dart';
 import 'package:petapp_mobile/views/customer/chatting_list_page/chatting_list_page.dart';
+import 'package:petapp_mobile/views/customer/create_pet_page/create_pet_page.dart';
 import 'package:petapp_mobile/views/customer/create_post_page/create_post_page.dart';
 import 'package:petapp_mobile/views/customer/home_page/home_page.dart';
 import 'package:petapp_mobile/views/customer/notification_page/notification_page.dart';
@@ -221,8 +221,8 @@ class MainApp extends StatelessWidget {
           binding: PetManagementPageBinding(),
         ),
         GetPage(
-          name: ADD_PET_PAGE_ROUNTER,
-          page: () => const AddPetPage(),
+          name: CREATE_PET_PAGE_ROUNTER,
+          page: () => const CreatePetPage(),
           binding: AddPetPagePageBinding(),
         ),
         GetPage(

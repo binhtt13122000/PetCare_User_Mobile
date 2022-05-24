@@ -64,18 +64,18 @@ class BottomBarItemWidget extends GetView<BottomNavigationBarController> {
         Get.toNamed(bottomBarItem.rounterName);
       },
       child: Container(
-        height: 30,
+        height: 36,
         width: isSelectedItem ? 110 : 30,
         decoration: BoxDecoration(
           color: isSelectedItem
-              ? const Color.fromARGB(255, 242, 243, 247)
+              ? const Color.fromARGB(255, 251, 252, 255)
               : Colors.transparent,
           borderRadius: const BorderRadius.all(
             Radius.circular(10),
           ),
           border: Border.all(
             color: isSelectedItem
-                ? const Color.fromARGB(255, 173, 188, 214)
+                ? const Color.fromARGB(255, 214, 222, 238)
                 : Colors.transparent,
             width: 1,
           ),
@@ -89,22 +89,28 @@ class BottomBarItemWidget extends GetView<BottomNavigationBarController> {
                   ? bottomBarItem.iconSelectedURL
                   : bottomBarItem.iconUnselectedURL,
               color: isSelectedItem
-                  ? const Color.fromARGB(255, 67, 80, 102)
-                  : const Color.fromARGB(255, 138, 156, 189),
-              height: 10,
+                  ? PRIMARY_COLOR
+                  : const Color.fromARGB(255, 72, 82, 99),
+              //color: const Color.fromARGB(255, 72, 82, 99),
+              height: isSelectedItem ? 18 : 22,
             ),
             isSelectedItem
-                ? Padding(
-                    padding: const EdgeInsets.only(left: 8),
-                    child: Text(
-                      bottomBarItem.name,
-                      textAlign: TextAlign.center,
-                      style: GoogleFonts.quicksand(
-                        fontSize: 13,
-                        color: const Color.fromARGB(255, 67, 80, 102),
-                        height: 1.5,
-                        fontWeight: FontWeight.w700,
-                        letterSpacing: 1.5,
+                ? FittedBox(
+                    fit: BoxFit.scaleDown,
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 8),
+                      child: Text(
+                        bottomBarItem.name,
+                        textAlign: TextAlign.center,
+                        style: GoogleFonts.quicksand(
+                          fontSize: 18,
+                          color: isSelectedItem
+                              ? PRIMARY_COLOR
+                              : const Color.fromARGB(255, 72, 82, 99),
+                          height: 1.5,
+                          fontWeight: FontWeight.w700,
+                          letterSpacing: 1.5,
+                        ),
                       ),
                     ),
                   )

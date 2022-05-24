@@ -4,15 +4,16 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:petapp_mobile/configs/path.dart';
 import 'package:petapp_mobile/configs/rounter.dart';
-import 'package:petapp_mobile/controllers/post_management_page_controller.dart';
+import 'package:petapp_mobile/configs/theme.dart';
+import 'package:petapp_mobile/controllers/pet_management_page_controller.dart';
 
-class PostsManagementBottomWidget
-    extends GetView<PostManagementPageController> {
-  const PostsManagementBottomWidget({Key? key}) : super(key: key);
+class PetsManagementBottomWidget extends GetView<PetManagementPageController> {
+  const PetsManagementBottomWidget({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) => Column(
         children: [
+          Container(height: 1, color: DARK_GREY_COLOR.withOpacity(0.1)),
           createPostButtonWidget(),
           // managementHistoryButtonWidget(),
         ],
@@ -21,7 +22,9 @@ class PostsManagementBottomWidget
   Widget createPostButtonWidget() => Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
         child: InkWell(
-          onTap: () => Get.toNamed(CREATE_POST_PAGE_ROUNTER),
+          onTap: () {
+            Get.toNamed(CREATE_PET_PAGE_ROUNTER);
+          },
           child: Container(
             height: 40,
             decoration: BoxDecoration(
@@ -35,11 +38,11 @@ class PostsManagementBottomWidget
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  'Create New Post',
+                  'Create A New Pet',
                   style: GoogleFonts.quicksand(
                     color: const Color.fromARGB(255, 64, 69, 87),
                     fontWeight: FontWeight.w500,
-                    letterSpacing: 2,
+                    letterSpacing: 2.5,
                   ),
                 ),
                 const SizedBox(
@@ -58,35 +61,38 @@ class PostsManagementBottomWidget
 
   Widget managementHistoryButtonWidget() => Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-        child: Container(
-          height: 40,
-          decoration: BoxDecoration(
-            border: Border.all(
-              color: const Color.fromARGB(255, 192, 195, 207),
+        child: InkWell(
+          onTap: () => controller.update(),
+          child: Container(
+            height: 40,
+            decoration: BoxDecoration(
+              border: Border.all(
+                color: const Color.fromARGB(255, 192, 195, 207),
+              ),
+              borderRadius: BorderRadius.circular(3),
+              color: const Color.fromARGB(255, 243, 243, 243),
             ),
-            borderRadius: BorderRadius.circular(3),
-            color: const Color.fromARGB(255, 243, 243, 243),
-          ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                'Management History',
-                style: GoogleFonts.quicksand(
-                  color: const Color.fromARGB(255, 64, 69, 87),
-                  fontWeight: FontWeight.w500,
-                  letterSpacing: 0.1,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  'Management History',
+                  style: GoogleFonts.quicksand(
+                    color: const Color.fromARGB(255, 64, 69, 87),
+                    fontWeight: FontWeight.w500,
+                    letterSpacing: 1,
+                  ),
                 ),
-              ),
-              const SizedBox(
-                width: 10,
-              ),
-              SvgPicture.asset(
-                ICON_PATH + HISTORY_SVG,
-                color: const Color.fromARGB(255, 64, 69, 87),
-                height: 18,
-              ),
-            ],
+                const SizedBox(
+                  width: 10,
+                ),
+                SvgPicture.asset(
+                  ICON_PATH + HISTORY_SVG,
+                  color: const Color.fromARGB(255, 64, 69, 87),
+                  height: 18,
+                ),
+              ],
+            ),
           ),
         ),
       );
