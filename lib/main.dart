@@ -43,7 +43,6 @@ import 'package:petapp_mobile/views/customer/purchase_post_detail_page/purchase_
 import 'package:petapp_mobile/views/customer/purchase_posts_filter_page/purchase_posts_filter_page.dart';
 import 'package:petapp_mobile/views/customer/purchase_posts_page/purchase_posts_page.dart';
 import 'package:petapp_mobile/views/customer/setting_page/setting.dart';
-import 'package:petapp_mobile/views/customer/support_page/support.dart';
 import 'package:petapp_mobile/views/customer/transaction_at_center_detail_page/payment_for_transaction_at_center.dart';
 import 'package:petapp_mobile/views/customer/transaction_page/transaction_page.dart';
 import 'package:petapp_mobile/views/guest/landing_page/landing_page.dart';
@@ -204,11 +203,6 @@ class MainApp extends StatelessWidget {
           name: '$TRANSACTION_AT_CENTER_DETAIL_PAGE_ROUNTER/:transactionId',
           page: () => const TransactionAtCenterDetailPage(),
           binding: TransactionAtCenterDetailPageBinding(),
-        ),
-        //*Support
-        GetPage(
-          name: SUPPORT_PAGE_ROUNTER,
-          page: () => const SupportPage(),
         ),
         //*Profile
         GetPage(

@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:petapp_mobile/configs/path.dart';
 import 'package:petapp_mobile/configs/rounter.dart';
+import 'package:petapp_mobile/configs/theme.dart';
 import 'package:petapp_mobile/controllers/post_management_page_controller.dart';
 
 class PostsManagementBottomWidget
@@ -13,6 +14,10 @@ class PostsManagementBottomWidget
   @override
   Widget build(BuildContext context) => Column(
         children: [
+          Container(
+            height: 1,
+            color: DARK_GREY_COLOR.withOpacity(0.1),
+          ),
           createPostButtonWidget(),
           // managementHistoryButtonWidget(),
         ],

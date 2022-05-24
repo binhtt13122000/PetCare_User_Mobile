@@ -23,8 +23,12 @@ class CreatePostBottomWidget extends GetView<CreatePostPageController> {
               padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
               child: InkWell(
                 onTap: () async {
-                  controller.isShowLoadingWidget.value = true;
-                  await PostService.createPost(
+                  if (controller.title.value.isNotEmpty &&
+                      controller.price.value > 0 &&
+                      controller.selectedPetId != -1 &&
+                      controller.evidences.isNotEmpty) {
+                    controller.isShowLoadingWidget.value = true;
+                    await PostService.createPost(
                       title: controller.title.value,
                       sellerReceive: int.parse(controller.receivedMoney.value),
                       shopFee: controller.price.value -
@@ -36,9 +40,11 @@ class CreatePostBottomWidget extends GetView<CreatePostPageController> {
                       type: 'PURCHASE',
                       petId: controller.selectedPetId,
                       customerId: controller.accountModel.customerModel.id,
-                      filesPath: controller.evidencesPath);
-                  controller.isShowLoadingWidget.value = false;
-                  controller.isShowSuccessfullyPopup.value = true;
+                      filesPath: controller.evidencesPath,
+                    );
+                    controller.isShowLoadingWidget.value = false;
+                    controller.isShowSuccessfullyPopup.value = true;
+                  }
                 },
                 child: Obx(
                   () => Container(

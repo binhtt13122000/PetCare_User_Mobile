@@ -133,7 +133,7 @@ class PostsManagementBodyWidget extends GetView<PostManagementPageController> {
             InkWell(
               onTap: () => controller.setHeaderFilter('Status'),
               child: Container(
-                width: 60,
+                width: 70,
                 alignment: Alignment.center,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -151,10 +151,17 @@ class PostsManagementBodyWidget extends GetView<PostManagementPageController> {
                             fontWeight: FontWeight.w600),
                       ),
                     ),
-                    const Icon(
-                      Icons.info_outline_rounded,
-                      size: 13,
-                      color: Color.fromARGB(255, 102, 119, 141),
+                    Obx(
+                      () => SvgPicture.asset(
+                        controller.postManagementTableHeaders['Title'] == 2
+                            ? ICON_PATH + TOPWARD_ARROW_SVG
+                            : ICON_PATH + DOWNWARD_ARROW_SVG,
+                        color:
+                            controller.postManagementTableHeaders['Title'] == 0
+                                ? const Color.fromARGB(255, 116, 125, 158)
+                                : const Color.fromARGB(255, 244, 55, 165),
+                        height: 12,
+                      ),
                     ),
                   ],
                 ),
@@ -214,7 +221,7 @@ class PostsManagementBodyWidget extends GetView<PostManagementPageController> {
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(3),
                 child: Image.network(
-                  'https://firebasestorage.googleapis.com/v0/b/petapp-851bc.appspot.com/o/ef132efc-94d5-4bf2-ab83-e958cb9337ac-75cc47690215d4a2bd8b5c9c58f89244.jpg?alt=media&token=ef132efc-94d5-4bf2-ab83-e958cb9337ac',
+                  postModel.mediaModels![0].url,
                   fit: BoxFit.cover,
                   width: 50,
                 ),
@@ -223,25 +230,48 @@ class PostsManagementBodyWidget extends GetView<PostManagementPageController> {
             Expanded(
               child: Padding(
                 padding: const EdgeInsets.only(right: 0),
-                child: Text(
-                  'The British Shorthair is the pedigreed version of the traditional British domestic cat, with a distinctively stocky body, dense coat, and broad face.',
-                  maxLines: 3,
-                  overflow: TextOverflow.ellipsis,
-                  style: GoogleFonts.quicksand(
-                    color: const Color.fromARGB(255, 64, 69, 87),
-                    fontWeight: FontWeight.w400,
-                    fontSize: 12,
-                  ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      postModel.title,
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                      textAlign: TextAlign.center,
+                      style: GoogleFonts.quicksand(
+                        color: const Color.fromARGB(255, 64, 69, 87),
+                        fontWeight: FontWeight.w400,
+                        fontSize: 12,
+                      ),
+                    ),
+                    Text(
+                      '[${postModel.type}]',
+                      maxLines: 3,
+                      overflow: TextOverflow.ellipsis,
+                      textAlign: TextAlign.center,
+                      style: GoogleFonts.quicksand(
+                        color: const Color.fromARGB(255, 64, 69, 87),
+                        fontWeight: FontWeight.w400,
+                        fontSize: 12,
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ),
             Container(
-              width: 60,
+              width: 70,
               alignment: Alignment.center,
-              child: SvgPicture.asset(
-                ICON_PATH + PLANET_EARTH_SVG,
-                height: 23,
-                color: const Color.fromARGB(255, 79, 112, 128),
+              child: Text(
+                postModel.status,
+                maxLines: 3,
+                overflow: TextOverflow.ellipsis,
+                textAlign: TextAlign.center,
+                style: GoogleFonts.quicksand(
+                  color: const Color.fromARGB(255, 68, 204, 214),
+                  fontWeight: FontWeight.w500,
+                  fontSize: 12,
+                ),
               ),
             ),
             SizedBox(
@@ -252,7 +282,7 @@ class PostsManagementBodyWidget extends GetView<PostManagementPageController> {
                 children: [
                   Text(
                     FORMAT_DATE_TIME(
-                        dateTime: DateTime.now(), pattern: DATE_PATTERN),
+                        dateTime: postModel.createTime, pattern: DATE_PATTERN),
                     style: GoogleFonts.quicksand(
                       color: const Color.fromARGB(255, 64, 69, 87),
                       fontWeight: FontWeight.w400,
@@ -261,7 +291,7 @@ class PostsManagementBodyWidget extends GetView<PostManagementPageController> {
                   ),
                   Text(
                     FORMAT_DATE_TIME(
-                        dateTime: DateTime.now(), pattern: TIME_PATTERN),
+                        dateTime: postModel.createTime, pattern: TIME_PATTERN),
                     style: GoogleFonts.quicksand(
                       color: const Color.fromARGB(255, 64, 69, 87),
                       fontWeight: FontWeight.w400,
@@ -296,7 +326,7 @@ class PostsManagementBodyWidget extends GetView<PostManagementPageController> {
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(3),
                     child: Image.network(
-                      'https://firebasestorage.googleapis.com/v0/b/petapp-851bc.appspot.com/o/ef132efc-94d5-4bf2-ab83-e958cb9337ac-75cc47690215d4a2bd8b5c9c58f89244.jpg?alt=media&token=ef132efc-94d5-4bf2-ab83-e958cb9337ac',
+                      postModel.mediaModels![0].url,
                       fit: BoxFit.cover,
                       width: 50,
                     ),
@@ -304,26 +334,48 @@ class PostsManagementBodyWidget extends GetView<PostManagementPageController> {
                 ),
                 Expanded(
                   child: Padding(
-                    padding: const EdgeInsets.only(right: 0),
-                    child: Text(
-                      'The British Shorthair is the pedigreed version of the traditional British domestic cat, with a distinctively stocky body, dense coat, and broad face.',
-                      maxLines: 3,
-                      overflow: TextOverflow.ellipsis,
-                      style: GoogleFonts.quicksand(
-                        color: const Color.fromARGB(255, 64, 69, 87),
-                        fontWeight: FontWeight.w400,
-                        fontSize: 12,
-                      ),
-                    ),
-                  ),
+                      padding: const EdgeInsets.only(right: 0),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            postModel.title,
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                            textAlign: TextAlign.center,
+                            style: GoogleFonts.quicksand(
+                              color: const Color.fromARGB(255, 64, 69, 87),
+                              fontWeight: FontWeight.w400,
+                              fontSize: 12,
+                            ),
+                          ),
+                          Text(
+                            '[${postModel.type}]',
+                            maxLines: 3,
+                            overflow: TextOverflow.ellipsis,
+                            textAlign: TextAlign.center,
+                            style: GoogleFonts.quicksand(
+                              color: const Color.fromARGB(255, 64, 69, 87),
+                              fontWeight: FontWeight.w400,
+                              fontSize: 12,
+                            ),
+                          ),
+                        ],
+                      )),
                 ),
                 Container(
-                  width: 60,
+                  width: 70,
                   alignment: Alignment.center,
-                  child: SvgPicture.asset(
-                    ICON_PATH + PLANET_EARTH_SVG,
-                    height: 23,
-                    color: const Color.fromARGB(255, 79, 112, 128),
+                  child: Text(
+                    postModel.status,
+                    maxLines: 3,
+                    overflow: TextOverflow.ellipsis,
+                    textAlign: TextAlign.center,
+                    style: GoogleFonts.quicksand(
+                      color: const Color.fromARGB(255, 68, 204, 214),
+                      fontWeight: FontWeight.w500,
+                      fontSize: 12,
+                    ),
                   ),
                 ),
                 SizedBox(
@@ -334,7 +386,8 @@ class PostsManagementBodyWidget extends GetView<PostManagementPageController> {
                     children: [
                       Text(
                         FORMAT_DATE_TIME(
-                            dateTime: DateTime.now(), pattern: DATE_PATTERN),
+                            dateTime: postModel.createTime,
+                            pattern: DATE_PATTERN),
                         style: GoogleFonts.quicksand(
                           color: const Color.fromARGB(255, 64, 69, 87),
                           fontWeight: FontWeight.w400,
@@ -343,7 +396,8 @@ class PostsManagementBodyWidget extends GetView<PostManagementPageController> {
                       ),
                       Text(
                         FORMAT_DATE_TIME(
-                            dateTime: DateTime.now(), pattern: TIME_PATTERN),
+                            dateTime: postModel.createTime,
+                            pattern: TIME_PATTERN),
                         style: GoogleFonts.quicksand(
                           color: const Color.fromARGB(255, 64, 69, 87),
                           fontWeight: FontWeight.w400,

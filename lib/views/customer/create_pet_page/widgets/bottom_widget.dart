@@ -23,21 +23,26 @@ class CreatePetBottomWidget extends GetView<CreatePetPageController> {
               padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
               child: InkWell(
                 onTap: () async {
-                  controller.isShowLoadingWidget.value = true;
-                  await PetService.createPet(
-                      ownerId: controller.accountModel.customerModel.id,
-                      avtarFilePath: controller.avatarUrl.value,
-                      name: controller.petName.value,
-                      isSeed: controller.selectedFertility.value == 'YES',
-                      gender: controller.selectedGender.value,
-                      dob: controller.dateOfBirthTime!,
-                      breedId: controller
-                          .selectedBreedMap[controller.selectedSpeciesId.value]!
-                          .value,
-                      status: 'NORMAL');
+                  if (controller.petName.value.isNotEmpty &&
+                      controller.avatarUrl.value.isNotEmpty &&
+                      controller.dayOfBirthText.value.isNotEmpty) {
+                    controller.isShowLoadingWidget.value = true;
+                    await PetService.createPet(
+                        ownerId: controller.accountModel.customerModel.id,
+                        avtarFilePath: controller.avatarUrl.value,
+                        name: controller.petName.value,
+                        isSeed: controller.selectedFertility.value == 'YES',
+                        gender: controller.selectedGender.value,
+                        dob: controller.dateOfBirthTime!,
+                        breedId: controller
+                            .selectedBreedMap[
+                                controller.selectedSpeciesId.value]!
+                            .value,
+                        status: 'NORMAL');
 
-                  controller.isShowLoadingWidget.value = false;
-                  controller.isShowSuccessfullyPopup.value = true;
+                    controller.isShowLoadingWidget.value = false;
+                    controller.isShowSuccessfullyPopup.value = true;
+                  }
                 },
                 child: Obx(
                   () => Container(

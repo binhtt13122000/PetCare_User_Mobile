@@ -17,9 +17,6 @@ class SelectPetWidget extends GetView<CreatePostPageController> {
   @override
   Widget build(BuildContext context) {
     Get.put(SignInPageController());
-    SignInPageController signInPageController =
-        Get.find<SignInPageController>();
-
     return Column(
       children: [
         Container(
@@ -44,15 +41,13 @@ class SelectPetWidget extends GetView<CreatePostPageController> {
                       -1) {
                 query = FETCH_PET_LIST_WITHOUT_BREED_TO_CREATE_POST;
                 variables = {
-                  'customerId':
-                      signInPageController.accountModel!.customerModel.id,
+                  'customerId': controller.accountModel.customerModel.id,
                   'speciesId': controller.selectedSpeciesId,
                 };
               } else {
                 query = FETCH_PET_LIST_WITH_BREED_TO_CREATE_POST;
                 variables = {
-                  'customerId':
-                      signInPageController.accountModel!.customerModel.id,
+                  'customerId': controller.accountModel.customerModel.id,
                   'speciesId': controller.selectedSpeciesId,
                   'breedId':
                       controller.selectedBreedMap[controller.selectedSpeciesId],
@@ -61,8 +56,7 @@ class SelectPetWidget extends GetView<CreatePostPageController> {
             } else {
               query = FETCH_PET_LIST_TO_CREATE_POST;
               variables = {
-                'customerId':
-                    signInPageController.accountModel!.customerModel.id,
+                'customerId': controller.accountModel.customerModel.id,
               };
             }
 
@@ -286,7 +280,7 @@ class SelectPetWidget extends GetView<CreatePostPageController> {
           },
           child: Container(
             height: 50,
-            width: 200,
+            width: 170,
             decoration: BoxDecoration(
                 borderRadius: const BorderRadius.all(
                   Radius.circular(10),

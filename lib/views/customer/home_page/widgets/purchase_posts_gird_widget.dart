@@ -147,41 +147,46 @@ class PurchasePostGirdsWidget extends GetView<HomePageController> {
                     ),
                     Positioned(
                       bottom: 3,
-                      left: 10,
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
-                          Stack(
-                            children: [
-                              Positioned(
-                                child: GRADIENT_WIDGET(
-                                  gradient: const LinearGradient(colors: [
-                                    Color.fromARGB(255, 123, 41, 255),
-                                    Color.fromARGB(255, 1, 182, 182),
-                                  ]),
-                                  child: Text(
-                                    postModel.petModel!.breedModel.name,
-                                    style: GoogleFonts.quicksand(
-                                      color: DARK_GREY_COLOR,
-                                      fontSize: 15,
-                                      fontWeight: FontWeight.w600,
+                          SizedBox(
+                            width: 110,
+                            child: FittedBox(
+                              fit: BoxFit.scaleDown,
+                              child: Stack(
+                                children: [
+                                  Positioned(
+                                    child: GRADIENT_WIDGET(
+                                      gradient: const LinearGradient(colors: [
+                                        Color.fromARGB(255, 123, 41, 255),
+                                        Color.fromARGB(255, 1, 182, 182),
+                                      ]),
+                                      child: Text(
+                                        postModel.petModel!.breedModel.name,
+                                        style: GoogleFonts.quicksand(
+                                          color: DARK_GREY_COLOR,
+                                          fontSize: 15,
+                                          fontWeight: FontWeight.w600,
+                                        ),
+                                      ),
                                     ),
                                   ),
-                                ),
-                              ),
-                              Positioned(
-                                left: 1.5,
-                                bottom: 1.5,
-                                child: Text(
-                                  postModel.petModel!.breedModel.name,
-                                  style: GoogleFonts.quicksand(
-                                    color: WHITE_COLOR,
-                                    fontSize: 15,
-                                    fontWeight: FontWeight.w600,
+                                  Positioned(
+                                    left: 1.5,
+                                    bottom: 1.5,
+                                    child: Text(
+                                      postModel.petModel!.breedModel.name,
+                                      style: GoogleFonts.quicksand(
+                                        color: WHITE_COLOR,
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                    ),
                                   ),
-                                ),
+                                ],
                               ),
-                            ],
+                            ),
                           ),
                           Text(
                             ' (' +
@@ -194,44 +199,44 @@ class PurchasePostGirdsWidget extends GetView<HomePageController> {
                               fontWeight: FontWeight.w500,
                             ),
                           ),
-                          Container(
-                            height: 18,
-                            width: 25,
-                            margin: const EdgeInsets.only(left: 5),
-                            decoration: BoxDecoration(
-                              border: Border.all(
-                                color: postModel.petModel!.gender == 'MALE'
-                                    ? const Color.fromARGB(255, 152, 188, 255)
-                                    : const Color.fromARGB(255, 255, 146, 210),
-                              ),
-                              borderRadius: const BorderRadius.all(
-                                Radius.circular(25),
-                              ),
-                              color: postModel.petModel!.gender == 'MALE'
-                                  ? const Color.fromARGB(255, 215, 243, 252)
-                                  : const Color.fromARGB(255, 253, 228, 242),
-                            ),
-                            child: Wrap(
-                              spacing: 4,
-                              alignment: WrapAlignment.center,
-                              crossAxisAlignment: WrapCrossAlignment.center,
-                              runAlignment: WrapAlignment.center,
-                              children: [
-                                SvgPicture.asset(
-                                  postModel.petModel!.gender == 'MALE'
-                                      ? ICON_PATH + MALE_SVG
-                                      : ICON_PATH + FEMALE_SVG,
-                                  color: postModel.petModel!.gender == 'MALE'
-                                      ? const Color.fromARGB(255, 39, 111, 245)
-                                      : const Color.fromARGB(255, 244, 55, 165),
-                                  height: 12,
-                                  width: 12,
-                                  fit: BoxFit.cover,
-                                  allowDrawingOutsideViewBox: true,
-                                ),
-                              ],
-                            ),
-                          ),
+                          // Container(
+                          //   height: 18,
+                          //   width: 25,
+                          //   margin: const EdgeInsets.only(left: 5),
+                          //   decoration: BoxDecoration(
+                          //     border: Border.all(
+                          //       color: postModel.petModel!.gender == 'MALE'
+                          //           ? const Color.fromARGB(255, 152, 188, 255)
+                          //           : const Color.fromARGB(255, 255, 146, 210),
+                          //     ),
+                          //     borderRadius: const BorderRadius.all(
+                          //       Radius.circular(25),
+                          //     ),
+                          //     color: postModel.petModel!.gender == 'MALE'
+                          //         ? const Color.fromARGB(255, 215, 243, 252)
+                          //         : const Color.fromARGB(255, 253, 228, 242),
+                          //   ),
+                          //   child: Wrap(
+                          //     spacing: 4,
+                          //     alignment: WrapAlignment.center,
+                          //     crossAxisAlignment: WrapCrossAlignment.center,
+                          //     runAlignment: WrapAlignment.center,
+                          //     children: [
+                          //       SvgPicture.asset(
+                          //         postModel.petModel!.gender == 'MALE'
+                          //             ? ICON_PATH + MALE_SVG
+                          //             : ICON_PATH + FEMALE_SVG,
+                          //         color: postModel.petModel!.gender == 'MALE'
+                          //             ? const Color.fromARGB(255, 39, 111, 245)
+                          //             : const Color.fromARGB(255, 244, 55, 165),
+                          //         height: 12,
+                          //         width: 12,
+                          //         fit: BoxFit.cover,
+                          //         allowDrawingOutsideViewBox: true,
+                          //       ),
+                          //     ],
+                          //   ),
+                          // ),
                         ],
                       ),
                     ),
@@ -272,7 +277,7 @@ class PurchasePostGirdsWidget extends GetView<HomePageController> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      postModel.description ?? '',
+                      postModel.title,
                       textAlign: TextAlign.left,
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,

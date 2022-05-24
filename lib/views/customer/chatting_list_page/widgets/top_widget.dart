@@ -10,63 +10,73 @@ class ChattingListTopWidget extends GetView<ChattingListPageController> {
   const ChattingListTopWidget({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) => Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 30),
-        child: Column(
-          children: [
-            topTitleWidget(),
-            searchWidget(),
-          ],
-        ),
-      );
-
-  Widget topTitleWidget() => Row(
+  Widget build(BuildContext context) => Column(
         children: [
-          InkWell(
-            onTap: () => Get.back(),
-            child: Container(
-              height: 35,
-              width: 35,
-              decoration: BoxDecoration(
-                color: WHITE_COLOR,
-                borderRadius: BorderRadius.circular(100),
-                boxShadow: [
-                  BoxShadow(
-                    color: DARK_GREY_COLOR.withOpacity(0.1),
-                    blurRadius: 5,
-                    offset: const Offset(2, 2),
-                  ),
-                ],
-              ),
-              alignment: Alignment.center,
-              child: const Icon(
-                Icons.arrow_back_ios_new_outlined,
-                color: Color.fromARGB(255, 61, 78, 100),
-                size: 18,
-              ),
-            ),
+          topTitleWidget(),
+          searchWidget(),
+          Container(
+            height: 1,
+            margin: const EdgeInsets.only(top: 15),
+            color: LIGHT_GREY_COLOR.withOpacity(0.1),
           ),
-          Expanded(
-            child: Padding(
-              padding: const EdgeInsets.only(right: 35),
-              child: Text(
-                'Chats',
-                textAlign: TextAlign.center,
-                style: GoogleFonts.quicksand(
-                  color: const Color.fromARGB(255, 62, 68, 87),
-                  fontSize: 18,
-                  fontWeight: FontWeight.w700,
-                  letterSpacing: 2,
-                ),
-              ),
-            ),
+          Container(
+            height: 8,
+            margin: const EdgeInsets.only(bottom: 10),
+            color: const Color.fromARGB(255, 243, 248, 255),
           ),
         ],
       );
 
+  Widget topTitleWidget() => Padding(
+        padding: const EdgeInsets.only(top: 30, bottom: 15),
+        child: Row(
+          children: [
+            // InkWell(
+            //   onTap: () => Get.back(),
+            //   child: Container(
+            //     height: 35,
+            //     width: 35,
+            //     decoration: BoxDecoration(
+            //       color: WHITE_COLOR,
+            //       borderRadius: BorderRadius.circular(100),
+            //       boxShadow: [
+            //         BoxShadow(
+            //           color: DARK_GREY_COLOR.withOpacity(0.1),
+            //           blurRadius: 5,
+            //           offset: const Offset(2, 2),
+            //         ),
+            //       ],
+            //     ),
+            //     alignment: Alignment.center,
+            //     child: const Icon(
+            //       Icons.arrow_back_ios_new_outlined,
+            //       color: Color.fromARGB(255, 61, 78, 100),
+            //       size: 18,
+            //     ),
+            //   ),
+            // ),
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.only(right: 35),
+                child: Text(
+                  'Chats Page',
+                  textAlign: TextAlign.center,
+                  style: GoogleFonts.quicksand(
+                    color: const Color.fromARGB(255, 62, 68, 87),
+                    fontSize: 18,
+                    fontWeight: FontWeight.w700,
+                    letterSpacing: 2,
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      );
+
   Widget searchWidget() => Container(
         height: 40,
-        margin: const EdgeInsets.only(top: 30),
+        margin: const EdgeInsets.symmetric(horizontal: 12),
         child: Row(
           children: [
             Expanded(

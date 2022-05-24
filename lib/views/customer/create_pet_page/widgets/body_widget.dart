@@ -38,6 +38,80 @@ class CreatePetBodyWidget extends GetView<CreatePetPageController> {
     );
   }
 
+  Widget fertilityWidget() => Padding(
+        padding: const EdgeInsets.only(
+          top: 5,
+        ),
+        child: Obx(
+          () => InkWell(
+            onTap: () => controller.selectedFertility.value == 'YES'
+                ? controller.selectedFertility.value = 'NO'
+                : controller.selectedFertility.value = 'YES',
+            child: Row(
+              children: [
+                Container(
+                  height: 30,
+                  width: 60,
+                  alignment: Alignment.center,
+                  decoration: BoxDecoration(
+                    color: controller.selectedFertility.value == 'YES'
+                        ? PRIMARY_COLOR
+                        : const Color.fromARGB(255, 237, 240, 243),
+                    borderRadius: const BorderRadius.horizontal(
+                      left: Radius.circular(7),
+                    ),
+                    border: Border.all(
+                      color: controller.selectedFertility.value == 'YES'
+                          ? PRIMARY_COLOR
+                          : DARK_GREY_COLOR.withOpacity(0.2),
+                      width: 1,
+                    ),
+                  ),
+                  child: Text(
+                    'YES',
+                    style: GoogleFonts.quicksand(
+                      color: controller.selectedFertility.value == 'YES'
+                          ? WHITE_COLOR
+                          : DARK_GREY_COLOR.withOpacity(0.3),
+                      fontSize: 15,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                ),
+                Container(
+                  height: 30,
+                  width: 60,
+                  alignment: Alignment.center,
+                  decoration: BoxDecoration(
+                    color: controller.selectedFertility.value == 'NO'
+                        ? PRIMARY_COLOR
+                        : const Color.fromARGB(255, 237, 240, 243),
+                    borderRadius: const BorderRadius.horizontal(
+                        right: Radius.circular(7)),
+                    border: Border.all(
+                      color: controller.selectedFertility.value == 'NO'
+                          ? PRIMARY_COLOR
+                          : DARK_GREY_COLOR.withOpacity(0.2),
+                      width: 1,
+                    ),
+                  ),
+                  child: Text(
+                    'NO',
+                    style: GoogleFonts.quicksand(
+                      color: controller.selectedFertility.value == 'NO'
+                          ? WHITE_COLOR
+                          : DARK_GREY_COLOR.withOpacity(0.3),
+                      fontSize: 15,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      );
+
   Widget dateOfBirthWidget() => Padding(
         padding: const EdgeInsets.symmetric(horizontal: 12),
         child: Column(
@@ -295,79 +369,7 @@ class CreatePetBodyWidget extends GetView<CreatePetPageController> {
           ],
         ),
       );
-  Widget fertilityWidget() => Padding(
-        padding: const EdgeInsets.only(
-          top: 5,
-        ),
-        child: Obx(
-          () => InkWell(
-            onTap: () => controller.selectedFertility.value == 'YES'
-                ? controller.selectedFertility.value = 'NO'
-                : controller.selectedFertility.value = 'YES',
-            child: Row(
-              children: [
-                Container(
-                  height: 30,
-                  width: 60,
-                  alignment: Alignment.center,
-                  decoration: BoxDecoration(
-                    color: controller.selectedFertility.value == 'YES'
-                        ? PRIMARY_COLOR
-                        : const Color.fromARGB(255, 237, 240, 243),
-                    borderRadius: const BorderRadius.horizontal(
-                      left: Radius.circular(7),
-                    ),
-                    border: Border.all(
-                      color: controller.selectedFertility.value == 'YES'
-                          ? PRIMARY_COLOR
-                          : DARK_GREY_COLOR.withOpacity(0.2),
-                      width: 1,
-                    ),
-                  ),
-                  child: Text(
-                    'YES',
-                    style: GoogleFonts.quicksand(
-                      color: controller.selectedFertility.value == 'YES'
-                          ? WHITE_COLOR
-                          : DARK_GREY_COLOR.withOpacity(0.3),
-                      fontSize: 15,
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                ),
-                Container(
-                  height: 30,
-                  width: 60,
-                  alignment: Alignment.center,
-                  decoration: BoxDecoration(
-                    color: controller.selectedFertility.value == 'NO'
-                        ? PRIMARY_COLOR
-                        : const Color.fromARGB(255, 237, 240, 243),
-                    borderRadius: const BorderRadius.horizontal(
-                        right: Radius.circular(7)),
-                    border: Border.all(
-                      color: controller.selectedFertility.value == 'NO'
-                          ? PRIMARY_COLOR
-                          : DARK_GREY_COLOR.withOpacity(0.2),
-                      width: 1,
-                    ),
-                  ),
-                  child: Text(
-                    'NO',
-                    style: GoogleFonts.quicksand(
-                      color: controller.selectedFertility.value == 'NO'
-                          ? WHITE_COLOR
-                          : DARK_GREY_COLOR.withOpacity(0.3),
-                      fontSize: 15,
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
-      );
+
   Widget petSpicesWidget() {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 12),
