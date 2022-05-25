@@ -5,6 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:petapp_mobile/configs/path.dart';
 import 'package:petapp_mobile/configs/theme.dart';
 import 'package:petapp_mobile/controllers/chatting_detail_page_controller.dart';
+import 'package:petapp_mobile/models/messasge_model.dart/message_model.dart';
 import 'package:petapp_mobile/utilities/utilities.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
@@ -14,54 +15,56 @@ class CreateRequestWidget extends GetView<ChattingDetailPageController> {
   @override
   Widget build(BuildContext context) {
     return Obx(
-      () => Visibility(
-        visible: controller.isShowCreateRequest.value,
-        child: Stack(
-          children: [
-            InkWell(
-              onTap: () => controller.isShowCreateRequest.value = false,
-              child: Container(
-                color: const Color.fromARGB(106, 198, 188, 201),
-                alignment: Alignment.center,
-                child: InkWell(
-                  onTap: () {},
+      () => controller.isShowCreateRequest.value
+          ? Stack(
+              children: [
+                InkWell(
+                  onTap: () => controller.isShowCreateRequest.value = false,
                   child: Container(
-                    width: 300,
-                    height: 470,
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 12, vertical: 12),
-                    decoration: BoxDecoration(
-                      color: WHITE_COLOR,
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: Column(
-                      children: [
-                        Text(
-                          'Create Transaction Request',
-                          textAlign: TextAlign.center,
-                          style: GoogleFonts.quicksand(
-                            color: PRIMARY_COLOR,
-                            fontSize: 16,
-                            fontWeight: FontWeight.w700,
-                            letterSpacing: 1,
-                          ),
+                    color: const Color.fromARGB(106, 198, 188, 201),
+                    alignment: Alignment.center,
+                    child: InkWell(
+                      onTap: () {},
+                      child: Container(
+                        width: 300,
+                        height: controller.chatRoomModel!.status == 'REQUESTED'
+                            ? 520
+                            : 470,
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 12, vertical: 12),
+                        decoration: BoxDecoration(
+                          color: WHITE_COLOR,
+                          borderRadius: BorderRadius.circular(10),
                         ),
-                        transactionTimeWidget(),
-                        transactionLocationWidget(
-                            ownerAddress:
-                                controller.accountModel.customerModel.address!),
-                        descriptionWidget(),
-                        sendRequestWidget(),
-                      ],
+                        child: Column(
+                          children: [
+                            Text(
+                              'Create Transaction Request',
+                              textAlign: TextAlign.center,
+                              style: GoogleFonts.quicksand(
+                                color: PRIMARY_COLOR,
+                                fontSize: 16,
+                                fontWeight: FontWeight.w700,
+                                letterSpacing: 1,
+                              ),
+                            ),
+                            transactionTimeWidget(),
+                            transactionLocationWidget(
+                                ownerAddress: controller
+                                    .accountModel.customerModel.address!),
+                            descriptionWidget(),
+                            sendRequestWidget(),
+                            cancelRequestWidget(),
+                          ],
+                        ),
+                      ),
                     ),
                   ),
                 ),
-              ),
-            ),
-            calendarWidget(),
-          ],
-        ),
-      ),
+                calendarWidget(),
+              ],
+            )
+          : const SizedBox.shrink(),
     );
   }
 
@@ -70,54 +73,159 @@ class CreateRequestWidget extends GetView<ChattingDetailPageController> {
         child: InkWell(
           onTap: () {
             controller.isShowCreateRequest.value = false;
+            MessageModel messageModel = MessageModel(
+              isSellerMessage: controller.accountModel.customerModel.id ==
+                  controller.postModel.customerId,
+              content:
+                  'Buyer transction request:\n transaction place - ${controller.transactionLocation.value}, transaction time - ${FORMAT_DATE_TIME(dateTime: controller.transactionTime!, pattern: DATE_TIME_PATTERN)}. ' +
+                      controller.description.value,
+              type: 'NORMAL',
+              createdTime: DateTime.now(),
+              buyerId: controller.accountModel.customerModel.id,
+              postId: controller.postModel.id,
+              sellerId: controller.postModel.customerId,
+              room: controller.chatRoomModel!.id,
+            );
+            controller.socket.emit('chatToServer', messageModel);
+            controller.socket.emit(
+              'updateRoom',
+              controller.chatRoomModel!
+                ..transactionPlace = controller.transactionLocation.value
+                ..transactionTime = controller.transactionTime
+                ..description = controller.description.value
+                ..status = 'REQUESTED',
+            );
           },
-          child: Container(
-            height: 35,
-            decoration: BoxDecoration(
-              color: PRIMARY_COLOR.withOpacity(0.9),
-              borderRadius: BorderRadius.circular(100),
-              border: Border.all(
-                color: PRIMARY_COLOR,
-                width: 1,
+          child: Obx(
+            () => Container(
+              height: 35,
+              decoration: BoxDecoration(
+                color: controller.transactionTimeText.value.isNotEmpty &&
+                        controller.transactionLocation.value.isNotEmpty
+                    ? PRIMARY_COLOR.withOpacity(0.9)
+                    : PRIMARY_COLOR.withOpacity(0.5),
+                borderRadius: BorderRadius.circular(100),
+                border: Border.all(
+                  color: PRIMARY_COLOR,
+                  width: 1,
+                ),
+                boxShadow: [
+                  BoxShadow(
+                    color: DARK_GREY_COLOR.withOpacity(0.1),
+                    blurRadius: 5,
+                    offset: const Offset(2, 2),
+                  ),
+                ],
               ),
-              boxShadow: [
-                BoxShadow(
-                  color: DARK_GREY_COLOR.withOpacity(0.1),
-                  blurRadius: 5,
-                  offset: const Offset(2, 2),
+              child: GetBuilder<ChattingDetailPageController>(
+                builder: (_) => Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      controller.chatRoomModel!.status == 'REQUESTED'
+                          ? 'Update request'
+                          : 'Send request to seller',
+                      textAlign: TextAlign.start,
+                      overflow: TextOverflow.clip,
+                      style: GoogleFonts.quicksand(
+                        color: WHITE_COLOR,
+                        fontSize: 15,
+                        fontWeight: FontWeight.w500,
+                        letterSpacing: 1,
+                      ),
+                    ),
+                    Visibility(
+                      visible: controller.chatRoomModel!.status == 'CREATED',
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 7),
+                        child: SvgPicture.asset(
+                          ICON_PATH + SEND_SVG,
+                          height: 18,
+                          color: WHITE_COLOR,
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
-              ],
+              ),
             ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  'Send request to seller',
-                  textAlign: TextAlign.start,
-                  overflow: TextOverflow.clip,
-                  style: GoogleFonts.quicksand(
-                    color: WHITE_COLOR,
-                    fontSize: 15,
-                    fontWeight: FontWeight.w500,
-                    letterSpacing: 1,
-                  ),
+          ),
+        ),
+      );
+
+  Widget cancelRequestWidget() => Visibility(
+        visible: controller.chatRoomModel!.status == 'REQUESTED',
+        child: Padding(
+          padding: const EdgeInsets.only(top: 10),
+          child: InkWell(
+            onTap: () {
+              controller.isShowCreateRequest.value = false;
+              //!message
+              MessageModel messageModel = MessageModel(
+                isSellerMessage: controller.accountModel.customerModel.id ==
+                    controller.postModel.customerId,
+                content: 'Buyer transaction request: Request canceled',
+                type: 'NORMAL',
+                createdTime: DateTime.now(),
+                buyerId: controller.accountModel.customerModel.id,
+                postId: controller.postModel.id,
+                sellerId: controller.postModel.customerId,
+                room: controller.chatRoomModel!.id,
+              );
+              //!update room
+              controller.socket.emit('chatToServer', messageModel);
+              controller.socket.emit(
+                'updateRoom',
+                controller.chatRoomModel!..status = 'CREATED',
+              );
+            },
+            child: Container(
+              height: 35,
+              padding: const EdgeInsets.symmetric(horizontal: 10),
+              decoration: BoxDecoration(
+                color: WHITE_COLOR,
+                borderRadius: BorderRadius.circular(100),
+                border: Border.all(
+                  color: const Color.fromARGB(255, 228, 134, 151),
+                  width: 0.5,
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 7),
-                  child: SvgPicture.asset(
-                    ICON_PATH + SEND_SVG,
-                    height: 18,
-                    color: WHITE_COLOR,
+                boxShadow: [
+                  BoxShadow(
+                    color: DARK_GREY_COLOR.withOpacity(0.1),
+                    blurRadius: 5,
+                    offset: const Offset(2, 2),
                   ),
-                ),
-              ],
+                ],
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  SizedBox(
+                    width: 135,
+                    child: Text(
+                      'Cancel request',
+                      textAlign: TextAlign.center,
+                      overflow: TextOverflow.clip,
+                      style: GoogleFonts.quicksand(
+                        color: const Color.fromARGB(255, 226, 66, 93),
+                        fontSize: 14,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ),
+                  SvgPicture.asset(
+                    ICON_PATH + CLOSE_SVG,
+                    height: 12,
+                    color: const Color.fromARGB(255, 226, 66, 93),
+                  ),
+                ],
+              ),
             ),
           ),
         ),
       );
 
   Widget transactionLocationWidget({required String ownerAddress}) {
-    TextEditingController _textEditingController = TextEditingController();
     return Column(
       children: [
         Padding(
@@ -185,9 +293,11 @@ class CreateRequestWidget extends GetView<ChattingDetailPageController> {
                         value: controller.isUseOwnerAddress.value,
                         onChanged: (isCheck) {
                           controller.isUseOwnerAddress.value = isCheck!;
-                          isCheck
-                              ? _textEditingController.text = ownerAddress
-                              : null;
+                          if (isCheck) {
+                            controller.transactionLocationTextEditingController
+                                .text = ownerAddress;
+                            controller.transactionLocation.value = ownerAddress;
+                          }
                         },
                         activeColor: PRIMARY_COLOR,
                       ),
@@ -208,10 +318,12 @@ class CreateRequestWidget extends GetView<ChattingDetailPageController> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Expanded(
-                    child: TextField(
+                    child: TextFormField(
                       minLines: 3,
                       maxLines: 3,
-                      controller: _textEditingController,
+                      maxLength: 40,
+                      controller:
+                          controller.transactionLocationTextEditingController,
                       onChanged: (String text) {
                         controller.transactionLocation.value = text;
                       },
@@ -223,7 +335,7 @@ class CreateRequestWidget extends GetView<ChattingDetailPageController> {
                         fontSize: 15,
                         letterSpacing: 1,
                       ),
-                      decoration: InputDecoration.collapsed(
+                      decoration: InputDecoration(
                         hintText: 'Type transaction location here...',
                         hintStyle: GoogleFonts.quicksand(
                           fontWeight: FontWeight.w500,
@@ -231,6 +343,9 @@ class CreateRequestWidget extends GetView<ChattingDetailPageController> {
                           fontSize: 13,
                           letterSpacing: 1,
                         ),
+                        border: InputBorder.none,
+                        counterText: '',
+                        isCollapsed: true,
                       ),
                     ),
                   ),
@@ -244,7 +359,6 @@ class CreateRequestWidget extends GetView<ChattingDetailPageController> {
   }
 
   Widget descriptionWidget() {
-    TextEditingController _textEditingController = TextEditingController();
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -279,7 +393,7 @@ class CreateRequestWidget extends GetView<ChattingDetailPageController> {
                 child: TextField(
                   minLines: 3,
                   maxLines: 3,
-                  controller: _textEditingController,
+                  controller: controller.descriptionTextEditingController,
                   onChanged: (String text) {
                     controller.description.value = text;
                   },

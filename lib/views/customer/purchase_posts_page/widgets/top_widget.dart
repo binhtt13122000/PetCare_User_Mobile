@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:petapp_mobile/configs/path.dart';
-import 'package:petapp_mobile/configs/rounter.dart';
+import 'package:petapp_mobile/configs/route.dart';
 import 'package:petapp_mobile/configs/theme.dart';
 import 'package:petapp_mobile/controllers/purchase_posts_page_controller.dart';
 import 'package:petapp_mobile/graphql/query_mutation/species.dart';
@@ -70,8 +70,8 @@ class TopWidget extends GetView<PurchasePostsPageController> {
         child: SingleChildScrollView(
           scrollDirection: Axis.horizontal,
           child: Query(
-            options:
-                QueryOptions(document: gql(FETCH_ALL_SPECIES), variables: {}),
+            options: QueryOptions(
+                document: gql(FETCH_ALL_SPECIES), variables: const {}),
             builder: (
               QueryResult result, {
               VoidCallback? refetch,

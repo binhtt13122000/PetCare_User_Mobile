@@ -3,7 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:petapp_mobile/configs/path.dart';
-import 'package:petapp_mobile/configs/rounter.dart';
+import 'package:petapp_mobile/configs/route.dart';
 import 'package:petapp_mobile/configs/theme.dart';
 import 'package:petapp_mobile/controllers/chatting_detail_page_controller.dart';
 import 'package:petapp_mobile/controllers/payment_pay_controller.dart';
@@ -67,72 +67,76 @@ class ChattingDetailTopWidget extends GetView<ChattingDetailPageController> {
         ),
       );
 
-  Widget postGeneralInfo() => Container(
-        color: WHITE_COLOR,
-        child: Column(
-          children: [
-            SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 12),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    Container(
-                      margin: const EdgeInsets.only(right: 5),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(5),
-                        border: Border.all(
-                          color: const Color.fromARGB(255, 76, 85, 117),
+  Widget postGeneralInfo() => InkWell(
+        onTap: () => Get.toNamed(
+            '$PURCHASE_POST_DETAIL_PAGE_ROUNTER/${controller.postModel.id}'),
+        child: Container(
+          color: WHITE_COLOR,
+          child: Column(
+            children: [
+              SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 12),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      Container(
+                        margin: const EdgeInsets.only(right: 5),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(5),
+                          border: Border.all(
+                            color: const Color.fromARGB(255, 76, 85, 117),
+                          ),
+                        ),
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(5),
+                          child: Image.network(
+                            controller.postModel.mediaModels![0].url,
+                            height: 40,
+                            width: 40,
+                            fit: BoxFit.cover,
+                          ),
                         ),
                       ),
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(5),
-                        child: Image.network(
-                          controller.postModel.mediaModels![0].url,
-                          height: 40,
-                          width: 40,
-                          fit: BoxFit.cover,
+                      Text(
+                        'Pet: ${controller.postModel.petModel!.breedModel.name} - ${controller.postModel.petModel!.breedModel.speciesModel!.name}',
+                        textAlign: TextAlign.start,
+                        overflow: TextOverflow.clip,
+                        style: GoogleFonts.quicksand(
+                          color: PRIMARY_COLOR,
+                          fontSize: 14,
+                          fontWeight: FontWeight.w500,
+                          letterSpacing: 0.5,
                         ),
                       ),
-                    ),
-                    Text(
-                      'Pet: ${controller.postModel.petModel!.breedModel.name} - ${controller.postModel.petModel!.breedModel.speciesModel!.name}',
-                      textAlign: TextAlign.start,
-                      overflow: TextOverflow.clip,
-                      style: GoogleFonts.quicksand(
-                        color: PRIMARY_COLOR,
-                        fontSize: 14,
-                        fontWeight: FontWeight.w500,
-                        letterSpacing: 0.5,
+                      Text(
+                        'Price: ${FORMAT_MONEY(price: controller.postModel.provisionalTotal)}',
+                        textAlign: TextAlign.start,
+                        overflow: TextOverflow.clip,
+                        style: GoogleFonts.quicksand(
+                          color: PRIMARY_COLOR,
+                          fontSize: 15,
+                          fontWeight: FontWeight.w500,
+                          letterSpacing: 0.5,
+                        ),
                       ),
-                    ),
-                    Text(
-                      'Price: ${FORMAT_MONEY(price: controller.postModel.provisionalTotal)}',
-                      textAlign: TextAlign.start,
-                      overflow: TextOverflow.clip,
-                      style: GoogleFonts.quicksand(
-                        color: PRIMARY_COLOR,
-                        fontSize: 15,
-                        fontWeight: FontWeight.w500,
-                        letterSpacing: 0.5,
-                      ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(top: 5),
-              child: GetBuilder<ChattingDetailPageController>(
-                  builder: (_) => chatRoomStatusWiget()),
-            ),
-            Container(
-              height: 1,
-              margin: const EdgeInsets.only(top: 5, bottom: 15),
-              color: const Color.fromARGB(255, 151, 163, 179),
-            ),
-          ],
+              Padding(
+                padding: const EdgeInsets.only(top: 5),
+                child: GetBuilder<ChattingDetailPageController>(
+                    builder: (_) => chatRoomStatusWiget()),
+              ),
+              Container(
+                height: 1,
+                margin: const EdgeInsets.only(top: 5, bottom: 15),
+                color: const Color.fromARGB(255, 151, 163, 179),
+              ),
+            ],
+          ),
         ),
       );
 
@@ -159,6 +163,8 @@ class ChattingDetailTopWidget extends GetView<ChattingDetailPageController> {
                       paymentButtonWidget(),
                     ],
                   );
+          case 'REQUESTED':
+            return viewRequestDetailWidget();
           default:
             return const SizedBox.shrink();
         }
@@ -183,6 +189,42 @@ class ChattingDetailTopWidget extends GetView<ChattingDetailPageController> {
       return const SizedBox.shrink();
     }
   }
+
+  Widget viewRequestDetailWidget() => InkWell(
+        onTap: () => controller.isShowCreateRequest.value = true,
+        child: Container(
+          height: 35,
+          padding: const EdgeInsets.symmetric(horizontal: 10),
+          decoration: BoxDecoration(
+            color: const Color.fromARGB(255, 255, 248, 183),
+            borderRadius: BorderRadius.circular(100),
+            border: Border.all(
+              color: const Color.fromARGB(255, 255, 243, 139),
+              width: 0.5,
+            ),
+            boxShadow: [
+              BoxShadow(
+                color: DARK_GREY_COLOR.withOpacity(0.1),
+                blurRadius: 5,
+                offset: const Offset(2, 2),
+              ),
+            ],
+          ),
+          child: FittedBox(
+            fit: BoxFit.scaleDown,
+            child: Text(
+              'Waitting for seller accept your request - View request detail',
+              textAlign: TextAlign.start,
+              overflow: TextOverflow.clip,
+              style: GoogleFonts.quicksand(
+                color: const Color.fromARGB(255, 76, 85, 117),
+                fontSize: 12,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+          ),
+        ),
+      );
 
   Widget createTransactionRequestButtonWidget() => InkWell(
         onTap: () => controller.isShowCreateRequest.value = true,
@@ -273,12 +315,13 @@ class ChattingDetailTopWidget extends GetView<ChattingDetailPageController> {
         onTap: () => controller.isShowBuyerRequest.value = true,
         child: Container(
           height: 35,
-          width: 300,
+          padding: const EdgeInsets.symmetric(horizontal: 10),
+          margin: const EdgeInsets.symmetric(horizontal: 10),
           decoration: BoxDecoration(
-            color: WHITE_COLOR,
+            color: const Color.fromARGB(255, 255, 248, 183),
             borderRadius: BorderRadius.circular(100),
             border: Border.all(
-              color: const Color.fromARGB(255, 151, 161, 197),
+              color: const Color.fromARGB(255, 255, 243, 139),
               width: 0.5,
             ),
             boxShadow: [
@@ -289,21 +332,18 @@ class ChattingDetailTopWidget extends GetView<ChattingDetailPageController> {
               ),
             ],
           ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                'View buyer transaction request',
-                textAlign: TextAlign.start,
-                overflow: TextOverflow.clip,
-                style: GoogleFonts.quicksand(
-                  color: const Color.fromARGB(255, 76, 85, 117),
-                  fontSize: 14,
-                  fontWeight: FontWeight.w500,
-                  letterSpacing: 1,
-                ),
+          child: FittedBox(
+            fit: BoxFit.scaleDown,
+            child: Text(
+              'A buyer transaction request need to approved - View request detail',
+              textAlign: TextAlign.start,
+              overflow: TextOverflow.clip,
+              style: GoogleFonts.quicksand(
+                color: const Color.fromARGB(255, 76, 85, 117),
+                fontSize: 12,
+                fontWeight: FontWeight.w500,
               ),
-            ],
+            ),
           ),
         ),
       );

@@ -3,7 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:petapp_mobile/configs/path.dart';
-import 'package:petapp_mobile/configs/rounter.dart';
+import 'package:petapp_mobile/configs/route.dart';
 import 'package:petapp_mobile/configs/theme.dart';
 import 'package:petapp_mobile/controllers/payment_for_transaction_at_center_page_controller.dart';
 import 'package:petapp_mobile/services/payment_services.dart';
@@ -151,21 +151,21 @@ class PaymentForTransactionAtCenterBottomWidget
                   Expanded(
                     child: InkWell(
                       onTap: () async {
-                        controller.paymentUrl.value =
-                            await PaymentServices.payment(
-                          message: controller
-                                  .accountModel.customerModel.lastName +
-                              'paymented ${controller.normalTransactionModel.provisionalTotal - controller.disccountAmount.value}',
-                          locale: 'vi',
-                          paymentMethod: 'VNPAY',
-                          transactionId: controller.normalTransactionModel.id,
-                          customerId: controller.accountModel.customerModel.id,
-                          branchId:
-                              controller.normalTransactionModel.branchModel.id,
-                          orderTotal: controller
-                                  .normalTransactionModel.provisionalTotal -
-                              controller.disccountAmount.value,
-                        );
+                        controller.paymentUrl.value = await PaymentServices.payment(
+                            message: controller
+                                    .accountModel.customerModel.lastName +
+                                'paymented ${controller.normalTransactionModel.provisionalTotal - controller.disccountAmount.value}',
+                            locale: 'vi',
+                            paymentMethod: 'VNPAY',
+                            transactionId: controller.normalTransactionModel.id,
+                            customerId:
+                                controller.accountModel.customerModel.id,
+                            branchId: controller
+                                .normalTransactionModel.branchModel.id,
+                            orderTotal: controller
+                                    .normalTransactionModel.provisionalTotal -
+                                controller.disccountAmount.value,
+                            paymentTime: DateTime.now());
                       },
                       child: Container(
                         alignment: Alignment.center,

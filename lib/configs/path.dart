@@ -93,5 +93,5 @@ const PROFILE_UNSELECTED_SVG = 'profile_unselected.svg';
 // const GRAPHL_SERVER = 'http://10.0.2.2:8080';
 // const API_SERVER = '10.0.2.2:4000';
 // const GRAPHL_SERVER = 'http://10.0.2.2:8080';
-const API_SERVER = '3.101.141.8:4000';
-const GRAPHL_SERVER = 'http://3.101.141.8:8080';
+const API_SERVER = '54.177.67.81:4000';
+const GRAPHL_SERVER = 'http://54.177.67.81:8080';

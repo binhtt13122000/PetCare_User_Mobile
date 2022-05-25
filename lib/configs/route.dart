@@ -1,12 +1,12 @@
 //main
 // ignore_for_file: constant_identifier_names
 
-const MAIN_ROUNTER = '/';
+const MAIN_ROUTE = '/';
 
 //login
-const LANDING_PAGE_ROUNTER = '/landing';
-const SIGN_IN_PAGE_ROUNTER = '/landing/sign-in';
-const VERIFICATION_OTP_PAGE_ROUNTER = '/landing/sign-in/verification-otp';
+const LANDING_PAGE_ROUTE = '/landing';
+const SIGN_IN_PAGE_ROUTE = '/landing/sign-in';
+const VERIFICATION_OTP_PAGE_ROUTE = '/landing/sign-in/verification-otp';
 
 //register
 const REGISTER_USER_INFORMATION_PAGE_ROUNTER = '/register/user-information';

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:petapp_mobile/configs/rounter.dart';
+import 'package:petapp_mobile/configs/route.dart';
 import 'package:petapp_mobile/configs/theme.dart';
 import 'package:petapp_mobile/controllers/register_page_controller.dart';
 import 'package:petapp_mobile/services/account_services.dart';
@@ -34,7 +34,7 @@ class RegisterPhoneNumberPageBottomWidget
                     if (!controller.isUsedPhoneNumber.value) {
                       controller.isLoadingPhoneCredential.value = true;
                       if (controller.countDownTime.value > 0) {
-                        Get.toNamed(VERIFICATION_OTP_PAGE_ROUNTER);
+                        Get.toNamed(VERIFICATION_OTP_PAGE_ROUTE);
                         controller.isLoadingPhoneCredential.value = false;
                       } else {
                         await controller.auth.verifyPhoneNumber(
