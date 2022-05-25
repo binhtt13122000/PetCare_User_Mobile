@@ -10,6 +10,7 @@ import 'package:petapp_mobile/graphql/query_mutation/post.dart';
 import 'package:petapp_mobile/models/customer_model/customer_model.dart';
 import 'package:petapp_mobile/models/post_model/post_model.dart';
 import 'package:petapp_mobile/services/chat_services.dart';
+import 'package:petapp_mobile/utilities/utilities.dart';
 import 'package:petapp_mobile/views/customer/chatting_detail_page/widgets/body_widget.dart';
 import 'package:petapp_mobile/views/customer/chatting_detail_page/widgets/bottom_widget.dart';
 import 'package:petapp_mobile/views/customer/chatting_detail_page/widgets/buyer_request_widget.dart';
@@ -27,6 +28,23 @@ class ChattingDetailPage extends GetView<ChattingDetailPageController> {
       if (Get.parameters['chatRoomId'] != null) {
         controller.chatRoomModel = await ChatServices.fetchChatRoomById(
             chatRoomId: Get.parameters['chatRoomId']!);
+        //!location
+        controller.transactionLocationTextEditingController.text =
+            controller.chatRoomModel!.transactionPlace ?? '';
+        controller.transactionLocation.value =
+            controller.chatRoomModel!.transactionPlace ?? '';
+        //!time
+        controller.transactionTime = controller.chatRoomModel!.transactionTime;
+        controller.tmpTransactionTime = controller.transactionTime;
+        if (controller.transactionTime != null) {
+          controller.transactionTimeText.value = FORMAT_DATE_TIME(
+              dateTime: controller.transactionTime!, pattern: DATE_PATTERN_2);
+        }
+        //!descriptio
+        controller.descriptionTextEditingController.text =
+            controller.chatRoomModel!.description ?? '';
+        controller.description.value =
+            controller.chatRoomModel!.description ?? '';
         controller.messageModelList
             .addAll(await ChatServices.fetchMesageListByChatRoomId(
           chatRoomId: Get.parameters['chatRoomId']!,

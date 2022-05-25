@@ -139,8 +139,8 @@ query MyQuery($_customerId: Int) {
 ''';
 
 const FETCH_ALL_PURCHASE_POST_LIST_BY_CUSTOMER_ID = r'''
-query MyQuery($customerId: Int) {
-  post(where: {status: {_eq: "PUBLISHED"}, customerId: {_eq: $customerId}}) {
+query MyQuery($customerId: Int = 1) {
+  post(where: {customerId: {_eq: $customerId}}, order_by: {createTime: desc}) {
     approveTime
     branchId
     cancelTime

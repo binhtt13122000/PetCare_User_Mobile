@@ -4,7 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:petapp_mobile/configs/path.dart';
-import 'package:petapp_mobile/configs/rounter.dart';
+import 'package:petapp_mobile/configs/route.dart';
 import 'package:petapp_mobile/configs/theme.dart';
 import 'package:petapp_mobile/models/account_model/account_model.dart';
 import 'package:petapp_mobile/views/widgets/customize_widget.dart';
@@ -32,7 +32,7 @@ class ProfilePageTopWidget extends GetView {
   Widget phoneNumberWidget() => InkWell(
         onTap: () {
           FirebaseAuth.instance.signOut();
-          Get.offAllNamed(LANDING_PAGE_ROUNTER);
+          Get.offAllNamed(LANDING_PAGE_ROUTE);
         },
         child: Row(
           children: [

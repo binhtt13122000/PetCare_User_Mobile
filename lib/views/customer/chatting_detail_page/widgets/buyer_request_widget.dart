@@ -5,6 +5,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:petapp_mobile/configs/path.dart';
 import 'package:petapp_mobile/configs/theme.dart';
 import 'package:petapp_mobile/controllers/chatting_detail_page_controller.dart';
+import 'package:petapp_mobile/models/messasge_model.dart/message_model.dart';
+import 'package:petapp_mobile/services/sale_transaction_services.dart';
 import 'package:petapp_mobile/utilities/utilities.dart';
 
 class BuyerRequestWidget extends GetView<ChattingDetailPageController> {
@@ -25,7 +27,7 @@ class BuyerRequestWidget extends GetView<ChattingDetailPageController> {
                       onTap: () {},
                       child: Container(
                         width: 300,
-                        height: 470,
+                        height: 510,
                         padding: const EdgeInsets.symmetric(
                             horizontal: 12, vertical: 12),
                         decoration: BoxDecoration(
@@ -49,13 +51,8 @@ class BuyerRequestWidget extends GetView<ChattingDetailPageController> {
                                 ownerAddress: controller
                                     .accountModel.customerModel.address!),
                             descriptionWidget(),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                denineBuyerRequestWidget(),
-                                acceptBuyerRequestWidget(),
-                              ],
-                            )
+                            acceptBuyerRequestWidget(),
+                            denineBuyerRequestWidget(),
                           ],
                         ),
                       ),
@@ -68,49 +65,84 @@ class BuyerRequestWidget extends GetView<ChattingDetailPageController> {
     );
   }
 
-  Widget acceptBuyerRequestWidget() => InkWell(
-        onTap: () => controller.isShowCreateRequest.value = true,
-        child: Container(
-          height: 35,
-          width: 230,
-          decoration: BoxDecoration(
-            color: const Color.fromARGB(255, 60, 202, 190),
-            borderRadius: BorderRadius.circular(100),
-            border: Border.all(
-              color: const Color.fromARGB(255, 35, 170, 159),
-              width: 1,
+  Widget acceptBuyerRequestWidget() => Padding(
+        padding: const EdgeInsets.only(top: 20),
+        child: InkWell(
+          onTap: () async {
+            //*create request
+            await SaleTransactionService.createSaleTransaction(
+                meetingTime: controller.chatRoomModel!.transactionTime!,
+                placeMeeting: controller.chatRoomModel!.transactionPlace!,
+                sellerReceive: controller.postModel.sellerReceive,
+                transactionFee: controller.postModel.shopFee,
+                provisionalTotal: controller.postModel.provisionalTotal,
+                transactionTotal: controller.postModel.provisionalTotal,
+                description: controller.chatRoomModel!.description,
+                buyerId: controller.chatRoomModel!.buyerId,
+                sellerId: controller.chatRoomModel!.sellerId,
+                petId: controller.postModel.petId,
+                posId: controller.chatRoomModel!.postId);
+            //*send message
+            MessageModel messageModel = MessageModel(
+              isSellerMessage: controller.accountModel.customerModel.id ==
+                  controller.postModel.customerId,
+              content: 'Buyer transaction request: Accepted',
+              type: 'NORMAL',
+              createdTime: DateTime.now(),
+              buyerId: controller.accountModel.customerModel.id,
+              postId: controller.postModel.id,
+              sellerId: controller.postModel.customerId,
+              room: controller.chatRoomModel!.id,
+            );
+            controller.socket.emit('chatToServer', messageModel);
+            controller.socket.emit(
+              'updateRoom',
+              controller.chatRoomModel!
+                ..transactionId = '123456'
+                ..status = 'CREATED',
+            );
+          },
+          child: Container(
+            height: 35,
+            decoration: BoxDecoration(
+              color: const Color.fromARGB(255, 60, 202, 190),
+              borderRadius: BorderRadius.circular(100),
+              border: Border.all(
+                color: const Color.fromARGB(255, 35, 170, 159),
+                width: 1,
+              ),
+              boxShadow: [
+                BoxShadow(
+                  color: DARK_GREY_COLOR.withOpacity(0.1),
+                  blurRadius: 5,
+                  offset: const Offset(2, 2),
+                ),
+              ],
             ),
-            boxShadow: [
-              BoxShadow(
-                color: DARK_GREY_COLOR.withOpacity(0.1),
-                blurRadius: 5,
-                offset: const Offset(2, 2),
-              ),
-            ],
-          ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                'Accept request',
-                textAlign: TextAlign.start,
-                overflow: TextOverflow.clip,
-                style: GoogleFonts.quicksand(
-                  color: WHITE_COLOR,
-                  fontSize: 14,
-                  fontWeight: FontWeight.w500,
-                  letterSpacing: 0.5,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SizedBox(
+                  width: 135,
+                  child: Text(
+                    'Accept request',
+                    textAlign: TextAlign.center,
+                    overflow: TextOverflow.clip,
+                    style: GoogleFonts.quicksand(
+                      color: WHITE_COLOR,
+                      fontSize: 14,
+                      fontWeight: FontWeight.w500,
+                      letterSpacing: 0.5,
+                    ),
+                  ),
                 ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(left: 3),
-                child: SvgPicture.asset(
-                  ICON_PATH + ADD_SVG,
-                  height: 16,
+                const Icon(
+                  Icons.verified,
+                  size: 18,
                   color: WHITE_COLOR,
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       );
@@ -204,16 +236,14 @@ class BuyerRequestWidget extends GetView<ChattingDetailPageController> {
             ),
             borderRadius: BorderRadius.circular(5),
           ),
-          child: Expanded(
-            child: Text(
-              controller.chatRoomModel!.description ?? '',
-              textAlign: TextAlign.start,
-              style: GoogleFonts.quicksand(
-                fontWeight: FontWeight.w500,
-                color: const Color.fromARGB(255, 113, 135, 168),
-                fontSize: 15,
-                letterSpacing: 1,
-              ),
+          child: Text(
+            controller.chatRoomModel!.description ?? '',
+            textAlign: TextAlign.start,
+            style: GoogleFonts.quicksand(
+              fontWeight: FontWeight.w500,
+              color: const Color.fromARGB(255, 113, 135, 168),
+              fontSize: 15,
+              letterSpacing: 1,
             ),
           ),
         ),
@@ -284,7 +314,7 @@ class BuyerRequestWidget extends GetView<ChattingDetailPageController> {
                 ),
                 const Icon(
                   Icons.calendar_month_rounded,
-                  color: PRIMARY_COLOR,
+                  color: Color.fromARGB(255, 113, 135, 168),
                 ),
               ],
             ),
@@ -292,48 +322,72 @@ class BuyerRequestWidget extends GetView<ChattingDetailPageController> {
         ],
       );
 
-  Widget denineBuyerRequestWidget() => InkWell(
-        onTap: () => Get.back(),
-        child: Container(
-          height: 35,
-          width: 100,
-          decoration: BoxDecoration(
-            color: WHITE_COLOR,
-            borderRadius: BorderRadius.circular(100),
-            border: Border.all(
-              color: const Color.fromARGB(255, 228, 134, 151),
-              width: 0.5,
-            ),
-            boxShadow: [
-              BoxShadow(
-                color: DARK_GREY_COLOR.withOpacity(0.1),
-                blurRadius: 5,
-                offset: const Offset(2, 2),
+  Widget denineBuyerRequestWidget() => Padding(
+        padding: const EdgeInsets.only(top: 10),
+        child: InkWell(
+          onTap: () async {
+            //*send message
+            MessageModel messageModel = MessageModel(
+              isSellerMessage: controller.accountModel.customerModel.id ==
+                  controller.postModel.customerId,
+              content: 'Buyer transaction request: Denined',
+              type: 'NORMAL',
+              createdTime: DateTime.now(),
+              buyerId: controller.accountModel.customerModel.id,
+              postId: controller.postModel.id,
+              sellerId: controller.postModel.customerId,
+              room: controller.chatRoomModel!.id,
+            );
+            //*update room
+            controller.socket.emit('chatToServer', messageModel);
+            controller.socket.emit(
+              'updateRoom',
+              controller.chatRoomModel!
+                ..transactionId = null
+                ..status = 'CREATED',
+            );
+          },
+          child: Container(
+            height: 35,
+            padding: const EdgeInsets.symmetric(horizontal: 10),
+            decoration: BoxDecoration(
+              color: WHITE_COLOR,
+              borderRadius: BorderRadius.circular(100),
+              border: Border.all(
+                color: const Color.fromARGB(255, 228, 134, 151),
+                width: 0.5,
               ),
-            ],
-          ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                'Denine request',
-                textAlign: TextAlign.start,
-                overflow: TextOverflow.clip,
-                style: GoogleFonts.quicksand(
-                  color: const Color.fromARGB(255, 226, 66, 93),
-                  fontSize: 14,
-                  fontWeight: FontWeight.w500,
+              boxShadow: [
+                BoxShadow(
+                  color: DARK_GREY_COLOR.withOpacity(0.1),
+                  blurRadius: 5,
+                  offset: const Offset(2, 2),
                 ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(left: 5),
-                child: SvgPicture.asset(
+              ],
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SizedBox(
+                  width: 135,
+                  child: Text(
+                    'Denine request',
+                    textAlign: TextAlign.center,
+                    overflow: TextOverflow.clip,
+                    style: GoogleFonts.quicksand(
+                      color: const Color.fromARGB(255, 226, 66, 93),
+                      fontSize: 14,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                ),
+                SvgPicture.asset(
                   ICON_PATH + CLOSE_SVG,
                   height: 12,
                   color: const Color.fromARGB(255, 226, 66, 93),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       );

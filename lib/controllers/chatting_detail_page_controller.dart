@@ -10,6 +10,7 @@ import 'package:petapp_mobile/models/customer_model/customer_model.dart';
 import 'package:petapp_mobile/models/messasge_model.dart/message_model.dart';
 import 'package:petapp_mobile/models/post_model/post_model.dart';
 import 'package:petapp_mobile/services/chat_services.dart';
+import 'package:petapp_mobile/utilities/utilities.dart';
 import 'package:socket_io_client/socket_io_client.dart' as io;
 
 class ChattingDetailPageController extends GetxController {
@@ -36,7 +37,11 @@ class ChattingDetailPageController extends GetxController {
   final limitMessageRange = 10;
   double currentMaxScrollPosition = -1;
   final RxBool isShowBuyerRequest = false.obs;
-
+  bool isJoinedRoom = false;
+  TextEditingController transactionLocationTextEditingController =
+      TextEditingController();
+  TextEditingController descriptionTextEditingController =
+      TextEditingController();
   @override
   void onInit() async {
     socket = io.io(
@@ -47,14 +52,34 @@ class ChattingDetailPageController extends GetxController {
             .build());
     socket.on('joinedRoom', (data) => print(data));
     socket.on('leftRoom', (data) => print(data));
-    socket.on('chatToClient', (data) {
+    socket.on('chatToClient', (data) async {
       MessageModel messageModel = MessageModel.fromJson(data);
       messageModelList.add(messageModel);
-      if (chatRoomModel == null) {
-        updateChatRoom(chatRoomId: messageModel.room!);
-        socket.emit('joinRoom', messageModel.room);
-      }
       sortListMessage();
+      update();
+      chatRoomModel =
+          await ChatServices.fetchChatRoomById(chatRoomId: messageModel.room!);
+      if (!isJoinedRoom) {
+        socket.emit('joinRoom', messageModel.room);
+        isJoinedRoom = true;
+      }
+      if (!isShowCreateRequest.value) {
+        //!location
+        transactionLocationTextEditingController.text =
+            chatRoomModel!.transactionPlace ?? '';
+        transactionLocation.value = chatRoomModel!.transactionPlace ?? '';
+        //!time
+        transactionTime = chatRoomModel!.transactionTime;
+        tmpTransactionTime = transactionTime;
+        if (transactionTime != null) {
+          transactionTimeText.value = FORMAT_DATE_TIME(
+              dateTime: transactionTime!, pattern: DATE_PATTERN_2);
+        }
+        //!descriptio
+        descriptionTextEditingController.text =
+            chatRoomModel!.description ?? '';
+        description.value = chatRoomModel!.description ?? '';
+      }
       update();
     });
     scrollController.addListener(() async {
@@ -62,21 +87,18 @@ class ChattingDetailPageController extends GetxController {
               scrollController.position.minScrollExtent &&
           isLoadingMoreChat.value == false) {
         isLoadingMoreChat.value = true;
-        messageModelList.addAll(await ChatServices.fetchMesageListByChatRoomId(
-          chatRoomId: Get.parameters['chatRoomId']!,
-          limit: limitMessageRange,
-          skip: messageModelList.length,
-        ));
+        messageModelList.addAll(
+          await ChatServices.fetchMesageListByChatRoomId(
+            chatRoomId: Get.parameters['chatRoomId']!,
+            limit: limitMessageRange,
+            skip: messageModelList.length,
+          ),
+        );
         sortListMessage();
         update();
       }
     });
     super.onInit();
-  }
-
-  updateChatRoom({required String chatRoomId}) async {
-    chatRoomModel =
-        await ChatServices.fetchChatRoomById(chatRoomId: chatRoomId);
   }
 
   sortListMessage() {

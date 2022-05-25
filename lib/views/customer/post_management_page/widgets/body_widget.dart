@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:petapp_mobile/configs/path.dart';
+import 'package:petapp_mobile/configs/route.dart';
 import 'package:petapp_mobile/configs/theme.dart';
 import 'package:petapp_mobile/controllers/post_management_page_controller.dart';
 import 'package:petapp_mobile/graphql/graphql_config.dart';
@@ -210,34 +211,92 @@ class PostsManagementBodyWidget extends GetView<PostManagementPageController> {
         ),
       );
 
-  Widget postCardWidget({required PostModel postModel}) => Container(
-        height: 70,
-        margin: const EdgeInsets.symmetric(horizontal: 12),
-        decoration: const BoxDecoration(),
-        child: Row(
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(right: 10),
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(3),
-                child: Image.network(
-                  postModel.mediaModels![0].url,
-                  fit: BoxFit.cover,
-                  width: 50,
+  Widget postCardWidget({required PostModel postModel}) => InkWell(
+        onTap: () =>
+            Get.toNamed('$PURCHASE_POST_DETAIL_PAGE_ROUNTER/${postModel.id}'),
+        child: Container(
+          height: 70,
+          margin: const EdgeInsets.symmetric(horizontal: 12),
+          decoration: const BoxDecoration(),
+          child: Row(
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(right: 10),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(3),
+                  child: Image.network(
+                    postModel.mediaModels![0].url,
+                    fit: BoxFit.cover,
+                    width: 50,
+                  ),
                 ),
               ),
-            ),
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.only(right: 0),
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.only(right: 0),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        postModel.title,
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                        textAlign: TextAlign.center,
+                        style: GoogleFonts.quicksand(
+                          color: const Color.fromARGB(255, 64, 69, 87),
+                          fontWeight: FontWeight.w400,
+                          fontSize: 12,
+                        ),
+                      ),
+                      Text(
+                        '[${postModel.type}]',
+                        maxLines: 3,
+                        overflow: TextOverflow.ellipsis,
+                        textAlign: TextAlign.center,
+                        style: GoogleFonts.quicksand(
+                          color: const Color.fromARGB(255, 64, 69, 87),
+                          fontWeight: FontWeight.w400,
+                          fontSize: 12,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              Container(
+                width: 70,
+                alignment: Alignment.center,
+                child: Text(
+                  postModel.status,
+                  maxLines: 3,
+                  overflow: TextOverflow.ellipsis,
+                  textAlign: TextAlign.center,
+                  style: GoogleFonts.quicksand(
+                    color: () {
+                      switch (postModel.status) {
+                        case 'REQUESTED':
+                          return const Color.fromARGB(255, 248, 204, 60);
+                        case 'PUBLISHED':
+                          return const Color.fromARGB(255, 68, 204, 214);
+                        default:
+                          return const Color.fromARGB(255, 68, 204, 214);
+                      }
+                    }.call(),
+                    fontWeight: FontWeight.w500,
+                    fontSize: 12,
+                  ),
+                ),
+              ),
+              SizedBox(
+                width: 85,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Text(
-                      postModel.title,
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                      textAlign: TextAlign.center,
+                      FORMAT_DATE_TIME(
+                          dateTime: postModel.createTime,
+                          pattern: DATE_PATTERN),
                       style: GoogleFonts.quicksand(
                         color: const Color.fromARGB(255, 64, 69, 87),
                         fontWeight: FontWeight.w400,
@@ -245,64 +304,21 @@ class PostsManagementBodyWidget extends GetView<PostManagementPageController> {
                       ),
                     ),
                     Text(
-                      '[${postModel.type}]',
-                      maxLines: 3,
-                      overflow: TextOverflow.ellipsis,
-                      textAlign: TextAlign.center,
+                      FORMAT_DATE_TIME(
+                          dateTime: postModel.createTime,
+                          pattern: TIME_PATTERN),
                       style: GoogleFonts.quicksand(
                         color: const Color.fromARGB(255, 64, 69, 87),
                         fontWeight: FontWeight.w400,
                         fontSize: 12,
+                        letterSpacing: 2,
                       ),
                     ),
                   ],
                 ),
               ),
-            ),
-            Container(
-              width: 70,
-              alignment: Alignment.center,
-              child: Text(
-                postModel.status,
-                maxLines: 3,
-                overflow: TextOverflow.ellipsis,
-                textAlign: TextAlign.center,
-                style: GoogleFonts.quicksand(
-                  color: const Color.fromARGB(255, 68, 204, 214),
-                  fontWeight: FontWeight.w500,
-                  fontSize: 12,
-                ),
-              ),
-            ),
-            SizedBox(
-              width: 85,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Text(
-                    FORMAT_DATE_TIME(
-                        dateTime: postModel.createTime, pattern: DATE_PATTERN),
-                    style: GoogleFonts.quicksand(
-                      color: const Color.fromARGB(255, 64, 69, 87),
-                      fontWeight: FontWeight.w400,
-                      fontSize: 12,
-                    ),
-                  ),
-                  Text(
-                    FORMAT_DATE_TIME(
-                        dateTime: postModel.createTime, pattern: TIME_PATTERN),
-                    style: GoogleFonts.quicksand(
-                      color: const Color.fromARGB(255, 64, 69, 87),
-                      fontWeight: FontWeight.w400,
-                      fontSize: 12,
-                      letterSpacing: 2,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ],
+            ],
+          ),
         ),
       );
 
@@ -313,102 +329,115 @@ class PostsManagementBodyWidget extends GetView<PostManagementPageController> {
             margin: const EdgeInsets.symmetric(vertical: 3),
             color: const Color.fromARGB(255, 240, 243, 255),
           ),
-          Container(
-            height: 70,
-            padding: const EdgeInsets.symmetric(horizontal: 12),
-            decoration: const BoxDecoration(
-              color: Color.fromARGB(255, 241, 243, 250),
-            ),
-            child: Row(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(right: 10),
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(3),
-                    child: Image.network(
-                      postModel.mediaModels![0].url,
-                      fit: BoxFit.cover,
-                      width: 50,
+          InkWell(
+            onTap: () => Get.toNamed(
+                '$PURCHASE_POST_DETAIL_PAGE_ROUNTER/${postModel.id}'),
+            child: Container(
+              height: 70,
+              padding: const EdgeInsets.symmetric(horizontal: 12),
+              decoration: const BoxDecoration(
+                color: Color.fromARGB(255, 241, 243, 250),
+              ),
+              child: Row(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(right: 10),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(3),
+                      child: Image.network(
+                        postModel.mediaModels![0].url,
+                        fit: BoxFit.cover,
+                        width: 50,
+                      ),
                     ),
                   ),
-                ),
-                Expanded(
-                  child: Padding(
-                      padding: const EdgeInsets.only(right: 0),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            postModel.title,
-                            maxLines: 2,
-                            overflow: TextOverflow.ellipsis,
-                            textAlign: TextAlign.center,
-                            style: GoogleFonts.quicksand(
-                              color: const Color.fromARGB(255, 64, 69, 87),
-                              fontWeight: FontWeight.w400,
-                              fontSize: 12,
+                  Expanded(
+                    child: Padding(
+                        padding: const EdgeInsets.only(right: 0),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              postModel.title,
+                              maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
+                              textAlign: TextAlign.center,
+                              style: GoogleFonts.quicksand(
+                                color: const Color.fromARGB(255, 64, 69, 87),
+                                fontWeight: FontWeight.w400,
+                                fontSize: 12,
+                              ),
                             ),
-                          ),
-                          Text(
-                            '[${postModel.type}]',
-                            maxLines: 3,
-                            overflow: TextOverflow.ellipsis,
-                            textAlign: TextAlign.center,
-                            style: GoogleFonts.quicksand(
-                              color: const Color.fromARGB(255, 64, 69, 87),
-                              fontWeight: FontWeight.w400,
-                              fontSize: 12,
+                            Text(
+                              '[${postModel.type}]',
+                              maxLines: 3,
+                              overflow: TextOverflow.ellipsis,
+                              textAlign: TextAlign.center,
+                              style: GoogleFonts.quicksand(
+                                color: const Color.fromARGB(255, 64, 69, 87),
+                                fontWeight: FontWeight.w400,
+                                fontSize: 12,
+                              ),
                             ),
-                          ),
-                        ],
-                      )),
-                ),
-                Container(
-                  width: 70,
-                  alignment: Alignment.center,
-                  child: Text(
-                    postModel.status,
-                    maxLines: 3,
-                    overflow: TextOverflow.ellipsis,
-                    textAlign: TextAlign.center,
-                    style: GoogleFonts.quicksand(
-                      color: const Color.fromARGB(255, 68, 204, 214),
-                      fontWeight: FontWeight.w500,
-                      fontSize: 12,
+                          ],
+                        )),
+                  ),
+                  Container(
+                    width: 70,
+                    alignment: Alignment.center,
+                    child: Text(
+                      postModel.status,
+                      maxLines: 3,
+                      overflow: TextOverflow.ellipsis,
+                      textAlign: TextAlign.center,
+                      style: GoogleFonts.quicksand(
+                        color: () {
+                          switch (postModel.status) {
+                            case 'REQUESTED':
+                              return const Color.fromARGB(255, 248, 204, 60);
+                            case 'PUBLISHED':
+                              return const Color.fromARGB(255, 68, 204, 214);
+                            default:
+                              return const Color.fromARGB(255, 68, 204, 214);
+                          }
+                        }.call(),
+                        fontWeight: FontWeight.w500,
+                        fontSize: 12,
+                      ),
                     ),
                   ),
-                ),
-                SizedBox(
-                  width: 85,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Text(
-                        FORMAT_DATE_TIME(
-                            dateTime: postModel.createTime,
-                            pattern: DATE_PATTERN),
-                        style: GoogleFonts.quicksand(
-                          color: const Color.fromARGB(255, 64, 69, 87),
-                          fontWeight: FontWeight.w400,
-                          fontSize: 12,
+                  SizedBox(
+                    width: 85,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Text(
+                          FORMAT_DATE_TIME(
+                              dateTime: postModel.createTime,
+                              pattern: DATE_PATTERN),
+                          style: GoogleFonts.quicksand(
+                            color: const Color.fromARGB(255, 64, 69, 87),
+                            fontWeight: FontWeight.w400,
+                            fontSize: 12,
+                          ),
                         ),
-                      ),
-                      Text(
-                        FORMAT_DATE_TIME(
-                            dateTime: postModel.createTime,
-                            pattern: TIME_PATTERN),
-                        style: GoogleFonts.quicksand(
-                          color: const Color.fromARGB(255, 64, 69, 87),
-                          fontWeight: FontWeight.w400,
-                          fontSize: 12,
-                          letterSpacing: 2,
+                        Text(
+                          FORMAT_DATE_TIME(
+                              dateTime: postModel.createTime,
+                              pattern: TIME_PATTERN),
+                          style: GoogleFonts.quicksand(
+                            color: const Color.fromARGB(255, 64, 69, 87),
+                            fontWeight: FontWeight.w400,
+                            fontSize: 12,
+                            letterSpacing: 2,
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
           Container(

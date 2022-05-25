@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:petapp_mobile/configs/path.dart';
-import 'package:petapp_mobile/configs/rounter.dart';
+import 'package:petapp_mobile/configs/route.dart';
 import 'package:petapp_mobile/configs/theme.dart';
 
 class GuestLandingBodyWidget extends GetView {
@@ -33,7 +33,7 @@ class GuestLandingBodyWidget extends GetView {
                     borderRadius: BorderRadius.circular(4),
                   ),
                   child: InkWell(
-                    onTap: () => Get.toNamed(SIGN_IN_PAGE_ROUNTER),
+                    onTap: () => Get.toNamed(SIGN_IN_PAGE_ROUTE),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [

@@ -23,7 +23,13 @@ ChatRoomModel _$ChatRoomModelFromJson(Map<String, dynamic> json) =>
       transactionPlace: json['transactionPlace'] as String?,
       description: json['description'] as String?,
       transactionId: json['transactionId'] as String?,
-      transactionType: json['transactionType'] as String?,
+      sellerLastViewTime: json['sellerLastViewTime'] == null
+          ? null
+          : DateTime.parse(json['sellerLastViewTime'] as String),
+      buyerLastViewTime: json['buyerLastViewTime'] == null
+          ? null
+          : DateTime.parse(json['buyerLastViewTime'] as String),
+      type: json['type'] as String,
     );
 
 Map<String, dynamic> _$ChatRoomModelToJson(ChatRoomModel instance) =>
@@ -41,5 +47,7 @@ Map<String, dynamic> _$ChatRoomModelToJson(ChatRoomModel instance) =>
       'transactionPlace': instance.transactionPlace,
       'description': instance.description,
       'transactionId': instance.transactionId,
-      'transactionType': instance.transactionType,
+      'sellerLastViewTime': instance.sellerLastViewTime?.toIso8601String(),
+      'buyerLastViewTime': instance.buyerLastViewTime?.toIso8601String(),
+      'type': instance.type,
     };

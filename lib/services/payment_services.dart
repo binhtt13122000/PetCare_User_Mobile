@@ -11,6 +11,7 @@ class PaymentServices {
     required int customerId,
     required int branchId,
     required int orderTotal,
+    required DateTime paymentTime,
   }) async {
     final queryParameters = {
       'message': message,
@@ -28,7 +29,7 @@ class PaymentServices {
         "branchId": branchId,
         "customerId": customerId,
         "id": transactionId,
-        "paymentTime": '2022-05-17T09:44:21.108Z',
+        "paymentTime": paymentTime.toIso8601String(),
         "paymentMethod": paymentMethod,
         "payment": orderTotal,
         'point': orderTotal ~/ 100000

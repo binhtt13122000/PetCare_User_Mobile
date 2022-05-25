@@ -21,7 +21,7 @@ import 'package:petapp_mobile/bindings/post_management_page_binding.dart';
 import 'package:petapp_mobile/bindings/payment_for_transaction_at_center_page_binding.dart';
 import 'package:petapp_mobile/bindings/transaction_at_center_detail_page_binding.dart';
 import 'package:petapp_mobile/bindings/transaction_page_binding.dart';
-import 'package:petapp_mobile/configs/rounter.dart';
+import 'package:petapp_mobile/configs/route.dart';
 import 'package:petapp_mobile/controllers/sign_in_page_controller.dart';
 import 'package:petapp_mobile/services/account_services.dart';
 import 'package:petapp_mobile/views/customer/action_page/action_page.dart';
@@ -71,7 +71,7 @@ void main() async {
   String initRounter = HOME_PAGE_ROUNTER;
 
   if (FirebaseAuth.instance.currentUser == null) {
-    initRounter = LANDING_PAGE_ROUNTER;
+    initRounter = LANDING_PAGE_ROUTE;
   } else {
     String idToken = await FirebaseAuth.instance.currentUser!.getIdToken();
     SignInPageController signInPageController = Get.put(SignInPageController());
@@ -117,17 +117,17 @@ class MainApp extends StatelessWidget {
         //!Guest
         //*Landing page
         GetPage(
-          name: LANDING_PAGE_ROUNTER,
+          name: LANDING_PAGE_ROUTE,
           page: () => const GuestLandingPage(),
         ),
         //*Login page
         GetPage(
-          name: SIGN_IN_PAGE_ROUNTER,
+          name: SIGN_IN_PAGE_ROUTE,
           page: () => const SignInPage(),
           binding: SignInPageBinding(),
         ),
         GetPage(
-          name: VERIFICATION_OTP_PAGE_ROUNTER,
+          name: VERIFICATION_OTP_PAGE_ROUTE,
           page: () => const VerificationOTPPage(),
         ),
         //*Register page

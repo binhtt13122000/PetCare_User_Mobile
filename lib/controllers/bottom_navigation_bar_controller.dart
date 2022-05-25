@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
 import 'package:petapp_mobile/configs/path.dart';
-import 'package:petapp_mobile/configs/rounter.dart';
+import 'package:petapp_mobile/configs/route.dart';
 import 'package:petapp_mobile/models/bottom_bar_item_model/bottom_bar_item_model.dart';
 
 class BottomNavigationBarController extends GetxController {

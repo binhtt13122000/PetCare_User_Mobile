@@ -41,6 +41,7 @@ class CreatePostBottomWidget extends GetView<CreatePostPageController> {
                       petId: controller.selectedPetId,
                       customerId: controller.accountModel.customerModel.id,
                       filesPath: controller.evidencesPath,
+                      status: 'REQUESTED',
                     );
                     controller.isShowLoadingWidget.value = false;
                     controller.isShowSuccessfullyPopup.value = true;

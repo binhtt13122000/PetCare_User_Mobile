@@ -3,7 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:petapp_mobile/configs/path.dart';
-import 'package:petapp_mobile/configs/rounter.dart';
+import 'package:petapp_mobile/configs/route.dart';
 import 'package:petapp_mobile/configs/theme.dart';
 import 'package:petapp_mobile/controllers/sign_in_page_controller.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -167,7 +167,7 @@ class SignInPage extends GetView<SignInPageController> {
                                     color: PRIMARY_COLOR,
                                   ),
                                   textAlign: TextAlign.start,
-                                  maxLength: 20,
+                                  maxLength: 15,
                                   decoration: controller
                                           .phoneNumber.value.isEmpty
                                       ? const InputDecoration(
@@ -230,7 +230,7 @@ class SignInPage extends GetView<SignInPageController> {
                           onPressed: () async {
                             controller.isLoadingPhoneCredential.value = true;
                             if (controller.countDownTime.value > 0) {
-                              Get.toNamed(VERIFICATION_OTP_PAGE_ROUNTER);
+                              Get.toNamed(VERIFICATION_OTP_PAGE_ROUTE);
                               controller.isLoadingPhoneCredential.value = false;
                             } else {
                               await controller.auth.verifyPhoneNumber(
@@ -260,7 +260,7 @@ class SignInPage extends GetView<SignInPageController> {
                                     controller.verificationId = verificationId;
                                     controller.countDownTime.value =
                                         controller.maxTime;
-                                    Get.toNamed(VERIFICATION_OTP_PAGE_ROUNTER);
+                                    Get.toNamed(VERIFICATION_OTP_PAGE_ROUTE);
                                     controller.startTimer();
                                   },
                                   codeAutoRetrievalTimeout: (verificationId) {

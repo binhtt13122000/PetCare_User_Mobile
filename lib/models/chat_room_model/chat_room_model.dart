@@ -9,32 +9,37 @@ class ChatRoomModel {
   final int sellerId;
   final int buyerId;
   final int postId;
-  final DateTime newestMessageTime;
-  final String newestMessage;
-  final bool isSellerMessage;
+  DateTime newestMessageTime;
+  String newestMessage;
+  bool isSellerMessage;
   final DateTime createdTime;
-  final String status;
-  final DateTime? transactionTime;
-  final String? transactionPlace;
-  final String? description;
-  final String? transactionId;
-  final String? transactionType;
+  String status;
+  DateTime? transactionTime;
+  String? transactionPlace;
+  String? description;
+  String? transactionId;
+  DateTime? sellerLastViewTime;
+  DateTime? buyerLastViewTime;
+  final String type;
 
-  ChatRoomModel(
-      {required this.id,
-      required this.sellerId,
-      required this.buyerId,
-      required this.postId,
-      required this.newestMessageTime,
-      required this.newestMessage,
-      required this.isSellerMessage,
-      required this.createdTime,
-      required this.status,
-      this.transactionTime,
-      this.transactionPlace,
-      this.description,
-      this.transactionId,
-      this.transactionType});
+  ChatRoomModel({
+    required this.id,
+    required this.sellerId,
+    required this.buyerId,
+    required this.postId,
+    required this.newestMessageTime,
+    required this.newestMessage,
+    required this.isSellerMessage,
+    required this.createdTime,
+    required this.status,
+    this.transactionTime,
+    this.transactionPlace,
+    this.description,
+    this.transactionId,
+    this.sellerLastViewTime,
+    this.buyerLastViewTime,
+    required this.type,
+  });
 
   factory ChatRoomModel.fromJson(Map<String, dynamic> json) =>
       _$ChatRoomModelFromJson(json);
