@@ -9,49 +9,59 @@ part of 'sale_transaction_model.dart';
 SaleTransactionModel _$SaleTransactionModelFromJson(
         Map<String, dynamic> json) =>
     SaleTransactionModel(
-      id: json['id'] as int,
+      createdTime: DateTime.parse(json['createdTime'] as String),
       description: json['description'] as String?,
-      buyerId: json['buyerId'] as int,
-      deposit: json['deposit'] as int,
-      payForSeller: json['payForSeller'] as int,
-      payForSellerTime: json['payForSellerTime'] == null
-          ? null
-          : DateTime.parse(json['payForSellerTime'] as String),
-      payFromBuyerTime: json['payFromBuyerTime'] == null
-          ? null
-          : DateTime.parse(json['payFromBuyerTime'] as String),
-      reasonCancel: json['reasonCancel'] as String?,
+      id: json['id'] as int,
+      meetingTime: DateTime.parse(json['meetingTime'] as String),
+      paymentMethod: json['paymentMethod'] as String?,
+      petId: json['petId'] as int,
+      placeMeeting: json['placeMeeting'] as String,
+      postId: json['postId'] as int,
+      review: json['review'] as String?,
+      reasonCancell: json['reasonCancell'] as String?,
       sellerId: json['sellerId'] as int,
-      totalPrice: json['totalPrice'] as int,
+      sellerReceive: json['sellerReceive'] as int,
+      star: json['star'] as int?,
       status: json['status'] as String,
-      mediaModelsForBuyer: (json['media'] as List<dynamic>)
-          .map((e) => MediaModel.fromJson(e as Map<String, dynamic>))
-          .toList(),
+      transactionFee: json['transactionFee'] as int,
+      transactionTime: json['transactionTime'] == null
+          ? null
+          : DateTime.parse(json['transactionTime'] as String),
+      transactionTotal: json['transactionTotal'] as int,
       postModel: PostModel.fromJson(json['post'] as Map<String, dynamic>),
-      createTime: DateTime.parse(json['createTime'] as String),
-      mediaModelsForSeller:
-          (json['mediaBySaletransactionsellercontractid'] as List<dynamic>)
-              .map((e) => MediaModel.fromJson(e as Map<String, dynamic>))
-              .toList(),
+      petModel: PetModel.fromJson(json['pet'] as Map<String, dynamic>),
+      buyerCustomerModel: CustomerModel.fromJson(
+          json['customerByBuyerid'] as Map<String, dynamic>),
+      sellerCustomerModel:
+          CustomerModel.fromJson(json['customer'] as Map<String, dynamic>),
+      buyerId: json['buyerId'] as int,
+      point: json['point'] as int?,
     );
 
 Map<String, dynamic> _$SaleTransactionModelToJson(
         SaleTransactionModel instance) =>
     <String, dynamic>{
-      'id': instance.id,
+      'createdTime': instance.createdTime.toIso8601String(),
       'description': instance.description,
-      'buyerId': instance.buyerId,
-      'deposit': instance.deposit,
-      'payForSeller': instance.payForSeller,
-      'payForSellerTime': instance.payForSellerTime?.toIso8601String(),
-      'payFromBuyerTime': instance.payFromBuyerTime?.toIso8601String(),
-      'reasonCancel': instance.reasonCancel,
+      'id': instance.id,
+      'meetingTime': instance.meetingTime.toIso8601String(),
+      'paymentMethod': instance.paymentMethod,
+      'petId': instance.petId,
+      'placeMeeting': instance.placeMeeting,
+      'postId': instance.postId,
+      'review': instance.review,
+      'reasonCancell': instance.reasonCancell,
       'sellerId': instance.sellerId,
-      'totalPrice': instance.totalPrice,
+      'sellerReceive': instance.sellerReceive,
+      'star': instance.star,
       'status': instance.status,
-      'createTime': instance.createTime.toIso8601String(),
-      'media': instance.mediaModelsForBuyer.map((e) => e.toJson()).toList(),
-      'mediaBySaletransactionsellercontractid':
-          instance.mediaModelsForSeller.map((e) => e.toJson()).toList(),
+      'transactionFee': instance.transactionFee,
+      'transactionTime': instance.transactionTime?.toIso8601String(),
+      'transactionTotal': instance.transactionTotal,
+      'buyerId': instance.buyerId,
+      'point': instance.point,
       'post': instance.postModel.toJson(),
+      'pet': instance.petModel.toJson(),
+      'customerByBuyerid': instance.buyerCustomerModel.toJson(),
+      'customer': instance.sellerCustomerModel.toJson(),
     };

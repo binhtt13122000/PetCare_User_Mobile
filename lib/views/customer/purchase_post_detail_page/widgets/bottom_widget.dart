@@ -26,57 +26,94 @@ class PurchasePostDetailBottomWidget
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                Container(
-                  height: 40,
-                  width: 150,
-                  alignment: Alignment.center,
-                  decoration: BoxDecoration(
-                    borderRadius: const BorderRadius.all(
-                      Radius.circular(15),
-                    ),
-                    border: Border.all(
-                      width: 1,
-                      color: PRIMARY_COLOR,
-                    ),
-                  ),
-                  child: Text(
-                    'View health check',
-                    style: GoogleFonts.quicksand(
-                      fontSize: 14,
-                      color: PRIMARY_COLOR,
-                      fontWeight: FontWeight.w500,
-                      letterSpacing: 1,
-                    ),
-                  ),
-                ),
-                InkWell(
-                  onTap: () async {
-                    String? chatRoomId = await ChatServices.fetchChatRoomId(
-                        buyerId: controller.accountModel.customerModel.id,
-                        postId: controller.postModel.id);
-                    chatRoomId != null
-                        ? Get.toNamed(
-                            '$CHATTING_DETAIL_PAGE_ROUNTER?chatRoomId=$chatRoomId')
-                        : Get.toNamed(
-                            '$CHATTING_DETAIL_PAGE_ROUNTER?sellerId=${controller.postModel.customerId}&postId=${controller.postModel.id}');
-                  },
+                Visibility(
+                  visible: controller.accountModel.customerModel.id !=
+                      controller.postModel.customerId,
                   child: Container(
                     height: 40,
-                    width: 190,
+                    width: 150,
                     alignment: Alignment.center,
-                    decoration: const BoxDecoration(
-                      color: PRIMARY_COLOR,
-                      borderRadius: BorderRadius.all(
+                    decoration: BoxDecoration(
+                      borderRadius: const BorderRadius.all(
                         Radius.circular(15),
+                      ),
+                      border: Border.all(
+                        width: 1,
+                        color: PRIMARY_COLOR,
                       ),
                     ),
                     child: Text(
-                      'Contact seller to buy',
+                      'View health check',
                       style: GoogleFonts.quicksand(
                         fontSize: 14,
-                        color: WHITE_COLOR,
+                        color: PRIMARY_COLOR,
                         fontWeight: FontWeight.w500,
                         letterSpacing: 1,
+                      ),
+                    ),
+                  ),
+                ),
+                Visibility(
+                  visible: controller.accountModel.customerModel.id ==
+                      controller.postModel.customerId,
+                  child: Expanded(
+                    child: InkWell(
+                      onTap: () async {},
+                      child: Container(
+                        height: 40,
+                        margin: const EdgeInsets.symmetric(horizontal: 12),
+                        alignment: Alignment.center,
+                        decoration: const BoxDecoration(
+                          color: PRIMARY_COLOR,
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(15),
+                          ),
+                        ),
+                        child: Text(
+                          'Update post information',
+                          style: GoogleFonts.quicksand(
+                            fontSize: 14,
+                            color: WHITE_COLOR,
+                            fontWeight: FontWeight.w500,
+                            letterSpacing: 1,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                Visibility(
+                  visible: controller.accountModel.customerModel.id !=
+                      controller.postModel.customerId,
+                  child: InkWell(
+                    onTap: () async {
+                      String? chatRoomId = await ChatServices.fetchChatRoomId(
+                          buyerId: controller.accountModel.customerModel.id,
+                          postId: controller.postModel.id);
+                      chatRoomId != null
+                          ? Get.toNamed(
+                              '$CHATTING_DETAIL_PAGE_ROUTE/chatRoomId/$chatRoomId')
+                          : Get.toNamed(
+                              '$CHATTING_DETAIL_PAGE_ROUTE/sellerId/${controller.postModel.customerId}/postId/${controller.postModel.id}');
+                    },
+                    child: Container(
+                      height: 40,
+                      width: 190,
+                      alignment: Alignment.center,
+                      decoration: const BoxDecoration(
+                        color: PRIMARY_COLOR,
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(15),
+                        ),
+                      ),
+                      child: Text(
+                        'Contact seller to buy',
+                        style: GoogleFonts.quicksand(
+                          fontSize: 14,
+                          color: WHITE_COLOR,
+                          fontWeight: FontWeight.w500,
+                          letterSpacing: 1,
+                        ),
                       ),
                     ),
                   ),

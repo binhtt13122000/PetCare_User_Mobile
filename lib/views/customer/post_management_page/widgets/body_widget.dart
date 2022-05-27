@@ -213,7 +213,7 @@ class PostsManagementBodyWidget extends GetView<PostManagementPageController> {
 
   Widget postCardWidget({required PostModel postModel}) => InkWell(
         onTap: () =>
-            Get.toNamed('$PURCHASE_POST_DETAIL_PAGE_ROUNTER/${postModel.id}'),
+            Get.toNamed('$PURCHASE_POST_DETAIL_PAGE_ROUTE/${postModel.id}'),
         child: Container(
           height: 70,
           margin: const EdgeInsets.symmetric(horizontal: 12),
@@ -236,6 +236,7 @@ class PostsManagementBodyWidget extends GetView<PostManagementPageController> {
                   padding: const EdgeInsets.only(right: 0),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Text(
                         postModel.title,
@@ -254,8 +255,8 @@ class PostsManagementBodyWidget extends GetView<PostManagementPageController> {
                         overflow: TextOverflow.ellipsis,
                         textAlign: TextAlign.center,
                         style: GoogleFonts.quicksand(
-                          color: const Color.fromARGB(255, 64, 69, 87),
-                          fontWeight: FontWeight.w400,
+                          color: const Color.fromARGB(255, 10, 207, 224),
+                          fontWeight: FontWeight.w500,
                           fontSize: 12,
                         ),
                       ),
@@ -330,8 +331,8 @@ class PostsManagementBodyWidget extends GetView<PostManagementPageController> {
             color: const Color.fromARGB(255, 240, 243, 255),
           ),
           InkWell(
-            onTap: () => Get.toNamed(
-                '$PURCHASE_POST_DETAIL_PAGE_ROUNTER/${postModel.id}'),
+            onTap: () =>
+                Get.toNamed('$PURCHASE_POST_DETAIL_PAGE_ROUTE/${postModel.id}'),
             child: Container(
               height: 70,
               padding: const EdgeInsets.symmetric(horizontal: 12),

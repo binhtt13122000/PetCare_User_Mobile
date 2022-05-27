@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:petapp_mobile/configs/theme.dart';
 import 'package:petapp_mobile/controllers/create_post_page_controller.dart';
+import 'package:petapp_mobile/graphql/graphql_config.dart';
 import 'package:petapp_mobile/graphql/query_mutation/breed.dart';
 import 'package:petapp_mobile/graphql/query_mutation/species.dart';
 import 'package:petapp_mobile/models/breed_model/breed_model.dart';
@@ -16,96 +18,93 @@ class PetFilterWidget extends GetView<CreatePostPageController> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Obx(
-          () => Visibility(
-            visible: controller.isShowPetFilter.value,
-            child: Column(
-              children: [
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 40),
-                    child: Text(
-                      'Pet species',
-                      style: GoogleFonts.quicksand(
-                        fontWeight: FontWeight.w500,
-                        fontStyle: FontStyle.italic,
-                        color: const Color.fromARGB(255, 106, 122, 143),
-                        fontSize: 16,
-                      ),
-                    ),
-                  ),
-                ),
-                listSpeciesWidget(),
-              ],
+    return Obx(
+      () => !controller.isShowPetFilter.value
+          ? const SizedBox.shrink()
+          : GetBuilder<CreatePostPageController>(
+              builder: (_) {
+                controller.isShowLoadingPetSpecies.value = true;
+                WidgetsBinding.instance!
+                    .addPostFrameCallback((timeStamp) async {
+                  QueryResult queryResult = await CLIENT_TO_QUERY().query(
+                      QueryOptions(
+                          document: gql(FETCH_ALL_SPECIES),
+                          variables: const {}));
+                  controller.species =
+                      SpeciesService.getSpeciesList(queryResult.data!);
+                  controller.selectedSpeciesId ??= controller.species[0].id;
+                  controller.isShowLoadingPetSpecies.value = false;
+                });
+                return Obx(
+                  () => controller.isShowLoadingPetSpecies.value
+                      ? const SpinKitSpinningLines(
+                          color: PRIMARY_COLOR,
+                          size: 40,
+                        )
+                      : Column(
+                          children: [
+                            Align(
+                              alignment: Alignment.centerLeft,
+                              child: Padding(
+                                padding: const EdgeInsets.only(left: 40),
+                                child: Text(
+                                  'Pet species',
+                                  style: GoogleFonts.quicksand(
+                                    fontWeight: FontWeight.w500,
+                                    fontStyle: FontStyle.italic,
+                                    color: const Color.fromARGB(
+                                        255, 106, 122, 143),
+                                    fontSize: 16,
+                                  ),
+                                ),
+                              ),
+                            ),
+                            listSpeciesWidget(),
+                          ],
+                        ),
+                );
+              },
             ),
-          ),
-        ),
-      ],
     );
   }
 
-  Widget listSpeciesWidget() => Query(
-        options: QueryOptions(document: gql(FETCH_ALL_SPECIES), variables: {}),
-        builder: (
-          QueryResult result, {
-          VoidCallback? refetch,
-          FetchMore? fetchMore,
-        }) {
-          if (result.hasException) {
-            return Text(result.exception.toString());
-          } else if (result.isLoading) {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
-          } else if (result.data != null) {
-            controller.species = SpeciesService.getSpeciesList(result.data!);
-            controller.selectedSpeciesId == -1
-                ? controller.selectedSpeciesId = controller.species[0].id
-                : null;
-          }
-
-          return Column(
-            children: [
-              Container(
-                alignment: Alignment.topLeft,
-                padding: const EdgeInsets.only(left: 40, top: 10),
-                child: Wrap(
-                  alignment: WrapAlignment.start,
-                  direction: Axis.horizontal,
-                  crossAxisAlignment: WrapCrossAlignment.start,
-                  runAlignment: WrapAlignment.start,
-                  verticalDirection: VerticalDirection.down,
-                  spacing: 10,
-                  runSpacing: 10,
-                  children: controller.species
-                      .asMap()
-                      .entries
-                      .map((e) => speciesItemWidget(speciesModel: e.value))
-                      .toList(),
-                ),
-              ),
-              Align(
-                alignment: Alignment.centerLeft,
-                child: Padding(
-                  padding: const EdgeInsets.only(left: 40, top: 10),
-                  child: Text(
-                    'Pet breeds',
-                    style: GoogleFonts.quicksand(
-                      fontWeight: FontWeight.w500,
-                      fontStyle: FontStyle.italic,
-                      color: const Color.fromARGB(255, 106, 122, 143),
-                      fontSize: 16,
-                    ),
-                  ),
-                ),
-              ),
-              listBreedItemWidget(),
-            ],
-          );
-        },
+  Widget listSpeciesWidget() => Column(
+        children: [
+          Container(
+            alignment: Alignment.topLeft,
+            padding: const EdgeInsets.only(left: 40, top: 10),
+            child: Wrap(
+              alignment: WrapAlignment.start,
+              direction: Axis.horizontal,
+              crossAxisAlignment: WrapCrossAlignment.start,
+              runAlignment: WrapAlignment.start,
+              verticalDirection: VerticalDirection.down,
+              spacing: 10,
+              runSpacing: 10,
+              children: controller.species
+                  .asMap()
+                  .entries
+                  .map((e) => speciesItemWidget(speciesModel: e.value))
+                  .toList(),
+            ),
+          ),
+          // Align(
+          //   alignment: Alignment.centerLeft,
+          //   child: Padding(
+          //     padding: const EdgeInsets.only(left: 40, top: 10),
+          //     child: Text(
+          //       'Pet breeds',
+          //       style: GoogleFonts.quicksand(
+          //         fontWeight: FontWeight.w500,
+          //         fontStyle: FontStyle.italic,
+          //         color: const Color.fromARGB(255, 106, 122, 143),
+          //         fontSize: 16,
+          //       ),
+          //     ),
+          //   ),
+          // ),
+          // listBreedItemWidget(),
+        ],
       );
 
   Widget speciesItemWidget({required SpeciesModel speciesModel}) =>
@@ -185,7 +184,7 @@ class PetFilterWidget extends GetView<CreatePostPageController> {
                 child: CircularProgressIndicator(),
               );
             } else if (result.data != null) {
-              controller.breedsMap[controller.selectedSpeciesId] =
+              controller.breedsMap[controller.selectedSpeciesId!] =
                   BreedService.getBreedList(result.data!);
 
               // if (controller.selectedBreedMap[controller.selectedSpeciesId] ==
@@ -197,7 +196,7 @@ class PetFilterWidget extends GetView<CreatePostPageController> {
               // }
               if (controller.selectedBreedMap[controller.selectedSpeciesId] ==
                   null) {
-                controller.selectedBreedMap[controller.selectedSpeciesId] = -1;
+                controller.selectedBreedMap[controller.selectedSpeciesId!] = -1;
               }
             }
 
@@ -245,8 +244,9 @@ class PetFilterWidget extends GetView<CreatePostPageController> {
           onTap: () {
             controller.selectedBreedMap[controller.selectedSpeciesId]! ==
                     breedModel.id
-                ? controller.selectedBreedMap[controller.selectedSpeciesId] = -1
-                : controller.selectedBreedMap[controller.selectedSpeciesId] =
+                ? controller.selectedBreedMap[controller.selectedSpeciesId!] =
+                    -1
+                : controller.selectedBreedMap[controller.selectedSpeciesId!] =
                     breedModel.id;
             controller.update();
           },

@@ -31,6 +31,7 @@ class PostService {
     required int petId,
     required int customerId,
     required List<String> filesPath,
+    required int branchId,
   }) async {
     try {
       FormData formData;
@@ -46,6 +47,7 @@ class PostService {
         'status': status,
         'petId': petId,
         'customerId': customerId,
+        'branchId': branchId
       });
       for (var element in filesPath) {
         formData.files.add(
@@ -55,7 +57,6 @@ class PostService {
           ),
         );
       }
-
       Response response = await Dio().post('http://$API_SERVER/v1/api/posts',
           data: formData,
           options: Options(headers: <String, String>{

@@ -23,7 +23,7 @@ class PetsManagementBottomWidget extends GetView<PetManagementPageController> {
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
         child: InkWell(
           onTap: () {
-            Get.toNamed(CREATE_PET_PAGE_ROUNTER);
+            Get.toNamed(CREATE_PET_PAGE_ROUTE);
           },
           child: Container(
             height: 40,

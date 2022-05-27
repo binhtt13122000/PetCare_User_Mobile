@@ -1,10 +1,21 @@
 import 'package:get/get.dart';
 import 'package:petapp_mobile/configs/path.dart';
+import 'package:petapp_mobile/controllers/sign_in_page_controller.dart';
+import 'package:petapp_mobile/models/account_model/account_model.dart';
 import 'package:petapp_mobile/models/normal_transaction_model/normal_transaction_model.dart';
 import 'package:petapp_mobile/models/sale_transaction_model/sale_transaction_model.dart';
 import 'package:petapp_mobile/models/services_model/services_model.dart';
 
 class TransactionPageController extends GetxController {
+  RxString selectedPurchaseTransactionType =
+      'Your role in transaction is [BUYER]'.obs;
+  List<String> purchaseTransactionTypeList = [
+    'Your role in transaction is [BUYER]',
+    'Your role in transaction is [SELLER]'
+  ];
+  late List<SaleTransactionModel> saleTransactionModelList;
+  RxBool isLoadingPurchaseTransaction = false.obs;
+  AccountModel accountModel = Get.find<SignInPageController>().accountModel!;
   bool isFirstInit = true;
   Function()? refetchGraphql;
   RxString selectedTransactionType = 'All Transactions'.obs;

@@ -12,6 +12,7 @@ import 'package:petapp_mobile/views/customer/create_post_page/widgets/media_pick
 import 'package:petapp_mobile/views/customer/create_post_page/widgets/pet_filter_widget.dart';
 import 'package:petapp_mobile/views/customer/create_post_page/widgets/popup_widget.dart';
 import 'package:petapp_mobile/views/customer/create_post_page/widgets/select_pet_widget.dart';
+import 'package:petapp_mobile/views/customer/create_post_page/widgets/selecte_branch_widget.dart';
 import 'package:petapp_mobile/views/customer/create_post_page/widgets/top_widget.dart';
 // import 'package:petapp_mobile/views/customer/create_post_page/widgets/video_displayer_widget.dart';
 
@@ -44,6 +45,8 @@ class CreatePostPage extends GetView<CreatePostPageController> {
                           SelectPetWidget(),
                           PetFilterWidget(),
                           MediaPickerWidget(),
+                          SelectBranchWidget(),
+
                           DescriptionWidget(),
                         ],
                       ),

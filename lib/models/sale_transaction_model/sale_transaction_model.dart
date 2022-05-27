@@ -1,47 +1,64 @@
 import 'package:json_annotation/json_annotation.dart';
 
-import 'package:petapp_mobile/models/media_model/media_model.dart';
+import 'package:petapp_mobile/models/customer_model/customer_model.dart';
+import 'package:petapp_mobile/models/pet_model/pet_model.dart';
 import 'package:petapp_mobile/models/post_model/post_model.dart';
 
 part 'sale_transaction_model.g.dart';
 
 @JsonSerializable(explicitToJson: true)
 class SaleTransactionModel {
-  final int id;
+  final DateTime createdTime;
   final String? description;
-  final int buyerId;
-  final int deposit;
-  final int payForSeller;
-  DateTime? payForSellerTime;
-  DateTime? payFromBuyerTime;
-  final String? reasonCancel;
+  final int id;
+  final DateTime meetingTime;
+  final String? paymentMethod;
+  final int petId;
+  final String placeMeeting;
+  final int postId;
+  final String? review;
+  final String? reasonCancell;
   final int sellerId;
-  final int totalPrice;
+  final int sellerReceive;
+  final int? star;
   final String status;
-  final DateTime createTime;
-  @JsonKey(name: 'media')
-  final List<MediaModel> mediaModelsForBuyer;
-  @JsonKey(name: 'mediaBySaletransactionsellercontractid')
-  final List<MediaModel> mediaModelsForSeller;
+  final int transactionFee;
+  final DateTime? transactionTime;
+  final int transactionTotal;
+  final int buyerId;
+  final int? point;
   @JsonKey(name: 'post')
   final PostModel postModel;
-
+  @JsonKey(name: 'pet')
+  final PetModel petModel;
+  @JsonKey(name: 'customerByBuyerid')
+  final CustomerModel buyerCustomerModel;
+  @JsonKey(name: 'customer')
+  final CustomerModel sellerCustomerModel;
   SaleTransactionModel({
-    required this.id,
+    required this.createdTime,
     this.description,
-    required this.buyerId,
-    required this.deposit,
-    required this.payForSeller,
-    this.payForSellerTime,
-    this.payFromBuyerTime,
-    this.reasonCancel,
+    required this.id,
+    required this.meetingTime,
+    this.paymentMethod,
+    required this.petId,
+    required this.placeMeeting,
+    required this.postId,
+    this.review,
+    this.reasonCancell,
     required this.sellerId,
-    required this.totalPrice,
+    required this.sellerReceive,
+    this.star,
     required this.status,
-    required this.mediaModelsForBuyer,
+    required this.transactionFee,
+    this.transactionTime,
+    required this.transactionTotal,
     required this.postModel,
-    required this.createTime,
-    required this.mediaModelsForSeller,
+    required this.petModel,
+    required this.buyerCustomerModel,
+    required this.sellerCustomerModel,
+    required this.buyerId,
+    this.point,
   });
 
   factory SaleTransactionModel.fromJson(Map<String, dynamic> json) =>

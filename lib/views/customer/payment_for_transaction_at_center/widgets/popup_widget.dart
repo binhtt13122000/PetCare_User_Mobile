@@ -46,7 +46,7 @@ class PaymentForTransactionAtCenterPopupWidget
                 padding: const EdgeInsets.symmetric(horizontal: 12),
                 child: InkWell(
                   onTap: () => Get.toNamed(
-                      '$TRANSACTION_AT_CENTER_DETAIL_PAGE_ROUNTER/${controller.normalTransactionModel.id}'),
+                      '$TRANSACTION_AT_CENTER_DETAIL_PAGE_ROUTE/${controller.normalTransactionModel.id}'),
                   child: Container(
                     alignment: Alignment.center,
                     padding: const EdgeInsets.symmetric(vertical: 5),

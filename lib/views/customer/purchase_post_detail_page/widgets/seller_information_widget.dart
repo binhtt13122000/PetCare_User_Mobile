@@ -14,20 +14,24 @@ class SellerInformationWidget
   const SellerInformationWidget({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) => Column(
-        children: [
-          topInformationWidget(),
-          bottomInformationWidget(),
-          Container(
-            height: 1,
-            margin: const EdgeInsets.only(top: 10),
-            color: LIGHT_GREY_COLOR.withOpacity(0.1),
-          ),
-          Container(
-            height: 8,
-            color: const Color.fromARGB(255, 247, 248, 250),
-          ),
-        ],
+  Widget build(BuildContext context) => Visibility(
+        visible: controller.accountModel.customerModel.id !=
+            controller.postModel.customerId,
+        child: Column(
+          children: [
+            topInformationWidget(),
+            bottomInformationWidget(),
+            Container(
+              height: 1,
+              margin: const EdgeInsets.only(top: 10),
+              color: LIGHT_GREY_COLOR.withOpacity(0.1),
+            ),
+            Container(
+              height: 8,
+              color: const Color.fromARGB(255, 247, 248, 250),
+            ),
+          ],
+        ),
       );
 
   Widget topInformationWidget() => Padding(

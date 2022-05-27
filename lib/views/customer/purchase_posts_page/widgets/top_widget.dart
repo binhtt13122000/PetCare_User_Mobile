@@ -175,7 +175,7 @@ class TopWidget extends GetView<PurchasePostsPageController> {
             //*Filter
             InkWell(
               onTap: () => Get.toNamed(
-                PURCHASE_POSTS_FILTER_PAGE_ROUNTER,
+                PURCHASE_POSTS_FILTER_PAGE_ROUTE,
               ),
               child: Container(
                 height: 30,
@@ -294,7 +294,7 @@ class TopWidget extends GetView<PurchasePostsPageController> {
             ),
             InkWell(
               onTap: () => Get.toNamed(
-                PURCHASE_POSTS_FILTER_PAGE_ROUNTER,
+                PURCHASE_POSTS_FILTER_PAGE_ROUTE,
               ),
               child: Container(
                 height: 30,

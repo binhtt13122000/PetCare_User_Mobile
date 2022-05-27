@@ -17,7 +17,7 @@ class ChatRoomModel {
   DateTime? transactionTime;
   String? transactionPlace;
   String? description;
-  String? transactionId;
+  int? transactionId;
   DateTime? sellerLastViewTime;
   DateTime? buyerLastViewTime;
   final String type;

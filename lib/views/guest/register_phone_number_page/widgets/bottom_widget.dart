@@ -52,7 +52,7 @@ class RegisterPhoneNumberPageBottomWidget
                               controller.verificationId = verificationId;
                               controller.countDownTime.value =
                                   controller.maxTime;
-                              Get.toNamed(REGISTER_OTP_PAGE_ROUNTER);
+                              Get.toNamed(REGISTER_OTP_PAGE_ROUTE);
                               controller.startTimer();
                             },
                             codeAutoRetrievalTimeout: (verificationId) {

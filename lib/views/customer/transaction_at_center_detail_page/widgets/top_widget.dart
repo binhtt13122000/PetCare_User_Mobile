@@ -28,7 +28,7 @@ class TransactionAtCenterDetailTopWidget
           children: [
             //*back button
             InkWell(
-              onTap: () => Get.toNamed(TRANSACTION_PAGE_ROUNTER),
+              onTap: () => Get.toNamed(TRANSACTION_PAGE_ROUTE),
               child: Container(
                 height: 35,
                 width: 35,

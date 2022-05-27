@@ -15,6 +15,7 @@ import 'package:petapp_mobile/models/species_model/species_model.dart';
 import 'package:petapp_mobile/services/breed_servies.dart';
 import 'package:petapp_mobile/services/species_services.dart';
 import 'package:petapp_mobile/utilities/utilities.dart';
+import 'package:petapp_mobile/views/customer/create_post_page/widgets/selecte_branch_widget.dart';
 
 class CreatePetBodyWidget extends GetView<CreatePetPageController> {
   const CreatePetBodyWidget({Key? key}) : super(key: key);
@@ -25,6 +26,7 @@ class CreatePetBodyWidget extends GetView<CreatePetPageController> {
       child: SingleChildScrollView(
         child: Column(
           children: [
+            const SelectBranchWidget(),
             petNameWidget(),
             petSpicesWidget(),
             petBreedWidget(),

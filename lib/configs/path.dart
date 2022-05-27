@@ -93,5 +93,7 @@ const PROFILE_UNSELECTED_SVG = 'profile_unselected.svg';
 // const GRAPHL_SERVER = 'http://10.0.2.2:8080';
 // const API_SERVER = '10.0.2.2:4000';
 // const GRAPHL_SERVER = 'http://10.0.2.2:8080';
-const API_SERVER = '54.177.67.81:4000';
-const GRAPHL_SERVER = 'http://54.177.67.81:8080';
+const API_SERVER = '54.183.225.66:4000';
+const GRAPHL_SERVER = 'http://54.183.225.66:8080';
+//*sale transaction
+const SALE_TRANSACTION_RETURN_PATH = '/v1/api/sale-transactions/vnpay_return';

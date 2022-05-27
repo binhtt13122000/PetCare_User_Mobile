@@ -11,7 +11,7 @@ class HomePageController extends GetxController {
   List<ServiceModel> services = List.empty(growable: true);
   //List<PurchasePostModel> purchasePosts = List.empty(growable: true);
   late List<PostModel> postList;
-
+  RxBool isLoading = false.obs;
   HomePageController() {
     services.add(
       ServiceModel(

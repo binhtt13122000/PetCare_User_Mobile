@@ -63,8 +63,24 @@ class ChattingDetailPageController extends GetxController {
         socket.emit('joinRoom', messageModel.room);
         isJoinedRoom = true;
       }
-      if (!isShowCreateRequest.value) {
+      if (!isShowCreateRequest.value &&
+          accountModel.customerModel.id == chatRoomModel!.buyerId) {
         //!location
+        transactionLocationTextEditingController.text =
+            chatRoomModel!.transactionPlace ?? '';
+        transactionLocation.value = chatRoomModel!.transactionPlace ?? '';
+        //!time
+        transactionTime = chatRoomModel!.transactionTime;
+        tmpTransactionTime = transactionTime;
+        if (transactionTime != null) {
+          transactionTimeText.value = FORMAT_DATE_TIME(
+              dateTime: transactionTime!, pattern: DATE_PATTERN_2);
+        }
+        //!descriptio
+        descriptionTextEditingController.text =
+            chatRoomModel!.description ?? '';
+        description.value = chatRoomModel!.description ?? '';
+      } else {
         transactionLocationTextEditingController.text =
             chatRoomModel!.transactionPlace ?? '';
         transactionLocation.value = chatRoomModel!.transactionPlace ?? '';
@@ -85,11 +101,12 @@ class ChattingDetailPageController extends GetxController {
     scrollController.addListener(() async {
       if (scrollController.position.pixels ==
               scrollController.position.minScrollExtent &&
-          isLoadingMoreChat.value == false) {
+          isLoadingMoreChat.value == false &&
+          chatRoomModel != null) {
         isLoadingMoreChat.value = true;
         messageModelList.addAll(
           await ChatServices.fetchMesageListByChatRoomId(
-            chatRoomId: Get.parameters['chatRoomId']!,
+            chatRoomId: chatRoomModel!.id,
             limit: limitMessageRange,
             skip: messageModelList.length,
           ),

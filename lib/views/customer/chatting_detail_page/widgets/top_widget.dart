@@ -69,7 +69,7 @@ class ChattingDetailTopWidget extends GetView<ChattingDetailPageController> {
 
   Widget postGeneralInfo() => InkWell(
         onTap: () => Get.toNamed(
-            '$PURCHASE_POST_DETAIL_PAGE_ROUNTER/${controller.postModel.id}'),
+            '$PURCHASE_POST_DETAIL_PAGE_ROUTE/${controller.postModel.id}'),
         child: Container(
           color: WHITE_COLOR,
           child: Column(
@@ -156,13 +156,7 @@ class ChattingDetailTopWidget extends GetView<ChattingDetailPageController> {
                       createTransactionRequestButtonWidget(),
                     ],
                   )
-                : Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      viewTransactionDetailWidget(),
-                      paymentButtonWidget(),
-                    ],
-                  );
+                : viewTransactionDetailWidget();
           case 'REQUESTED':
             return viewRequestDetailWidget();
           default:
@@ -173,12 +167,7 @@ class ChattingDetailTopWidget extends GetView<ChattingDetailPageController> {
           case 'CREATED':
             return controller.chatRoomModel!.transactionId == null
                 ? const SizedBox.shrink()
-                : Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      viewTransactionDetailWidget(),
-                    ],
-                  );
+                : viewTransactionDetailWidget();
           case 'REQUESTED':
             return viewBuyerTransactionRequestWidget();
           default:
@@ -274,12 +263,18 @@ class ChattingDetailTopWidget extends GetView<ChattingDetailPageController> {
       );
 
   Widget viewTransactionDetailWidget() => InkWell(
-        onTap: () => Get.toNamed(CHATTING_LIST_PAGE_ROUNTER),
+        onTap: () => Get.toNamed(
+            '$SALE_TRANSACTION_DETAIL_PAGE_ROUTE/${controller.chatRoomModel!.transactionId}'),
         child: Container(
           height: 35,
-          width: 180,
+          margin: const EdgeInsets.symmetric(horizontal: 25),
+          padding: EdgeInsets.symmetric(
+              horizontal: controller.accountModel.customerModel.id ==
+                      controller.chatRoomModel!.buyerId
+                  ? 10
+                  : 0),
           decoration: BoxDecoration(
-            color: WHITE_COLOR,
+            color: const Color.fromARGB(255, 60, 202, 190),
             borderRadius: BorderRadius.circular(100),
             border: Border.all(
               color: const Color.fromARGB(255, 151, 161, 197),
@@ -301,10 +296,10 @@ class ChattingDetailTopWidget extends GetView<ChattingDetailPageController> {
                 textAlign: TextAlign.start,
                 overflow: TextOverflow.clip,
                 style: GoogleFonts.quicksand(
-                  color: const Color.fromARGB(255, 76, 85, 117),
-                  fontSize: 14,
-                  fontWeight: FontWeight.w500,
-                ),
+                    color: WHITE_COLOR,
+                    fontSize: 14,
+                    fontWeight: FontWeight.w500,
+                    letterSpacing: 1),
               ),
             ],
           ),
@@ -351,7 +346,7 @@ class ChattingDetailTopWidget extends GetView<ChattingDetailPageController> {
   Widget paymentButtonWidget() => InkWell(
         onTap: () {
           Get.put(PaymentPageController()).postModel = controller.postModel;
-          Get.toNamed(PAYMENT_PAGE_ROUNTER);
+          Get.toNamed(PAYMENT_PAGE_ROUTE);
         },
         child: Container(
           height: 35,
@@ -503,7 +498,7 @@ class ChattingDetailTopWidget extends GetView<ChattingDetailPageController> {
                     ? controller.socket
                         .emit('leaveRoom', controller.chatRoomModel!.id)
                     : null;
-                Get.offNamed(CHATTING_LIST_PAGE_ROUNTER);
+                Get.offNamed(CHATTING_LIST_PAGE_ROUTE);
               },
               child: Container(
                 height: 35,

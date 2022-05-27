@@ -108,7 +108,7 @@ class ProfilePageTopWidget extends GetView {
             width: 10,
           ),
           InkWell(
-            onTap: () => Get.toNamed(NOTIFICATION_PAGE_ROUNTER),
+            onTap: () => Get.toNamed(NOTIFICATION_PAGE_ROUTE),
             child: Container(
               height: 35,
               width: 35,
@@ -188,7 +188,7 @@ class ProfilePageTopWidget extends GetView {
                 vertical: 12,
               ),
               child: InkWell(
-                onTap: () => Get.toNamed(PERSONAl_INFOMATION_PAGE_ROUNTER),
+                onTap: () => Get.toNamed(PERSONAl_INFOMATION_PAGE_ROUTE),
                 child: Container(
                   height: 35,
                   alignment: Alignment.center,

@@ -14,6 +14,7 @@ import 'package:petapp_mobile/bindings/personal_information_page_binding.dart';
 import 'package:petapp_mobile/bindings/pet_detail_page_binding.dart';
 import 'package:petapp_mobile/bindings/purchase_post_detail_page_binding.dart';
 import 'package:petapp_mobile/bindings/register_page_binding.dart';
+import 'package:petapp_mobile/bindings/sale_transaction_detail_page_binding.dart';
 import 'package:petapp_mobile/bindings/sign_in_page_binding.dart';
 import 'package:petapp_mobile/bindings/pet_management_page_binding.dart';
 import 'package:petapp_mobile/bindings/purchase_posts_page_binding.dart';
@@ -42,6 +43,7 @@ import 'package:petapp_mobile/views/customer/profile_page/profile_page.dart';
 import 'package:petapp_mobile/views/customer/purchase_post_detail_page/purchase_post_detail_page.dart';
 import 'package:petapp_mobile/views/customer/purchase_posts_filter_page/purchase_posts_filter_page.dart';
 import 'package:petapp_mobile/views/customer/purchase_posts_page/purchase_posts_page.dart';
+import 'package:petapp_mobile/views/customer/sale_transaction_detail_page/sale_transaction_detail_page.dart';
 import 'package:petapp_mobile/views/customer/setting_page/setting.dart';
 import 'package:petapp_mobile/views/customer/transaction_at_center_detail_page/payment_for_transaction_at_center.dart';
 import 'package:petapp_mobile/views/customer/transaction_page/transaction_page.dart';
@@ -68,7 +70,7 @@ void main() async {
     sound: true,
   );
 
-  String initRounter = HOME_PAGE_ROUNTER;
+  String initRounter = HOME_PAGE_ROUTE;
 
   if (FirebaseAuth.instance.currentUser == null) {
     initRounter = LANDING_PAGE_ROUTE;
@@ -132,22 +134,22 @@ class MainApp extends StatelessWidget {
         ),
         //*Register page
         GetPage(
-          name: REGISTER_PHONE_NUMBER_PAGE_ROUNTER,
+          name: REGISTER_PHONE_NUMBER_PAGE_ROUTE,
           page: () => const RegisterPhoneNumberPage(),
           binding: RegisterPageBinding(),
         ),
         GetPage(
-          name: REGISTER_USER_INFORMATION_PAGE_ROUNTER,
+          name: REGISTER_USER_INFORMATION_PAGE_ROUTE,
           page: () => const RegisterUserInformationPage(),
         ),
         GetPage(
-          name: REGISTER_OTP_PAGE_ROUNTER,
+          name: REGISTER_OTP_PAGE_ROUTE,
           page: () => const RegisterOTPPage(),
         ),
         //!Customer
         //*Home
         GetPage(
-          name: HOME_PAGE_ROUNTER,
+          name: HOME_PAGE_ROUTE,
           page: () => const HomePage(),
           binding: HomePageBinding(),
         ),
@@ -156,30 +158,30 @@ class MainApp extends StatelessWidget {
         //   page: () => const PostDetaiPage(),
         // ),
         GetPage(
-          name: PURCHASE_POSTS_PAGE_ROUNTER,
+          name: PURCHASE_POSTS_PAGE_ROUTE,
           page: () => const PurchasePostsPage(),
           binding: PurchasePostsPageBinding(),
         ),
         GetPage(
-          name: PURCHASE_POSTS_FILTER_PAGE_ROUNTER,
+          name: PURCHASE_POSTS_FILTER_PAGE_ROUTE,
           page: () => const PurchasePostsFilterPage(),
         ),
         GetPage(
-          name: NOTIFICATION_PAGE_ROUNTER,
+          name: NOTIFICATION_PAGE_ROUTE,
           page: () => const NotificationPage(),
           binding: NotificationPageBinding(),
         ),
         GetPage(
-            name: '$PURCHASE_POST_DETAIL_PAGE_ROUNTER/:purchasePostId',
+            name: '$PURCHASE_POST_DETAIL_PAGE_ROUTE/:purchasePostId',
             page: () => const PurchasePostDetaiPage(),
             binding: PurchasePostDetailPageBinding()),
         //*Action
         GetPage(
-          name: ACTION_PAGE_ROUNTER,
+          name: ACTION_PAGE_ROUTE,
           page: () => const AcctionPage(),
         ),
         GetPage(
-          name: CREATE_POST_PAGE_ROUNTER,
+          name: CREATE_POST_PAGE_ROUTE,
           page: () => const CreatePostPage(),
           binding: CreatePostPageBinding(),
         ),
@@ -189,69 +191,77 @@ class MainApp extends StatelessWidget {
           binding: PostManagementPageBinding(),
         ),
         GetPage(
-          name: TRANSACTION_PAGE_ROUNTER,
+          name: TRANSACTION_PAGE_ROUTE,
           page: () => const TransactionPage(),
           binding: TransactionPageBinding(),
         ),
         GetPage(
-          name:
-              '$PAYMENT_FOR_TRANSACTION_AT_CENTER_PAGE_ROUNTER/:transactionId',
+          name: '$PAYMENT_FOR_TRANSACTION_AT_CENTER_PAGE_ROUTE/:transactionId',
           page: () => const PaymentForTransactionAtCenterPage(),
           binding: PaymentForTransactionAtCenterPageBinding(),
         ),
         GetPage(
-          name: '$TRANSACTION_AT_CENTER_DETAIL_PAGE_ROUNTER/:transactionId',
+          name: '$TRANSACTION_AT_CENTER_DETAIL_PAGE_ROUTE/:transactionId',
           page: () => const TransactionAtCenterDetailPage(),
           binding: TransactionAtCenterDetailPageBinding(),
         ),
+        GetPage(
+          name: '$SALE_TRANSACTION_DETAIL_PAGE_ROUTE/:saleTransactionId',
+          page: () => const SaleTransactionDetailPage(),
+          binding: SaleTransactionDetailPageBinding(),
+        ),
         //*Profile
         GetPage(
-          name: PROFILE_PAGE_ROUNTER,
+          name: PROFILE_PAGE_ROUTE,
           page: () => const ProfilePage(),
         ),
         GetPage(
-          name: PET_MANAGEMENT_PAGE_ROUNTER,
+          name: PET_MANAGEMENT_PAGE_ROUTE,
           page: () => const PetManagementPage(),
           binding: PetManagementPageBinding(),
         ),
         GetPage(
-          name: CREATE_PET_PAGE_ROUNTER,
+          name: CREATE_PET_PAGE_ROUTE,
           page: () => const CreatePetPage(),
           binding: AddPetPagePageBinding(),
         ),
         GetPage(
-          name: PERSONAl_INFOMATION_PAGE_ROUNTER,
+          name: PERSONAl_INFOMATION_PAGE_ROUTE,
           page: () => const PersonalInformationPage(),
           binding: PersonalInformationPageBinding(),
         ),
         GetPage(
-          name: PET_DETAIL_PAGE_ROUNTER,
+          name: PET_DETAIL_PAGE_ROUTE,
           page: () => const PetDetaiPage(),
           binding: PetDetailPageBinding(),
         ),
         //*Setting
         GetPage(
-          name: SETTING_PAGE_ROUNTER,
+          name: SETTING_PAGE_ROUTE,
           page: () => const SettingPage(),
         ),
         //*Chatting
         GetPage(
-          name: CHATTING_LIST_PAGE_ROUNTER,
+          name: CHATTING_LIST_PAGE_ROUTE,
           page: () => const ChattingListPage(),
           binding: ChattingListPageBinding(),
         ),
-
         GetPage(
-          name: CHATTING_DETAIL_PAGE_ROUNTER,
+          name: '$CHATTING_DETAIL_PAGE_ROUTE/chatRoomId/:chatRoomId',
           page: () => const ChattingDetailPage(),
           binding: ChattingDetailPageBinding(),
-        ), //*Payment
+        ),
         GetPage(
-          name: PAYMENT_PAGE_ROUNTER,
+          name: '$CHATTING_DETAIL_PAGE_ROUTE/sellerId/:sellerId/postId/:postId',
+          page: () => const ChattingDetailPage(),
+          binding: ChattingDetailPageBinding(),
+        ),
+        GetPage(
+          name: PAYMENT_PAGE_ROUTE,
           page: () => const PaymentPage(),
         ),
         GetPage(
-          name: PAYMENT_METHOD_PAGE_ROUNTER,
+          name: PAYMENT_METHOD_PAGE_ROUTE,
           page: () => const PaymentMethodPage(),
         ),
       ],

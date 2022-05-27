@@ -3,118 +3,139 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:petapp_mobile/configs/path.dart';
-import 'package:petapp_mobile/configs/route.dart';
 import 'package:petapp_mobile/configs/theme.dart';
-import 'package:petapp_mobile/views/widgets/customize_widget.dart';
 
 class AcctionTopWidget extends GetView {
   const AcctionTopWidget({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        Padding(
-          padding:
-              const EdgeInsets.only(left: 15, right: 15, top: 30, bottom: 20),
-          child:
-              //*App logo
-              Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Row(
-                children: [
-                  GRADIENT_WIDGET(
-                    child: SvgPicture.asset(
-                      ICON_PATH + PET_LOGO_SVG,
-                      height: 29,
-                      width: 29,
-                      fit: BoxFit.cover,
-                      allowDrawingOutsideViewBox: true,
-                    ),
-                    gradient: const LinearGradient(colors: [
-                      Color.fromARGB(255, 90, 253, 253),
-                      Color.fromARGB(255, 123, 41, 255),
-                    ]),
-                  ),
-                  const SizedBox(
-                    width: 2,
-                  ),
-                  GRADIENT_WIDGET(
-                    child: Text(
-                      'iU Petshop',
-                      style: GoogleFonts.satisfy(
-                        textStyle: const TextStyle(color: WHITE_COLOR),
-                        fontWeight: FontWeight.w700,
-                        fontSize: 25,
-                        height: 1.2,
-                      ),
-                    ),
-                    gradient: const LinearGradient(colors: [
-                      Color.fromARGB(255, 123, 41, 255),
-                      Color.fromARGB(255, 1, 226, 226),
-                    ]),
-                  )
-                ],
-              ),
-              Row(
-                children: [
-                  InkWell(
-                    onTap: () => Get.toNamed(NOTIFICATION_PAGE_ROUNTER),
-                    child: Container(
-                      height: 35,
-                      width: 35,
-                      decoration: BoxDecoration(
-                        color: WHITE_COLOR,
-                        borderRadius: BorderRadius.circular(10),
-                        boxShadow: [
-                          BoxShadow(
-                            color: DARK_GREY_COLOR.withOpacity(0.1),
-                            blurRadius: 5,
-                            offset: const Offset(2, 2),
-                          )
-                        ],
-                      ),
-                      child: Stack(
-                        children: [
-                          Positioned(
-                            bottom: 5,
-                            left: 5,
-                            child: SvgPicture.asset(
-                              ICON_PATH + BELL_SVG,
-                              color: const Color.fromARGB(255, 110, 117, 131),
-                              height: 25,
-                              width: 25,
-                              fit: BoxFit.cover,
-                              allowDrawingOutsideViewBox: true,
-                            ),
-                          ),
-                          Positioned(
-                            top: 3,
-                            right: 3,
-                            child: CircleAvatar(
-                              backgroundColor:
-                                  const Color.fromARGB(255, 240, 121, 100),
-                              radius: 7,
-                              child: Text(
-                                '1',
-                                style: GoogleFonts.itim(
-                                  fontSize: 12,
-                                  color: WHITE_COLOR,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ],
+  Widget build(BuildContext context) => Column(
+        children: [
+          topTitleWidget(),
+          searchWidget(),
+          Container(
+            height: 1,
+            margin: const EdgeInsets.only(top: 15),
+            color: LIGHT_GREY_COLOR.withOpacity(0.1),
           ),
+          Container(
+            height: 8,
+            margin: const EdgeInsets.only(bottom: 10),
+            color: const Color.fromARGB(255, 243, 248, 255),
+          ),
+        ],
+      );
+
+  Widget topTitleWidget() => Padding(
+        padding: const EdgeInsets.only(top: 30, bottom: 15),
+        child: Row(
+          children: [
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.only(right: 35),
+                child: Text(
+                  'Acctions Page',
+                  textAlign: TextAlign.center,
+                  style: GoogleFonts.quicksand(
+                    color: const Color.fromARGB(255, 62, 68, 87),
+                    fontSize: 18,
+                    fontWeight: FontWeight.w700,
+                    letterSpacing: 2,
+                  ),
+                ),
+              ),
+            ),
+          ],
         ),
-      ],
-    );
-  }
+      );
+
+  Widget searchWidget() => Container(
+        height: 40,
+        margin: const EdgeInsets.symmetric(horizontal: 12),
+        child: Row(
+          children: [
+            Expanded(
+              child: TextFormField(
+                cursorColor: PRIMARY_COLOR,
+                maxLength: 50,
+                style: GoogleFonts.quicksand(
+                  fontWeight: FontWeight.w500,
+                  color: const Color.fromARGB(255, 138, 154, 175),
+                  fontSize: 16,
+                ),
+                decoration: InputDecoration(
+                  counterText: '',
+                  prefixIcon: Align(
+                    heightFactor: 1,
+                    widthFactor: 1,
+                    child: SvgPicture.asset(
+                      ICON_PATH + SEARCH_SVG,
+                      height: 20,
+                      color: const Color.fromARGB(255, 78, 98, 124),
+                    ),
+                  ),
+                  suffixIcon: Align(
+                    heightFactor: 1,
+                    widthFactor: 1,
+                    child: Text(
+                      '0' '/20',
+                      style: GoogleFonts.quicksand(
+                        fontWeight: FontWeight.w500,
+                        color: const Color.fromARGB(255, 78, 98, 124),
+                        fontSize: 13,
+                      ),
+                    ),
+                  ),
+                  border: const OutlineInputBorder(),
+                  hintText: 'Search for action',
+                  hintStyle: GoogleFonts.quicksand(
+                    fontWeight: FontWeight.w500,
+                    color: const Color.fromARGB(255, 125, 141, 161),
+                    fontSize: 13,
+                  ),
+                ),
+                onChanged: (String? value) {},
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(
+                left: 12,
+              ),
+              child: InkWell(
+                onTap: () {},
+                child: Container(
+                  height: 40,
+                  width: 50,
+                  alignment: Alignment.center,
+                  decoration: BoxDecoration(
+                    border: Border.all(
+                      color: const Color.fromARGB(255, 192, 195, 207),
+                    ),
+                    borderRadius: BorderRadius.circular(3),
+                    color: const Color.fromARGB(255, 243, 243, 243),
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      // Text(
+                      //   '',
+                      //   style: GoogleFonts.quicksand(
+                      //     color: const Color.fromARGB(255, 64, 69, 87),
+                      //     fontSize: 13,
+                      //     fontWeight: FontWeight.w600,
+                      //   ),
+                      // ),
+                      SvgPicture.asset(
+                        ICON_PATH + FILTER_SVG,
+                        height: 16,
+                        color: const Color.fromARGB(255, 64, 69, 87),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      );
 }

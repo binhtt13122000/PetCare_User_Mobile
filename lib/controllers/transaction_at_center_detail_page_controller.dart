@@ -7,7 +7,6 @@ class TransactionAtCenterDetailPageController extends GetxController {
   RxInt selectedStar = 0.obs;
   RxString ratingText = 'Rating'.obs;
   RxList<String> quickFeedBackList = <String>[].obs;
-  String reviewContent = '';
   PromotionModel? selectedPromotion;
   RxInt disccountAmount = 0.obs;
   RxString selectedPromotionName = 'ADD A PROMO'.obs;
@@ -33,6 +32,7 @@ class TransactionAtCenterDetailPageController extends GetxController {
   Function()? refetchGraphql;
   List<int> currentTransactionIdList = [];
   RxBool isShowReviewPopup = false.obs;
+  String reviewContent = '';
 
   updateRatingText() {
     switch (selectedStar.value) {

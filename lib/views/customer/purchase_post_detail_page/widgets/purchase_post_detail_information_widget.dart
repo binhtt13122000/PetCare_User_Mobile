@@ -78,6 +78,10 @@ class PurchasePostDetailInformationWidget
                 keyText: 'Vaccinated',
                 valueText: 'NO',
               ),
+              textCardWidgetWithInfoIcon(
+                keyText: 'branchId',
+                valueText: controller.postModel.branchId.toString(),
+              ),
             ],
           ),
         ),

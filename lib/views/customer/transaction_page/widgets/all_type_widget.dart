@@ -11,10 +11,8 @@ import 'package:petapp_mobile/models/normal_transaction_model/normal_transaction
 import 'package:petapp_mobile/services/normal_transaction_services.dart';
 import 'package:petapp_mobile/utilities/utilities.dart';
 
-class TransactionBodyWidget extends GetView<TransactionPageController> {
-  const TransactionBodyWidget({Key? key, required this.customerId})
-      : super(key: key);
-  final int customerId;
+class AllTypeTransactionWidget extends GetView<TransactionPageController> {
+  const AllTypeTransactionWidget({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +23,7 @@ class TransactionBodyWidget extends GetView<TransactionPageController> {
         options: QueryOptions(
             document: gql(FETCH_NORMAL_TRANSACTION_LIST_BY_CUSTOMER_ID),
             variables: {
-              '_customerId': customerId,
+              '_customerId': controller.accountModel.customerModel.id,
             }),
         builder: (
           QueryResult result, {
@@ -77,7 +75,7 @@ class TransactionBodyWidget extends GetView<TransactionPageController> {
         padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
         child: InkWell(
           onTap: () => Get.toNamed(
-              '$TRANSACTION_AT_CENTER_DETAIL_PAGE_ROUNTER/${normalTransactionModel.id}'),
+              '$TRANSACTION_AT_CENTER_DETAIL_PAGE_ROUTE/${normalTransactionModel.id}'),
           child: Container(
             height: 100,
             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 5),

@@ -24,7 +24,7 @@ class PurchasePostDetailGeneralInformationWidget
               children: [
                 petBreedInforWidget(),
                 Text(
-                  controller.postModel.description ?? '',
+                  controller.postModel.title,
                   style: GoogleFonts.quicksand(
                     fontSize: 15,
                     color: const Color.fromARGB(255, 59, 71, 85),

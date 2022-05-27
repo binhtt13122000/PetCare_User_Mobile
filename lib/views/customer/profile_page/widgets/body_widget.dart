@@ -50,7 +50,7 @@ class ProfilePageBodyWidget extends GetView {
                 buttonCartWidget(
                   iconData: Icons.pets,
                   title: 'Pets management',
-                  onTap: () => Get.toNamed(PET_MANAGEMENT_PAGE_ROUNTER),
+                  onTap: () => Get.toNamed(PET_MANAGEMENT_PAGE_ROUTE),
                 ),
                 buttonCartWidget(
                   svgUrl: ICON_PATH + POSTS_SVG,
@@ -229,7 +229,7 @@ class ProfilePageBodyWidget extends GetView {
       );
 
   Widget addPetProfileCard() => InkWell(
-        onTap: () => Get.toNamed(CREATE_PET_PAGE_ROUNTER),
+        onTap: () => Get.toNamed(CREATE_PET_PAGE_ROUTE),
         child: ClipRRect(
           borderRadius: BorderRadius.circular(10),
           child: Stack(

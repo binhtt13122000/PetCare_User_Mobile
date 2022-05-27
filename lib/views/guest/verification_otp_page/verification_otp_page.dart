@@ -252,7 +252,7 @@ class VerificationOTPPage extends GetView<SignInPageController> {
                             controller.accountModel =
                                 await controller.signInWithPhoneAuthCredential(
                                     phoneAuthCredential);
-                            Get.toNamed(HOME_PAGE_ROUNTER);
+                            Get.toNamed(HOME_PAGE_ROUTE);
                           },
                         ),
                       ),

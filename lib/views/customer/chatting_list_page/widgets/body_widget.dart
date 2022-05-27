@@ -61,8 +61,8 @@ class ChattingListBodyWidget extends GetView<ChattingListPageController> {
         padding: const EdgeInsets.symmetric(vertical: 15),
         child: InkWell(
           onTap: () async {
-            Get.offNamed(
-                '$CHATTING_DETAIL_PAGE_ROUNTER?chatRoomId=${chatRoomModel.id}');
+            Get.toNamed(
+                '$CHATTING_DETAIL_PAGE_ROUTE/chatRoomId/${chatRoomModel.id}');
           },
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,

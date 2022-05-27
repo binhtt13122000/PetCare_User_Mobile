@@ -19,12 +19,12 @@ class SaleTransactionService {
     return saleTransactionList;
   }
 
-  static Future<String> createSaleTransaction({
+  static Future<int> createSaleTransaction({
+    required DateTime createdTime,
     required DateTime meetingTime,
     required String placeMeeting,
     required int sellerReceive,
     required int transactionFee,
-    required int provisionalTotal,
     required int transactionTotal,
     required String? description,
     String status = 'CREATED',
@@ -32,6 +32,7 @@ class SaleTransactionService {
     required int sellerId,
     required int petId,
     required int posId,
+    int point = 0,
   }) async {
     final response = await http.post(
       Uri.http(API_SERVER, '/v1/api/sale-transactions'),
@@ -39,25 +40,27 @@ class SaleTransactionService {
         'Content-Type': 'application/json; charset=UTF-8',
       },
       body: jsonEncode({
+        'createdTime': createdTime.toIso8601String(),
         'meetingTime': meetingTime.toIso8601String(),
         'placeMeeting': placeMeeting,
         'sellerReceive': sellerReceive,
         'transactionFee': transactionFee,
-        'provisionalTotal': provisionalTotal,
         'transactionTotal': transactionTotal,
         'description': description ?? '',
         'status': status,
         'buyerId': buyerId,
         'sellerId': sellerId,
         'petId': petId,
-        'postId': posId
+        'postId': posId,
+        'point': point,
       }),
     );
     switch (response.statusCode) {
       case 200:
       case 201:
       case 202:
-        return jsonDecode(response.body).toString();
+        // return jsonDecode(response.body)['data']['id'];
+        return json.decode(response.body)['data']['id'];
       default:
         print(response.body);
         throw Exception(
@@ -67,26 +70,16 @@ class SaleTransactionService {
 
   static Future<String> payment({
     required int id,
-    required DateTime meetingTime,
-    required String placeMeeting,
     required DateTime transactionTime,
-    required int discount,
     required int transactionTotal,
-    String? description,
-    String? paymentMethod,
-    required int star,
-    required String? review,
-    required String? reasonCancel,
-    required String status,
-    int? promotionId,
+    required String paymentMethod,
     String? message,
     required String locale,
-    required String returnUrl,
   }) async {
     final queryParameters = {
-      'message': message,
+      'message': message ?? '',
       'locale': locale,
-      'returnUrl': 'http://$API_SERVER/v1/api/sale-transactions/vnpay_return'
+      'returnUrl': 'http://$API_SERVER$SALE_TRANSACTION_RETURN_PATH'
     };
 
     final response = await http.post(
@@ -96,26 +89,17 @@ class SaleTransactionService {
       },
       body: jsonEncode({
         'id': id,
-        'meetingTime': meetingTime.toIso8601String(),
-        'placeMeeting': placeMeeting,
         'transactionTime': transactionTime.toIso8601String(),
-        'discount': discount,
         'transactionTotal': transactionTotal,
-        'description': description ?? '',
-        'paymentMethod': paymentMethod ?? '',
-        'star': star,
-        'review': review ?? '',
-        'reasonCancel': reasonCancel ?? '',
-        'status': status,
-        'message': message ?? '',
-        'locale': locale,
-        'returnUrl': returnUrl,
+        'paymentMethod': paymentMethod,
+        'point': transactionTotal ~/ 1000
       }),
     );
     switch (response.statusCode) {
       case 200:
       case 201:
       case 202:
+        print(jsonDecode(response.body));
         return jsonDecode(response.body)['data']['url'];
       default:
         print(response.body);

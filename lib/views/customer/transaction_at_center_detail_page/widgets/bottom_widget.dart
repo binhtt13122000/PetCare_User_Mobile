@@ -24,7 +24,7 @@ class TransactionAtCenterDetailBottomWidget
                 onTap: () {
                   if (controller.normalTransactionModel.status == 'WAITING') {
                     Get.toNamed(
-                        '$PAYMENT_FOR_TRANSACTION_AT_CENTER_PAGE_ROUNTER/${controller.normalTransactionModel.id}');
+                        '$PAYMENT_FOR_TRANSACTION_AT_CENTER_PAGE_ROUTE/${controller.normalTransactionModel.id}');
                   } else {
                     controller.isShowReviewPopup.value = true;
                   }

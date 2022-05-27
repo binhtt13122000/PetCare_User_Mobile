@@ -34,7 +34,7 @@ class RegisterPageBottomWidget extends GetView<RegisterPageController> {
                     ..accountModel = controller.accountModel
                     ..auth = controller.auth
                     ..userDeviceToken = controller.userDeviceToken;
-                  Get.toNamed(HOME_PAGE_ROUNTER);
+                  Get.toNamed(HOME_PAGE_ROUTE);
                   controller.isLoadingRegister.value = false;
                 } else {
                   controller.isLoadingRegister.value = false;

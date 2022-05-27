@@ -76,9 +76,12 @@ class CreateRequestWidget extends GetView<ChattingDetailPageController> {
             MessageModel messageModel = MessageModel(
               isSellerMessage: controller.accountModel.customerModel.id ==
                   controller.postModel.customerId,
-              content:
-                  'Buyer transction request:\n transaction place - ${controller.transactionLocation.value}, transaction time - ${FORMAT_DATE_TIME(dateTime: controller.transactionTime!, pattern: DATE_TIME_PATTERN)}. ' +
-                      controller.description.value,
+              content: 'Transaction request - status: ' +
+                  (controller.chatRoomModel!.status == 'CREATED'
+                      ? '[CREATED]'
+                      : '[UPDATED]') +
+                  '. Transaction place: ${controller.transactionLocation.value}. Transaction time: ${FORMAT_DATE_TIME(dateTime: controller.transactionTime!, pattern: DATE_TIME_PATTERN)}. ' +
+                  controller.description.value,
               type: 'NORMAL',
               createdTime: DateTime.now(),
               buyerId: controller.accountModel.customerModel.id,
@@ -164,7 +167,7 @@ class CreateRequestWidget extends GetView<ChattingDetailPageController> {
               MessageModel messageModel = MessageModel(
                 isSellerMessage: controller.accountModel.customerModel.id ==
                     controller.postModel.customerId,
-                content: 'Buyer transaction request: Request canceled',
+                content: 'Transaction request - status: [CANCELED].',
                 type: 'NORMAL',
                 createdTime: DateTime.now(),
                 buyerId: controller.accountModel.customerModel.id,

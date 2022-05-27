@@ -37,7 +37,7 @@ class BuyerRequestWidget extends GetView<ChattingDetailPageController> {
                         child: Column(
                           children: [
                             Text(
-                              'Buyer Transaction Request',
+                              'Transaction request',
                               textAlign: TextAlign.center,
                               style: GoogleFonts.quicksand(
                                 color: PRIMARY_COLOR,
@@ -70,23 +70,25 @@ class BuyerRequestWidget extends GetView<ChattingDetailPageController> {
         child: InkWell(
           onTap: () async {
             //*create request
-            await SaleTransactionService.createSaleTransaction(
-                meetingTime: controller.chatRoomModel!.transactionTime!,
-                placeMeeting: controller.chatRoomModel!.transactionPlace!,
-                sellerReceive: controller.postModel.sellerReceive,
-                transactionFee: controller.postModel.shopFee,
-                provisionalTotal: controller.postModel.provisionalTotal,
-                transactionTotal: controller.postModel.provisionalTotal,
-                description: controller.chatRoomModel!.description,
-                buyerId: controller.chatRoomModel!.buyerId,
-                sellerId: controller.chatRoomModel!.sellerId,
-                petId: controller.postModel.petId,
-                posId: controller.chatRoomModel!.postId);
+            int transactionId =
+                await SaleTransactionService.createSaleTransaction(
+                    createdTime: DateTime.now(),
+                    meetingTime: controller.chatRoomModel!.transactionTime!,
+                    placeMeeting: controller.chatRoomModel!.transactionPlace!,
+                    sellerReceive: controller.postModel.sellerReceive,
+                    transactionFee: controller.postModel.shopFee,
+                    transactionTotal: controller.postModel.provisionalTotal,
+                    description: controller.chatRoomModel!.description,
+                    buyerId: controller.chatRoomModel!.buyerId,
+                    sellerId: controller.chatRoomModel!.sellerId,
+                    petId: controller.postModel.petId,
+                    posId: controller.chatRoomModel!.postId);
+            controller.isShowBuyerRequest.value = false;
             //*send message
             MessageModel messageModel = MessageModel(
               isSellerMessage: controller.accountModel.customerModel.id ==
                   controller.postModel.customerId,
-              content: 'Buyer transaction request: Accepted',
+              content: 'Transaction request - status: [APPROVED].',
               type: 'NORMAL',
               createdTime: DateTime.now(),
               buyerId: controller.accountModel.customerModel.id,
@@ -98,7 +100,7 @@ class BuyerRequestWidget extends GetView<ChattingDetailPageController> {
             controller.socket.emit(
               'updateRoom',
               controller.chatRoomModel!
-                ..transactionId = '123456'
+                ..transactionId = transactionId
                 ..status = 'CREATED',
             );
           },
@@ -326,11 +328,12 @@ class BuyerRequestWidget extends GetView<ChattingDetailPageController> {
         padding: const EdgeInsets.only(top: 10),
         child: InkWell(
           onTap: () async {
+            controller.isShowBuyerRequest.value = false;
             //*send message
             MessageModel messageModel = MessageModel(
               isSellerMessage: controller.accountModel.customerModel.id ==
                   controller.postModel.customerId,
-              content: 'Buyer transaction request: Denined',
+              content: 'Transaction request - status: [DENINED].',
               type: 'NORMAL',
               createdTime: DateTime.now(),
               buyerId: controller.accountModel.customerModel.id,

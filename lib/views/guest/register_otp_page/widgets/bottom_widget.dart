@@ -40,7 +40,7 @@ class RegisterOTPPageBottomWidget extends GetView<RegisterPageController> {
                             await controller.userCredential.user!.getIdToken();
                         print('uuuuuuuuuuuu:' + controller.accessToken);
                       }
-                      Get.toNamed(REGISTER_USER_INFORMATION_PAGE_ROUNTER);
+                      Get.toNamed(REGISTER_USER_INFORMATION_PAGE_ROUTE);
                     } on FirebaseAuthException {
                       controller.isLoadingOTP.value = false;
                       controller.isInvalidOTP.value = true;
