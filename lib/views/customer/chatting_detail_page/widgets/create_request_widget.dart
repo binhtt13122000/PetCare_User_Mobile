@@ -5,7 +5,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:petapp_mobile/configs/path.dart';
 import 'package:petapp_mobile/configs/theme.dart';
 import 'package:petapp_mobile/controllers/chatting_detail_page_controller.dart';
-import 'package:petapp_mobile/models/messasge_model.dart/message_model.dart';
 import 'package:petapp_mobile/utilities/utilities.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
@@ -21,7 +20,7 @@ class CreateRequestWidget extends GetView<ChattingDetailPageController> {
                 InkWell(
                   onTap: () => controller.isShowCreateRequest.value = false,
                   child: Container(
-                    color: const Color.fromARGB(106, 198, 188, 201),
+                    color: const Color.fromARGB(106, 188, 196, 201),
                     alignment: Alignment.center,
                     child: InkWell(
                       onTap: () {},
@@ -73,30 +72,28 @@ class CreateRequestWidget extends GetView<ChattingDetailPageController> {
         child: InkWell(
           onTap: () {
             controller.isShowCreateRequest.value = false;
-            MessageModel messageModel = MessageModel(
-              isSellerMessage: controller.accountModel.customerModel.id ==
-                  controller.postModel.customerId,
-              content: 'Transaction request - status: ' +
-                  (controller.chatRoomModel!.status == 'CREATED'
-                      ? '[CREATED]'
-                      : '[UPDATED]') +
+            controller.chatRoomModel!
+              ..transactionPlace = controller.transactionLocation.value
+              ..transactionTime = controller.transactionTime
+              ..description = controller.description.value
+              ..status = 'REQUESTED'
+              ..isSellerMessage = false;
+            Map<String, dynamic> emitJsonMap =
+                controller.chatRoomModel!.toJson();
+            print(controller.chatRoomModel!.status + '111111111111111111111');
+            print(controller.chatRoomModel!.status == 'REQUESTED');
+            emitJsonMap.addAll({
+              'message': 'Transaction request - statussss: ' +
+                  (controller.chatRoomModel!.status == 'REQUESTED'
+                      ? '[UPDATED]'
+                      : '[CREATED]') +
                   '. Transaction place: ${controller.transactionLocation.value}. Transaction time: ${FORMAT_DATE_TIME(dateTime: controller.transactionTime!, pattern: DATE_TIME_PATTERN)}. ' +
-                  controller.description.value,
-              type: 'NORMAL',
-              createdTime: DateTime.now(),
-              buyerId: controller.accountModel.customerModel.id,
-              postId: controller.postModel.id,
-              sellerId: controller.postModel.customerId,
-              room: controller.chatRoomModel!.id,
-            );
-            controller.socket.emit('chatToServer', messageModel);
+                  controller.description.value
+            });
+            print(emitJsonMap.toString());
             controller.socket.emit(
               'updateRoom',
-              controller.chatRoomModel!
-                ..transactionPlace = controller.transactionLocation.value
-                ..transactionTime = controller.transactionTime
-                ..description = controller.description.value
-                ..status = 'REQUESTED',
+              emitJsonMap,
             );
           },
           child: Obx(
@@ -163,23 +160,16 @@ class CreateRequestWidget extends GetView<ChattingDetailPageController> {
           child: InkWell(
             onTap: () {
               controller.isShowCreateRequest.value = false;
-              //!message
-              MessageModel messageModel = MessageModel(
-                isSellerMessage: controller.accountModel.customerModel.id ==
-                    controller.postModel.customerId,
-                content: 'Transaction request - status: [CANCELED].',
-                type: 'NORMAL',
-                createdTime: DateTime.now(),
-                buyerId: controller.accountModel.customerModel.id,
-                postId: controller.postModel.id,
-                sellerId: controller.postModel.customerId,
-                room: controller.chatRoomModel!.id,
-              );
-              //!update room
-              controller.socket.emit('chatToServer', messageModel);
+              controller.chatRoomModel!
+                ..status = 'CREATED'
+                ..isSellerMessage = false;
+              Map<String, dynamic> emitJsonMap =
+                  controller.chatRoomModel!.toJson();
+              emitJsonMap.addAll(
+                  {'message': 'Transaction request - status: [CANCELED].'});
               controller.socket.emit(
                 'updateRoom',
-                controller.chatRoomModel!..status = 'CREATED',
+                emitJsonMap,
               );
             },
             child: Container(

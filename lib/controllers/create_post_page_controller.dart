@@ -11,8 +11,13 @@ import 'package:petapp_mobile/models/breed_model/breed_model.dart';
 import 'package:petapp_mobile/models/pet_model/pet_model.dart';
 import 'package:petapp_mobile/models/species_model/species_model.dart';
 import 'package:flutter_quill/flutter_quill.dart' as quill;
+import 'package:petapp_mobile/models/transaction_fees_model/transaction_fees_model.dart';
 
 class CreatePostPageController extends GetxController {
+  RxBool isShowPurchaseTransactionFeees = false.obs;
+  late List<TransactionFeesModel> listPurchaseTransactionFees;
+  RxInt selectedPurchaseTransactionFeesId = (-1).obs;
+  RxBool isShowMainLoading = false.obs;
   RxBool isLoadingBranch = false.obs;
   RxBool isShowLoadingPet = false.obs;
   RxBool isShowLoadingPetSpecies = false.obs;

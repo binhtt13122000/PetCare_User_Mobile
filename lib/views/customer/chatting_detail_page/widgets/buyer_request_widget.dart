@@ -5,7 +5,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:petapp_mobile/configs/path.dart';
 import 'package:petapp_mobile/configs/theme.dart';
 import 'package:petapp_mobile/controllers/chatting_detail_page_controller.dart';
-import 'package:petapp_mobile/models/messasge_model.dart/message_model.dart';
 import 'package:petapp_mobile/services/sale_transaction_services.dart';
 import 'package:petapp_mobile/utilities/utilities.dart';
 
@@ -69,7 +68,7 @@ class BuyerRequestWidget extends GetView<ChattingDetailPageController> {
         padding: const EdgeInsets.only(top: 20),
         child: InkWell(
           onTap: () async {
-            //*create request
+            controller.isShowBuyerRequest.value = false;
             int transactionId =
                 await SaleTransactionService.createSaleTransaction(
                     createdTime: DateTime.now(),
@@ -83,25 +82,17 @@ class BuyerRequestWidget extends GetView<ChattingDetailPageController> {
                     sellerId: controller.chatRoomModel!.sellerId,
                     petId: controller.postModel.petId,
                     posId: controller.chatRoomModel!.postId);
-            controller.isShowBuyerRequest.value = false;
-            //*send message
-            MessageModel messageModel = MessageModel(
-              isSellerMessage: controller.accountModel.customerModel.id ==
-                  controller.postModel.customerId,
-              content: 'Transaction request - status: [APPROVED].',
-              type: 'NORMAL',
-              createdTime: DateTime.now(),
-              buyerId: controller.accountModel.customerModel.id,
-              postId: controller.postModel.id,
-              sellerId: controller.postModel.customerId,
-              room: controller.chatRoomModel!.id,
-            );
-            controller.socket.emit('chatToServer', messageModel);
+            controller.chatRoomModel!
+              ..transactionId = transactionId
+              ..status = 'CREATED'
+              ..isSellerMessage = true;
+            Map<String, dynamic> emitJsonMap =
+                controller.chatRoomModel!.toJson();
+            emitJsonMap.addAll(
+                {'message': 'Transaction request - status: [APPROVED].'});
             controller.socket.emit(
               'updateRoom',
-              controller.chatRoomModel!
-                ..transactionId = transactionId
-                ..status = 'CREATED',
+              emitJsonMap,
             );
           },
           child: Container(
@@ -329,25 +320,17 @@ class BuyerRequestWidget extends GetView<ChattingDetailPageController> {
         child: InkWell(
           onTap: () async {
             controller.isShowBuyerRequest.value = false;
-            //*send message
-            MessageModel messageModel = MessageModel(
-              isSellerMessage: controller.accountModel.customerModel.id ==
-                  controller.postModel.customerId,
-              content: 'Transaction request - status: [DENINED].',
-              type: 'NORMAL',
-              createdTime: DateTime.now(),
-              buyerId: controller.accountModel.customerModel.id,
-              postId: controller.postModel.id,
-              sellerId: controller.postModel.customerId,
-              room: controller.chatRoomModel!.id,
-            );
-            //*update room
-            controller.socket.emit('chatToServer', messageModel);
+            controller.chatRoomModel!
+              ..transactionId = null
+              ..status = 'CREATED'
+              ..isSellerMessage = true;
+            Map<String, dynamic> emitJsonMap =
+                controller.chatRoomModel!.toJson();
+            emitJsonMap.addAll(
+                {'message': 'Transaction request - status: [DENINED].'});
             controller.socket.emit(
               'updateRoom',
-              controller.chatRoomModel!
-                ..transactionId = null
-                ..status = 'CREATED',
+              emitJsonMap,
             );
           },
           child: Container(

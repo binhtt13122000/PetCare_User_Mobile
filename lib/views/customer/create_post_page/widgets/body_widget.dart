@@ -241,21 +241,29 @@ class CreatePostBodyWidget extends GetView<CreatePostPageController> {
             padding: const EdgeInsets.only(top: 20),
             child: Row(
               children: [
-                Text(
-                  'Post price',
-                  style: GoogleFonts.quicksand(
-                    fontWeight: FontWeight.w500,
-                    color: const Color.fromARGB(255, 61, 78, 100),
-                    fontSize: 16,
-                    letterSpacing: 0.5,
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 5),
-                  child: Icon(
-                    Icons.info_outline_rounded,
-                    size: 15,
-                    color: DARK_GREY_COLOR.withAlpha(100),
+                InkWell(
+                  onTap: () =>
+                      controller.isShowPurchaseTransactionFeees.value = true,
+                  child: Row(
+                    children: [
+                      Text(
+                        'Post price',
+                        style: GoogleFonts.quicksand(
+                          fontWeight: FontWeight.w500,
+                          color: const Color.fromARGB(255, 61, 78, 100),
+                          fontSize: 16,
+                          letterSpacing: 0.5,
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 5),
+                        child: Icon(
+                          Icons.info_outline_rounded,
+                          size: 15,
+                          color: DARK_GREY_COLOR.withAlpha(100),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               ],
@@ -454,9 +462,25 @@ class CreatePostBodyWidget extends GetView<CreatePostPageController> {
                     onChanged: (String text) {
                       String tmpText = text.replaceAll('.', '');
                       controller.receivedMoney.value = tmpText;
-                      controller.price.value = tmpText.isNotEmpty
-                          ? ((int.parse(tmpText) / 100) * 110).toInt()
-                          : 0;
+
+                      if (tmpText.isNotEmpty) {
+                        int intReceivedMoney = int.parse(tmpText);
+
+                        for (var element
+                            in controller.listPurchaseTransactionFees) {
+                          if (element.min <= intReceivedMoney &&
+                              element.max > intReceivedMoney) {
+                            controller.selectedPurchaseTransactionFeesId.value =
+                                element.id;
+                            controller.price.value =
+                                intReceivedMoney + element.price;
+                            break;
+                          }
+                        }
+                      } else {
+                        controller.price.value = 0;
+                        controller.selectedPurchaseTransactionFeesId.value = -1;
+                      }
                     },
                     keyboardType: const TextInputType.numberWithOptions(
                         decimal: false, signed: false),
