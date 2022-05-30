@@ -4,13 +4,12 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:petapp_mobile/configs/path.dart';
 import 'package:petapp_mobile/configs/theme.dart';
-import 'package:petapp_mobile/controllers/purchase_post_detail_page_controller.dart';
+import 'package:petapp_mobile/controllers/sale_post_detail_page_controller.dart';
 import 'package:petapp_mobile/utilities/utilities.dart';
 import 'package:petapp_mobile/views/widgets/customize_widget.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
-class SellerInformationWidget
-    extends GetView<PurchasePostDetailPageController> {
+class SellerInformationWidget extends GetView<SalePostDetailPageController> {
   const SellerInformationWidget({Key? key}) : super(key: key);
 
   @override

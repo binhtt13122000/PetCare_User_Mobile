@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:petapp_mobile/configs/route.dart';
 import 'package:petapp_mobile/controllers/profile_page_controller.dart';
 import 'package:petapp_mobile/views/customer/custom_bottom_navigation_bar/custom_bottom_navigator_bar.dart';
 import 'package:petapp_mobile/views/customer/profile_page/widgets/body_widget.dart';
@@ -43,7 +44,7 @@ class ProfilePage extends GetView<ProfilePageController> {
             ),
             const Align(
               alignment: Alignment.bottomCenter,
-              child: CustomBottomNavigatorBar(),
+              child: CustomBottomNavigatorBarWidget(router: PROFILE_PAGE_ROUTE),
             ),
           ],
         ),

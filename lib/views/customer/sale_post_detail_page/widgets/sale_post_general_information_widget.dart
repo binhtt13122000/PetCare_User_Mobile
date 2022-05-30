@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:petapp_mobile/configs/theme.dart';
-import 'package:petapp_mobile/controllers/purchase_post_detail_page_controller.dart';
+import 'package:petapp_mobile/controllers/sale_post_detail_page_controller.dart';
 import 'package:petapp_mobile/utilities/utilities.dart';
 
 class PurchasePostDetailGeneralInformationWidget
-    extends GetView<PurchasePostDetailPageController> {
+    extends GetView<SalePostDetailPageController> {
   const PurchasePostDetailGeneralInformationWidget({Key? key})
       : super(key: key);
 
@@ -53,7 +53,7 @@ class PurchasePostDetailGeneralInformationWidget
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Text(
-            controller.postModel.petModel!.breedModel.name,
+            controller.postModel.petModel!.breedModel!.name,
             style: GoogleFonts.quicksand(
               fontSize: 20,
               fontWeight: FontWeight.w700,
@@ -63,7 +63,7 @@ class PurchasePostDetailGeneralInformationWidget
             ),
           ),
           Text(
-            '(${controller.postModel.petModel!.breedModel.speciesModel!.name})',
+            '(${controller.postModel.petModel!.breedModel!.speciesModel!.name})',
             style: GoogleFonts.quicksand(
               fontSize: 16,
               fontWeight: FontWeight.w500,

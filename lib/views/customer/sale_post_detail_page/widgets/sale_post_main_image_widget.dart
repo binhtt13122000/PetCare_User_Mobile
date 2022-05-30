@@ -4,11 +4,12 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:petapp_mobile/configs/path.dart';
 import 'package:petapp_mobile/configs/theme.dart';
-import 'package:petapp_mobile/controllers/purchase_post_detail_page_controller.dart';
+import 'package:petapp_mobile/controllers/home_page_controller.dart';
+import 'package:petapp_mobile/controllers/sale_post_detail_page_controller.dart';
 import 'package:petapp_mobile/views/widgets/customize_widget.dart';
 
 class PurchasePostDetailMainImageWidget
-    extends GetView<PurchasePostDetailPageController> {
+    extends GetView<SalePostDetailPageController> {
   const PurchasePostDetailMainImageWidget({Key? key}) : super(key: key);
 
   @override
@@ -41,7 +42,9 @@ class PurchasePostDetailMainImageWidget
         left: 15,
         top: 30,
         child: InkWell(
-          onTap: () => Get.back(),
+          onTap: () => Get
+            ..back()
+            ..find<HomePageController>().update(),
           child: CircleAvatar(
             radius: 20,
             backgroundColor: WHITE_COLOR.withOpacity(0.5),

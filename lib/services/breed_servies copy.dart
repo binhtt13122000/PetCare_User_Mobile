@@ -1,8 +1,8 @@
 import 'dart:convert';
 
 import 'package:petapp_mobile/configs/path.dart';
-import 'package:petapp_mobile/models/breed_model/breed_model.dart';
 import 'package:http/http.dart' as http;
+import 'package:petapp_mobile/models/breed_model/breed_model.dart';
 
 class BreedService {
   static BreedModel getBreed(Map<String, dynamic> jsonData) =>

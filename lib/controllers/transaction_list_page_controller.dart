@@ -8,7 +8,7 @@ class TransactionListPageController extends GetxController {
   AccountModel accountModel = Get.find<AuthController>().accountModel;
 
   RxString selectedTransactionType = 'All Transactions'.obs;
-  RxInt page = 1.obs;
+  int page = 1;
   final int limit = 10;
 
   List<String> purchaseTransactionTypeList = [

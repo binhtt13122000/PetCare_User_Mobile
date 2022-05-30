@@ -202,7 +202,7 @@ class SaleTransactionListWidget extends GetView<TransactionListPageController> {
                     'Transaction id',
                     textAlign: TextAlign.start,
                     style: GoogleFonts.quicksand(
-                      color: const Color.fromARGB(255, 85, 91, 110),
+                      color: DARK_GREY_TEXT_COLOR.withOpacity(0.8),
                       fontWeight: FontWeight.w500,
                       fontSize: 12,
                       height: 1,
@@ -213,7 +213,7 @@ class SaleTransactionListWidget extends GetView<TransactionListPageController> {
                     '#0${saleTransactionModel.id}',
                     textAlign: TextAlign.start,
                     style: GoogleFonts.quicksand(
-                      color: const Color.fromARGB(255, 85, 91, 110),
+                      color: DARK_GREY_TEXT_COLOR.withOpacity(0.8),
                       fontWeight: FontWeight.w500,
                       fontSize: 12,
                       height: 1,
@@ -229,10 +229,10 @@ class SaleTransactionListWidget extends GetView<TransactionListPageController> {
                     'Total price',
                     textAlign: TextAlign.end,
                     style: GoogleFonts.quicksand(
-                      color: const Color.fromARGB(255, 85, 91, 110),
+                      color: DARK_GREY_TEXT_COLOR.withOpacity(0.8),
                       fontWeight: FontWeight.w500,
-                      fontSize: 20,
-                      height: 1.6,
+                      fontSize: 15,
+                      height: 1,
                       letterSpacing: 0.5,
                     ),
                   ),
@@ -240,10 +240,10 @@ class SaleTransactionListWidget extends GetView<TransactionListPageController> {
                     FORMAT_MONEY(price: saleTransactionModel.transactionTotal),
                     textAlign: TextAlign.end,
                     style: GoogleFonts.quicksand(
-                      color: const Color.fromARGB(255, 85, 91, 110),
+                      color: PRIMARY_COLOR,
                       fontWeight: FontWeight.w500,
                       fontSize: 20,
-                      height: 1.6,
+                      height: 1,
                       letterSpacing: 0.5,
                     ),
                   ),
@@ -254,12 +254,12 @@ class SaleTransactionListWidget extends GetView<TransactionListPageController> {
                 children: [
                   Text(
                     controller.selectedPurchaseTransactionType.value ==
-                            'Your role in transaction is [BUYER]'
+                            'Transaction role: [BUYER]'
                         ? 'Seller'
                         : 'Buyer',
                     textAlign: TextAlign.start,
                     style: GoogleFonts.quicksand(
-                      color: const Color.fromARGB(255, 125, 131, 150),
+                      color: DARK_GREY_TEXT_COLOR.withOpacity(0.8),
                       fontWeight: FontWeight.w500,
                       fontSize: 13,
                       height: 1,
@@ -267,12 +267,12 @@ class SaleTransactionListWidget extends GetView<TransactionListPageController> {
                   ),
                   Text(
                     controller.selectedPurchaseTransactionType.value ==
-                            'Your role in transaction is [BUYER]'
+                            'Transaction role: [BUYER]'
                         ? '${saleTransactionModel.sellerCustomerModel.firstName} ${saleTransactionModel.sellerCustomerModel.lastName}'
                         : '${saleTransactionModel.buyerCustomerModel.firstName} ${saleTransactionModel.buyerCustomerModel.lastName}',
                     textAlign: TextAlign.start,
                     style: GoogleFonts.quicksand(
-                      color: const Color.fromARGB(255, 125, 131, 150),
+                      color: DARK_GREY_TEXT_COLOR.withOpacity(0.8),
                       fontWeight: FontWeight.w500,
                       fontSize: 13,
                       height: 1,
@@ -287,7 +287,7 @@ class SaleTransactionListWidget extends GetView<TransactionListPageController> {
                     'Status',
                     textAlign: TextAlign.start,
                     style: GoogleFonts.quicksand(
-                      color: const Color.fromARGB(255, 125, 131, 150),
+                      color: DARK_GREY_TEXT_COLOR.withOpacity(0.8),
                       fontWeight: FontWeight.w500,
                       fontSize: 13,
                       height: 1,
@@ -314,7 +314,7 @@ class SaleTransactionListWidget extends GetView<TransactionListPageController> {
                         : 'Meeting time',
                     textAlign: TextAlign.start,
                     style: GoogleFonts.quicksand(
-                      color: const Color.fromARGB(255, 125, 131, 150),
+                      color: DARK_GREY_TEXT_COLOR.withOpacity(0.8),
                       fontWeight: FontWeight.w500,
                       fontSize: 13,
                       height: 1,
@@ -331,7 +331,7 @@ class SaleTransactionListWidget extends GetView<TransactionListPageController> {
                             pattern: DATE_TIME_PATTERN),
                     textAlign: TextAlign.start,
                     style: GoogleFonts.quicksand(
-                      color: const Color.fromARGB(255, 125, 131, 150),
+                      color: DARK_GREY_TEXT_COLOR.withOpacity(0.8),
                       fontWeight: FontWeight.w500,
                       fontSize: 13,
                       height: 1,

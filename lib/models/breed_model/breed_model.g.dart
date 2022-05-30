@@ -13,6 +13,7 @@ BreedModel _$BreedModelFromJson(Map<String, dynamic> json) => BreedModel(
       speciesModel: json['species'] == null
           ? null
           : SpeciesModel.fromJson(json['species'] as Map<String, dynamic>),
+      speciesId: json['speciesId'] as int?,
     );
 
 Map<String, dynamic> _$BreedModelToJson(BreedModel instance) =>
@@ -20,5 +21,6 @@ Map<String, dynamic> _$BreedModelToJson(BreedModel instance) =>
       'id': instance.id,
       'name': instance.name,
       'description': instance.description,
+      'speciesId': instance.speciesId,
       'species': instance.speciesModel?.toJson(),
     };

@@ -3,11 +3,11 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:petapp_mobile/configs/route.dart';
 import 'package:petapp_mobile/configs/theme.dart';
-import 'package:petapp_mobile/controllers/purchase_post_detail_page_controller.dart';
+import 'package:petapp_mobile/controllers/sale_post_detail_page_controller.dart';
 import 'package:petapp_mobile/services/chat_services.dart';
 
 class PurchasePostDetailBottomWidget
-    extends GetView<PurchasePostDetailPageController> {
+    extends GetView<SalePostDetailPageController> {
   const PurchasePostDetailBottomWidget({Key? key}) : super(key: key);
 
   @override

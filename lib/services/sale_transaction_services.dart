@@ -119,7 +119,7 @@ class SaleTransactionService {
       'limit': limit,
     };
     final response = await http.get(
-      Uri.http(API_SERVER, GET_SALE_TRANSACTION_LIST, parameters),
+      Uri.http(API_SERVER, GET_SALE_TRANSACTION, parameters),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -136,10 +136,10 @@ class SaleTransactionService {
   }
 
   static Future<SaleTransactionModel> fecthSaleTransactionById({
-    required String saleTransactionId,
+    required int saleTransactionId,
   }) async {
     final response = await http.get(
-      Uri.http(API_SERVER, '$GET_SALE_TRANSACTION_LIST/$saleTransactionId'),
+      Uri.http(API_SERVER, '$GET_SALE_TRANSACTION/$saleTransactionId'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -151,7 +151,8 @@ class SaleTransactionService {
         return SaleTransactionModel.fromJson(
             json.decode(response.body)['data']);
       default:
-        throw Exception('Error ${response.statusCode}, cannot login');
+        throw Exception(
+            'Error ${response.statusCode}, cannot get sale transaction');
     }
   }
 }

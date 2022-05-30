@@ -17,81 +17,82 @@ import 'package:petapp_mobile/services/post_services.dart';
 import 'package:petapp_mobile/utilities/utilities.dart';
 import 'package:petapp_mobile/views/widgets/customize_widget.dart';
 
-class PurchasePostGirdsWidget extends GetView<HomePageController> {
-  const PurchasePostGirdsWidget({Key? key}) : super(key: key);
+class SalePostGirdsWidget extends GetView<HomePageController> {
+  const SalePostGirdsWidget({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    controller.isLoading.value = true;
-    WidgetsBinding.instance!.addPostFrameCallback((_) async {
-      QueryResult result = await CLIENT_TO_QUERY().query(
-        QueryOptions(document: gql(FETCH_ALL_PURCHASE_POST_LIST), variables: {
-          '_customerId': controller.accountModel.customerModel.id
-        }),
-      );
-      controller.postList = PostService.getPostList(result.data!);
-      controller.isLoading.value = false;
-      controller.update();
-    });
-
-    return GetBuilder<HomePageController>(
-      builder: (_) => Visibility(
-        visible: controller.selectedServiceIndex.value == 1,
-        child: Expanded(
-          child: Column(
-            children: [
-              petSuggestTitleWidget(),
-              controller.isLoading.value
-                  ? const Expanded(
-                      child: Center(
-                        child: SpinKitSpinningLines(
-                          color: PRIMARY_COLOR,
-                          size: 150,
-                        ),
-                      ),
-                    )
-                  : Expanded(
-                      child: Column(
-                        children: [
-                          Expanded(
-                            child: Container(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 14),
-                              child: CustomScrollView(
-                                slivers: [
-                                  SliverGrid.count(
-                                    crossAxisCount: 2,
-                                    childAspectRatio: 15,
-                                    mainAxisSpacing: 5,
-                                    crossAxisSpacing: 4,
-                                    children: const [SizedBox.shrink()],
-                                  ),
-                                  SliverGrid.count(
-                                    crossAxisCount: 2,
-                                    childAspectRatio: 0.63,
-                                    mainAxisSpacing: 5,
-                                    crossAxisSpacing: 4,
-                                    children: controller.postList
-                                        .asMap()
-                                        .entries
-                                        .map(
-                                          (e) => purchasePostItemWidget(
-                                              postModel: e.value),
-                                        )
-                                        .toList(),
-                                  ),
-                                ],
+    return Obx(() => controller.selectedServiceIndex.value == 1
+        ? GetBuilder<HomePageController>(builder: (_) {
+            controller.isLoading.value = true;
+            WidgetsBinding.instance!.addPostFrameCallback((_) async {
+              QueryResult result = await CLIENT_TO_QUERY().query(
+                QueryOptions(
+                    document: gql(FETCH_ALL_PURCHASE_POST_LIST),
+                    variables: {
+                      '_customerId': controller.accountModel.customerModel.id
+                    }),
+              );
+              controller.postList = PostService.getPostList(result.data!);
+              controller.isLoading.value = false;
+            });
+            return Expanded(
+              child: Column(
+                children: [
+                  petSuggestTitleWidget(),
+                  Obx(
+                    () => controller.isLoading.value
+                        ? const Expanded(
+                            child: Center(
+                              child: SpinKitSpinningLines(
+                                color: PRIMARY_COLOR,
+                                size: 150,
                               ),
                             ),
+                          )
+                        : Expanded(
+                            child: Column(
+                              children: [
+                                Expanded(
+                                  child: Container(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 14),
+                                    child: CustomScrollView(
+                                      slivers: [
+                                        SliverGrid.count(
+                                          crossAxisCount: 2,
+                                          childAspectRatio: 15,
+                                          mainAxisSpacing: 5,
+                                          crossAxisSpacing: 4,
+                                          children: const [SizedBox.shrink()],
+                                        ),
+                                        SliverGrid.count(
+                                          crossAxisCount: 2,
+                                          childAspectRatio: 0.63,
+                                          mainAxisSpacing: 5,
+                                          crossAxisSpacing: 4,
+                                          children: controller.postList
+                                              .asMap()
+                                              .entries
+                                              .map(
+                                                (e) => purchasePostItemWidget(
+                                                    postModel: e.value),
+                                              )
+                                              .toList(),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
-                        ],
-                      ),
-                    ),
-            ],
-          ),
-        ),
-      ),
-    );
+                  ),
+                ],
+              ),
+            );
+          })
+        : const SizedBox.shrink());
   }
 
   Widget petSuggestTitleWidget() => Column(
@@ -140,7 +141,7 @@ class PurchasePostGirdsWidget extends GetView<HomePageController> {
 
   Widget purchasePostItemWidget({required PostModel postModel}) => InkWell(
         onTap: () {
-          Get.toNamed('$PURCHASE_POST_DETAIL_PAGE_ROUTE/${postModel.id}');
+          Get.toNamed('$SALE_POST_DETAIL_PAGE_ROUTE/${postModel.id}');
         },
         child: Container(
           margin: const EdgeInsets.all(5),
@@ -218,7 +219,7 @@ class PurchasePostGirdsWidget extends GetView<HomePageController> {
                                         Color.fromARGB(255, 1, 182, 182),
                                       ]),
                                       child: Text(
-                                        postModel.petModel!.breedModel.name,
+                                        postModel.petModel!.breedModel!.name,
                                         style: GoogleFonts.quicksand(
                                           color: DARK_GREY_COLOR,
                                           fontSize: 15,
@@ -231,7 +232,7 @@ class PurchasePostGirdsWidget extends GetView<HomePageController> {
                                     left: 1.5,
                                     bottom: 1.5,
                                     child: Text(
-                                      postModel.petModel!.breedModel.name,
+                                      postModel.petModel!.breedModel!.name,
                                       style: GoogleFonts.quicksand(
                                         color: WHITE_COLOR,
                                         fontSize: 15,
@@ -246,7 +247,7 @@ class PurchasePostGirdsWidget extends GetView<HomePageController> {
                           Text(
                             ' (' +
                                 postModel
-                                    .petModel!.breedModel.speciesModel!.name +
+                                    .petModel!.breedModel!.speciesModel!.name +
                                 ')',
                             style: GoogleFonts.quicksand(
                               color: WHITE_COLOR.withOpacity(1),

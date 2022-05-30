@@ -13,11 +13,14 @@ PetModel _$PetModelFromJson(Map<String, dynamic> json) => PetModel(
       description: json['description'] as String?,
       color: json['color'] as String?,
       status: json['status'] as String,
-      breedModel: BreedModel.fromJson(json['breed'] as Map<String, dynamic>),
+      breedModel: json['breed'] == null
+          ? null
+          : BreedModel.fromJson(json['breed'] as Map<String, dynamic>),
       dob: DateTime.parse(json['dob'] as String),
       gender: json['gender'] as String,
       specialMarkings: json['specialMarkings'] as String?,
       vaccineDescription: json['vaccineDescription'] as String?,
+      breedId: json['breedId'] as int?,
     );
 
 Map<String, dynamic> _$PetModelToJson(PetModel instance) => <String, dynamic>{
@@ -31,5 +34,6 @@ Map<String, dynamic> _$PetModelToJson(PetModel instance) => <String, dynamic>{
       'dob': instance.dob.toIso8601String(),
       'specialMarkings': instance.specialMarkings,
       'vaccineDescription': instance.vaccineDescription,
-      'breed': instance.breedModel.toJson(),
+      'breedId': instance.breedId,
+      'breed': instance.breedModel?.toJson(),
     };

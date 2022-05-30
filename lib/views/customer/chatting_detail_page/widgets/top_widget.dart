@@ -6,37 +6,12 @@ import 'package:petapp_mobile/configs/path.dart';
 import 'package:petapp_mobile/configs/route.dart';
 import 'package:petapp_mobile/configs/theme.dart';
 import 'package:petapp_mobile/controllers/chatting_detail_page_controller.dart';
+import 'package:petapp_mobile/controllers/chatting_list_page_controller.dart';
 import 'package:petapp_mobile/controllers/payment_pay_controller.dart';
 import 'package:petapp_mobile/utilities/utilities.dart';
 
 class ChattingDetailTopWidget extends GetView<ChattingDetailPageController> {
   const ChattingDetailTopWidget({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        Column(
-          children: [
-            topTitleWidget(),
-            Container(
-              height: 1,
-              margin: const EdgeInsets.only(bottom: 5),
-              color: const Color.fromARGB(255, 151, 163, 179),
-            ),
-            Obx(
-              () => controller.showPost.value
-                  ? postGeneralInfo()
-                  : const SizedBox(
-                      height: 20,
-                    ),
-            ),
-          ],
-        ),
-        showPostButtonWidget(),
-      ],
-    );
-  }
 
   Widget showPostButtonWidget() => Positioned(
         top: 65,
@@ -69,7 +44,7 @@ class ChattingDetailTopWidget extends GetView<ChattingDetailPageController> {
 
   Widget postGeneralInfo() => InkWell(
         onTap: () => Get.toNamed(
-            '$PURCHASE_POST_DETAIL_PAGE_ROUTE/${controller.postModel.id}'),
+            '$SALE_POST_DETAIL_PAGE_ROUTE/${controller.postModel.id}'),
         child: Container(
           color: WHITE_COLOR,
           child: Column(
@@ -100,7 +75,7 @@ class ChattingDetailTopWidget extends GetView<ChattingDetailPageController> {
                         ),
                       ),
                       Text(
-                        'Pet: ${controller.postModel.petModel!.breedModel.name} - ${controller.postModel.petModel!.breedModel.speciesModel!.name}',
+                        'Pet: ${controller.postModel.petModel!.breedModel!.name} - ${controller.postModel.petModel!.breedModel!.speciesModel!.name}',
                         textAlign: TextAlign.start,
                         overflow: TextOverflow.clip,
                         style: GoogleFonts.quicksand(
@@ -498,7 +473,13 @@ class ChattingDetailTopWidget extends GetView<ChattingDetailPageController> {
                     ? controller.socket
                         .emit('leaveRoom', controller.chatRoomModel!.id)
                     : null;
-                Get.offNamed(CHATTING_LIST_PAGE_ROUTE);
+                Get.back();
+                try {
+                  Get.put(ChattingListPageController());
+                  Get.find<ChattingListPageController>().update();
+                } on Exception catch (e) {
+                  print(e);
+                }
               },
               child: Container(
                 height: 35,
@@ -597,4 +578,30 @@ class ChattingDetailTopWidget extends GetView<ChattingDetailPageController> {
           ],
         ),
       );
+
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      children: [
+        Column(
+          children: [
+            topTitleWidget(),
+            Container(
+              height: 1,
+              margin: const EdgeInsets.only(bottom: 5),
+              color: const Color.fromARGB(255, 151, 163, 179),
+            ),
+            Obx(
+              () => controller.showPost.value
+                  ? postGeneralInfo()
+                  : const SizedBox(
+                      height: 20,
+                    ),
+            ),
+          ],
+        ),
+        showPostButtonWidget(),
+      ],
+    );
+  }
 }

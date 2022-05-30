@@ -29,14 +29,11 @@ class SaleTransactionDetailWebViewWidget
                       url: Uri.parse(controller.paymentUrl.value),
                     ),
                     onLoadStart: (InAppWebViewController controller, Uri? uri) {
-                      SaleTransactionDetailPageController
-                          saleTransactionDetailPageController =
-                          Get.find<SaleTransactionDetailPageController>();
                       if (uri!.path == SALE_TRANSACTION_RETURN_PATH) {
-                        saleTransactionDetailPageController.paymentUrl.value =
-                            '';
-                        saleTransactionDetailPageController.isShowPopup.value =
-                            true;
+                        Get.find<SaleTransactionDetailPageController>()
+                          ..update()
+                          ..paymentUrl.value = ''
+                          ..isShowPopup.value = true;
                       }
                     },
                   ),

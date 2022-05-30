@@ -4,12 +4,11 @@ import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:petapp_mobile/configs/theme.dart';
 import 'package:petapp_mobile/controllers/purchase_posts_page_controller.dart';
 import 'package:petapp_mobile/graphql/graphql_config.dart';
-import 'package:petapp_mobile/views/customer/purchase_posts_page/widgets/purchase_porst_list_widget.dart';
+import 'package:petapp_mobile/views/customer/sale_post_list_page/widgets/purchase_porst_list_widget.dart';
+import 'package:petapp_mobile/views/customer/sale_post_list_page/widgets/top_widget.dart';
 
-import 'package:petapp_mobile/views/customer/purchase_posts_page/widgets/top_widget.dart';
-
-class PurchasePostsPage extends GetView<PurchasePostsPageController> {
-  const PurchasePostsPage({Key? key}) : super(key: key);
+class SalePostListPage extends GetView<PurchasePostsPageController> {
+  const SalePostListPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) => GraphQLProvider(
@@ -31,9 +30,9 @@ class PurchasePostsPage extends GetView<PurchasePostsPageController> {
                     ),
                   ],
                 ),
-                child: const TopWidget(),
+                child: const SalePostTopWidget(),
               ),
-              const PurchasePostListWidget(),
+              const SalePostListWidget(),
             ],
           ),
         ),

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:petapp_mobile/configs/theme.dart';
-import 'package:petapp_mobile/controllers/purchase_post_detail_page_controller.dart';
+import 'package:petapp_mobile/controllers/sale_post_detail_page_controller.dart';
 
 class PurchasePostDetailImageListWidget
-    extends GetView<PurchasePostDetailPageController> {
+    extends GetView<SalePostDetailPageController> {
   const PurchasePostDetailImageListWidget({Key? key}) : super(key: key);
 
   @override
@@ -68,7 +68,7 @@ class PurchasePostDetailImageListWidget
       );
 
   Widget imageListWidget({required ScrollController scrollController}) {
-    return GetBuilder<PurchasePostDetailPageController>(
+    return GetBuilder<SalePostDetailPageController>(
       builder: (_) => Expanded(
         flex: controller.postModel.mediaModels!.length > 2 ? 1 : 0,
         child: RawScrollbar(

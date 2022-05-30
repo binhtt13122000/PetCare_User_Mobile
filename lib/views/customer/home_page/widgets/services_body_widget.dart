@@ -8,7 +8,7 @@ import 'package:petapp_mobile/configs/path.dart';
 import 'package:petapp_mobile/configs/route.dart';
 import 'package:petapp_mobile/configs/theme.dart';
 import 'package:petapp_mobile/controllers/home_page_controller.dart';
-import 'package:petapp_mobile/controllers/purchase_post_detail_page_controller.dart';
+import 'package:petapp_mobile/controllers/sale_post_detail_page_controller.dart';
 import 'package:petapp_mobile/models/post_model/post_model.dart';
 import 'package:petapp_mobile/utilities/utilities.dart';
 import 'package:petapp_mobile/views/customer/home_page/widgets/purchase_posts_gird_widget.dart';
@@ -28,7 +28,7 @@ class ServicesBodyWidget extends GetView<HomePageController> {
               bottom: 10,
             ),
           ),
-          const PurchasePostGirdsWidget(),
+          const SalePostGirdsWidget(),
           Obx(
             () => controller.selectedServiceIndex.value == 2
                 ? veterinaryServicesWidget()
@@ -57,7 +57,7 @@ class ServicesBodyWidget extends GetView<HomePageController> {
 
   Widget purchasePostItemWidget({required PostModel postModel}) => InkWell(
         onTap: () {
-          Get.delete<PurchasePostDetailPageController>();
+          Get.delete<SalePostDetailPageController>();
           Get.toNamed(PURCHASE_POSTS_PAGE_ROUTE);
         },
         child: Container(
@@ -260,7 +260,7 @@ class ServicesBodyWidget extends GetView<HomePageController> {
                               crossAxisAlignment: CrossAxisAlignment.end,
                               children: [
                                 Text(
-                                  postModel.petModel!.breedModel.name,
+                                  postModel.petModel!.breedModel!.name,
                                   textAlign: TextAlign.left,
                                   maxLines: 2,
                                   overflow: TextOverflow.ellipsis,
@@ -273,7 +273,7 @@ class ServicesBodyWidget extends GetView<HomePageController> {
                                 ),
                                 Text(
                                   ' (' +
-                                      postModel.petModel!.breedModel
+                                      postModel.petModel!.breedModel!
                                           .speciesModel!.name +
                                       ')',
                                   textAlign: TextAlign.left,

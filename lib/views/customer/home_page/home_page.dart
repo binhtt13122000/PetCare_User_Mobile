@@ -2,6 +2,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
+import 'package:petapp_mobile/configs/route.dart';
 import 'package:petapp_mobile/configs/theme.dart';
 import 'package:petapp_mobile/controllers/home_page_controller.dart';
 import 'package:petapp_mobile/graphql/graphql_config.dart';
@@ -49,7 +50,7 @@ class HomePage extends GetView<HomePageController> {
             ),
             const Align(
               alignment: Alignment.bottomCenter,
-              child: CustomBottomNavigatorBar(),
+              child: CustomBottomNavigatorBarWidget(router: HOME_PAGE_ROUTE),
             ),
           ],
         ),

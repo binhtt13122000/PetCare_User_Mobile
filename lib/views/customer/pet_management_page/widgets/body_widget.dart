@@ -251,7 +251,7 @@ class PetsManagementBodyWidget extends GetView<PetManagementPageController> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      petModel.breedModel.name,
+                      petModel.breedModel!.name,
                       textAlign: TextAlign.center,
                       overflow: TextOverflow.clip,
                       style: GoogleFonts.quicksand(
@@ -262,7 +262,7 @@ class PetsManagementBodyWidget extends GetView<PetManagementPageController> {
                       ),
                     ),
                     Text(
-                      '(${petModel.breedModel.speciesModel!.name} - ${petModel.gender == 'FEMALE' ? 'Female' : 'Male'})',
+                      '(${petModel.breedModel!.speciesModel!.name} - ${petModel.gender == 'FEMALE' ? 'Female' : 'Male'})',
                       textAlign: TextAlign.center,
                       overflow: TextOverflow.ellipsis,
                       style: GoogleFonts.quicksand(
@@ -341,7 +341,7 @@ class PetsManagementBodyWidget extends GetView<PetManagementPageController> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          petModel.breedModel.name,
+                          petModel.breedModel!.name,
                           textAlign: TextAlign.center,
                           overflow: TextOverflow.clip,
                           style: GoogleFonts.quicksand(
@@ -352,7 +352,7 @@ class PetsManagementBodyWidget extends GetView<PetManagementPageController> {
                           ),
                         ),
                         Text(
-                          '(${petModel.breedModel.speciesModel!.name} - ${petModel.gender == 'FEMALE' ? 'Female' : 'Male'})',
+                          '(${petModel.breedModel!.speciesModel!.name} - ${petModel.gender == 'FEMALE' ? 'Female' : 'Male'})',
                           textAlign: TextAlign.center,
                           overflow: TextOverflow.ellipsis,
                           style: GoogleFonts.quicksand(

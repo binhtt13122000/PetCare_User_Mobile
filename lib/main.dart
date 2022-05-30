@@ -13,7 +13,7 @@ import 'package:petapp_mobile/bindings/notification_page_binding.dart';
 import 'package:petapp_mobile/bindings/personal_information_page_binding.dart';
 import 'package:petapp_mobile/bindings/pet_detail_page_binding.dart';
 import 'package:petapp_mobile/bindings/profile_page_binding.dart';
-import 'package:petapp_mobile/bindings/purchase_post_detail_page_binding.dart';
+import 'package:petapp_mobile/bindings/sale_post_detail_page_binding.dart';
 import 'package:petapp_mobile/bindings/register_page_binding.dart';
 import 'package:petapp_mobile/bindings/sale_transaction_detail_page_binding.dart';
 import 'package:petapp_mobile/bindings/sign_in_page_binding.dart';
@@ -43,11 +43,10 @@ import 'package:petapp_mobile/views/customer/pet_detail_page/pet_detail_page.dar
 import 'package:petapp_mobile/views/customer/pet_management_page/pet_management_page.dart';
 import 'package:petapp_mobile/views/customer/post_management_page/post_management_page.dart';
 import 'package:petapp_mobile/views/customer/profile_page/profile_page.dart';
-import 'package:petapp_mobile/views/customer/purchase_post_detail_page/purchase_post_detail_page.dart';
 import 'package:petapp_mobile/views/customer/purchase_posts_filter_page/purchase_posts_filter_page.dart';
-import 'package:petapp_mobile/views/customer/purchase_posts_page/purchase_posts_page.dart';
+import 'package:petapp_mobile/views/customer/sale_post_detail_page/sale_post_detail_page.dart';
+import 'package:petapp_mobile/views/customer/sale_post_list_page/sale_post_page.dart';
 import 'package:petapp_mobile/views/customer/sale_transaction_detail_page/sale_transaction_detail_page.dart';
-import 'package:petapp_mobile/views/customer/setting_page/setting.dart';
 import 'package:petapp_mobile/views/customer/transaction_at_center_detail_page/payment_for_transaction_at_center.dart';
 import 'package:petapp_mobile/views/customer/transaction_list_page/transaction_list_page.dart';
 import 'package:petapp_mobile/views/guest/landing_page/landing_page.dart';
@@ -172,7 +171,7 @@ class MainApp extends StatelessWidget {
         // ),
         GetPage(
           name: PURCHASE_POSTS_PAGE_ROUTE,
-          page: () => const PurchasePostsPage(),
+          page: () => const SalePostListPage(),
           binding: PurchasePostsPageBinding(),
         ),
         GetPage(
@@ -185,9 +184,9 @@ class MainApp extends StatelessWidget {
           binding: NotificationPageBinding(),
         ),
         GetPage(
-            name: '$PURCHASE_POST_DETAIL_PAGE_ROUTE/:purchasePostId',
-            page: () => const PurchasePostDetaiPage(),
-            binding: PurchasePostDetailPageBinding()),
+            name: '$SALE_POST_DETAIL_PAGE_ROUTE/:salePostId',
+            page: () => const SalePostDetaiPage(),
+            binding: SalePostDetailPageBinding()),
         //*Action
         GetPage(
           name: ACTION_PAGE_ROUTE,
@@ -248,11 +247,6 @@ class MainApp extends StatelessWidget {
           name: PET_DETAIL_PAGE_ROUTE,
           page: () => const PetDetaiPage(),
           binding: PetDetailPageBinding(),
-        ),
-        //*Setting
-        GetPage(
-          name: SETTING_PAGE_ROUTE,
-          page: () => const SettingPage(),
         ),
         //*Chatting
         GetPage(

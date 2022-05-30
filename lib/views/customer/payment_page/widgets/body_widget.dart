@@ -480,10 +480,10 @@ class PaymentBodyWidget extends GetView<PaymentPageController> {
                                   ),
                                 ),
                                 Text(
-                                  controller
-                                          .postModel.petModel!.breedModel.name +
+                                  controller.postModel.petModel!.breedModel!
+                                          .name +
                                       ' - ' +
-                                      controller.postModel.petModel!.breedModel
+                                      controller.postModel.petModel!.breedModel!
                                           .speciesModel!.name,
                                   textAlign: TextAlign.center,
                                   style: GoogleFonts.quicksand(

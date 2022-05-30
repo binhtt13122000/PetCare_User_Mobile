@@ -72,6 +72,9 @@ class CreateRequestWidget extends GetView<ChattingDetailPageController> {
         child: InkWell(
           onTap: () {
             controller.isShowCreateRequest.value = false;
+            String chatText = controller.chatRoomModel!.status == 'REQUESTED'
+                ? '[UPDATED]'
+                : '[CREATED]';
             controller.chatRoomModel!
               ..transactionPlace = controller.transactionLocation.value
               ..transactionTime = controller.transactionTime
@@ -80,17 +83,13 @@ class CreateRequestWidget extends GetView<ChattingDetailPageController> {
               ..isSellerMessage = false;
             Map<String, dynamic> emitJsonMap =
                 controller.chatRoomModel!.toJson();
-            print(controller.chatRoomModel!.status + '111111111111111111111');
-            print(controller.chatRoomModel!.status == 'REQUESTED');
             emitJsonMap.addAll({
               'message': 'Transaction request - statussss: ' +
-                  (controller.chatRoomModel!.status == 'REQUESTED'
-                      ? '[UPDATED]'
-                      : '[CREATED]') +
+                  chatText +
                   '. Transaction place: ${controller.transactionLocation.value}. Transaction time: ${FORMAT_DATE_TIME(dateTime: controller.transactionTime!, pattern: DATE_TIME_PATTERN)}. ' +
                   controller.description.value
             });
-            print(emitJsonMap.toString());
+
             controller.socket.emit(
               'updateRoom',
               emitJsonMap,

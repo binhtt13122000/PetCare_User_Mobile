@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
-import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:petapp_mobile/configs/theme.dart';
 import 'package:petapp_mobile/controllers/sale_transaction_detail_page_controller.dart';
-import 'package:petapp_mobile/graphql/graphql_config.dart';
-import 'package:petapp_mobile/graphql/query_mutation/sale_transaction.dart';
-import 'package:petapp_mobile/models/sale_transaction_model/sale_transaction_model.dart';
+import 'package:petapp_mobile/services/breed_servies.dart';
+import 'package:petapp_mobile/services/sale_transaction_services.dart';
+import 'package:petapp_mobile/services/species_services.dart';
+import 'package:petapp_mobile/views/customer/sale_transaction_detail_page/widgets/body_widget.dart';
 import 'package:petapp_mobile/views/customer/sale_transaction_detail_page/widgets/bottom_widget.dart';
 import 'package:petapp_mobile/views/customer/sale_transaction_detail_page/widgets/popup_widget.dart';
 import 'package:petapp_mobile/views/customer/sale_transaction_detail_page/widgets/review_popup_widget.dart';
@@ -25,15 +25,18 @@ class SaleTransactionDetailPage
         controller.isLoading.value = true;
 
         WidgetsBinding.instance!.addPostFrameCallback((_) async {
-          QueryResult result = await CLIENT_TO_QUERY().query(
-            QueryOptions(
-                document: gql(FETCH_SALE_TRANSACTION_BY_ID),
-                variables: {
-                  'id': Get.parameters['saleTransactionId'],
-                }),
-          );
-          controller.saleTransactionModel = SaleTransactionModel.fromJson(
-              result.data!['sale_transaction'][0]);
+          controller.saleTransactionModel =
+              await SaleTransactionService.fecthSaleTransactionById(
+                  saleTransactionId:
+                      int.parse(Get.parameters['saleTransactionId']!));
+          controller.saleTransactionModel.petModel!.breedModel =
+              await BreedService.fecthBreedById(
+                  breedId: controller.saleTransactionModel.petModel!.breedId!);
+          controller.saleTransactionModel.petModel!.breedModel!.speciesModel =
+              await SpeciesService.fecthSpeciesById(
+                  speciesId: controller
+                      .saleTransactionModel.petModel!.breedModel!.speciesId!);
+
           controller.isLoading.value = false;
         });
         return Obx(
@@ -51,7 +54,7 @@ class SaleTransactionDetailPage
                     Column(
                       children: const [
                         SaleTransactionDetailTopWidget(),
-                        //PurchaseTransactionDetaiBodyWidget(),
+                        SaleTransactionDetaiBodyWidget(),
                         SaleTransactionDetailBottomWidget(),
                       ],
                     ),

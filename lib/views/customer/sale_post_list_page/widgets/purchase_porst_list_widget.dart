@@ -14,8 +14,8 @@ import 'package:petapp_mobile/services/post_services.dart';
 import 'package:petapp_mobile/utilities/utilities.dart';
 import 'package:petapp_mobile/views/widgets/customize_widget.dart';
 
-class PurchasePostListWidget extends GetView<PurchasePostsPageController> {
-  const PurchasePostListWidget({Key? key}) : super(key: key);
+class SalePostListWidget extends GetView<PurchasePostsPageController> {
+  const SalePostListWidget({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) => controller.selectedSpeciesId.value == -1
@@ -247,7 +247,7 @@ class PurchasePostListWidget extends GetView<PurchasePostsPageController> {
                                     Color.fromARGB(255, 1, 182, 182),
                                   ]),
                                   child: Text(
-                                    postModel.petModel!.breedModel.name,
+                                    postModel.petModel!.breedModel!.name,
                                     style: GoogleFonts.quicksand(
                                       color: DARK_GREY_COLOR,
                                       fontSize: 15,
@@ -260,7 +260,7 @@ class PurchasePostListWidget extends GetView<PurchasePostsPageController> {
                                 left: 1.5,
                                 bottom: 1.5,
                                 child: Text(
-                                  postModel.petModel!.breedModel.name,
+                                  postModel.petModel!.breedModel!.name,
                                   style: GoogleFonts.quicksand(
                                     color: WHITE_COLOR,
                                     fontSize: 15,
@@ -273,7 +273,7 @@ class PurchasePostListWidget extends GetView<PurchasePostsPageController> {
                           Text(
                             ' (' +
                                 postModel
-                                    .petModel!.breedModel.speciesModel!.name +
+                                    .petModel!.breedModel!.speciesModel!.name +
                                 ')',
                             style: GoogleFonts.quicksand(
                               color: WHITE_COLOR.withOpacity(1),

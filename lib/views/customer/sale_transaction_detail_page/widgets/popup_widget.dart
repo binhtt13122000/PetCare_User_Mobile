@@ -11,7 +11,7 @@ class SaleTransactionPopupWidget
   @override
   Widget build(BuildContext context) => Obx(
         () => Visibility(
-          visible: controller.isShowPopup.value,
+          visible: controller.isShowPopup.value && !controller.isLoading.value,
           child: Container(
             alignment: Alignment.center,
             decoration: const BoxDecoration(
@@ -28,7 +28,9 @@ class SaleTransactionPopupWidget
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   Text(
-                    'Payment Successfully',
+                    controller.saleTransactionModel.status == 'SUCCESS'
+                        ? 'Payment Successfully'
+                        : 'Payment Failed',
                     style: GoogleFonts.quicksand(
                       textStyle: const TextStyle(
                         color: Color.fromARGB(255, 92, 98, 124),
@@ -39,23 +41,28 @@ class SaleTransactionPopupWidget
                       letterSpacing: 1,
                     ),
                   ),
-                  const Icon(
-                    Icons.verified_outlined,
+                  Icon(
+                    controller.saleTransactionModel.status == 'SUCCESS'
+                        ? Icons.verified_outlined
+                        : Icons.do_not_disturb_on,
                     size: 70,
-                    color: PRIMARY_COLOR,
+                    color: controller.saleTransactionModel.status == 'SUCCESS'
+                        ? PRIMARY_COLOR
+                        : RED_COLOR,
                   ),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 12),
                     child: InkWell(
-                      onTap: () => controller
-                        ..isShowPopup.value = false
-                        ..update(),
+                      onTap: () => controller.isShowPopup.value = false,
                       child: Container(
                         alignment: Alignment.center,
                         padding: const EdgeInsets.symmetric(vertical: 5),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(5),
-                          color: PRIMARY_COLOR,
+                          color: controller.saleTransactionModel.status ==
+                                  'SUCCESS'
+                              ? PRIMARY_COLOR
+                              : RED_COLOR,
                         ),
                         child: Text(
                           'OK',

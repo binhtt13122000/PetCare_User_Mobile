@@ -17,8 +17,9 @@ class PetModel {
   final DateTime dob;
   final String? specialMarkings;
   final String? vaccineDescription;
+  final int? breedId;
   @JsonKey(name: 'breed')
-  final BreedModel breedModel;
+  BreedModel? breedModel;
 
   PetModel(
       {required this.id,
@@ -31,7 +32,8 @@ class PetModel {
       required this.dob,
       required this.gender,
       this.specialMarkings,
-      this.vaccineDescription}) {
+      this.vaccineDescription,
+      this.breedId}) {
     var diff = DateTime.now().difference(dob);
     int dateAge = diff.inDays;
     if (dateAge > 365) {

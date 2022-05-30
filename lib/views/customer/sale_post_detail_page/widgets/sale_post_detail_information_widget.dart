@@ -4,11 +4,11 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:petapp_mobile/configs/path.dart';
 import 'package:petapp_mobile/configs/theme.dart';
-import 'package:petapp_mobile/controllers/purchase_post_detail_page_controller.dart';
+import 'package:petapp_mobile/controllers/sale_post_detail_page_controller.dart';
 import 'package:petapp_mobile/utilities/utilities.dart';
 
 class PurchasePostDetailInformationWidget
-    extends GetView<PurchasePostDetailPageController> {
+    extends GetView<SalePostDetailPageController> {
   const PurchasePostDetailInformationWidget({Key? key}) : super(key: key);
 
   @override
@@ -47,7 +47,7 @@ class PurchasePostDetailInformationWidget
               speciesCardWidget(),
               textCardWidget(
                 keyText: 'Breed',
-                valueText: controller.postModel.petModel!.breedModel.name,
+                valueText: controller.postModel.petModel!.breedModel!.name,
               ),
               genderCardWidget(),
               textCardWidgetWithInfoIcon(
@@ -230,7 +230,7 @@ class PurchasePostDetailInformationWidget
                   padding: const EdgeInsets.only(left: 5),
                   child: Text(
                     controller
-                        .postModel.petModel!.breedModel.speciesModel!.name,
+                        .postModel.petModel!.breedModel!.speciesModel!.name,
                     style: GoogleFonts.quicksand(
                       fontSize: 15,
                       fontWeight: FontWeight.w600,

@@ -213,7 +213,7 @@ class PostsManagementBodyWidget extends GetView<PostManagementPageController> {
 
   Widget postCardWidget({required PostModel postModel}) => InkWell(
         onTap: () =>
-            Get.toNamed('$PURCHASE_POST_DETAIL_PAGE_ROUTE/${postModel.id}'),
+            Get.toNamed('$SALE_POST_DETAIL_PAGE_ROUTE/${postModel.id}'),
         child: Container(
           height: 70,
           margin: const EdgeInsets.symmetric(horizontal: 12),
@@ -332,7 +332,7 @@ class PostsManagementBodyWidget extends GetView<PostManagementPageController> {
           ),
           InkWell(
             onTap: () =>
-                Get.toNamed('$PURCHASE_POST_DETAIL_PAGE_ROUTE/${postModel.id}'),
+                Get.toNamed('$SALE_POST_DETAIL_PAGE_ROUTE/${postModel.id}'),
             child: Container(
               height: 70,
               padding: const EdgeInsets.symmetric(horizontal: 12),

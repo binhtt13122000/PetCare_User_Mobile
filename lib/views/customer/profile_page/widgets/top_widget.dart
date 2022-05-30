@@ -30,6 +30,7 @@ class ProfilePageTopWidget extends GetView<ProfilePageController> {
   Widget phoneNumberWidget() => InkWell(
         onTap: () {
           FirebaseAuth.instance.signOut();
+          Get.deleteAll();
           Get.offAllNamed(LANDING_PAGE_ROUTE);
         },
         child: Row(

@@ -12,8 +12,8 @@ import 'package:petapp_mobile/models/species_model/species_model.dart';
 import 'package:petapp_mobile/services/species_services.dart';
 import 'package:petapp_mobile/views/widgets/customize_widget.dart';
 
-class TopWidget extends GetView<PurchasePostsPageController> {
-  const TopWidget({Key? key}) : super(key: key);
+class SalePostTopWidget extends GetView<PurchasePostsPageController> {
+  const SalePostTopWidget({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) => Column(
