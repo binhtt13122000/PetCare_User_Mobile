@@ -29,7 +29,7 @@ ChatRoomModel _$ChatRoomModelFromJson(Map<String, dynamic> json) =>
       buyerLastViewTime: json['buyerLastViewTime'] == null
           ? null
           : DateTime.parse(json['buyerLastViewTime'] as String),
-      type: json['type'] as String,
+      type: json['type'] as String?,
     );
 
 Map<String, dynamic> _$ChatRoomModelToJson(ChatRoomModel instance) =>

@@ -20,7 +20,7 @@ class ChatRoomModel {
   int? transactionId;
   DateTime? sellerLastViewTime;
   DateTime? buyerLastViewTime;
-  final String type;
+  final String? type;
 
   ChatRoomModel({
     required this.id,
@@ -38,7 +38,7 @@ class ChatRoomModel {
     this.transactionId,
     this.sellerLastViewTime,
     this.buyerLastViewTime,
-    required this.type,
+    this.type,
   });
 
   factory ChatRoomModel.fromJson(Map<String, dynamic> json) =>
