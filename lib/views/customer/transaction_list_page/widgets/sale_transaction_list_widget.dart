@@ -34,8 +34,8 @@ class SaleTransactionListWidget extends GetView<TransactionListPageController> {
                             'Transaction role: [SELLER]'
                         ? controller.accountModel.customerModel.id.toString()
                         : null,
-                    page: '1',
-                    limit: '10',
+                    page: controller.page.toString(),
+                    limit: controller.limit.toString(),
                   );
                   controller.isLoadingPurchaseTransaction.value = false;
                 });
@@ -45,8 +45,7 @@ class SaleTransactionListWidget extends GetView<TransactionListPageController> {
                           color: PRIMARY_COLOR,
                           size: 150,
                         )
-                      : Expanded(
-                          child: SingleChildScrollView(
+                      : SingleChildScrollView(
                           child: Column(
                             children: controller.saleTransactionModelList
                                 .asMap()
@@ -55,7 +54,7 @@ class SaleTransactionListWidget extends GetView<TransactionListPageController> {
                                     saleTransactionModel: e.value))
                                 .toList(),
                           ),
-                        )),
+                        ),
                 );
               },
             ),

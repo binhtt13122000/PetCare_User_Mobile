@@ -134,4 +134,24 @@ class SaleTransactionService {
         throw Exception('Error ${response.statusCode}, cannot login');
     }
   }
+
+  static Future<SaleTransactionModel> fecthSaleTransactionById({
+    required String saleTransactionId,
+  }) async {
+    final response = await http.get(
+      Uri.http(API_SERVER, '$GET_SALE_TRANSACTION_LIST/$saleTransactionId'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+    );
+    switch (response.statusCode) {
+      case 200:
+      case 201:
+      case 202:
+        return SaleTransactionModel.fromJson(
+            json.decode(response.body)['data']);
+      default:
+        throw Exception('Error ${response.statusCode}, cannot login');
+    }
+  }
 }
