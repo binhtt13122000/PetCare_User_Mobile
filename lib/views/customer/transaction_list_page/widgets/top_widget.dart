@@ -4,10 +4,10 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:petapp_mobile/configs/path.dart';
 import 'package:petapp_mobile/configs/theme.dart';
-import 'package:petapp_mobile/controllers/transaction_page_controller.dart';
+import 'package:petapp_mobile/controllers/transaction_list_page_controller.dart';
 
-class TransactionTopWidget extends GetView<TransactionPageController> {
-  const TransactionTopWidget({Key? key}) : super(key: key);
+class TransactionListTopWidget extends GetView<TransactionListPageController> {
+  const TransactionListTopWidget({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) => Column(
@@ -29,7 +29,7 @@ class TransactionTopWidget extends GetView<TransactionPageController> {
         scrollDirection: Axis.horizontal,
         child: Row(
           children: [
-            transactionTypeWidget(typeName: 'All Transactions'),
+            transactionTypeWidget(typeName: 'Center\'s services'),
             transactionTypeWidget(typeName: 'Purchase'),
             transactionTypeWidget(typeName: 'Breeding'),
           ],

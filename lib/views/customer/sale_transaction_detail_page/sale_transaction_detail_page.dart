@@ -7,7 +7,6 @@ import 'package:petapp_mobile/controllers/sale_transaction_detail_page_controlle
 import 'package:petapp_mobile/graphql/graphql_config.dart';
 import 'package:petapp_mobile/graphql/query_mutation/sale_transaction.dart';
 import 'package:petapp_mobile/models/sale_transaction_model/sale_transaction_model.dart';
-import 'package:petapp_mobile/views/customer/sale_transaction_detail_page/widgets/body_widget.dart';
 import 'package:petapp_mobile/views/customer/sale_transaction_detail_page/widgets/bottom_widget.dart';
 import 'package:petapp_mobile/views/customer/sale_transaction_detail_page/widgets/popup_widget.dart';
 import 'package:petapp_mobile/views/customer/sale_transaction_detail_page/widgets/review_popup_widget.dart';
@@ -52,7 +51,7 @@ class SaleTransactionDetailPage
                     Column(
                       children: const [
                         SaleTransactionDetailTopWidget(),
-                        SaleTransactionDetaiBodyWidget(),
+                        //PurchaseTransactionDetaiBodyWidget(),
                         SaleTransactionDetailBottomWidget(),
                       ],
                     ),

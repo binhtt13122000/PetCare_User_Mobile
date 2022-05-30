@@ -2,64 +2,66 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:petapp_mobile/configs/route.dart';
 import 'package:petapp_mobile/configs/theme.dart';
-import 'package:petapp_mobile/controllers/transaction_page_controller.dart';
-import 'package:petapp_mobile/graphql/graphql_config.dart';
-import 'package:petapp_mobile/graphql/query_mutation/sale_transaction.dart';
+import 'package:petapp_mobile/controllers/transaction_list_page_controller.dart';
 import 'package:petapp_mobile/models/sale_transaction_model/sale_transaction_model.dart';
 import 'package:petapp_mobile/services/sale_transaction_services.dart';
 import 'package:petapp_mobile/utilities/utilities.dart';
 
-class PurchaseTransactionTypeWidget extends GetView<TransactionPageController> {
-  const PurchaseTransactionTypeWidget({Key? key}) : super(key: key);
+class SaleTransactionListWidget extends GetView<TransactionListPageController> {
+  const SaleTransactionListWidget({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        //purchaseTransactionTypeListWidget(),
-        GetBuilder<TransactionPageController>(
-          builder: (_) {
-            controller.isLoadingPurchaseTransaction.value = true;
-            WidgetsBinding.instance!.addPostFrameCallback((_) async {
-              QueryResult queryResult = await CLIENT_TO_QUERY().query(
-                  QueryOptions(
-                      document: gql(FETCH_SALE_TRANSACTION_LIST_BY_BUYER_ID),
-                      variables: {'customerId': controller.accountModel.id}));
-              controller.saleTransactionModelList =
-                  SaleTransactionService.getSaleTransactionList(
-                      queryResult.data!);
-              controller.isLoadingPurchaseTransaction.value = false;
-            });
-            return Obx(
-              () => controller.isLoadingPurchaseTransaction.value
-                  ? Expanded(
-                      child: Container(
-                        color: const Color.fromARGB(106, 198, 188, 201),
-                        alignment: Alignment.center,
-                        child: const SpinKitSpinningLines(
+    return Expanded(
+      child: Column(
+        children: [
+          purchaseTransactionTypeListWidget(),
+          Expanded(
+            child: GetBuilder<TransactionListPageController>(
+              builder: (_) {
+                controller.isLoadingPurchaseTransaction.value = true;
+                WidgetsBinding.instance!.addPostFrameCallback((_) async {
+                  controller.saleTransactionModelList =
+                      await SaleTransactionService.fecthSaleTransactionList(
+                    buyerId: controller.selectedPurchaseTransactionType.value ==
+                            'Transaction role: [BUYER]'
+                        ? controller.accountModel.customerModel.id.toString()
+                        : null,
+                    sellerId: controller
+                                .selectedPurchaseTransactionType.value ==
+                            'Transaction role: [SELLER]'
+                        ? controller.accountModel.customerModel.id.toString()
+                        : null,
+                    page: '1',
+                    limit: '10',
+                  );
+                  controller.isLoadingPurchaseTransaction.value = false;
+                });
+                return Obx(
+                  () => controller.isLoadingPurchaseTransaction.value
+                      ? const SpinKitSpinningLines(
                           color: PRIMARY_COLOR,
                           size: 150,
-                        ),
-                      ),
-                    )
-                  : Expanded(
-                      child: SingleChildScrollView(
-                      child: Column(
-                        children: controller.saleTransactionModelList
-                            .asMap()
-                            .entries
-                            .map((e) => purchaseTransactionItemWidget(
-                                saleTransactionModel: e.value))
-                            .toList(),
-                      ),
-                    )),
-            );
-          },
-        ),
-      ],
+                        )
+                      : Expanded(
+                          child: SingleChildScrollView(
+                          child: Column(
+                            children: controller.saleTransactionModelList
+                                .asMap()
+                                .entries
+                                .map((e) => purchaseTransactionItemWidget(
+                                    saleTransactionModel: e.value))
+                                .toList(),
+                          ),
+                        )),
+                );
+              },
+            ),
+          ),
+        ],
+      ),
     );
   }
 
@@ -69,13 +71,9 @@ class PurchaseTransactionTypeWidget extends GetView<TransactionPageController> {
         flex: flex,
         child: Obx(
           () => InkWell(
-            onTap: () {
-              controller.selectedPurchaseTransactionType.value ==
-                      purchseTransactionType
-                  ? null
-                  : controller.selectedPurchaseTransactionType.value =
-                      purchseTransactionType;
-            },
+            onTap: () => controller
+              ..selectedPurchaseTransactionType.value = purchseTransactionType
+              ..update(),
             child: Column(
               children: [
                 Container(
@@ -107,7 +105,7 @@ class PurchaseTransactionTypeWidget extends GetView<TransactionPageController> {
                                   purchseTransactionType
                               ? PRIMARY_COLOR
                               : const Color.fromARGB(255, 116, 122, 143),
-                          fontSize: 15,
+                          fontSize: 13,
                           fontWeight: FontWeight.w500,
                           height: 1,
                         ),
@@ -202,7 +200,7 @@ class PurchaseTransactionTypeWidget extends GetView<TransactionPageController> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    'Purchase transaction id',
+                    'Transaction id',
                     textAlign: TextAlign.start,
                     style: GoogleFonts.quicksand(
                       color: const Color.fromARGB(255, 85, 91, 110),
@@ -223,38 +221,13 @@ class PurchaseTransactionTypeWidget extends GetView<TransactionPageController> {
                       letterSpacing: 0.5,
                     ),
                   ),
-                  // Text(
-                  //   'Your role in transaction:',
-                  //   textAlign: TextAlign.start,
-                  //   style: GoogleFonts.quicksand(
-                  //     color: const Color.fromARGB(255, 85, 91, 110),
-                  //     fontWeight: FontWeight.w500,
-                  //     fontSize: 15,
-                  //     height: 1,
-                  //     letterSpacing: 0.5,
-                  //   ),
-                  // ),
-                  // Text(
-                  //   saleTransactionModel.buyerId ==
-                  //           controller.accountModel.customerModel.id
-                  //       ? '[CUSTOMER]'
-                  //       : '[SELLER]',
-                  //   textAlign: TextAlign.start,
-                  //   style: GoogleFonts.quicksand(
-                  //     color: const Color.fromARGB(255, 85, 91, 110),
-                  //     fontWeight: FontWeight.w500,
-                  //     fontSize: 15,
-                  //     height: 1,
-                  //     letterSpacing: 0.5,
-                  //   ),
-                  // ),
                 ],
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    FORMAT_MONEY(price: saleTransactionModel.transactionTotal),
+                    'Total price',
                     textAlign: TextAlign.end,
                     style: GoogleFonts.quicksand(
                       color: const Color.fromARGB(255, 85, 91, 110),
@@ -265,16 +238,13 @@ class PurchaseTransactionTypeWidget extends GetView<TransactionPageController> {
                     ),
                   ),
                   Text(
-                    saleTransactionModel.point != null &&
-                            saleTransactionModel.point != 0
-                        ? '+${saleTransactionModel.point} point'
-                        : '',
+                    FORMAT_MONEY(price: saleTransactionModel.transactionTotal),
                     textAlign: TextAlign.end,
                     style: GoogleFonts.quicksand(
-                      color: const Color.fromARGB(255, 125, 131, 150),
+                      color: const Color.fromARGB(255, 85, 91, 110),
                       fontWeight: FontWeight.w500,
-                      fontSize: 15,
-                      height: 1.3,
+                      fontSize: 20,
+                      height: 1.6,
                       letterSpacing: 0.5,
                     ),
                   ),

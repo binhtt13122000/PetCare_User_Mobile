@@ -6,13 +6,11 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:petapp_mobile/configs/path.dart';
 import 'package:petapp_mobile/configs/route.dart';
 import 'package:petapp_mobile/configs/theme.dart';
-import 'package:petapp_mobile/models/account_model/account_model.dart';
+import 'package:petapp_mobile/controllers/profile_page_controller.dart';
 import 'package:petapp_mobile/views/widgets/customize_widget.dart';
 
-class ProfilePageTopWidget extends GetView {
-  const ProfilePageTopWidget({Key? key, required this.accountModel})
-      : super(key: key);
-  final AccountModel accountModel;
+class ProfilePageTopWidget extends GetView<ProfilePageController> {
+  const ProfilePageTopWidget({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) => Column(
@@ -37,7 +35,7 @@ class ProfilePageTopWidget extends GetView {
         child: Row(
           children: [
             Text(
-              accountModel.hiddenPhoneNumber,
+              controller.accountModel.hiddenPhoneNumber,
               style: GoogleFonts.quicksand(
                 color: const Color.fromARGB(255, 64, 69, 87),
                 fontSize: 18,
@@ -257,8 +255,8 @@ class ProfilePageTopWidget extends GetView {
             children: [
               generalInfoItemWidget(keyText: '0', valueText: 'Post'),
               generalInfoItemWidget(
-                  keyText:
-                      accountModel.customerModel.numberFollowers.toString(),
+                  keyText: controller.accountModel.customerModel.numberFollowers
+                      .toString(),
                   valueText: 'Followers'),
               generalInfoItemWidget(keyText: '15', valueText: 'Followings'),
             ],
@@ -305,13 +303,14 @@ class ProfilePageTopWidget extends GetView {
                   maxRadius: 32,
                   minRadius: 32,
                   backgroundColor: Colors.transparent,
-                  child: accountModel.customerModel.avatar.isEmpty
+                  child: controller.accountModel.customerModel.avatar.isEmpty
                       ? CircleAvatar(
                           backgroundColor: PRIMARY_COLOR.withOpacity(0.7),
                           maxRadius: 29,
                           minRadius: 29,
                           child: Text(
-                            accountModel.customerModel.avatarCharacter,
+                            controller
+                                .accountModel.customerModel.avatarCharacter,
                             style: GoogleFonts.quicksand(
                               color: WHITE_COLOR,
                               fontSize: 23,
@@ -322,8 +321,8 @@ class ProfilePageTopWidget extends GetView {
                       : CircleAvatar(
                           maxRadius: 29,
                           minRadius: 29,
-                          backgroundImage:
-                              NetworkImage(accountModel.customerModel.avatar),
+                          backgroundImage: NetworkImage(
+                              controller.accountModel.customerModel.avatar),
                         ),
                 ),
               ],
@@ -331,9 +330,9 @@ class ProfilePageTopWidget extends GetView {
             Padding(
               padding: const EdgeInsets.only(top: 5),
               child: Text(
-                accountModel.customerModel.firstName +
+                controller.accountModel.customerModel.firstName +
                     ' ' +
-                    accountModel.customerModel.lastName,
+                    controller.accountModel.customerModel.lastName,
                 style: GoogleFonts.quicksand(
                   color: const Color.fromARGB(255, 64, 69, 87),
                   fontSize: 16,

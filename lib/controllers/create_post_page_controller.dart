@@ -4,7 +4,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:petapp_mobile/controllers/sign_in_page_controller.dart';
+import 'package:petapp_mobile/controllers/auth_controller.dart';
 import 'package:petapp_mobile/models/account_model/account_model.dart';
 import 'package:petapp_mobile/models/branch_model/branch_model.dart';
 import 'package:petapp_mobile/models/breed_model/breed_model.dart';
@@ -50,5 +50,5 @@ class CreatePostPageController extends GetxController {
   int? selectedPetId;
 
   ScrollController mainScrollController = ScrollController();
-  AccountModel accountModel = Get.find<SignInPageController>().accountModel!;
+  AccountModel accountModel = Get.find<AuthController>().accountModel;
 }

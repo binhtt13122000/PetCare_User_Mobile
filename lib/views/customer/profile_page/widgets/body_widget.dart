@@ -5,12 +5,10 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:petapp_mobile/configs/path.dart';
 import 'package:petapp_mobile/configs/route.dart';
 import 'package:petapp_mobile/configs/theme.dart';
-import 'package:petapp_mobile/models/account_model/account_model.dart';
+import 'package:petapp_mobile/controllers/profile_page_controller.dart';
 
-class ProfilePageBodyWidget extends GetView {
-  const ProfilePageBodyWidget({Key? key, required this.accountModel})
-      : super(key: key);
-  final AccountModel accountModel;
+class ProfilePageBodyWidget extends GetView<ProfilePageController> {
+  const ProfilePageBodyWidget({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -355,7 +353,8 @@ class ProfilePageBodyWidget extends GetView {
                           ),
                         ),
                         Text(
-                          accountModel.customerModel.point.toString() +
+                          controller.accountModel.customerModel.point
+                                  .toString() +
                               ' points',
                           textAlign: TextAlign.center,
                           style: GoogleFonts.quicksand(

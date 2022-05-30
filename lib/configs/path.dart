@@ -98,3 +98,4 @@ const GRAPHL_SERVER = 'http://54.183.225.66:8080';
 //*sale transaction
 const SALE_TRANSACTION_RETURN_PATH = '/v1/api/sale-transactions/vnpay_return';
 const GET_SALE_TRANSACTION_FEES_PATH = '/v1/api/transaction-fees';
+const GET_SALE_TRANSACTION_LIST = '/v1/api/sale-transactions';

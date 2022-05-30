@@ -12,6 +12,7 @@ import 'package:petapp_mobile/bindings/home_page_binding.dart';
 import 'package:petapp_mobile/bindings/notification_page_binding.dart';
 import 'package:petapp_mobile/bindings/personal_information_page_binding.dart';
 import 'package:petapp_mobile/bindings/pet_detail_page_binding.dart';
+import 'package:petapp_mobile/bindings/profile_page_binding.dart';
 import 'package:petapp_mobile/bindings/purchase_post_detail_page_binding.dart';
 import 'package:petapp_mobile/bindings/register_page_binding.dart';
 import 'package:petapp_mobile/bindings/sale_transaction_detail_page_binding.dart';
@@ -21,9 +22,11 @@ import 'package:petapp_mobile/bindings/purchase_posts_page_binding.dart';
 import 'package:petapp_mobile/bindings/post_management_page_binding.dart';
 import 'package:petapp_mobile/bindings/payment_for_transaction_at_center_page_binding.dart';
 import 'package:petapp_mobile/bindings/transaction_at_center_detail_page_binding.dart';
-import 'package:petapp_mobile/bindings/transaction_page_binding.dart';
+import 'package:petapp_mobile/bindings/transaction_list_page_binding.dart';
 import 'package:petapp_mobile/configs/route.dart';
+import 'package:petapp_mobile/controllers/auth_controller.dart';
 import 'package:petapp_mobile/controllers/sign_in_page_controller.dart';
+import 'package:petapp_mobile/models/account_model/account_model.dart';
 import 'package:petapp_mobile/services/account_services.dart';
 import 'package:petapp_mobile/views/customer/action_page/action_page.dart';
 import 'package:petapp_mobile/views/customer/chatting_detail_page/chatting_detail_page.dart';
@@ -46,7 +49,7 @@ import 'package:petapp_mobile/views/customer/purchase_posts_page/purchase_posts_
 import 'package:petapp_mobile/views/customer/sale_transaction_detail_page/sale_transaction_detail_page.dart';
 import 'package:petapp_mobile/views/customer/setting_page/setting.dart';
 import 'package:petapp_mobile/views/customer/transaction_at_center_detail_page/payment_for_transaction_at_center.dart';
-import 'package:petapp_mobile/views/customer/transaction_page/transaction_page.dart';
+import 'package:petapp_mobile/views/customer/transaction_list_page/transaction_list_page.dart';
 import 'package:petapp_mobile/views/guest/landing_page/landing_page.dart';
 import 'package:petapp_mobile/views/guest/register_otp_page/register_otp_page.dart';
 import 'package:petapp_mobile/views/guest/register_page/register_page.dart';
@@ -70,24 +73,34 @@ void main() async {
     sound: true,
   );
 
-  String initRounter = HOME_PAGE_ROUTE;
+  late String initRounter;
 
   if (FirebaseAuth.instance.currentUser == null) {
     initRounter = LANDING_PAGE_ROUTE;
   } else {
     String idToken = await FirebaseAuth.instance.currentUser!.getIdToken();
+
     SignInPageController signInPageController = Get.put(SignInPageController());
     await signInPageController.setUserDeviceToken();
-    signInPageController.accountModel = await AccountService.signIn(
+
+    AccountModel? accountModel = await AccountService.signIn(
       idToken: idToken,
       userDeviceToken: signInPageController.userDeviceToken,
     );
+
+    if (accountModel != null) {
+      Get.lazyPut<AuthController>(
+          () => AuthController(accountModel: accountModel),
+          fenix: true);
+      initRounter = HOME_PAGE_ROUTE;
+    } else {
+      initRounter = LANDING_PAGE_ROUTE;
+    }
   }
-  //initRounter = LANDING_PAGE_ROUNTER;
 
   SystemChrome.setSystemUIOverlayStyle(
     const SystemUiOverlayStyle(
-      statusBarColor: Colors.transparent,
+      statusBarColor: Color.fromARGB(0, 199, 57, 57),
       statusBarIconBrightness: Brightness.dark,
       systemNavigationBarColor: Colors.transparent,
       systemNavigationBarIconBrightness: Brightness.dark,
@@ -192,8 +205,8 @@ class MainApp extends StatelessWidget {
         ),
         GetPage(
           name: TRANSACTION_PAGE_ROUTE,
-          page: () => const TransactionPage(),
-          binding: TransactionPageBinding(),
+          page: () => const TransactionListPage(),
+          binding: TransactionListPageBinding(),
         ),
         GetPage(
           name: '$PAYMENT_FOR_TRANSACTION_AT_CENTER_PAGE_ROUTE/:transactionId',
@@ -214,6 +227,7 @@ class MainApp extends StatelessWidget {
         GetPage(
           name: PROFILE_PAGE_ROUTE,
           page: () => const ProfilePage(),
+          binding: ProfilePageBinding(),
         ),
         GetPage(
           name: PET_MANAGEMENT_PAGE_ROUTE,

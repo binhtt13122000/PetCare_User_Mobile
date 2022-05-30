@@ -9,11 +9,10 @@ class SaleTransactionService {
       SaleTransactionModel.fromJson(jsonData);
 
   static List<SaleTransactionModel> getSaleTransactionList(
-      Map<String, dynamic> jsonData) {
-    final saleTransactionListJson = jsonData['sale_transaction'] as List;
+      List<dynamic> jsonData) {
     final List<SaleTransactionModel> saleTransactionList =
         List.empty(growable: true);
-    for (var element in saleTransactionListJson) {
+    for (var element in jsonData) {
       saleTransactionList.add(getSaleTransaction(element));
     }
     return saleTransactionList;
@@ -104,6 +103,35 @@ class SaleTransactionService {
       default:
         print(response.body);
         throw Exception('Error ${response.statusCode}, cannot payment');
+    }
+  }
+
+  static Future<List<SaleTransactionModel>> fecthSaleTransactionList({
+    required String? buyerId,
+    required String? sellerId,
+    required String page,
+    required String limit,
+  }) async {
+    final Map<String, dynamic> parameters = <String, dynamic>{
+      'buyerId': buyerId,
+      'sellerId': sellerId,
+      'page': page,
+      'limit': limit,
+    };
+    final response = await http.get(
+      Uri.http(API_SERVER, GET_SALE_TRANSACTION_LIST, parameters),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+    );
+    switch (response.statusCode) {
+      case 200:
+      case 201:
+      case 202:
+        return getSaleTransactionList(
+            json.decode(response.body)['data'] as List);
+      default:
+        throw Exception('Error ${response.statusCode}, cannot login');
     }
   }
 }

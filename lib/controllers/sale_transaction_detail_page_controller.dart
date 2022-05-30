@@ -1,12 +1,12 @@
 import 'package:get/get.dart';
-import 'package:petapp_mobile/controllers/sign_in_page_controller.dart';
+import 'package:petapp_mobile/controllers/auth_controller.dart';
 import 'package:petapp_mobile/models/account_model/account_model.dart';
 import 'package:petapp_mobile/models/sale_transaction_model/sale_transaction_model.dart';
 
 class SaleTransactionDetailPageController extends GetxController {
   late SaleTransactionModel saleTransactionModel;
   RxBool isLoading = false.obs;
-  AccountModel accountModel = Get.find<SignInPageController>().accountModel!;
+  AccountModel accountModel = Get.find<AuthController>().accountModel;
   RxString paymentUrl = ''.obs;
   RxBool isShowPopup = false.obs;
   RxBool isShowReviewPopup = false.obs;

@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:petapp_mobile/configs/path.dart';
+import 'package:petapp_mobile/controllers/auth_controller.dart';
 import 'package:petapp_mobile/controllers/sign_in_page_controller.dart';
 import 'package:petapp_mobile/models/account_model/account_model.dart';
 import 'package:petapp_mobile/models/chat_room_model/chat_room_model.dart';
@@ -20,7 +21,7 @@ class ChattingDetailPageController extends GetxController {
   RxString chatTextValue = ''.obs;
   RxBool isShowCreateRequest = false.obs;
   RxBool isUseOwnerAddress = false.obs;
-  AccountModel accountModel = Get.find<SignInPageController>().accountModel!;
+  AccountModel accountModel = Get.find<AuthController>().accountModel;
   late io.Socket socket;
   ScrollController scrollController = ScrollController();
   late CustomerModel anotherChatRoomMember;

@@ -1,12 +1,12 @@
 import 'package:get/get.dart';
 import 'package:petapp_mobile/configs/path.dart';
-import 'package:petapp_mobile/controllers/sign_in_page_controller.dart';
+import 'package:petapp_mobile/controllers/auth_controller.dart';
 import 'package:petapp_mobile/models/account_model/account_model.dart';
 import 'package:petapp_mobile/models/post_model/post_model.dart';
 import 'package:petapp_mobile/models/services_model/services_model.dart';
 
 class HomePageController extends GetxController {
-  AccountModel accountModel = Get.find<SignInPageController>().accountModel!;
+  AccountModel accountModel = Get.find<AuthController>().accountModel;
   late RxInt selectedServiceIndex;
   List<ServiceModel> services = List.empty(growable: true);
   //List<PurchasePostModel> purchasePosts = List.empty(growable: true);

@@ -3,8 +3,9 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:petapp_mobile/configs/route.dart';
 import 'package:petapp_mobile/configs/theme.dart';
+import 'package:petapp_mobile/controllers/auth_controller.dart';
 import 'package:petapp_mobile/controllers/register_page_controller.dart';
-import 'package:petapp_mobile/controllers/sign_in_page_controller.dart';
+import 'package:petapp_mobile/models/account_model/account_model.dart';
 import 'package:petapp_mobile/services/account_services.dart';
 
 class RegisterPageBottomWidget extends GetView<RegisterPageController> {
@@ -17,7 +18,7 @@ class RegisterPageBottomWidget extends GetView<RegisterPageController> {
             child: InkWell(
               onTap: () async {
                 controller.isLoadingRegister.value = true;
-                controller.accountModel = await AccountService.register(
+                AccountModel? accountModel = await AccountService.register(
                   email: controller.email.value,
                   firstName: controller.firstName.value,
                   lastName: controller.lastName.value,
@@ -29,12 +30,13 @@ class RegisterPageBottomWidget extends GetView<RegisterPageController> {
                   accessToken: controller.accessToken,
                   deviceToken: controller.userDeviceToken,
                 );
-                if (controller.accountModel != null) {
-                  Get.put(SignInPageController())
-                    ..accountModel = controller.accountModel
-                    ..auth = controller.auth
-                    ..userDeviceToken = controller.userDeviceToken;
-                  Get.toNamed(HOME_PAGE_ROUTE);
+                if (accountModel != null) {
+                  // Get.put(SignInPageController())
+                  //   ..accountModel = controller.accountModel
+                  //   ..auth = controller.auth
+                  //   ..userDeviceToken = controller.userDeviceToken;
+                  Get.put(AuthController(accountModel: accountModel));
+                  Get.offAllNamed(HOME_PAGE_ROUTE);
                   controller.isLoadingRegister.value = false;
                 } else {
                   controller.isLoadingRegister.value = false;

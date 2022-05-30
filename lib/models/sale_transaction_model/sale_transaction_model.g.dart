@@ -28,12 +28,16 @@ SaleTransactionModel _$SaleTransactionModelFromJson(
           ? null
           : DateTime.parse(json['transactionTime'] as String),
       transactionTotal: json['transactionTotal'] as int,
-      postModel: PostModel.fromJson(json['post'] as Map<String, dynamic>),
-      petModel: PetModel.fromJson(json['pet'] as Map<String, dynamic>),
-      buyerCustomerModel: CustomerModel.fromJson(
-          json['customerByBuyerid'] as Map<String, dynamic>),
+      postModel: json['post'] == null
+          ? null
+          : PostModel.fromJson(json['post'] as Map<String, dynamic>),
+      petModel: json['pet'] == null
+          ? null
+          : PetModel.fromJson(json['pet'] as Map<String, dynamic>),
+      buyerCustomerModel:
+          CustomerModel.fromJson(json['buyer'] as Map<String, dynamic>),
       sellerCustomerModel:
-          CustomerModel.fromJson(json['customer'] as Map<String, dynamic>),
+          CustomerModel.fromJson(json['seller'] as Map<String, dynamic>),
       buyerId: json['buyerId'] as int,
       point: json['point'] as int?,
     );
@@ -60,8 +64,8 @@ Map<String, dynamic> _$SaleTransactionModelToJson(
       'transactionTotal': instance.transactionTotal,
       'buyerId': instance.buyerId,
       'point': instance.point,
-      'post': instance.postModel.toJson(),
-      'pet': instance.petModel.toJson(),
-      'customerByBuyerid': instance.buyerCustomerModel.toJson(),
-      'customer': instance.sellerCustomerModel.toJson(),
+      'post': instance.postModel?.toJson(),
+      'pet': instance.petModel?.toJson(),
+      'buyer': instance.buyerCustomerModel.toJson(),
+      'seller': instance.sellerCustomerModel.toJson(),
     };

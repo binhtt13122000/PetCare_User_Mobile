@@ -28,12 +28,12 @@ class SaleTransactionModel {
   final int buyerId;
   final int? point;
   @JsonKey(name: 'post')
-  final PostModel postModel;
+  final PostModel? postModel;
   @JsonKey(name: 'pet')
-  final PetModel petModel;
-  @JsonKey(name: 'customerByBuyerid')
+  final PetModel? petModel;
+  @JsonKey(name: 'buyer')
   final CustomerModel buyerCustomerModel;
-  @JsonKey(name: 'customer')
+  @JsonKey(name: 'seller')
   final CustomerModel sellerCustomerModel;
   SaleTransactionModel({
     required this.createdTime,
