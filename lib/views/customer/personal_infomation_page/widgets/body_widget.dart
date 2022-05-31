@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:petapp_mobile/configs/route.dart';
 import 'package:petapp_mobile/configs/theme.dart';
+import 'package:petapp_mobile/controllers/auth_controller.dart';
 import 'package:petapp_mobile/controllers/personal_information_page_controller.dart';
+import 'package:petapp_mobile/models/account_model/account_model.dart';
+import 'package:petapp_mobile/models/customer_model/customer_model.dart';
+import 'package:petapp_mobile/services/customer_services.dart';
 
 class PersonalInformationBodyWidget
     extends GetView<PersonalInfomationPageController> {
@@ -44,29 +49,50 @@ class PersonalInformationBodyWidget
     );
   }
 
-  Widget saveWidget() => Container(
-        alignment: Alignment.bottomCenter,
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 20),
+  Widget saveWidget() => InkWell(
+        onTap: () async {
+          controller.isLoadingUpdateProfile.value = true;
+          CustomerModel? customerModel = await CustomerService.updateProfile(
+            id: controller.accountModel.customerModel.id,
+            email: controller.email.value,
+            firstName: controller.firstName.value,
+            lastName: controller.lastName.value,
+            adrress: controller.address.value ?? "",
+            gender: controller.selectedGender.value,
+            avatarFilePath: controller.avatarfilePath.value,
+            avatarFile: controller.avatarFile,
+          );
+          if (customerModel != null) {
+            Get.offAllNamed(HOME_PAGE_ROUTE);
+            controller.isLoadingUpdateProfile.value = false;
+          } else {
+            controller.isLoadingUpdateProfile.value = false;
+          }
+        },
         child: Container(
-          height: 45,
-          decoration: BoxDecoration(
-              color: PRIMARY_COLOR.withOpacity(0.9),
-              borderRadius: BorderRadius.circular(10),
-              boxShadow: [
-                BoxShadow(
-                  color: DARK_GREY_COLOR.withOpacity(0.1),
-                  blurRadius: 5,
-                  offset: const Offset(2, 2),
-                ),
-              ],
-              border: Border.all(color: PRIMARY_COLOR)),
-          alignment: Alignment.center,
-          child: Text(
-            'SAVE',
-            style: GoogleFonts.quicksand(
-              fontWeight: FontWeight.w500,
-              color: WHITE_COLOR,
-              fontSize: 16,
+          alignment: Alignment.bottomCenter,
+          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 20),
+          child: Container(
+            height: 45,
+            decoration: BoxDecoration(
+                color: PRIMARY_COLOR.withOpacity(0.9),
+                borderRadius: BorderRadius.circular(10),
+                boxShadow: [
+                  BoxShadow(
+                    color: DARK_GREY_COLOR.withOpacity(0.1),
+                    blurRadius: 5,
+                    offset: const Offset(2, 2),
+                  ),
+                ],
+                border: Border.all(color: PRIMARY_COLOR)),
+            alignment: Alignment.center,
+            child: Text(
+              'SAVE',
+              style: GoogleFonts.quicksand(
+                fontWeight: FontWeight.w500,
+                color: WHITE_COLOR,
+                fontSize: 16,
+              ),
             ),
           ),
         ),
@@ -108,6 +134,7 @@ class PersonalInformationBodyWidget
                   cursorColor: PRIMARY_COLOR,
                   initialValue: controller.accountModel.customerModel.email,
                   maxLength: 40,
+                  readOnly: true,
                   style: GoogleFonts.quicksand(
                     fontWeight: FontWeight.w500,
                     color: const Color.fromARGB(255, 78, 98, 124),
@@ -220,7 +247,9 @@ class PersonalInformationBodyWidget
                         ),
                         border: const OutlineInputBorder(),
                       ),
-                onChanged: (String? value) {},
+                onChanged: (String? value) {
+                  controller.address.value = value ?? "";
+                },
               ),
             ),
           ],
@@ -347,6 +376,7 @@ class PersonalInformationBodyWidget
                   cursorColor: PRIMARY_COLOR,
                   initialValue: controller.accountModel.phoneNumber,
                   maxLength: 15,
+                  readOnly: true,
                   style: GoogleFonts.quicksand(
                     fontWeight: FontWeight.w500,
                     color: const Color.fromARGB(255, 78, 98, 124),
@@ -460,7 +490,9 @@ class PersonalInformationBodyWidget
                           ),
                           border: const OutlineInputBorder(),
                         ),
-                  onChanged: (String? value) {},
+                  onChanged: (String? value) {
+                    controller.firstName.value = value ?? "";
+                  },
                 ),
               ),
             ),
@@ -539,7 +571,9 @@ class PersonalInformationBodyWidget
                           ),
                           border: const OutlineInputBorder(),
                         ),
-                  onChanged: (String? value) {},
+                  onChanged: (String? value) {
+                    controller.lastName.value = value ?? "";
+                  },
                 ),
               ),
             ),
