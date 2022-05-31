@@ -59,9 +59,9 @@ class CreatePostBodyWidget extends GetView<CreatePostPageController> {
           () => Row(
             children: [
               InkWell(
-                onTap: () => controller.selectedPostType.value == 'PURCHASE'
-                    ? controller.selectedPostType.value = 'BREEDING'
-                    : controller.selectedPostType.value = 'PURCHASE',
+                onTap: () => controller.selectedPostType.value == 'SALE'
+                    ? controller.selectedPostType.value = 'BREED'
+                    : controller.selectedPostType.value = 'SALE',
                 child: Row(
                   children: [
                     Container(
@@ -69,14 +69,14 @@ class CreatePostBodyWidget extends GetView<CreatePostPageController> {
                       width: 130,
                       alignment: Alignment.center,
                       decoration: BoxDecoration(
-                        color: controller.selectedPostType.value == 'PURCHASE'
+                        color: controller.selectedPostType.value == 'SALE'
                             ? const Color.fromARGB(255, 99, 194, 238)
                             : const Color.fromARGB(255, 237, 240, 243),
                         borderRadius: const BorderRadius.horizontal(
                           left: Radius.circular(7),
                         ),
                         border: Border.all(
-                          color: controller.selectedPostType.value == 'PURCHASE'
+                          color: controller.selectedPostType.value == 'SALE'
                               ? const Color.fromARGB(255, 99, 194, 238)
                               : DARK_GREY_COLOR.withOpacity(0.2),
                           width: 1,
@@ -86,10 +86,9 @@ class CreatePostBodyWidget extends GetView<CreatePostPageController> {
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
                           Text(
-                            'PURCHASE',
+                            'SALE',
                             style: GoogleFonts.quicksand(
-                              color: controller.selectedPostType.value ==
-                                      'PURCHASE'
+                              color: controller.selectedPostType.value == 'SALE'
                                   ? WHITE_COLOR
                                   : DARK_GREY_COLOR.withOpacity(0.3),
                               fontSize: 15,
@@ -100,7 +99,7 @@ class CreatePostBodyWidget extends GetView<CreatePostPageController> {
                           // SvgPicture.asset(
                           //   ICON_PATH + MALE_SVG,
                           //   height: 14,
-                          //   color: controller.selectedPostType.value == 'PURCHASE'
+                          //   color: controller.selectedPostType.value == 'SALE'
                           //       ? WHITE_COLOR
                           //       : DARK_GREY_COLOR.withOpacity(0.3),
                           // ),
@@ -112,13 +111,13 @@ class CreatePostBodyWidget extends GetView<CreatePostPageController> {
                       width: 130,
                       alignment: Alignment.center,
                       decoration: BoxDecoration(
-                        color: controller.selectedPostType.value == 'BREEDING'
+                        color: controller.selectedPostType.value == 'BREED'
                             ? const Color.fromARGB(255, 240, 128, 171)
                             : const Color.fromARGB(255, 237, 240, 243),
                         borderRadius: const BorderRadius.horizontal(
                             right: Radius.circular(7)),
                         border: Border.all(
-                          color: controller.selectedPostType.value == 'BREEDING'
+                          color: controller.selectedPostType.value == 'BREED'
                               ? const Color.fromARGB(255, 240, 128, 171)
                               : DARK_GREY_COLOR.withOpacity(0.2),
                           width: 1,
@@ -128,12 +127,12 @@ class CreatePostBodyWidget extends GetView<CreatePostPageController> {
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
                           Text(
-                            'BREEDING',
+                            'BREED',
                             style: GoogleFonts.quicksand(
-                              color: controller.selectedPostType.value ==
-                                      'BREEDING'
-                                  ? WHITE_COLOR
-                                  : DARK_GREY_COLOR.withOpacity(0.3),
+                              color:
+                                  controller.selectedPostType.value == 'BREED'
+                                      ? WHITE_COLOR
+                                      : DARK_GREY_COLOR.withOpacity(0.3),
                               fontSize: 15,
                               fontWeight: FontWeight.w500,
                               letterSpacing: 2,
@@ -142,7 +141,7 @@ class CreatePostBodyWidget extends GetView<CreatePostPageController> {
                           // SvgPicture.asset(
                           //   ICON_PATH + FEMALE_SVG,
                           //   height: 14,
-                          //   color: controller.selectedPostType.value == 'BREEDING'
+                          //   color: controller.selectedPostType.value == 'BREED'
                           //       ? WHITE_COLOR
                           //       : DARK_GREY_COLOR.withOpacity(0.3),
                           // ),
@@ -660,7 +659,7 @@ class CreatePostBodyWidget extends GetView<CreatePostPageController> {
   //             onChanged: (String? value) {
   //               controller.selectedPostType.value = value!;
   //             },
-  //             items: <String>['PURCHASE', 'BREEDING']
+  //             items: <String>['SALE', 'BREED']
   //                 .map<DropdownMenuItem<String>>(
   //                   (String value) => DropdownMenuItem<String>(
   //                     value: value,

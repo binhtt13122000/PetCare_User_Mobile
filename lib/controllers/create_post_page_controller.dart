@@ -27,7 +27,7 @@ class CreatePostPageController extends GetxController {
   String description = '';
   RxInt price = 0.obs;
   RxString deposit = ''.obs;
-  RxString selectedPostType = 'PURCHASE'.obs;
+  RxString selectedPostType = 'SALE'.obs;
 
   bool isFirstInputTitle = true;
   RxBool isShowPetFilter = false.obs;

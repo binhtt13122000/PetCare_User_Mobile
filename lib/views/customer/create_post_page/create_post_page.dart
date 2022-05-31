@@ -11,7 +11,7 @@ import 'package:petapp_mobile/views/customer/create_post_page/widgets/loading_wi
 import 'package:petapp_mobile/views/customer/create_post_page/widgets/media_picker_widget.dart';
 import 'package:petapp_mobile/views/customer/create_post_page/widgets/pet_filter_widget.dart';
 import 'package:petapp_mobile/views/customer/create_post_page/widgets/popup_widget.dart';
-import 'package:petapp_mobile/views/customer/create_post_page/widgets/purchase_transaction_fees.dart';
+import 'package:petapp_mobile/views/customer/create_post_page/widgets/sale_transaction_fees.dart';
 import 'package:petapp_mobile/views/customer/create_post_page/widgets/select_pet_widget.dart';
 import 'package:petapp_mobile/views/customer/create_post_page/widgets/selecte_branch_widget.dart';
 import 'package:petapp_mobile/views/customer/create_post_page/widgets/top_widget.dart';
@@ -74,7 +74,7 @@ class CreatePostPage extends GetView<CreatePostPageController> {
                   ),
                   const CreatePostLoadingWidget(),
                   const CreatePostPopupWidget(),
-                  const PurchaseTransactionFeesWidget(),
+                  const SaleTransactionFeesWidget(),
                 ],
               ),
             ),

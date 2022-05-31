@@ -23,6 +23,7 @@ import 'package:petapp_mobile/bindings/post_management_page_binding.dart';
 import 'package:petapp_mobile/bindings/payment_for_transaction_at_center_page_binding.dart';
 import 'package:petapp_mobile/bindings/transaction_at_center_detail_page_binding.dart';
 import 'package:petapp_mobile/bindings/transaction_list_page_binding.dart';
+import 'package:petapp_mobile/bindings/update_sale_post_page_binding.dart';
 import 'package:petapp_mobile/configs/route.dart';
 import 'package:petapp_mobile/controllers/auth_controller.dart';
 import 'package:petapp_mobile/controllers/sign_in_page_controller.dart';
@@ -49,6 +50,7 @@ import 'package:petapp_mobile/views/customer/sale_post_list_page/sale_post_page.
 import 'package:petapp_mobile/views/customer/sale_transaction_detail_page/sale_transaction_detail_page.dart';
 import 'package:petapp_mobile/views/customer/transaction_at_center_detail_page/payment_for_transaction_at_center.dart';
 import 'package:petapp_mobile/views/customer/transaction_list_page/transaction_list_page.dart';
+import 'package:petapp_mobile/views/customer/update_sale_post_page/update_sale_post_page.dart';
 import 'package:petapp_mobile/views/guest/landing_page/landing_page.dart';
 import 'package:petapp_mobile/views/guest/register_otp_page/register_otp_page.dart';
 import 'package:petapp_mobile/views/guest/register_page/register_page.dart';
@@ -187,6 +189,10 @@ class MainApp extends StatelessWidget {
             name: '$SALE_POST_DETAIL_PAGE_ROUTE/:salePostId',
             page: () => const SalePostDetaiPage(),
             binding: SalePostDetailPageBinding()),
+        GetPage(
+            name: '$UPDATE_SALE_POST_PAGE/:salePostId',
+            page: () => const UpdateSalePostPage(),
+            binding: UpdateSalePostPageBinding()),
         //*Action
         GetPage(
           name: ACTION_PAGE_ROUTE,

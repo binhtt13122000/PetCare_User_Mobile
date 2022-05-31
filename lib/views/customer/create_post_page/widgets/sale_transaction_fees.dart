@@ -6,8 +6,8 @@ import 'package:petapp_mobile/models/transaction_fees_model/transaction_fees_mod
 import 'package:petapp_mobile/utilities/utilities.dart';
 import 'package:petapp_mobile/views/widgets/customize_widget.dart';
 
-class PurchaseTransactionFeesWidget extends GetView<CreatePostPageController> {
-  const PurchaseTransactionFeesWidget({Key? key}) : super(key: key);
+class SaleTransactionFeesWidget extends GetView<CreatePostPageController> {
+  const SaleTransactionFeesWidget({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

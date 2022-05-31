@@ -48,3 +48,6 @@ const CHATTING_DETAIL_PAGE_ROUTE = '/chatting-deatil';
 //payment
 const PAYMENT_PAGE_ROUTE = '/payment';
 const PAYMENT_METHOD_PAGE_ROUTE = '/payment/method';
+
+//post
+const UPDATE_SALE_POST_PAGE = '/post/update';

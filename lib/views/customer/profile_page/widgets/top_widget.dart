@@ -13,18 +13,20 @@ class ProfilePageTopWidget extends GetView<ProfilePageController> {
   const ProfilePageTopWidget({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) => Column(
-        children: [
-          topNavigationBarWidget(),
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              avatarWidget(),
-              Expanded(child: generalInfoWidget()),
-            ],
-          ),
-          viewProfileButton(),
-        ],
+  Widget build(BuildContext context) => GetBuilder<ProfilePageController>(
+        builder: (_) => Column(
+          children: [
+            topNavigationBarWidget(),
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                avatarWidget(),
+                Expanded(child: generalInfoWidget()),
+              ],
+            ),
+            viewProfileButton(),
+          ],
+        ),
       );
 
   Widget phoneNumberWidget() => InkWell(
@@ -288,7 +290,8 @@ class ProfilePageTopWidget extends GetView<ProfilePageController> {
         ],
       );
 
-  Widget avatarWidget() => Padding(
+  Widget avatarWidget() => Container(
+        width: 130,
         padding: const EdgeInsets.only(left: 12),
         child: Column(
           children: [
@@ -330,14 +333,17 @@ class ProfilePageTopWidget extends GetView<ProfilePageController> {
             ),
             Padding(
               padding: const EdgeInsets.only(top: 5),
-              child: Text(
-                controller.accountModel.customerModel.firstName +
-                    ' ' +
-                    controller.accountModel.customerModel.lastName,
-                style: GoogleFonts.quicksand(
-                  color: const Color.fromARGB(255, 64, 69, 87),
-                  fontSize: 16,
-                  fontWeight: FontWeight.w700,
+              child: FittedBox(
+                fit: BoxFit.scaleDown,
+                child: Text(
+                  controller.accountModel.customerModel.firstName +
+                      ' ' +
+                      controller.accountModel.customerModel.lastName,
+                  style: GoogleFonts.quicksand(
+                    color: const Color.fromARGB(255, 64, 69, 87),
+                    fontSize: 16,
+                    fontWeight: FontWeight.w700,
+                  ),
                 ),
               ),
             ),

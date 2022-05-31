@@ -58,7 +58,8 @@ class PurchasePostDetailBottomWidget
                       controller.postModel.customerId,
                   child: Expanded(
                     child: InkWell(
-                      onTap: () async {},
+                      onTap: () => Get.toNamed(
+                          '$UPDATE_SALE_POST_PAGE/${controller.postModel.id}'),
                       child: Container(
                         height: 40,
                         margin: const EdgeInsets.symmetric(horizontal: 12),
