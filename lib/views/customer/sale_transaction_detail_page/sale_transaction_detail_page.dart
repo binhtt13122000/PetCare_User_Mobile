@@ -8,6 +8,7 @@ import 'package:petapp_mobile/services/sale_transaction_services.dart';
 import 'package:petapp_mobile/services/species_services.dart';
 import 'package:petapp_mobile/views/customer/sale_transaction_detail_page/widgets/body_widget.dart';
 import 'package:petapp_mobile/views/customer/sale_transaction_detail_page/widgets/bottom_widget.dart';
+import 'package:petapp_mobile/views/customer/sale_transaction_detail_page/widgets/more_options_widget.dart';
 import 'package:petapp_mobile/views/customer/sale_transaction_detail_page/widgets/popup_widget.dart';
 import 'package:petapp_mobile/views/customer/sale_transaction_detail_page/widgets/review_popup_widget.dart';
 import 'package:petapp_mobile/views/customer/sale_transaction_detail_page/widgets/top_widget.dart';
@@ -39,30 +40,47 @@ class SaleTransactionDetailPage
 
           controller.isLoading.value = false;
         });
-        return Obx(
-          () => controller.isLoading.value
-              ? Container(
-                  color: const Color.fromARGB(106, 198, 188, 201),
-                  alignment: Alignment.center,
-                  child: const SpinKitSpinningLines(
-                    color: PRIMARY_COLOR,
-                    size: 150,
-                  ),
-                )
-              : Stack(
-                  children: [
-                    Column(
+        return Stack(
+          children: [
+            Column(
+              children: [
+                const SaleTransactionDetailTopWidget(),
+                Obx(
+                  () => controller.isLoading.value
+                      ? Expanded(
+                          child: Container(
+                            color: const Color.fromARGB(106, 198, 188, 201),
+                            alignment: Alignment.center,
+                            child: const SpinKitSpinningLines(
+                              color: PRIMARY_COLOR,
+                              size: 150,
+                            ),
+                          ),
+                        )
+                      : Expanded(
+                          child: Column(
+                            children: const [
+                              SaleTransactionDetaiBodyWidget(),
+                              SaleTransactionDetailBottomWidget(),
+                            ],
+                          ),
+                        ),
+                ),
+              ],
+            ),
+            Obx(
+              () => controller.isLoading.value
+                  ? const SizedBox.shrink()
+                  : Stack(
                       children: const [
-                        SaleTransactionDetailTopWidget(),
-                        SaleTransactionDetaiBodyWidget(),
-                        SaleTransactionDetailBottomWidget(),
+                        SaleTransactionDetailWebViewWidget(),
+                        SaleTransactionPopupWidget(),
+                        SaleTransactionReviewPopupWidget(),
+                        SaleTransactionMoreOptionWidget(),
                       ],
                     ),
-                    const SaleTransactionDetailWebViewWidget(),
-                    const SaleTransactionPopupWidget(),
-                    const SaleTransactionReviewPopupWidget(),
-                  ],
-                ),
+            ),
+          ],
         );
       }),
     );

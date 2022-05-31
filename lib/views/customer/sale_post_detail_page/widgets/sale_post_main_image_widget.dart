@@ -44,6 +44,7 @@ class PurchasePostDetailMainImageWidget
         child: InkWell(
           onTap: () => Get
             ..back()
+            ..put(HomePageController())
             ..find<HomePageController>().update(),
           child: CircleAvatar(
             radius: 20,

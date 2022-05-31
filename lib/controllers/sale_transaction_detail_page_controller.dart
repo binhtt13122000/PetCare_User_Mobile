@@ -4,6 +4,8 @@ import 'package:petapp_mobile/models/account_model/account_model.dart';
 import 'package:petapp_mobile/models/sale_transaction_model/sale_transaction_model.dart';
 
 class SaleTransactionDetailPageController extends GetxController {
+  RxBool isShowCancelPopup = false.obs;
+  RxBool isShowMoreOptions = false.obs;
   late SaleTransactionModel saleTransactionModel;
   RxBool isLoading = false.obs;
   AccountModel accountModel = Get.find<AuthController>().accountModel;
@@ -13,9 +15,11 @@ class SaleTransactionDetailPageController extends GetxController {
   RxInt selectedStar = 0.obs;
   RxString ratingText = 'Rating'.obs;
   RxList<String> quickFeedBackList = <String>[].obs;
+  RxList<String> quickCancelList = <String>[].obs;
   String reviewContent = '';
   RxBool isShowThankPopup = false.obs;
-
+  RxString cancelDescription = ''.obs;
+  RxBool isShowCancelResultPopup = false.obs;
   updateRatingText() {
     switch (selectedStar.value) {
       case 0:

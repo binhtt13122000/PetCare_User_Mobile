@@ -21,7 +21,7 @@ class BreedService {
     required int breedId,
   }) async {
     final response = await http.get(
-      Uri.http(API_SERVER, '$GET_BREED/$breedId'),
+      Uri.http(API_SERVER_PATH, '$BREED_API_PATH/$breedId'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },

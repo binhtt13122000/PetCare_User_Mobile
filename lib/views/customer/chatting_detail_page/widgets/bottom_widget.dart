@@ -262,7 +262,8 @@ class ChattingDetailBottomWidget extends GetView<ChattingDetailPageController> {
                                   controller.socket
                                       .emit('chatToServer', messageModel);
                                 } else {
-                                  MessageModel messageModel = MessageModel(
+                                  Map<String, dynamic> emitDataJson =
+                                      MessageModel(
                                     isSellerMessage: controller
                                             .accountModel.customerModel.id ==
                                         controller.postModel.customerId,
@@ -274,9 +275,11 @@ class ChattingDetailBottomWidget extends GetView<ChattingDetailPageController> {
                                     postId: controller.postModel.id,
                                     sellerId: controller.postModel.customerId,
                                     room: null,
-                                  );
+                                  ).toJson();
+                                  emitDataJson.addAll(
+                                      {'roomType': controller.postModel.type});
                                   controller.socket
-                                      .emit('chatToServer', messageModel);
+                                      .emit('chatToServer', emitDataJson);
                                 }
 
                                 controller.update();
@@ -302,7 +305,7 @@ class ChattingDetailBottomWidget extends GetView<ChattingDetailPageController> {
                               controller.socket
                                   .emit('chatToServer', messageModel);
                             } else {
-                              MessageModel messageModel = MessageModel(
+                              Map<String, dynamic> emitDataJson = MessageModel(
                                 isSellerMessage:
                                     controller.accountModel.customerModel.id ==
                                         controller.postModel.customerId,
@@ -314,9 +317,11 @@ class ChattingDetailBottomWidget extends GetView<ChattingDetailPageController> {
                                 postId: controller.postModel.id,
                                 sellerId: controller.postModel.customerId,
                                 room: null,
-                              );
+                              ).toJson();
+                              emitDataJson.addAll(
+                                  {'roomType': controller.postModel.type});
                               controller.socket
-                                  .emit('chatToServer', messageModel);
+                                  .emit('chatToServer', emitDataJson);
                             }
 
                             controller.chatTextValue.value = '';

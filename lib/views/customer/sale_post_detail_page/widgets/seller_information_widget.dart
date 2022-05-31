@@ -56,7 +56,7 @@ class SellerInformationWidget extends GetView<SalePostDetailPageController> {
                     radius: 18,
                     backgroundColor: PRIMARY_COLOR,
                     backgroundImage: NetworkImage(
-                        controller.postModel.customerModel!.avatar),
+                        controller.postModel.customerModel!.avatar!),
                   ),
                 ),
               ],

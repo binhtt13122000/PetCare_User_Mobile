@@ -32,9 +32,10 @@ class SaleTransactionService {
     required int petId,
     required int posId,
     int point = 0,
+    required int branchId,
   }) async {
     final response = await http.post(
-      Uri.http(API_SERVER, '/v1/api/sale-transactions'),
+      Uri.http(API_SERVER_PATH, '/v1/api/sale-transactions'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -52,6 +53,7 @@ class SaleTransactionService {
         'petId': petId,
         'postId': posId,
         'point': point,
+        'branchId': branchId
       }),
     );
     switch (response.statusCode) {
@@ -59,6 +61,51 @@ class SaleTransactionService {
       case 201:
       case 202:
         // return jsonDecode(response.body)['data']['id'];
+        return json.decode(response.body)['data']['id'];
+      default:
+        print(response.body);
+        throw Exception(
+            'Error ${response.statusCode}, cannot create transaction');
+    }
+  }
+
+  static Future<int> updateSaleTransaction({
+    required int id,
+    required DateTime meetingTime,
+    required String placeMeeting,
+    DateTime? transactionTime,
+    required int transactionTotal,
+    String? description,
+    String? paymentMethod,
+    int star = 0,
+    String? review,
+    String? reasonCancel,
+    required String status,
+    int point = 0,
+  }) async {
+    final response = await http.put(
+      Uri.http(API_SERVER_PATH, SALE_TRANSACTION_API_PATH),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode({
+        'id': id,
+        'meetingTime': meetingTime.toIso8601String(),
+        'placeMeeting': placeMeeting,
+        'transactionTime': transactionTime?.toIso8601String(),
+        'transactionTotal': transactionTotal,
+        'description': description ?? '',
+        'paymentMethod': paymentMethod ?? '',
+        'review': review ?? '',
+        'reasonCancel': reasonCancel ?? '',
+        'status': status,
+        'point': point,
+      }),
+    );
+    switch (response.statusCode) {
+      case 200:
+      case 201:
+      case 202:
         return json.decode(response.body)['data']['id'];
       default:
         print(response.body);
@@ -78,21 +125,23 @@ class SaleTransactionService {
     final queryParameters = {
       'message': message ?? '',
       'locale': locale,
-      'returnUrl': 'http://$API_SERVER$SALE_TRANSACTION_RETURN_PATH'
+      'returnUrl': 'http://$API_SERVER_PATH$SALE_TRANSACTION_RETURN_API_PATH'
     };
-
+    String jsonBody = jsonEncode({
+      'id': id,
+      'transactionTime': transactionTime.toIso8601String(),
+      'transactionTotal': transactionTotal,
+      'paymentMethod': paymentMethod,
+      'point': transactionTotal ~/ 1000
+    });
+    print(jsonBody);
     final response = await http.post(
-      Uri.http(API_SERVER, 'v1/api/sale-transactions/payment', queryParameters),
+      Uri.http(
+          API_SERVER_PATH, 'v1/api/sale-transactions/payment', queryParameters),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
-      body: jsonEncode({
-        'id': id,
-        'transactionTime': transactionTime.toIso8601String(),
-        'transactionTotal': transactionTotal,
-        'paymentMethod': paymentMethod,
-        'point': transactionTotal ~/ 1000
-      }),
+      body: jsonBody,
     );
     switch (response.statusCode) {
       case 200:
@@ -119,7 +168,7 @@ class SaleTransactionService {
       'limit': limit,
     };
     final response = await http.get(
-      Uri.http(API_SERVER, GET_SALE_TRANSACTION, parameters),
+      Uri.http(API_SERVER_PATH, SALE_TRANSACTION_API_PATH, parameters),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -139,7 +188,8 @@ class SaleTransactionService {
     required int saleTransactionId,
   }) async {
     final response = await http.get(
-      Uri.http(API_SERVER, '$GET_SALE_TRANSACTION/$saleTransactionId'),
+      Uri.http(
+          API_SERVER_PATH, '$SALE_TRANSACTION_API_PATH/$saleTransactionId'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },

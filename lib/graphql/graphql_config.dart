@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:petapp_mobile/configs/path.dart';
 
 final HttpLink _httpLink = HttpLink(
-  '$GRAPHL_SERVER/v1/graphql',
+  '$GRAPHL_SERVER_PATH/v1/graphql',
   defaultHeaders: <String, String>{
     "type": "HS256",
     "key": "ff85bd037259c625d1188b68e0b3f7a5ba5a2f8b0a3a1125966f5cfda4a763b3",

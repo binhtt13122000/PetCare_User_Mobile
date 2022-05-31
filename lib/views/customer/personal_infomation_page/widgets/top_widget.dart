@@ -32,7 +32,7 @@ class PersonalInformationTopWidget
             maxRadius: 50,
             minRadius: 50,
             backgroundColor: Colors.transparent,
-            child: controller.accountModel.customerModel.avatar.isEmpty
+            child: controller.accountModel.customerModel.avatar!.isEmpty
                 ? CircleAvatar(
                     backgroundColor: PRIMARY_COLOR.withOpacity(0.7),
                     maxRadius: 46,
@@ -50,7 +50,7 @@ class PersonalInformationTopWidget
                     maxRadius: 46,
                     minRadius: 46,
                     backgroundImage: NetworkImage(
-                        controller.accountModel.customerModel.avatar),
+                        controller.accountModel.customerModel.avatar!),
                   ),
           ),
           const Positioned(

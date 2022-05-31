@@ -8,6 +8,7 @@ import 'package:petapp_mobile/configs/theme.dart';
 import 'package:petapp_mobile/controllers/sale_transaction_detail_page_controller.dart';
 import 'package:petapp_mobile/services/sale_transaction_services.dart';
 import 'package:petapp_mobile/utilities/utilities.dart';
+import 'package:petapp_mobile/views/widgets/customize_widget.dart';
 
 class SaleTransactionDetailBottomWidget
     extends GetView<SaleTransactionDetailPageController> {
@@ -31,6 +32,18 @@ class SaleTransactionDetailBottomWidget
                   controller.saleTransactionModel.buyerId ==
                       controller.accountModel.customerModel.id,
               child: ratingWidget(),
+            ),
+            Visibility(
+              visible: controller.saleTransactionModel.status == 'SUCCESS' &&
+                  (controller.saleTransactionModel.star != null &&
+                      controller.saleTransactionModel.star! > 0) &&
+                  controller.saleTransactionModel.buyerId ==
+                      controller.accountModel.customerModel.id,
+              child: CUSTOM_TEXT(
+                'You have submitted a review for this transaction',
+                fontSize: 12,
+                color: DARK_GREY_TEXT_COLOR.withOpacity(0.7),
+              ),
             ),
           ],
         ),

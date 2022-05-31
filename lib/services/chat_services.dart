@@ -23,7 +23,7 @@ class ChatServices {
   static Future<List<ChatRoomModel>> fetchChatRoomListByCustomerId(
       {required int customerId}) async {
     final response = await http.get(
-      Uri.http(API_SERVER, '/v1/api/rooms/user/$customerId'),
+      Uri.http(API_SERVER_PATH, '/v1/api/rooms/user/$customerId'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -42,7 +42,7 @@ class ChatServices {
   static Future<ChatRoomModel> fetchChatRoomById(
       {required String chatRoomId}) async {
     final response = await http.get(
-      Uri.http(API_SERVER, '/v1/api/rooms/$chatRoomId'),
+      Uri.http(API_SERVER_PATH, '/v1/api/rooms/$chatRoomId'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -62,7 +62,7 @@ class ChatServices {
   static Future<String?> fetchChatRoomId(
       {required int buyerId, required int postId}) async {
     final response = await http.get(
-      Uri.http(API_SERVER, '/v1/api/rooms/buyer/$buyerId/post/$postId'),
+      Uri.http(API_SERVER_PATH, '/v1/api/rooms/buyer/$buyerId/post/$postId'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -86,7 +86,8 @@ class ChatServices {
       'limit': limit.toString(),
     };
     final response = await http.get(
-      Uri.http(API_SERVER, '/v1/api/messages/room/$chatRoomId', parameters),
+      Uri.http(
+          API_SERVER_PATH, '/v1/api/messages/room/$chatRoomId', parameters),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -124,7 +125,7 @@ class ChatServices {
         ),
       );
       Response response =
-          await Dio().post('http://$API_SERVER/v1/api/messages/upload',
+          await Dio().post('http://$API_SERVER_PATH/v1/api/messages/upload',
               data: formData,
               options: Options(headers: <String, String>{
                 HttpHeaders.contentTypeHeader: 'multipart/form-data',

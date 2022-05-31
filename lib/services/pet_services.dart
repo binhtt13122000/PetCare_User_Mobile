@@ -50,11 +50,12 @@ class PetService {
         'file': await MultipartFile.fromFile(avtarFilePath),
       });
 
-      Response response = await Dio().post('http://$API_SERVER/v1/api/pets',
-          data: formData,
-          options: Options(headers: <String, String>{
-            HttpHeaders.contentTypeHeader: 'multipart/form-data',
-          }));
+      Response response =
+          await Dio().post('http://$API_SERVER_PATH/v1/api/pets',
+              data: formData,
+              options: Options(headers: <String, String>{
+                HttpHeaders.contentTypeHeader: 'multipart/form-data',
+              }));
       print(response.data);
 
       return response.statusCode;

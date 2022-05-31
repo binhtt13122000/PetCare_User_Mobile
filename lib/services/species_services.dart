@@ -47,7 +47,7 @@ class SpeciesService {
     required int speciesId,
   }) async {
     final response = await http.get(
-      Uri.http(API_SERVER, '$GET_SPECIES/$speciesId'),
+      Uri.http(API_SERVER_PATH, '$SPECIES_API_PATH/$speciesId'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },

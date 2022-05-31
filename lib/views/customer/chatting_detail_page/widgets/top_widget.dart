@@ -507,8 +507,8 @@ class ChattingDetailTopWidget extends GetView<ChattingDetailPageController> {
                     child: CircleAvatar(
                       minRadius: 14,
                       maxRadius: 14,
-                      backgroundImage:
-                          NetworkImage(controller.anotherChatRoomMember.avatar),
+                      backgroundImage: NetworkImage(
+                          controller.anotherChatRoomMember.avatar!),
                     ),
                   ),
                   Container(
@@ -523,7 +523,7 @@ class ChattingDetailTopWidget extends GetView<ChattingDetailPageController> {
                         minRadius: 14,
                         maxRadius: 14,
                         backgroundImage: NetworkImage(
-                            controller.accountModel.customerModel.avatar),
+                            controller.accountModel.customerModel.avatar!),
                       ),
                     ),
                   ),

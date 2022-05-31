@@ -16,11 +16,11 @@ class PaymentServices {
     final queryParameters = {
       'message': message,
       'locale': locale,
-      'returnUrl': 'http://$API_SERVER/v1/api/orders/vnpay_return'
+      'returnUrl': 'http://$API_SERVER_PATH/v1/api/orders/vnpay_return'
     };
 
     final response = await http.post(
-      Uri.http(API_SERVER, '/v1/api/orders/payment', queryParameters),
+      Uri.http(API_SERVER_PATH, '/v1/api/orders/payment', queryParameters),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },

@@ -57,11 +57,12 @@ class PostService {
           ),
         );
       }
-      Response response = await Dio().post('http://$API_SERVER/v1/api/posts',
-          data: formData,
-          options: Options(headers: <String, String>{
-            HttpHeaders.contentTypeHeader: 'multipart/form-data',
-          }));
+      Response response =
+          await Dio().post('http://$API_SERVER_PATH/v1/api/posts',
+              data: formData,
+              options: Options(headers: <String, String>{
+                HttpHeaders.contentTypeHeader: 'multipart/form-data',
+              }));
 
       return response.statusCode;
     } on DioError catch (e) {

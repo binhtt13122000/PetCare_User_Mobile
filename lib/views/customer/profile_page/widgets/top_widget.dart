@@ -304,7 +304,7 @@ class ProfilePageTopWidget extends GetView<ProfilePageController> {
                   maxRadius: 32,
                   minRadius: 32,
                   backgroundColor: Colors.transparent,
-                  child: controller.accountModel.customerModel.avatar.isEmpty
+                  child: controller.accountModel.customerModel.avatar!.isEmpty
                       ? CircleAvatar(
                           backgroundColor: PRIMARY_COLOR.withOpacity(0.7),
                           maxRadius: 29,
@@ -323,7 +323,7 @@ class ProfilePageTopWidget extends GetView<ProfilePageController> {
                           maxRadius: 29,
                           minRadius: 29,
                           backgroundImage: NetworkImage(
-                              controller.accountModel.customerModel.avatar),
+                              controller.accountModel.customerModel.avatar!),
                         ),
                 ),
               ],

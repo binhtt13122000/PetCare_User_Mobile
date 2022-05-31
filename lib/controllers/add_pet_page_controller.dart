@@ -1,9 +1,6 @@
-// ignore_for_file: avoid_print
-
 import 'dart:io';
 import 'package:get/get.dart';
 import 'package:petapp_mobile/controllers/auth_controller.dart';
-import 'package:petapp_mobile/controllers/sign_in_page_controller.dart';
 import 'package:petapp_mobile/models/account_model/account_model.dart';
 import 'package:petapp_mobile/models/breed_model/breed_model.dart';
 import 'package:petapp_mobile/models/species_model/species_model.dart';

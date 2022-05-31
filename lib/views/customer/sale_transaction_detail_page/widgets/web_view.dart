@@ -29,7 +29,7 @@ class SaleTransactionDetailWebViewWidget
                       url: Uri.parse(controller.paymentUrl.value),
                     ),
                     onLoadStart: (InAppWebViewController controller, Uri? uri) {
-                      if (uri!.path == SALE_TRANSACTION_RETURN_PATH) {
+                      if (uri!.path == SALE_TRANSACTION_RETURN_API_PATH) {
                         Get.find<SaleTransactionDetailPageController>()
                           ..update()
                           ..paymentUrl.value = ''

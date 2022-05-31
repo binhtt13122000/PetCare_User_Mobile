@@ -13,7 +13,7 @@ CustomerModel _$CustomerModelFromJson(Map<String, dynamic> json) =>
       lastName: json['lastName'] as String,
       address: json['address'] as String?,
       gender: json['gender'] as String,
-      avatar: json['avatar'] as String,
+      avatar: json['avatar'] as String?,
       star: (json['star'] as num).toDouble(),
       point: json['point'] as int,
       numberFollowers: json['numberFollowers'] as int,

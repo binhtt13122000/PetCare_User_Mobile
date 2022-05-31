@@ -217,7 +217,7 @@ class ChattingDetailBodyWidget extends GetView<ChattingDetailPageController> {
                           maxRadius: 14,
                           minRadius: 14,
                           backgroundImage: NetworkImage(
-                              controller.anotherChatRoomMember.avatar),
+                              controller.anotherChatRoomMember.avatar!),
                         )
                       : const SizedBox(
                           width: 28,

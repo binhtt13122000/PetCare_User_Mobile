@@ -71,17 +71,19 @@ class BuyerRequestWidget extends GetView<ChattingDetailPageController> {
             controller.isShowBuyerRequest.value = false;
             int transactionId =
                 await SaleTransactionService.createSaleTransaction(
-                    createdTime: DateTime.now(),
-                    meetingTime: controller.chatRoomModel!.transactionTime!,
-                    placeMeeting: controller.chatRoomModel!.transactionPlace!,
-                    sellerReceive: controller.postModel.sellerReceive,
-                    transactionFee: controller.postModel.shopFee,
-                    transactionTotal: controller.postModel.provisionalTotal,
-                    description: controller.chatRoomModel!.description,
-                    buyerId: controller.chatRoomModel!.buyerId,
-                    sellerId: controller.chatRoomModel!.sellerId,
-                    petId: controller.postModel.petId,
-                    posId: controller.chatRoomModel!.postId);
+              createdTime: DateTime.now(),
+              meetingTime: controller.chatRoomModel!.transactionTime!,
+              placeMeeting: controller.chatRoomModel!.transactionPlace!,
+              sellerReceive: controller.postModel.sellerReceive,
+              transactionFee: controller.postModel.shopFee,
+              transactionTotal: controller.postModel.provisionalTotal,
+              description: controller.chatRoomModel!.description,
+              buyerId: controller.chatRoomModel!.buyerId,
+              sellerId: controller.chatRoomModel!.sellerId,
+              petId: controller.postModel.petId,
+              posId: controller.chatRoomModel!.postId,
+              branchId: controller.postModel.branchId,
+            );
             controller.chatRoomModel!
               ..transactionId = transactionId
               ..status = 'CREATED'

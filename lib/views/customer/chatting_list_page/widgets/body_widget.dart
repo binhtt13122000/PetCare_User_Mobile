@@ -75,7 +75,7 @@ class ChattingListBodyWidget extends GetView<ChattingListPageController> {
                       minRadius: 22,
                       maxRadius: 22,
                       backgroundImage: NetworkImage(
-                          controller.accountModel.customerModel.avatar),
+                          controller.accountModel.customerModel.avatar!),
                     ),
                     Container(
                       height: 48,

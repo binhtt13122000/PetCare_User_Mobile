@@ -84,7 +84,7 @@ class CreateRequestWidget extends GetView<ChattingDetailPageController> {
             Map<String, dynamic> emitJsonMap =
                 controller.chatRoomModel!.toJson();
             emitJsonMap.addAll({
-              'message': 'Transaction request - statussss: ' +
+              'message': 'Transaction request - status: ' +
                   chatText +
                   '. Transaction place: ${controller.transactionLocation.value}. Transaction time: ${FORMAT_DATE_TIME(dateTime: controller.transactionTime!, pattern: DATE_TIME_PATTERN)}. ' +
                   controller.description.value
