@@ -10,7 +10,7 @@ import 'package:petapp_mobile/graphql/query_mutation/breed.dart';
 import 'package:petapp_mobile/graphql/query_mutation/species.dart';
 import 'package:petapp_mobile/models/breed_model/breed_model.dart';
 import 'package:petapp_mobile/models/species_model/species_model.dart';
-import 'package:petapp_mobile/services/breed_servies.dart';
+import 'package:petapp_mobile/services/breed_services.dart';
 import 'package:petapp_mobile/services/species_services.dart';
 
 class PetFilterWidget extends GetView<UpdateSalePostPageController> {
