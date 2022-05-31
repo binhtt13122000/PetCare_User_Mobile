@@ -40,13 +40,13 @@ class ChattingDetailPage extends GetView<ChattingDetailPageController> {
           controller.transactionTimeText.value = FORMAT_DATE_TIME(
               dateTime: controller.transactionTime!, pattern: DATE_PATTERN_2);
         }
-        //!descriptio
+        //!description
         controller.descriptionTextEditingController.text =
             controller.chatRoomModel!.description ?? '';
         controller.description.value =
             controller.chatRoomModel!.description ?? '';
         controller.messageModelList
-            .addAll(await ChatServices.fetchMesageListByChatRoomId(
+            .addAll(await ChatServices.fetchMessageListByChatRoomId(
           chatRoomId: Get.parameters['chatRoomId']!,
           limit: controller.limitMessageRange,
           skip: controller.messageModelList.length,

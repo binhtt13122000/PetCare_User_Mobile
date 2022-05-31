@@ -3,7 +3,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
 import 'package:petapp_mobile/configs/theme.dart';
 import 'package:petapp_mobile/controllers/sale_transaction_detail_page_controller.dart';
-import 'package:petapp_mobile/services/breed_servies.dart';
+import 'package:petapp_mobile/services/breed_services.dart';
 import 'package:petapp_mobile/services/sale_transaction_services.dart';
 import 'package:petapp_mobile/services/species_services.dart';
 import 'package:petapp_mobile/views/customer/sale_transaction_detail_page/widgets/body_widget.dart';
@@ -27,14 +27,14 @@ class SaleTransactionDetailPage
 
         WidgetsBinding.instance!.addPostFrameCallback((_) async {
           controller.saleTransactionModel =
-              await SaleTransactionService.fecthSaleTransactionById(
+              await SaleTransactionService.fetchSaleTransactionById(
                   saleTransactionId:
                       int.parse(Get.parameters['saleTransactionId']!));
           controller.saleTransactionModel.petModel!.breedModel =
-              await BreedService.fecthBreedById(
+              await BreedService.fetchBreedById(
                   breedId: controller.saleTransactionModel.petModel!.breedId!);
           controller.saleTransactionModel.petModel!.breedModel!.speciesModel =
-              await SpeciesService.fecthSpeciesById(
+              await SpeciesService.fetchSpeciesById(
                   speciesId: controller
                       .saleTransactionModel.petModel!.breedModel!.speciesId!);
 
@@ -60,7 +60,7 @@ class SaleTransactionDetailPage
                       : Expanded(
                           child: Column(
                             children: const [
-                              SaleTransactionDetaiBodyWidget(),
+                              SaleTransactionDetailBodyWidget(),
                               SaleTransactionDetailBottomWidget(),
                             ],
                           ),

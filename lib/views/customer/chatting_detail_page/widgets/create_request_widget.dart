@@ -72,22 +72,24 @@ class CreateRequestWidget extends GetView<ChattingDetailPageController> {
         child: InkWell(
           onTap: () {
             controller.isShowCreateRequest.value = false;
-            String chatText = controller.chatRoomModel!.status == 'REQUESTED'
-                ? '[UPDATED]'
-                : '[CREATED]';
+            String message = 'Transaction request - status: ' +
+                (controller.chatRoomModel!.status == 'REQUESTED'
+                    ? '[UPDATED]'
+                    : '[CREATED]') +
+                '. Transaction place: ${controller.transactionLocation.value}. Transaction time: ${FORMAT_DATE_TIME(dateTime: controller.transactionTime!, pattern: DATE_TIME_PATTERN)}. ' +
+                controller.description.value;
             controller.chatRoomModel!
               ..transactionPlace = controller.transactionLocation.value
               ..transactionTime = controller.transactionTime
               ..description = controller.description.value
               ..status = 'REQUESTED'
-              ..isSellerMessage = false;
+              ..isSellerMessage = false
+              ..newestMessage = message
+              ..newestMessageTime = DateTime.now();
             Map<String, dynamic> emitJsonMap =
                 controller.chatRoomModel!.toJson();
             emitJsonMap.addAll({
-              'message': 'Transaction request - status: ' +
-                  chatText +
-                  '. Transaction place: ${controller.transactionLocation.value}. Transaction time: ${FORMAT_DATE_TIME(dateTime: controller.transactionTime!, pattern: DATE_TIME_PATTERN)}. ' +
-                  controller.description.value
+              'message': message,
             });
 
             controller.socket.emit(
@@ -159,13 +161,17 @@ class CreateRequestWidget extends GetView<ChattingDetailPageController> {
           child: InkWell(
             onTap: () {
               controller.isShowCreateRequest.value = false;
+              String message = 'Transaction request - status: [CANCELED].';
               controller.chatRoomModel!
                 ..status = 'CREATED'
-                ..isSellerMessage = false;
+                ..isSellerMessage = false
+                ..newestMessage = message
+                ..newestMessageTime = DateTime.now();
+
               Map<String, dynamic> emitJsonMap =
                   controller.chatRoomModel!.toJson();
-              emitJsonMap.addAll(
-                  {'message': 'Transaction request - status: [CANCELED].'});
+
+              emitJsonMap.addAll({'message': message});
               controller.socket.emit(
                 'updateRoom',
                 emitJsonMap,

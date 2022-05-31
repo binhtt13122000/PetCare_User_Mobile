@@ -17,7 +17,7 @@ class BreedService {
     return breedList;
   }
 
-  static Future<BreedModel> fecthBreedById({
+  static Future<BreedModel> fetchBreedById({
     required int breedId,
   }) async {
     final response = await http.get(

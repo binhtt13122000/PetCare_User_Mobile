@@ -14,8 +14,8 @@ import 'package:petapp_mobile/views/customer/sale_post_detail_page/widgets/sale_
 import 'package:petapp_mobile/views/customer/sale_post_detail_page/widgets/sale_post_main_image_widget.dart';
 import 'package:petapp_mobile/views/customer/sale_post_detail_page/widgets/seller_information_widget.dart';
 
-class SalePostDetaiPage extends GetView<SalePostDetailPageController> {
-  const SalePostDetaiPage({Key? key}) : super(key: key);
+class SalePostDetailPage extends GetView<SalePostDetailPageController> {
+  const SalePostDetailPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) => GraphQLProvider(

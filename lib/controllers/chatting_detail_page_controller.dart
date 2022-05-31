@@ -7,7 +7,7 @@ import 'package:petapp_mobile/controllers/auth_controller.dart';
 import 'package:petapp_mobile/models/account_model/account_model.dart';
 import 'package:petapp_mobile/models/chat_room_model/chat_room_model.dart';
 import 'package:petapp_mobile/models/customer_model/customer_model.dart';
-import 'package:petapp_mobile/models/messasge_model.dart/message_model.dart';
+import 'package:petapp_mobile/models/message_model.dart/message_model.dart';
 import 'package:petapp_mobile/models/post_model/post_model.dart';
 import 'package:petapp_mobile/services/chat_services.dart';
 import 'package:petapp_mobile/utilities/utilities.dart';
@@ -76,7 +76,7 @@ class ChattingDetailPageController extends GetxController {
           transactionTimeText.value = FORMAT_DATE_TIME(
               dateTime: transactionTime!, pattern: DATE_PATTERN_2);
         }
-        //!descriptio
+        //!description
         descriptionTextEditingController.text =
             chatRoomModel!.description ?? '';
         description.value = chatRoomModel!.description ?? '';
@@ -105,7 +105,7 @@ class ChattingDetailPageController extends GetxController {
           chatRoomModel != null) {
         isLoadingMoreChat.value = true;
         messageModelList.addAll(
-          await ChatServices.fetchMesageListByChatRoomId(
+          await ChatServices.fetchMessageListByChatRoomId(
             chatRoomId: chatRoomModel!.id,
             limit: limitMessageRange,
             skip: messageModelList.length,

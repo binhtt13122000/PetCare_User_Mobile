@@ -88,7 +88,7 @@ class ChattingListTopWidget extends GetView<ChattingListPageController> {
                     ),
                   ),
                   border: const OutlineInputBorder(),
-                  hintText: 'Search for chats',
+                  hintText: 'Search chats by room title...',
                   hintStyle: GoogleFonts.quicksand(
                     fontWeight: FontWeight.w500,
                     color: const Color.fromARGB(255, 125, 141, 161),

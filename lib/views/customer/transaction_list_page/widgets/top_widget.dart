@@ -30,7 +30,7 @@ class TransactionListTopWidget extends GetView<TransactionListPageController> {
         child: Row(
           children: [
             transactionTypeWidget(typeName: 'Center\'s services'),
-            transactionTypeWidget(typeName: 'Purchase'),
+            transactionTypeWidget(typeName: 'Sale'),
             transactionTypeWidget(typeName: 'Breeding'),
           ],
         ),

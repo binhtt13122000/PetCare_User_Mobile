@@ -1,14 +1,14 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'normal_transaction_model.dart';
+part of 'center_services_transaction_model.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-NormalTransactionModel _$NormalTransactionModelFromJson(
+CenterServicesTransactionModel _$CenterServicesTransactionModelFromJson(
         Map<String, dynamic> json) =>
-    NormalTransactionModel(
+    CenterServicesTransactionModel(
       id: json['id'] as int,
       description: json['description'] as String?,
       orderTotal: json['orderTotal'] as int,
@@ -22,16 +22,22 @@ NormalTransactionModel _$NormalTransactionModelFromJson(
       provisionalTotal: json['provisionalTotal'] as int,
       star: json['star'] as int,
       review: json['review'] as String?,
-      branchModel: BranchModel.fromJson(json['branch'] as Map<String, dynamic>),
-      normalTransactionDetailModelList: (json['order_details']
-              as List<dynamic>?)
-          ?.map((e) =>
-              NormalTransactionDetailModel.fromJson(e as Map<String, dynamic>))
-          .toList(),
+      branchModel: json['branch'] == null
+          ? null
+          : BranchModel.fromJson(json['branch'] as Map<String, dynamic>),
+      centerServicesTransactionDetailModel:
+          (json['orderDetails'] as List<dynamic>?)
+              ?.map((e) => CenterServicesTransactionDetailModel.fromJson(
+                  e as Map<String, dynamic>))
+              .toList(),
+      branchId: json['branchId'] as int,
+      promotionId: json['promotionId'] as int?,
+      customerId: json['customerId'] as int,
+      registerTime: DateTime.parse(json['registerTime'] as String),
     );
 
-Map<String, dynamic> _$NormalTransactionModelToJson(
-        NormalTransactionModel instance) =>
+Map<String, dynamic> _$CenterServicesTransactionModelToJson(
+        CenterServicesTransactionModel instance) =>
     <String, dynamic>{
       'id': instance.id,
       'description': instance.description,
@@ -44,8 +50,12 @@ Map<String, dynamic> _$NormalTransactionModelToJson(
       'provisionalTotal': instance.provisionalTotal,
       'star': instance.star,
       'review': instance.review,
-      'branch': instance.branchModel.toJson(),
-      'order_details': instance.normalTransactionDetailModelList
+      'branchId': instance.branchId,
+      'promotionId': instance.promotionId,
+      'customerId': instance.customerId,
+      'registerTime': instance.registerTime.toIso8601String(),
+      'branch': instance.branchModel?.toJson(),
+      'orderDetails': instance.centerServicesTransactionDetailModel
           ?.map((e) => e.toJson())
           .toList(),
     };

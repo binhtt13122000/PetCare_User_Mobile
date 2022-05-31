@@ -63,7 +63,7 @@ class RegisterPageBodyWidget extends GetView<RegisterPageController> {
                 maxRadius: 50,
                 minRadius: 50,
                 backgroundColor: Colors.transparent,
-                child: controller.avatarfilePath.value.isEmpty
+                child: controller.avatarFilePath.value.isEmpty
                     ? const CircleAvatar(
                         backgroundImage:
                             AssetImage(IMAGE_PATH + GUEST_AVATAR_PNG),

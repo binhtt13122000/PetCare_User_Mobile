@@ -39,7 +39,7 @@ import 'package:petapp_mobile/views/customer/notification_page/notification_page
 import 'package:petapp_mobile/views/customer/payment_for_transaction_at_center/payment_for_transaction_at_center.dart';
 import 'package:petapp_mobile/views/customer/payment_method_page/payment_method_page.dart';
 import 'package:petapp_mobile/views/customer/payment_page/payment_page.dart';
-import 'package:petapp_mobile/views/customer/personal_infomation_page/personal_infomation_page.dart';
+import 'package:petapp_mobile/views/customer/personal_information_page/personal_infomation_page.dart';
 import 'package:petapp_mobile/views/customer/pet_detail_page/pet_detail_page.dart';
 import 'package:petapp_mobile/views/customer/pet_management_page/pet_management_page.dart';
 import 'package:petapp_mobile/views/customer/post_management_page/post_management_page.dart';
@@ -74,10 +74,10 @@ void main() async {
     sound: true,
   );
 
-  late String initRounter;
+  late String initRoute;
 
   if (FirebaseAuth.instance.currentUser == null) {
-    initRounter = LANDING_PAGE_ROUTE;
+    initRoute = LANDING_PAGE_ROUTE;
   } else {
     String idToken = await FirebaseAuth.instance.currentUser!.getIdToken();
 
@@ -93,9 +93,9 @@ void main() async {
       Get.lazyPut<AuthController>(
           () => AuthController(accountModel: accountModel),
           fenix: true);
-      initRounter = HOME_PAGE_ROUTE;
+      initRoute = HOME_PAGE_ROUTE;
     } else {
-      initRounter = LANDING_PAGE_ROUTE;
+      initRoute = LANDING_PAGE_ROUTE;
     }
   }
 
@@ -108,7 +108,7 @@ void main() async {
     ),
   );
 
-  runApp(MainApp(initRounter: initRounter));
+  runApp(MainApp(initRoute: initRoute));
 }
 
 Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
@@ -116,8 +116,8 @@ Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
 }
 
 class MainApp extends StatelessWidget {
-  const MainApp({Key? key, required this.initRounter}) : super(key: key);
-  final String initRounter;
+  const MainApp({Key? key, required this.initRoute}) : super(key: key);
+  final String initRoute;
 
   @override
   Widget build(BuildContext context) {
@@ -125,7 +125,7 @@ class MainApp extends StatelessWidget {
       title: 'Pet App',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(),
-      initialRoute: initRounter,
+      initialRoute: initRoute,
       // routingCallback: (routing) {
       //   print('callback' + routing!.current);
       // },
@@ -167,10 +167,6 @@ class MainApp extends StatelessWidget {
           page: () => const HomePage(),
           binding: HomePageBinding(),
         ),
-        // GetPage(
-        //   name: POST_DETAIL_PAGE_ROUNTER,
-        //   page: () => const PostDetaiPage(),
-        // ),
         GetPage(
           name: PURCHASE_POSTS_PAGE_ROUTE,
           page: () => const SalePostListPage(),
@@ -187,7 +183,7 @@ class MainApp extends StatelessWidget {
         ),
         GetPage(
             name: '$SALE_POST_DETAIL_PAGE_ROUTE/:salePostId',
-            page: () => const SalePostDetaiPage(),
+            page: () => const SalePostDetailPage(),
             binding: SalePostDetailPageBinding()),
         GetPage(
             name: '$UPDATE_SALE_POST_PAGE/:salePostId',
@@ -196,7 +192,7 @@ class MainApp extends StatelessWidget {
         //*Action
         GetPage(
           name: ACTION_PAGE_ROUTE,
-          page: () => const AcctionPage(),
+          page: () => const ActionPage(),
         ),
         GetPage(
           name: CREATE_POST_PAGE_ROUTE,
@@ -204,7 +200,7 @@ class MainApp extends StatelessWidget {
           binding: CreatePostPageBinding(),
         ),
         GetPage(
-          name: POST_MANAGEMENT_PAGE_ROUNTER,
+          name: POST_MANAGEMENT_PAGE_ROUTE,
           page: () => const PostManagementPage(),
           binding: PostManagementPageBinding(),
         ),
@@ -245,13 +241,13 @@ class MainApp extends StatelessWidget {
           binding: AddPetPagePageBinding(),
         ),
         GetPage(
-          name: PERSONAl_INFOMATION_PAGE_ROUTE,
+          name: PERSONAl_INFORMATION_PAGE_ROUTE,
           page: () => const PersonalInformationPage(),
           binding: PersonalInformationPageBinding(),
         ),
         GetPage(
           name: PET_DETAIL_PAGE_ROUTE,
-          page: () => const PetDetaiPage(),
+          page: () => const PetDetailPage(),
           binding: PetDetailPageBinding(),
         ),
         //*Chatting

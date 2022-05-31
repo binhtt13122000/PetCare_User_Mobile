@@ -43,7 +43,7 @@ class SpeciesService {
     return speciesList;
   }
 
-  static Future<SpeciesModel> fecthSpeciesById({
+  static Future<SpeciesModel> fetchSpeciesById({
     required int speciesId,
   }) async {
     final response = await http.get(

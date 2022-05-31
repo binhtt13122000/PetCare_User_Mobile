@@ -9,7 +9,7 @@ import 'package:petapp_mobile/utilities/utilities.dart';
 import 'package:petapp_mobile/views/widgets/customize_widget.dart';
 
 class PersonalInformationTopWidget
-    extends GetView<PersonalInfomationPageController> {
+    extends GetView<PersonalInformationPageController> {
   const PersonalInformationTopWidget({Key? key}) : super(key: key);
 
   @override
@@ -44,7 +44,7 @@ class PersonalInformationTopWidget
                       maxRadius: 46,
                       minRadius: 46,
                       child: Text(
-                        controller.avatarfilePathCharacter.value,
+                        controller.avatarCharacter.value,
                         style: GoogleFonts.quicksand(
                           color: WHITE_COLOR,
                           fontSize: 23,

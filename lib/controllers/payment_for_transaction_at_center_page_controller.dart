@@ -2,17 +2,17 @@ import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:get/get.dart';
 import 'package:petapp_mobile/controllers/auth_controller.dart';
 import 'package:petapp_mobile/models/account_model/account_model.dart';
-import 'package:petapp_mobile/models/normal_transaction_model/normal_transaction_model.dart';
+import 'package:petapp_mobile/models/center_services_transaction_model/center_services_transaction_model.dart';
 import 'package:petapp_mobile/models/promotion_model.dart/promotion_model.dart';
 
 class PaymentForTransactionAtCenterPageController extends GetxController {
   AccountModel accountModel = Get.find<AuthController>().accountModel;
   RxBool isShowPopup = false.obs;
   late Function() refetchGraphql;
-  late NormalTransactionModel normalTransactionModel;
+  late CenterServicesTransactionModel centerServicesTransactionModel;
   String uriReturn = '/v1/api/orders/vnpay_return';
   PromotionModel? selectedPromotion;
-  RxInt disccountAmount = 0.obs;
+  RxInt discountAmount = 0.obs;
   RxString selectedPromotionName = 'ADD A PROMO'.obs;
   RxString paymentUrl = ''.obs;
   List<PromotionModel> promotionModels = [
