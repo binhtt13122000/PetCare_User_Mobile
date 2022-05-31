@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:petapp_mobile/configs/path.dart';
 import 'package:petapp_mobile/models/chat_room_model/chat_room_model.dart';
-import 'package:petapp_mobile/models/messasge_model.dart/message_model.dart';
+import 'package:petapp_mobile/models/message_model.dart/message_model.dart';
 import 'package:dio/dio.dart';
 import 'dart:io';
 
@@ -77,7 +77,7 @@ class ChatServices {
     }
   }
 
-  static Future<List<MessageModel>> fetchMesageListByChatRoomId(
+  static Future<List<MessageModel>> fetchMessageListByChatRoomId(
       {required String chatRoomId,
       required int skip,
       required int limit}) async {

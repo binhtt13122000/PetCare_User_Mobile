@@ -7,23 +7,31 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:petapp_mobile/configs/path.dart';
 import 'package:petapp_mobile/configs/theme.dart';
 import 'package:petapp_mobile/controllers/chatting_detail_page_controller.dart';
-import 'package:petapp_mobile/models/messasge_model.dart/message_model.dart';
+import 'package:petapp_mobile/models/message_model.dart/message_model.dart';
 import 'package:petapp_mobile/services/chat_services.dart';
 import 'package:petapp_mobile/utilities/utilities.dart';
+import 'package:petapp_mobile/views/widgets/customize_widget.dart';
 
 class ChattingDetailBottomWidget extends GetView<ChattingDetailPageController> {
   const ChattingDetailBottomWidget({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) => Column(
-        children: [
-          Container(
-            height: 1,
-            margin: const EdgeInsets.only(top: 5),
-            color: const Color.fromARGB(255, 151, 163, 179),
-          ),
-          chatBoxWidget(),
-        ],
+  Widget build(BuildContext context) =>
+      GetBuilder<ChattingDetailPageController>(
+        builder: (_) => controller.chatRoomModel == null ||
+                controller.chatRoomModel!.status == 'CREATED' ||
+                controller.chatRoomModel!.status == 'REQUESTED'
+            ? Column(
+                children: [
+                  Container(
+                    height: 1,
+                    margin: const EdgeInsets.only(top: 5),
+                    color: const Color.fromARGB(255, 151, 163, 179),
+                  ),
+                  chatBoxWidget(),
+                ],
+              )
+            : CUSTOM_TEXT('Chat is over'),
       );
 
   Widget mediaItemWidget({required index, required File mediaFile}) => Stack(

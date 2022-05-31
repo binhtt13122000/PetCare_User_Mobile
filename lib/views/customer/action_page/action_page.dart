@@ -7,8 +7,8 @@ import 'package:petapp_mobile/configs/theme.dart';
 import 'package:petapp_mobile/views/customer/action_page/widgets/top_widget.dart';
 import 'package:petapp_mobile/views/customer/custom_bottom_navigation_bar/custom_bottom_navigator_bar.dart';
 
-class AcctionPage extends GetView {
-  const AcctionPage({Key? key}) : super(key: key);
+class ActionPage extends GetView {
+  const ActionPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -99,7 +99,7 @@ class AcctionPage extends GetView {
                                 height: 50,
                                 minWidth: 500,
                                 onPressed: () =>
-                                    Get.toNamed(POST_MANAGEMENT_PAGE_ROUNTER),
+                                    Get.toNamed(POST_MANAGEMENT_PAGE_ROUTE),
                                 color: PRIMARY_LIGHT_COLOR,
                                 child: Text(
                                   'Post Management',

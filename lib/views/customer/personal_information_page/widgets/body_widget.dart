@@ -8,7 +8,7 @@ import 'package:petapp_mobile/models/customer_model/customer_model.dart';
 import 'package:petapp_mobile/services/customer_services.dart';
 
 class PersonalInformationBodyWidget
-    extends GetView<PersonalInfomationPageController> {
+    extends GetView<PersonalInformationPageController> {
   const PersonalInformationBodyWidget({Key? key}) : super(key: key);
 
   @override
@@ -55,7 +55,7 @@ class PersonalInformationBodyWidget
             email: controller.email.value,
             firstName: controller.firstName.value,
             lastName: controller.lastName.value,
-            adrress: controller.address.value ?? "",
+            adrress: controller.address.value,
             gender: controller.selectedGender.value,
             avatarFilePath: controller.avatarfilePath.value,
             avatarFile: controller.avatarFile,

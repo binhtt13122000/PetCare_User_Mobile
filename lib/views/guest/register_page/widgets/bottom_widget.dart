@@ -24,18 +24,21 @@ class RegisterPageBottomWidget extends GetView<RegisterPageController> {
                   lastName: controller.lastName.value,
                   phoneNumber: controller.selectedAreaCode +
                       controller.phoneNumber.value,
-                  adrress: controller.address.value,
+                  address: controller.address.value,
                   gender: controller.gender.value,
-                  avatarFilePath: controller.avatarfilePath.value,
+                  avatarFilePath: controller.avatarFilePath.value,
                   accessToken: controller.accessToken,
                   deviceToken: controller.userDeviceToken,
+                  registerTime: DateTime.now(),
                 );
                 if (accountModel != null) {
                   // Get.put(SignInPageController())
                   //   ..accountModel = controller.accountModel
                   //   ..auth = controller.auth
                   //   ..userDeviceToken = controller.userDeviceToken;
-                  Get.put(AuthController(accountModel: accountModel));
+                  Get.lazyPut<AuthController>(
+                      () => AuthController(accountModel: accountModel),
+                      fenix: true);
                   Get.offAllNamed(HOME_PAGE_ROUTE);
                   controller.isLoadingRegister.value = false;
                 } else {

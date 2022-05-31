@@ -65,11 +65,13 @@ class AccountService {
     required String firstName,
     required String lastName,
     required String phoneNumber,
-    required String adrress,
+    required String address,
     required String gender,
     required String avatarFilePath,
     required String accessToken,
     required String deviceToken,
+    required DateTime registerTime,
+    DateTime? dateOfBirth,
   }) async {
     try {
       FormData formData;
@@ -78,10 +80,12 @@ class AccountService {
         'firstName': firstName,
         'lastName': lastName,
         'phoneNumber': phoneNumber,
-        'address': adrress,
+        'address': address,
         'gender': gender,
         'accessToken': accessToken,
         'fcmToken': deviceToken,
+        'registerTime': registerTime.toIso8601String(),
+        'dateOfBirth': dateOfBirth?.toIso8601String(),
       });
       avatarFilePath.isNotEmpty
           ? formData.files.add(

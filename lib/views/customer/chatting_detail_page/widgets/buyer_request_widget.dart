@@ -84,14 +84,16 @@ class BuyerRequestWidget extends GetView<ChattingDetailPageController> {
               posId: controller.chatRoomModel!.postId,
               branchId: controller.postModel.branchId,
             );
+            String message = 'Transaction request - status: [APPROVED].';
             controller.chatRoomModel!
               ..transactionId = transactionId
               ..status = 'CREATED'
-              ..isSellerMessage = true;
+              ..isSellerMessage = true
+              ..newestMessage = message
+              ..newestMessageTime = DateTime.now();
             Map<String, dynamic> emitJsonMap =
                 controller.chatRoomModel!.toJson();
-            emitJsonMap.addAll(
-                {'message': 'Transaction request - status: [APPROVED].'});
+            emitJsonMap.addAll({'message': message});
             controller.socket.emit(
               'updateRoom',
               emitJsonMap,

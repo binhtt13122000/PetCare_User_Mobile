@@ -9,7 +9,7 @@ import 'package:petapp_mobile/controllers/purchase_posts_page_controller.dart';
 import 'package:petapp_mobile/graphql/graphql_config.dart';
 import 'package:petapp_mobile/graphql/query_mutation/breed.dart';
 import 'package:petapp_mobile/models/breed_model/breed_model.dart';
-import 'package:petapp_mobile/services/breed_servies.dart';
+import 'package:petapp_mobile/services/breed_services.dart';
 
 class PurchasePostsFilterPage extends GetView<PurchasePostsPageController> {
   const PurchasePostsFilterPage({Key? key}) : super(key: key);

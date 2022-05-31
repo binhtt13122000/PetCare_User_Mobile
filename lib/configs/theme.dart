@@ -13,3 +13,5 @@ const WHITE_COLOR = Colors.white;
 const DARK_GREY_TRANSPARENT = Color.fromARGB(106, 188, 196, 201);
 const DARK_GREY_TEXT_COLOR = Color.fromARGB(255, 61, 78, 100);
 const RED_COLOR = Color.fromARGB(255, 241, 99, 88);
+const YELLOW_COLOR = Color.fromARGB(255, 247, 203, 60);
+const GREEN_COLOR = Color.fromARGB(255, 43, 248, 204);

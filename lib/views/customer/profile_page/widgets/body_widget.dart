@@ -54,7 +54,7 @@ class ProfilePageBodyWidget extends GetView<ProfilePageController> {
                   buttonCartWidget(
                     svgUrl: ICON_PATH + POSTS_SVG,
                     title: 'Posts management',
-                    onTap: () => Get.toNamed(POST_MANAGEMENT_PAGE_ROUNTER),
+                    onTap: () => Get.toNamed(POST_MANAGEMENT_PAGE_ROUTE),
                   ),
                   buttonCartWidget(
                     iconData: Icons.bookmark_border_outlined,

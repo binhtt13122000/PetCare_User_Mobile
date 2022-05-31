@@ -103,3 +103,4 @@ const SALE_TRANSACTION_API_PATH = '/v1/api/sale-transactions';
 const BREED_API_PATH = '/v1/api/breeds';
 const SPECIES_API_PATH = '/v1/api/species';
 const CUSTOMER_API_PATH = '/v1/api/customer';
+const CENTER_SERVICES_TRANSACTION_API_PATH = '/v1/api/orders';

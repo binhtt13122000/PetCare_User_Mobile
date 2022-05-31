@@ -25,7 +25,7 @@ const NOTIFICATION_PAGE_ROUTE = '/home/notification-page';
 const ACTION_PAGE_ROUTE = '/action';
 const CREATE_POST_PAGE_ROUTE = '/action/create-post';
 const TRANSACTION_PAGE_ROUTE = '/action/transaction';
-const POST_MANAGEMENT_PAGE_ROUNTER = '/action/post-management';
+const POST_MANAGEMENT_PAGE_ROUTE = '/action/post-management';
 const PAYMENT_FOR_TRANSACTION_AT_CENTER_PAGE_ROUTE =
     '/payment-for-transaction-at-center';
 const TRANSACTION_AT_CENTER_DETAIL_PAGE_ROUTE = '/transaction-at-center-detail';
@@ -39,7 +39,7 @@ const PROFILE_PAGE_ROUTE = '/profile';
 const PET_MANAGEMENT_PAGE_ROUTE = '/profile/pet-management';
 const PET_DETAIL_PAGE_ROUTE = '/profile/pet_management/pet-detail';
 const CREATE_PET_PAGE_ROUTE = '/profile/pet-management/add-pet';
-const PERSONAl_INFOMATION_PAGE_ROUTE = '/profile/personal-information';
+const PERSONAl_INFORMATION_PAGE_ROUTE = '/profile/personal-information';
 
 //chatting
 const CHATTING_LIST_PAGE_ROUTE = '/chatting-list';

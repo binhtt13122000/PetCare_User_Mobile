@@ -50,12 +50,27 @@ class SaleTransactionMoreOptionWidget
                                       content: 'View post detail',
                                       onTap: () {}),
                                   buttonWidget(
-                                      content: 'View seller profile',
+                                      content: controller.saleTransactionModel
+                                                  .buyerId ==
+                                              controller
+                                                  .accountModel.customerModel.id
+                                          ? 'View seller profile'
+                                          : 'View buyer profile',
                                       onTap: () {}),
                                   buttonWidget(
-                                      content: 'Report seller', onTap: () {}),
+                                      content: controller.saleTransactionModel
+                                                  .buyerId ==
+                                              controller
+                                                  .accountModel.customerModel.id
+                                          ? 'Report seller'
+                                          : 'Report buyer',
+                                      onTap: () {}),
                                   controller.saleTransactionModel.status ==
-                                          'CREATED'
+                                              'CREATED' &&
+                                          controller.saleTransactionModel
+                                                  .buyerId ==
+                                              controller
+                                                  .accountModel.customerModel.id
                                       ? buttonWidget(
                                           content: 'Cancel transaction',
                                           isImportant: true,

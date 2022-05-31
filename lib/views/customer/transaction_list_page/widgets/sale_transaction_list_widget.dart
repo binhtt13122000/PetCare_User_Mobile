@@ -17,14 +17,14 @@ class SaleTransactionListWidget extends GetView<TransactionListPageController> {
     return Expanded(
       child: Column(
         children: [
-          purchaseTransactionTypeListWidget(),
+          saleTransactionTypeListWidget(),
           Expanded(
             child: GetBuilder<TransactionListPageController>(
               builder: (_) {
                 controller.isLoadingPurchaseTransaction.value = true;
                 WidgetsBinding.instance!.addPostFrameCallback((_) async {
                   controller.saleTransactionModelList =
-                      await SaleTransactionService.fecthSaleTransactionList(
+                      await SaleTransactionService.fetchSaleTransactionList(
                     buyerId: controller.selectedPurchaseTransactionType.value ==
                             'Transaction role: [BUYER]'
                         ? controller.accountModel.customerModel.id.toString()
@@ -50,7 +50,7 @@ class SaleTransactionListWidget extends GetView<TransactionListPageController> {
                             children: controller.saleTransactionModelList
                                 .asMap()
                                 .entries
-                                .map((e) => purchaseTransactionItemWidget(
+                                .map((e) => saleTransactionItemWidget(
                                     saleTransactionModel: e.value))
                                 .toList(),
                           ),
@@ -64,21 +64,21 @@ class SaleTransactionListWidget extends GetView<TransactionListPageController> {
     );
   }
 
-  Widget purchaseTransactionTypeItemWidget(
-          {required String purchseTransactionType, int flex = 1}) =>
+  Widget saleTransactionTypeItemWidget(
+          {required String saleTransactionType, int flex = 1}) =>
       Expanded(
         flex: flex,
         child: Obx(
           () => InkWell(
             onTap: () => controller
-              ..selectedPurchaseTransactionType.value = purchseTransactionType
+              ..selectedPurchaseTransactionType.value = saleTransactionType
               ..update(),
             child: Column(
               children: [
                 Container(
                   height: 30,
                   color: controller.selectedPurchaseTransactionType.value ==
-                          purchseTransactionType
+                          saleTransactionType
                       ? PRIMARY_LIGHT_COLOR.withOpacity(0.3)
                       : Colors.transparent,
                   child: Row(
@@ -91,17 +91,17 @@ class SaleTransactionListWidget extends GetView<TransactionListPageController> {
                           maxRadius: 3,
                           backgroundColor: controller
                                       .selectedPurchaseTransactionType.value ==
-                                  purchseTransactionType
+                                  saleTransactionType
                               ? PRIMARY_COLOR
                               : Colors.transparent,
                         ),
                       ),
                       Text(
-                        purchseTransactionType,
+                        saleTransactionType,
                         style: GoogleFonts.quicksand(
                           color: controller
                                       .selectedPurchaseTransactionType.value ==
-                                  purchseTransactionType
+                                  saleTransactionType
                               ? PRIMARY_COLOR
                               : const Color.fromARGB(255, 116, 122, 143),
                           fontSize: 13,
@@ -115,7 +115,7 @@ class SaleTransactionListWidget extends GetView<TransactionListPageController> {
                 Container(
                   height: 3,
                   color: controller.selectedPurchaseTransactionType.value ==
-                          purchseTransactionType
+                          saleTransactionType
                       ? PRIMARY_COLOR
                       : const Color.fromARGB(255, 233, 235, 241),
                 ),
@@ -125,51 +125,78 @@ class SaleTransactionListWidget extends GetView<TransactionListPageController> {
         ),
       );
 
-  Widget purchaseTransactionTypeListWidget() => Padding(
+  Widget saleTransactionTypeListWidget() => Padding(
         padding: const EdgeInsets.only(top: 10),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: controller.purchaseTransactionTypeList
               .asMap()
               .entries
-              .map((e) => purchaseTransactionTypeItemWidget(
-                  purchseTransactionType: e.value))
+              .map((e) =>
+                  saleTransactionTypeItemWidget(saleTransactionType: e.value))
               .toList(),
         ),
       );
 
-  Widget purchaseTransactionItemWidget(
+  Widget saleTransactionItemWidget(
       {required SaleTransactionModel saleTransactionModel}) {
     late String displayStatus;
     late Color statusColor;
+    late String timeTitle;
+    late DateTime timeValue;
+
     if (controller.accountModel.customerModel.id ==
         saleTransactionModel.buyerId) {
       switch (saleTransactionModel.status) {
         case 'CREATED':
           displayStatus = 'Waiting to pick up pet and pay';
-          statusColor = const Color.fromARGB(255, 247, 203, 60);
+          statusColor = YELLOW_COLOR;
+          timeTitle = 'Meeting time';
+          timeValue = saleTransactionModel.meetingTime;
+          break;
+        case 'CANCELED':
+          displayStatus = 'The transaction has been canceled';
+          statusColor = RED_COLOR;
+          timeTitle = 'Cancel time';
+          timeValue = DateTime.now();
           break;
         case 'SUCCESS':
-          displayStatus = 'Transaction successfully';
-          statusColor = const Color.fromARGB(255, 43, 248, 204);
+          displayStatus = 'The transaction is completed';
+          statusColor = GREEN_COLOR;
+          timeTitle = 'Payment time';
+          timeValue = saleTransactionModel.transactionTime!;
           break;
+
         default:
+          timeTitle = 'Payment time';
+          timeValue = saleTransactionModel.transactionTime!;
           displayStatus = saleTransactionModel.status;
-          statusColor = const Color.fromARGB(255, 43, 248, 204);
+          statusColor = GREEN_COLOR;
       }
     } else {
       switch (saleTransactionModel.status) {
         case 'CREATED':
-          displayStatus = 'Waiting for buyer pick up pet';
-          statusColor = const Color.fromARGB(255, 247, 203, 60);
+          displayStatus = 'Waiting for meeting with buyer';
+          statusColor = YELLOW_COLOR;
+          timeTitle = 'Meeting time';
+          timeValue = saleTransactionModel.meetingTime;
+          break;
+        case 'CANCELED':
+          displayStatus = 'The transaction has been canceled';
+
+          statusColor = RED_COLOR;
+          timeTitle = 'Cancel time';
+          timeValue = DateTime.now();
           break;
         case 'SUCCESS':
-          displayStatus = 'Transaction successfully';
-          statusColor = const Color.fromARGB(255, 43, 248, 204);
+          displayStatus = 'The transaction is completed';
+          statusColor = GREEN_COLOR;
+          timeTitle = 'Payment time';
+          timeValue = saleTransactionModel.transactionTime!;
           break;
         default:
           displayStatus = saleTransactionModel.status;
-          statusColor = const Color.fromARGB(255, 43, 248, 204);
+          statusColor = GREEN_COLOR;
       }
     }
     return Padding(
@@ -309,9 +336,7 @@ class SaleTransactionListWidget extends GetView<TransactionListPageController> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    saleTransactionModel.transactionTime != null
-                        ? 'Payment time'
-                        : 'Meeting time',
+                    timeTitle,
                     textAlign: TextAlign.start,
                     style: GoogleFonts.quicksand(
                       color: DARK_GREY_TEXT_COLOR.withOpacity(0.8),
@@ -322,13 +347,8 @@ class SaleTransactionListWidget extends GetView<TransactionListPageController> {
                     ),
                   ),
                   Text(
-                    saleTransactionModel.transactionTime != null
-                        ? FORMAT_DATE_TIME(
-                            dateTime: saleTransactionModel.transactionTime!,
-                            pattern: DATE_TIME_PATTERN)
-                        : FORMAT_DATE_TIME(
-                            dateTime: saleTransactionModel.meetingTime,
-                            pattern: DATE_TIME_PATTERN),
+                    FORMAT_DATE_TIME(
+                        dateTime: timeValue, pattern: DATE_TIME_PATTERN),
                     textAlign: TextAlign.start,
                     style: GoogleFonts.quicksand(
                       color: DARK_GREY_TEXT_COLOR.withOpacity(0.8),

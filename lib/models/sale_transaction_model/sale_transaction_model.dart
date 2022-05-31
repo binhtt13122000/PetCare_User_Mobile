@@ -17,7 +17,7 @@ class SaleTransactionModel {
   final String placeMeeting;
   final int postId;
   final String? review;
-  final String? reasonCancell;
+  final String? reasonCancel;
   final int sellerId;
   final int sellerReceive;
   final int? star;
@@ -45,7 +45,7 @@ class SaleTransactionModel {
     required this.placeMeeting,
     required this.postId,
     this.review,
-    this.reasonCancell,
+    this.reasonCancel,
     required this.sellerId,
     required this.sellerReceive,
     this.star,

@@ -132,7 +132,8 @@ class SaleTransactionService {
       'transactionTime': transactionTime.toIso8601String(),
       'transactionTotal': transactionTotal,
       'paymentMethod': paymentMethod,
-      'point': transactionTotal ~/ 1000
+      'point': transactionTotal ~/ 1000,
+      'message': 'hello a Danh'
     });
     print(jsonBody);
     final response = await http.post(
@@ -155,7 +156,7 @@ class SaleTransactionService {
     }
   }
 
-  static Future<List<SaleTransactionModel>> fecthSaleTransactionList({
+  static Future<List<SaleTransactionModel>> fetchSaleTransactionList({
     required String? buyerId,
     required String? sellerId,
     required String page,
@@ -184,7 +185,7 @@ class SaleTransactionService {
     }
   }
 
-  static Future<SaleTransactionModel> fecthSaleTransactionById({
+  static Future<SaleTransactionModel> fetchSaleTransactionById({
     required int saleTransactionId,
   }) async {
     final response = await http.get(

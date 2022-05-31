@@ -3,11 +3,11 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
 import 'package:petapp_mobile/configs/theme.dart';
 import 'package:petapp_mobile/controllers/personal_information_page_controller.dart';
-import 'package:petapp_mobile/views/customer/personal_infomation_page/widgets/body_widget.dart';
-import 'package:petapp_mobile/views/customer/personal_infomation_page/widgets/top_widget.dart';
+import 'package:petapp_mobile/views/customer/personal_information_page/widgets/body_widget.dart';
+import 'package:petapp_mobile/views/customer/personal_information_page/widgets/top_widget.dart';
 
 class PersonalInformationPage
-    extends GetView<PersonalInfomationPageController> {
+    extends GetView<PersonalInformationPageController> {
   const PersonalInformationPage({Key? key}) : super(key: key);
 
   @override
@@ -16,7 +16,7 @@ class PersonalInformationPage
       backgroundColor: const Color.fromARGB(255, 250, 251, 255),
       body: Stack(
         children: [
-          GetBuilder<PersonalInfomationPageController>(
+          GetBuilder<PersonalInformationPageController>(
             builder: (_) => Padding(
               padding: const EdgeInsets.only(top: 25),
               child: SingleChildScrollView(
