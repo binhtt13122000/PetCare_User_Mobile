@@ -27,6 +27,7 @@ class SaleTransactionModel {
   final int transactionTotal;
   final int buyerId;
   final int? point;
+  final DateTime? cancelTime;
   @JsonKey(name: 'post')
   final PostModel? postModel;
   @JsonKey(name: 'pet')
@@ -35,31 +36,31 @@ class SaleTransactionModel {
   final CustomerModel buyerCustomerModel;
   @JsonKey(name: 'seller')
   final CustomerModel sellerCustomerModel;
-  SaleTransactionModel({
-    required this.createdTime,
-    this.description,
-    required this.id,
-    required this.meetingTime,
-    this.paymentMethod,
-    required this.petId,
-    required this.placeMeeting,
-    required this.postId,
-    this.review,
-    this.reasonCancel,
-    required this.sellerId,
-    required this.sellerReceive,
-    this.star,
-    required this.status,
-    required this.transactionFee,
-    this.transactionTime,
-    required this.transactionTotal,
-    required this.postModel,
-    required this.petModel,
-    required this.buyerCustomerModel,
-    required this.sellerCustomerModel,
-    required this.buyerId,
-    this.point,
-  });
+  SaleTransactionModel(
+      {required this.createdTime,
+      this.description,
+      required this.id,
+      required this.meetingTime,
+      this.paymentMethod,
+      required this.petId,
+      required this.placeMeeting,
+      required this.postId,
+      this.review,
+      this.reasonCancel,
+      required this.sellerId,
+      required this.sellerReceive,
+      this.star,
+      required this.status,
+      required this.transactionFee,
+      this.transactionTime,
+      required this.transactionTotal,
+      required this.postModel,
+      required this.petModel,
+      required this.buyerCustomerModel,
+      required this.sellerCustomerModel,
+      required this.buyerId,
+      this.point,
+      this.cancelTime});
 
   factory SaleTransactionModel.fromJson(Map<String, dynamic> json) =>
       _$SaleTransactionModelFromJson(json);

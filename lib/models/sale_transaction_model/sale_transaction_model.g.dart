@@ -40,6 +40,9 @@ SaleTransactionModel _$SaleTransactionModelFromJson(
           CustomerModel.fromJson(json['seller'] as Map<String, dynamic>),
       buyerId: json['buyerId'] as int,
       point: json['point'] as int?,
+      cancelTime: json['cancelTime'] == null
+          ? null
+          : DateTime.parse(json['cancelTime'] as String),
     );
 
 Map<String, dynamic> _$SaleTransactionModelToJson(
@@ -64,6 +67,7 @@ Map<String, dynamic> _$SaleTransactionModelToJson(
       'transactionTotal': instance.transactionTotal,
       'buyerId': instance.buyerId,
       'point': instance.point,
+      'cancelTime': instance.cancelTime?.toIso8601String(),
       'post': instance.postModel?.toJson(),
       'pet': instance.petModel?.toJson(),
       'buyer': instance.buyerCustomerModel.toJson(),

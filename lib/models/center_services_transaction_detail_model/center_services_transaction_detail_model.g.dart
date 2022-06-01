@@ -12,9 +12,11 @@ CenterServicesTransactionDetailModel
           id: json['id'] as int,
           price: json['price'] as int,
           description: json['description'] as String?,
-          serviceModel: json['service'] == null
-              ? null
-              : ServiceModel.fromJson(json['service'] as Map<String, dynamic>),
+          serviceModel:
+              ServiceModel.fromJson(json['service'] as Map<String, dynamic>),
+          quantity: json['quantity'] as int,
+          serviceId: json['serviceId'] as int,
+          totalPrice: json['totalPrice'] as int,
         );
 
 Map<String, dynamic> _$CenterServicesTransactionDetailModelToJson(
@@ -23,5 +25,8 @@ Map<String, dynamic> _$CenterServicesTransactionDetailModelToJson(
       'id': instance.id,
       'price': instance.price,
       'description': instance.description,
-      'service': instance.serviceModel?.toJson(),
+      'quantity': instance.quantity,
+      'totalPrice': instance.totalPrice,
+      'serviceId': instance.serviceId,
+      'service': instance.serviceModel.toJson(),
     };

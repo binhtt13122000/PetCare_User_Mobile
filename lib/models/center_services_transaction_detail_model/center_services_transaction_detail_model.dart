@@ -8,14 +8,21 @@ class CenterServicesTransactionDetailModel {
   final int id;
   final int price;
   final String? description;
+  final int quantity;
+  final int totalPrice;
+  final int serviceId;
+
   @JsonKey(name: 'service')
-  final ServiceModel? serviceModel;
+  final ServiceModel serviceModel;
 
   CenterServicesTransactionDetailModel({
     required this.id,
     required this.price,
-    required this.description,
-    this.serviceModel,
+    this.description,
+    required this.serviceModel,
+    required this.quantity,
+    required this.serviceId,
+    required this.totalPrice,
   });
 
   factory CenterServicesTransactionDetailModel.fromJson(

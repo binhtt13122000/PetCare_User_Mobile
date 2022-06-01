@@ -273,6 +273,7 @@ class SaleTransactionMoreOptionWidget
                     controller.saleTransactionModel.transactionTotal,
                 status: 'CANCELED',
                 reasonCancel: cancelContent,
+                cancelTime: DateTime.now(),
               );
               controller
                 ..cancelDescription.value = ''
