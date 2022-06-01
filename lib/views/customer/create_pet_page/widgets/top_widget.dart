@@ -32,9 +32,15 @@ class CreatePetTopWidget extends GetView<CreatePetPageController> {
         child: Row(
           children: [
             InkWell(
-              onTap: () => Get
-                ..back()
-                ..find<PetManagementPageController>().update(),
+              onTap: () {
+                Get.back();
+                PetManagementPageController petManagementPageController =
+                    Get.find<PetManagementPageController>();
+                !(petManagementPageController.isBlank == null ||
+                        petManagementPageController.isBlank!)
+                    ? petManagementPageController.update()
+                    : null;
+              },
               child: Container(
                 height: 35,
                 width: 35,

@@ -28,7 +28,6 @@ class SignInPageController extends GetxController {
   final FirebaseMessagingService firebaseMessagingService =
       FirebaseMessagingService.instance;
   late String userDeviceToken;
-  AccountModel? accountModel;
 
   RxString selectedAreaCode = '+84'.obs;
   Map<String, String> areaCodeMap = {

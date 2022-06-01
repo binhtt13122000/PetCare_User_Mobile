@@ -8,7 +8,7 @@ class CustomerModel {
   final String lastName;
   final String? address;
   final String gender;
-  final String avatar;
+  final String? avatar;
   final double star;
   final int point;
   final String email;
@@ -27,7 +27,7 @@ class CustomerModel {
     required this.lastName,
     this.address,
     required this.gender,
-    required this.avatar,
+    this.avatar,
     required this.star,
     required this.point,
     required this.numberFollowers,

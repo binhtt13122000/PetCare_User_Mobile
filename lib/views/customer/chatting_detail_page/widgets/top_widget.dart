@@ -6,37 +6,11 @@ import 'package:petapp_mobile/configs/path.dart';
 import 'package:petapp_mobile/configs/route.dart';
 import 'package:petapp_mobile/configs/theme.dart';
 import 'package:petapp_mobile/controllers/chatting_detail_page_controller.dart';
-import 'package:petapp_mobile/controllers/payment_pay_controller.dart';
+import 'package:petapp_mobile/controllers/chatting_list_page_controller.dart';
 import 'package:petapp_mobile/utilities/utilities.dart';
 
 class ChattingDetailTopWidget extends GetView<ChattingDetailPageController> {
   const ChattingDetailTopWidget({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        Column(
-          children: [
-            topTitleWidget(),
-            Container(
-              height: 1,
-              margin: const EdgeInsets.only(bottom: 5),
-              color: const Color.fromARGB(255, 151, 163, 179),
-            ),
-            Obx(
-              () => controller.showPost.value
-                  ? postGeneralInfo()
-                  : const SizedBox(
-                      height: 20,
-                    ),
-            ),
-          ],
-        ),
-        showPostButtonWidget(),
-      ],
-    );
-  }
 
   Widget showPostButtonWidget() => Positioned(
         top: 65,
@@ -69,7 +43,7 @@ class ChattingDetailTopWidget extends GetView<ChattingDetailPageController> {
 
   Widget postGeneralInfo() => InkWell(
         onTap: () => Get.toNamed(
-            '$PURCHASE_POST_DETAIL_PAGE_ROUNTER/${controller.postModel.id}'),
+            '$SALE_POST_DETAIL_PAGE_ROUTE/${controller.postModel.id}'),
         child: Container(
           color: WHITE_COLOR,
           child: Column(
@@ -100,7 +74,7 @@ class ChattingDetailTopWidget extends GetView<ChattingDetailPageController> {
                         ),
                       ),
                       Text(
-                        'Pet: ${controller.postModel.petModel!.breedModel.name} - ${controller.postModel.petModel!.breedModel.speciesModel!.name}',
+                        'Pet: ${controller.postModel.petModel!.breedModel!.name} - ${controller.postModel.petModel!.breedModel!.speciesModel!.name}',
                         textAlign: TextAlign.start,
                         overflow: TextOverflow.clip,
                         style: GoogleFonts.quicksand(
@@ -128,7 +102,7 @@ class ChattingDetailTopWidget extends GetView<ChattingDetailPageController> {
               Padding(
                 padding: const EdgeInsets.only(top: 5),
                 child: GetBuilder<ChattingDetailPageController>(
-                    builder: (_) => chatRoomStatusWiget()),
+                    builder: (_) => chatRoomStatusWidget()),
               ),
               Container(
                 height: 1,
@@ -140,7 +114,7 @@ class ChattingDetailTopWidget extends GetView<ChattingDetailPageController> {
         ),
       );
 
-  Widget chatRoomStatusWiget() {
+  Widget chatRoomStatusWidget() {
     //*Check exist room
     if (controller.chatRoomModel != null) {
       //*Check customer role is buyer or not
@@ -156,15 +130,13 @@ class ChattingDetailTopWidget extends GetView<ChattingDetailPageController> {
                       createTransactionRequestButtonWidget(),
                     ],
                   )
-                : Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      viewTransactionDetailWidget(),
-                      paymentButtonWidget(),
-                    ],
-                  );
+                : viewTransactionDetailWidget();
           case 'REQUESTED':
             return viewRequestDetailWidget();
+          case 'CLOSED':
+            return controller.chatRoomModel!.transactionId != null
+                ? viewTransactionDetailWidget()
+                : const SizedBox.shrink();
           default:
             return const SizedBox.shrink();
         }
@@ -173,14 +145,13 @@ class ChattingDetailTopWidget extends GetView<ChattingDetailPageController> {
           case 'CREATED':
             return controller.chatRoomModel!.transactionId == null
                 ? const SizedBox.shrink()
-                : Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      viewTransactionDetailWidget(),
-                    ],
-                  );
+                : viewTransactionDetailWidget();
           case 'REQUESTED':
             return viewBuyerTransactionRequestWidget();
+          case 'CLOSED':
+            return controller.chatRoomModel!.transactionId != null
+                ? viewTransactionDetailWidget()
+                : const SizedBox.shrink();
           default:
             return const SizedBox.shrink();
         }
@@ -274,12 +245,18 @@ class ChattingDetailTopWidget extends GetView<ChattingDetailPageController> {
       );
 
   Widget viewTransactionDetailWidget() => InkWell(
-        onTap: () => Get.toNamed(CHATTING_LIST_PAGE_ROUNTER),
+        onTap: () => Get.toNamed(
+            '$SALE_TRANSACTION_DETAIL_PAGE_ROUTE/${controller.chatRoomModel!.transactionId}'),
         child: Container(
           height: 35,
-          width: 180,
+          margin: const EdgeInsets.symmetric(horizontal: 25),
+          padding: EdgeInsets.symmetric(
+              horizontal: controller.accountModel.customerModel.id ==
+                      controller.chatRoomModel!.buyerId
+                  ? 10
+                  : 0),
           decoration: BoxDecoration(
-            color: WHITE_COLOR,
+            color: const Color.fromARGB(255, 60, 202, 190),
             borderRadius: BorderRadius.circular(100),
             border: Border.all(
               color: const Color.fromARGB(255, 151, 161, 197),
@@ -301,10 +278,10 @@ class ChattingDetailTopWidget extends GetView<ChattingDetailPageController> {
                 textAlign: TextAlign.start,
                 overflow: TextOverflow.clip,
                 style: GoogleFonts.quicksand(
-                  color: const Color.fromARGB(255, 76, 85, 117),
-                  fontSize: 14,
-                  fontWeight: FontWeight.w500,
-                ),
+                    color: WHITE_COLOR,
+                    fontSize: 14,
+                    fontWeight: FontWeight.w500,
+                    letterSpacing: 1),
               ),
             ],
           ),
@@ -350,8 +327,8 @@ class ChattingDetailTopWidget extends GetView<ChattingDetailPageController> {
 
   Widget paymentButtonWidget() => InkWell(
         onTap: () {
-          Get.put(PaymentPageController()).postModel = controller.postModel;
-          Get.toNamed(PAYMENT_PAGE_ROUNTER);
+          // Get.put(PaymentPageController()).postModel = controller.postModel;
+          // Get.toNamed(PAYMENT_PAGE_ROUTE);
         },
         child: Container(
           height: 35,
@@ -503,7 +480,13 @@ class ChattingDetailTopWidget extends GetView<ChattingDetailPageController> {
                     ? controller.socket
                         .emit('leaveRoom', controller.chatRoomModel!.id)
                     : null;
-                Get.offNamed(CHATTING_LIST_PAGE_ROUNTER);
+                Get.back();
+                try {
+                  Get.put(ChattingListPageController());
+                  Get.find<ChattingListPageController>().update();
+                } on Exception catch (e) {
+                  print(e);
+                }
               },
               child: Container(
                 height: 35,
@@ -531,8 +514,8 @@ class ChattingDetailTopWidget extends GetView<ChattingDetailPageController> {
                     child: CircleAvatar(
                       minRadius: 14,
                       maxRadius: 14,
-                      backgroundImage:
-                          NetworkImage(controller.anotherChatRoomMember.avatar),
+                      backgroundImage: NetworkImage(
+                          controller.anotherChatRoomMember.avatar!),
                     ),
                   ),
                   Container(
@@ -547,7 +530,7 @@ class ChattingDetailTopWidget extends GetView<ChattingDetailPageController> {
                         minRadius: 14,
                         maxRadius: 14,
                         backgroundImage: NetworkImage(
-                            controller.accountModel.customerModel.avatar),
+                            controller.accountModel.customerModel.avatar!),
                       ),
                     ),
                   ),
@@ -602,4 +585,30 @@ class ChattingDetailTopWidget extends GetView<ChattingDetailPageController> {
           ],
         ),
       );
+
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      children: [
+        Column(
+          children: [
+            topTitleWidget(),
+            Container(
+              height: 1,
+              margin: const EdgeInsets.only(bottom: 5),
+              color: const Color.fromARGB(255, 151, 163, 179),
+            ),
+            Obx(
+              () => controller.showPost.value
+                  ? postGeneralInfo()
+                  : const SizedBox(
+                      height: 20,
+                    ),
+            ),
+          ],
+        ),
+        showPostButtonWidget(),
+      ],
+    );
+  }
 }

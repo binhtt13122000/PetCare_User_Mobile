@@ -26,7 +26,7 @@ class PostsManagementBottomWidget
   Widget createPostButtonWidget() => Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
         child: InkWell(
-          onTap: () => Get.toNamed(CREATE_POST_PAGE_ROUNTER),
+          onTap: () => Get.toNamed(CREATE_POST_PAGE_ROUTE),
           child: Container(
             height: 40,
             decoration: BoxDecoration(

@@ -5,7 +5,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:petapp_mobile/configs/path.dart';
 import 'package:petapp_mobile/configs/theme.dart';
 import 'package:petapp_mobile/controllers/chatting_detail_page_controller.dart';
-import 'package:petapp_mobile/models/messasge_model.dart/message_model.dart';
 import 'package:petapp_mobile/services/sale_transaction_services.dart';
 import 'package:petapp_mobile/utilities/utilities.dart';
 
@@ -37,7 +36,7 @@ class BuyerRequestWidget extends GetView<ChattingDetailPageController> {
                         child: Column(
                           children: [
                             Text(
-                              'Buyer Transaction Request',
+                              'Transaction request',
                               textAlign: TextAlign.center,
                               style: GoogleFonts.quicksand(
                                 color: PRIMARY_COLOR,
@@ -52,7 +51,7 @@ class BuyerRequestWidget extends GetView<ChattingDetailPageController> {
                                     .accountModel.customerModel.address!),
                             descriptionWidget(),
                             acceptBuyerRequestWidget(),
-                            denineBuyerRequestWidget(),
+                            denyBuyerRequestWidget(),
                           ],
                         ),
                       ),
@@ -69,37 +68,35 @@ class BuyerRequestWidget extends GetView<ChattingDetailPageController> {
         padding: const EdgeInsets.only(top: 20),
         child: InkWell(
           onTap: () async {
-            //*create request
-            await SaleTransactionService.createSaleTransaction(
-                meetingTime: controller.chatRoomModel!.transactionTime!,
-                placeMeeting: controller.chatRoomModel!.transactionPlace!,
-                sellerReceive: controller.postModel.sellerReceive,
-                transactionFee: controller.postModel.shopFee,
-                provisionalTotal: controller.postModel.provisionalTotal,
-                transactionTotal: controller.postModel.provisionalTotal,
-                description: controller.chatRoomModel!.description,
-                buyerId: controller.chatRoomModel!.buyerId,
-                sellerId: controller.chatRoomModel!.sellerId,
-                petId: controller.postModel.petId,
-                posId: controller.chatRoomModel!.postId);
-            //*send message
-            MessageModel messageModel = MessageModel(
-              isSellerMessage: controller.accountModel.customerModel.id ==
-                  controller.postModel.customerId,
-              content: 'Buyer transaction request: Accepted',
-              type: 'NORMAL',
+            controller.isShowBuyerRequest.value = false;
+            int transactionId =
+                await SaleTransactionService.createSaleTransaction(
               createdTime: DateTime.now(),
-              buyerId: controller.accountModel.customerModel.id,
-              postId: controller.postModel.id,
-              sellerId: controller.postModel.customerId,
-              room: controller.chatRoomModel!.id,
+              meetingTime: controller.chatRoomModel!.transactionTime!,
+              placeMeeting: controller.chatRoomModel!.transactionPlace!,
+              sellerReceive: controller.postModel.sellerReceive,
+              transactionFee: controller.postModel.shopFee,
+              transactionTotal: controller.postModel.provisionalTotal,
+              description: controller.chatRoomModel!.description,
+              buyerId: controller.chatRoomModel!.buyerId,
+              sellerId: controller.chatRoomModel!.sellerId,
+              petId: controller.postModel.petId,
+              posId: controller.chatRoomModel!.postId,
+              branchId: controller.postModel.branchId,
             );
-            controller.socket.emit('chatToServer', messageModel);
+            String message = 'Transaction request - status: [APPROVED].';
+            controller.chatRoomModel!
+              ..transactionId = transactionId
+              ..status = 'CREATED'
+              ..isSellerMessage = true
+              ..newestMessage = message
+              ..newestMessageTime = DateTime.now();
+            Map<String, dynamic> emitJsonMap =
+                controller.chatRoomModel!.toJson();
+            emitJsonMap.addAll({'message': message});
             controller.socket.emit(
               'updateRoom',
-              controller.chatRoomModel!
-                ..transactionId = '123456'
-                ..status = 'CREATED',
+              emitJsonMap,
             );
           },
           child: Container(
@@ -322,29 +319,22 @@ class BuyerRequestWidget extends GetView<ChattingDetailPageController> {
         ],
       );
 
-  Widget denineBuyerRequestWidget() => Padding(
+  Widget denyBuyerRequestWidget() => Padding(
         padding: const EdgeInsets.only(top: 10),
         child: InkWell(
           onTap: () async {
-            //*send message
-            MessageModel messageModel = MessageModel(
-              isSellerMessage: controller.accountModel.customerModel.id ==
-                  controller.postModel.customerId,
-              content: 'Buyer transaction request: Denined',
-              type: 'NORMAL',
-              createdTime: DateTime.now(),
-              buyerId: controller.accountModel.customerModel.id,
-              postId: controller.postModel.id,
-              sellerId: controller.postModel.customerId,
-              room: controller.chatRoomModel!.id,
-            );
-            //*update room
-            controller.socket.emit('chatToServer', messageModel);
+            controller.isShowBuyerRequest.value = false;
+            controller.chatRoomModel!
+              ..transactionId = null
+              ..status = 'CREATED'
+              ..isSellerMessage = true;
+            Map<String, dynamic> emitJsonMap =
+                controller.chatRoomModel!.toJson();
+            emitJsonMap
+                .addAll({'message': 'Transaction request - status: [DENIED].'});
             controller.socket.emit(
               'updateRoom',
-              controller.chatRoomModel!
-                ..transactionId = null
-                ..status = 'CREATED',
+              emitJsonMap,
             );
           },
           child: Container(

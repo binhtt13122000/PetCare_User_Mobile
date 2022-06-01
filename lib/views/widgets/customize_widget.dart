@@ -1,6 +1,8 @@
 // ignore_for_file: non_constant_identifier_names
 
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:petapp_mobile/configs/theme.dart';
 
 Widget GRADIENT_WIDGET({
   required Widget child,
@@ -15,4 +17,26 @@ Widget GRADIENT_WIDGET({
         Rect.fromLTWH(0, 0, bounds.width, bounds.height),
       ),
       child: child,
+    );
+
+Text CUSTOM_TEXT(
+  String data, {
+  TextAlign textAlign = TextAlign.start,
+  FontWeight fontWeight = FontWeight.w500,
+  Color color = DARK_GREY_TEXT_COLOR,
+  double fontSize = 16,
+  double letterSpacing = 0.5,
+  FontStyle fontStyle = FontStyle.normal,
+  Color backGroundColor = Colors.transparent,
+}) =>
+    Text(
+      data,
+      textAlign: textAlign,
+      style: GoogleFonts.quicksand(
+          fontWeight: fontWeight,
+          color: color,
+          fontSize: fontSize,
+          letterSpacing: letterSpacing,
+          fontStyle: fontStyle,
+          backgroundColor: backGroundColor),
     );

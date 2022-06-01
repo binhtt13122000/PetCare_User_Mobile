@@ -2,18 +2,47 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:petapp_mobile/configs/path.dart';
+import 'package:petapp_mobile/configs/route.dart';
 import 'package:petapp_mobile/configs/theme.dart';
-import 'package:petapp_mobile/controllers/bottom_navigation_bar_controller.dart';
 import 'package:petapp_mobile/models/bottom_bar_item_model/bottom_bar_item_model.dart';
 
-class CustomBottomNavigatorBar extends GetView<BottomNavigationBarController> {
-  const CustomBottomNavigatorBar({Key? key}) : super(key: key);
-
+class CustomBottomNavigatorBarWidget extends StatelessWidget {
+  const CustomBottomNavigatorBarWidget({Key? key, required this.router})
+      : super(key: key);
+  final String router;
   @override
   Widget build(BuildContext context) {
-    BottomNavigationBarController navigationBarController =
-        Get.put(BottomNavigationBarController());
-
+    List<BottomBarItemModel> bottomBarItems = [
+      BottomBarItemModel(
+        id: 0,
+        name: 'Home',
+        iconSelectedURL: ICON_PATH + HOME_SELECTED_SVG,
+        iconUnselectedURL: ICON_PATH + HOME_UNSELECTED_SVG,
+        routeName: HOME_PAGE_ROUTE,
+      ),
+      BottomBarItemModel(
+        id: 1,
+        name: 'Action',
+        iconSelectedURL: ICON_PATH + ACTION_SELECTED_SVG,
+        iconUnselectedURL: ICON_PATH + ACTION_UNSELECTED_SVG,
+        routeName: ACTION_PAGE_ROUTE,
+      ),
+      BottomBarItemModel(
+        id: 2,
+        name: 'Chat',
+        iconSelectedURL: ICON_PATH + CHAT_SELECTED_SVG,
+        iconUnselectedURL: ICON_PATH + CHAT_UNSELECTED_SVG,
+        routeName: CHATTING_LIST_PAGE_ROUTE,
+      ),
+      BottomBarItemModel(
+        id: 3,
+        name: 'Profile',
+        iconSelectedURL: ICON_PATH + PROFILE_SELECTED_SVG,
+        iconUnselectedURL: ICON_PATH + PROFILE_UNSELECTED_SVG,
+        routeName: PROFILE_PAGE_ROUTE,
+      ),
+    ];
     return Column(
       mainAxisAlignment: MainAxisAlignment.end,
       children: [
@@ -34,11 +63,12 @@ class CustomBottomNavigatorBar extends GetView<BottomNavigationBarController> {
           ),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: navigationBarController.bottomBarItems
+            children: bottomBarItems
                 .asMap()
                 .entries
                 .map(
-                  (e) => BottomBarItemWidget(
+                  (e) => bottomBarItemWidget(
+                    isSelected: e.value.routeName == router,
                     bottomBarItem: e.value,
                   ),
                 )
@@ -48,76 +78,68 @@ class CustomBottomNavigatorBar extends GetView<BottomNavigationBarController> {
       ],
     );
   }
-}
 
-class BottomBarItemWidget extends GetView<BottomNavigationBarController> {
-  const BottomBarItemWidget({Key? key, required this.bottomBarItem})
-      : super(key: key);
-  final BottomBarItemModel bottomBarItem;
-  @override
-  Widget build(BuildContext context) {
-    bool isSelectedItem =
-        controller.selectedItemIndex.value == bottomBarItem.id;
-    return InkWell(
-      onTap: () {
-        controller.selectedItemIndex.value = bottomBarItem.id;
-        Get.toNamed(bottomBarItem.rounterName);
-      },
-      child: Container(
-        height: 36,
-        width: isSelectedItem ? 110 : 30,
-        decoration: BoxDecoration(
-          color: isSelectedItem
-              ? const Color.fromARGB(255, 251, 252, 255)
-              : Colors.transparent,
-          borderRadius: const BorderRadius.all(
-            Radius.circular(10),
-          ),
-          border: Border.all(
-            color: isSelectedItem
-                ? const Color.fromARGB(255, 214, 222, 238)
+  Widget bottomBarItemWidget(
+          {bool isSelected = false,
+          required BottomBarItemModel bottomBarItem}) =>
+      InkWell(
+        onTap: () {
+          Get.offAllNamed(bottomBarItem.routeName);
+        },
+        child: Container(
+          height: 36,
+          width: isSelected ? 110 : 30,
+          decoration: BoxDecoration(
+            color: isSelected
+                ? const Color.fromARGB(255, 251, 252, 255)
                 : Colors.transparent,
-            width: 1,
-          ),
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            SvgPicture.asset(
-              isSelectedItem
-                  ? bottomBarItem.iconSelectedURL
-                  : bottomBarItem.iconUnselectedURL,
-              color: isSelectedItem
-                  ? PRIMARY_COLOR
-                  : const Color.fromARGB(255, 72, 82, 99),
-              //color: const Color.fromARGB(255, 72, 82, 99),
-              height: isSelectedItem ? 18 : 22,
+            borderRadius: const BorderRadius.all(
+              Radius.circular(10),
             ),
-            isSelectedItem
-                ? FittedBox(
-                    fit: BoxFit.scaleDown,
-                    child: Padding(
-                      padding: const EdgeInsets.only(left: 8),
-                      child: Text(
-                        bottomBarItem.name,
-                        textAlign: TextAlign.center,
-                        style: GoogleFonts.quicksand(
-                          fontSize: 18,
-                          color: isSelectedItem
-                              ? PRIMARY_COLOR
-                              : const Color.fromARGB(255, 72, 82, 99),
-                          height: 1.5,
-                          fontWeight: FontWeight.w700,
-                          letterSpacing: 1.5,
+            border: Border.all(
+              color: isSelected
+                  ? const Color.fromARGB(255, 214, 222, 238)
+                  : Colors.transparent,
+              width: 1,
+            ),
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              SvgPicture.asset(
+                isSelected
+                    ? bottomBarItem.iconSelectedURL
+                    : bottomBarItem.iconUnselectedURL,
+                color: isSelected
+                    ? PRIMARY_COLOR
+                    : const Color.fromARGB(255, 72, 82, 99),
+                //color: const Color.fromARGB(255, 72, 82, 99),
+                height: isSelected ? 18 : 22,
+              ),
+              isSelected
+                  ? FittedBox(
+                      fit: BoxFit.scaleDown,
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 8),
+                        child: Text(
+                          bottomBarItem.name,
+                          textAlign: TextAlign.center,
+                          style: GoogleFonts.quicksand(
+                            fontSize: 18,
+                            color: isSelected
+                                ? PRIMARY_COLOR
+                                : const Color.fromARGB(255, 72, 82, 99),
+                            height: 1.5,
+                            fontWeight: FontWeight.w700,
+                            letterSpacing: 1.5,
+                          ),
                         ),
                       ),
-                    ),
-                  )
-                : const SizedBox.shrink(),
-          ],
+                    )
+                  : const SizedBox.shrink(),
+            ],
+          ),
         ),
-      ),
-    );
-  }
+      );
 }

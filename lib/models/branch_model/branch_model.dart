@@ -10,12 +10,13 @@ class BranchModel {
   final int id;
   final String? image;
   final bool isActive;
-  final String? lat;
-  final String? lng;
+  final int? lat;
+  final int? lng;
   final String phoneNumber;
   final int star;
   final String representativeName;
   final int numberReviewers;
+  final String name;
 
   BranchModel({
     this.address,
@@ -30,6 +31,7 @@ class BranchModel {
     required this.star,
     required this.representativeName,
     required this.numberReviewers,
+    required this.name,
   });
 
   factory BranchModel.fromJson(Map<String, dynamic> json) =>

@@ -8,7 +8,9 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:petapp_mobile/configs/path.dart';
 import 'package:petapp_mobile/configs/route.dart';
 import 'package:petapp_mobile/configs/theme.dart';
+import 'package:petapp_mobile/controllers/auth_controller.dart';
 import 'package:petapp_mobile/controllers/sign_in_page_controller.dart';
+import 'package:petapp_mobile/models/account_model/account_model.dart';
 
 class VerificationOTPPage extends GetView<SignInPageController> {
   const VerificationOTPPage({Key? key}) : super(key: key);
@@ -249,10 +251,22 @@ class VerificationOTPPage extends GetView<SignInPageController> {
                                 PhoneAuthProvider.credential(
                                     verificationId: controller.verificationId,
                                     smsCode: controller.otp.value);
-                            controller.accountModel =
+                            AccountModel? accountModel =
                                 await controller.signInWithPhoneAuthCredential(
                                     phoneAuthCredential);
-                            Get.toNamed(HOME_PAGE_ROUNTER);
+                            if (accountModel != null) {
+                              // Get.put(AuthController()).accountModel =
+                              //     accountModel;
+                              Get.deleteAll();
+                              Get.lazyPut<AuthController>(
+                                  () => AuthController(
+                                      accountModel: accountModel),
+                                  fenix: true);
+
+                              Get.offAllNamed(HOME_PAGE_ROUTE);
+                            } else {
+                              controller.isLoadingOTP.value = false;
+                            }
                           },
                         ),
                       ),

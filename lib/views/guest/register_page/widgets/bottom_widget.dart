@@ -3,8 +3,9 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:petapp_mobile/configs/route.dart';
 import 'package:petapp_mobile/configs/theme.dart';
+import 'package:petapp_mobile/controllers/auth_controller.dart';
 import 'package:petapp_mobile/controllers/register_page_controller.dart';
-import 'package:petapp_mobile/controllers/sign_in_page_controller.dart';
+import 'package:petapp_mobile/models/account_model/account_model.dart';
 import 'package:petapp_mobile/services/account_services.dart';
 
 class RegisterPageBottomWidget extends GetView<RegisterPageController> {
@@ -17,24 +18,28 @@ class RegisterPageBottomWidget extends GetView<RegisterPageController> {
             child: InkWell(
               onTap: () async {
                 controller.isLoadingRegister.value = true;
-                controller.accountModel = await AccountService.register(
+                AccountModel? accountModel = await AccountService.register(
                   email: controller.email.value,
                   firstName: controller.firstName.value,
                   lastName: controller.lastName.value,
                   phoneNumber: controller.selectedAreaCode +
                       controller.phoneNumber.value,
-                  adrress: controller.address.value,
+                  address: controller.address.value,
                   gender: controller.gender.value,
-                  avatarFilePath: controller.avatarfilePath.value,
+                  avatarFilePath: controller.avatarFilePath.value,
                   accessToken: controller.accessToken,
                   deviceToken: controller.userDeviceToken,
+                  registerTime: DateTime.now(),
                 );
-                if (controller.accountModel != null) {
-                  Get.put(SignInPageController())
-                    ..accountModel = controller.accountModel
-                    ..auth = controller.auth
-                    ..userDeviceToken = controller.userDeviceToken;
-                  Get.toNamed(HOME_PAGE_ROUNTER);
+                if (accountModel != null) {
+                  // Get.put(SignInPageController())
+                  //   ..accountModel = controller.accountModel
+                  //   ..auth = controller.auth
+                  //   ..userDeviceToken = controller.userDeviceToken;
+                  Get.lazyPut<AuthController>(
+                      () => AuthController(accountModel: accountModel),
+                      fenix: true);
+                  Get.offAllNamed(HOME_PAGE_ROUTE);
                   controller.isLoadingRegister.value = false;
                 } else {
                   controller.isLoadingRegister.value = false;

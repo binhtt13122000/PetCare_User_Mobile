@@ -10,7 +10,6 @@ import 'package:petapp_mobile/views/customer/create_pet_page/widgets/calender_wi
 import 'package:petapp_mobile/views/customer/create_pet_page/widgets/loading_widget.dart';
 import 'package:petapp_mobile/views/customer/create_pet_page/widgets/popup_widget.dart';
 import 'package:petapp_mobile/views/customer/create_pet_page/widgets/top_widget.dart';
-//import 'package:tflite/tflite.dart';
 
 class CreatePetPage extends GetView<CreatePetPageController> {
   const CreatePetPage({Key? key}) : super(key: key);

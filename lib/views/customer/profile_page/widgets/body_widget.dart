@@ -5,77 +5,77 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:petapp_mobile/configs/path.dart';
 import 'package:petapp_mobile/configs/route.dart';
 import 'package:petapp_mobile/configs/theme.dart';
-import 'package:petapp_mobile/models/account_model/account_model.dart';
+import 'package:petapp_mobile/controllers/profile_page_controller.dart';
 
-class ProfilePageBodyWidget extends GetView {
-  const ProfilePageBodyWidget({Key? key, required this.accountModel})
-      : super(key: key);
-  final AccountModel accountModel;
+class ProfilePageBodyWidget extends GetView<ProfilePageController> {
+  const ProfilePageBodyWidget({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(top: 10, bottom: 50),
-      child: Column(
-        children: [
-          Stack(
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(top: 210),
-                child: inviteFriendWidget(),
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  pointCardWidget(),
-                  addPetProfileCard(),
-                ],
-              ),
-            ],
-          ),
-          Container(
-            height: 1,
-            margin: const EdgeInsets.only(top: 20),
-            color: LIGHT_GREY_COLOR.withOpacity(0.1),
-          ),
-          Container(
-            height: 8,
-            color: const Color.fromARGB(255, 245, 248, 253),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(top: 30, left: 40),
-            child: Column(
+    return GetBuilder<ProfilePageController>(
+      builder: (_) => Padding(
+        padding: const EdgeInsets.only(top: 10, bottom: 50),
+        child: Column(
+          children: [
+            Stack(
               children: [
-                buttonCartWidget(
-                  iconData: Icons.pets,
-                  title: 'Pets management',
-                  onTap: () => Get.toNamed(PET_MANAGEMENT_PAGE_ROUNTER),
+                Padding(
+                  padding: const EdgeInsets.only(top: 210),
+                  child: inviteFriendWidget(),
                 ),
-                buttonCartWidget(
-                  svgUrl: ICON_PATH + POSTS_SVG,
-                  title: 'Posts management',
-                  onTap: () => Get.toNamed(POST_MANAGEMENT_PAGE_ROUNTER),
-                ),
-                buttonCartWidget(
-                  iconData: Icons.bookmark_border_outlined,
-                  title: 'Posts marked',
-                  onTap: () {},
-                ),
-                buttonCartWidget(
-                  iconData: Icons.help_outline_outlined,
-                  title: 'Help',
-                  onTap: () {},
-                ),
-                buttonCartWidget(
-                  iconData: Icons.settings,
-                  title: 'Settings',
-                  onTap: () {},
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    pointCardWidget(),
+                    addPetProfileCard(),
+                  ],
                 ),
               ],
             ),
-          )
-        ],
+            Container(
+              height: 1,
+              margin: const EdgeInsets.only(top: 20),
+              color: LIGHT_GREY_COLOR.withOpacity(0.1),
+            ),
+            Container(
+              height: 8,
+              color: const Color.fromARGB(255, 245, 248, 253),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(top: 30, left: 40),
+              child: Column(
+                children: [
+                  buttonCartWidget(
+                    iconData: Icons.pets,
+                    title: 'Pets management',
+                    onTap: () => Get.toNamed(PET_MANAGEMENT_PAGE_ROUTE),
+                  ),
+                  buttonCartWidget(
+                    svgUrl: ICON_PATH + POSTS_SVG,
+                    title: 'Posts management',
+                    onTap: () => Get.toNamed(POST_MANAGEMENT_PAGE_ROUTE),
+                  ),
+                  buttonCartWidget(
+                    iconData: Icons.bookmark_border_outlined,
+                    title: 'Posts marked',
+                    onTap: () {},
+                  ),
+                  buttonCartWidget(
+                    iconData: Icons.help_outline_outlined,
+                    title: 'Help',
+                    onTap: () {},
+                  ),
+                  buttonCartWidget(
+                    iconData: Icons.settings,
+                    title: 'Settings',
+                    onTap: () {},
+                  ),
+                ],
+              ),
+            )
+          ],
+        ),
       ),
     );
   }
@@ -229,7 +229,7 @@ class ProfilePageBodyWidget extends GetView {
       );
 
   Widget addPetProfileCard() => InkWell(
-        onTap: () => Get.toNamed(CREATE_PET_PAGE_ROUNTER),
+        onTap: () => Get.toNamed(CREATE_PET_PAGE_ROUTE),
         child: ClipRRect(
           borderRadius: BorderRadius.circular(10),
           child: Stack(
@@ -355,7 +355,8 @@ class ProfilePageBodyWidget extends GetView {
                           ),
                         ),
                         Text(
-                          accountModel.customerModel.point.toString() +
+                          controller.accountModel.customerModel.point
+                                  .toString() +
                               ' points',
                           textAlign: TextAlign.center,
                           style: GoogleFonts.quicksand(

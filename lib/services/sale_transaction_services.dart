@@ -9,22 +9,21 @@ class SaleTransactionService {
       SaleTransactionModel.fromJson(jsonData);
 
   static List<SaleTransactionModel> getSaleTransactionList(
-      Map<String, dynamic> jsonData) {
-    final saleTransactionListJson = jsonData['sale_transaction'] as List;
+      List<dynamic> jsonData) {
     final List<SaleTransactionModel> saleTransactionList =
         List.empty(growable: true);
-    for (var element in saleTransactionListJson) {
+    for (var element in jsonData) {
       saleTransactionList.add(getSaleTransaction(element));
     }
     return saleTransactionList;
   }
 
-  static Future<String> createSaleTransaction({
+  static Future<int> createSaleTransaction({
+    required DateTime createdTime,
     required DateTime meetingTime,
     required String placeMeeting,
     required int sellerReceive,
     required int transactionFee,
-    required int provisionalTotal,
     required int transactionTotal,
     required String? description,
     String status = 'CREATED',
@@ -32,32 +31,84 @@ class SaleTransactionService {
     required int sellerId,
     required int petId,
     required int posId,
+    int point = 0,
+    required int branchId,
   }) async {
     final response = await http.post(
-      Uri.http(API_SERVER, '/v1/api/sale-transactions'),
+      Uri.http(API_SERVER_PATH, '/v1/api/sale-transactions'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
       body: jsonEncode({
+        'createdTime': createdTime.toIso8601String(),
         'meetingTime': meetingTime.toIso8601String(),
         'placeMeeting': placeMeeting,
         'sellerReceive': sellerReceive,
         'transactionFee': transactionFee,
-        'provisionalTotal': provisionalTotal,
         'transactionTotal': transactionTotal,
         'description': description ?? '',
         'status': status,
         'buyerId': buyerId,
         'sellerId': sellerId,
         'petId': petId,
-        'postId': posId
+        'postId': posId,
+        'point': point,
+        'branchId': branchId
       }),
     );
     switch (response.statusCode) {
       case 200:
       case 201:
       case 202:
-        return jsonDecode(response.body).toString();
+        // return jsonDecode(response.body)['data']['id'];
+        return json.decode(response.body)['data']['id'];
+      default:
+        print(response.body);
+        throw Exception(
+            'Error ${response.statusCode}, cannot create transaction');
+    }
+  }
+
+  static Future<int> updateSaleTransaction({
+    required int id,
+    required DateTime meetingTime,
+    required String placeMeeting,
+    DateTime? transactionTime,
+    required int transactionTotal,
+    String? description,
+    String? paymentMethod,
+    int star = 0,
+    String? review,
+    String? reasonCancel,
+    required String status,
+    int point = 0,
+    DateTime? cancelTime,
+  }) async {
+    final response = await http.put(
+      Uri.http(API_SERVER_PATH, SALE_TRANSACTION_API_PATH),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode({
+        'id': id,
+        'meetingTime': meetingTime.toIso8601String(),
+        'placeMeeting': placeMeeting,
+        'transactionTime': transactionTime?.toIso8601String(),
+        'transactionTotal': transactionTotal,
+        'description': description ?? '',
+        'paymentMethod': paymentMethod ?? '',
+        'review': review ?? '',
+        'reasonCancel': reasonCancel ?? '',
+        'status': status,
+        'point': point,
+        'cancelTime': cancelTime!.toIso8601String(),
+      }),
+    );
+    switch (response.statusCode) {
+      case 200:
+      case 201:
+      case 202:
+        return json.decode(response.body)['data']['id'];
       default:
         print(response.body);
         throw Exception(
@@ -67,59 +118,94 @@ class SaleTransactionService {
 
   static Future<String> payment({
     required int id,
-    required DateTime meetingTime,
-    required String placeMeeting,
     required DateTime transactionTime,
-    required int discount,
     required int transactionTotal,
-    String? description,
-    String? paymentMethod,
-    required int star,
-    required String? review,
-    required String? reasonCancel,
-    required String status,
-    int? promotionId,
+    required String paymentMethod,
     String? message,
     required String locale,
-    required String returnUrl,
   }) async {
     final queryParameters = {
-      'message': message,
+      'message': message ?? '',
       'locale': locale,
-      'returnUrl': 'http://$API_SERVER/v1/api/sale-transactions/vnpay_return'
+      'returnUrl': 'http://$API_SERVER_PATH$SALE_TRANSACTION_RETURN_API_PATH'
     };
-
+    String jsonBody = jsonEncode({
+      'id': id,
+      'transactionTime': transactionTime.toIso8601String(),
+      'transactionTotal': transactionTotal,
+      'paymentMethod': paymentMethod,
+      'point': transactionTotal ~/ 1000,
+      'message': 'Thank for your payment!'
+    });
+    print(jsonBody);
     final response = await http.post(
-      Uri.http(API_SERVER, 'v1/api/sale-transactions/payment', queryParameters),
+      Uri.http(
+          API_SERVER_PATH, 'v1/api/sale-transactions/payment', queryParameters),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
-      body: jsonEncode({
-        'id': id,
-        'meetingTime': meetingTime.toIso8601String(),
-        'placeMeeting': placeMeeting,
-        'transactionTime': transactionTime.toIso8601String(),
-        'discount': discount,
-        'transactionTotal': transactionTotal,
-        'description': description ?? '',
-        'paymentMethod': paymentMethod ?? '',
-        'star': star,
-        'review': review ?? '',
-        'reasonCancel': reasonCancel ?? '',
-        'status': status,
-        'message': message ?? '',
-        'locale': locale,
-        'returnUrl': returnUrl,
-      }),
+      body: jsonBody,
     );
     switch (response.statusCode) {
       case 200:
       case 201:
       case 202:
+        print(jsonDecode(response.body));
         return jsonDecode(response.body)['data']['url'];
       default:
         print(response.body);
         throw Exception('Error ${response.statusCode}, cannot payment');
+    }
+  }
+
+  static Future<List<SaleTransactionModel>> fetchSaleTransactionList({
+    required String? buyerId,
+    required String? sellerId,
+    required String page,
+    required String limit,
+  }) async {
+    final Map<String, dynamic> parameters = <String, dynamic>{
+      'buyerId': buyerId,
+      'sellerId': sellerId,
+      'page': page,
+      'limit': limit,
+    };
+    final response = await http.get(
+      Uri.http(API_SERVER_PATH, SALE_TRANSACTION_API_PATH, parameters),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+    );
+    switch (response.statusCode) {
+      case 200:
+      case 201:
+      case 202:
+        return getSaleTransactionList(
+            json.decode(response.body)['data'] as List);
+      default:
+        throw Exception('Error ${response.statusCode}, cannot login');
+    }
+  }
+
+  static Future<SaleTransactionModel> fetchSaleTransactionById({
+    required int saleTransactionId,
+  }) async {
+    final response = await http.get(
+      Uri.http(
+          API_SERVER_PATH, '$SALE_TRANSACTION_API_PATH/$saleTransactionId'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+    );
+    switch (response.statusCode) {
+      case 200:
+      case 201:
+      case 202:
+        return SaleTransactionModel.fromJson(
+            json.decode(response.body)['data']);
+      default:
+        throw Exception(
+            'Error ${response.statusCode}, cannot get sale transaction');
     }
   }
 }

@@ -95,7 +95,7 @@ class PickImageWidget extends GetView<RegisterPageController> {
           onTap: () async {
             controller.avatarFile = await PICK_IMAGE(isPickFromGalley: false);
             controller.avatarFile != null
-                ? controller.avatarfilePath.value = controller.avatarFile!.path
+                ? controller.avatarFilePath.value = controller.avatarFile!.path
                 : null;
             controller.isSelectPickImageType.value = false;
           },
@@ -140,7 +140,7 @@ class PickImageWidget extends GetView<RegisterPageController> {
           onTap: () async {
             controller.avatarFile = await PICK_IMAGE();
             controller.avatarFile != null
-                ? controller.avatarfilePath.value = controller.avatarFile!.path
+                ? controller.avatarFilePath.value = controller.avatarFile!.path
                 : null;
             controller.isSelectPickImageType.value = false;
           },

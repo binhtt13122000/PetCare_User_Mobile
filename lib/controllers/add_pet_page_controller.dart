@@ -1,8 +1,6 @@
-// ignore_for_file: avoid_print
-
 import 'dart:io';
 import 'package:get/get.dart';
-import 'package:petapp_mobile/controllers/sign_in_page_controller.dart';
+import 'package:petapp_mobile/controllers/auth_controller.dart';
 import 'package:petapp_mobile/models/account_model/account_model.dart';
 import 'package:petapp_mobile/models/breed_model/breed_model.dart';
 import 'package:petapp_mobile/models/species_model/species_model.dart';
@@ -25,6 +23,6 @@ class CreatePetPageController extends GetxController {
   RxMap<int, RxList<BreedModel>> breedsMap = <int, RxList<BreedModel>>{}.obs;
   late List<SpeciesModel> species;
   RxInt selectedSpeciesId = 1.obs;
-  AccountModel accountModel = Get.find<SignInPageController>().accountModel!;
+  AccountModel accountModel = Get.find<AuthController>().accountModel;
   RxBool isShowLoadingWidget = false.obs;
 }

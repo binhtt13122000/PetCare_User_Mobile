@@ -4,15 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:petapp_mobile/configs/path.dart';
 import 'package:petapp_mobile/configs/route.dart';
 import 'package:petapp_mobile/configs/theme.dart';
 import 'package:petapp_mobile/controllers/home_page_controller.dart';
-import 'package:petapp_mobile/controllers/purchase_post_detail_page_controller.dart';
-import 'package:petapp_mobile/graphql/query_mutation/post.dart';
+import 'package:petapp_mobile/controllers/sale_post_detail_page_controller.dart';
 import 'package:petapp_mobile/models/post_model/post_model.dart';
-import 'package:petapp_mobile/services/post_services.dart';
 import 'package:petapp_mobile/utilities/utilities.dart';
 import 'package:petapp_mobile/views/customer/home_page/widgets/purchase_posts_gird_widget.dart';
 
@@ -31,18 +28,7 @@ class ServicesBodyWidget extends GetView<HomePageController> {
               bottom: 10,
             ),
           ),
-          Obx(
-            () => controller.selectedServiceIndex.value == 1
-                ? Expanded(
-                    child: Column(
-                    children: [
-                      petSuggestTitleWidget(),
-                      //purchasePostListWidget(),
-                      const PurchasePostGirdsWidget(),
-                    ],
-                  ))
-                : const SizedBox.shrink(),
-          ),
+          const SalePostGirdsWidget(),
           Obx(
             () => controller.selectedServiceIndex.value == 2
                 ? veterinaryServicesWidget()
@@ -71,8 +57,8 @@ class ServicesBodyWidget extends GetView<HomePageController> {
 
   Widget purchasePostItemWidget({required PostModel postModel}) => InkWell(
         onTap: () {
-          Get.delete<PurchasePostDetailPageController>();
-          Get.toNamed(PURCHASE_POSTS_PAGE_ROUNTER);
+          Get.delete<SalePostDetailPageController>();
+          Get.toNamed(PURCHASE_POSTS_PAGE_ROUTE);
         },
         child: Container(
           padding: const EdgeInsets.only(bottom: 10),
@@ -274,7 +260,7 @@ class ServicesBodyWidget extends GetView<HomePageController> {
                               crossAxisAlignment: CrossAxisAlignment.end,
                               children: [
                                 Text(
-                                  postModel.petModel!.breedModel.name,
+                                  postModel.petModel!.breedModel!.name,
                                   textAlign: TextAlign.left,
                                   maxLines: 2,
                                   overflow: TextOverflow.ellipsis,
@@ -287,7 +273,7 @@ class ServicesBodyWidget extends GetView<HomePageController> {
                                 ),
                                 Text(
                                   ' (' +
-                                      postModel.petModel!.breedModel
+                                      postModel.petModel!.breedModel!
                                           .speciesModel!.name +
                                       ')',
                                   textAlign: TextAlign.left,
@@ -387,82 +373,69 @@ class ServicesBodyWidget extends GetView<HomePageController> {
         ),
       );
 
-  Widget petSuggestTitleWidget() => Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.only(
-              left: 20,
-              right: 20,
-              top: 5,
-              bottom: 10,
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  'Pet suggestions for you',
-                  style: GoogleFonts.quicksand(
-                    textStyle: const TextStyle(
-                      color: PRIMARY_COLOR,
-                    ),
-                    fontWeight: FontWeight.w700,
-                    fontSize: 14,
-                  ),
-                ),
-                InkWell(
-                  onTap: () => Get.toNamed(PURCHASE_POSTS_PAGE_ROUNTER),
-                  child: Text(
-                    'View All',
-                    style: GoogleFonts.quicksand(
-                      textStyle: TextStyle(
-                        color: PRIMARY_COLOR.withOpacity(
-                          0.8,
-                        ),
-                      ),
-                      fontWeight: FontWeight.w600,
-                      fontSize: 15,
-                      decoration: TextDecoration.underline,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ],
-      );
+  // Widget purchasePostListWidget() =>
+  //     GetBuilder<HomePageController>(builder: (_) {
+  //       controller.isLoading.value = true;
+  //       WidgetsBinding.instance!.addPersistentFrameCallback((_) async {
+  //         QueryResult result = await CLIENT_TO_QUERY().query(
+  //           QueryOptions(
+  //               document: gql(FETCH_ALL_PURCHASE_POST_LIST),
+  //               variables: {
+  //                 '_customerId': controller.accountModel.customerModel.id
+  //               }),
+  //         );
+  //         controller.postList = PostService.getPostList(result.data!);
+  //         controller.isLoading.value = false;
+  //       });
 
-  Widget purchasePostListWidget() => Query(
-        options: QueryOptions(
-            document: gql(FETCH_ALL_PURCHASE_POST_LIST), variables: const {}),
-        builder: (
-          QueryResult result, {
-          VoidCallback? refetch,
-          FetchMore? fetchMore,
-        }) {
-          if (result.hasException) {
-            return Text(result.exception.toString());
-          }
-          if (result.isLoading) {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
-          }
-          controller.postList = PostService.getPostList(result.data!).obs;
-          return Expanded(
-            child: SingleChildScrollView(
-              child: Column(
-                children: controller.postList
-                    .asMap()
-                    .entries
-                    .map(
-                      (e) => purchasePostItemWidget(postModel: e.value),
-                    )
-                    .toList(),
-              ),
-            ),
-          );
-        },
-      );
+  //       return Obx(
+  //         () => controller.isLoading.value
+  //             ? const Expanded(
+  //                 child: Center(
+  //                   child: SpinKitSpinningLines(
+  //                     color: PRIMARY_COLOR,
+  //                     size: 150,
+  //                   ),
+  //                 ),
+  //               )
+  //             : Expanded(
+  //                 child: Column(
+  //                   children: [
+  //                     Expanded(
+  //                       child: Container(
+  //                         padding: const EdgeInsets.symmetric(horizontal: 14),
+  //                         child: CustomScrollView(
+  //                           slivers: [
+  //                             SliverGrid.count(
+  //                               crossAxisCount: 2,
+  //                               childAspectRatio: 15,
+  //                               mainAxisSpacing: 5,
+  //                               crossAxisSpacing: 4,
+  //                               children: const [SizedBox.shrink()],
+  //                             ),
+  //                             SliverGrid.count(
+  //                               crossAxisCount: 2,
+  //                               childAspectRatio: 0.63,
+  //                               mainAxisSpacing: 5,
+  //                               crossAxisSpacing: 4,
+  //                               children: controller.postList
+  //                                   .asMap()
+  //                                   .entries
+  //                                   .map(
+  //                                     (e) => purchasePostItemWidget(
+  //                                         postModel: e.value),
+  //                                   )
+  //                                   .toList(),
+  //                             ),
+  //                           ],
+  //                         ),
+  //                       ),
+  //                     ),
+  //                   ],
+  //                 ),
+  //               ),
+  //       );
+  //     });
 
   Widget veterinaryServicesWidget() => Expanded(
         child: Column(

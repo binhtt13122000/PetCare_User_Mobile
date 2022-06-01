@@ -22,7 +22,7 @@ class AccountService {
     required String userDeviceToken,
   }) async {
     final response = await http.post(
-      Uri.http(API_SERVER, '/v1/api/auth/login/phone-number'),
+      Uri.http(API_SERVER_PATH, '/v1/api/auth/login/phone-number'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -45,7 +45,7 @@ class AccountService {
     required String phoneNumber,
   }) async {
     final response = await http.get(
-      Uri.http(API_SERVER, '/v1/api/auth/phone-number/$phoneNumber'),
+      Uri.http(API_SERVER_PATH, '/v1/api/auth/phone-number/$phoneNumber'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -65,11 +65,13 @@ class AccountService {
     required String firstName,
     required String lastName,
     required String phoneNumber,
-    required String adrress,
+    required String address,
     required String gender,
     required String avatarFilePath,
     required String accessToken,
     required String deviceToken,
+    required DateTime registerTime,
+    DateTime? dateOfBirth,
   }) async {
     try {
       FormData formData;
@@ -78,10 +80,12 @@ class AccountService {
         'firstName': firstName,
         'lastName': lastName,
         'phoneNumber': phoneNumber,
-        'address': adrress,
+        'address': address,
         'gender': gender,
         'accessToken': accessToken,
         'fcmToken': deviceToken,
+        'registerTime': registerTime.toIso8601String(),
+        'dateOfBirth': dateOfBirth?.toIso8601String(),
       });
       avatarFilePath.isNotEmpty
           ? formData.files.add(
@@ -92,7 +96,7 @@ class AccountService {
             )
           : null;
       Response response =
-          await Dio().post('http://$API_SERVER/v1/api/auth/register',
+          await Dio().post('http://$API_SERVER_PATH/v1/api/auth/register',
               data: formData,
               options: Options(headers: <String, String>{
                 HttpHeaders.contentTypeHeader: 'multipart/form-data',

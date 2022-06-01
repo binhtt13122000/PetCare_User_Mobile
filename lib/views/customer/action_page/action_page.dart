@@ -7,8 +7,8 @@ import 'package:petapp_mobile/configs/theme.dart';
 import 'package:petapp_mobile/views/customer/action_page/widgets/top_widget.dart';
 import 'package:petapp_mobile/views/customer/custom_bottom_navigation_bar/custom_bottom_navigator_bar.dart';
 
-class AcctionPage extends GetView {
-  const AcctionPage({Key? key}) : super(key: key);
+class ActionPage extends GetView {
+  const ActionPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -99,7 +99,7 @@ class AcctionPage extends GetView {
                                 height: 50,
                                 minWidth: 500,
                                 onPressed: () =>
-                                    Get.toNamed(POST_MANAGEMENT_PAGE_ROUNTER),
+                                    Get.toNamed(POST_MANAGEMENT_PAGE_ROUTE),
                                 color: PRIMARY_LIGHT_COLOR,
                                 child: Text(
                                   'Post Management',
@@ -117,7 +117,7 @@ class AcctionPage extends GetView {
                                 height: 50,
                                 minWidth: 500,
                                 onPressed: () =>
-                                    Get.toNamed(PET_MANAGEMENT_PAGE_ROUNTER),
+                                    Get.toNamed(PET_MANAGEMENT_PAGE_ROUTE),
                                 color: PRIMARY_LIGHT_COLOR,
                                 child: Text(
                                   'Pet Mamagement',
@@ -135,7 +135,7 @@ class AcctionPage extends GetView {
                                 height: 50,
                                 minWidth: 500,
                                 onPressed: () =>
-                                    Get.toNamed(TRANSACTION_PAGE_ROUNTER),
+                                    Get.toNamed(TRANSACTION_PAGE_ROUTE),
                                 color: PRIMARY_LIGHT_COLOR,
                                 child: Text(
                                   'Transaction History',
@@ -153,7 +153,7 @@ class AcctionPage extends GetView {
                                 height: 50,
                                 minWidth: 500,
                                 onPressed: () => Get.toNamed(
-                                    TRANSACTION_AT_CENTER_DETAIL_PAGE_ROUNTER),
+                                    CENTER_SERVICES_TRANSACTION_DETAIL_PAGE_ROUTE),
                                 color: PRIMARY_LIGHT_COLOR,
                                 child: Text(
                                   'Test order',
@@ -179,7 +179,7 @@ class AcctionPage extends GetView {
           ),
           const Align(
             alignment: Alignment.bottomCenter,
-            child: CustomBottomNavigatorBar(),
+            child: CustomBottomNavigatorBarWidget(router: ACTION_PAGE_ROUTE),
           )
         ],
       ),

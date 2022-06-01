@@ -37,11 +37,12 @@ class CreatePostBottomWidget extends GetView<CreatePostPageController> {
                       deposits: controller.price.value,
                       createTime: DateTime.now(),
                       meetingTime: DateTime.now(),
-                      type: 'PURCHASE',
-                      petId: controller.selectedPetId,
+                      type: controller.selectedPostType.value,
+                      petId: controller.selectedPetId!,
                       customerId: controller.accountModel.customerModel.id,
                       filesPath: controller.evidencesPath,
                       status: 'REQUESTED',
+                      branchId: controller.selectedBranchId.value,
                     );
                     controller.isShowLoadingWidget.value = false;
                     controller.isShowSuccessfullyPopup.value = true;

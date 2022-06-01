@@ -3,11 +3,11 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:petapp_mobile/configs/path.dart';
-import 'package:petapp_mobile/controllers/sign_in_page_controller.dart';
+import 'package:petapp_mobile/controllers/auth_controller.dart';
 import 'package:petapp_mobile/models/account_model/account_model.dart';
 import 'package:petapp_mobile/models/chat_room_model/chat_room_model.dart';
 import 'package:petapp_mobile/models/customer_model/customer_model.dart';
-import 'package:petapp_mobile/models/messasge_model.dart/message_model.dart';
+import 'package:petapp_mobile/models/message_model.dart/message_model.dart';
 import 'package:petapp_mobile/models/post_model/post_model.dart';
 import 'package:petapp_mobile/services/chat_services.dart';
 import 'package:petapp_mobile/utilities/utilities.dart';
@@ -20,7 +20,7 @@ class ChattingDetailPageController extends GetxController {
   RxString chatTextValue = ''.obs;
   RxBool isShowCreateRequest = false.obs;
   RxBool isUseOwnerAddress = false.obs;
-  AccountModel accountModel = Get.find<SignInPageController>().accountModel!;
+  AccountModel accountModel = Get.find<AuthController>().accountModel;
   late io.Socket socket;
   ScrollController scrollController = ScrollController();
   late CustomerModel anotherChatRoomMember;
@@ -45,7 +45,7 @@ class ChattingDetailPageController extends GetxController {
   @override
   void onInit() async {
     socket = io.io(
-        'http://$API_SERVER',
+        'http://$API_SERVER_PATH',
         io.OptionBuilder()
             .setTransports(['websocket']) // for Flutter or Dart VM
             .setExtraHeaders({'foo': 'bar'}) // optional
@@ -53,6 +53,7 @@ class ChattingDetailPageController extends GetxController {
     socket.on('joinedRoom', (data) => print(data));
     socket.on('leftRoom', (data) => print(data));
     socket.on('chatToClient', (data) async {
+      print('aaaaaaaaaaaaaaaaaaaaaaaaa');
       MessageModel messageModel = MessageModel.fromJson(data);
       messageModelList.add(messageModel);
       sortListMessage();
@@ -63,7 +64,8 @@ class ChattingDetailPageController extends GetxController {
         socket.emit('joinRoom', messageModel.room);
         isJoinedRoom = true;
       }
-      if (!isShowCreateRequest.value) {
+      if (!isShowCreateRequest.value &&
+          accountModel.customerModel.id == chatRoomModel!.buyerId) {
         //!location
         transactionLocationTextEditingController.text =
             chatRoomModel!.transactionPlace ?? '';
@@ -75,7 +77,22 @@ class ChattingDetailPageController extends GetxController {
           transactionTimeText.value = FORMAT_DATE_TIME(
               dateTime: transactionTime!, pattern: DATE_PATTERN_2);
         }
-        //!descriptio
+        //!description
+        descriptionTextEditingController.text =
+            chatRoomModel!.description ?? '';
+        description.value = chatRoomModel!.description ?? '';
+      } else {
+        transactionLocationTextEditingController.text =
+            chatRoomModel!.transactionPlace ?? '';
+        transactionLocation.value = chatRoomModel!.transactionPlace ?? '';
+        //!time
+        transactionTime = chatRoomModel!.transactionTime;
+        tmpTransactionTime = transactionTime;
+        if (transactionTime != null) {
+          transactionTimeText.value = FORMAT_DATE_TIME(
+              dateTime: transactionTime!, pattern: DATE_PATTERN_2);
+        }
+        //!description
         descriptionTextEditingController.text =
             chatRoomModel!.description ?? '';
         description.value = chatRoomModel!.description ?? '';
@@ -85,11 +102,12 @@ class ChattingDetailPageController extends GetxController {
     scrollController.addListener(() async {
       if (scrollController.position.pixels ==
               scrollController.position.minScrollExtent &&
-          isLoadingMoreChat.value == false) {
+          isLoadingMoreChat.value == false &&
+          chatRoomModel != null) {
         isLoadingMoreChat.value = true;
         messageModelList.addAll(
-          await ChatServices.fetchMesageListByChatRoomId(
-            chatRoomId: Get.parameters['chatRoomId']!,
+          await ChatServices.fetchMessageListByChatRoomId(
+            chatRoomId: chatRoomModel!.id,
             limit: limitMessageRange,
             skip: messageModelList.length,
           ),

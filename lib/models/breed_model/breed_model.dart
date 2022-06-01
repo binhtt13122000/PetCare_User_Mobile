@@ -8,14 +8,17 @@ class BreedModel {
   final int id;
   final String name;
   final String? description;
+  final int? speciesId;
   @JsonKey(name: 'species')
-  final SpeciesModel? speciesModel;
+  SpeciesModel? speciesModel;
 
-  BreedModel(
-      {required this.id,
-      required this.name,
-      this.description,
-      required this.speciesModel});
+  BreedModel({
+    required this.id,
+    required this.name,
+    this.description,
+    required this.speciesModel,
+    this.speciesId,
+  });
 
   factory BreedModel.fromJson(Map<String, dynamic> json) =>
       _$BreedModelFromJson(json);

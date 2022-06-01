@@ -61,7 +61,7 @@ class TopNavigationBar extends GetView<HomePageController> {
               Row(
                 children: [
                   InkWell(
-                    onTap: () => Get.toNamed(NOTIFICATION_PAGE_ROUNTER),
+                    onTap: () => Get.toNamed(NOTIFICATION_PAGE_ROUTE),
                     child: Container(
                       height: 35,
                       width: 35,
@@ -91,7 +91,7 @@ class TopNavigationBar extends GetView<HomePageController> {
                     width: 10,
                   ),
                   InkWell(
-                    onTap: () => Get.toNamed(NOTIFICATION_PAGE_ROUNTER),
+                    onTap: () => Get.toNamed(NOTIFICATION_PAGE_ROUTE),
                     child: Container(
                       height: 35,
                       width: 35,

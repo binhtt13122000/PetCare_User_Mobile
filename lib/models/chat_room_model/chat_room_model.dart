@@ -17,29 +17,28 @@ class ChatRoomModel {
   DateTime? transactionTime;
   String? transactionPlace;
   String? description;
-  String? transactionId;
+  int? transactionId;
   DateTime? sellerLastViewTime;
   DateTime? buyerLastViewTime;
   final String type;
 
-  ChatRoomModel({
-    required this.id,
-    required this.sellerId,
-    required this.buyerId,
-    required this.postId,
-    required this.newestMessageTime,
-    required this.newestMessage,
-    required this.isSellerMessage,
-    required this.createdTime,
-    required this.status,
-    this.transactionTime,
-    this.transactionPlace,
-    this.description,
-    this.transactionId,
-    this.sellerLastViewTime,
-    this.buyerLastViewTime,
-    required this.type,
-  });
+  ChatRoomModel(
+      {required this.id,
+      required this.sellerId,
+      required this.buyerId,
+      required this.postId,
+      required this.newestMessageTime,
+      required this.newestMessage,
+      required this.isSellerMessage,
+      required this.createdTime,
+      required this.status,
+      this.transactionTime,
+      this.transactionPlace,
+      this.description,
+      this.transactionId,
+      this.sellerLastViewTime,
+      this.buyerLastViewTime,
+      required this.type});
 
   factory ChatRoomModel.fromJson(Map<String, dynamic> json) =>
       _$ChatRoomModelFromJson(json);

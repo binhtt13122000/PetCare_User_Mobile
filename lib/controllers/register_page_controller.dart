@@ -27,7 +27,7 @@ class RegisterPageController extends GetxController {
 
   RxString address = ''.obs;
   RxBool isSelectPickImageType = false.obs;
-  RxString avatarfilePath = ''.obs;
+  RxString avatarFilePath = ''.obs;
   File? avatarFile;
   RxString selectedAreaCode = '+84'.obs;
   Map<String, String> areaCodeMap = {
