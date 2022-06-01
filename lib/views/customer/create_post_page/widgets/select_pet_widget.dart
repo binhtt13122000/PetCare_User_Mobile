@@ -21,8 +21,6 @@ class SelectPetWidget extends GetView<CreatePostPageController> {
       controller.isShowLoadingPet.value = true;
 
       WidgetsBinding.instance!.addPostFrameCallback((_) async {
-        String query;
-        Map<String, dynamic> variables;
 
         // if (controller.isShowPetFilter.value &&
         //     controller.selectedPetId == null) {
@@ -52,23 +50,11 @@ class SelectPetWidget extends GetView<CreatePostPageController> {
         // }
 
         if (controller.isShowPetFilter.value) {
-          query = FETCH_PET_LIST_WITHOUT_BREED_TO_CREATE_POST;
-          variables = {
-            'customerId': controller.accountModel.customerModel.id,
-            'speciesId': controller.selectedSpeciesId,
-          };
+          controller.pets = await PetService.fetchPetListToCreatePost(controller.accountModel.customerModel.id, controller.selectedSpeciesId);
         } else {
-          query = FETCH_PET_LIST_TO_CREATE_POST;
-          variables = {
-            'customerId': controller.accountModel.customerModel.id,
-          };
+          controller.pets = await PetService.fetchPetListToCreatePost(controller.accountModel.customerModel.id, null);
         }
-
-        QueryResult result = await CLIENT_TO_QUERY().query(
-          QueryOptions(document: gql(query), variables: variables),
-        );
-
-        controller.pets = PetService.getPetList(result.data!);
+        
 
         if (controller.pets.isNotEmpty) {
           if (controller.selectedPetId == null) {

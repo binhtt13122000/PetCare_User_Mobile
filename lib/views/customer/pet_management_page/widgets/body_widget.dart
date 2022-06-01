@@ -30,18 +30,9 @@ class PetsManagementBodyWidget extends GetView<PetManagementPageController> {
           child: GetBuilder<PetManagementPageController>(builder: (_) {
             controller.isLoadingPetList.value = true;
             WidgetsBinding.instance!.addPostFrameCallback((_) async {
-              QueryResult result = await CLIENT_TO_QUERY().query(
-                QueryOptions(
-                    document: gql(FETCH_PET_LIST_BY_CUSTOMER_ID),
-                    variables: {
-                      'customerId': controller.accountModel.customerModel.id
-                    }),
-              );
-
-              if (result.data != null) {
-                controller.petList = PetService.getPetList((result.data!));
-                controller.isLoadingPetList.value = false;
-              }
+              controller.petList = await PetService.fetchPetListByCustomerId(
+                  controller.accountModel.customerModel.id);
+              controller.isLoadingPetList.value = false;
             });
             return Obx(
               () => controller.isLoadingPetList.value
