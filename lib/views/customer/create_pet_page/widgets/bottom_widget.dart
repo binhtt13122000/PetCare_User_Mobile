@@ -29,7 +29,7 @@ class CreatePetBottomWidget extends GetView<CreatePetPageController> {
                     controller.isShowLoadingWidget.value = true;
                     await PetService.createPet(
                         ownerId: controller.accountModel.customerModel.id,
-                        avtarFilePath: controller.avatarUrl.value,
+                        avatarFilePath: controller.avatarUrl.value,
                         name: controller.petName.value,
                         isSeed: controller.selectedFertility.value == 'YES',
                         gender: controller.selectedGender.value,

@@ -6,7 +6,7 @@ import 'package:petapp_mobile/configs/theme.dart';
 import 'package:petapp_mobile/controllers/sale_post_detail_page_controller.dart';
 import 'package:petapp_mobile/graphql/graphql_config.dart';
 import 'package:petapp_mobile/graphql/query_mutation/post.dart';
-import 'package:petapp_mobile/services/post_services.dart';
+import 'package:petapp_mobile/models/post_model/post_model.dart';
 import 'package:petapp_mobile/views/customer/sale_post_detail_page/widgets/bottom_widget.dart';
 import 'package:petapp_mobile/views/customer/sale_post_detail_page/widgets/sale_post_detail_information_widget.dart';
 import 'package:petapp_mobile/views/customer/sale_post_detail_page/widgets/sale_post_general_information_widget.dart';
@@ -43,9 +43,8 @@ class SalePostDetailPage extends GetView<SalePostDetailPageController> {
                     ),
                   );
                 }
-                print(result.data!['post'][0]);
                 controller.postModel =
-                    PostService.getPost(result.data!['post'][0]);
+                    PostModel.fromJson(result.data!['post'][0]);
                 return Column(
                   children: [
                     const PurchasePostDetailMainImageWidget(),

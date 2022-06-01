@@ -10,6 +10,7 @@ import 'package:petapp_mobile/bindings/chatting_list_page_binding.dart';
 import 'package:petapp_mobile/bindings/create_post_page_binding.dart';
 import 'package:petapp_mobile/bindings/home_page_binding.dart';
 import 'package:petapp_mobile/bindings/notification_page_binding.dart';
+import 'package:petapp_mobile/bindings/payment_for_center_services_transaction_page_binding.dart';
 import 'package:petapp_mobile/bindings/personal_information_page_binding.dart';
 import 'package:petapp_mobile/bindings/pet_detail_page_binding.dart';
 import 'package:petapp_mobile/bindings/profile_page_binding.dart';
@@ -36,6 +37,7 @@ import 'package:petapp_mobile/views/customer/create_pet_page/create_pet_page.dar
 import 'package:petapp_mobile/views/customer/create_post_page/create_post_page.dart';
 import 'package:petapp_mobile/views/customer/home_page/home_page.dart';
 import 'package:petapp_mobile/views/customer/notification_page/notification_page.dart';
+import 'package:petapp_mobile/views/customer/payment_for_center_services_transaction_page/payment_for_center_services_transaction_page.dart';
 import 'package:petapp_mobile/views/customer/personal_information_page/personal_information_page.dart';
 import 'package:petapp_mobile/views/customer/pet_detail_page/pet_detail_page.dart';
 import 'package:petapp_mobile/views/customer/pet_management_page/pet_management_page.dart';
@@ -205,12 +207,12 @@ class MainApp extends StatelessWidget {
           page: () => const TransactionListPage(),
           binding: TransactionListPageBinding(),
         ),
-        // GetPage(
-        //   name:
-        //       '$PAYMENT_FOR_CENTER_SERVICES_TRANSACTION_PAGE_ROUTE/:transactionId',
-        //   page: () => const PaymentForTransactionAtCenterPage(),
-        //   binding: PaymentForTransactionAtCenterPageBinding(),
-        // ),
+        GetPage(
+          name:
+              '$PAYMENT_FOR_CENTER_SERVICES_TRANSACTION_PAGE_ROUTE/:transactionId',
+          page: () => const PaymentForCenterServicesTransactionPage(),
+          binding: PaymentForCenterServicesTransactionPageBinding(),
+        ),
         GetPage(
           name: '$CENTER_SERVICES_TRANSACTION_DETAIL_PAGE_ROUTE/:transactionId',
           page: () => const CenterServicesTransactionDetailPage(),

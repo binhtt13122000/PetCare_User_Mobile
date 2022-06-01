@@ -1,4 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
+import 'package:petapp_mobile/models/branch_model/branch_model.dart';
 import 'package:petapp_mobile/models/customer_model/customer_model.dart';
 
 import 'package:petapp_mobile/models/media_model/media_model.dart';
@@ -32,33 +33,37 @@ class PostModel {
   final PetModel? petModel;
   @JsonKey(name: 'customer')
   final CustomerModel? customerModel;
-  @JsonKey(name: 'media')
+  @JsonKey(name: 'branch')
+  final BranchModel? branchModel;
+  @JsonKey(name: 'medias')
   final List<MediaModel>? mediaModels;
 
-  PostModel(
-      {this.approveTime,
-      required this.branchId,
-      this.cancelTime,
-      required this.createTime,
-      required this.customerId,
-      this.description,
-      required this.id,
-      required this.isVaccineInject,
-      this.meetingTime,
-      required this.petId,
-      required this.provisionalTotal,
-      this.deposit,
-      this.reasonCancel,
-      this.reasonReject,
-      this.rejectTime,
-      required this.sellerReceive,
-      required this.shopFee,
-      required this.status,
-      required this.title,
-      required this.type,
-      this.petModel,
-      this.mediaModels,
-      this.customerModel});
+  PostModel({
+    this.approveTime,
+    required this.branchId,
+    this.cancelTime,
+    required this.createTime,
+    required this.customerId,
+    this.description,
+    required this.id,
+    required this.isVaccineInject,
+    this.meetingTime,
+    required this.petId,
+    required this.provisionalTotal,
+    this.deposit,
+    this.reasonCancel,
+    this.reasonReject,
+    this.rejectTime,
+    required this.sellerReceive,
+    required this.shopFee,
+    required this.status,
+    required this.title,
+    required this.type,
+    this.petModel,
+    this.mediaModels,
+    this.customerModel,
+    this.branchModel,
+  });
 
   factory PostModel.fromJson(Map<String, dynamic> json) =>
       _$PostModelFromJson(json);

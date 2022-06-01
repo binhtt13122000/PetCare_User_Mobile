@@ -27,7 +27,7 @@ const CREATE_POST_PAGE_ROUTE = '/action/create-post';
 const TRANSACTION_PAGE_ROUTE = '/action/transaction';
 const POST_MANAGEMENT_PAGE_ROUTE = '/action/post-management';
 const PAYMENT_FOR_CENTER_SERVICES_TRANSACTION_PAGE_ROUTE =
-    '/payment-for-transaction-at-center';
+    '/payment-for-center-services-transaction';
 const CENTER_SERVICES_TRANSACTION_DETAIL_PAGE_ROUTE =
     '/center-services-transaction-detail';
 const SALE_TRANSACTION_DETAIL_PAGE_ROUTE = '/sale-transaction-detail';
