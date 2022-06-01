@@ -24,6 +24,7 @@ PostModel _$PostModelFromJson(Map<String, dynamic> json) => PostModel(
           : DateTime.parse(json['meetingTime'] as String),
       petId: json['petId'] as int,
       provisionalTotal: json['provisionalTotal'] as int,
+      deposit: json['deposit'] as int?,
       reasonCancel: json['reasonCancel'] as String?,
       reasonReject: json['reasonReject'] as String?,
       rejectTime: json['rejectTime'] == null
@@ -57,6 +58,7 @@ Map<String, dynamic> _$PostModelToJson(PostModel instance) => <String, dynamic>{
       'meetingTime': instance.meetingTime?.toIso8601String(),
       'petId': instance.petId,
       'provisionalTotal': instance.provisionalTotal,
+      'deposit': instance.deposit,
       'reasonCancel': instance.reasonCancel,
       'reasonReject': instance.reasonReject,
       'rejectTime': instance.rejectTime?.toIso8601String(),

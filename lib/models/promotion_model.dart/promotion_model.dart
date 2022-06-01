@@ -1,41 +1,37 @@
-// import 'package:json_annotation/json_annotation.dart';
+import 'package:json_annotation/json_annotation.dart';
 
-// part 'promotion_model.g.dart';
+part 'promotion_model.g.dart';
 
-// @JsonSerializable(explicitToJson: true)
-// class PromotionModel {
-//   final String? address;
-//   final String? description;
-//   final String? email;
-//   final int id;
-//   final String? image;
-//   final bool isActive;
-//   final int? lat;
-//   final int? lng;
-//   final String phoneNumber;
-//   final int star;
-//   final String representativeName;
-//   final int numberReviewers;
-//   final String name;
+@JsonSerializable(explicitToJson: true)
+class PromotionModel {
+  final int id;
+  final String name;
+  final int promo;
+  final DateTime startTime;
+  final DateTime expireTime;
+  final String? description;
+  final String status;
+  final int applyMoney;
+  final int maxMoneyPromo;
+  final int point;
+  final int branchId;
 
-//   PromotionModel({
-//     this.address,
-//     this.description,
-//     this.email,
-//     required this.id,
-//     this.image,
-//     required this.isActive,
-//     this.lat,
-//     this.lng,
-//     required this.phoneNumber,
-//     required this.star,
-//     required this.representativeName,
-//     required this.numberReviewers,
-//     required this.name,
-//   });
+  PromotionModel({
+    required this.id,
+    required this.name,
+    required this.promo,
+    required this.startTime,
+    required this.expireTime,
+    this.description,
+    required this.status,
+    required this.applyMoney,
+    required this.maxMoneyPromo,
+    required this.point,
+    required this.branchId,
+  });
 
-//   factory PromotionModel.fromJson(Map<String, dynamic> json) =>
-//       _$BranchModelFromJson(json);
+  factory PromotionModel.fromJson(Map<String, dynamic> json) =>
+      _$PromotionModelFromJson(json);
 
-//   Map<String, dynamic> toJson() => _$BranchModelToJson(this);
-// }
+  Map<String, dynamic> toJson() => _$PromotionModelToJson(this);
+}
