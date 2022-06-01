@@ -19,6 +19,7 @@ class PostModel {
   final DateTime? meetingTime;
   final int petId;
   final int provisionalTotal;
+  final int? deposit;
   final String? reasonCancel;
   final String? reasonReject;
   final DateTime? rejectTime;
@@ -46,6 +47,7 @@ class PostModel {
       this.meetingTime,
       required this.petId,
       required this.provisionalTotal,
+      this.deposit,
       this.reasonCancel,
       this.reasonReject,
       this.rejectTime,

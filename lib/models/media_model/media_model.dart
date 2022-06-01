@@ -4,12 +4,12 @@ part 'media_model.g.dart';
 
 @JsonSerializable()
 class MediaModel {
-  final int id;
+  final int? id;
   final String url;
   final String? type;
 
   MediaModel({
-    required this.id,
+    this.id,
     required this.url,
     this.type,
   });

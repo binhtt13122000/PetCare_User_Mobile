@@ -55,7 +55,7 @@ class PurchasePostDetailBottomWidget
                 ),
                 Visibility(
                   visible: controller.accountModel.customerModel.id ==
-                      controller.postModel.customerId,
+                      controller.postModel.customerId && controller.postModel.status == "REQUESTED",
                   child: Expanded(
                     child: InkWell(
                       onTap: () => Get.toNamed(
