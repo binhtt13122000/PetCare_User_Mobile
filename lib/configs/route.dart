@@ -26,9 +26,10 @@ const ACTION_PAGE_ROUTE = '/action';
 const CREATE_POST_PAGE_ROUTE = '/action/create-post';
 const TRANSACTION_PAGE_ROUTE = '/action/transaction';
 const POST_MANAGEMENT_PAGE_ROUTE = '/action/post-management';
-const PAYMENT_FOR_TRANSACTION_AT_CENTER_PAGE_ROUTE =
+const PAYMENT_FOR_CENTER_SERVICES_TRANSACTION_PAGE_ROUTE =
     '/payment-for-transaction-at-center';
-const TRANSACTION_AT_CENTER_DETAIL_PAGE_ROUTE = '/transaction-at-center-detail';
+const CENTER_SERVICES_TRANSACTION_DETAIL_PAGE_ROUTE =
+    '/center-services-transaction-detail';
 const SALE_TRANSACTION_DETAIL_PAGE_ROUTE = '/sale-transaction-detail';
 
 //setting
@@ -43,11 +44,11 @@ const PERSONAl_INFORMATION_PAGE_ROUTE = '/profile/personal-information';
 
 //chatting
 const CHATTING_LIST_PAGE_ROUTE = '/chatting-list';
-const CHATTING_DETAIL_PAGE_ROUTE = '/chatting-deatil';
+const CHATTING_DETAIL_PAGE_ROUTE = '/chatting-detail';
 
 //payment
 const PAYMENT_PAGE_ROUTE = '/payment';
 const PAYMENT_METHOD_PAGE_ROUTE = '/payment/method';
 
 //post
-const UPDATE_SALE_POST_PAGE = '/post/update';
+const UPDATE_SALE_POST_PAGE_ROUTE = '/post/sale/update';

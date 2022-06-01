@@ -153,7 +153,7 @@ class ActionPage extends GetView {
                                 height: 50,
                                 minWidth: 500,
                                 onPressed: () => Get.toNamed(
-                                    TRANSACTION_AT_CENTER_DETAIL_PAGE_ROUTE),
+                                    CENTER_SERVICES_TRANSACTION_DETAIL_PAGE_ROUTE),
                                 color: PRIMARY_LIGHT_COLOR,
                                 child: Text(
                                   'Test order',

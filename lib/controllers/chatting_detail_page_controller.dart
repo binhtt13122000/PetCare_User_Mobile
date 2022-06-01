@@ -53,6 +53,7 @@ class ChattingDetailPageController extends GetxController {
     socket.on('joinedRoom', (data) => print(data));
     socket.on('leftRoom', (data) => print(data));
     socket.on('chatToClient', (data) async {
+      print('aaaaaaaaaaaaaaaaaaaaaaaaa');
       MessageModel messageModel = MessageModel.fromJson(data);
       messageModelList.add(messageModel);
       sortListMessage();
@@ -91,7 +92,7 @@ class ChattingDetailPageController extends GetxController {
           transactionTimeText.value = FORMAT_DATE_TIME(
               dateTime: transactionTime!, pattern: DATE_PATTERN_2);
         }
-        //!descriptio
+        //!description
         descriptionTextEditingController.text =
             chatRoomModel!.description ?? '';
         description.value = chatRoomModel!.description ?? '';

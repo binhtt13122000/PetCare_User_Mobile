@@ -20,8 +20,7 @@ import 'package:petapp_mobile/bindings/sign_in_page_binding.dart';
 import 'package:petapp_mobile/bindings/pet_management_page_binding.dart';
 import 'package:petapp_mobile/bindings/purchase_posts_page_binding.dart';
 import 'package:petapp_mobile/bindings/post_management_page_binding.dart';
-import 'package:petapp_mobile/bindings/payment_for_transaction_at_center_page_binding.dart';
-import 'package:petapp_mobile/bindings/transaction_at_center_detail_page_binding.dart';
+import 'package:petapp_mobile/bindings/center_services_transaction_detail_page_binding.dart';
 import 'package:petapp_mobile/bindings/transaction_list_page_binding.dart';
 import 'package:petapp_mobile/bindings/update_sale_post_page_binding.dart';
 import 'package:petapp_mobile/configs/route.dart';
@@ -30,16 +29,14 @@ import 'package:petapp_mobile/controllers/sign_in_page_controller.dart';
 import 'package:petapp_mobile/models/account_model/account_model.dart';
 import 'package:petapp_mobile/services/account_services.dart';
 import 'package:petapp_mobile/views/customer/action_page/action_page.dart';
+import 'package:petapp_mobile/views/customer/center_services_transaction_detail_page/center_services_transaction_detail_page.dart';
 import 'package:petapp_mobile/views/customer/chatting_detail_page/chatting_detail_page.dart';
 import 'package:petapp_mobile/views/customer/chatting_list_page/chatting_list_page.dart';
 import 'package:petapp_mobile/views/customer/create_pet_page/create_pet_page.dart';
 import 'package:petapp_mobile/views/customer/create_post_page/create_post_page.dart';
 import 'package:petapp_mobile/views/customer/home_page/home_page.dart';
 import 'package:petapp_mobile/views/customer/notification_page/notification_page.dart';
-import 'package:petapp_mobile/views/customer/payment_for_transaction_at_center/payment_for_transaction_at_center.dart';
-import 'package:petapp_mobile/views/customer/payment_method_page/payment_method_page.dart';
-import 'package:petapp_mobile/views/customer/payment_page/payment_page.dart';
-import 'package:petapp_mobile/views/customer/personal_information_page/personal_infomation_page.dart';
+import 'package:petapp_mobile/views/customer/personal_information_page/personal_information_page.dart';
 import 'package:petapp_mobile/views/customer/pet_detail_page/pet_detail_page.dart';
 import 'package:petapp_mobile/views/customer/pet_management_page/pet_management_page.dart';
 import 'package:petapp_mobile/views/customer/post_management_page/post_management_page.dart';
@@ -48,7 +45,6 @@ import 'package:petapp_mobile/views/customer/purchase_posts_filter_page/purchase
 import 'package:petapp_mobile/views/customer/sale_post_detail_page/sale_post_detail_page.dart';
 import 'package:petapp_mobile/views/customer/sale_post_list_page/sale_post_page.dart';
 import 'package:petapp_mobile/views/customer/sale_transaction_detail_page/sale_transaction_detail_page.dart';
-import 'package:petapp_mobile/views/customer/transaction_at_center_detail_page/payment_for_transaction_at_center.dart';
 import 'package:petapp_mobile/views/customer/transaction_list_page/transaction_list_page.dart';
 import 'package:petapp_mobile/views/customer/update_sale_post_page/update_sale_post_page.dart';
 import 'package:petapp_mobile/views/guest/landing_page/landing_page.dart';
@@ -186,7 +182,7 @@ class MainApp extends StatelessWidget {
             page: () => const SalePostDetailPage(),
             binding: SalePostDetailPageBinding()),
         GetPage(
-            name: '$UPDATE_SALE_POST_PAGE/:salePostId',
+            name: '$UPDATE_SALE_POST_PAGE_ROUTE/:salePostId',
             page: () => const UpdateSalePostPage(),
             binding: UpdateSalePostPageBinding()),
         //*Action
@@ -209,15 +205,16 @@ class MainApp extends StatelessWidget {
           page: () => const TransactionListPage(),
           binding: TransactionListPageBinding(),
         ),
+        // GetPage(
+        //   name:
+        //       '$PAYMENT_FOR_CENTER_SERVICES_TRANSACTION_PAGE_ROUTE/:transactionId',
+        //   page: () => const PaymentForTransactionAtCenterPage(),
+        //   binding: PaymentForTransactionAtCenterPageBinding(),
+        // ),
         GetPage(
-          name: '$PAYMENT_FOR_TRANSACTION_AT_CENTER_PAGE_ROUTE/:transactionId',
-          page: () => const PaymentForTransactionAtCenterPage(),
-          binding: PaymentForTransactionAtCenterPageBinding(),
-        ),
-        GetPage(
-          name: '$TRANSACTION_AT_CENTER_DETAIL_PAGE_ROUTE/:transactionId',
-          page: () => const TransactionAtCenterDetailPage(),
-          binding: TransactionAtCenterDetailPageBinding(),
+          name: '$CENTER_SERVICES_TRANSACTION_DETAIL_PAGE_ROUTE/:transactionId',
+          page: () => const CenterServicesTransactionDetailPage(),
+          binding: CenterServicesTransactionDetailPageBinding(),
         ),
         GetPage(
           name: '$SALE_TRANSACTION_DETAIL_PAGE_ROUTE/:saleTransactionId',
@@ -266,14 +263,14 @@ class MainApp extends StatelessWidget {
           page: () => const ChattingDetailPage(),
           binding: ChattingDetailPageBinding(),
         ),
-        GetPage(
-          name: PAYMENT_PAGE_ROUTE,
-          page: () => const PaymentPage(),
-        ),
-        GetPage(
-          name: PAYMENT_METHOD_PAGE_ROUTE,
-          page: () => const PaymentMethodPage(),
-        ),
+        // GetPage(
+        //   name: PAYMENT_PAGE_ROUTE,
+        //   page: () => const PaymentPage(),
+        // ),
+        // GetPage(
+        //   name: PAYMENT_METHOD_PAGE_ROUTE,
+        //   page: () => const PaymentMethodPage(),
+        // ),
       ],
     );
   }

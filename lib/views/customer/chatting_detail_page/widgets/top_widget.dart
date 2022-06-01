@@ -7,7 +7,6 @@ import 'package:petapp_mobile/configs/route.dart';
 import 'package:petapp_mobile/configs/theme.dart';
 import 'package:petapp_mobile/controllers/chatting_detail_page_controller.dart';
 import 'package:petapp_mobile/controllers/chatting_list_page_controller.dart';
-import 'package:petapp_mobile/controllers/payment_pay_controller.dart';
 import 'package:petapp_mobile/utilities/utilities.dart';
 
 class ChattingDetailTopWidget extends GetView<ChattingDetailPageController> {
@@ -103,7 +102,7 @@ class ChattingDetailTopWidget extends GetView<ChattingDetailPageController> {
               Padding(
                 padding: const EdgeInsets.only(top: 5),
                 child: GetBuilder<ChattingDetailPageController>(
-                    builder: (_) => chatRoomStatusWiget()),
+                    builder: (_) => chatRoomStatusWidget()),
               ),
               Container(
                 height: 1,
@@ -115,7 +114,7 @@ class ChattingDetailTopWidget extends GetView<ChattingDetailPageController> {
         ),
       );
 
-  Widget chatRoomStatusWiget() {
+  Widget chatRoomStatusWidget() {
     //*Check exist room
     if (controller.chatRoomModel != null) {
       //*Check customer role is buyer or not
@@ -134,6 +133,10 @@ class ChattingDetailTopWidget extends GetView<ChattingDetailPageController> {
                 : viewTransactionDetailWidget();
           case 'REQUESTED':
             return viewRequestDetailWidget();
+          case 'CLOSED':
+            return controller.chatRoomModel!.transactionId != null
+                ? viewTransactionDetailWidget()
+                : const SizedBox.shrink();
           default:
             return const SizedBox.shrink();
         }
@@ -145,6 +148,10 @@ class ChattingDetailTopWidget extends GetView<ChattingDetailPageController> {
                 : viewTransactionDetailWidget();
           case 'REQUESTED':
             return viewBuyerTransactionRequestWidget();
+          case 'CLOSED':
+            return controller.chatRoomModel!.transactionId != null
+                ? viewTransactionDetailWidget()
+                : const SizedBox.shrink();
           default:
             return const SizedBox.shrink();
         }
@@ -320,8 +327,8 @@ class ChattingDetailTopWidget extends GetView<ChattingDetailPageController> {
 
   Widget paymentButtonWidget() => InkWell(
         onTap: () {
-          Get.put(PaymentPageController()).postModel = controller.postModel;
-          Get.toNamed(PAYMENT_PAGE_ROUTE);
+          // Get.put(PaymentPageController()).postModel = controller.postModel;
+          // Get.toNamed(PAYMENT_PAGE_ROUTE);
         },
         child: Container(
           height: 35,

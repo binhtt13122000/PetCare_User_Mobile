@@ -1,38 +1,15 @@
 import 'package:get/get.dart';
 import 'package:petapp_mobile/models/center_services_transaction_model/center_services_transaction_model.dart';
-import 'package:petapp_mobile/models/promotion_model.dart/promotion_model.dart';
 
-class TransactionAtCenterDetailPageController extends GetxController {
+class CenterServicesTransactionDetailPageController extends GetxController {
+  RxBool isLoadingData = false.obs;
   RxBool isShowThankPopup = false.obs;
   RxInt selectedStar = 0.obs;
   RxString ratingText = 'Rating'.obs;
   RxList<String> quickFeedBackList = <String>[].obs;
-  PromotionModel? selectedPromotion;
-  RxInt disccountAmount = 0.obs;
-  RxString selectedPromotionName = 'ADD A PROMO'.obs;
-  late CenterServicesTransactionModel centerServicesTransactionModel;
-  List<PromotionModel> promotionModels = [
-    PromotionModel(
-      name: 'VS1605',
-      discountPercent: 10,
-      description: 'Visa discount 5%',
-      expDate: DateTime.now().add(
-        const Duration(days: 75),
-      ),
-    ),
-    PromotionModel(
-      name: 'WELNEW01',
-      discountPercent: 5,
-      description: 'Discount 5% for new user',
-      expDate: DateTime.now().add(
-        const Duration(days: 15),
-      ),
-    ),
-  ];
-  Function()? refetchGraphql;
-  List<int> currentTransactionIdList = [];
   RxBool isShowReviewPopup = false.obs;
   String reviewContent = '';
+  late CenterServicesTransactionModel centerServicesTransactionModel;
 
   updateRatingText() {
     switch (selectedStar.value) {

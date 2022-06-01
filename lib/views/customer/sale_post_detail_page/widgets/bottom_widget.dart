@@ -55,11 +55,12 @@ class PurchasePostDetailBottomWidget
                 ),
                 Visibility(
                   visible: controller.accountModel.customerModel.id ==
-                      controller.postModel.customerId && controller.postModel.status == "REQUESTED",
+                          controller.postModel.customerId &&
+                      controller.postModel.status == "REQUESTED",
                   child: Expanded(
                     child: InkWell(
                       onTap: () => Get.toNamed(
-                          '$UPDATE_SALE_POST_PAGE/${controller.postModel.id}'),
+                          '$UPDATE_SALE_POST_PAGE_ROUTE/${controller.postModel.id}'),
                       child: Container(
                         height: 40,
                         margin: const EdgeInsets.symmetric(horizontal: 12),

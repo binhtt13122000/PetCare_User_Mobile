@@ -101,7 +101,7 @@ class SaleTransactionService {
         'reasonCancel': reasonCancel ?? '',
         'status': status,
         'point': point,
-        'cancelTime': cancelTime!.toIso8601String()
+        'cancelTime': cancelTime!.toIso8601String(),
       }),
     );
     switch (response.statusCode) {
@@ -135,7 +135,7 @@ class SaleTransactionService {
       'transactionTotal': transactionTotal,
       'paymentMethod': paymentMethod,
       'point': transactionTotal ~/ 1000,
-      'message': 'hello a Danh'
+      'message': 'Thank for your payment!'
     });
     print(jsonBody);
     final response = await http.post(

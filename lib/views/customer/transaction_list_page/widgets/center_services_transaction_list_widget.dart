@@ -20,7 +20,7 @@ class CenterServicesTransactionListWidget
       WidgetsBinding.instance!.addPostFrameCallback((_) async {
         controller.centerServicesTransactionList =
             await CenterServicesTransactionServices
-                .fetchListCenterServicesTransactionBuyCustomerId(
+                .fetchListCenterServicesTransactionByCustomerId(
           page: controller.page,
           limit: controller.limit,
           customerId: controller.accountModel.customerModel.id,
@@ -71,7 +71,7 @@ class CenterServicesTransactionListWidget
       padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
       child: InkWell(
         onTap: () => Get.toNamed(
-            '$TRANSACTION_AT_CENTER_DETAIL_PAGE_ROUTE/${centerServicesTransactionModel.id}'),
+            '$CENTER_SERVICES_TRANSACTION_DETAIL_PAGE_ROUTE/${centerServicesTransactionModel.id}'),
         child: Container(
           height: 100,
           padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 5),

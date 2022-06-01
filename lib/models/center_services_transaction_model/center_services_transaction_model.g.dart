@@ -25,7 +25,7 @@ CenterServicesTransactionModel _$CenterServicesTransactionModelFromJson(
       branchModel: json['branch'] == null
           ? null
           : BranchModel.fromJson(json['branch'] as Map<String, dynamic>),
-      centerServicesTransactionDetailModel:
+      centerServicesTransactionDetailModelList:
           (json['orderDetails'] as List<dynamic>?)
               ?.map((e) => CenterServicesTransactionDetailModel.fromJson(
                   e as Map<String, dynamic>))
@@ -55,7 +55,7 @@ Map<String, dynamic> _$CenterServicesTransactionModelToJson(
       'customerId': instance.customerId,
       'registerTime': instance.registerTime.toIso8601String(),
       'branch': instance.branchModel?.toJson(),
-      'orderDetails': instance.centerServicesTransactionDetailModel
+      'orderDetails': instance.centerServicesTransactionDetailModelList
           ?.map((e) => e.toJson())
           .toList(),
     };

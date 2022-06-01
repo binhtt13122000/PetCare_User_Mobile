@@ -2,11 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:petapp_mobile/configs/theme.dart';
-import 'package:petapp_mobile/controllers/transaction_at_center_detail_page_controller.dart';
+import 'package:petapp_mobile/controllers/center_services_transaction_detail_page_controller.dart';
 
-class TransactionAtCenterDetailPopupWidget
-    extends GetView<TransactionAtCenterDetailPageController> {
-  const TransactionAtCenterDetailPopupWidget({Key? key}) : super(key: key);
+class CenterServicesTransactionDetailPopupWidget
+    extends GetView<CenterServicesTransactionDetailPageController> {
+  const CenterServicesTransactionDetailPopupWidget({Key? key})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) => Obx(
@@ -50,7 +51,6 @@ class TransactionAtCenterDetailPopupWidget
                     child: InkWell(
                       onTap: () {
                         controller.isShowThankPopup.value = false;
-                        controller.refetchGraphql!.call();
                       },
                       child: Container(
                         alignment: Alignment.center,

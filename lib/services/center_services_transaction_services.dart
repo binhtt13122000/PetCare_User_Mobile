@@ -17,7 +17,7 @@ class CenterServicesTransactionServices {
   }
 
   static Future<List<CenterServicesTransactionModel>>
-      fetchListCenterServicesTransactionBuyCustomerId({
+      fetchListCenterServicesTransactionByCustomerId({
     required int page,
     required int limit,
     required int customerId,
@@ -41,7 +41,30 @@ class CenterServicesTransactionServices {
         return getCenterServicesTransactionList(
             jsonDecode(response.body)['data']['content']);
       default:
-        throw Exception('Error ${response.statusCode}, cannot get branch list');
+        throw Exception(
+            'Error ${response.statusCode}, cannot get transaction list');
+    }
+  }
+
+  static Future<CenterServicesTransactionModel>
+      fetchCenterServicesTransactionByCustomerId({
+    required int transactionId,
+  }) async {
+    final response = await http.get(
+      Uri.http(API_SERVER_PATH,
+          '$CENTER_SERVICES_TRANSACTION_API_PATH/$transactionId'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+    );
+    switch (response.statusCode) {
+      case 200:
+      case 201:
+      case 202:
+        return CenterServicesTransactionModel.fromJson(
+            jsonDecode(response.body)['data']);
+      default:
+        throw Exception('Error ${response.statusCode}, cannot get transaction');
     }
   }
 }

@@ -51,7 +51,7 @@ class BuyerRequestWidget extends GetView<ChattingDetailPageController> {
                                     .accountModel.customerModel.address!),
                             descriptionWidget(),
                             acceptBuyerRequestWidget(),
-                            denineBuyerRequestWidget(),
+                            denyBuyerRequestWidget(),
                           ],
                         ),
                       ),
@@ -319,7 +319,7 @@ class BuyerRequestWidget extends GetView<ChattingDetailPageController> {
         ],
       );
 
-  Widget denineBuyerRequestWidget() => Padding(
+  Widget denyBuyerRequestWidget() => Padding(
         padding: const EdgeInsets.only(top: 10),
         child: InkWell(
           onTap: () async {
@@ -330,8 +330,8 @@ class BuyerRequestWidget extends GetView<ChattingDetailPageController> {
               ..isSellerMessage = true;
             Map<String, dynamic> emitJsonMap =
                 controller.chatRoomModel!.toJson();
-            emitJsonMap.addAll(
-                {'message': 'Transaction request - status: [DENINED].'});
+            emitJsonMap
+                .addAll({'message': 'Transaction request - status: [DENIED].'});
             controller.socket.emit(
               'updateRoom',
               emitJsonMap,

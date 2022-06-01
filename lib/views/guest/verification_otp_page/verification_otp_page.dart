@@ -257,7 +257,7 @@ class VerificationOTPPage extends GetView<SignInPageController> {
                             if (accountModel != null) {
                               // Get.put(AuthController()).accountModel =
                               //     accountModel;
-
+                              Get.deleteAll();
                               Get.lazyPut<AuthController>(
                                   () => AuthController(
                                       accountModel: accountModel),

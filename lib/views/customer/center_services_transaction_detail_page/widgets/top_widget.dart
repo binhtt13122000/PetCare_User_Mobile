@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:petapp_mobile/configs/route.dart';
 import 'package:petapp_mobile/configs/theme.dart';
-import 'package:petapp_mobile/controllers/transaction_at_center_detail_page_controller.dart';
+import 'package:petapp_mobile/controllers/center_services_transaction_detail_page_controller.dart';
+import 'package:petapp_mobile/controllers/transaction_list_page_controller.dart';
 
-class TransactionAtCenterDetailTopWidget
-    extends GetView<TransactionAtCenterDetailPageController> {
-  const TransactionAtCenterDetailTopWidget({Key? key}) : super(key: key);
+class CenterServicesTransactionDetailTopWidget
+    extends GetView<CenterServicesTransactionDetailPageController> {
+  const CenterServicesTransactionDetailTopWidget({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) => Column(
@@ -28,7 +28,10 @@ class TransactionAtCenterDetailTopWidget
           children: [
             //*back button
             InkWell(
-              onTap: () => Get.toNamed(TRANSACTION_PAGE_ROUTE),
+              onTap: () => Get
+                ..back()
+                ..put(TransactionListPageController())
+                ..find<TransactionListPageController>().update(),
               child: Container(
                 height: 35,
                 width: 35,

@@ -26,7 +26,7 @@ class CenterServicesTransactionModel {
   final BranchModel? branchModel;
   @JsonKey(name: 'orderDetails')
   final List<CenterServicesTransactionDetailModel>?
-      centerServicesTransactionDetailModel;
+      centerServicesTransactionDetailModelList;
   CenterServicesTransactionModel({
     required this.id,
     this.description,
@@ -40,7 +40,7 @@ class CenterServicesTransactionModel {
     required this.star,
     this.review,
     required this.branchModel,
-    this.centerServicesTransactionDetailModel,
+    this.centerServicesTransactionDetailModelList,
     required this.branchId,
     this.promotionId,
     required this.customerId,
