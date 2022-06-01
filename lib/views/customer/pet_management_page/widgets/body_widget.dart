@@ -39,7 +39,8 @@ class PetsManagementBodyWidget extends GetView<PetManagementPageController> {
               );
 
               if (result.data != null) {
-                controller.petList = PetService.getPetList((result.data!));
+                controller.petList =
+                    PetService.getPetList((result.data!)['data']);
                 controller.isLoadingPetList.value = false;
               }
             });

@@ -6,16 +6,15 @@ import 'package:petapp_mobile/controllers/create_post_page_controller.dart';
 import 'package:petapp_mobile/services/transaction_fees_services.dart';
 import 'package:petapp_mobile/views/customer/create_post_page/widgets/body_widget.dart';
 import 'package:petapp_mobile/views/customer/create_post_page/widgets/bottom_widget.dart';
-import 'package:petapp_mobile/views/customer/create_post_page/widgets/desciption_widget.dart';
+import 'package:petapp_mobile/views/customer/create_post_page/widgets/description_widget.dart';
 import 'package:petapp_mobile/views/customer/create_post_page/widgets/loading_widget.dart';
 import 'package:petapp_mobile/views/customer/create_post_page/widgets/media_picker_widget.dart';
 import 'package:petapp_mobile/views/customer/create_post_page/widgets/pet_filter_widget.dart';
 import 'package:petapp_mobile/views/customer/create_post_page/widgets/popup_widget.dart';
 import 'package:petapp_mobile/views/customer/create_post_page/widgets/sale_transaction_fees.dart';
 import 'package:petapp_mobile/views/customer/create_post_page/widgets/select_pet_widget.dart';
-import 'package:petapp_mobile/views/customer/create_post_page/widgets/selecte_branch_widget.dart';
+import 'package:petapp_mobile/views/customer/create_post_page/widgets/select_branch_widget.dart';
 import 'package:petapp_mobile/views/customer/create_post_page/widgets/top_widget.dart';
-// import 'package:petapp_mobile/views/customer/create_post_page/widgets/video_displayer_widget.dart';
 
 class CreatePostPage extends GetView<CreatePostPageController> {
   const CreatePostPage({Key? key}) : super(key: key);

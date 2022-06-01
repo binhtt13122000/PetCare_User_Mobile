@@ -68,7 +68,7 @@ class SelectPetWidget extends GetView<CreatePostPageController> {
           QueryOptions(document: gql(query), variables: variables),
         );
 
-        controller.pets = PetService.getPetList(result.data!);
+        controller.pets = PetService.getPetList(result.data!['data']);
 
         if (controller.pets.isNotEmpty) {
           if (controller.selectedPetId == null) {
