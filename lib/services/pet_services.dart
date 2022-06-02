@@ -8,13 +8,10 @@ import 'package:http/http.dart' as http;
 import 'package:petapp_mobile/models/pet_model/pet_model.dart';
 
 class PetService {
-  static PetModel getPet(Map<String, dynamic> jsonData) =>
-      PetModel.fromJson(jsonData);
-
   static List<PetModel> getPetList(List<dynamic> jsonData) {
     final List<PetModel> petList = List.empty(growable: true);
     for (var element in jsonData) {
-      petList.add(getPet(element));
+      petList.add(PetModel.fromJson(element));
     }
     return petList;
   }
@@ -131,6 +128,23 @@ class PetService {
         return getPetList(json.decode(response.body)['data']);
       default:
         throw Exception('Error ${response.statusCode}, cannot get pet list');
+    }
+  }
+
+  static Future<PetModel> fetchPetById({required String petId}) async {
+    final response = await http.get(
+      Uri.http(API_SERVER_PATH, '$PET_API_PATH/$petId'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+    );
+    switch (response.statusCode) {
+      case 200:
+      case 201:
+      case 202:
+        return PetModel.fromJson(json.decode(response.body)['data']);
+      default:
+        throw Exception('Error ${response.statusCode}, cannot get pet');
     }
   }
 }
