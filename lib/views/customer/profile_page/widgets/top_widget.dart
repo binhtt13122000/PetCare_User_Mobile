@@ -257,11 +257,11 @@ class ProfilePageTopWidget extends GetView<ProfilePageController> {
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               generalInfoItemWidget(keyText: '0', valueText: 'Post'),
-              generalInfoItemWidget(
-                  keyText: controller.accountModel.customerModel.numberFollowers
-                      .toString(),
-                  valueText: 'Followers'),
-              generalInfoItemWidget(keyText: '15', valueText: 'Followings'),
+              // generalInfoItemWidget(
+              //     keyText: controller.accountModel.customerModel.numberFollowers
+              //         .toString(),
+              //     valueText: 'Followers'),
+              // generalInfoItemWidget(keyText: '15', valueText: 'Followings'),
             ],
           ),
         ],

@@ -226,15 +226,15 @@ class SellerInformationWidget extends GetView<SalePostDetailPageController> {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Text(
-                  controller.postModel.customerModel!.numberFollowers
-                      .toString(),
-                  style: GoogleFonts.quicksand(
-                    fontSize: 15,
-                    fontWeight: FontWeight.w600,
-                    color: const Color.fromARGB(255, 86, 104, 126),
-                  ),
-                ),
+                // Text(
+                //   controller.postModel.customerModel!.numberFollowers
+                //       .toString(),
+                //   style: GoogleFonts.quicksand(
+                //     fontSize: 15,
+                //     fontWeight: FontWeight.w600,
+                //     color: const Color.fromARGB(255, 86, 104, 126),
+                //   ),
+                // ),
                 Text(
                   'Followers',
                   style: GoogleFonts.quicksand(

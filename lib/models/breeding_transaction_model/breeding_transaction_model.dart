@@ -32,14 +32,17 @@ class BreedingTransactionModel {
   final DateTime? dateOfBreeding;
   final int? point;
   final DateTime? cancelTime;
+  final int transactionFee;
+  final DateTime? transactionTime;
+  final String placeMeeting;
 
   @JsonKey(name: 'post')
   final PostModel? postModel;
 
-  @JsonKey(name: 'malePet')
+  @JsonKey(name: 'petMale')
   final PetModel malePetModel;
 
-  @JsonKey(name: 'femalePet')
+  @JsonKey(name: 'petFemale')
   final PetModel femalePetModel;
 
   @JsonKey(name: 'ownerPetMale')
@@ -47,10 +50,6 @@ class BreedingTransactionModel {
 
   @JsonKey(name: 'ownerPetFemale')
   final CustomerModel ownerPetFemaleCustomerModel;
-
-  final int transactionFee;
-  final DateTime? transactionTime;
-  final String placeMeeting;
 
   BreedingTransactionModel({
     required this.id,

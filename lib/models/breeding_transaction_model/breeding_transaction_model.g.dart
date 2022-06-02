@@ -44,9 +44,9 @@ BreedingTransactionModel _$BreedingTransactionModelFromJson(
       postModel: json['post'] == null
           ? null
           : PostModel.fromJson(json['post'] as Map<String, dynamic>),
-      malePetModel: PetModel.fromJson(json['malePet'] as Map<String, dynamic>),
+      malePetModel: PetModel.fromJson(json['petMale'] as Map<String, dynamic>),
       femalePetModel:
-          PetModel.fromJson(json['femalePet'] as Map<String, dynamic>),
+          PetModel.fromJson(json['petFemale'] as Map<String, dynamic>),
       ownerPetMaleCustomerModel:
           CustomerModel.fromJson(json['ownerPetMale'] as Map<String, dynamic>),
       ownerPetFemaleCustomerModel: CustomerModel.fromJson(
@@ -85,12 +85,12 @@ Map<String, dynamic> _$BreedingTransactionModelToJson(
       'dateOfBreeding': instance.dateOfBreeding?.toIso8601String(),
       'point': instance.point,
       'cancelTime': instance.cancelTime?.toIso8601String(),
-      'post': instance.postModel?.toJson(),
-      'malePet': instance.malePetModel.toJson(),
-      'femalePet': instance.femalePetModel.toJson(),
-      'ownerPetMale': instance.ownerPetMaleCustomerModel.toJson(),
-      'ownerPetFemale': instance.ownerPetFemaleCustomerModel.toJson(),
       'transactionFee': instance.transactionFee,
       'transactionTime': instance.transactionTime?.toIso8601String(),
       'placeMeeting': instance.placeMeeting,
+      'post': instance.postModel?.toJson(),
+      'petMale': instance.malePetModel.toJson(),
+      'petFemale': instance.femalePetModel.toJson(),
+      'ownerPetMale': instance.ownerPetMaleCustomerModel.toJson(),
+      'ownerPetFemale': instance.ownerPetFemaleCustomerModel.toJson(),
     };
