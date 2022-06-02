@@ -1,6 +1,7 @@
 import 'package:get/get.dart';
 import 'package:petapp_mobile/controllers/auth_controller.dart';
 import 'package:petapp_mobile/models/account_model/account_model.dart';
+import 'package:petapp_mobile/models/breeding_transaction_model/breeding_transaction_model.dart';
 import 'package:petapp_mobile/models/center_services_transaction_model/center_services_transaction_model.dart';
 import 'package:petapp_mobile/models/sale_transaction_model/sale_transaction_model.dart';
 
@@ -29,6 +30,7 @@ class TransactionListPageController extends GetxController {
     'Transaction role: [SELLER]'
   ];
   late RxString selectedBreedingTransactionType;
+  late List<BreedingTransactionModel> breedingTransactionModelList;
   RxBool isLoadingBreedingTransaction = false.obs;
 
   TransactionListPageController() {

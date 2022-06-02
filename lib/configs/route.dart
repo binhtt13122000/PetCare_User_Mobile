@@ -31,6 +31,7 @@ const PAYMENT_FOR_CENTER_SERVICES_TRANSACTION_PAGE_ROUTE =
 const CENTER_SERVICES_TRANSACTION_DETAIL_PAGE_ROUTE =
     '/center-services-transaction-detail';
 const SALE_TRANSACTION_DETAIL_PAGE_ROUTE = '/sale-transaction-detail';
+const BREEDING_TRANSACTION_DETAIL_PAGE_ROUTE = '/breeding-transaction-detail';
 
 //setting
 const SETTING_PAGE_ROUTE = '/setting';

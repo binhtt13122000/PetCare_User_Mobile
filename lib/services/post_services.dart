@@ -179,6 +179,10 @@ class PostService {
         'Content-Type': 'application/json; charset=UTF-8',
       },
     );
+    print(parameters);
+    print(Uri.http(API_SERVER_PATH, '/v1/api/posts/fetch-post', parameters));
+    print(response.statusCode);
+    print(json.decode(response.body)['data']['content']);
     switch (response.statusCode) {
       case 200:
       case 201:
@@ -201,6 +205,7 @@ class PostService {
       'notCustomerId': customerId.toString(),
       'status': status,
     };
+    print(Uri.http(API_SERVER_PATH, '/v1/api/posts/fetch-post', parameters));
     final response = await http.get(
       Uri.http(API_SERVER_PATH, '/v1/api/posts/fetch-post', parameters),
       headers: <String, String>{

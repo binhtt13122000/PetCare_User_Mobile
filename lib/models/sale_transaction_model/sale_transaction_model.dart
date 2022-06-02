@@ -36,6 +36,7 @@ class SaleTransactionModel {
   final CustomerModel buyerCustomerModel;
   @JsonKey(name: 'seller')
   final CustomerModel sellerCustomerModel;
+
   SaleTransactionModel(
       {required this.createdTime,
       this.description,

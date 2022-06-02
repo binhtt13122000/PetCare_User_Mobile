@@ -13,7 +13,6 @@ class CustomerModel {
   final int point;
   final String email;
 
-  final int numberFollowers;
   final int numberReviewers;
   final String? bankName;
   final String? bankCode;
@@ -30,7 +29,6 @@ class CustomerModel {
     this.avatar,
     required this.star,
     required this.point,
-    required this.numberFollowers,
     required this.numberReviewers,
     required this.email,
     this.bankName,

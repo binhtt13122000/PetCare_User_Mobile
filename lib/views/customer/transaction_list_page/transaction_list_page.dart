@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:petapp_mobile/configs/theme.dart';
 import 'package:petapp_mobile/controllers/transaction_list_page_controller.dart';
+import 'package:petapp_mobile/views/customer/transaction_list_page/widgets/breeding_transaction_list_widget.dart';
 import 'package:petapp_mobile/views/customer/transaction_list_page/widgets/center_services_transaction_list_widget.dart';
 import 'package:petapp_mobile/views/customer/transaction_list_page/widgets/sale_transaction_list_widget.dart';
 import 'package:petapp_mobile/views/customer/transaction_list_page/widgets/top_widget.dart';
@@ -22,6 +23,9 @@ class TransactionListPage extends GetView<TransactionListPageController> {
                 : const SizedBox.shrink(),
             controller.selectedTransactionType.value == 'Sale'
                 ? const SaleTransactionListWidget()
+                : const SizedBox.shrink(),
+            controller.selectedTransactionType.value == 'Breeding'
+                ? const BreedingTransactionListWidget()
                 : const SizedBox.shrink(),
           ],
         );

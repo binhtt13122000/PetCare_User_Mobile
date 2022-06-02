@@ -6,10 +6,11 @@ import 'package:petapp_mobile/models/post_model/post_model.dart';
 import 'package:petapp_mobile/models/species_model/species_model.dart';
 
 class PurchasePostsPageController extends GetxController {
-  late RxList<PostModel> postList;
+  RxList<PostModel> postList = <PostModel>[].obs;
   AccountModel accountModel = Get.find<AuthController>().accountModel;
 
   List<dynamic> selectedGenderList = ['MALE', 'FEMALE'];
+  RxBool isShowLoadingPurchasePost = false.obs;
 
   RxMap<int, RxList<int>> selectedBreedMap = <int, RxList<int>>{}.obs;
   Map<int, List<BreedModel>> breedsMap = <int, List<BreedModel>>{};
