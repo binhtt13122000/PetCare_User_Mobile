@@ -217,9 +217,10 @@ class PurchasePostsFilterPage extends GetView<PurchasePostsPageController> {
                                   child: CircularProgressIndicator(),
                                 );
                               }
-                              controller.breedsMap[
-                                      controller.selectedSpeciesId.value] =
-                                  BreedService.getBreedList(result.data!).obs;
+                              controller.breedsMap[controller.selectedSpeciesId
+                                  .value] = BreedService.getBreedList(
+                                      result.data!['data'])
+                                  .obs;
                               return Container(
                                 alignment: Alignment.topLeft,
                                 padding: const EdgeInsets.only(

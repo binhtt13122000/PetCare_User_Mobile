@@ -6,16 +6,17 @@ import 'package:petapp_mobile/models/transaction_fees_model/transaction_fees_mod
 import 'package:petapp_mobile/utilities/utilities.dart';
 import 'package:petapp_mobile/views/widgets/customize_widget.dart';
 
-class SaleTransactionFeesWidget extends GetView<CreatePostPageController> {
-  const SaleTransactionFeesWidget({Key? key}) : super(key: key);
+class CreatePostSaleTransactionFeesWidget
+    extends GetView<CreatePostPageController> {
+  const CreatePostSaleTransactionFeesWidget({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Obx(
       () => Visibility(
-        visible: controller.isShowPurchaseTransactionFeees.value,
+        visible: controller.isShowPurchaseTransactionFees.value,
         child: InkWell(
-          onTap: () => controller.isShowPurchaseTransactionFeees.value = false,
+          onTap: () => controller.isShowPurchaseTransactionFees.value = false,
           child: Container(
             color: DARK_GREY_TRANSPARENT,
             alignment: Alignment.center,

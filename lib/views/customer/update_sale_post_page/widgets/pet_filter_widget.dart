@@ -31,7 +31,7 @@ class PetFilterWidget extends GetView<UpdateSalePostPageController> {
                           document: gql(FETCH_ALL_SPECIES),
                           variables: const {}));
                   controller.species =
-                      SpeciesService.getSpeciesList(queryResult.data!);
+                      SpeciesService.getSpeciesList(queryResult.data!['data']);
                   controller.selectedSpeciesId ??= controller.species[0].id;
                   controller.isShowLoadingPetSpecies.value = false;
                 });
@@ -185,7 +185,7 @@ class PetFilterWidget extends GetView<UpdateSalePostPageController> {
               );
             } else if (result.data != null) {
               controller.breedsMap[controller.selectedSpeciesId!] =
-                  BreedService.getBreedList(result.data!);
+                  BreedService.getBreedList(result.data!['data']);
 
               // if (controller.selectedBreedMap[controller.selectedSpeciesId] ==
               //         null &&

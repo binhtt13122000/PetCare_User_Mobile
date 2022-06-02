@@ -6,10 +6,10 @@ import 'package:petapp_mobile/controllers/create_post_page_controller.dart';
 import 'package:petapp_mobile/services/transaction_fees_services.dart';
 import 'package:petapp_mobile/views/customer/create_post_page/widgets/body_widget.dart';
 import 'package:petapp_mobile/views/customer/create_post_page/widgets/bottom_widget.dart';
+import 'package:petapp_mobile/views/customer/create_post_page/widgets/calendar_widget.dart';
 import 'package:petapp_mobile/views/customer/create_post_page/widgets/description_widget.dart';
 import 'package:petapp_mobile/views/customer/create_post_page/widgets/loading_widget.dart';
 import 'package:petapp_mobile/views/customer/create_post_page/widgets/media_picker_widget.dart';
-import 'package:petapp_mobile/views/customer/create_post_page/widgets/pet_filter_widget.dart';
 import 'package:petapp_mobile/views/customer/create_post_page/widgets/popup_widget.dart';
 import 'package:petapp_mobile/views/customer/create_post_page/widgets/sale_transaction_fees.dart';
 import 'package:petapp_mobile/views/customer/create_post_page/widgets/select_pet_widget.dart';
@@ -59,7 +59,6 @@ class CreatePostPage extends GetView<CreatePostPageController> {
                                 //VideoApp(),
                                 CreatePostBodyWidget(),
                                 SelectPetWidget(),
-                                PetFilterWidget(),
                                 MediaPickerWidget(),
                                 SelectBranchWidget(),
                                 DescriptionWidget(),
@@ -73,7 +72,8 @@ class CreatePostPage extends GetView<CreatePostPageController> {
                   ),
                   const CreatePostLoadingWidget(),
                   const CreatePostPopupWidget(),
-                  const SaleTransactionFeesWidget(),
+                  const CreatePostSaleTransactionFeesWidget(),
+                  const CreatePostCalendarWidget(),
                 ],
               ),
             ),

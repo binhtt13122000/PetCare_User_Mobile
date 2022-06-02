@@ -2,20 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:petapp_mobile/configs/theme.dart';
-import 'package:petapp_mobile/controllers/add_pet_page_controller.dart';
+import 'package:petapp_mobile/controllers/create_post_page_controller.dart';
 import 'package:petapp_mobile/utilities/utilities.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
-class CreatePetCalenderWidget extends GetView<CreatePetPageController> {
-  const CreatePetCalenderWidget({Key? key}) : super(key: key);
+class CreatePostCalendarWidget extends GetView<CreatePostPageController> {
+  const CreatePostCalendarWidget({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) => Obx(
         () => Visibility(
-          visible: controller.isDisplayCalender.value,
+          visible: controller.isShowCalendar.value,
           child: InkWell(
             onTap: () {
-              controller.isDisplayCalender.value = false;
+              controller.isShowCalendar.value = false;
             },
             child: Container(
               color: const Color.fromARGB(106, 198, 188, 201),
@@ -32,14 +32,14 @@ class CreatePetCalenderWidget extends GetView<CreatePetPageController> {
                       child: SfDateRangePicker(
                         onSelectionChanged: (DateRangePickerSelectionChangedArgs
                             dateRangePickerSelectionChangedArgs) {
-                          controller.tmpDateOfBirthTime = DateTime.parse(
+                          controller.tmpMeetingTime = DateTime.parse(
                               dateRangePickerSelectionChangedArgs.value
                                   .toString());
                         },
                         selectionMode: DateRangePickerSelectionMode.single,
                         backgroundColor: WHITE_COLOR,
-                        initialSelectedDate: controller.dateOfBirthTime,
-                        initialDisplayDate: controller.dateOfBirthTime,
+                        initialSelectedDate: controller.meetingTime,
+                        initialDisplayDate: controller.meetingTime,
                       ),
                     ),
                   ),
@@ -60,9 +60,9 @@ class CreatePetCalenderWidget extends GetView<CreatePetPageController> {
                         children: [
                           MaterialButton(
                             onPressed: () {
-                              controller.tmpDateOfBirthTime =
-                                  controller.dateOfBirthTime;
-                              controller.isDisplayCalender.value = false;
+                              controller.tmpMeetingTime =
+                                  controller.meetingTime;
+                              controller.isShowCalendar.value = false;
                             },
                             color: PRIMARY_LIGHT_COLOR,
                             child: Text(
@@ -77,13 +77,13 @@ class CreatePetCalenderWidget extends GetView<CreatePetPageController> {
                           ),
                           MaterialButton(
                             onPressed: () {
-                              controller.dateOfBirthTime =
-                                  controller.tmpDateOfBirthTime;
-                              controller.dayOfBirthText.value =
+                              controller.meetingTime =
+                                  controller.tmpMeetingTime;
+                              controller.meetingTimeText.value =
                                   FORMAT_DATE_TIME(
-                                      dateTime: controller.dateOfBirthTime!,
+                                      dateTime: controller.meetingTime!,
                                       pattern: DATE_PATTERN_2);
-                              controller.isDisplayCalender.value = false;
+                              controller.isShowCalendar.value = false;
                             },
                             color: PRIMARY_COLOR,
                             child: Text(

@@ -35,7 +35,7 @@ class PostModel {
   final CustomerModel? customerModel;
   @JsonKey(name: 'branch')
   final BranchModel? branchModel;
-  @JsonKey(name: 'medias')
+  @JsonKey(name: 'media')
   final List<MediaModel>? mediaModels;
 
   PostModel({

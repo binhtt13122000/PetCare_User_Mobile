@@ -21,26 +21,25 @@ class SaleTransactionListWidget extends GetView<TransactionListPageController> {
           Expanded(
             child: GetBuilder<TransactionListPageController>(
               builder: (_) {
-                controller.isLoadingPurchaseTransaction.value = true;
+                controller.isLoadingSaleTransaction.value = true;
                 WidgetsBinding.instance!.addPostFrameCallback((_) async {
                   controller.saleTransactionModelList =
                       await SaleTransactionService.fetchSaleTransactionList(
-                    buyerId: controller.selectedPurchaseTransactionType.value ==
+                    buyerId: controller.selectedSaleTransactionType.value ==
                             'Transaction role: [BUYER]'
                         ? controller.accountModel.customerModel.id.toString()
                         : null,
-                    sellerId: controller
-                                .selectedPurchaseTransactionType.value ==
+                    sellerId: controller.selectedSaleTransactionType.value ==
                             'Transaction role: [SELLER]'
                         ? controller.accountModel.customerModel.id.toString()
                         : null,
                     page: controller.page.toString(),
                     limit: controller.limit.toString(),
                   );
-                  controller.isLoadingPurchaseTransaction.value = false;
+                  controller.isLoadingSaleTransaction.value = false;
                 });
                 return Obx(
-                  () => controller.isLoadingPurchaseTransaction.value
+                  () => controller.isLoadingSaleTransaction.value
                       ? const SpinKitSpinningLines(
                           color: PRIMARY_COLOR,
                           size: 150,
@@ -71,13 +70,13 @@ class SaleTransactionListWidget extends GetView<TransactionListPageController> {
         child: Obx(
           () => InkWell(
             onTap: () => controller
-              ..selectedPurchaseTransactionType.value = saleTransactionType
+              ..selectedSaleTransactionType.value = saleTransactionType
               ..update(),
             child: Column(
               children: [
                 Container(
                   height: 30,
-                  color: controller.selectedPurchaseTransactionType.value ==
+                  color: controller.selectedSaleTransactionType.value ==
                           saleTransactionType
                       ? PRIMARY_LIGHT_COLOR.withOpacity(0.3)
                       : Colors.transparent,
@@ -89,18 +88,17 @@ class SaleTransactionListWidget extends GetView<TransactionListPageController> {
                         padding: const EdgeInsets.only(right: 10),
                         child: CircleAvatar(
                           maxRadius: 3,
-                          backgroundColor: controller
-                                      .selectedPurchaseTransactionType.value ==
-                                  saleTransactionType
-                              ? PRIMARY_COLOR
-                              : Colors.transparent,
+                          backgroundColor:
+                              controller.selectedSaleTransactionType.value ==
+                                      saleTransactionType
+                                  ? PRIMARY_COLOR
+                                  : Colors.transparent,
                         ),
                       ),
                       Text(
                         saleTransactionType,
                         style: GoogleFonts.quicksand(
-                          color: controller
-                                      .selectedPurchaseTransactionType.value ==
+                          color: controller.selectedSaleTransactionType.value ==
                                   saleTransactionType
                               ? PRIMARY_COLOR
                               : const Color.fromARGB(255, 116, 122, 143),
@@ -114,7 +112,7 @@ class SaleTransactionListWidget extends GetView<TransactionListPageController> {
                 ),
                 Container(
                   height: 3,
-                  color: controller.selectedPurchaseTransactionType.value ==
+                  color: controller.selectedSaleTransactionType.value ==
                           saleTransactionType
                       ? PRIMARY_COLOR
                       : const Color.fromARGB(255, 233, 235, 241),
@@ -129,7 +127,7 @@ class SaleTransactionListWidget extends GetView<TransactionListPageController> {
         padding: const EdgeInsets.only(top: 10),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: controller.purchaseTransactionTypeList
+          children: controller.saleTransactionTypeList
               .asMap()
               .entries
               .map((e) =>
@@ -280,7 +278,7 @@ class SaleTransactionListWidget extends GetView<TransactionListPageController> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    controller.selectedPurchaseTransactionType.value ==
+                    controller.selectedSaleTransactionType.value ==
                             'Transaction role: [BUYER]'
                         ? 'Seller'
                         : 'Buyer',
@@ -293,7 +291,7 @@ class SaleTransactionListWidget extends GetView<TransactionListPageController> {
                     ),
                   ),
                   Text(
-                    controller.selectedPurchaseTransactionType.value ==
+                    controller.selectedSaleTransactionType.value ==
                             'Transaction role: [BUYER]'
                         ? '${saleTransactionModel.sellerCustomerModel.firstName} ${saleTransactionModel.sellerCustomerModel.lastName}'
                         : '${saleTransactionModel.buyerCustomerModel.firstName} ${saleTransactionModel.buyerCustomerModel.lastName}',

@@ -39,7 +39,7 @@ class UpdatePostBottomWidget extends GetView<UpdateSalePostPageController> {
                       createTime: DateTime.now(),
                       meetingTime: DateTime.now(),
                       type: controller.selectedPostType.value,
-                      petId: controller.selectedPetId!,
+                      petId: controller.selectedPetId.value,
                       customerId: controller.accountModel.customerModel.id,
                       mediaModels: controller.evidencesPath,
                       status: 'REQUESTED',

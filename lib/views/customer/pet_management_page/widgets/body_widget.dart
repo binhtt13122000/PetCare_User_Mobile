@@ -3,12 +3,9 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:petapp_mobile/configs/path.dart';
 import 'package:petapp_mobile/configs/theme.dart';
 import 'package:petapp_mobile/controllers/pet_management_page_controller.dart';
-import 'package:petapp_mobile/graphql/graphql_config.dart';
-import 'package:petapp_mobile/graphql/query_mutation/pet.dart';
 import 'package:petapp_mobile/models/pet_model/pet_model.dart';
 import 'package:petapp_mobile/services/pet_services.dart';
 
@@ -30,19 +27,9 @@ class PetsManagementBodyWidget extends GetView<PetManagementPageController> {
           child: GetBuilder<PetManagementPageController>(builder: (_) {
             controller.isLoadingPetList.value = true;
             WidgetsBinding.instance!.addPostFrameCallback((_) async {
-              QueryResult result = await CLIENT_TO_QUERY().query(
-                QueryOptions(
-                    document: gql(FETCH_PET_LIST_BY_CUSTOMER_ID),
-                    variables: {
-                      'customerId': controller.accountModel.customerModel.id
-                    }),
-              );
-
-              if (result.data != null) {
-                controller.petList =
-                    PetService.getPetList((result.data!)['data']);
-                controller.isLoadingPetList.value = false;
-              }
+              controller.petList = await PetService.fetchPetListByCustomerId(
+                  controller.accountModel.customerModel.id);
+              controller.isLoadingPetList.value = false;
             });
             return Obx(
               () => controller.isLoadingPetList.value
@@ -61,8 +48,8 @@ class PetsManagementBodyWidget extends GetView<PetManagementPageController> {
                             .entries
                             .map(
                               (e) => e.key.isEven
-                                  ? pettCardDarkThemeWidget(petModel: e.value)
-                                  : pettCardWidget(petModel: e.value),
+                                  ? petCardDarkThemeWidget(petModel: e.value)
+                                  : petCardWidget(petModel: e.value),
                             )
                             .toList(),
                       ),
@@ -212,7 +199,7 @@ class PetsManagementBodyWidget extends GetView<PetManagementPageController> {
         ),
       );
 
-  Widget pettCardWidget({required PetModel petModel}) => Container(
+  Widget petCardWidget({required PetModel petModel}) => Container(
         height: 70,
         margin: const EdgeInsets.symmetric(horizontal: 12),
         decoration: const BoxDecoration(),
@@ -226,6 +213,7 @@ class PetsManagementBodyWidget extends GetView<PetManagementPageController> {
                   petModel.avatar,
                   fit: BoxFit.cover,
                   width: 50,
+                  height: 50,
                 ),
               ),
             ),
@@ -293,7 +281,7 @@ class PetsManagementBodyWidget extends GetView<PetManagementPageController> {
         ),
       );
 
-  Widget pettCardDarkThemeWidget({required PetModel petModel}) => Column(
+  Widget petCardDarkThemeWidget({required PetModel petModel}) => Column(
         children: [
           Container(
             height: 1,
@@ -316,6 +304,7 @@ class PetsManagementBodyWidget extends GetView<PetManagementPageController> {
                       petModel.avatar,
                       fit: BoxFit.cover,
                       width: 50,
+                      height: 50,
                     ),
                   ),
                 ),

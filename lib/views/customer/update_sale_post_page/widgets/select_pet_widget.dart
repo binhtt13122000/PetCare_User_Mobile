@@ -3,12 +3,9 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:petapp_mobile/configs/path.dart';
 import 'package:petapp_mobile/configs/theme.dart';
 import 'package:petapp_mobile/controllers/update_sale_post_page_controller.dart';
-import 'package:petapp_mobile/graphql/graphql_config.dart';
-import 'package:petapp_mobile/graphql/query_mutation/pet.dart';
 import 'package:petapp_mobile/models/pet_model/pet_model.dart';
 import 'package:petapp_mobile/services/pet_services.dart';
 
@@ -21,43 +18,15 @@ class SelectPetWidget extends GetView<UpdateSalePostPageController> {
       controller.isShowLoadingPet.value = true;
 
       WidgetsBinding.instance!.addPostFrameCallback((_) async {
-        String query;
-        Map<String, dynamic> variables;
-        if (controller.isShowPetFilter.value) {
-          query = FETCH_PET_LIST_WITHOUT_BREED_TO_CREATE_POST;
-          variables = {
-            'customerId': controller.accountModel.customerModel.id,
-            'speciesId': controller.selectedSpeciesId,
-          };
-        } else {
-          query = FETCH_PET_LIST_TO_CREATE_POST;
-          variables = {
-            'customerId': controller.accountModel.customerModel.id,
-          };
-        }
+        controller.pets = await PetService.fetchPetListToCreatePost(
+            controller.accountModel.customerModel.id,
+            controller.isShowPetFilter.value
+                ? controller.selectedSpeciesId
+                : null);
 
-        QueryResult result = await CLIENT_TO_QUERY().query(
-          QueryOptions(document: gql(query), variables: variables),
-        );
+        controller.selectedPetId.value =
+            controller.pets.isNotEmpty ? controller.pets[0].id : -1;
 
-        controller.pets = PetService.getPetList(result.data!['data']);
-
-        if (controller.pets.isNotEmpty) {
-          if (controller.selectedPetId == null) {
-            controller.selectedPetId = controller.pets[0].id;
-          } else {
-            bool isExits = false;
-            for (var element in controller.pets) {
-              if (element.id == controller.selectedPetId) {
-                isExits = true;
-                break;
-              }
-            }
-            if (!isExits) {
-              controller.selectedPetId = controller.pets[0].id;
-            }
-          }
-        }
         controller.isShowLoadingPet.value = false;
       });
       return Obx(() => controller.isShowLoadingPet.value
@@ -107,7 +76,7 @@ class SelectPetWidget extends GetView<UpdateSalePostPageController> {
                                       petModel: controller.pets.firstWhere(
                                           (element) =>
                                               element.id ==
-                                              controller.selectedPetId),
+                                              controller.selectedPetId.value),
                                     ),
                                   )
                                 : Padding(
@@ -260,7 +229,7 @@ class SelectPetWidget extends GetView<UpdateSalePostPageController> {
             onTap: () {
               controller.isShowPetDropdownList.value =
                   !controller.isShowPetDropdownList.value;
-              controller.selectedPetId = petModel.id;
+              controller.selectedPetId.value = petModel.id;
               controller.update();
             },
             child: Container(

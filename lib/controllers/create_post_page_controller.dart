@@ -7,14 +7,13 @@ import 'package:get/get.dart';
 import 'package:petapp_mobile/controllers/auth_controller.dart';
 import 'package:petapp_mobile/models/account_model/account_model.dart';
 import 'package:petapp_mobile/models/branch_model/branch_model.dart';
-import 'package:petapp_mobile/models/breed_model/breed_model.dart';
 import 'package:petapp_mobile/models/pet_model/pet_model.dart';
 import 'package:petapp_mobile/models/species_model/species_model.dart';
 import 'package:flutter_quill/flutter_quill.dart' as quill;
 import 'package:petapp_mobile/models/transaction_fees_model/transaction_fees_model.dart';
 
 class CreatePostPageController extends GetxController {
-  RxBool isShowPurchaseTransactionFeees = false.obs;
+  RxBool isShowPurchaseTransactionFees = false.obs;
   late List<TransactionFeesModel> listPurchaseTransactionFees;
   RxInt selectedPurchaseTransactionFeesId = (-1).obs;
   RxBool isShowMainLoading = false.obs;
@@ -30,25 +29,32 @@ class CreatePostPageController extends GetxController {
   RxString selectedPostType = 'SALE'.obs;
 
   bool isFirstInputTitle = true;
-  RxBool isShowPetFilter = false.obs;
+  bool isShowPetFilter = false;
   RxBool isShowPetDropdownList = false.obs;
   RxString receivedMoney = ''.obs;
   RxBool isShowLoadingWidget = false.obs;
   RxBool isShowSuccessfullyPopup = false.obs;
+
   List<BranchModel> branchList = [];
   RxInt selectedBranchId = (-1).obs;
 
   quill.QuillController quillController = quill.QuillController.basic();
 
-  int? selectedSpeciesId;
+  RxInt selectedSpeciesId = (-1).obs;
   late List<SpeciesModel> species;
 
-  Map<int, int> selectedBreedMap = <int, int>{};
-  Map<int, List<BreedModel>> breedsMap = <int, List<BreedModel>>{};
-
   late List<PetModel> pets;
-  int? selectedPetId;
+  RxInt selectedPetId = (-1).obs;
 
   ScrollController mainScrollController = ScrollController();
   AccountModel accountModel = Get.find<AuthController>().accountModel;
+  DateTime? meetingTime;
+  DateTime? tmpMeetingTime;
+  RxString meetingTimeText = ''.obs;
+  RxBool isShowCalendar = false.obs;
+  RxBool isUsePetOwnerVaccinationDescription = true.obs;
+  TextEditingController vaccinationDescriptionTextEditingController =
+      TextEditingController();
+  String vaccinationDescription = '';
+  String petOwnerVaccinationDescription = '';
 }

@@ -85,7 +85,7 @@ class SalePostTopWidget extends GetView<PurchasePostsPageController> {
                 );
               } else if (result.data != null) {
                 controller.species =
-                    SpeciesService.getSpeciesList(result.data!);
+                    SpeciesService.getSpeciesList(result.data!['data']);
               }
 
               return Row(

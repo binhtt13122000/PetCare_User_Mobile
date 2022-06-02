@@ -44,7 +44,7 @@ class UpdateSalePostPage extends GetView<UpdateSalePostPageController> {
                 controller.postModel.sellerReceive.toString();
             controller.price.value = controller.postModel.provisionalTotal;
             controller.selectedBranchId.value = controller.postModel.branchId;
-            controller.selectedPetId = controller.postModel.petId;
+            controller.selectedPetId.value = controller.postModel.petId;
             // controller.deletedIds.value = [];
 
             controller.titleEditingController.text = controller.postModel.title;

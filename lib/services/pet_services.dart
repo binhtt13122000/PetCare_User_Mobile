@@ -19,6 +19,50 @@ class PetService {
     return petList;
   }
 
+  static Future<List<PetModel>> fetchPetListByCustomerId(int customerId) async {
+    Map<String, String> parameters = {
+      'customerId': customerId.toString(),
+    };
+    final response = await http.get(
+      Uri.http(API_SERVER_PATH, '/v1/api/pets', parameters),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+    );
+    print(response.statusCode);
+    switch (response.statusCode) {
+      case 200:
+      case 201:
+      case 202:
+        print(jsonDecode(response.body));
+        return getPetList(jsonDecode(response.body)['data']);
+      default:
+        throw Exception('Error ${response.statusCode}, cannot get pet list');
+    }
+  }
+
+  static Future<List<PetModel>> fetchPetListToCreatePost(
+      int customerId, int? speciesId) async {
+    Map<String, String> parameters = {
+      'customerId': customerId.toString(),
+      'speciesId': speciesId != null ? speciesId.toString() : "",
+    };
+    final response = await http.get(
+      Uri.http(API_SERVER_PATH, '/v1/api/pets/fetch-pet', parameters),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+    );
+    switch (response.statusCode) {
+      case 200:
+      case 201:
+      case 202:
+        return getPetList(jsonDecode(response.body)['data']);
+      default:
+        throw Exception('Error ${response.statusCode}, cannot get pet list');
+    }
+  }
+
   static Future createPet({
     required int ownerId,
     required String avatarFilePath,
