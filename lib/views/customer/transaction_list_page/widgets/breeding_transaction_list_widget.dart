@@ -5,8 +5,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:petapp_mobile/configs/route.dart';
 import 'package:petapp_mobile/configs/theme.dart';
 import 'package:petapp_mobile/controllers/transaction_list_page_controller.dart';
-import 'package:petapp_mobile/models/sale_transaction_model/sale_transaction_model.dart';
-import 'package:petapp_mobile/services/sale_transaction_services.dart';
+import 'package:petapp_mobile/models/breeding_transaction_model/breeding_transaction_model.dart';
+import 'package:petapp_mobile/services/breeding_transaction_services.dart';
 import 'package:petapp_mobile/utilities/utilities.dart';
 
 class BreedingTransactionListWidget
@@ -22,36 +22,38 @@ class BreedingTransactionListWidget
           Expanded(
             child: GetBuilder<TransactionListPageController>(
               builder: (_) {
-                controller.isLoadingSaleTransaction.value = true;
+                controller.isLoadingBreedingTransaction.value = true;
                 WidgetsBinding.instance!.addPostFrameCallback((_) async {
-                  controller.saleTransactionModelList =
-                      await SaleTransactionService.fetchSaleTransactionList(
-                    buyerId: controller.selectedSaleTransactionType.value ==
+                  controller.breedingTransactionModelList =
+                      await BreedingTransactionService
+                          .fetchBreedingTransactionList(
+                    buyerId: controller.selectedBreedingTransactionType.value ==
                             'Transaction role: [BUYER]'
                         ? controller.accountModel.customerModel.id.toString()
                         : null,
-                    sellerId: controller.selectedSaleTransactionType.value ==
+                    sellerId: controller
+                                .selectedBreedingTransactionType.value ==
                             'Transaction role: [SELLER]'
                         ? controller.accountModel.customerModel.id.toString()
                         : null,
                     page: controller.page.toString(),
                     limit: controller.limit.toString(),
                   );
-                  controller.isLoadingSaleTransaction.value = false;
+                  controller.isLoadingBreedingTransaction.value = false;
                 });
                 return Obx(
-                  () => controller.isLoadingSaleTransaction.value
+                  () => controller.isLoadingBreedingTransaction.value
                       ? const SpinKitSpinningLines(
                           color: PRIMARY_COLOR,
                           size: 150,
                         )
                       : SingleChildScrollView(
                           child: Column(
-                            children: controller.saleTransactionModelList
+                            children: controller.breedingTransactionModelList
                                 .asMap()
                                 .entries
-                                .map((e) => saleTransactionItemWidget(
-                                    saleTransactionModel: e.value))
+                                .map((e) => breedingTransactionItemWidget(
+                                    breedingTransactionModel: e.value))
                                 .toList(),
                           ),
                         ),
@@ -64,20 +66,20 @@ class BreedingTransactionListWidget
     );
   }
 
-  Widget saleTransactionTypeItemWidget(
+  Widget breedingTransactionTypeItemWidget(
           {required String saleTransactionType, int flex = 1}) =>
       Expanded(
         flex: flex,
         child: Obx(
           () => InkWell(
             onTap: () => controller
-              ..selectedSaleTransactionType.value = saleTransactionType
+              ..selectedBreedingTransactionType.value = saleTransactionType
               ..update(),
             child: Column(
               children: [
                 Container(
                   height: 30,
-                  color: controller.selectedSaleTransactionType.value ==
+                  color: controller.selectedBreedingTransactionType.value ==
                           saleTransactionType
                       ? PRIMARY_LIGHT_COLOR.withOpacity(0.3)
                       : Colors.transparent,
@@ -89,17 +91,18 @@ class BreedingTransactionListWidget
                         padding: const EdgeInsets.only(right: 10),
                         child: CircleAvatar(
                           maxRadius: 3,
-                          backgroundColor:
-                              controller.selectedSaleTransactionType.value ==
-                                      saleTransactionType
-                                  ? PRIMARY_COLOR
-                                  : Colors.transparent,
+                          backgroundColor: controller
+                                      .selectedBreedingTransactionType.value ==
+                                  saleTransactionType
+                              ? PRIMARY_COLOR
+                              : Colors.transparent,
                         ),
                       ),
                       Text(
                         saleTransactionType,
                         style: GoogleFonts.quicksand(
-                          color: controller.selectedSaleTransactionType.value ==
+                          color: controller
+                                      .selectedBreedingTransactionType.value ==
                                   saleTransactionType
                               ? PRIMARY_COLOR
                               : const Color.fromARGB(255, 116, 122, 143),
@@ -113,7 +116,7 @@ class BreedingTransactionListWidget
                 ),
                 Container(
                   height: 3,
-                  color: controller.selectedSaleTransactionType.value ==
+                  color: controller.selectedBreedingTransactionType.value ==
                           saleTransactionType
                       ? PRIMARY_COLOR
                       : const Color.fromARGB(255, 233, 235, 241),
@@ -131,27 +134,27 @@ class BreedingTransactionListWidget
           children: controller.saleTransactionTypeList
               .asMap()
               .entries
-              .map((e) =>
-                  saleTransactionTypeItemWidget(saleTransactionType: e.value))
+              .map((e) => breedingTransactionTypeItemWidget(
+                  saleTransactionType: e.value))
               .toList(),
         ),
       );
 
-  Widget saleTransactionItemWidget(
-      {required SaleTransactionModel saleTransactionModel}) {
+  Widget breedingTransactionItemWidget(
+      {required BreedingTransactionModel breedingTransactionModel}) {
     late String displayStatus;
     late Color statusColor;
     late String timeTitle;
     late DateTime timeValue;
 
     if (controller.accountModel.customerModel.id ==
-        saleTransactionModel.buyerId) {
-      switch (saleTransactionModel.status) {
+        breedingTransactionModel.ownerPetFemaleId) {
+      switch (breedingTransactionModel.status) {
         case 'CREATED':
           displayStatus = 'Waiting to pick up pet and pay';
           statusColor = YELLOW_COLOR;
           timeTitle = 'Meeting time';
-          timeValue = saleTransactionModel.meetingTime;
+          timeValue = breedingTransactionModel.meetingTime;
           break;
         case 'CANCELED':
           displayStatus = 'The transaction has been canceled';
@@ -163,22 +166,22 @@ class BreedingTransactionListWidget
           displayStatus = 'The transaction is completed';
           statusColor = GREEN_COLOR;
           timeTitle = 'Payment time';
-          timeValue = saleTransactionModel.transactionTime!;
+          timeValue = breedingTransactionModel.transactionTime!;
           break;
 
         default:
           timeTitle = 'Payment time';
-          timeValue = saleTransactionModel.transactionTime!;
-          displayStatus = saleTransactionModel.status;
+          timeValue = breedingTransactionModel.transactionTime!;
+          displayStatus = breedingTransactionModel.status;
           statusColor = GREEN_COLOR;
       }
     } else {
-      switch (saleTransactionModel.status) {
+      switch (breedingTransactionModel.status) {
         case 'CREATED':
           displayStatus = 'Waiting for meeting with buyer';
           statusColor = YELLOW_COLOR;
           timeTitle = 'Meeting time';
-          timeValue = saleTransactionModel.meetingTime;
+          timeValue = breedingTransactionModel.meetingTime;
           break;
         case 'CANCELED':
           displayStatus = 'The transaction has been canceled';
@@ -191,10 +194,10 @@ class BreedingTransactionListWidget
           displayStatus = 'The transaction is completed';
           statusColor = GREEN_COLOR;
           timeTitle = 'Payment time';
-          timeValue = saleTransactionModel.transactionTime!;
+          timeValue = breedingTransactionModel.transactionTime!;
           break;
         default:
-          displayStatus = saleTransactionModel.status;
+          displayStatus = breedingTransactionModel.status;
           statusColor = GREEN_COLOR;
       }
     }
@@ -202,7 +205,7 @@ class BreedingTransactionListWidget
       padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
       child: InkWell(
         onTap: () => Get.toNamed(
-            '$SALE_TRANSACTION_DETAIL_PAGE_ROUTE/${saleTransactionModel.id}'),
+            '$SALE_TRANSACTION_DETAIL_PAGE_ROUTE/${breedingTransactionModel.id}'),
         child: Container(
           height: 100,
           padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 5),
@@ -236,7 +239,7 @@ class BreedingTransactionListWidget
                     ),
                   ),
                   Text(
-                    '#0${saleTransactionModel.id}',
+                    '#0${breedingTransactionModel.id}',
                     textAlign: TextAlign.start,
                     style: GoogleFonts.quicksand(
                       color: DARK_GREY_TEXT_COLOR.withOpacity(0.8),
@@ -263,7 +266,8 @@ class BreedingTransactionListWidget
                     ),
                   ),
                   Text(
-                    FORMAT_MONEY(price: saleTransactionModel.transactionTotal),
+                    FORMAT_MONEY(
+                        price: breedingTransactionModel.transactionTotal),
                     textAlign: TextAlign.end,
                     style: GoogleFonts.quicksand(
                       color: PRIMARY_COLOR,
@@ -279,7 +283,7 @@ class BreedingTransactionListWidget
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    controller.selectedSaleTransactionType.value ==
+                    controller.selectedBreedingTransactionType.value ==
                             'Transaction role: [BUYER]'
                         ? 'Seller'
                         : 'Buyer',
@@ -292,10 +296,10 @@ class BreedingTransactionListWidget
                     ),
                   ),
                   Text(
-                    controller.selectedSaleTransactionType.value ==
+                    controller.selectedBreedingTransactionType.value ==
                             'Transaction role: [BUYER]'
-                        ? '${saleTransactionModel.sellerCustomerModel.firstName} ${saleTransactionModel.sellerCustomerModel.lastName}'
-                        : '${saleTransactionModel.buyerCustomerModel.firstName} ${saleTransactionModel.buyerCustomerModel.lastName}',
+                        ? '${breedingTransactionModel.ownerPetFemaleCustomerModel.firstName} ${breedingTransactionModel.ownerPetFemaleCustomerModel.lastName}'
+                        : '${breedingTransactionModel.ownerPetMaleCustomerModel.firstName} ${breedingTransactionModel.ownerPetMaleCustomerModel.lastName}',
                     textAlign: TextAlign.start,
                     style: GoogleFonts.quicksand(
                       color: DARK_GREY_TEXT_COLOR.withOpacity(0.8),

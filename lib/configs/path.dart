@@ -93,16 +93,24 @@ const PROFILE_UNSELECTED_SVG = 'profile_unselected.svg';
 // const GRAPHL_SERVER = 'http://10.0.2.2:8080';
 // const API_SERVER = '10.0.2.2:4000';
 // const GRAPHL_SERVER = 'http://10.0.2.2:8080';
-const API_SERVER_PATH = '13.57.252.150:4000';
-const GRAPHL_SERVER_PATH = 'http://13.57.252.150:8080';
+
+const API_SERVER_PATH = '3.101.149.81:4000';
+const GRAPHL_SERVER_PATH = 'http://3.101.149.81:8080';
+
 //*sale transaction
 const SALE_TRANSACTION_RETURN_API_PATH =
     '/v1/api/sale-transactions/vnpay/vnpay_return';
-const SALE_TRANSACTION_FEES_API_PATH = '/v1/api/transaction-fees';
 const SALE_TRANSACTION_API_PATH = '/v1/api/sale-transactions';
+
+//*breeding transaction
+const BREEDING_TRANSACTION_RETURN_API_PATH =
+    '/v1/api/breed-transactions/vnpay/vnpay_return';
+const BREEDING_TRANSACTION_API_PATH = '/v1/api/breed-transactions';
+
+//*others
 const BREED_API_PATH = '/v1/api/breeds';
 const SPECIES_API_PATH = '/v1/api/species';
 const CUSTOMER_API_PATH = '/v1/api/customer';
 const CENTER_SERVICES_TRANSACTION_API_PATH = '/v1/api/orders';
-//*pet
 const PET_TO_CREATE_POST_API_PATH = '/v1/api/pets/fetch-pet';
+const TRANSACTION_FEES_API_PATH = '/v1/api/transaction-fees';
