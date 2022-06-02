@@ -21,7 +21,7 @@ class CreatePetBodyWidget extends GetView<CreatePetPageController> {
   Widget build(BuildContext context) {
     controller.isLoadingData.value = true;
     WidgetsBinding.instance!.addPostFrameCallback((_) async {
-      controller.species = await SpeciesService.fetchSpeciesList();
+      controller.species = await SpeciesService.fetchSpeciesList(null);
       controller.selectedSpeciesId.value = controller.species[0].id;
       controller.isLoadingData.value = false;
     });

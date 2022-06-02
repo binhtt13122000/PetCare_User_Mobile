@@ -20,24 +20,16 @@ class SalePostListWidget extends GetView<PurchasePostsPageController> {
   @override
   Widget build(BuildContext context) => controller.selectedSpeciesId.value == -1
       ? Expanded(
-          child: Query(
-            options: QueryOptions(
-              document: gql(FETCH_ALL_PURCHASE_POST_LIST),
-            ),
-            builder: (
-              QueryResult result, {
-              VoidCallback? refetch,
-              FetchMore? fetchMore,
-            }) {
-              if (result.hasException) {
-                return Text(result.exception.toString());
-              }
-              if (result.isLoading) {
-                return const Center(
-                  child: CircularProgressIndicator(),
-                );
-              }
-              controller.postList = PostService.getPostList(result.data!).obs;
+          child: GetBuilder<PurchasePostsPageController>(
+            builder: (_) {
+              WidgetsBinding.instance!.addPostFrameCallback((_) async {
+              controller.postList.value = await PostService.fetchAllPurchasePostList(
+                limit: 10,
+                page: 0,
+                status: "PUBLISHED",
+                customerId: controller.accountModel.customerModel.id,
+              );
+              });
               return Column(
                 children: [
                   Expanded(

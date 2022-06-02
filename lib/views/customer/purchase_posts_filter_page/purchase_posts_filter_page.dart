@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -7,7 +8,6 @@ import 'package:petapp_mobile/configs/path.dart';
 import 'package:petapp_mobile/configs/theme.dart';
 import 'package:petapp_mobile/controllers/purchase_posts_page_controller.dart';
 import 'package:petapp_mobile/graphql/graphql_config.dart';
-import 'package:petapp_mobile/graphql/query_mutation/breed.dart';
 import 'package:petapp_mobile/models/breed_model/breed_model.dart';
 import 'package:petapp_mobile/services/breed_services.dart';
 
@@ -196,55 +196,53 @@ class PurchasePostsFilterPage extends GetView<PurchasePostsPageController> {
                         padding: const EdgeInsets.only(
                           right: 20,
                         ),
-                        child: Obx(
-                          () => Query(
-                            options: QueryOptions(
-                                document: gql(FETCH_BREED_BY_SPECIES_ID),
-                                variables: {
-                                  "species_id":
-                                      controller.selectedSpeciesId.value,
-                                }),
-                            builder: (
-                              QueryResult result, {
-                              VoidCallback? refetch,
-                              FetchMore? fetchMore,
-                            }) {
-                              if (result.hasException) {
-                                return Text(result.exception.toString());
-                              }
-                              if (result.isLoading) {
-                                return const Center(
-                                  child: CircularProgressIndicator(),
-                                );
-                              }
-                              controller.breedsMap[controller.selectedSpeciesId
-                                  .value] = BreedService.getBreedList(
-                                      result.data!['data'])
-                                  .obs;
-                              return Container(
-                                alignment: Alignment.topLeft,
-                                padding: const EdgeInsets.only(
-                                  left: 20,
-                                ),
-                                child: Wrap(
-                                  alignment: WrapAlignment.start,
-                                  direction: Axis.horizontal,
-                                  crossAxisAlignment: WrapCrossAlignment.start,
-                                  runAlignment: WrapAlignment.start,
-                                  verticalDirection: VerticalDirection.down,
-                                  spacing: 10,
-                                  runSpacing: 10,
-                                  children: controller.breedsMap[
-                                          controller.selectedSpeciesId.value]!
-                                      .asMap()
-                                      .entries
-                                      .map((e) =>
-                                          breedItemWidget(breedModel: e.value))
-                                      .toList(),
-                                ),
-                              );
-                            },
-                          ),
+                        child: GetBuilder<PurchasePostsPageController>(
+                          builder: (_) {
+                            controller.isShowLoadingBreeds.value = true;
+                            WidgetsBinding.instance!
+                                .addPostFrameCallback((_) async {
+                              controller.breedsMap[
+                                      controller.selectedSpeciesId.value] =
+                                  await BreedService.fetchBreedListBySpeciesId(
+                                      speciesId:
+                                          controller.selectedSpeciesId.value);
+                              controller.isShowLoadingBreeds.value = false;
+                            });
+                            return Obx(
+                              () => controller.isShowLoadingBreeds.value
+                                  ? const Center(
+                                      child: SpinKitSpinningLines(
+                                        color: PRIMARY_COLOR,
+                                        size: 150,
+                                      ),
+                                    )
+                                  : Container(
+                                      alignment: Alignment.topLeft,
+                                      padding: const EdgeInsets.only(
+                                        left: 20,
+                                      ),
+                                      child: Wrap(
+                                        alignment: WrapAlignment.start,
+                                        direction: Axis.horizontal,
+                                        crossAxisAlignment:
+                                            WrapCrossAlignment.start,
+                                        runAlignment: WrapAlignment.start,
+                                        verticalDirection:
+                                            VerticalDirection.down,
+                                        spacing: 10,
+                                        runSpacing: 10,
+                                        children: controller.breedsMap[
+                                                controller
+                                                    .selectedSpeciesId.value]!
+                                            .asMap()
+                                            .entries
+                                            .map((e) => breedItemWidget(
+                                                breedModel: e.value))
+                                            .toList(),
+                                      ),
+                                    ),
+                            );
+                          },
                         ),
                       ),
                       //!Gender

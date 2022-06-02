@@ -28,6 +28,7 @@ class UpdateSalePostPageController extends GetxController {
   RxBool isLoadingBranch = false.obs;
   RxBool isShowLoadingPet = false.obs;
   RxBool isShowLoadingPetSpecies = false.obs;
+  RxBool isLoadingBreeds = false.obs;
   RxList<File> evidences = <File>[].obs;
   RxList<MediaModel> evidencesPath = <MediaModel>[].obs;
   RxString title = ''.obs;

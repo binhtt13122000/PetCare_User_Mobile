@@ -7,6 +7,7 @@ import 'package:petapp_mobile/controllers/sale_post_detail_page_controller.dart'
 import 'package:petapp_mobile/graphql/graphql_config.dart';
 import 'package:petapp_mobile/graphql/query_mutation/post.dart';
 import 'package:petapp_mobile/models/post_model/post_model.dart';
+import 'package:petapp_mobile/services/post_services.dart';
 import 'package:petapp_mobile/views/customer/sale_post_detail_page/widgets/bottom_widget.dart';
 import 'package:petapp_mobile/views/customer/sale_post_detail_page/widgets/sale_post_detail_information_widget.dart';
 import 'package:petapp_mobile/views/customer/sale_post_detail_page/widgets/sale_post_general_information_widget.dart';
@@ -22,53 +23,49 @@ class SalePostDetailPage extends GetView<SalePostDetailPageController> {
         client: GRAPHQL_CLIENT,
         child: Scaffold(
           backgroundColor: WHITE_COLOR,
-          body: Query(
-              options: QueryOptions(
-                document: gql(FETCH_PURCHASE_POST_BY_ID),
-                variables: {'_postId': Get.parameters['salePostId']},
-              ),
-              builder: (
-                QueryResult result, {
-                VoidCallback? refetch,
-                FetchMore? fetchMore,
-              }) {
-                if (result.hasException) {
-                  return Text(result.exception.toString());
-                }
-                if (result.isLoading) {
-                  return const Center(
-                    child: SpinKitSpinningLines(
-                      color: PRIMARY_COLOR,
-                      size: 150,
-                    ),
-                  );
-                }
-                controller.postModel =
-                    PostModel.fromJson(result.data!['post'][0]);
-                return Column(
-                  children: [
-                    const PurchasePostDetailMainImageWidget(),
-                    Expanded(
-                      child: Scrollbar(
-                        controller: controller.mainScrollController,
-                        child: SingleChildScrollView(
-                          controller: controller.mainScrollController,
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: const [
-                              PurchasePostDetailImageListWidget(),
-                              PurchasePostDetailGeneralInformationWidget(),
-                              SellerInformationWidget(),
-                              PurchasePostDetailInformationWidget(),
-                            ],
-                          ),
+          body: GetBuilder<SalePostDetailPageController>(
+            builder: (_) {
+              controller.isShowLoadingPost.value = true;
+              WidgetsBinding.instance!.addPostFrameCallback((_) async {
+                controller.postModel = await PostService.fetchPostById(
+                    postId: int.parse(Get.parameters['salePostId'].toString()));
+                controller.isShowLoadingPost.value = false;
+              });
+              return Obx(
+                () => controller.isShowLoadingPost.value
+                    ? Container(
+                        color: const Color.fromARGB(75, 249, 236, 253),
+                        child: const SpinKitSpinningLines(
+                          color: PRIMARY_COLOR,
+                          size: 150,
                         ),
+                      )
+                    : Column(
+                        children: [
+                          const PurchasePostDetailMainImageWidget(),
+                          Expanded(
+                            child: Scrollbar(
+                              controller: controller.mainScrollController,
+                              child: SingleChildScrollView(
+                                controller: controller.mainScrollController,
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: const [
+                                    PurchasePostDetailImageListWidget(),
+                                    PurchasePostDetailGeneralInformationWidget(),
+                                    SellerInformationWidget(),
+                                    PurchasePostDetailInformationWidget(),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                          const PurchasePostDetailBottomWidget(),
+                        ],
                       ),
-                    ),
-                    const PurchasePostDetailBottomWidget(),
-                  ],
-                );
-              }),
+              );
+            },
+          ),
         ),
       );
 }

@@ -32,9 +32,12 @@ class SpeciesService {
     }
   }
 
-  static Future<List<SpeciesModel>> fetchSpeciesList() async {
+  static Future<List<SpeciesModel>> fetchSpeciesList(bool? isActive) async {
+    Map<String, String> parameters = {
+      'isActive': isActive != null ? isActive.toString() : "",
+    };
     final response = await http.get(
-      Uri.http(API_SERVER_PATH, SPECIES_API_PATH),
+      Uri.http(API_SERVER_PATH, SPECIES_API_PATH, parameters),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },

@@ -2,12 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:petapp_mobile/configs/theme.dart';
 import 'package:petapp_mobile/controllers/update_sale_post_page_controller.dart';
-import 'package:petapp_mobile/graphql/graphql_config.dart';
-import 'package:petapp_mobile/graphql/query_mutation/breed.dart';
-import 'package:petapp_mobile/graphql/query_mutation/species.dart';
 import 'package:petapp_mobile/models/breed_model/breed_model.dart';
 import 'package:petapp_mobile/models/species_model/species_model.dart';
 import 'package:petapp_mobile/services/breed_services.dart';
@@ -26,12 +22,8 @@ class PetFilterWidget extends GetView<UpdateSalePostPageController> {
                 controller.isShowLoadingPetSpecies.value = true;
                 WidgetsBinding.instance!
                     .addPostFrameCallback((timeStamp) async {
-                  QueryResult queryResult = await CLIENT_TO_QUERY().query(
-                      QueryOptions(
-                          document: gql(FETCH_ALL_SPECIES),
-                          variables: const {}));
                   controller.species =
-                      SpeciesService.getSpeciesList(queryResult.data!['data']);
+                      await SpeciesService.fetchSpeciesList(true);
                   controller.selectedSpeciesId ??= controller.species[0].id;
                   controller.isShowLoadingPetSpecies.value = false;
                 });
@@ -166,76 +158,63 @@ class PetFilterWidget extends GetView<UpdateSalePostPageController> {
       );
 
   Widget listBreedItemWidget() => GetBuilder<UpdateSalePostPageController>(
-        builder: (_) => Query(
-          options: QueryOptions(
-              document: gql(FETCH_BREED_BY_SPECIES_ID),
-              variables: {
-                "species_id": controller.selectedSpeciesId,
-              }),
-          builder: (
-            QueryResult result, {
-            VoidCallback? refetch,
-            FetchMore? fetchMore,
-          }) {
-            if (result.hasException) {
-              return Text(result.exception.toString());
-            } else if (result.isLoading) {
-              return const Center(
-                child: CircularProgressIndicator(),
-              );
-            } else if (result.data != null) {
-              controller.breedsMap[controller.selectedSpeciesId!] =
-                  BreedService.getBreedList(result.data!['data']);
+        builder: (_) {
+          controller.isLoadingBreeds.value = true;
+          WidgetsBinding.instance!.addPostFrameCallback((_) async {
+            controller.breedsMap[controller.selectedSpeciesId!] =
+                await BreedService.fetchBreedListBySpeciesId(
+                    speciesId: controller.selectedSpeciesId!);
 
-              // if (controller.selectedBreedMap[controller.selectedSpeciesId] ==
-              //         null &&
-              //     controller
-              //         .breedsMap[controller.selectedSpeciesId]!.isNotEmpty) {
-              //   controller.selectedBreedMap[controller.selectedSpeciesId] =
-              //       controller.breedsMap[controller.selectedSpeciesId]![0].id;
-              // }
-              if (controller.selectedBreedMap[controller.selectedSpeciesId] ==
-                  null) {
-                controller.selectedBreedMap[controller.selectedSpeciesId!] = -1;
-              }
+            if (controller.selectedBreedMap[controller.selectedSpeciesId] ==
+                null) {
+              controller.selectedBreedMap[controller.selectedSpeciesId!] = -1;
             }
-
-            return controller.breedsMap[controller.selectedSpeciesId] != null &&
-                    controller
-                        .breedsMap[controller.selectedSpeciesId]!.isNotEmpty
-                ? Container(
-                    alignment: Alignment.topLeft,
-                    padding: const EdgeInsets.only(
-                      left: 40,
-                      top: 10,
-                      right: 30,
-                    ),
-                    child: Wrap(
-                      alignment: WrapAlignment.start,
-                      direction: Axis.horizontal,
-                      crossAxisAlignment: WrapCrossAlignment.start,
-                      runAlignment: WrapAlignment.start,
-                      verticalDirection: VerticalDirection.down,
-                      spacing: 10,
-                      runSpacing: 10,
-                      children: controller
-                          .breedsMap[controller.selectedSpeciesId]!
-                          .asMap()
-                          .entries
-                          .map((e) => breedItemWidget(breedModel: e.value))
-                          .toList(),
+            controller.isLoadingBreeds.value = false;
+          });
+          return Obx(
+            () => controller.isLoadingBreeds.value
+                ? const Center(
+                    child: SpinKitSpinningLines(
+                      color: PRIMARY_COLOR,
+                      size: 150,
                     ),
                   )
-                : Text(
-                    'No suitable breeds!',
-                    style: GoogleFonts.quicksand(
-                      fontWeight: FontWeight.w700,
-                      color: const Color.fromARGB(255, 244, 55, 159),
-                      fontSize: 16,
-                    ),
-                  );
-          },
-        ),
+                : controller.breedsMap[controller.selectedSpeciesId] != null &&
+                        controller
+                            .breedsMap[controller.selectedSpeciesId]!.isNotEmpty
+                    ? Container(
+                        alignment: Alignment.topLeft,
+                        padding: const EdgeInsets.only(
+                          left: 40,
+                          top: 10,
+                          right: 30,
+                        ),
+                        child: Wrap(
+                          alignment: WrapAlignment.start,
+                          direction: Axis.horizontal,
+                          crossAxisAlignment: WrapCrossAlignment.start,
+                          runAlignment: WrapAlignment.start,
+                          verticalDirection: VerticalDirection.down,
+                          spacing: 10,
+                          runSpacing: 10,
+                          children: controller
+                              .breedsMap[controller.selectedSpeciesId]!
+                              .asMap()
+                              .entries
+                              .map((e) => breedItemWidget(breedModel: e.value))
+                              .toList(),
+                        ),
+                      )
+                    : Text(
+                        'No suitable breeds!',
+                        style: GoogleFonts.quicksand(
+                          fontWeight: FontWeight.w700,
+                          color: const Color.fromARGB(255, 244, 55, 159),
+                          fontSize: 16,
+                        ),
+                      ),
+          );
+        },
       );
 
   Widget breedItemWidget({required BreedModel breedModel}) =>

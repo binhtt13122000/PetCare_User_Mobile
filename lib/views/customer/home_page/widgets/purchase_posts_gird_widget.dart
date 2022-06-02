@@ -26,14 +26,12 @@ class SalePostGirdsWidget extends GetView<HomePageController> {
         ? GetBuilder<HomePageController>(builder: (_) {
             controller.isLoading.value = true;
             WidgetsBinding.instance!.addPostFrameCallback((_) async {
-              QueryResult result = await CLIENT_TO_QUERY().query(
-                QueryOptions(
-                    document: gql(FETCH_ALL_PURCHASE_POST_LIST),
-                    variables: {
-                      '_customerId': controller.accountModel.customerModel.id
-                    }),
+              controller.postList = await PostService.fetchAllPurchasePostList(
+                limit: 10,
+                page: 1,
+                customerId: controller.accountModel.customerModel.id,
+                status: "PUBLISHED",
               );
-              controller.postList = PostService.getPostList(result.data!);
               controller.isLoading.value = false;
             });
             return Expanded(
