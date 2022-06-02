@@ -252,7 +252,7 @@ class MainApp extends StatelessWidget {
           binding: PersonalInformationPageBinding(),
         ),
         GetPage(
-          name: PET_DETAIL_PAGE_ROUTE,
+          name: '$PET_DETAIL_PAGE_ROUTE/:petId',
           page: () => const PetDetailPage(),
           binding: PetDetailPageBinding(),
         ),
@@ -263,7 +263,7 @@ class MainApp extends StatelessWidget {
           binding: ChattingListPageBinding(),
         ),
         GetPage(
-          name: '$CHATTING_DETAIL_PAGE_ROUTE/chatRoomId/:chatRoomId',
+          name: '$CHATTING_DETAIL_PAGE_ROUTE/:chatRoomId',
           page: () => const ChattingDetailPage(),
           binding: ChattingDetailPageBinding(),
         ),

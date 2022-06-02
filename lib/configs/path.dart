@@ -107,10 +107,13 @@ const BREEDING_TRANSACTION_RETURN_API_PATH =
     '/v1/api/breed-transactions/vnpay/vnpay_return';
 const BREEDING_TRANSACTION_API_PATH = '/v1/api/breed-transactions';
 
+//*pet
+const PET_TO_CREATE_POST_API_PATH = '/v1/api/pets/fetch-pet';
+const PET_API_PATH = '/v1/api/pets';
+
 //*others
 const BREED_API_PATH = '/v1/api/breeds';
 const SPECIES_API_PATH = '/v1/api/species';
 const CUSTOMER_API_PATH = '/v1/api/customer';
 const CENTER_SERVICES_TRANSACTION_API_PATH = '/v1/api/orders';
-const PET_TO_CREATE_POST_API_PATH = '/v1/api/pets/fetch-pet';
 const TRANSACTION_FEES_API_PATH = '/v1/api/transaction-fees';
