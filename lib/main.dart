@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:petapp_mobile/bindings/add_pet_page_binding.dart';
+import 'package:petapp_mobile/bindings/breeding_transaction_detail_page_binding.dart';
 import 'package:petapp_mobile/bindings/chatting_detail_page_binding.dart';
 import 'package:petapp_mobile/bindings/chatting_list_page_binding.dart';
 import 'package:petapp_mobile/bindings/create_post_page_binding.dart';
@@ -222,6 +223,12 @@ class MainApp extends StatelessWidget {
           name: '$SALE_TRANSACTION_DETAIL_PAGE_ROUTE/:saleTransactionId',
           page: () => const SaleTransactionDetailPage(),
           binding: SaleTransactionDetailPageBinding(),
+        ),
+        GetPage(
+          name:
+              '$BREEDING_TRANSACTION_DETAIL_PAGE_ROUTE/:breedingTransactionId',
+          page: () => const SaleTransactionDetailPage(),
+          binding: BreedingTransactionDetailPageBinding(),
         ),
         //*Profile
         GetPage(
