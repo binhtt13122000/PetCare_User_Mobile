@@ -48,8 +48,8 @@ class PetsManagementBodyWidget extends GetView<PetManagementPageController> {
                             .entries
                             .map(
                               (e) => e.key.isEven
-                                  ? pettCardDarkThemeWidget(petModel: e.value)
-                                  : pettCardWidget(petModel: e.value),
+                                  ? petCardDarkThemeWidget(petModel: e.value)
+                                  : petCardWidget(petModel: e.value),
                             )
                             .toList(),
                       ),
@@ -199,7 +199,7 @@ class PetsManagementBodyWidget extends GetView<PetManagementPageController> {
         ),
       );
 
-  Widget pettCardWidget({required PetModel petModel}) => Container(
+  Widget petCardWidget({required PetModel petModel}) => Container(
         height: 70,
         margin: const EdgeInsets.symmetric(horizontal: 12),
         decoration: const BoxDecoration(),
@@ -213,6 +213,7 @@ class PetsManagementBodyWidget extends GetView<PetManagementPageController> {
                   petModel.avatar,
                   fit: BoxFit.cover,
                   width: 50,
+                  height: 50,
                 ),
               ),
             ),
@@ -280,7 +281,7 @@ class PetsManagementBodyWidget extends GetView<PetManagementPageController> {
         ),
       );
 
-  Widget pettCardDarkThemeWidget({required PetModel petModel}) => Column(
+  Widget petCardDarkThemeWidget({required PetModel petModel}) => Column(
         children: [
           Container(
             height: 1,
@@ -303,6 +304,7 @@ class PetsManagementBodyWidget extends GetView<PetManagementPageController> {
                       petModel.avatar,
                       fit: BoxFit.cover,
                       width: 50,
+                      height: 50,
                     ),
                   ),
                 ),

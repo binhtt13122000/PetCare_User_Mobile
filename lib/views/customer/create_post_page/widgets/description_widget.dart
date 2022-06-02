@@ -15,7 +15,7 @@ class DescriptionWidget extends GetView<CreatePostPageController> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Desciption',
+            'Description',
             style: GoogleFonts.quicksand(
               fontWeight: FontWeight.w500,
               color: const Color.fromARGB(255, 78, 98, 124),

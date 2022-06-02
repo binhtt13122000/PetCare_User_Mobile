@@ -18,29 +18,15 @@ class SelectPetWidget extends GetView<UpdateSalePostPageController> {
       controller.isShowLoadingPet.value = true;
 
       WidgetsBinding.instance!.addPostFrameCallback((_) async {
+        controller.pets = await PetService.fetchPetListToCreatePost(
+            controller.accountModel.customerModel.id,
+            controller.isShowPetFilter.value
+                ? controller.selectedSpeciesId
+                : null);
 
-        if (controller.isShowPetFilter.value) {
-          controller.pets = await PetService.fetchPetListToCreatePost(controller.accountModel.customerModel.id, controller.selectedSpeciesId);
-        } else {
-          controller.pets = await PetService.fetchPetListToCreatePost(controller.accountModel.customerModel.id, null);
-        }
+        controller.selectedPetId.value =
+            controller.pets.isNotEmpty ? controller.pets[0].id : -1;
 
-        if (controller.pets.isNotEmpty) {
-          if (controller.selectedPetId == null) {
-            controller.selectedPetId = controller.pets[0].id;
-          } else {
-            bool isExits = false;
-            for (var element in controller.pets) {
-              if (element.id == controller.selectedPetId) {
-                isExits = true;
-                break;
-              }
-            }
-            if (!isExits) {
-              controller.selectedPetId = controller.pets[0].id;
-            }
-          }
-        }
         controller.isShowLoadingPet.value = false;
       });
       return Obx(() => controller.isShowLoadingPet.value
@@ -90,7 +76,7 @@ class SelectPetWidget extends GetView<UpdateSalePostPageController> {
                                       petModel: controller.pets.firstWhere(
                                           (element) =>
                                               element.id ==
-                                              controller.selectedPetId),
+                                              controller.selectedPetId.value),
                                     ),
                                   )
                                 : Padding(
@@ -243,7 +229,7 @@ class SelectPetWidget extends GetView<UpdateSalePostPageController> {
             onTap: () {
               controller.isShowPetDropdownList.value =
                   !controller.isShowPetDropdownList.value;
-              controller.selectedPetId = petModel.id;
+              controller.selectedPetId.value = petModel.id;
               controller.update();
             },
             child: Container(

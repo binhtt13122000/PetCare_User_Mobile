@@ -3,12 +3,10 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:petapp_mobile/configs/path.dart';
 import 'package:petapp_mobile/configs/theme.dart';
 import 'package:petapp_mobile/controllers/sale_transaction_detail_page_controller.dart';
-import 'package:petapp_mobile/graphql/graphql_config.dart';
-import 'package:petapp_mobile/graphql/query_mutation/sale_transaction.dart';
+import 'package:petapp_mobile/services/sale_transaction_services.dart';
 
 class SaleTransactionReviewPopupWidget
     extends GetView<SaleTransactionDetailPageController> {
@@ -280,15 +278,19 @@ class SaleTransactionReviewPopupWidget
               }
 
               reviewContent += controller.reviewContent;
-              await CLIENT_TO_QUERY().mutate(
-                MutationOptions(
-                  document: gql(UPDATE_SALE_TRANSACTION_REVIEW_BUY_ID),
-                  variables: {
-                    'star': controller.selectedStar.value,
-                    'review': reviewContent,
-                    'id': controller.saleTransactionModel.id,
-                  },
-                ),
+
+              await SaleTransactionService.updateSaleTransaction(
+                id: controller.saleTransactionModel.id,
+                meetingTime: controller.saleTransactionModel.meetingTime,
+                placeMeeting: controller.saleTransactionModel.placeMeeting,
+                transactionTotal:
+                    controller.saleTransactionModel.transactionTotal,
+                status: controller.saleTransactionModel.status,
+                star: controller.selectedStar.value,
+                review: reviewContent,
+                transactionTime:
+                    controller.saleTransactionModel.transactionTime,
+                paymentMethod: controller.saleTransactionModel.paymentMethod,
               );
               controller
                 ..selectedStar.value = 0

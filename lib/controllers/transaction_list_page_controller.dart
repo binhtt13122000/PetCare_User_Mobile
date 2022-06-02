@@ -10,16 +10,29 @@ class TransactionListPageController extends GetxController {
   int page = 1;
   final int limit = 100;
 
-  List<String> purchaseTransactionTypeList = [
+  //*center's services transaction
+  late List<CenterServicesTransactionModel> centerServicesTransactionList;
+  RxBool isLoadingCenterServicesTransaction = false.obs;
+
+  //*sale transaction
+  List<String> saleTransactionTypeList = [
     'Transaction role: [BUYER]',
     'Transaction role: [SELLER]'
   ];
-  RxString selectedPurchaseTransactionType = 'Transaction role: [BUYER]'.obs;
-
+  late RxString selectedSaleTransactionType;
   late List<SaleTransactionModel> saleTransactionModelList;
-  late List<CenterServicesTransactionModel> centerServicesTransactionList;
+  RxBool isLoadingSaleTransaction = false.obs;
 
-  RxBool isLoadingPurchaseTransaction = false.obs;
-  RxBool isLoadingCenterServicesTransaction = false.obs;
-  late RxList<SaleTransactionModel> saleTransactionList;
+  //*breeding transaction
+  List<String> breedingTransactionTypeList = [
+    'Transaction role: [BUYER]',
+    'Transaction role: [SELLER]'
+  ];
+  late RxString selectedBreedingTransactionType;
+  RxBool isLoadingBreedingTransaction = false.obs;
+
+  TransactionListPageController() {
+    selectedSaleTransactionType = saleTransactionTypeList[0].obs;
+    selectedBreedingTransactionType = breedingTransactionTypeList[0].obs;
+  }
 }

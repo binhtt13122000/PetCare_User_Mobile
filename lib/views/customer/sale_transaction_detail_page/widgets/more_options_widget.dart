@@ -266,15 +266,15 @@ class SaleTransactionMoreOptionWidget
 
               cancelContent += controller.cancelDescription.value;
               await SaleTransactionService.updateSaleTransaction(
-                id: controller.saleTransactionModel.id,
-                meetingTime: controller.saleTransactionModel.meetingTime,
-                placeMeeting: controller.saleTransactionModel.placeMeeting,
-                transactionTotal:
-                    controller.saleTransactionModel.transactionTotal,
-                status: 'CANCELED',
-                reasonCancel: cancelContent,
-                cancelTime: DateTime.now(),
-              );
+                  id: controller.saleTransactionModel.id,
+                  meetingTime: controller.saleTransactionModel.meetingTime,
+                  placeMeeting: controller.saleTransactionModel.placeMeeting,
+                  transactionTotal:
+                      controller.saleTransactionModel.transactionTotal,
+                  status: 'CANCELED',
+                  reasonCancel: cancelContent,
+                  cancelTime: DateTime.now(),
+                  message: 'The transaction has been canceled!');
               controller
                 ..cancelDescription.value = ''
                 ..quickCancelList = <String>[].obs

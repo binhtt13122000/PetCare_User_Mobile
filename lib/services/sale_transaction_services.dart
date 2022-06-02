@@ -83,6 +83,7 @@ class SaleTransactionService {
     required String status,
     int point = 0,
     DateTime? cancelTime,
+    String? message,
   }) async {
     final response = await http.put(
       Uri.http(API_SERVER_PATH, SALE_TRANSACTION_API_PATH),
@@ -101,7 +102,9 @@ class SaleTransactionService {
         'reasonCancel': reasonCancel ?? '',
         'status': status,
         'point': point,
-        'cancelTime': cancelTime!.toIso8601String(),
+        'cancelTime': cancelTime?.toIso8601String(),
+        'message': message,
+        'star': star
       }),
     );
     switch (response.statusCode) {

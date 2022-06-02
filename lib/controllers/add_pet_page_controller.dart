@@ -7,22 +7,35 @@ import 'package:petapp_mobile/models/species_model/species_model.dart';
 //import 'package:tflite/tflite.dart';
 
 class CreatePetPageController extends GetxController {
+  AccountModel accountModel = Get.find<AuthController>().accountModel;
+
   RxBool isShowSuccessfullyPopup = false.obs;
+  RxBool isWaitingCreatePet = false.obs;
+  RxBool isLoadingData = false.obs;
+
+  RxBool isFirstInputPetName = true.obs;
+  RxString petName = ''.obs;
+
+  late List<SpeciesModel> species;
+  RxInt selectedSpeciesId = (-1).obs;
+
+  late List<BreedModel> breeds;
+  RxInt selectedBreedsId = (-1).obs;
+  RxBool isLoadingBreedData = false.obs;
+
   File? avatar;
   RxString avatarUrl = ''.obs;
-  bool isFirstInputName = true;
-  RxString petName = ''.obs;
-  RxString description = ''.obs;
-  RxBool isDisplayCalender = false.obs;
+
   RxString selectedGender = 'MALE'.obs;
   RxString selectedFertility = 'YES'.obs;
+
   DateTime? dateOfBirthTime;
   DateTime? tmpDateOfBirthTime;
   RxString dayOfBirthText = ''.obs;
-  RxMap<int, RxInt> selectedBreedMap = <int, RxInt>{}.obs;
-  RxMap<int, RxList<BreedModel>> breedsMap = <int, RxList<BreedModel>>{}.obs;
-  late List<SpeciesModel> species;
-  RxInt selectedSpeciesId = 1.obs;
-  AccountModel accountModel = Get.find<AuthController>().accountModel;
-  RxBool isShowLoadingWidget = false.obs;
+  RxBool isDisplayCalender = false.obs;
+
+  RxString color = ''.obs;
+  RxString specialMarkings = ''.obs;
+  RxString vaccineDescription = ''.obs;
+  RxString description = ''.obs;
 }
