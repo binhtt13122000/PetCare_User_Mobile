@@ -14,9 +14,9 @@ import 'package:petapp_mobile/models/species_model/species_model.dart';
 import 'package:petapp_mobile/models/transaction_fees_model/transaction_fees_model.dart';
 
 class UpdateSalePostPageController extends GetxController {
-   TextEditingController titleEditingController = TextEditingController();
-   TextEditingController receiveMoneyEditingController = TextEditingController();
-   TextEditingController depositEditingController = TextEditingController();
+  TextEditingController titleEditingController = TextEditingController();
+  TextEditingController receiveMoneyEditingController = TextEditingController();
+  TextEditingController depositEditingController = TextEditingController();
   late PostModel postModel;
   ScrollController mainScrollController = ScrollController();
   AccountModel accountModel = Get.find<AuthController>().accountModel;
@@ -55,5 +55,5 @@ class UpdateSalePostPageController extends GetxController {
 
   late List<PetModel> pets;
   RxList<int> deletedIds = <int>[].obs;
-  int? selectedPetId;
+  RxInt selectedPetId = (-1).obs;
 }

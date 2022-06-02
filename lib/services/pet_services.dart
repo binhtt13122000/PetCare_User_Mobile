@@ -4,28 +4,17 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:petapp_mobile/configs/path.dart';
-
-import 'package:petapp_mobile/models/pet_model/pet_model.dart';
 import 'package:http/http.dart' as http;
+import 'package:petapp_mobile/models/pet_model/pet_model.dart';
 
 class PetService {
   static PetModel getPet(Map<String, dynamic> jsonData) =>
       PetModel.fromJson(jsonData);
 
-  static List<PetModel> getPetList(Map<String, dynamic> jsonData) {
-    final petListJson = jsonData['pet'] as List;
+  static List<PetModel> getPetList(List<dynamic> jsonData) {
     final List<PetModel> petList = List.empty(growable: true);
-    for (var element in petListJson) {
+    for (var element in jsonData) {
       petList.add(getPet(element));
-    }
-    return petList;
-  }
-
-  static List<PetModel> getPetListByCustomerId(Map<String, dynamic> jsonData) {
-    final petListJson = jsonData['data'] as List;
-    final List<PetModel> petList = List.empty(growable: true);
-    for (var element in petListJson) {
-      petList.add(PetModel.fromJson(element));
     }
     return petList;
   }
@@ -46,7 +35,7 @@ class PetService {
       case 201:
       case 202:
         print(jsonDecode(response.body));
-        return getPetListByCustomerId(jsonDecode(response.body));
+        return getPetList(jsonDecode(response.body)['data']);
       default:
         throw Exception('Error ${response.statusCode}, cannot get pet list');
     }
@@ -68,7 +57,7 @@ class PetService {
       case 200:
       case 201:
       case 202:
-        return getPetListByCustomerId(jsonDecode(response.body));
+        return getPetList(jsonDecode(response.body)['data']);
       default:
         throw Exception('Error ${response.statusCode}, cannot get pet list');
     }
@@ -76,7 +65,7 @@ class PetService {
 
   static Future createPet({
     required int ownerId,
-    required String avtarFilePath,
+    required String avatarFilePath,
     required String name,
     required bool isSeed,
     required String gender,
@@ -102,7 +91,7 @@ class PetService {
         'ownerId': ownerId,
         'specialMarkings': specialMarkings ?? '',
         'vaccineDescription': vaccineDescription ?? '',
-        'file': await MultipartFile.fromFile(avtarFilePath),
+        'file': await MultipartFile.fromFile(avatarFilePath),
       });
 
       Response response =
@@ -117,6 +106,31 @@ class PetService {
     } on DioError catch (e) {
       print(e.error);
       return e.response!.statusCode;
+    }
+  }
+
+  static Future<List<PetModel>> fetchPetListToCreatePostByCustomerId({
+    required int customerId,
+    required String postType,
+    int? speciesId,
+  }) async {
+    final Map<String, dynamic> parameters = {
+      'customerId': customerId,
+      'speciesId': speciesId
+    };
+    final response = await http.get(
+      Uri.http(API_SERVER_PATH, PET_TO_CREATE_POST_API_PATH, parameters),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+    );
+    switch (response.statusCode) {
+      case 200:
+      case 201:
+      case 202:
+        return getPetList(json.decode(response.body)['data']);
+      default:
+        throw Exception('Error ${response.statusCode}, cannot get pet list');
     }
   }
 }

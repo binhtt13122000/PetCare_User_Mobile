@@ -25,8 +25,9 @@ class CreatePostBottomWidget extends GetView<CreatePostPageController> {
                 onTap: () async {
                   if (controller.title.value.isNotEmpty &&
                       controller.price.value > 0 &&
-                      controller.selectedPetId != -1 &&
-                      controller.evidences.isNotEmpty) {
+                      controller.selectedPetId.value != -1 &&
+                      controller.evidences.isNotEmpty &&
+                      controller.meetingTimeText.value.isNotEmpty) {
                     controller.isShowLoadingWidget.value = true;
                     await PostService.createPost(
                       title: controller.title.value,
@@ -36,9 +37,9 @@ class CreatePostBottomWidget extends GetView<CreatePostPageController> {
                       provisionalTotal: controller.price.value,
                       deposits: controller.price.value,
                       createTime: DateTime.now(),
-                      meetingTime: DateTime.now(),
+                      meetingTime: controller.meetingTime!,
                       type: controller.selectedPostType.value,
-                      petId: controller.selectedPetId!,
+                      petId: controller.selectedPetId.value,
                       customerId: controller.accountModel.customerModel.id,
                       filesPath: controller.evidencesPath,
                       status: 'REQUESTED',
@@ -56,7 +57,7 @@ class CreatePostBottomWidget extends GetView<CreatePostPageController> {
                       borderRadius: BorderRadius.circular(5),
                       color: controller.title.value.isNotEmpty &&
                               controller.price.value > 0 &&
-                              controller.selectedPetId != -1 &&
+                              controller.selectedPetId.value != -1 &&
                               controller.evidences.isNotEmpty
                           ? PRIMARY_COLOR
                           : PRIMARY_COLOR.withOpacity(0.5),

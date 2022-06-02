@@ -11,7 +11,7 @@ class CreatePetLoadingWidget extends GetView<CreatePetPageController> {
   Widget build(BuildContext context) {
     return Obx(
       () => Visibility(
-        visible: controller.isShowLoadingWidget.value,
+        visible: controller.isWaitingCreatePet.value,
         child: Container(
           color: const Color.fromARGB(106, 198, 188, 201),
           alignment: Alignment.center,

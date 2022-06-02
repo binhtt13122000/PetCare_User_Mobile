@@ -16,7 +16,6 @@ class CreatePostBodyWidget extends GetView<CreatePostPageController> {
         postTypeWidget(),
         titleWidget(),
         receivedMoneyWidget(),
-        depositsWidget(),
         postPriceWidget(),
       ],
     );
@@ -157,79 +156,6 @@ class CreatePostBodyWidget extends GetView<CreatePostPageController> {
         ),
       );
 
-  // Widget fertilityWidget() => Padding(
-  //       padding: const EdgeInsets.only(
-  //         top: 5,
-  //       ),
-  //       child: Obx(
-  //         () => InkWell(
-  //           onTap: () => controller.selectedFertility.value == 'YES'
-  //               ? controller.selectedFertility.value = 'NO'
-  //               : controller.selectedFertility.value = 'YES',
-  //           child: Row(
-  //             children: [
-  //               Container(
-  //                 height: 30,
-  //                 width: 60,
-  //                 alignment: Alignment.center,
-  //                 decoration: BoxDecoration(
-  //                   color: controller.selectedFertility.value == 'YES'
-  //                       ? PRIMARY_COLOR
-  //                       : const Color.fromARGB(255, 237, 240, 243),
-  //                   borderRadius: const BorderRadius.horizontal(
-  //                     left: Radius.circular(7),
-  //                   ),
-  //                   border: Border.all(
-  //                     color: controller.selectedFertility.value == 'YES'
-  //                         ? PRIMARY_COLOR
-  //                         : DARK_GREY_COLOR.withOpacity(0.2),
-  //                     width: 1,
-  //                   ),
-  //                 ),
-  //                 child: Text(
-  //                   'YES',
-  //                   style: GoogleFonts.quicksand(
-  //                     color: controller.selectedFertility.value == 'YES'
-  //                         ? WHITE_COLOR
-  //                         : DARK_GREY_COLOR.withOpacity(0.3),
-  //                     fontSize: 15,
-  //                     fontWeight: FontWeight.w500,
-  //                   ),
-  //                 ),
-  //               ),
-  //               Container(
-  //                 height: 30,
-  //                 width: 60,
-  //                 alignment: Alignment.center,
-  //                 decoration: BoxDecoration(
-  //                   color: controller.selectedFertility.value == 'NO'
-  //                       ? PRIMARY_COLOR
-  //                       : const Color.fromARGB(255, 237, 240, 243),
-  //                   borderRadius: const BorderRadius.horizontal(
-  //                       right: Radius.circular(7)),
-  //                   border: Border.all(
-  //                     color: controller.selectedFertility.value == 'NO'
-  //                         ? PRIMARY_COLOR
-  //                         : DARK_GREY_COLOR.withOpacity(0.2),
-  //                     width: 1,
-  //                   ),
-  //                 ),
-  //                 child: Text(
-  //                   'NO',
-  //                   style: GoogleFonts.quicksand(
-  //                     color: controller.selectedFertility.value == 'NO'
-  //                         ? WHITE_COLOR
-  //                         : DARK_GREY_COLOR.withOpacity(0.3),
-  //                     fontSize: 15,
-  //                     fontWeight: FontWeight.w500,
-  //                   ),
-  //                 ),
-  //               ),
-  //             ],
-  //           ),
-  //         ),
-  //       ),
-  //     );
   Widget postPriceWidget() {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 12),
@@ -242,7 +168,7 @@ class CreatePostBodyWidget extends GetView<CreatePostPageController> {
               children: [
                 InkWell(
                   onTap: () =>
-                      controller.isShowPurchaseTransactionFeees.value = true,
+                      controller.isShowPurchaseTransactionFees.value = true,
                   child: Row(
                     children: [
                       Text(
@@ -290,115 +216,6 @@ class CreatePostBodyWidget extends GetView<CreatePostPageController> {
                   letterSpacing: 1,
                 ),
               ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget depositsWidget() {
-    TextEditingController _textEditingController = TextEditingController();
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 12),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Padding(
-            padding: const EdgeInsets.only(top: 20),
-            child: Row(
-              children: [
-                Text(
-                  'Deposits',
-                  style: GoogleFonts.quicksand(
-                    fontWeight: FontWeight.w500,
-                    color: const Color.fromARGB(255, 61, 78, 100),
-                    fontSize: 16,
-                    letterSpacing: 0.5,
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 5),
-                  child: Icon(
-                    Icons.info_outline_rounded,
-                    size: 15,
-                    color: DARK_GREY_COLOR.withAlpha(100),
-                  ),
-                ),
-              ],
-            ),
-          ),
-          Container(
-            height: 45,
-            alignment: Alignment.center,
-            margin: const EdgeInsets.only(top: 8),
-            padding: const EdgeInsets.all(10),
-            decoration: BoxDecoration(
-              border: Border.all(
-                color: const Color.fromARGB(255, 167, 181, 201),
-                width: 1.2,
-              ),
-              borderRadius: BorderRadius.circular(5),
-            ),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Expanded(
-                  child: TextField(
-                    minLines: 1,
-                    maxLines: 1,
-                    maxLength: 11,
-                    controller: _textEditingController,
-                    onChanged: (String text) {
-                      controller.deposit.value = text;
-                    },
-                    keyboardType: const TextInputType.numberWithOptions(
-                        decimal: false, signed: false),
-                    inputFormatters: [
-                      FilteringTextInputFormatter.allow(
-                        RegExp(
-                          r'[0-9.]',
-                        ),
-                      ),
-                      CustomTextFormatter(
-                          sample: 'xxx.xxx.xxx', separator: '.'),
-                    ],
-                    cursorColor: PRIMARY_COLOR,
-                    style: GoogleFonts.quicksand(
-                      fontWeight: FontWeight.w500,
-                      color: const Color.fromARGB(255, 113, 135, 168),
-                      fontSize: 15,
-                      letterSpacing: 1,
-                    ),
-                    decoration: InputDecoration(
-                      isCollapsed: true,
-                      counterText: '',
-                      border: InputBorder.none,
-                      hintText: 'Type the post deposits...',
-                      hintStyle: GoogleFonts.quicksand(
-                        fontWeight: FontWeight.w500,
-                        color: const Color.fromARGB(255, 162, 176, 194),
-                        fontSize: 12,
-                        letterSpacing: 1,
-                      ),
-                    ),
-                  ),
-                ),
-                Obx(
-                  () => Text(
-                    controller.deposit.value
-                            .replaceAll('.', '')
-                            .length
-                            .toString() +
-                        '/9',
-                    style: GoogleFonts.quicksand(
-                      fontWeight: FontWeight.w500,
-                      color: const Color.fromARGB(255, 162, 176, 194),
-                      fontSize: 13,
-                    ),
-                  ),
-                ),
-              ],
             ),
           ),
         ],

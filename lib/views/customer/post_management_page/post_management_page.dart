@@ -34,66 +34,6 @@ class PostManagementPage extends GetView<PostManagementPageController> {
   Widget ticketItemWidget({bool isLastIndex = false}) => Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // InkWell(
-          //   onTap: () => Get.to(() => TicketDetail(
-          //         ticketModel: ticketModel,
-          //       )),
-          //   child: Row(
-          //     children: [
-          //       const SizedBox(
-          //         width: 30,
-          //       ),
-          //       Expanded(
-          //         flex: 3,
-          //         child: Text(
-          //           ticketModel.title,
-          //           textAlign: TextAlign.start,
-          //           maxLines: 1,
-          //           overflow: TextOverflow.ellipsis,
-          //           style: GoogleFonts.quicksand(
-          //             fontSize: 16,
-          //             color: LIGHT_GREY_COLOR,
-          //             height: 1.2,
-          //             fontWeight: FontWeight.w500,
-          //           ),
-          //         ),
-          //       ),
-          //       const SizedBox(
-          //         width: 10,
-          //       ),
-          //       Expanded(
-          //         flex: 3,
-          //         child: Text(
-          //           ticketModel.status,
-          //           textAlign: TextAlign.start,
-          //           style: GoogleFonts.quicksand(
-          //             fontSize: 16,
-          //             color: LIGHT_GREY_COLOR,
-          //             height: 1.2,
-          //             fontWeight: FontWeight.w500,
-          //           ),
-          //         ),
-          //       ),
-          //       Expanded(
-          //         flex: 3,
-          //         child: Text(
-          //           FORMAT_DATE_TIME(
-          //               dateTime: ticketModel.date, pattern: DATE_PATTERN),
-          //           textAlign: TextAlign.start,
-          //           style: GoogleFonts.quicksand(
-          //             fontSize: 16,
-          //             color: LIGHT_GREY_COLOR,
-          //             height: 1.2,
-          //             fontWeight: FontWeight.w500,
-          //           ),
-          //         ),
-          //       ),
-          //       const SizedBox(
-          //         width: 30,
-          //       ),
-          //     ],
-          //   ),
-          // ),
           Visibility(
             visible: isLastIndex,
             child: Container(

@@ -256,7 +256,9 @@ class PostsManagementBodyWidget extends GetView<PostManagementPageController> {
                         overflow: TextOverflow.ellipsis,
                         textAlign: TextAlign.center,
                         style: GoogleFonts.quicksand(
-                          color: const Color.fromARGB(255, 10, 207, 224),
+                          color: postModel.type == 'SALE'
+                              ? BLUE_COLOR
+                              : PINK_COLOR,
                           fontWeight: FontWeight.w500,
                           fontSize: 12,
                         ),
@@ -377,7 +379,9 @@ class PostsManagementBodyWidget extends GetView<PostManagementPageController> {
                               overflow: TextOverflow.ellipsis,
                               textAlign: TextAlign.center,
                               style: GoogleFonts.quicksand(
-                                color: const Color.fromARGB(255, 10, 207, 224),
+                                color: postModel.type == 'SALE'
+                                    ? BLUE_COLOR
+                                    : PINK_COLOR,
                                 fontWeight: FontWeight.w500,
                                 fontSize: 12,
                               ),

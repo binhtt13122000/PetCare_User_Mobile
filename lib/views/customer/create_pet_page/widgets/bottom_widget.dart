@@ -26,21 +26,23 @@ class CreatePetBottomWidget extends GetView<CreatePetPageController> {
                   if (controller.petName.value.isNotEmpty &&
                       controller.avatarUrl.value.isNotEmpty &&
                       controller.dayOfBirthText.value.isNotEmpty) {
-                    controller.isShowLoadingWidget.value = true;
+                    controller.isWaitingCreatePet.value = true;
                     await PetService.createPet(
-                        ownerId: controller.accountModel.customerModel.id,
-                        avtarFilePath: controller.avatarUrl.value,
-                        name: controller.petName.value,
-                        isSeed: controller.selectedFertility.value == 'YES',
-                        gender: controller.selectedGender.value,
-                        dob: controller.dateOfBirthTime!,
-                        breedId: controller
-                            .selectedBreedMap[
-                                controller.selectedSpeciesId.value]!
-                            .value,
-                        status: 'NORMAL');
+                      ownerId: controller.accountModel.customerModel.id,
+                      avatarFilePath: controller.avatarUrl.value,
+                      name: controller.petName.value,
+                      isSeed: controller.selectedFertility.value == 'YES',
+                      gender: controller.selectedGender.value,
+                      dob: controller.dateOfBirthTime!,
+                      breedId: controller.selectedBreedsId.value,
+                      status: 'NORMAL',
+                      description: controller.description.value,
+                      color: controller.color.value,
+                      specialMarkings: controller.specialMarkings.value,
+                      vaccineDescription: controller.vaccineDescription.value,
+                    );
 
-                    controller.isShowLoadingWidget.value = false;
+                    controller.isWaitingCreatePet.value = false;
                     controller.isShowSuccessfullyPopup.value = true;
                   }
                 },

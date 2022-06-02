@@ -1,15 +1,13 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:petapp_mobile/configs/path.dart';
 import 'package:petapp_mobile/configs/theme.dart';
 import 'package:petapp_mobile/controllers/add_pet_page_controller.dart';
-import 'package:petapp_mobile/graphql/query_mutation/breed.dart';
-import 'package:petapp_mobile/graphql/query_mutation/species.dart';
 import 'package:petapp_mobile/models/breed_model/breed_model.dart';
 import 'package:petapp_mobile/models/species_model/species_model.dart';
 import 'package:petapp_mobile/services/breed_services.dart';
@@ -21,19 +19,39 @@ class CreatePetBodyWidget extends GetView<CreatePetPageController> {
 
   @override
   Widget build(BuildContext context) {
+    controller.isLoadingData.value = true;
+    WidgetsBinding.instance!.addPostFrameCallback((_) async {
+      controller.species = await SpeciesService.fetchSpeciesList();
+      controller.selectedSpeciesId.value = controller.species[0].id;
+      controller.isLoadingData.value = false;
+    });
     return Expanded(
-      child: SingleChildScrollView(
-        child: Column(
-          children: [
-            petNameWidget(),
-            petSpicesWidget(),
-            petBreedWidget(),
-            petAvatarWidget(),
-            genderAndFertilityWidget(),
-            dateOfBirthWidget(),
-            descriptionWidget(),
-          ],
-        ),
+      child: Obx(
+        () => controller.isLoadingData.value
+            ? Container(
+                color: const Color.fromARGB(106, 198, 188, 201),
+                alignment: Alignment.center,
+                child: const SpinKitSpinningLines(
+                  color: PRIMARY_COLOR,
+                  size: 150,
+                ),
+              )
+            : SingleChildScrollView(
+                child: Column(
+                  children: [
+                    petNameWidget(),
+                    petSpicesWidget(),
+                    petBreedWidget(),
+                    petAvatarWidget(),
+                    genderAndFertilityWidget(),
+                    dateOfBirthWidget(),
+                    colorWidget(),
+                    specialMarkingsWidget(),
+                    vaccinationInformationWidget(),
+                    descriptionWidget(),
+                  ],
+                ),
+              ),
       ),
     );
   }
@@ -480,7 +498,7 @@ class CreatePetBodyWidget extends GetView<CreatePetPageController> {
                   ? imageItemWidget(avatar: controller.avatar!)
                   : Container(
                       height: 180,
-                      width: 250,
+                      width: 280,
                       alignment: Alignment.center,
                       margin: const EdgeInsets.symmetric(
                         horizontal: 20,
@@ -593,74 +611,45 @@ class CreatePetBodyWidget extends GetView<CreatePetPageController> {
     );
   }
 
-  Widget listBreedItemWidget() => Obx(
-        () => Query(
-          options: QueryOptions(
-              document: gql(FETCH_BREED_BY_SPECIES_ID),
-              variables: {
-                "species_id": controller.selectedSpeciesId.value,
-              }),
-          builder: (
-            QueryResult result, {
-            VoidCallback? refetch,
-            FetchMore? fetchMore,
-          }) {
-            if (result.hasException) {
-              return Text(result.exception.toString());
-            } else if (result.isLoading) {
-              return const Center(
-                child: CircularProgressIndicator(),
-              );
-            } else if (result.data != null) {
-              controller.breedsMap[controller.selectedSpeciesId.value] =
-                  BreedService.getBreedList(result.data!).obs;
-
-              if (controller
-                      .selectedBreedMap[controller.selectedSpeciesId.value] ==
-                  null) {
-                controller
-                        .selectedBreedMap[controller.selectedSpeciesId.value] =
-                    (-1).obs;
-              }
-            }
-
-            return Padding(
-              padding: const EdgeInsets.only(top: 5),
-              child: Wrap(
-                alignment: WrapAlignment.start,
-                direction: Axis.horizontal,
-                crossAxisAlignment: WrapCrossAlignment.start,
-                runAlignment: WrapAlignment.start,
-                verticalDirection: VerticalDirection.down,
-                spacing: 10,
-                runSpacing: 10,
-                children: controller
-                    .breedsMap[controller.selectedSpeciesId.value]!
-                    .asMap()
-                    .entries
-                    .map((e) => breedItemWidget(breedModel: e.value))
-                    .toList(),
-              ),
-            );
-          },
-        ),
-      );
+  Widget listBreedItemWidget() =>
+      GetBuilder<CreatePetPageController>(builder: (_) {
+        controller.isLoadingBreedData.value = true;
+        WidgetsBinding.instance!.addPostFrameCallback((_) async {
+          controller.breeds = await BreedService.fetchBreedListBySpeciesId(
+              speciesId: controller.selectedSpeciesId.value);
+          controller.selectedBreedsId.value = controller.breeds[0].id;
+          controller.isLoadingBreedData.value = false;
+        });
+        return Obx(
+          () => controller.isLoadingBreedData.value
+              ? const SpinKitSpinningLines(
+                  color: PRIMARY_COLOR,
+                  size: 150,
+                )
+              : Padding(
+                  padding: const EdgeInsets.only(top: 5),
+                  child: Wrap(
+                    alignment: WrapAlignment.start,
+                    direction: Axis.horizontal,
+                    crossAxisAlignment: WrapCrossAlignment.start,
+                    runAlignment: WrapAlignment.start,
+                    verticalDirection: VerticalDirection.down,
+                    spacing: 10,
+                    runSpacing: 10,
+                    children: controller.breeds
+                        .asMap()
+                        .entries
+                        .map((e) => breedItemWidget(breedModel: e.value))
+                        .toList(),
+                  ),
+                ),
+        );
+      });
 
   Widget breedItemWidget({required BreedModel breedModel}) => Obx(
         () => InkWell(
           onTap: () {
-            controller.selectedBreedMap[controller.selectedSpeciesId.value]!
-                        .value ==
-                    breedModel.id
-                ? controller
-                        .selectedBreedMap[controller.selectedSpeciesId.value]!
-                        .value =
-                    controller
-                        .selectedBreedMap[controller.selectedSpeciesId.value]!
-                        .value
-                : controller
-                    .selectedBreedMap[controller.selectedSpeciesId.value]!
-                    .value = breedModel.id;
+            controller.selectedBreedsId.value = breedModel.id;
           },
           child: Container(
             height: 30,
@@ -668,20 +657,13 @@ class CreatePetBodyWidget extends GetView<CreatePetPageController> {
               horizontal: 10,
             ),
             decoration: BoxDecoration(
-              color: controller
-                          .selectedBreedMap[controller.selectedSpeciesId.value]!
-                          .value ==
-                      breedModel.id
+              color: controller.selectedBreedsId.value == breedModel.id
                   ? PRIMARY_COLOR
                   : WHITE_COLOR,
               borderRadius: BorderRadius.circular(15),
               boxShadow: [
                 BoxShadow(
-                  color: controller
-                              .selectedBreedMap[
-                                  controller.selectedSpeciesId.value]!
-                              .value ==
-                          breedModel.id
+                  color: controller.selectedBreedsId.value == breedModel.id
                       ? PRIMARY_COLOR.withOpacity(0.7)
                       : WHITE_COLOR,
                   offset: const Offset(1, 1),
@@ -696,11 +678,7 @@ class CreatePetBodyWidget extends GetView<CreatePetPageController> {
             child: Text(
               breedModel.name,
               style: GoogleFonts.itim(
-                color: controller
-                            .selectedBreedMap[
-                                controller.selectedSpeciesId.value]!
-                            .value ==
-                        breedModel.id
+                color: controller.selectedBreedsId.value == breedModel.id
                     ? WHITE_COLOR
                     : PRIMARY_COLOR.withOpacity(0.7),
                 fontSize: 17,
@@ -712,40 +690,23 @@ class CreatePetBodyWidget extends GetView<CreatePetPageController> {
         ),
       );
 
-  Widget listSpeciesItemWidget() => Query(
-        options:
-            QueryOptions(document: gql(FETCH_ALL_SPECIES), variables: const {}),
-        builder: (
-          QueryResult result, {
-          VoidCallback? refetch,
-          FetchMore? fetchMore,
-        }) {
-          if (result.hasException) {
-            return Text(result.exception.toString());
-          } else if (result.isLoading) {
-            return const Center(child: CircularProgressIndicator());
-          } else if (result.data != null) {
-            controller.species = SpeciesService.getSpeciesList(result.data!);
-          }
-          return Container(
-            alignment: Alignment.topLeft,
-            padding: const EdgeInsets.only(top: 5),
-            child: Wrap(
-              alignment: WrapAlignment.start,
-              direction: Axis.horizontal,
-              crossAxisAlignment: WrapCrossAlignment.start,
-              runAlignment: WrapAlignment.start,
-              verticalDirection: VerticalDirection.down,
-              spacing: 10,
-              runSpacing: 10,
-              children: controller.species
-                  .asMap()
-                  .entries
-                  .map((e) => specieItemWidget(speciesModel: e.value))
-                  .toList(),
-            ),
-          );
-        },
+  Widget listSpeciesItemWidget() => Container(
+        alignment: Alignment.topLeft,
+        padding: const EdgeInsets.only(top: 5),
+        child: Wrap(
+          alignment: WrapAlignment.start,
+          direction: Axis.horizontal,
+          crossAxisAlignment: WrapCrossAlignment.start,
+          runAlignment: WrapAlignment.start,
+          verticalDirection: VerticalDirection.down,
+          spacing: 10,
+          runSpacing: 10,
+          children: controller.species
+              .asMap()
+              .entries
+              .map((e) => specieItemWidget(speciesModel: e.value))
+              .toList(),
+        ),
       );
 
   Widget specieItemWidget({required SpeciesModel speciesModel}) => Obx(
@@ -753,9 +714,9 @@ class CreatePetBodyWidget extends GetView<CreatePetPageController> {
           width: 60 + speciesModel.name.length * 10,
           alignment: Alignment.centerLeft,
           child: InkWell(
-            onTap: () => controller.selectedSpeciesId.value == speciesModel.id
-                ? null
-                : controller.selectedSpeciesId.value = speciesModel.id,
+            onTap: () => controller
+              ..selectedSpeciesId.value = speciesModel.id
+              ..update(),
             child: Container(
               height: 36,
               padding: const EdgeInsets.symmetric(horizontal: 10),
@@ -884,6 +845,204 @@ class CreatePetBodyWidget extends GetView<CreatePetPageController> {
     );
   }
 
+  Widget colorWidget() {
+    TextEditingController _textEditingController = TextEditingController();
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 12),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(top: 20),
+            child: Text(
+              'Pet color',
+              style: GoogleFonts.quicksand(
+                fontWeight: FontWeight.w500,
+                color: const Color.fromARGB(255, 61, 78, 100),
+                fontSize: 16,
+                letterSpacing: 0.5,
+              ),
+            ),
+          ),
+          Container(
+            height: 45,
+            alignment: Alignment.center,
+            margin: const EdgeInsets.only(top: 8),
+            padding: const EdgeInsets.all(10),
+            decoration: BoxDecoration(
+              border: Border.all(
+                color: const Color.fromARGB(255, 167, 181, 201),
+                width: 1.2,
+              ),
+              borderRadius: BorderRadius.circular(5),
+            ),
+            child: TextField(
+              minLines: 1,
+              maxLines: 1,
+              controller: _textEditingController,
+              onChanged: (String text) {
+                controller.color.value = text;
+              },
+              keyboardType: TextInputType.multiline,
+              cursorColor: PRIMARY_COLOR,
+              style: GoogleFonts.quicksand(
+                fontWeight: FontWeight.w500,
+                color: const Color.fromARGB(255, 113, 135, 168),
+                fontSize: 15,
+                letterSpacing: 1,
+              ),
+              decoration: InputDecoration.collapsed(
+                hintText: 'Type your pet colors here...',
+                hintStyle: GoogleFonts.quicksand(
+                  fontWeight: FontWeight.w500,
+                  color: const Color.fromARGB(255, 162, 176, 194),
+                  fontSize: 13,
+                  letterSpacing: 1,
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget specialMarkingsWidget() {
+    TextEditingController _textEditingController = TextEditingController();
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 12),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(top: 20),
+            child: Text(
+              'Special markings',
+              style: GoogleFonts.quicksand(
+                fontWeight: FontWeight.w500,
+                color: const Color.fromARGB(255, 61, 78, 100),
+                fontSize: 16,
+                letterSpacing: 0.5,
+              ),
+            ),
+          ),
+          Container(
+            height: 80,
+            margin: const EdgeInsets.only(top: 8),
+            alignment: Alignment.center,
+            padding: const EdgeInsets.all(10),
+            decoration: BoxDecoration(
+              border: Border.all(
+                color: const Color.fromARGB(255, 167, 181, 201),
+                width: 1.2,
+              ),
+              borderRadius: BorderRadius.circular(5),
+            ),
+            child: TextField(
+              minLines: 3,
+              maxLines: 3,
+              controller: _textEditingController,
+              onChanged: (String text) {
+                controller.specialMarkings.value = text;
+              },
+              keyboardType: TextInputType.multiline,
+              cursorColor: PRIMARY_COLOR,
+              style: GoogleFonts.quicksand(
+                fontWeight: FontWeight.w500,
+                color: const Color.fromARGB(255, 113, 135, 168),
+                fontSize: 15,
+                letterSpacing: 1,
+              ),
+              decoration: InputDecoration.collapsed(
+                hintText: 'Type your pet special markings here...',
+                hintStyle: GoogleFonts.quicksand(
+                  fontWeight: FontWeight.w500,
+                  color: const Color.fromARGB(255, 162, 176, 194),
+                  fontSize: 13,
+                  letterSpacing: 1,
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget vaccinationInformationWidget() {
+    TextEditingController _textEditingController = TextEditingController();
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 12),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(top: 20),
+            child: Row(
+              children: [
+                Text(
+                  'Vaccination information',
+                  style: GoogleFonts.quicksand(
+                    fontWeight: FontWeight.w500,
+                    color: const Color.fromARGB(255, 61, 78, 100),
+                    fontSize: 16,
+                    letterSpacing: 0.5,
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(left: 5),
+                  child: Icon(
+                    Icons.info_outline_rounded,
+                    size: 15,
+                    color: DARK_GREY_COLOR.withAlpha(100),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          Container(
+            height: 80,
+            alignment: Alignment.center,
+            margin: const EdgeInsets.only(top: 8),
+            padding: const EdgeInsets.all(10),
+            decoration: BoxDecoration(
+              border: Border.all(
+                color: const Color.fromARGB(255, 167, 181, 201),
+                width: 1.2,
+              ),
+              borderRadius: BorderRadius.circular(5),
+            ),
+            child: TextField(
+              minLines: 3,
+              maxLines: 3,
+              controller: _textEditingController,
+              onChanged: (String text) {
+                controller.vaccineDescription.value = text;
+              },
+              keyboardType: TextInputType.multiline,
+              cursorColor: PRIMARY_COLOR,
+              style: GoogleFonts.quicksand(
+                fontWeight: FontWeight.w500,
+                color: const Color.fromARGB(255, 113, 135, 168),
+                fontSize: 15,
+                letterSpacing: 1,
+              ),
+              decoration: InputDecoration.collapsed(
+                hintText: 'Type your pet vaccination information here...',
+                hintStyle: GoogleFonts.quicksand(
+                  fontWeight: FontWeight.w500,
+                  color: const Color.fromARGB(255, 162, 176, 194),
+                  fontSize: 13,
+                  letterSpacing: 1,
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
   Widget descriptionWidget() {
     TextEditingController _textEditingController = TextEditingController();
     return Padding(
@@ -915,37 +1074,30 @@ class CreatePetBodyWidget extends GetView<CreatePetPageController> {
               ),
               borderRadius: BorderRadius.circular(5),
             ),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Expanded(
-                  child: TextField(
-                    minLines: 3,
-                    maxLines: 3,
-                    controller: _textEditingController,
-                    onChanged: (String text) {
-                      controller.description.value = text;
-                    },
-                    keyboardType: TextInputType.multiline,
-                    cursorColor: PRIMARY_COLOR,
-                    style: GoogleFonts.quicksand(
-                      fontWeight: FontWeight.w500,
-                      color: const Color.fromARGB(255, 113, 135, 168),
-                      fontSize: 15,
-                      letterSpacing: 1,
-                    ),
-                    decoration: InputDecoration.collapsed(
-                      hintText: 'More information about your pet...',
-                      hintStyle: GoogleFonts.quicksand(
-                        fontWeight: FontWeight.w500,
-                        color: const Color.fromARGB(255, 162, 176, 194),
-                        fontSize: 13,
-                        letterSpacing: 1,
-                      ),
-                    ),
-                  ),
+            child: TextField(
+              minLines: 3,
+              maxLines: 3,
+              controller: _textEditingController,
+              onChanged: (String text) {
+                controller.description.value = text;
+              },
+              keyboardType: TextInputType.multiline,
+              cursorColor: PRIMARY_COLOR,
+              style: GoogleFonts.quicksand(
+                fontWeight: FontWeight.w500,
+                color: const Color.fromARGB(255, 113, 135, 168),
+                fontSize: 15,
+                letterSpacing: 1,
+              ),
+              decoration: InputDecoration.collapsed(
+                hintText: 'More information about your pet...',
+                hintStyle: GoogleFonts.quicksand(
+                  fontWeight: FontWeight.w500,
+                  color: const Color.fromARGB(255, 162, 176, 194),
+                  fontSize: 13,
+                  letterSpacing: 1,
                 ),
-              ],
+              ),
             ),
           ),
         ],

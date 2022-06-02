@@ -3,14 +3,13 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:petapp_mobile/configs/path.dart';
 import 'package:petapp_mobile/configs/theme.dart';
 import 'package:petapp_mobile/controllers/create_post_page_controller.dart';
-import 'package:petapp_mobile/graphql/graphql_config.dart';
-import 'package:petapp_mobile/graphql/query_mutation/pet.dart';
 import 'package:petapp_mobile/models/pet_model/pet_model.dart';
+import 'package:petapp_mobile/models/species_model/species_model.dart';
 import 'package:petapp_mobile/services/pet_services.dart';
+import 'package:petapp_mobile/services/species_services.dart';
 
 class SelectPetWidget extends GetView<CreatePostPageController> {
   const SelectPetWidget({Key? key}) : super(key: key);
@@ -21,58 +20,42 @@ class SelectPetWidget extends GetView<CreatePostPageController> {
       controller.isShowLoadingPet.value = true;
 
       WidgetsBinding.instance!.addPostFrameCallback((_) async {
-
-        // if (controller.isShowPetFilter.value &&
-        //     controller.selectedPetId == null) {
-        //   if (controller.selectedBreedMap[controller.selectedSpeciesId] ==
-        //           null ||
-        //       controller.selectedBreedMap[controller.selectedSpeciesId]! ==
-        //           -1) {
-        //     query = FETCH_PET_LIST_WITHOUT_BREED_TO_CREATE_POST;
-        //     variables = {
-        //       'customerId': controller.accountModel.customerModel.id,
-        //       'speciesId': controller.selectedSpeciesId,
-        //     };
-        //   } else {
-        //     query = FETCH_PET_LIST_WITH_BREED_TO_CREATE_POST;
-        //     variables = {
-        //       'customerId': controller.accountModel.customerModel.id,
-        //       'speciesId': controller.selectedSpeciesId,
-        //       'breedId':
-        //           controller.selectedBreedMap[controller.selectedSpeciesId],
-        //     };
-        //   }
-        // } else {
-        //   query = FETCH_PET_LIST_TO_CREATE_POST;
-        //   variables = {
-        //     'customerId': controller.accountModel.customerModel.id,
-        //   };
-        // }
-
-        if (controller.isShowPetFilter.value) {
-          controller.pets = await PetService.fetchPetListToCreatePost(controller.accountModel.customerModel.id, controller.selectedSpeciesId);
+        if (controller.isShowPetFilter) {
+          controller.species = await SpeciesService.fetchSpeciesList();
+          controller.selectedSpeciesId.value == -1
+              ? controller.selectedSpeciesId.value = controller.species[0].id
+              : null;
+          controller
+            ..pets = await PetService.fetchPetListToCreatePost(
+                controller.accountModel.customerModel.id,
+                controller.selectedSpeciesId.value)
+            ..isShowPetDropdownList.value = true;
+          // ..mainScrollController.animateTo(
+          //   247,
+          //   duration: const Duration(milliseconds: 1000),
+          //   curve: Curves.ease,
+          // );
         } else {
-          controller.pets = await PetService.fetchPetListToCreatePost(controller.accountModel.customerModel.id, null);
+          controller
+            ..pets = await PetService.fetchPetListToCreatePost(
+                controller.accountModel.customerModel.id, null)
+            ..isShowPetDropdownList.value = true;
         }
-        
 
-        if (controller.pets.isNotEmpty) {
-          if (controller.selectedPetId == null) {
-            controller.selectedPetId = controller.pets[0].id;
-          } else {
-            bool isExits = false;
-            for (var element in controller.pets) {
-              if (element.id == controller.selectedPetId) {
-                isExits = true;
-                break;
-              }
-            }
-            if (!isExits) {
-              controller.selectedPetId = controller.pets[0].id;
-            }
-          }
-        }
-        controller.isShowLoadingPet.value = false;
+        controller
+          ..selectedPetId.value =
+              controller.pets.isNotEmpty ? controller.pets[0].id : -1
+          ..petOwnerVaccinationDescription =
+              controller.selectedPetId.value != -1
+                  ? (controller.pets[0].vaccineDescription ?? '')
+                  : ''
+          ..vaccinationDescription =
+              controller.isUsePetOwnerVaccinationDescription.value
+                  ? controller.petOwnerVaccinationDescription
+                  : ''
+          ..vaccinationDescriptionTextEditingController.text =
+              controller.vaccinationDescription
+          ..isShowLoadingPet.value = false;
       });
       return Obx(() => controller.isShowLoadingPet.value
           ? const SpinKitSpinningLines(
@@ -81,119 +64,355 @@ class SelectPetWidget extends GetView<CreatePostPageController> {
             )
           : Column(
               children: [
-                Container(
-                  height: 1,
-                  margin: const EdgeInsets.only(top: 10),
-                  color: LIGHT_GREY_COLOR.withOpacity(0.1),
-                ),
-                Container(
-                  height: 8,
-                  color: const Color.fromARGB(255, 247, 248, 250),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 15, left: 20),
-                  child: Column(children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Row(
-                          children: [
-                            Text(
-                              'Select pet',
-                              style: GoogleFonts.quicksand(
-                                fontWeight: FontWeight.w500,
-                                color: const Color.fromARGB(255, 78, 98, 124),
-                                fontSize: 16,
-                              ),
-                            ),
-                            Text(
-                              '*',
-                              style: GoogleFonts.quicksand(
-                                fontWeight: FontWeight.w800,
-                                color: const Color.fromARGB(255, 241, 99, 88),
-                                fontSize: 20,
-                              ),
-                            ),
-                            controller.pets.isNotEmpty
-                                ? Padding(
-                                    padding: const EdgeInsets.only(left: 10),
-                                    child: petItemWidget(
-                                      petModel: controller.pets.firstWhere(
-                                          (element) =>
-                                              element.id ==
-                                              controller.selectedPetId),
-                                    ),
-                                  )
-                                : Padding(
-                                    padding: const EdgeInsets.only(left: 15),
-                                    child: Text(
-                                      'No suitable pet!',
-                                      style: GoogleFonts.quicksand(
-                                        fontWeight: FontWeight.w700,
-                                        color: const Color.fromARGB(
-                                            255, 244, 55, 159),
-                                        fontSize: 16,
-                                      ),
-                                    ),
-                                  ),
-                          ],
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(left: 15),
-                          child: InkWell(
-                            onTap: () {
-                              if (controller.isShowPetFilter.value) {
-                                controller.isShowPetFilter.value = false;
-                                controller.isShowPetDropdownList.value = false;
-                              } else {
-                                controller.isShowPetFilter.value = true;
-                                controller.isShowPetDropdownList.value = true;
-                                controller.mainScrollController.animateTo(
-                                  247,
-                                  duration: const Duration(milliseconds: 1000),
-                                  curve: Curves.ease,
-                                );
-                              }
-                            },
-                            child: Container(
-                              height: 40,
-                              width: 40,
-                              decoration: BoxDecoration(
-                                  border: Border.all(
-                                    color: controller.isShowPetFilter.value
-                                        ? PRIMARY_COLOR
-                                        : const Color.fromARGB(
-                                            255, 156, 175, 202),
-                                    width: 1,
-                                  ),
-                                  borderRadius: BorderRadius.circular(5),
-                                  color: controller.isShowPetFilter.value
-                                      ? PRIMARY_COLOR
-                                      : WHITE_COLOR),
-                              child: Center(
-                                child: SvgPicture.asset(
-                                  ICON_PATH + FILTER_SVG,
-                                  height: 18,
-                                  color: controller.isShowPetFilter.value
-                                      ? WHITE_COLOR
-                                      : const Color.fromARGB(
-                                          255, 102, 116, 136),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                    controller.pets.isNotEmpty
-                        ? petItemDropdownListWidget()
-                        : const SizedBox.shrink()
-                  ]),
-                ),
+                selectPetWidget(),
+                !controller.isShowPetFilter
+                    ? const SizedBox.shrink()
+                    : petFilterWidget(),
+                petVaccinationDescriptionWidget()
               ],
             ));
     });
   }
+
+  Widget petVaccinationDescriptionWidget() {
+    return Obx(
+      () => controller.selectedPetId.value == -1
+          ? const SizedBox.shrink()
+          : Padding(
+              padding: const EdgeInsets.only(top: 20, right: 12, left: 12),
+              child: Column(
+                children: [
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: [
+                          Text(
+                            'Vaccination description',
+                            style: GoogleFonts.quicksand(
+                              fontWeight: FontWeight.w500,
+                              color: const Color.fromARGB(255, 61, 78, 100),
+                              fontSize: 16,
+                              letterSpacing: 0.5,
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(left: 5),
+                            child: Icon(
+                              Icons.info_outline_rounded,
+                              size: 15,
+                              color: DARK_GREY_COLOR.withAlpha(100),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                  Container(
+                    height: 100,
+                    alignment: Alignment.topLeft,
+                    margin: const EdgeInsets.only(top: 8),
+                    padding: const EdgeInsets.all(10),
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                        color: const Color.fromARGB(255, 167, 181, 201),
+                        width: 1.2,
+                      ),
+                      borderRadius: BorderRadius.circular(5),
+                    ),
+                    child: Column(
+                      children: [
+                        Row(
+                          children: [
+                            Obx(
+                              () => Container(
+                                width: 20,
+                                height: 20,
+                                margin: const EdgeInsets.only(right: 5),
+                                child: Checkbox(
+                                  value: controller
+                                      .isUsePetOwnerVaccinationDescription
+                                      .value,
+                                  onChanged: (isCheck) {
+                                    controller
+                                        .isUsePetOwnerVaccinationDescription
+                                        .value = isCheck!;
+                                    if (isCheck) {
+                                      controller
+                                        ..vaccinationDescription = controller
+                                            .petOwnerVaccinationDescription
+                                        ..vaccinationDescriptionTextEditingController
+                                                .text =
+                                            controller.vaccinationDescription;
+                                    }
+                                  },
+                                  activeColor: PRIMARY_COLOR,
+                                ),
+                              ),
+                            ),
+                            Text(
+                              'Use pet owner vaccination description',
+                              style: GoogleFonts.quicksand(
+                                fontWeight: FontWeight.w500,
+                                color: const Color.fromARGB(255, 85, 103, 128),
+                                fontSize: 13,
+                                letterSpacing: 1,
+                              ),
+                            ),
+                          ],
+                        ),
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Expanded(
+                              child: TextFormField(
+                                minLines: 3,
+                                maxLines: 3,
+                                maxLength: 40,
+                                controller: controller
+                                    .vaccinationDescriptionTextEditingController,
+                                onChanged: (String text) {
+                                  controller.vaccinationDescription = text;
+                                },
+                                keyboardType: TextInputType.multiline,
+                                cursorColor: PRIMARY_COLOR,
+                                style: GoogleFonts.quicksand(
+                                  fontWeight: FontWeight.w500,
+                                  color:
+                                      const Color.fromARGB(255, 113, 135, 168),
+                                  fontSize: 15,
+                                  letterSpacing: 1,
+                                ),
+                                decoration: InputDecoration(
+                                  hintText:
+                                      'Type pet vaccination description here...',
+                                  hintStyle: GoogleFonts.quicksand(
+                                    fontWeight: FontWeight.w500,
+                                    color: const Color.fromARGB(
+                                        255, 162, 176, 194),
+                                    fontSize: 13,
+                                    letterSpacing: 1,
+                                  ),
+                                  border: InputBorder.none,
+                                  counterText: '',
+                                  isCollapsed: true,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+    );
+  }
+
+  Widget petFilterWidget() => Column(
+        children: [
+          Align(
+            alignment: Alignment.centerLeft,
+            child: Padding(
+              padding: const EdgeInsets.only(left: 40),
+              child: Text(
+                'Pet species',
+                style: GoogleFonts.quicksand(
+                  fontWeight: FontWeight.w500,
+                  fontStyle: FontStyle.italic,
+                  color: const Color.fromARGB(255, 106, 122, 143),
+                  fontSize: 16,
+                ),
+              ),
+            ),
+          ),
+          Column(
+            children: [
+              Container(
+                alignment: Alignment.topLeft,
+                padding: const EdgeInsets.only(left: 40, top: 10),
+                child: Wrap(
+                  alignment: WrapAlignment.start,
+                  direction: Axis.horizontal,
+                  crossAxisAlignment: WrapCrossAlignment.start,
+                  runAlignment: WrapAlignment.start,
+                  verticalDirection: VerticalDirection.down,
+                  spacing: 10,
+                  runSpacing: 10,
+                  children: controller.species
+                      .asMap()
+                      .entries
+                      .map((e) => speciesItemWidget(speciesModel: e.value))
+                      .toList(),
+                ),
+              ),
+            ],
+          ),
+        ],
+      );
+
+  Widget speciesItemWidget({required SpeciesModel speciesModel}) =>
+      GetBuilder<CreatePostPageController>(
+        builder: (_) => Container(
+          width: 55 + speciesModel.name.length * 10,
+          alignment: Alignment.centerLeft,
+          child: InkWell(
+            onTap: () {
+              controller.selectedSpeciesId.value = speciesModel.id;
+              controller.update();
+            },
+            child: Container(
+              height: 40,
+              padding: const EdgeInsets.symmetric(
+                horizontal: 10,
+              ),
+              decoration: BoxDecoration(
+                color: controller.selectedSpeciesId.value == speciesModel.id
+                    ? PRIMARY_COLOR
+                    : PRIMARY_COLOR.withOpacity(0.13),
+                borderRadius: BorderRadius.circular(15),
+                boxShadow: [
+                  BoxShadow(
+                    color: controller.selectedSpeciesId.value == speciesModel.id
+                        ? PRIMARY_COLOR.withOpacity(0.7)
+                        : WHITE_COLOR,
+                    offset: const Offset(1, 1),
+                    blurRadius: 8,
+                  ),
+                ],
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Image.asset(
+                    speciesModel.imageUrl!,
+                    height: 25,
+                  ),
+                  const SizedBox(
+                    width: 3,
+                  ),
+                  Text(
+                    speciesModel.name,
+                    style: GoogleFonts.itim(
+                      color:
+                          speciesModel.id == controller.selectedSpeciesId.value
+                              ? WHITE_COLOR
+                              : PRIMARY_COLOR.withOpacity(0.7),
+                      fontSize: 20,
+                      fontWeight: FontWeight.w500,
+                      height: 1.5,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+      );
+
+  Widget selectPetWidget() => Column(
+        children: [
+          Container(
+            height: 1,
+            margin: const EdgeInsets.only(top: 10),
+            color: LIGHT_GREY_COLOR.withOpacity(0.1),
+          ),
+          Container(
+            height: 8,
+            color: const Color.fromARGB(255, 247, 248, 250),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(top: 15, left: 20),
+            child: Column(children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      Text(
+                        'Select pet',
+                        style: GoogleFonts.quicksand(
+                          fontWeight: FontWeight.w500,
+                          color: const Color.fromARGB(255, 78, 98, 124),
+                          fontSize: 16,
+                        ),
+                      ),
+                      Text(
+                        '*',
+                        style: GoogleFonts.quicksand(
+                          fontWeight: FontWeight.w800,
+                          color: const Color.fromARGB(255, 241, 99, 88),
+                          fontSize: 20,
+                        ),
+                      ),
+                      controller.pets.isNotEmpty
+                          ? Padding(
+                              padding: const EdgeInsets.only(left: 10),
+                              child: petItemWidget(
+                                petModel: controller.pets.firstWhere(
+                                    (element) =>
+                                        element.id ==
+                                        controller.selectedPetId.value),
+                              ),
+                            )
+                          : Padding(
+                              padding: const EdgeInsets.only(left: 15),
+                              child: Text(
+                                'No suitable pet!',
+                                style: GoogleFonts.quicksand(
+                                  fontWeight: FontWeight.w700,
+                                  color:
+                                      const Color.fromARGB(255, 244, 55, 159),
+                                  fontSize: 16,
+                                ),
+                              ),
+                            ),
+                    ],
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 15),
+                    child: InkWell(
+                      onTap: () => controller
+                        ..isShowPetFilter = !controller.isShowPetFilter
+                        ..update(),
+                      child: Container(
+                        height: 40,
+                        width: 40,
+                        decoration: BoxDecoration(
+                            border: Border.all(
+                              color: controller.isShowPetFilter
+                                  ? PRIMARY_COLOR
+                                  : const Color.fromARGB(255, 156, 175, 202),
+                              width: 1,
+                            ),
+                            borderRadius: BorderRadius.circular(5),
+                            color: controller.isShowPetFilter
+                                ? PRIMARY_COLOR
+                                : WHITE_COLOR),
+                        child: Center(
+                          child: SvgPicture.asset(
+                            ICON_PATH + FILTER_SVG,
+                            height: 18,
+                            color: controller.isShowPetFilter
+                                ? WHITE_COLOR
+                                : const Color.fromARGB(255, 102, 116, 136),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              controller.pets.isNotEmpty
+                  ? petItemDropdownListWidget()
+                  : const SizedBox.shrink()
+            ]),
+          ),
+        ],
+      );
 
   Widget petItemDropdownListWidget() {
     ScrollController scrollController = ScrollController();
@@ -316,12 +535,17 @@ class SelectPetWidget extends GetView<CreatePostPageController> {
       Column(
         children: [
           InkWell(
-            onTap: () {
-              controller.isShowPetDropdownList.value =
-                  !controller.isShowPetDropdownList.value;
-              controller.selectedPetId = petModel.id;
-              controller.update();
-            },
+            onTap: () => controller
+              ..isShowPetDropdownList.value = false
+              ..selectedPetId.value = petModel.id
+              ..petOwnerVaccinationDescription =
+                  petModel.vaccineDescription ?? ''
+              ..vaccinationDescription =
+                  controller.isUsePetOwnerVaccinationDescription.value
+                      ? controller.petOwnerVaccinationDescription
+                      : ''
+              ..vaccinationDescriptionTextEditingController.text =
+                  controller.vaccinationDescription,
             child: Container(
               height: 50,
               width: 200,
@@ -338,7 +562,7 @@ class SelectPetWidget extends GetView<CreatePostPageController> {
                         width: 20,
                         height: 45,
                         decoration: BoxDecoration(
-                            color: controller.selectedPetId == petModel.id
+                            color: controller.selectedPetId.value == petModel.id
                                 ? PRIMARY_COLOR
                                 : Colors.transparent,
                             borderRadius: BorderRadius.circular(4)),
@@ -363,7 +587,7 @@ class SelectPetWidget extends GetView<CreatePostPageController> {
                       textAlign: TextAlign.center,
                       style: GoogleFonts.quicksand(
                         fontWeight: FontWeight.w500,
-                        color: controller.selectedPetId == petModel.id
+                        color: controller.selectedPetId.value == petModel.id
                             ? PRIMARY_COLOR
                             : const Color.fromARGB(255, 121, 128, 141),
                         fontSize: 16,
@@ -435,92 +659,6 @@ class SelectPetWidget extends GetView<CreatePostPageController> {
             ],
           ),
         ),
-        // Container(
-        //   height: 100,
-        //   alignment: Alignment.topLeft,
-        //   margin: const EdgeInsets.only(top: 8),
-        //   padding: const EdgeInsets.all(10),
-        //   decoration: BoxDecoration(
-        //     border: Border.all(
-        //       color: const Color.fromARGB(255, 167, 181, 201),
-        //       width: 1.2,
-        //     ),
-        //     borderRadius: BorderRadius.circular(5),
-        //   ),
-        //   child: Column(
-        //     children: [
-        //       Row(
-        //         children: [
-        //           Obx(
-        //             () => Container(
-        //               width: 20,
-        //               height: 20,
-        //               margin: const EdgeInsets.only(right: 5),
-        //               child: Checkbox(
-        //                 value: controller.isUseOwnerAddress.value,
-        //                 onChanged: (isCheck) {
-        //                   controller.isUseOwnerAddress.value = isCheck!;
-        //                   if (isCheck) {
-        //                     controller.transactionLocationTextEditingController
-        //                         .text = ownerAddress;
-        //                     controller.transactionLocation.value = ownerAddress;
-        //                   }
-        //                 },
-        //                 activeColor: PRIMARY_COLOR,
-        //               ),
-        //             ),
-        //           ),
-        //           Text(
-        //             'Use owner address',
-        //             style: GoogleFonts.quicksand(
-        //               fontWeight: FontWeight.w500,
-        //               color: const Color.fromARGB(255, 85, 103, 128),
-        //               fontSize: 13,
-        //               letterSpacing: 1,
-        //             ),
-        //           ),
-        //         ],
-        //       ),
-        //       Row(
-        //         crossAxisAlignment: CrossAxisAlignment.start,
-        //         children: [
-        //           Expanded(
-        //             child: TextFormField(
-        //               minLines: 3,
-        //               maxLines: 3,
-        //               maxLength: 40,
-        //               controller:
-        //                   controller.transactionLocationTextEditingController,
-        //               onChanged: (String text) {
-        //                 controller.transactionLocation.value = text;
-        //               },
-        //               keyboardType: TextInputType.multiline,
-        //               cursorColor: PRIMARY_COLOR,
-        //               style: GoogleFonts.quicksand(
-        //                 fontWeight: FontWeight.w500,
-        //                 color: const Color.fromARGB(255, 113, 135, 168),
-        //                 fontSize: 15,
-        //                 letterSpacing: 1,
-        //               ),
-        //               decoration: InputDecoration(
-        //                 hintText: 'Type transaction location here...',
-        //                 hintStyle: GoogleFonts.quicksand(
-        //                   fontWeight: FontWeight.w500,
-        //                   color: const Color.fromARGB(255, 162, 176, 194),
-        //                   fontSize: 13,
-        //                   letterSpacing: 1,
-        //                 ),
-        //                 border: InputBorder.none,
-        //                 counterText: '',
-        //                 isCollapsed: true,
-        //               ),
-        //             ),
-        //           ),
-        //         ],
-        //       ),
-        //     ],
-        //   ),
-        // ),
       ],
     );
   }

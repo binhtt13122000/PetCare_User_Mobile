@@ -44,6 +44,9 @@ PostModel _$PostModelFromJson(Map<String, dynamic> json) => PostModel(
       customerModel: json['customer'] == null
           ? null
           : CustomerModel.fromJson(json['customer'] as Map<String, dynamic>),
+      branchModel: json['branch'] == null
+          ? null
+          : BranchModel.fromJson(json['branch'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$PostModelToJson(PostModel instance) => <String, dynamic>{
@@ -69,5 +72,6 @@ Map<String, dynamic> _$PostModelToJson(PostModel instance) => <String, dynamic>{
       'type': instance.type,
       'pet': instance.petModel?.toJson(),
       'customer': instance.customerModel?.toJson(),
+      'branch': instance.branchModel?.toJson(),
       'media': instance.mediaModels?.map((e) => e.toJson()).toList(),
     };
