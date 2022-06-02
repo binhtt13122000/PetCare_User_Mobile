@@ -6,6 +6,7 @@ import 'package:petapp_mobile/models/center_services_transaction_model/center_se
 import 'package:petapp_mobile/models/promotion_model.dart/promotion_model.dart';
 
 class PaymentForCenterServicesTransactionPageController extends GetxController {
+  RxBool isLoadingData = false.obs;
   AccountModel accountModel = Get.find<AuthController>().accountModel;
   RxBool isShowPopup = false.obs;
   late CenterServicesTransactionModel centerServicesTransactionModel;

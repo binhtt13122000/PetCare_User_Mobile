@@ -3,12 +3,9 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:petapp_mobile/configs/path.dart';
 import 'package:petapp_mobile/configs/theme.dart';
 import 'package:petapp_mobile/controllers/pet_management_page_controller.dart';
-import 'package:petapp_mobile/graphql/graphql_config.dart';
-import 'package:petapp_mobile/graphql/query_mutation/pet.dart';
 import 'package:petapp_mobile/models/pet_model/pet_model.dart';
 import 'package:petapp_mobile/services/pet_services.dart';
 

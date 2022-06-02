@@ -261,13 +261,3 @@ query MyQuery($_postId: Int) {
   }
 }
 ''';
-
-const UPDATE_NORMAL_TRANSACTION_REVIEW = r'''
-mutation MyMutation($_id: Int, $_review: String, $_star: Int) {
-  update_order(where: {id: {_eq: $_id}}, _set: {review: $_review, star: $_star}) {
-    returning {
-      id
-    }
-  }
-}
-''';
