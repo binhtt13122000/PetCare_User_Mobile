@@ -15,10 +15,9 @@ const REGISTER_OTP_PAGE_ROUTE = '/register/otp';
 
 //home
 const HOME_PAGE_ROUTE = '/home';
-const SALE_POST_DETAIL_PAGE_ROUTE = '/home/purchase-post-detail';
-const PURCHASE_POSTS_PAGE_ROUTE = '/home/purchase-posts';
-const PURCHASE_POSTS_FILTER_PAGE_ROUTE = '/home/purchase-posts-filter';
-const DEPOSIT_PAGE_ROUTE = '/home/deposit-page';
+const POST_DETAIL_PAGE_ROUTE = '/home/post-detail';
+const PURCHASE_POSTS_PAGE_ROUTE = '/home/post-list';
+const PURCHASE_POSTS_FILTER_PAGE_ROUTE = '/home/posts-filter';
 const NOTIFICATION_PAGE_ROUTE = '/home/notification-page';
 
 //action

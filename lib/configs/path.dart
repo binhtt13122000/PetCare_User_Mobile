@@ -94,8 +94,8 @@ const PROFILE_UNSELECTED_SVG = 'profile_unselected.svg';
 // const API_SERVER = '10.0.2.2:4000';
 // const GRAPHL_SERVER = 'http://10.0.2.2:8080';
 
-const API_SERVER_PATH = '3.101.149.81:4000';
-const GRAPHL_SERVER_PATH = 'http://3.101.149.81:8080';
+const API_SERVER_PATH = '13.52.101.92:4000';
+const GRAPHL_SERVER_PATH = 'http://13.52.101.92:8080';
 
 //*sale transaction
 const SALE_TRANSACTION_RETURN_API_PATH =

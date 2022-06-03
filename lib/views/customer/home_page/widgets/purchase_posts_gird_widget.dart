@@ -136,7 +136,7 @@ class SalePostGirdsWidget extends GetView<HomePageController> {
 
   Widget purchasePostItemWidget({required PostModel postModel}) => InkWell(
         onTap: () {
-          Get.toNamed('$SALE_POST_DETAIL_PAGE_ROUTE/${postModel.id}');
+          Get.toNamed('$POST_DETAIL_PAGE_ROUTE/${postModel.id}');
         },
         child: Container(
           margin: const EdgeInsets.all(5),

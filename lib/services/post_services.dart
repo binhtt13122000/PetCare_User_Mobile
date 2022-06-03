@@ -81,8 +81,6 @@ class PostService {
 
       return response.statusCode;
     } on DioError catch (e) {
-      print(e.error);
-      print(e.response!.data);
       return e.response!.statusCode;
     }
   }
@@ -136,8 +134,6 @@ class PostService {
 
       return response.statusCode;
     } on DioError catch (e) {
-      print(e.error);
-      print(e.response!.data);
       return e.response!.statusCode;
     }
   }
@@ -161,11 +157,8 @@ class PostService {
     }
   }
 
-  static Future<List<PostModel>> fetchAllPurchasePostListByCustomerId({
-    required int customerId,
-    required int page,
-    required int limit
-  }) async {
+  static Future<List<PostModel>> fetchAllPurchasePostListByCustomerId(
+      {required int customerId, required int page, required int limit}) async {
     Map<String, String> parameters = {
       'page': page.toString(),
       'limit': limit.toString(),
@@ -179,33 +172,28 @@ class PostService {
         'Content-Type': 'application/json; charset=UTF-8',
       },
     );
-    print(parameters);
-    print(Uri.http(API_SERVER_PATH, '/v1/api/posts/fetch-post', parameters));
-    print(response.statusCode);
-    print(json.decode(response.body)['data']['content']);
     switch (response.statusCode) {
       case 200:
       case 201:
       case 202:
-        return getPostListByCustom(json.decode(response.body)['data']['content']);
+        return getPostListByCustom(
+            json.decode(response.body)['data']['content']);
       default:
         throw Exception('Error ${response.statusCode}, cannot get species');
     }
   }
 
-  static Future<List<PostModel>> fetchAllPurchasePostList({
-    required int customerId,
-    required String status,
-    required int page,
-    required int limit
-  }) async {
+  static Future<List<PostModel>> fetchAllPurchasePostList(
+      {required int customerId,
+      required String status,
+      required int page,
+      required int limit}) async {
     Map<String, String> parameters = {
       'page': page.toString(),
       'limit': limit.toString(),
       'notCustomerId': customerId.toString(),
       'status': status,
     };
-    print(Uri.http(API_SERVER_PATH, '/v1/api/posts/fetch-post', parameters));
     final response = await http.get(
       Uri.http(API_SERVER_PATH, '/v1/api/posts/fetch-post', parameters),
       headers: <String, String>{
@@ -216,7 +204,8 @@ class PostService {
       case 200:
       case 201:
       case 202:
-        return getPostListByCustom(json.decode(response.body)['data']['content']);
+        return getPostListByCustom(
+            json.decode(response.body)['data']['content']);
       default:
         throw Exception('Error ${response.statusCode}, cannot get species');
     }

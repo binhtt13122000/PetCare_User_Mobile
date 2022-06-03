@@ -28,19 +28,17 @@ Widget CUSTOM_TEXT(
   double letterSpacing = 0.5,
   FontStyle fontStyle = FontStyle.normal,
   Color backGroundColor = Colors.transparent,
-  BoxFit boxFit = BoxFit.none,
+  TextOverflow textOverflow = TextOverflow.ellipsis,
 }) =>
-    FittedBox(
-      fit: boxFit,
-      child: Text(
-        data,
-        textAlign: textAlign,
-        style: GoogleFonts.quicksand(
-            fontWeight: fontWeight,
-            color: color,
-            fontSize: fontSize,
-            letterSpacing: letterSpacing,
-            fontStyle: fontStyle,
-            backgroundColor: backGroundColor),
-      ),
+    Text(
+      data,
+      textAlign: textAlign,
+      overflow: textOverflow,
+      style: GoogleFonts.quicksand(
+          fontWeight: fontWeight,
+          color: color,
+          fontSize: fontSize,
+          letterSpacing: letterSpacing,
+          fontStyle: fontStyle,
+          backgroundColor: backGroundColor),
     );

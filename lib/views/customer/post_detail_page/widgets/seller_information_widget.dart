@@ -4,13 +4,14 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:petapp_mobile/configs/path.dart';
 import 'package:petapp_mobile/configs/theme.dart';
-import 'package:petapp_mobile/controllers/sale_post_detail_page_controller.dart';
+import 'package:petapp_mobile/controllers/post_detail_page_controller.dart';
 import 'package:petapp_mobile/utilities/utilities.dart';
 import 'package:petapp_mobile/views/widgets/customize_widget.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
-class SellerInformationWidget extends GetView<SalePostDetailPageController> {
-  const SellerInformationWidget({Key? key}) : super(key: key);
+class PostDetailSellerInformationWidget
+    extends GetView<PostDetailPageController> {
+  const PostDetailSellerInformationWidget({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) => Visibility(
@@ -81,21 +82,9 @@ class SellerInformationWidget extends GetView<SalePostDetailPageController> {
                           fontWeight: FontWeight.w700,
                         ),
                       ),
-                      const SizedBox(
-                        width: 5,
-                      ),
-                      Text(
-                        'follow',
-                        textAlign: TextAlign.left,
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
-                        style: GoogleFonts.quicksand(
-                          fontSize: 15,
-                          color: PRIMARY_COLOR,
-                          height: 1,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
+                      CUSTOM_TEXT(' (Seller)',
+                          color: DARK_GREY_TEXT_COLOR.withOpacity(0.8),
+                          fontSize: 14),
                     ],
                   ),
                   const SizedBox(
@@ -226,17 +215,16 @@ class SellerInformationWidget extends GetView<SalePostDetailPageController> {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                // Text(
-                //   controller.postModel.customerModel!.numberFollowers
-                //       .toString(),
-                //   style: GoogleFonts.quicksand(
-                //     fontSize: 15,
-                //     fontWeight: FontWeight.w600,
-                //     color: const Color.fromARGB(255, 86, 104, 126),
-                //   ),
-                // ),
                 Text(
-                  'Followers',
+                  '10',
+                  style: GoogleFonts.quicksand(
+                    fontSize: 15,
+                    fontWeight: FontWeight.w600,
+                    color: const Color.fromARGB(255, 86, 104, 126),
+                  ),
+                ),
+                Text(
+                  'Posts',
                   style: GoogleFonts.quicksand(
                     fontSize: 15,
                     fontWeight: FontWeight.w600,

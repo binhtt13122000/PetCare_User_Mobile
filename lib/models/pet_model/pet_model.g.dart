@@ -21,6 +21,7 @@ PetModel _$PetModelFromJson(Map<String, dynamic> json) => PetModel(
       specialMarkings: json['specialMarkings'] as String?,
       vaccineDescription: json['vaccineDescription'] as String?,
       breedId: json['breedId'] as int?,
+      isFertility: json['isSeed'] as bool,
     );
 
 Map<String, dynamic> _$PetModelToJson(PetModel instance) => <String, dynamic>{
@@ -35,5 +36,6 @@ Map<String, dynamic> _$PetModelToJson(PetModel instance) => <String, dynamic>{
       'specialMarkings': instance.specialMarkings,
       'vaccineDescription': instance.vaccineDescription,
       'breedId': instance.breedId,
+      'isSeed': instance.isFertility,
       'breed': instance.breedModel?.toJson(),
     };

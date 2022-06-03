@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:petapp_mobile/configs/theme.dart';
-import 'package:petapp_mobile/controllers/sale_post_detail_page_controller.dart';
+import 'package:petapp_mobile/controllers/post_detail_page_controller.dart';
 import 'package:petapp_mobile/utilities/utilities.dart';
+import 'package:petapp_mobile/views/widgets/customize_widget.dart';
 
-class PurchasePostDetailGeneralInformationWidget
-    extends GetView<SalePostDetailPageController> {
-  const PurchasePostDetailGeneralInformationWidget({Key? key})
-      : super(key: key);
+class PostDetailGeneralInformationWidget
+    extends GetView<PostDetailPageController> {
+  const PostDetailGeneralInformationWidget({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) => Column(
@@ -22,15 +22,12 @@ class PurchasePostDetailGeneralInformationWidget
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                petBreedInforWidget(),
-                Text(
+                petBreedInformationWidget(),
+                CUSTOM_TEXT(
                   controller.postModel.title,
-                  style: GoogleFonts.quicksand(
-                    fontSize: 15,
-                    color: const Color.fromARGB(255, 59, 71, 85),
-                    fontWeight: FontWeight.w500,
-                    letterSpacing: 0.5,
-                  ),
+                  fontSize: 17,
+                  letterSpacing: 1,
+                  textOverflow: TextOverflow.clip,
                 ),
                 priceWidget(),
                 informationCartList(),
@@ -49,93 +46,49 @@ class PurchasePostDetailGeneralInformationWidget
         ],
       );
 
-  Widget petBreedInforWidget() => Row(
+  Widget petBreedInformationWidget() => Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Text(
-            controller.postModel.petModel!.breedModel!.name,
-            style: GoogleFonts.quicksand(
+          CUSTOM_TEXT('[${controller.postModel.type}] ',
               fontSize: 20,
-              fontWeight: FontWeight.w700,
-              color: const Color.fromARGB(255, 56, 75, 97),
-              wordSpacing: 0,
-              letterSpacing: 2.5,
-            ),
+              letterSpacing: 1,
+              color: controller.postModel.type == 'SALE'
+                  ? BLUE_COLOR
+                  : PINK_COLOR),
+          CUSTOM_TEXT(
+            controller.postModel.petModel!.breedModel!.name,
+            fontSize: 20,
+            fontWeight: FontWeight.w700,
+            letterSpacing: 1.5,
           ),
-          Text(
-            '(${controller.postModel.petModel!.breedModel!.speciesModel!.name})',
-            style: GoogleFonts.quicksand(
-              fontSize: 16,
-              fontWeight: FontWeight.w500,
-              color: const Color.fromARGB(255, 56, 75, 97),
-              height: 1.3,
-              letterSpacing: 2.5,
-            ),
+          CUSTOM_TEXT(
+            ' (${controller.postModel.petModel!.breedModel!.speciesModel!.name})',
           ),
         ],
       );
 
-  Widget priceWidget() => Padding(
-        padding: const EdgeInsets.only(
-          top: 4,
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
-                Text(
-                  'Price: ',
-                  style: GoogleFonts.quicksand(
-                    fontSize: 17,
-                    color: const Color.fromARGB(255, 95, 114, 136),
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-                Text(
-                  FORMAT_MONEY(price: controller.postModel.provisionalTotal),
-                  style: GoogleFonts.quicksand(
-                    fontSize: 20,
-                    // color:
-                    //     const Color.fromARGB(255, 244, 55, 159),
-                    color: PRIMARY_COLOR,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(
-              width: 20,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
-                Text(
-                  'Deposit: ',
-                  style: GoogleFonts.quicksand(
-                    fontSize: 15,
-                    color: const Color.fromARGB(255, 95, 114, 136),
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-                Text(
-                  FORMAT_MONEY(price: 235000),
-                  style: GoogleFonts.quicksand(
-                    fontSize: 18,
-                    // color:
-                    //     const Color.fromARGB(255, 244, 55, 159),
-                    color: PRIMARY_COLOR,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-              ],
-            ),
-          ],
-        ),
+  Widget priceWidget() => Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              CUSTOM_TEXT(
+                'Pet price: ',
+                fontSize: 22,
+              ),
+              CUSTOM_TEXT(
+                FORMAT_MONEY(price: controller.postModel.provisionalTotal),
+                color: PRIMARY_COLOR,
+                fontWeight: FontWeight.w700,
+                fontSize: 30,
+                letterSpacing: 2.5,
+              )
+            ],
+          ),
+        ],
       );
 
   Widget informationCartList() => Padding(
@@ -168,13 +121,12 @@ class PurchasePostDetailGeneralInformationWidget
                       color: const Color.fromARGB(255, 95, 114, 136),
                     ),
                   ),
-                  Text(
-                    controller.postModel.type,
-                    style: GoogleFonts.quicksand(
-                        fontSize: 12,
-                        color: PRIMARY_COLOR,
-                        fontWeight: FontWeight.w500),
-                  ),
+                  CUSTOM_TEXT(controller.postModel.type,
+                      fontSize: 14,
+                      letterSpacing: 1,
+                      color: controller.postModel.type == 'SALE'
+                          ? BLUE_COLOR
+                          : PINK_COLOR),
                 ],
               ),
             ),

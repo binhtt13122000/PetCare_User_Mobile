@@ -4,12 +4,11 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:petapp_mobile/configs/path.dart';
 import 'package:petapp_mobile/configs/theme.dart';
-import 'package:petapp_mobile/controllers/sale_post_detail_page_controller.dart';
+import 'package:petapp_mobile/controllers/post_detail_page_controller.dart';
 import 'package:petapp_mobile/utilities/utilities.dart';
 
-class PurchasePostDetailInformationWidget
-    extends GetView<SalePostDetailPageController> {
-  const PurchasePostDetailInformationWidget({Key? key}) : super(key: key);
+class PostDetailInformationWidget extends GetView<PostDetailPageController> {
+  const PostDetailInformationWidget({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -51,7 +50,7 @@ class PurchasePostDetailInformationWidget
               ),
               genderCardWidget(),
               textCardWidgetWithInfoIcon(
-                keyText: 'Age',
+                keyText: 'Age range',
                 valueText: controller.postModel.petModel!.ageRange,
               ),
               textCardWidget(
@@ -61,26 +60,43 @@ class PurchasePostDetailInformationWidget
                   pattern: DATE_PATTERN,
                 ),
               ),
-              colorCardWidget(),
               textCardWidget(
                 keyText: 'Weight',
                 valueText: '7.5 Kilogram',
               ),
+              Visibility(
+                visible: controller.postModel.petModel!.color != null &&
+                    controller.postModel.petModel!.color!.isNotEmpty,
+                child: textCardWidget(
+                  keyText: 'Color',
+                  valueText: controller.postModel.petModel!.color ?? '',
+                ),
+              ),
               textCardWidget(
                 keyText: 'Fertility',
-                valueText: 'YES',
+                valueText:
+                    controller.postModel.petModel!.isFertility ? 'YES' : 'NO',
               ),
-              textCardWidgetWithInfoIcon(
-                keyText: 'Genealogy certificate',
-                valueText: 'YES',
+              Visibility(
+                visible:
+                    controller.postModel.petModel!.vaccineDescription != null &&
+                        controller
+                            .postModel.petModel!.vaccineDescription!.isNotEmpty,
+                child: textCardWidget(
+                  keyText: 'Vaccination information',
+                  valueText:
+                      controller.postModel.petModel!.vaccineDescription ?? '',
+                ),
               ),
-              textCardWidgetWithInfoIcon(
-                keyText: 'Vaccinated',
-                valueText: 'NO',
-              ),
-              textCardWidgetWithInfoIcon(
-                keyText: 'branchId',
-                valueText: controller.postModel.branchId.toString(),
+              Visibility(
+                visible: controller.postModel.petModel!.specialMarkings !=
+                        null &&
+                    controller.postModel.petModel!.specialMarkings!.isNotEmpty,
+                child: textCardWidget(
+                  keyText: 'Special  markings',
+                  valueText:
+                      controller.postModel.petModel!.specialMarkings ?? '',
+                ),
               ),
             ],
           ),
@@ -223,7 +239,8 @@ class PurchasePostDetailInformationWidget
             Row(
               children: [
                 Image.asset(
-                  IMAGE_PATH + CAT_PNG,
+                  controller
+                      .postModel.petModel!.breedModel!.speciesModel!.imageUrl!,
                   height: 15,
                 ),
                 Padding(

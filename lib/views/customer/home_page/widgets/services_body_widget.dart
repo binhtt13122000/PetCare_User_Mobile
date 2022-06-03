@@ -8,7 +8,7 @@ import 'package:petapp_mobile/configs/path.dart';
 import 'package:petapp_mobile/configs/route.dart';
 import 'package:petapp_mobile/configs/theme.dart';
 import 'package:petapp_mobile/controllers/home_page_controller.dart';
-import 'package:petapp_mobile/controllers/sale_post_detail_page_controller.dart';
+import 'package:petapp_mobile/controllers/post_detail_page_controller.dart';
 import 'package:petapp_mobile/models/post_model/post_model.dart';
 import 'package:petapp_mobile/utilities/utilities.dart';
 import 'package:petapp_mobile/views/customer/home_page/widgets/purchase_posts_gird_widget.dart';
@@ -57,7 +57,7 @@ class ServicesBodyWidget extends GetView<HomePageController> {
 
   Widget purchasePostItemWidget({required PostModel postModel}) => InkWell(
         onTap: () {
-          Get.delete<SalePostDetailPageController>();
+          Get.delete<PostDetailPageController>();
           Get.toNamed(PURCHASE_POSTS_PAGE_ROUTE);
         },
         child: Container(

@@ -3,13 +3,10 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:petapp_mobile/configs/path.dart';
 import 'package:petapp_mobile/configs/route.dart';
 import 'package:petapp_mobile/configs/theme.dart';
 import 'package:petapp_mobile/controllers/post_management_page_controller.dart';
-import 'package:petapp_mobile/graphql/graphql_config.dart';
-import 'package:petapp_mobile/graphql/query_mutation/post.dart';
 import 'package:petapp_mobile/models/post_model/post_model.dart';
 import 'package:petapp_mobile/services/post_services.dart';
 import 'package:petapp_mobile/utilities/utilities.dart';
@@ -33,12 +30,13 @@ class PostsManagementBodyWidget extends GetView<PostManagementPageController> {
             builder: (_) {
               controller.isLoadingPostList.value = true;
               WidgetsBinding.instance!.addPostFrameCallback((_) async {
-                  controller.postList = await PostService.fetchAllPurchasePostListByCustomerId(
-                    customerId: controller.accountModel.customerModel.id,
-                    limit: 10,
-                    page: 1,
-                  );
-                  controller.isLoadingPostList.value = false;
+                controller.postList =
+                    await PostService.fetchAllPurchasePostListByCustomerId(
+                  customerId: controller.accountModel.customerModel.id,
+                  limit: 10,
+                  page: 1,
+                );
+                controller.isLoadingPostList.value = false;
               });
               return Obx(
                 () => controller.isLoadingPostList.value
@@ -205,8 +203,7 @@ class PostsManagementBodyWidget extends GetView<PostManagementPageController> {
       );
 
   Widget postCardWidget({required PostModel postModel}) => InkWell(
-        onTap: () =>
-            Get.toNamed('$SALE_POST_DETAIL_PAGE_ROUTE/${postModel.id}'),
+        onTap: () => Get.toNamed('$POST_DETAIL_PAGE_ROUTE/${postModel.id}'),
         child: Container(
           height: 70,
           margin: const EdgeInsets.symmetric(horizontal: 12),
@@ -327,8 +324,7 @@ class PostsManagementBodyWidget extends GetView<PostManagementPageController> {
             color: const Color.fromARGB(255, 240, 243, 255),
           ),
           InkWell(
-            onTap: () =>
-                Get.toNamed('$SALE_POST_DETAIL_PAGE_ROUTE/${postModel.id}'),
+            onTap: () => Get.toNamed('$POST_DETAIL_PAGE_ROUTE/${postModel.id}'),
             child: Container(
               height: 70,
               padding: const EdgeInsets.symmetric(horizontal: 12),
