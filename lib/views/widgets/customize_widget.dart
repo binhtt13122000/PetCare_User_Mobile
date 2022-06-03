@@ -19,7 +19,7 @@ Widget GRADIENT_WIDGET({
       child: child,
     );
 
-Text CUSTOM_TEXT(
+Widget CUSTOM_TEXT(
   String data, {
   TextAlign textAlign = TextAlign.start,
   FontWeight fontWeight = FontWeight.w500,
@@ -28,15 +28,19 @@ Text CUSTOM_TEXT(
   double letterSpacing = 0.5,
   FontStyle fontStyle = FontStyle.normal,
   Color backGroundColor = Colors.transparent,
+  BoxFit boxFit = BoxFit.none,
 }) =>
-    Text(
-      data,
-      textAlign: textAlign,
-      style: GoogleFonts.quicksand(
-          fontWeight: fontWeight,
-          color: color,
-          fontSize: fontSize,
-          letterSpacing: letterSpacing,
-          fontStyle: fontStyle,
-          backgroundColor: backGroundColor),
+    FittedBox(
+      fit: boxFit,
+      child: Text(
+        data,
+        textAlign: textAlign,
+        style: GoogleFonts.quicksand(
+            fontWeight: fontWeight,
+            color: color,
+            fontSize: fontSize,
+            letterSpacing: letterSpacing,
+            fontStyle: fontStyle,
+            backgroundColor: backGroundColor),
+      ),
     );

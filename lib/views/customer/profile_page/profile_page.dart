@@ -34,7 +34,7 @@ class ProfilePage extends GetView<ProfilePageController> {
               const Align(
                 alignment: Alignment.bottomCenter,
                 child:
-                    CustomBottomNavigatorBarWidget(router: PROFILE_PAGE_ROUTE),
+                    CustomBottomNavigatorBarWidget(route: PROFILE_PAGE_ROUTE),
               ),
             ],
           ),

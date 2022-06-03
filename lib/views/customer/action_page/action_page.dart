@@ -179,7 +179,7 @@ class ActionPage extends GetView {
           ),
           const Align(
             alignment: Alignment.bottomCenter,
-            child: CustomBottomNavigatorBarWidget(router: ACTION_PAGE_ROUTE),
+            child: CustomBottomNavigatorBarWidget(route: ACTION_PAGE_ROUTE),
           )
         ],
       ),

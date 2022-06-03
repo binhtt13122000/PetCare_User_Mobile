@@ -1,11 +1,9 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:petapp_mobile/configs/route.dart';
 import 'package:petapp_mobile/configs/theme.dart';
 import 'package:petapp_mobile/controllers/home_page_controller.dart';
-import 'package:petapp_mobile/graphql/graphql_config.dart';
 
 import 'package:petapp_mobile/views/customer/custom_bottom_navigation_bar/custom_bottom_navigator_bar.dart';
 import 'package:petapp_mobile/views/customer/home_page/widgets/list_pet_services_widget.dart';
@@ -34,26 +32,23 @@ class HomePage extends GetView<HomePageController> {
     //   }
     // });
 
-    return GraphQLProvider(
-      client: GRAPHQL_CLIENT,
-      child: Scaffold(
-        backgroundColor: WHITE_COLOR,
-        extendBody: true,
-        body: Stack(
-          children: [
-            Column(
-              children: const [
-                TopNavigationBar(),
-                ListPetServiceWidget(),
-                Expanded(child: ServicesBodyWidget()),
-              ],
-            ),
-            const Align(
-              alignment: Alignment.bottomCenter,
-              child: CustomBottomNavigatorBarWidget(router: HOME_PAGE_ROUTE),
-            ),
-          ],
-        ),
+    return Scaffold(
+      backgroundColor: WHITE_COLOR,
+      extendBody: true,
+      body: Stack(
+        children: [
+          Column(
+            children: const [
+              TopNavigationBar(),
+              ListPetServiceWidget(),
+              Expanded(child: ServicesBodyWidget()),
+            ],
+          ),
+          const Align(
+            alignment: Alignment.bottomCenter,
+            child: CustomBottomNavigatorBarWidget(route: HOME_PAGE_ROUTE),
+          ),
+        ],
       ),
     );
   }

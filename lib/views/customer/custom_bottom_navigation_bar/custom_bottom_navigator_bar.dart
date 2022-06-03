@@ -8,9 +8,9 @@ import 'package:petapp_mobile/configs/theme.dart';
 import 'package:petapp_mobile/models/bottom_bar_item_model/bottom_bar_item_model.dart';
 
 class CustomBottomNavigatorBarWidget extends StatelessWidget {
-  const CustomBottomNavigatorBarWidget({Key? key, required this.router})
+  const CustomBottomNavigatorBarWidget({Key? key, required this.route})
       : super(key: key);
-  final String router;
+  final String route;
   @override
   Widget build(BuildContext context) {
     List<BottomBarItemModel> bottomBarItems = [
@@ -68,7 +68,7 @@ class CustomBottomNavigatorBarWidget extends StatelessWidget {
                 .entries
                 .map(
                   (e) => bottomBarItemWidget(
-                    isSelected: e.value.routeName == router,
+                    isSelected: e.value.routeName == route,
                     bottomBarItem: e.value,
                   ),
                 )
