@@ -23,8 +23,8 @@ class ChattingListPage extends GetView<ChattingListPageController> {
           ),
           const Align(
             alignment: Alignment.bottomCenter,
-            child: CustomBottomNavigatorBarWidget(
-                router: CHATTING_LIST_PAGE_ROUTE),
+            child:
+                CustomBottomNavigatorBarWidget(route: CHATTING_LIST_PAGE_ROUTE),
           )
         ],
       ),

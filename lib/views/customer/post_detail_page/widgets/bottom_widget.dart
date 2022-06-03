@@ -3,12 +3,11 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:petapp_mobile/configs/route.dart';
 import 'package:petapp_mobile/configs/theme.dart';
-import 'package:petapp_mobile/controllers/sale_post_detail_page_controller.dart';
+import 'package:petapp_mobile/controllers/post_detail_page_controller.dart';
 import 'package:petapp_mobile/services/chat_services.dart';
 
-class PurchasePostDetailBottomWidget
-    extends GetView<SalePostDetailPageController> {
-  const PurchasePostDetailBottomWidget({Key? key}) : super(key: key);
+class PostDetailBottomWidget extends GetView<PostDetailPageController> {
+  const PostDetailBottomWidget({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) => Column(
@@ -94,7 +93,7 @@ class PurchasePostDetailBottomWidget
                           postId: controller.postModel.id);
                       chatRoomId != null
                           ? Get.toNamed(
-                              '$CHATTING_DETAIL_PAGE_ROUTE/chatRoomId/$chatRoomId')
+                              '$CHATTING_DETAIL_PAGE_ROUTE/$chatRoomId')
                           : Get.toNamed(
                               '$CHATTING_DETAIL_PAGE_ROUTE/sellerId/${controller.postModel.customerId}/postId/${controller.postModel.id}');
                     },

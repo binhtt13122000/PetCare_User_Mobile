@@ -15,7 +15,7 @@ import 'package:petapp_mobile/bindings/payment_for_center_services_transaction_p
 import 'package:petapp_mobile/bindings/personal_information_page_binding.dart';
 import 'package:petapp_mobile/bindings/pet_detail_page_binding.dart';
 import 'package:petapp_mobile/bindings/profile_page_binding.dart';
-import 'package:petapp_mobile/bindings/sale_post_detail_page_binding.dart';
+import 'package:petapp_mobile/bindings/post_detail_page_binding.dart';
 import 'package:petapp_mobile/bindings/register_page_binding.dart';
 import 'package:petapp_mobile/bindings/sale_transaction_detail_page_binding.dart';
 import 'package:petapp_mobile/bindings/sign_in_page_binding.dart';
@@ -31,6 +31,7 @@ import 'package:petapp_mobile/controllers/sign_in_page_controller.dart';
 import 'package:petapp_mobile/models/account_model/account_model.dart';
 import 'package:petapp_mobile/services/account_services.dart';
 import 'package:petapp_mobile/views/customer/action_page/action_page.dart';
+import 'package:petapp_mobile/views/customer/breeding_transaction_detail_page/breeding_transaction_detail_page.dart';
 import 'package:petapp_mobile/views/customer/center_services_transaction_detail_page/center_services_transaction_detail_page.dart';
 import 'package:petapp_mobile/views/customer/chatting_detail_page/chatting_detail_page.dart';
 import 'package:petapp_mobile/views/customer/chatting_list_page/chatting_list_page.dart';
@@ -42,10 +43,10 @@ import 'package:petapp_mobile/views/customer/payment_for_center_services_transac
 import 'package:petapp_mobile/views/customer/personal_information_page/personal_information_page.dart';
 import 'package:petapp_mobile/views/customer/pet_detail_page/pet_detail_page.dart';
 import 'package:petapp_mobile/views/customer/pet_management_page/pet_management_page.dart';
+import 'package:petapp_mobile/views/customer/post_detail_page/post_detail_page.dart';
 import 'package:petapp_mobile/views/customer/post_management_page/post_management_page.dart';
 import 'package:petapp_mobile/views/customer/profile_page/profile_page.dart';
 import 'package:petapp_mobile/views/customer/purchase_posts_filter_page/purchase_posts_filter_page.dart';
-import 'package:petapp_mobile/views/customer/sale_post_detail_page/sale_post_detail_page.dart';
 import 'package:petapp_mobile/views/customer/sale_post_list_page/sale_post_page.dart';
 import 'package:petapp_mobile/views/customer/sale_transaction_detail_page/sale_transaction_detail_page.dart';
 import 'package:petapp_mobile/views/customer/transaction_list_page/transaction_list_page.dart';
@@ -181,9 +182,9 @@ class MainApp extends StatelessWidget {
           binding: NotificationPageBinding(),
         ),
         GetPage(
-            name: '$SALE_POST_DETAIL_PAGE_ROUTE/:salePostId',
-            page: () => const SalePostDetailPage(),
-            binding: SalePostDetailPageBinding()),
+            name: '$POST_DETAIL_PAGE_ROUTE/:postId',
+            page: () => const PostDetailPage(),
+            binding: PostDetailPageBinding()),
         GetPage(
             name: '$UPDATE_SALE_POST_PAGE_ROUTE/:salePostId',
             page: () => const UpdateSalePostPage(),
@@ -227,7 +228,7 @@ class MainApp extends StatelessWidget {
         GetPage(
           name:
               '$BREEDING_TRANSACTION_DETAIL_PAGE_ROUTE/:breedingTransactionId',
-          page: () => const SaleTransactionDetailPage(),
+          page: () => const BreedingTransactionDetailPage(),
           binding: BreedingTransactionDetailPageBinding(),
         ),
         //*Profile

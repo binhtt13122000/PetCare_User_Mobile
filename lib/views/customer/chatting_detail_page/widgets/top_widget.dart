@@ -42,8 +42,8 @@ class ChattingDetailTopWidget extends GetView<ChattingDetailPageController> {
       );
 
   Widget postGeneralInfo() => InkWell(
-        onTap: () => Get.toNamed(
-            '$SALE_POST_DETAIL_PAGE_ROUTE/${controller.postModel.id}'),
+        onTap: () =>
+            Get.toNamed('$POST_DETAIL_PAGE_ROUTE/${controller.postModel.id}'),
         child: Container(
           color: WHITE_COLOR,
           child: Column(

@@ -19,7 +19,7 @@ Widget GRADIENT_WIDGET({
       child: child,
     );
 
-Text CUSTOM_TEXT(
+Widget CUSTOM_TEXT(
   String data, {
   TextAlign textAlign = TextAlign.start,
   FontWeight fontWeight = FontWeight.w500,
@@ -28,10 +28,12 @@ Text CUSTOM_TEXT(
   double letterSpacing = 0.5,
   FontStyle fontStyle = FontStyle.normal,
   Color backGroundColor = Colors.transparent,
+  TextOverflow textOverflow = TextOverflow.ellipsis,
 }) =>
     Text(
       data,
       textAlign: textAlign,
+      overflow: textOverflow,
       style: GoogleFonts.quicksand(
           fontWeight: fontWeight,
           color: color,

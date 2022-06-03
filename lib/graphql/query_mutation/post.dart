@@ -199,7 +199,6 @@ query MyQuery($_postId: Int) {
       id
       isActive
       lastName
-      numberFollowers
       numberReviewers
       phoneNumber
       point

@@ -116,9 +116,11 @@ class ChattingDetailBottomWidget extends GetView<ChattingDetailPageController> {
               padding: const EdgeInsets.only(right: 7),
               child: InkWell(
                 onTap: () async {
-                  File? mediaFile = await PICK_IMAGE(isPickFromGalley: true);
-                  if (mediaFile != null) {
-                    controller.mediaList.add(mediaFile);
+                  List<File>? mediaFiles = await PICK_IMAGE_LIST();
+                  if (mediaFiles != null) {
+                    for (var element in mediaFiles) {
+                      controller.mediaList.add(element);
+                    }
                     controller.update();
                   }
                 },

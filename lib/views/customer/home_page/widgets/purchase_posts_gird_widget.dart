@@ -5,13 +5,10 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:petapp_mobile/configs/path.dart';
 import 'package:petapp_mobile/configs/route.dart';
 import 'package:petapp_mobile/configs/theme.dart';
 import 'package:petapp_mobile/controllers/home_page_controller.dart';
-import 'package:petapp_mobile/graphql/graphql_config.dart';
-import 'package:petapp_mobile/graphql/query_mutation/post.dart';
 import 'package:petapp_mobile/models/post_model/post_model.dart';
 import 'package:petapp_mobile/services/post_services.dart';
 import 'package:petapp_mobile/utilities/utilities.dart';
@@ -139,7 +136,7 @@ class SalePostGirdsWidget extends GetView<HomePageController> {
 
   Widget purchasePostItemWidget({required PostModel postModel}) => InkWell(
         onTap: () {
-          Get.toNamed('$SALE_POST_DETAIL_PAGE_ROUTE/${postModel.id}');
+          Get.toNamed('$POST_DETAIL_PAGE_ROUTE/${postModel.id}');
         },
         child: Container(
           margin: const EdgeInsets.all(5),
@@ -253,44 +250,6 @@ class SalePostGirdsWidget extends GetView<HomePageController> {
                               fontWeight: FontWeight.w500,
                             ),
                           ),
-                          // Container(
-                          //   height: 18,
-                          //   width: 25,
-                          //   margin: const EdgeInsets.only(left: 5),
-                          //   decoration: BoxDecoration(
-                          //     border: Border.all(
-                          //       color: postModel.petModel!.gender == 'MALE'
-                          //           ? const Color.fromARGB(255, 152, 188, 255)
-                          //           : const Color.fromARGB(255, 255, 146, 210),
-                          //     ),
-                          //     borderRadius: const BorderRadius.all(
-                          //       Radius.circular(25),
-                          //     ),
-                          //     color: postModel.petModel!.gender == 'MALE'
-                          //         ? const Color.fromARGB(255, 215, 243, 252)
-                          //         : const Color.fromARGB(255, 253, 228, 242),
-                          //   ),
-                          //   child: Wrap(
-                          //     spacing: 4,
-                          //     alignment: WrapAlignment.center,
-                          //     crossAxisAlignment: WrapCrossAlignment.center,
-                          //     runAlignment: WrapAlignment.center,
-                          //     children: [
-                          //       SvgPicture.asset(
-                          //         postModel.petModel!.gender == 'MALE'
-                          //             ? ICON_PATH + MALE_SVG
-                          //             : ICON_PATH + FEMALE_SVG,
-                          //         color: postModel.petModel!.gender == 'MALE'
-                          //             ? const Color.fromARGB(255, 39, 111, 245)
-                          //             : const Color.fromARGB(255, 244, 55, 165),
-                          //         height: 12,
-                          //         width: 12,
-                          //         fit: BoxFit.cover,
-                          //         allowDrawingOutsideViewBox: true,
-                          //       ),
-                          //     ],
-                          //   ),
-                          // ),
                         ],
                       ),
                     ),
@@ -345,22 +304,35 @@ class SalePostGirdsWidget extends GetView<HomePageController> {
                     const SizedBox(
                       height: 5,
                     ),
-                    FittedBox(
-                      alignment: Alignment.centerLeft,
-                      fit: BoxFit.scaleDown,
-                      child: Text(
-                        FORMAT_MONEY(price: postModel.provisionalTotal),
-                        style: GoogleFonts.quicksand(
-                          fontWeight: FontWeight.w600,
-                          color: PRIMARY_COLOR,
-                          fontSize: 20,
-                          height: 1,
-                          letterSpacing: 0.5,
-                        ),
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 10),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(right: 3),
+                            child: CUSTOM_TEXT('[${postModel.type}]',
+                                fontSize: 15,
+                                color: postModel.type == 'SALE'
+                                    ? BLUE_COLOR
+                                    : PINK_COLOR),
+                          ),
+                          Expanded(
+                            child: FittedBox(
+                              fit: BoxFit.scaleDown,
+                              child: Text(
+                                FORMAT_MONEY(price: postModel.provisionalTotal),
+                                style: GoogleFonts.quicksand(
+                                  fontWeight: FontWeight.w600,
+                                  color: PRIMARY_COLOR,
+                                  fontSize: 20,
+                                  letterSpacing: 0.5,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
-                    ),
-                    const SizedBox(
-                      height: 10,
                     ),
                   ],
                 ),

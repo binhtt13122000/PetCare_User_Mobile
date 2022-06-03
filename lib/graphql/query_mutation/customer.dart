@@ -15,7 +15,6 @@ query MyQuery($_customerId: Int) {
     lastName
     isActive
     id
-    numberFollowers
     phoneNumber
     point
     star

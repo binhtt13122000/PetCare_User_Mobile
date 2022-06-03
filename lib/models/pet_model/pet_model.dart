@@ -18,6 +18,8 @@ class PetModel {
   final String? specialMarkings;
   final String? vaccineDescription;
   final int? breedId;
+  @JsonKey(name: 'isSeed')
+  final bool isFertility;
   @JsonKey(name: 'breed')
   BreedModel? breedModel;
 
@@ -33,7 +35,8 @@ class PetModel {
       required this.gender,
       this.specialMarkings,
       this.vaccineDescription,
-      this.breedId}) {
+      this.breedId,
+      required this.isFertility}) {
     var diff = DateTime.now().difference(dob);
     int dateAge = diff.inDays;
     if (dateAge > 365) {

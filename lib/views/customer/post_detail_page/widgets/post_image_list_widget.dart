@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:petapp_mobile/configs/theme.dart';
-import 'package:petapp_mobile/controllers/sale_post_detail_page_controller.dart';
+import 'package:petapp_mobile/controllers/post_detail_page_controller.dart';
 
-class PurchasePostDetailImageListWidget
-    extends GetView<SalePostDetailPageController> {
-  const PurchasePostDetailImageListWidget({Key? key}) : super(key: key);
+class PostDetailImageListWidget extends GetView<PostDetailPageController> {
+  const PostDetailImageListWidget({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -13,12 +12,15 @@ class PurchasePostDetailImageListWidget
 
     return Column(
       children: [
-        Row(
-          children: [
-            previousButtonWidget(scrollController: _scrollController),
-            imageListWidget(scrollController: _scrollController),
-            nextButtonWidget(scrollController: _scrollController),
-          ],
+        Visibility(
+          visible: controller.postModel.mediaModels!.length > 1,
+          child: Row(
+            children: [
+              previousButtonWidget(scrollController: _scrollController),
+              imageListWidget(scrollController: _scrollController),
+              nextButtonWidget(scrollController: _scrollController),
+            ],
+          ),
         ),
         Container(
           height: 1,
@@ -68,7 +70,7 @@ class PurchasePostDetailImageListWidget
       );
 
   Widget imageListWidget({required ScrollController scrollController}) {
-    return GetBuilder<SalePostDetailPageController>(
+    return GetBuilder<PostDetailPageController>(
       builder: (_) => Expanded(
         flex: controller.postModel.mediaModels!.length > 2 ? 1 : 0,
         child: RawScrollbar(
