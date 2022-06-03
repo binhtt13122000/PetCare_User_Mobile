@@ -33,12 +33,29 @@ FORMAT_DATE_TIME({required DateTime dateTime, required String pattern}) {
 
 Future<File?> PICK_IMAGE({bool isPickFromGalley = true}) async {
   try {
-    final image = await ImagePicker().pickImage(
+    final XFile? image = await ImagePicker().pickImage(
         source: isPickFromGalley ? ImageSource.gallery : ImageSource.camera);
 
     return image == null ? null : File(image.path);
-  } on PlatformException catch (e) {
-    print(e.toString());
+  } on PlatformException catch (_) {
+    return null;
+  }
+}
+
+Future<List<File>?> PICK_IMAGE_LIST() async {
+  try {
+    final List<XFile>? imagesXFile = await ImagePicker().pickMultiImage();
+
+    if (imagesXFile != null) {
+      List<File> images = [];
+      for (var element in imagesXFile) {
+        images.add(File(element.path));
+      }
+      return images;
+    }
+
+    return null;
+  } on PlatformException catch (_) {
     return null;
   }
 }

@@ -58,7 +58,6 @@ class BreedingTransactionService {
       case 202:
         return json.decode(response.body)['data']['id'];
       default:
-        print(response.body);
         throw Exception(
             'Error ${response.statusCode}, cannot create transaction');
     }
@@ -108,7 +107,6 @@ class BreedingTransactionService {
       case 202:
         return json.decode(response.body)['data']['id'];
       default:
-        print(response.body);
         throw Exception(
             'Error ${response.statusCode}, cannot create transaction');
     }
@@ -135,7 +133,6 @@ class BreedingTransactionService {
       'point': transactionTotal ~/ 1000,
       'message': 'Thank for your payment!'
     });
-    print(jsonBody);
     final response = await http.post(
       Uri.http(
           API_SERVER_PATH, 'v1/api/sale-transactions/payment', queryParameters),
@@ -148,23 +145,21 @@ class BreedingTransactionService {
       case 200:
       case 201:
       case 202:
-        print(jsonDecode(response.body));
         return jsonDecode(response.body)['data']['url'];
       default:
-        print(response.body);
         throw Exception('Error ${response.statusCode}, cannot payment');
     }
   }
 
   static Future<List<BreedingTransactionModel>> fetchBreedingTransactionList({
-    required String? buyerId,
-    required String? sellerId,
+    required String? petOwnerFemaleId,
+    required String? petOwnerMaleId,
     required String page,
     required String limit,
   }) async {
     final Map<String, dynamic> parameters = <String, dynamic>{
-      'buyerId': buyerId,
-      'sellerId': sellerId,
+      'petOwnerFemaleId': petOwnerFemaleId,
+      'petOwnerMaleId': petOwnerMaleId,
       'page': page,
       'limit': limit,
     };
@@ -189,8 +184,8 @@ class BreedingTransactionService {
     required int breedingTransactionId,
   }) async {
     final response = await http.get(
-      Uri.http(
-          API_SERVER_PATH, '$SALE_TRANSACTION_API_PATH/$breedingTransactionId'),
+      Uri.http(API_SERVER_PATH,
+          '$BREEDING_TRANSACTION_API_PATH/$breedingTransactionId'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },

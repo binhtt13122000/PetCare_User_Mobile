@@ -5,6 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:petapp_mobile/configs/path.dart';
 import 'package:petapp_mobile/configs/theme.dart';
 import 'package:petapp_mobile/controllers/home_page_controller.dart';
+import 'package:petapp_mobile/controllers/post_management_page_controller.dart';
 import 'package:petapp_mobile/controllers/sale_post_detail_page_controller.dart';
 import 'package:petapp_mobile/views/widgets/customize_widget.dart';
 
@@ -45,7 +46,9 @@ class PurchasePostDetailMainImageWidget
           onTap: () => Get
             ..back()
             ..put(HomePageController())
-            ..find<HomePageController>().update(),
+            ..find<HomePageController>().update()
+            ..put(PostManagementPageController())
+            ..find<PostManagementPageController>().update(),
           child: CircleAvatar(
             radius: 20,
             backgroundColor: WHITE_COLOR.withOpacity(0.5),

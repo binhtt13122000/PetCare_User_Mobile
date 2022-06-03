@@ -94,7 +94,7 @@ class PurchasePostDetailBottomWidget
                           postId: controller.postModel.id);
                       chatRoomId != null
                           ? Get.toNamed(
-                              '$CHATTING_DETAIL_PAGE_ROUTE/chatRoomId/$chatRoomId')
+                              '$CHATTING_DETAIL_PAGE_ROUTE/$chatRoomId')
                           : Get.toNamed(
                               '$CHATTING_DETAIL_PAGE_ROUTE/sellerId/${controller.postModel.customerId}/postId/${controller.postModel.id}');
                     },

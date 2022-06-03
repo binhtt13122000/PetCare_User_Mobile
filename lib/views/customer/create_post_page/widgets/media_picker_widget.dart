@@ -84,10 +84,12 @@ class MediaPickerWidget extends GetView<CreatePostPageController> {
         padding: const EdgeInsets.symmetric(horizontal: 50),
         child: InkWell(
           onTap: () async {
-            File? mediaFile = await PICK_IMAGE(isPickFromGalley: true);
-            if (mediaFile != null) {
-              controller.evidences.add(mediaFile);
-              controller.evidencesPath.add(mediaFile.path);
+            List<File>? mediaFiles = await PICK_IMAGE_LIST();
+            if (mediaFiles != null) {
+              for (var element in mediaFiles) {
+                controller.evidences.add(element);
+                controller.evidencesPath.add(element.path);
+              }
             }
           },
           child: Container(
@@ -100,7 +102,7 @@ class MediaPickerWidget extends GetView<CreatePostPageController> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  'Pick medias from Gallery',
+                  'Pick medias from Galleryyy',
                   style: GoogleFonts.quicksand(
                     color: PRIMARY_COLOR,
                     fontWeight: FontWeight.w500,

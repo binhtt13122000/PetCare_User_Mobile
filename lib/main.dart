@@ -31,6 +31,7 @@ import 'package:petapp_mobile/controllers/sign_in_page_controller.dart';
 import 'package:petapp_mobile/models/account_model/account_model.dart';
 import 'package:petapp_mobile/services/account_services.dart';
 import 'package:petapp_mobile/views/customer/action_page/action_page.dart';
+import 'package:petapp_mobile/views/customer/breeding_transaction_detail_page/breeding_transaction_detail_page.dart';
 import 'package:petapp_mobile/views/customer/center_services_transaction_detail_page/center_services_transaction_detail_page.dart';
 import 'package:petapp_mobile/views/customer/chatting_detail_page/chatting_detail_page.dart';
 import 'package:petapp_mobile/views/customer/chatting_list_page/chatting_list_page.dart';
@@ -227,7 +228,7 @@ class MainApp extends StatelessWidget {
         GetPage(
           name:
               '$BREEDING_TRANSACTION_DETAIL_PAGE_ROUTE/:breedingTransactionId',
-          page: () => const SaleTransactionDetailPage(),
+          page: () => const BreedingTransactionDetailPage(),
           binding: BreedingTransactionDetailPageBinding(),
         ),
         //*Profile

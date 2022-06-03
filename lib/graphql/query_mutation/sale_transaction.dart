@@ -59,7 +59,6 @@ query MyQuery($customerId: Int = 1) {
       id
       isActive
       lastName
-      numberFollowers
       numberReviewers
       phoneNumber
       point
@@ -107,7 +106,6 @@ query MyQuery($customerId: Int = 1) {
       id
       isActive
       lastName
-      numberFollowers
       numberReviewers
       phoneNumber
       point
@@ -176,7 +174,6 @@ query MyQuery($id: Int) {
       id
       isActive
       lastName
-      numberFollowers
       numberReviewers
       phoneNumber
       point
@@ -224,7 +221,6 @@ query MyQuery($id: Int) {
       id
       isActive
       lastName
-      numberFollowers
       numberReviewers
       phoneNumber
       point

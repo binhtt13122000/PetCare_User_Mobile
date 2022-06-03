@@ -8,6 +8,7 @@ import 'package:petapp_mobile/controllers/transaction_list_page_controller.dart'
 import 'package:petapp_mobile/models/breeding_transaction_model/breeding_transaction_model.dart';
 import 'package:petapp_mobile/services/breeding_transaction_services.dart';
 import 'package:petapp_mobile/utilities/utilities.dart';
+import 'package:petapp_mobile/views/widgets/customize_widget.dart';
 
 class BreedingTransactionListWidget
     extends GetView<TransactionListPageController> {
@@ -27,11 +28,12 @@ class BreedingTransactionListWidget
                   controller.breedingTransactionModelList =
                       await BreedingTransactionService
                           .fetchBreedingTransactionList(
-                    buyerId: controller.selectedBreedingTransactionType.value ==
+                    petOwnerFemaleId: controller
+                                .selectedBreedingTransactionType.value ==
                             'Transaction role: [BUYER]'
                         ? controller.accountModel.customerModel.id.toString()
                         : null,
-                    sellerId: controller
+                    petOwnerMaleId: controller
                                 .selectedBreedingTransactionType.value ==
                             'Transaction role: [SELLER]'
                         ? controller.accountModel.customerModel.id.toString()
@@ -205,9 +207,9 @@ class BreedingTransactionListWidget
       padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
       child: InkWell(
         onTap: () => Get.toNamed(
-            '$SALE_TRANSACTION_DETAIL_PAGE_ROUTE/${breedingTransactionModel.id}'),
+            '$BREEDING_TRANSACTION_DETAIL_PAGE_ROUTE/${breedingTransactionModel.id}'),
         child: Container(
-          height: 100,
+          height: 110,
           padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 5),
           decoration: BoxDecoration(
             color: const Color.fromARGB(255, 247, 249, 253),
@@ -283,37 +285,6 @@ class BreedingTransactionListWidget
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    controller.selectedBreedingTransactionType.value ==
-                            'Transaction role: [BUYER]'
-                        ? 'Seller'
-                        : 'Buyer',
-                    textAlign: TextAlign.start,
-                    style: GoogleFonts.quicksand(
-                      color: DARK_GREY_TEXT_COLOR.withOpacity(0.8),
-                      fontWeight: FontWeight.w500,
-                      fontSize: 13,
-                      height: 1,
-                    ),
-                  ),
-                  Text(
-                    controller.selectedBreedingTransactionType.value ==
-                            'Transaction role: [BUYER]'
-                        ? '${breedingTransactionModel.ownerPetFemaleCustomerModel.firstName} ${breedingTransactionModel.ownerPetFemaleCustomerModel.lastName}'
-                        : '${breedingTransactionModel.ownerPetMaleCustomerModel.firstName} ${breedingTransactionModel.ownerPetMaleCustomerModel.lastName}',
-                    textAlign: TextAlign.start,
-                    style: GoogleFonts.quicksand(
-                      color: DARK_GREY_TEXT_COLOR.withOpacity(0.8),
-                      fontWeight: FontWeight.w500,
-                      fontSize: 13,
-                      height: 1,
-                    ),
-                  ),
-                ],
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
                     'Status',
                     textAlign: TextAlign.start,
                     style: GoogleFonts.quicksand(
@@ -332,6 +303,79 @@ class BreedingTransactionListWidget
                       fontSize: 15,
                       height: 1,
                     ),
+                  ),
+                ],
+              ),
+              // Row(
+              //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              //   children: [
+              //     Text(
+              //       controller.selectedBreedingTransactionType.value ==
+              //               'Transaction role: [BUYER]'
+              //           ? 'Seller'
+              //           : 'Buyer',
+              //       textAlign: TextAlign.start,
+              //       style: GoogleFonts.quicksand(
+              //         color: DARK_GREY_TEXT_COLOR.withOpacity(0.8),
+              //         fontWeight: FontWeight.w500,
+              //         fontSize: 13,
+              //         height: 1,
+              //       ),
+              //     ),
+              //     Text(
+              //       controller.selectedBreedingTransactionType.value ==
+              //               'Transaction role: [BUYER]'
+              //           ? '${breedingTransactionModel.ownerPetFemaleCustomerModel.firstName} ${breedingTransactionModel.ownerPetFemaleCustomerModel.lastName}'
+              //           : '${breedingTransactionModel.ownerPetMaleCustomerModel.firstName} ${breedingTransactionModel.ownerPetMaleCustomerModel.lastName}',
+              //       textAlign: TextAlign.start,
+              //       style: GoogleFonts.quicksand(
+              //         color: DARK_GREY_TEXT_COLOR.withOpacity(0.8),
+              //         fontWeight: FontWeight.w500,
+              //         fontSize: 13,
+              //         height: 1,
+              //       ),
+              //     ),
+              //   ],
+              // ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  CUSTOM_TEXT(
+                    controller.selectedBreedingTransactionType.value ==
+                            'Transaction role: [BUYER]'
+                        ? 'Male pet'
+                        : 'Male pet (owner)',
+                    color: DARK_GREY_TEXT_COLOR.withOpacity(0.8),
+                    fontSize: 13,
+                  ),
+                  CUSTOM_TEXT(
+                    breedingTransactionModel.malePetModel.breedModel!.name +
+                        ' - ' +
+                        breedingTransactionModel
+                            .malePetModel.breedModel!.speciesModel!.name,
+                    color: BLUE_COLOR,
+                    fontSize: 13,
+                  ),
+                ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  CUSTOM_TEXT(
+                    controller.selectedBreedingTransactionType.value ==
+                            'Transaction role: [BUYER]'
+                        ? 'Female pet (owner)'
+                        : 'Female pet',
+                    color: DARK_GREY_TEXT_COLOR.withOpacity(0.8),
+                    fontSize: 13,
+                  ),
+                  CUSTOM_TEXT(
+                    breedingTransactionModel.femalePetModel.breedModel!.name +
+                        ' - ' +
+                        breedingTransactionModel
+                            .femalePetModel.breedModel!.speciesModel!.name,
+                    color: PINK_COLOR,
+                    fontSize: 13,
                   ),
                 ],
               ),
