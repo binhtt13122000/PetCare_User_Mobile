@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:petapp_mobile/configs/theme.dart';
 import 'package:petapp_mobile/controllers/payment_for_center_services_transaction_page_controller.dart';
 import 'package:petapp_mobile/models/center_services_transaction_detail_model/center_services_transaction_detail_model.dart';
 import 'package:petapp_mobile/models/promotion_model.dart/promotion_model.dart';
+import 'package:petapp_mobile/services/center_services_transaction_services.dart';
+import 'package:petapp_mobile/services/promotion_services.dart';
 import 'package:petapp_mobile/utilities/utilities.dart';
 import 'package:petapp_mobile/views/customer/payment_for_center_services_transaction_page/widgets/bottom_widget.dart';
 
@@ -16,78 +19,96 @@ class PaymentForCenterServicesTransactionBodyWidget
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
-    return GetBuilder<PaymentForCenterServicesTransactionPageController>(
-        builder: (_) {
-      return Expanded(
-        child: Column(
-          children: [
-            Expanded(
-              child: SingleChildScrollView(
-                child: Column(
-                  children: [
-                    Container(
-                      height: 25,
-                      padding: const EdgeInsets.symmetric(horizontal: 12),
-                      color: const Color.fromARGB(255, 242, 244, 247),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    return Expanded(child:
+        GetBuilder<PaymentForCenterServicesTransactionPageController>(
+            builder: (_) {
+      controller.isLoadingData.value = true;
+      WidgetsBinding.instance!.addPostFrameCallback((_) async {
+        controller.centerServicesTransactionModel =
+            await CenterServicesTransactionServices
+                .fetchCenterServicesTransactionByCustomerId(
+                    transactionId: int.parse(Get.parameters['transactionId']!));
+        controller.promotionModels = await PromotionServices.fetchPromotionByBranchId(branchId: controller.centerServicesTransactionModel.branchId);
+        controller.isLoadingData.value = false;
+      });
+      return Obx(
+        () => controller.isLoadingData.value
+            ? const Center(
+                child: SpinKitSpinningLines(
+                  color: PRIMARY_COLOR,
+                  size: 150,
+                ),
+              )
+            : Column(
+                children: [
+                  Expanded(
+                    child: SingleChildScrollView(
+                      child: Column(
                         children: [
-                          Text(
-                            'Transaction ID',
-                            textAlign: TextAlign.start,
-                            style: GoogleFonts.quicksand(
-                              textStyle: const TextStyle(
-                                color: Color.fromARGB(255, 126, 128, 138),
-                              ),
-                              fontWeight: FontWeight.w500,
-                              fontSize: 12,
-                              height: 1,
-                              letterSpacing: 0.5,
+                          Container(
+                            height: 25,
+                            padding: const EdgeInsets.symmetric(horizontal: 12),
+                            color: const Color.fromARGB(255, 242, 244, 247),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  'Transaction ID',
+                                  textAlign: TextAlign.start,
+                                  style: GoogleFonts.quicksand(
+                                    textStyle: const TextStyle(
+                                      color: Color.fromARGB(255, 126, 128, 138),
+                                    ),
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 12,
+                                    height: 1,
+                                    letterSpacing: 0.5,
+                                  ),
+                                ),
+                                Text(
+                                  '#0${controller.centerServicesTransactionModel.id}',
+                                  textAlign: TextAlign.center,
+                                  style: GoogleFonts.quicksand(
+                                    color: const Color.fromARGB(
+                                        255, 126, 128, 138),
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 12,
+                                    height: 1,
+                                    letterSpacing: 0.5,
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
-                          Text(
-                            '#0${controller.centerServicesTransactionModel.id}',
-                            textAlign: TextAlign.center,
-                            style: GoogleFonts.quicksand(
-                              color: const Color.fromARGB(255, 126, 128, 138),
-                              fontWeight: FontWeight.w600,
-                              fontSize: 12,
-                              height: 1,
-                              letterSpacing: 0.5,
+                          listServices(),
+                          priceWidget(width: width),
+                          Container(
+                            height: 400,
+                            color: const Color.fromARGB(255, 242, 244, 247),
+                            alignment: Alignment.topCenter,
+                            child: SingleChildScrollView(
+                              scrollDirection: Axis.horizontal,
+                              child: Row(
+                                children: controller.promotionModels
+                                    .asMap()
+                                    .entries
+                                    .map(
+                                      (e) => promotionItemWidget(
+                                          promotionModel: e.value),
+                                    )
+                                    .toList(),
+                              ),
                             ),
                           ),
                         ],
                       ),
                     ),
-                    listServices(),
-                    priceWidget(width: width),
-                    Container(
-                      height: 400,
-                      color: const Color.fromARGB(255, 242, 244, 247),
-                      alignment: Alignment.topCenter,
-                      child: SingleChildScrollView(
-                        scrollDirection: Axis.horizontal,
-                        child: Row(
-                          children: controller.promotionModels
-                              .asMap()
-                              .entries
-                              .map(
-                                (e) => promotionItemWidget(
-                                    promotionModel: e.value),
-                              )
-                              .toList(),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
+                  ),
+                  const PaymentForCenterServicesTransactionBottomWidget(),
+                ],
               ),
-            ),
-            const PaymentForCenterServicesTransactionBottomWidget(),
-          ],
-        ),
       );
-    });
+    }));
   }
 
   Widget listServices() => Padding(

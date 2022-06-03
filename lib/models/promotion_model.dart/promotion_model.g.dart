@@ -14,7 +14,7 @@ PromotionModel _$PromotionModelFromJson(Map<String, dynamic> json) =>
       startTime: DateTime.parse(json['startTime'] as String),
       expireTime: DateTime.parse(json['expireTime'] as String),
       description: json['description'] as String?,
-      status: json['status'] as String,
+      status: json['status'] as bool,
       applyMoney: json['applyMoney'] as int,
       maxMoneyPromo: json['maxMoneyPromo'] as int,
       point: json['point'] as int,

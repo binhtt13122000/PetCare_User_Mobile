@@ -1,18 +1,24 @@
 import 'package:get/get.dart';
+import 'package:petapp_mobile/controllers/auth_controller.dart';
+import 'package:petapp_mobile/models/account_model/account_model.dart';
 import 'package:petapp_mobile/models/breed_model/breed_model.dart';
 import 'package:petapp_mobile/models/post_model/post_model.dart';
 import 'package:petapp_mobile/models/species_model/species_model.dart';
 
 class PurchasePostsPageController extends GetxController {
-  late RxList<PostModel> postList;
+  RxList<PostModel> postList = <PostModel>[].obs;
+  AccountModel accountModel = Get.find<AuthController>().accountModel;
 
   List<dynamic> selectedGenderList = ['MALE', 'FEMALE'];
+  RxBool isShowLoadingPurchasePost = false.obs;
 
   RxMap<int, RxList<int>> selectedBreedMap = <int, RxList<int>>{}.obs;
-  Map<int, RxList<BreedModel>> breedsMap = {};
+  Map<int, List<BreedModel>> breedsMap = <int, List<BreedModel>>{};
 
   RxInt selectedSpeciesId = (-1).obs;
   late List<SpeciesModel> species;
+  RxBool isShowLoadingPetSpecies = false.obs;
+  RxBool isShowLoadingBreeds = false.obs;
 
   RxInt ltPrice = 999999999.obs;
   RxInt gtePrice = 0.obs;

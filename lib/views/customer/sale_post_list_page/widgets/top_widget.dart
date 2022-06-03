@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:petapp_mobile/configs/path.dart';
 import 'package:petapp_mobile/configs/route.dart';
 import 'package:petapp_mobile/configs/theme.dart';
 import 'package:petapp_mobile/controllers/purchase_posts_page_controller.dart';
-import 'package:petapp_mobile/graphql/query_mutation/species.dart';
 import 'package:petapp_mobile/models/species_model/species_model.dart';
 import 'package:petapp_mobile/services/species_services.dart';
 import 'package:petapp_mobile/views/widgets/customize_widget.dart';
@@ -69,36 +68,31 @@ class SalePostTopWidget extends GetView<PurchasePostsPageController> {
         padding: const EdgeInsets.symmetric(horizontal: 20),
         child: SingleChildScrollView(
           scrollDirection: Axis.horizontal,
-          child: Query(
-            options: QueryOptions(
-                document: gql(FETCH_ALL_SPECIES), variables: const {}),
-            builder: (
-              QueryResult result, {
-              VoidCallback? refetch,
-              FetchMore? fetchMore,
-            }) {
-              if (result.hasException) {
-                return Text(result.exception.toString());
-              } else if (result.isLoading) {
-                return const Center(
-                  child: CircularProgressIndicator(),
-                );
-              } else if (result.data != null) {
-                controller.species =
-                    SpeciesService.getSpeciesList(result.data!['data']);
-              }
+          child: GetBuilder<PurchasePostsPageController>(builder: (_) {
+            controller.isShowLoadingPetSpecies.value = true;
+            WidgetsBinding.instance!.addPostFrameCallback((timeStamp) async {
+              controller.species = await SpeciesService.fetchSpeciesList(true);
+              controller.selectedSpeciesId.value = controller.species[0].id;
+              controller.isShowLoadingPetSpecies.value = false;
+            });
 
-              return Row(
-                children: controller.species
-                    .asMap()
-                    .entries
-                    .map(
-                      (e) => speciesItemWidget(speciesModel: e.value),
+            return Obx(
+              () => controller.isShowLoadingPetSpecies.value
+                  ? const SpinKitSpinningLines(
+                      color: PRIMARY_COLOR,
+                      size: 40,
                     )
-                    .toList(),
-              );
-            },
-          ),
+                  : Row(
+                      children: controller.species
+                          .asMap()
+                          .entries
+                          .map(
+                            (e) => speciesItemWidget(speciesModel: e.value),
+                          )
+                          .toList(),
+                    ),
+            );
+          }),
         ),
       );
 

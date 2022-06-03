@@ -7,6 +7,7 @@ import 'package:petapp_mobile/controllers/update_sale_post_page_controller.dart'
 import 'package:petapp_mobile/graphql/graphql_config.dart';
 import 'package:petapp_mobile/graphql/query_mutation/post.dart';
 import 'package:petapp_mobile/models/post_model/post_model.dart';
+import 'package:petapp_mobile/services/post_services.dart';
 import 'package:petapp_mobile/services/transaction_fees_services.dart';
 import 'package:petapp_mobile/views/customer/update_sale_post_page/widgets/body_widget.dart';
 import 'package:petapp_mobile/views/customer/update_sale_post_page/widgets/bottom_widget.dart';
@@ -27,14 +28,8 @@ class UpdateSalePostPage extends GetView<UpdateSalePostPageController> {
         body: GetBuilder<UpdateSalePostPageController>(builder: (_) {
           controller.isShowMainLoading.value = true;
           WidgetsBinding.instance!.addPostFrameCallback((_) async {
-            QueryResult result = await CLIENT_TO_QUERY().query(
-              QueryOptions(
-                document: gql(FETCH_PURCHASE_POST_BY_ID),
-                variables: {'_postId': Get.parameters['salePostId']},
-              ),
-            );
-
-            controller.postModel = PostModel.fromJson(result.data!['post'][0]);
+            controller.postModel = await PostService.fetchPostById(
+                postId: int.parse(Get.parameters['salePostId'].toString()));
             controller.title.value = controller.postModel.title;
             controller.description.value =
                 controller.postModel.description ?? "";
@@ -54,7 +49,6 @@ class UpdateSalePostPage extends GetView<UpdateSalePostPageController> {
                 controller.postModel.deposit != null
                     ? controller.postModel.deposit.toString()
                     : "";
-            print(controller.postModel.mediaModels!.length);
             if (controller.postModel.mediaModels != null) {
               controller.evidencesPath.value =
                   controller.postModel.mediaModels!;

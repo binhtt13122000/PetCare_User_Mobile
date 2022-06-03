@@ -10,7 +10,7 @@ class PromotionModel {
   final DateTime startTime;
   final DateTime expireTime;
   final String? description;
-  final String status;
+  final bool status;
   final int applyMoney;
   final int maxMoneyPromo;
   final int point;

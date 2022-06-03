@@ -21,7 +21,7 @@ class SelectPetWidget extends GetView<CreatePostPageController> {
 
       WidgetsBinding.instance!.addPostFrameCallback((_) async {
         if (controller.isShowPetFilter) {
-          controller.species = await SpeciesService.fetchSpeciesList();
+          controller.species = await SpeciesService.fetchSpeciesList(null);
           controller.selectedSpeciesId.value == -1
               ? controller.selectedSpeciesId.value = controller.species[0].id
               : null;

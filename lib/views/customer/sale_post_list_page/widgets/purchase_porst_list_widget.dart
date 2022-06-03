@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -20,57 +21,64 @@ class SalePostListWidget extends GetView<PurchasePostsPageController> {
   @override
   Widget build(BuildContext context) => controller.selectedSpeciesId.value == -1
       ? Expanded(
-          child: Query(
-            options: QueryOptions(
-              document: gql(FETCH_ALL_PURCHASE_POST_LIST),
-            ),
-            builder: (
-              QueryResult result, {
-              VoidCallback? refetch,
-              FetchMore? fetchMore,
-            }) {
-              if (result.hasException) {
-                return Text(result.exception.toString());
-              }
-              if (result.isLoading) {
-                return const Center(
-                  child: CircularProgressIndicator(),
+          child: GetBuilder<PurchasePostsPageController>(
+            builder: (_) {
+              controller.isShowLoadingPurchasePost.value = true;
+              WidgetsBinding.instance!.addPostFrameCallback((_) async {
+                controller.postList.value =
+                    await PostService.fetchAllPurchasePostList(
+                  limit: 10,
+                  page: 1,
+                  status: "PUBLISHED",
+                  customerId: controller.accountModel.customerModel.id,
                 );
-              }
-              controller.postList = PostService.getPostList(result.data!).obs;
-              return Column(
-                children: [
-                  Expanded(
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 14),
-                      child: CustomScrollView(
-                        slivers: [
-                          SliverGrid.count(
-                            crossAxisCount: 2,
-                            childAspectRatio: 15,
-                            mainAxisSpacing: 5,
-                            crossAxisSpacing: 4,
-                            children: const [SizedBox.shrink()],
+                controller.isShowLoadingPurchasePost.value = false;
+              });
+              return Obx(
+                () => controller.isShowLoadingPurchasePost.value
+                    ? const Expanded(
+                        child: Center(
+                          child: SpinKitSpinningLines(
+                            color: PRIMARY_COLOR,
+                            size: 150,
                           ),
-                          SliverGrid.count(
-                            crossAxisCount: 2,
-                            childAspectRatio: 0.63,
-                            mainAxisSpacing: 5,
-                            crossAxisSpacing: 4,
-                            children: controller.postList
-                                .asMap()
-                                .entries
-                                .map(
-                                  (e) => purchasePostItemWidget(
-                                      postModel: e.value),
-                                )
-                                .toList(),
+                        ),
+                      )
+                    : Column(
+                        children: [
+                          Expanded(
+                            child: Container(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 14),
+                              child: CustomScrollView(
+                                slivers: [
+                                  SliverGrid.count(
+                                    crossAxisCount: 2,
+                                    childAspectRatio: 15,
+                                    mainAxisSpacing: 5,
+                                    crossAxisSpacing: 4,
+                                    children: const [SizedBox.shrink()],
+                                  ),
+                                  SliverGrid.count(
+                                    crossAxisCount: 2,
+                                    childAspectRatio: 0.63,
+                                    mainAxisSpacing: 5,
+                                    crossAxisSpacing: 4,
+                                    children: controller.postList
+                                        .asMap()
+                                        .entries
+                                        .map(
+                                          (e) => purchasePostItemWidget(
+                                              postModel: e.value),
+                                        )
+                                        .toList(),
+                                  ),
+                                ],
+                              ),
+                            ),
                           ),
                         ],
                       ),
-                    ),
-                  ),
-                ],
               );
             },
           ),
@@ -135,7 +143,7 @@ class SalePostListWidget extends GetView<PurchasePostsPageController> {
                     child: CircularProgressIndicator(),
                   );
                 }
-                controller.postList = PostService.getPostList(result.data!).obs;
+                controller.postList.value = PostService.getPostList(result.data!);
                 return Column(
                   children: [
                     Expanded(

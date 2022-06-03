@@ -8,6 +8,7 @@ class SalePostDetailPageController extends GetxController {
   late PostModel postModel;
   RxInt selectedPetImageIndex = 0.obs;
   RxBool isShowDescription = false.obs;
+  RxBool isShowLoadingPost = false.obs;
   ScrollController mainScrollController = ScrollController();
   AccountModel accountModel = Get.find<AuthController>().accountModel;
 }
