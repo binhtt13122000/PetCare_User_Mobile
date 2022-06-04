@@ -69,44 +69,44 @@ class PostsManagementTopWidget extends GetView<PostManagementPageController> {
                 onChanged: (String? value) {},
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.only(
-                left: 12,
-              ),
-              child: InkWell(
-                onTap: () {},
-                child: Container(
-                  height: 35,
-                  width: 50,
-                  alignment: Alignment.center,
-                  decoration: BoxDecoration(
-                    border: Border.all(
-                      color: const Color.fromARGB(255, 192, 195, 207),
-                    ),
-                    borderRadius: BorderRadius.circular(3),
-                    color: const Color.fromARGB(255, 243, 243, 243),
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      // Text(
-                      //   '',
-                      //   style: GoogleFonts.quicksand(
-                      //     color: const Color.fromARGB(255, 64, 69, 87),
-                      //     fontSize: 13,
-                      //     fontWeight: FontWeight.w600,
-                      //   ),
-                      // ),
-                      SvgPicture.asset(
-                        ICON_PATH + FILTER_SVG,
-                        height: 16,
-                        color: const Color.fromARGB(255, 64, 69, 87),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
+            // Padding(
+            //   padding: const EdgeInsets.only(
+            //     left: 12,
+            //   ),
+            //   child: InkWell(
+            //     onTap: () {},
+            //     child: Container(
+            //       height: 35,
+            //       width: 50,
+            //       alignment: Alignment.center,
+            //       decoration: BoxDecoration(
+            //         border: Border.all(
+            //           color: const Color.fromARGB(255, 192, 195, 207),
+            //         ),
+            //         borderRadius: BorderRadius.circular(3),
+            //         color: const Color.fromARGB(255, 243, 243, 243),
+            //       ),
+            //       child: Row(
+            //         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            //         children: [
+            //           // Text(
+            //           //   '',
+            //           //   style: GoogleFonts.quicksand(
+            //           //     color: const Color.fromARGB(255, 64, 69, 87),
+            //           //     fontSize: 13,
+            //           //     fontWeight: FontWeight.w600,
+            //           //   ),
+            //           // ),
+            //           SvgPicture.asset(
+            //             ICON_PATH + FILTER_SVG,
+            //             height: 16,
+            //             color: const Color.fromARGB(255, 64, 69, 87),
+            //           ),
+            //         ],
+            //       ),
+            //     ),
+            //   ),
+            // ),
           ],
         ),
       );
@@ -214,15 +214,15 @@ class PostsManagementTopWidget extends GetView<PostManagementPageController> {
         child: Obx(
           () => InkWell(
             onTap: () {
-              controller.selectedTicketType.value == postType
-                  ? null
-                  : controller.selectedTicketType.value = postType;
+              controller
+                ..selectPostType.value = postType
+                ..update();
             },
             child: Column(
               children: [
                 Container(
                   height: 30,
-                  color: controller.selectedTicketType.value == postType
+                  color: controller.selectPostType.value == postType
                       ? PRIMARY_LIGHT_COLOR.withOpacity(0.3)
                       : Colors.transparent,
                   child: Row(
@@ -234,7 +234,7 @@ class PostsManagementTopWidget extends GetView<PostManagementPageController> {
                         child: CircleAvatar(
                           maxRadius: 3,
                           backgroundColor:
-                              controller.selectedTicketType.value == postType
+                              controller.selectPostType.value == postType
                                   ? PRIMARY_COLOR
                                   : Colors.transparent,
                         ),
@@ -242,7 +242,7 @@ class PostsManagementTopWidget extends GetView<PostManagementPageController> {
                       Text(
                         postType,
                         style: GoogleFonts.quicksand(
-                          color: controller.selectedTicketType.value == postType
+                          color: controller.selectPostType.value == postType
                               ? PRIMARY_COLOR
                               : const Color.fromARGB(255, 116, 122, 143),
                           fontSize: 15,
@@ -255,7 +255,7 @@ class PostsManagementTopWidget extends GetView<PostManagementPageController> {
                 ),
                 Container(
                   height: 3,
-                  color: controller.selectedTicketType.value == postType
+                  color: controller.selectPostType.value == postType
                       ? PRIMARY_COLOR
                       : const Color.fromARGB(255, 233, 235, 241),
                 ),

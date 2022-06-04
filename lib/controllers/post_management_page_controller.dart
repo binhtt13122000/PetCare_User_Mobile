@@ -12,12 +12,12 @@ class PostManagementPageController extends GetxController {
     'Status': 0,
     'Create time': 0,
   }.obs;
-  List<String> postTypeList = ['All type', 'Purchase', 'Breeding'];
-  late RxString selectedTicketType;
+  List<String> postTypeList = ['All type', 'Sale', 'Breed'];
+  late RxString selectPostType;
   List<PostModel> postList = <PostModel>[].obs;
 
   PostManagementPageController() {
-    selectedTicketType = postTypeList[0].obs;
+    selectPostType = postTypeList[0].obs;
   }
   setHeaderFilter(String headerKey) {
     postManagementTableHeaders.forEach((key, value) {
