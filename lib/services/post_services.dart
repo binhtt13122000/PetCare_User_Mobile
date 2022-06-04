@@ -157,9 +157,13 @@ class PostService {
     }
   }
 
-  static Future<List<PostModel>> fetchAllPurchasePostListByCustomerId(
-      {required int customerId, required int page, required int limit}) async {
-    Map<String, String> parameters = {
+  static Future<List<PostModel>> fetchPostListByCustomerId({
+    required int customerId,
+    required int page,
+    required int limit,
+    String? type,
+  }) async {
+    Map<String, dynamic> parameters = {
       'page': page.toString(),
       'limit': limit.toString(),
       'orderName': 'createTime',
@@ -179,7 +183,7 @@ class PostService {
         return getPostListByCustom(
             json.decode(response.body)['data']['content']);
       default:
-        throw Exception('Error ${response.statusCode}, cannot get species');
+        throw Exception('Error ${response.statusCode}, cannot get pet list');
     }
   }
 

@@ -30,13 +30,15 @@ class PostsManagementBodyWidget extends GetView<PostManagementPageController> {
             builder: (_) {
               controller.isLoadingPostList.value = true;
               WidgetsBinding.instance!.addPostFrameCallback((_) async {
-                controller.postList =
-                    await PostService.fetchAllPurchasePostListByCustomerId(
-                  customerId: controller.accountModel.customerModel.id,
-                  limit: 10,
-                  page: 1,
-                );
-                controller.isLoadingPostList.value = false;
+                controller
+                  ..postList = await PostService.fetchPostListByCustomerId(
+                      customerId: controller.accountModel.customerModel.id,
+                      limit: 100,
+                      page: 1,
+                      type: controller.selectPostType.value == 'All type'
+                          ? null
+                          : controller.selectPostType.value.toUpperCase())
+                  ..isLoadingPostList.value = false;
               });
               return Obx(
                 () => controller.isLoadingPostList.value
