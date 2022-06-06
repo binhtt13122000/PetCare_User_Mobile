@@ -57,7 +57,7 @@ class PersonalInformationBodyWidget
             lastName: controller.lastName.value,
             adrress: controller.address.value,
             gender: controller.selectedGender.value,
-            avatarFilePath: controller.avatarfilePath.value,
+            avatarFilePath: controller.avatarFilePath.value,
             avatarFile: controller.avatarFile,
           );
 

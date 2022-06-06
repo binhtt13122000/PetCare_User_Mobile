@@ -5,6 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:petapp_mobile/configs/path.dart';
 import 'package:petapp_mobile/configs/theme.dart';
 import 'package:petapp_mobile/controllers/chatting_detail_page_controller.dart';
+import 'package:petapp_mobile/services/breeding_transaction_services.dart';
 import 'package:petapp_mobile/services/sale_transaction_services.dart';
 import 'package:petapp_mobile/utilities/utilities.dart';
 
@@ -69,21 +70,36 @@ class BuyerRequestWidget extends GetView<ChattingDetailPageController> {
         child: InkWell(
           onTap: () async {
             controller.isShowBuyerRequest.value = false;
-            int transactionId =
-                await SaleTransactionService.createSaleTransaction(
-              createdTime: DateTime.now(),
-              meetingTime: controller.chatRoomModel!.transactionTime!,
-              placeMeeting: controller.chatRoomModel!.transactionPlace!,
-              sellerReceive: controller.postModel.sellerReceive,
-              transactionFee: controller.postModel.shopFee,
-              transactionTotal: controller.postModel.provisionalTotal,
-              description: controller.chatRoomModel!.description,
-              buyerId: controller.chatRoomModel!.buyerId,
-              sellerId: controller.chatRoomModel!.sellerId,
-              petId: controller.postModel.petId,
-              posId: controller.chatRoomModel!.postId,
-              branchId: controller.postModel.branchId,
-            );
+            int transactionId = controller.chatRoomModel!.type == 'SALE'
+                ? await SaleTransactionService.createSaleTransaction(
+                    createdTime: DateTime.now(),
+                    meetingTime: controller.chatRoomModel!.transactionTime!,
+                    placeMeeting: controller.chatRoomModel!.transactionPlace!,
+                    sellerReceive: controller.postModel.sellerReceive,
+                    transactionFee: controller.postModel.shopFee,
+                    transactionTotal: controller.postModel.provisionalTotal,
+                    description: controller.chatRoomModel!.description,
+                    buyerId: controller.chatRoomModel!.buyerId,
+                    sellerId: controller.chatRoomModel!.sellerId,
+                    petId: controller.postModel.petId,
+                    posId: controller.chatRoomModel!.postId,
+                    branchId: controller.postModel.branchId,
+                  )
+                : await BreedingTransactionService.createBreedingTransaction(
+                    createdTime: DateTime.now(),
+                    meetingTime: controller.chatRoomModel!.transactionTime!,
+                    placeMeeting: controller.chatRoomModel!.transactionPlace!,
+                    sellerReceive: controller.postModel.sellerReceive,
+                    transactionFee: controller.postModel.shopFee,
+                    transactionTotal: controller.postModel.provisionalTotal,
+                    description: controller.chatRoomModel!.description ?? '',
+                    ownerPetFemaleId: controller.chatRoomModel!.buyerId,
+                    ownerPetMaleId: controller.chatRoomModel!.sellerId,
+                    petFemaleId: controller.postModel.petId,
+                    petMaleId: controller.postModel.petId,
+                    postId: controller.chatRoomModel!.postId,
+                    branchId: controller.postModel.branchId,
+                  );
             String message = 'Transaction request - status: [APPROVED].';
             controller.chatRoomModel!
               ..transactionId = transactionId

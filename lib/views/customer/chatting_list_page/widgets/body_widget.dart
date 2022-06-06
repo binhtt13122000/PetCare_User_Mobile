@@ -8,6 +8,7 @@ import 'package:petapp_mobile/controllers/chatting_list_page_controller.dart';
 import 'package:petapp_mobile/models/chat_room_model/chat_room_model.dart';
 import 'package:petapp_mobile/services/chat_services.dart';
 import 'package:petapp_mobile/utilities/utilities.dart';
+import 'package:petapp_mobile/views/widgets/customize_widget.dart';
 
 class ChattingListBodyWidget extends GetView<ChattingListPageController> {
   const ChattingListBodyWidget({Key? key}) : super(key: key);
@@ -112,16 +113,26 @@ class ChattingListBodyWidget extends GetView<ChattingListPageController> {
                           Expanded(
                             child: FittedBox(
                               fit: BoxFit.scaleDown,
-                              child: Text(
-                                'Chatbox for post #0${chatRoomModel.postId}',
-                                textAlign: TextAlign.start,
-                                maxLines: 1,
-                                style: GoogleFonts.quicksand(
-                                  color: const Color.fromARGB(255, 62, 68, 87),
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w700,
-                                  letterSpacing: 2,
-                                ),
+                              child: Row(
+                                children: [
+                                  CUSTOM_TEXT('[${chatRoomModel.type}]',
+                                      padding: const EdgeInsets.only(right: 5),
+                                      color: chatRoomModel.type == 'SALE'
+                                          ? BLUE_COLOR
+                                          : PINK_COLOR),
+                                  Text(
+                                    'Chatroom #0${chatRoomModel.postId}',
+                                    textAlign: TextAlign.start,
+                                    maxLines: 1,
+                                    style: GoogleFonts.quicksand(
+                                      color:
+                                          const Color.fromARGB(255, 62, 68, 87),
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w700,
+                                      letterSpacing: 2,
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
                           ),
@@ -143,17 +154,40 @@ class ChattingListBodyWidget extends GetView<ChattingListPageController> {
                           ),
                         ],
                       ),
-                      Text(
-                        chatRoomModel.newestMessage,
-                        textAlign: TextAlign.start,
-                        overflow: TextOverflow.ellipsis,
-                        maxLines: 1,
-                        style: GoogleFonts.quicksand(
-                          color: const Color.fromARGB(255, 135, 145, 175),
-                          fontSize: 13,
-                          fontWeight: FontWeight.w600,
-                          letterSpacing: 1,
-                        ),
+                      Row(
+                        children: [
+                          Text(
+                            chatRoomModel.isSellerMessage &&
+                                    (chatRoomModel.sellerId ==
+                                        controller
+                                            .accountModel.customerModel.id)
+                                ? 'You: '
+                                : 'Other: ',
+                            textAlign: TextAlign.start,
+                            overflow: TextOverflow.ellipsis,
+                            maxLines: 1,
+                            style: GoogleFonts.quicksand(
+                              color: const Color.fromARGB(255, 135, 145, 175),
+                              fontSize: 13,
+                              fontWeight: FontWeight.w600,
+                              letterSpacing: 1,
+                            ),
+                          ),
+                          Expanded(
+                            child: Text(
+                              chatRoomModel.newestMessage,
+                              textAlign: TextAlign.start,
+                              overflow: TextOverflow.ellipsis,
+                              maxLines: 1,
+                              style: GoogleFonts.quicksand(
+                                color: const Color.fromARGB(255, 135, 145, 175),
+                                fontSize: 13,
+                                fontWeight: FontWeight.w600,
+                                letterSpacing: 1,
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
                     ],
                   ),

@@ -751,7 +751,7 @@ class BreedingTransactionDetailBodyWidget
                     ),
                   ),
                   Text(
-                    controller.breedingTransactionModel.placeMeeting,
+                    controller.breedingTransactionModel.placeMeeting ?? '',
                     style: GoogleFonts.quicksand(
                       fontSize: 15,
                       fontWeight: FontWeight.w500,

@@ -37,10 +37,13 @@ const SETTING_PAGE_ROUTE = '/setting';
 
 //profile
 const PROFILE_PAGE_ROUTE = '/profile';
-const PET_MANAGEMENT_PAGE_ROUTE = '/profile/pet-management';
-const PET_DETAIL_PAGE_ROUTE = '/profile/pet_management/pet-detail';
-const CREATE_PET_PAGE_ROUTE = '/profile/pet-management/add-pet';
 const PERSONAl_INFORMATION_PAGE_ROUTE = '/profile/personal-information';
+
+//pet
+const PET_DETAIL_PAGE_ROUTE = '/pet_management/pet-detail';
+const CREATE_PET_PAGE_ROUTE = '/pet-management/add-pet';
+const PET_MANAGEMENT_PAGE_ROUTE = '/pet-management';
+const PET_WEIGHT_PAGE_ROUTE = '/pet_management/pet-detail/pet-weight';
 
 //chatting
 const CHATTING_LIST_PAGE_ROUTE = '/chatting-list';

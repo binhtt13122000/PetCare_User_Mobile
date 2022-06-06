@@ -170,6 +170,7 @@ class PostService {
       'orderType': 'DESC',
       'customerId': customerId.toString(),
     };
+    type != null && type.isNotEmpty ? parameters.addAll({'type': type}) : null;
     final response = await http.get(
       Uri.http(API_SERVER_PATH, '/v1/api/posts/fetch-post', parameters),
       headers: <String, String>{

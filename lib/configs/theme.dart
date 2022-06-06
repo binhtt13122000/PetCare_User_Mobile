@@ -17,3 +17,4 @@ const YELLOW_COLOR = Color.fromARGB(255, 247, 203, 60);
 const GREEN_COLOR = Color.fromARGB(255, 43, 248, 204);
 const BLUE_COLOR = Color.fromARGB(255, 64, 144, 248);
 const PINK_COLOR = Color.fromARGB(255, 244, 55, 165);
+const SUPPER_LIGHT_BLUE = Color.fromARGB(255, 245, 248, 253);

@@ -282,7 +282,8 @@ class BreedingTransactionReviewPopupWidget
               await SaleTransactionService.updateSaleTransaction(
                 id: controller.breedingTransactionModel.id,
                 meetingTime: controller.breedingTransactionModel.meetingTime,
-                placeMeeting: controller.breedingTransactionModel.placeMeeting,
+                placeMeeting:
+                    controller.breedingTransactionModel.placeMeeting ?? '',
                 transactionTotal:
                     controller.breedingTransactionModel.transactionTotal,
                 status: controller.breedingTransactionModel.status,

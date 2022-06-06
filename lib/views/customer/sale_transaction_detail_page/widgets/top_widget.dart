@@ -59,7 +59,7 @@ class SaleTransactionDetailTopWidget
             ),
             Expanded(
               child: Text(
-                'Sale Transction Page',
+                'Sale Transaction Page',
                 textAlign: TextAlign.center,
                 style: GoogleFonts.quicksand(
                   color: const Color.fromARGB(255, 62, 68, 87),

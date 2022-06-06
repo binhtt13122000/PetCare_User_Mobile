@@ -36,7 +36,7 @@ class PersonalInformationTopWidget
               maxRadius: 50,
               minRadius: 50,
               backgroundColor: Colors.transparent,
-              child: controller.avatarfilePath.value.isEmpty
+              child: controller.avatarFilePath.value.isEmpty
                   ? CircleAvatar(
                       backgroundColor: PRIMARY_COLOR.withOpacity(0.7),
                       backgroundImage:
@@ -57,7 +57,7 @@ class PersonalInformationTopWidget
                           maxRadius: 46,
                           minRadius: 46,
                           backgroundImage:
-                              NetworkImage(controller.avatarfilePath.value),
+                              NetworkImage(controller.avatarFilePath.value),
                         )
                       : CircleAvatar(
                           maxRadius: 46,
@@ -74,7 +74,7 @@ class PersonalInformationTopWidget
                 controller.avatarFile =
                     await PICK_IMAGE(isPickFromGalley: true);
                 controller.avatarFile != null
-                    ? controller.avatarfilePath.value =
+                    ? controller.avatarFilePath.value =
                         controller.avatarFile!.path
                     : null;
               },

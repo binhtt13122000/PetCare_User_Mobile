@@ -15,50 +15,50 @@ class PetsManagementBodyWidget extends GetView<PetManagementPageController> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        postTableHeaderWidget(),
-        Container(
-          height: 1.5,
-          margin:
-              const EdgeInsets.only(left: 12, right: 12, top: 5, bottom: 10),
-          color: const Color.fromARGB(255, 217, 222, 241),
-        ),
-        Expanded(
-          child: GetBuilder<PetManagementPageController>(builder: (_) {
-            controller.isLoadingPetList.value = true;
-            WidgetsBinding.instance!.addPostFrameCallback((_) async {
-              controller.petList = await PetService.fetchPetListByCustomerId(
-                  controller.accountModel.customerModel.id);
-              controller.isLoadingPetList.value = false;
-            });
-            return Obx(
-              () => controller.isLoadingPetList.value
-                  ? Container(
-                      color: const Color.fromARGB(106, 198, 188, 201),
-                      alignment: Alignment.center,
-                      child: const SpinKitSpinningLines(
-                        color: PRIMARY_COLOR,
-                        size: 150,
+    return Expanded(
+      child: Column(
+        children: [
+          postTableHeaderWidget(),
+          Container(
+            height: 1.5,
+            margin:
+                const EdgeInsets.only(left: 12, right: 12, top: 5, bottom: 10),
+            color: const Color.fromARGB(255, 217, 222, 241),
+          ),
+          Expanded(
+            child: GetBuilder<PetManagementPageController>(builder: (_) {
+              controller.isLoadingPetList.value = true;
+              WidgetsBinding.instance!.addPostFrameCallback((_) async {
+                controller.petList = await PetService.fetchPetListByCustomerId(
+                    controller.accountModel.customerModel.id);
+                controller.isLoadingPetList.value = false;
+              });
+              return Obx(
+                () => controller.isLoadingPetList.value
+                    ? const Center(
+                        child: SpinKitSpinningLines(
+                          color: PRIMARY_COLOR,
+                          size: 150,
+                        ),
+                      )
+                    : SingleChildScrollView(
+                        child: Column(
+                          children: controller.petList
+                              .asMap()
+                              .entries
+                              .map(
+                                (e) => e.key.isEven
+                                    ? petCardDarkThemeWidget(petModel: e.value)
+                                    : petCardWidget(petModel: e.value),
+                              )
+                              .toList(),
+                        ),
                       ),
-                    )
-                  : SingleChildScrollView(
-                      child: Column(
-                        children: controller.petList
-                            .asMap()
-                            .entries
-                            .map(
-                              (e) => e.key.isEven
-                                  ? petCardDarkThemeWidget(petModel: e.value)
-                                  : petCardWidget(petModel: e.value),
-                            )
-                            .toList(),
-                      ),
-                    ),
-            );
-          }),
-        ),
-      ],
+              );
+            }),
+          ),
+        ],
+      ),
     );
   }
 
