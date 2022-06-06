@@ -15,28 +15,102 @@ class ChattingListBodyWidget extends GetView<ChattingListPageController> {
 
   @override
   Widget build(BuildContext context) {
-    return GetBuilder<ChattingListPageController>(builder: (_) {
-      WidgetsBinding.instance!.addPostFrameCallback((timeStamp) async {
-        controller.isLoadingRoom.value = true;
-        controller.chatRoomList =
-            await ChatServices.fetchChatRoomListByCustomerId(
-                customerId: controller.accountModel.customerModel.id);
-        controller.isLoadingRoom.value = false;
-      });
-      return Obx(() {
-        return controller.isLoadingRoom.value
-            ? const Expanded(
-                child: Center(
-                  child: SpinKitSpinningLines(
-                    color: PRIMARY_COLOR,
-                    size: 100,
+    return Expanded(
+      child: Column(
+        children: [
+          viewTypeWidget(),
+          GetBuilder<ChattingListPageController>(builder: (_) {
+            WidgetsBinding.instance!.addPostFrameCallback((timeStamp) async {
+              controller.isLoadingRoom.value = true;
+              controller.chatRoomList =
+                  await ChatServices.fetchChatRoomListByCustomerId(
+                      customerId: controller.accountModel.customerModel.id);
+              controller.isLoadingRoom.value = false;
+            });
+            return Obx(
+              () => controller.isLoadingRoom.value
+                  ? const Expanded(
+                      child: Center(
+                        child: SpinKitSpinningLines(
+                          color: PRIMARY_COLOR,
+                          size: 100,
+                        ),
+                      ),
+                    )
+                  : listMessageRoom(),
+            );
+          }),
+        ],
+      ),
+    );
+  }
+
+  Widget viewTypeWidget() => Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: controller.chatRoomTypes
+            .asMap()
+            .entries
+            .map((e) => viewTypeItemWidget(viewType: e.value))
+            .toList(),
+      );
+
+  Widget viewTypeItemWidget({required String viewType, int flex = 1}) =>
+      Expanded(
+        flex: flex,
+        child: Obx(
+          () => InkWell(
+            onTap: () {
+              controller.selectedChatRoomType.value == viewType
+                  ? null
+                  : controller.selectedChatRoomType.value = viewType;
+            },
+            child: Column(
+              children: [
+                Container(
+                  height: 30,
+                  color: controller.selectedChatRoomType.value == viewType
+                      ? PRIMARY_LIGHT_COLOR.withOpacity(0.3)
+                      : Colors.transparent,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(right: 10),
+                        child: CircleAvatar(
+                          maxRadius: 3,
+                          backgroundColor:
+                              controller.selectedChatRoomType.value == viewType
+                                  ? PRIMARY_COLOR
+                                  : Colors.transparent,
+                        ),
+                      ),
+                      Text(
+                        viewType,
+                        style: GoogleFonts.quicksand(
+                          color:
+                              controller.selectedChatRoomType.value == viewType
+                                  ? PRIMARY_COLOR
+                                  : const Color.fromARGB(255, 116, 122, 143),
+                          fontSize: 15,
+                          fontWeight: FontWeight.w500,
+                          height: 1,
+                        ),
+                      ),
+                    ],
                   ),
                 ),
-              )
-            : listMessageRoom();
-      });
-    });
-  }
+                Container(
+                  height: 3,
+                  color: controller.selectedChatRoomType.value == viewType
+                      ? PRIMARY_COLOR
+                      : const Color.fromARGB(255, 233, 235, 241),
+                ),
+              ],
+            ),
+          ),
+        ),
+      );
 
   Widget listMessageRoom() => GetBuilder<ChattingListPageController>(
         builder: (_) => Expanded(

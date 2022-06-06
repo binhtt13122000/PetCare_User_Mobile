@@ -10,8 +10,12 @@ class ChattingListPageController extends GetxController {
   RxBool isLoadingRoom = true.obs;
   late io.Socket socket;
   AccountModel accountModel = Get.find<AuthController>().accountModel;
+  List<String> chatRoomTypes = ['Opened Room', 'Closed Room'];
+  late RxString selectedChatRoomType;
+
   @override
   void onInit() {
+    selectedChatRoomType = chatRoomTypes[0].obs;
     initSocketIO();
     super.onInit();
   }
