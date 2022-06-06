@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -256,27 +257,35 @@ class ProfilePageTopWidget extends GetView<ProfilePageController> {
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              generalInfoItemWidget(keyText: '0', valueText: 'Post'),
-              // generalInfoItemWidget(
-              //     keyText: controller.accountModel.customerModel.numberFollowers
-              //         .toString(),
-              //     valueText: 'Followers'),
-              // generalInfoItemWidget(keyText: '15', valueText: 'Followings'),
+              generalInfoItemWidget(keyText: '0', valueText: 'Posts'),
+              ratingBarWidget(
+                  valueText: 'Stars',
+                  star: controller.accountModel.customerModel.star),
+              generalInfoItemWidget(
+                  keyText: controller.accountModel.customerModel.numberReviewers
+                      .toString(),
+                  valueText: 'Reviews'),
             ],
           ),
         ],
       );
 
-  Widget generalInfoItemWidget(
-          {required String keyText, required String valueText}) =>
+  Widget ratingBarWidget({required double star, required String valueText}) =>
       Column(
         children: [
-          Text(
-            keyText,
-            style: GoogleFonts.quicksand(
-              color: const Color.fromARGB(255, 64, 69, 87),
-              fontSize: 17,
-              fontWeight: FontWeight.w800,
+          SizedBox(
+            width: 100,
+            child: RatingBar.builder(
+              initialRating: star,
+              itemCount: 5,
+              itemSize: 20,
+              allowHalfRating: false,
+              unratedColor: Colors.amber.withOpacity(0.2),
+              itemBuilder: (context, index) => const Icon(
+                Icons.star_rate_rounded,
+                color: Color.fromARGB(255, 255, 211, 78),
+              ),
+              onRatingUpdate: (_) {},
             ),
           ),
           Text(
@@ -288,6 +297,31 @@ class ProfilePageTopWidget extends GetView<ProfilePageController> {
             ),
           ),
         ],
+      );
+
+  Widget generalInfoItemWidget(
+          {required String keyText, required String valueText}) =>
+      Expanded(
+        child: Column(
+          children: [
+            Text(
+              keyText,
+              style: GoogleFonts.quicksand(
+                color: const Color.fromARGB(255, 64, 69, 87),
+                fontSize: 17,
+                fontWeight: FontWeight.w800,
+              ),
+            ),
+            Text(
+              valueText,
+              style: GoogleFonts.quicksand(
+                color: const Color.fromARGB(255, 64, 69, 87),
+                fontSize: 14,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+          ],
+        ),
       );
 
   Widget avatarWidget() => Container(
