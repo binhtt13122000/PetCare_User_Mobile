@@ -184,7 +184,7 @@ class ChattingDetailTopWidget extends GetView<ChattingDetailPageController> {
           child: FittedBox(
             fit: BoxFit.scaleDown,
             child: Text(
-              'Waitting for seller accept your request - View request detail',
+              'Waiting for seller accept your request - View request detail',
               textAlign: TextAlign.start,
               overflow: TextOverflow.clip,
               style: GoogleFonts.quicksand(
@@ -245,8 +245,9 @@ class ChattingDetailTopWidget extends GetView<ChattingDetailPageController> {
       );
 
   Widget viewTransactionDetailWidget() => InkWell(
-        onTap: () => Get.toNamed(
-            '$SALE_TRANSACTION_DETAIL_PAGE_ROUTE/${controller.chatRoomModel!.transactionId}'),
+        onTap: () => Get.toNamed(controller.chatRoomModel!.type == 'SALE'
+            ? '$SALE_TRANSACTION_DETAIL_PAGE_ROUTE/${controller.chatRoomModel!.transactionId}'
+            : '$BREEDING_TRANSACTION_DETAIL_PAGE_ROUTE/${controller.chatRoomModel!.transactionId}'),
         child: Container(
           height: 35,
           margin: const EdgeInsets.symmetric(horizontal: 25),
@@ -541,7 +542,7 @@ class ChattingDetailTopWidget extends GetView<ChattingDetailPageController> {
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 5),
                 child: Text(
-                  'Post #${controller.postModel.id} Chats',
+                  '[${controller.postModel.type}] Room #${controller.postModel.id}',
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   textAlign: TextAlign.center,

@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:petapp_mobile/configs/theme.dart';
 import 'package:petapp_mobile/controllers/pet_detail_page_controller.dart';
-import 'package:petapp_mobile/controllers/pet_management_page_controller.dart';
+import 'package:petapp_mobile/controllers/pet_weight_page_controller.dart';
 import 'package:petapp_mobile/views/widgets/customize_widget.dart';
 
-class PetDetailTopWidget extends GetView<PetDetailPageController> {
-  const PetDetailTopWidget({Key? key}) : super(key: key);
+class PetWeightTopWidget extends GetView<PetWeightPageController> {
+  const PetWeightTopWidget({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) => Column(
@@ -30,7 +30,7 @@ class PetDetailTopWidget extends GetView<PetDetailPageController> {
             InkWell(
               onTap: () => Get
                 ..back()
-                ..put(PetManagementPageController()).update(),
+                ..put(PetDetailPageController()).update(),
               child: Container(
                 height: 35,
                 width: 35,
@@ -55,14 +55,12 @@ class PetDetailTopWidget extends GetView<PetDetailPageController> {
             ),
             //*app logo
             Expanded(
-              child: Obx(
-                () => CUSTOM_TEXT(
-                  controller.topTitle.value,
-                  fontWeight: FontWeight.w700,
-                  letterSpacing: 1,
-                  textAlign: TextAlign.center,
-                  fontSize: 18,
-                ),
+              child: CUSTOM_TEXT(
+                'Pet Weight Page',
+                fontWeight: FontWeight.w700,
+                letterSpacing: 1,
+                textAlign: TextAlign.center,
+                fontSize: 18,
               ),
             ),
           ],

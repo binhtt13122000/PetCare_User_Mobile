@@ -14,42 +14,45 @@ class BreedingTransactionService {
     return breedTransactionList;
   }
 
-  static Future<int> createSaleTransaction({
+  static Future<int> createBreedingTransaction({
     required DateTime createdTime,
     required DateTime meetingTime,
-    required String placeMeeting,
     required int sellerReceive,
-    required int transactionFee,
+    int serviceFee = 1,
     required int transactionTotal,
-    required String? description,
-    String status = 'CREATED',
-    required int buyerId,
-    required int sellerId,
-    required int petId,
-    required int posId,
     int point = 0,
+    String description = '',
+    String status = 'CREATED',
+    required int ownerPetMaleId,
+    required int ownerPetFemaleId,
+    required int petMaleId,
+    required int petFemaleId,
+    required int postId,
     required int branchId,
+    required int transactionFee,
+    required String placeMeeting,
   }) async {
     final response = await http.post(
-      Uri.http(API_SERVER_PATH, '/v1/api/sale-transactions'),
+      Uri.http(API_SERVER_PATH, BREEDING_TRANSACTION_API_PATH),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
       body: jsonEncode({
         'createdTime': createdTime.toIso8601String(),
         'meetingTime': meetingTime.toIso8601String(),
-        'placeMeeting': placeMeeting,
         'sellerReceive': sellerReceive,
-        'transactionFee': transactionFee,
+        'serviceFee': serviceFee,
         'transactionTotal': transactionTotal,
-        'description': description ?? '',
-        'status': status,
-        'buyerId': buyerId,
-        'sellerId': sellerId,
-        'petId': petId,
-        'postId': posId,
         'point': point,
-        'branchId': branchId
+        'description': description,
+        'status': status,
+        'ownerPetFemaleId': ownerPetFemaleId,
+        'ownerPetMaleId': ownerPetMaleId,
+        'petFemaleId': petFemaleId,
+        'petMaleId': petMaleId,
+        'postId': postId,
+        'branchId': branchId,
+        'transactionFee': transactionFee,
       }),
     );
     switch (response.statusCode) {
@@ -58,6 +61,7 @@ class BreedingTransactionService {
       case 202:
         return json.decode(response.body)['data']['id'];
       default:
+        print(response.body);
         throw Exception(
             'Error ${response.statusCode}, cannot create transaction');
     }

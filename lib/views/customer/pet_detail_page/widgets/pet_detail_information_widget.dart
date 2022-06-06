@@ -4,137 +4,86 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:petapp_mobile/configs/path.dart';
 import 'package:petapp_mobile/configs/theme.dart';
-import 'package:petapp_mobile/controllers/post_detail_page_controller.dart';
+import 'package:petapp_mobile/controllers/pet_detail_page_controller.dart';
 import 'package:petapp_mobile/utilities/utilities.dart';
+import 'package:petapp_mobile/views/widgets/customize_widget.dart';
 
-class PostDetailInformationWidget extends GetView<PostDetailPageController> {
-  const PostDetailInformationWidget({Key? key}) : super(key: key);
+class PetDetailInformationWidget extends GetView<PetDetailPageController> {
+  const PetDetailInformationWidget({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
+        petGeneralInformationWidget(),
+        Container(
+          height: 1,
+          color: DARK_GREY_COLOR.withAlpha(30),
+        ),
+        Container(
+          height: 10,
+          color: SUPPER_LIGHT_BLUE,
+          margin: const EdgeInsets.only(bottom: 20),
+        ),
         Padding(
           padding: const EdgeInsets.symmetric(
             horizontal: 20,
           ),
           child: Column(
             children: [
-              Padding(
-                padding: const EdgeInsets.only(
-                  top: 12,
-                ),
-                child: Text(
-                  'Pet detail information',
-                  style: GoogleFonts.quicksand(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w700,
-                    color: const Color.fromARGB(255, 68, 91, 119),
-                  ),
-                ),
-              ),
-              // Container(
-              //   height: 0.7,
-              //   color: const Color.fromARGB(255, 212, 220, 230),
-              //   margin: const EdgeInsets.only(
-              //     left: 25,
-              //     right: 25,
-              //     top: 5,
-              //     bottom: 5,
-              //   ),
-              // ),
               speciesCardWidget(),
               textCardWidget(
                 keyText: 'Breed',
-                valueText: controller.postModel.petModel!.breedModel!.name,
+                valueText: controller.petModel.breedModel!.name,
               ),
               genderCardWidget(),
-              textCardWidgetWithInfoIcon(
-                keyText: 'Age range',
-                valueText: controller.postModel.petModel!.ageRange,
-              ),
               textCardWidget(
                 keyText: 'Date of birth',
                 valueText: FORMAT_DATE_TIME(
-                  dateTime: controller.postModel.petModel!.dob,
+                  dateTime: controller.petModel.dob,
                   pattern: DATE_PATTERN,
                 ),
+              ),
+              textCardWidgetWithInfoIcon(
+                keyText: 'Age range',
+                valueText: controller.petModel.ageRange,
               ),
               textCardWidget(
                 keyText: 'Weight',
                 valueText: '7.5 Kilogram',
               ),
-              Visibility(
-                visible: controller.postModel.petModel!.color != null &&
-                    controller.postModel.petModel!.color!.isNotEmpty,
-                child: textCardWidget(
-                  keyText: 'Color',
-                  valueText: controller.postModel.petModel!.color ?? '',
-                ),
+              textCardWidget(
+                keyText: 'Color',
+                valueText: controller.petModel.color ?? 'N/A',
               ),
               textCardWidget(
                 keyText: 'Fertility',
-                valueText:
-                    controller.postModel.petModel!.isFertility ? 'YES' : 'NO',
+                valueText: controller.petModel.isFertility ? 'YES' : 'NO',
               ),
-              Visibility(
-                visible:
-                    controller.postModel.petModel!.vaccineDescription != null &&
-                        controller
-                            .postModel.petModel!.vaccineDescription!.isNotEmpty,
-                child: textCardWidget(
-                  keyText: 'Vaccination information',
-                  valueText:
-                      controller.postModel.petModel!.vaccineDescription ?? '',
-                ),
+              textCardWidget(
+                keyText: 'Vaccination information',
+                valueText: controller.petModel.vaccineDescription ?? 'N/A',
               ),
-              Visibility(
-                visible: controller.postModel.petModel!.specialMarkings !=
-                        null &&
-                    controller.postModel.petModel!.specialMarkings!.isNotEmpty,
-                child: textCardWidget(
-                  keyText: 'Special markings',
-                  valueText:
-                      controller.postModel.petModel!.specialMarkings ?? '',
-                ),
+              textCardWidget(
+                keyText: 'Special markings',
+                valueText: controller.petModel.specialMarkings ?? 'N/A',
               ),
+              descriptionCardWidget(),
             ],
           ),
         ),
-        Container(
-          height: 1,
-          margin: const EdgeInsets.only(top: 10),
-          color: LIGHT_GREY_COLOR.withOpacity(0.1),
-        ),
-        Container(
-          height: 8,
-          color: const Color.fromARGB(255, 247, 248, 250),
-        ),
-        descriptionCardWidget(),
       ],
     );
   }
 
   Widget descriptionCardWidget() => Padding(
-        padding: const EdgeInsets.symmetric(vertical: 12),
+        padding: const EdgeInsets.only(top: 20),
         child: Obx(
           () => Column(
             children: [
               InkWell(
-                onTap: () {
-                  controller.isShowDescription.value =
-                      !controller.isShowDescription.value;
-
-                  // WidgetsBinding.instance!.addPostFrameCallback((_) {
-                  //   controller.mainScrollController.animateTo(
-                  //     controller.mainScrollController.position.maxScrollExtent,
-                  //     duration: Duration(
-                  //         milliseconds:
-                  //             controller.isShowDescription.value ? 2000 : 500),
-                  //     curve: Curves.ease,
-                  //   );
-                  // });
-                },
+                onTap: () => controller.isViewPetPapers.value =
+                    !controller.isViewPetPapers.value,
                 child: SizedBox(
                   width: 180,
                   child: Column(
@@ -143,9 +92,9 @@ class PostDetailInformationWidget extends GetView<PostDetailPageController> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
-                            controller.isShowDescription.value
-                                ? 'Hide post description'
-                                : 'View post description',
+                            controller.isViewPetPapers.value
+                                ? 'Hide pet papers'
+                                : 'View pet papers',
                             style: GoogleFonts.quicksand(
                               fontSize: 15,
                               fontWeight: FontWeight.w600,
@@ -154,7 +103,7 @@ class PostDetailInformationWidget extends GetView<PostDetailPageController> {
                           ),
                           const SizedBox(width: 5),
                           Icon(
-                            controller.isShowDescription.value
+                            controller.isViewPetPapers.value
                                 ? Icons.keyboard_double_arrow_up_outlined
                                 : Icons.keyboard_double_arrow_down_outlined,
                             size: 18,
@@ -173,24 +122,79 @@ class PostDetailInformationWidget extends GetView<PostDetailPageController> {
                   ),
                 ),
               ),
-              //     controller.isShowDescription.value
-              //         ? Html(
-              //             padding: const EdgeInsets.symmetric(horizontal: 12),
-              //             data: r"""<div>
-              // <h1>Demo Page</h1>
-              // <p>This is a fantastic product that you should buy!</p>
-              // <h3>Features</h3>
-              // <ul>
-              //   <li>It actually works</li>
-              //   <li>It exists</li>
-              //   <li>It doesn't cost much!</li>
-              // </ul>
-              // <!--You can pretty much put any html in here!-->
-              //     </div>""",
-              //           )
-              //         : const SizedBox.shrink(),
             ],
           ),
+        ),
+      );
+
+  Widget petGeneralInformationWidget() => Padding(
+        padding: const EdgeInsets.symmetric(vertical: 30),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            petGeneralInformationCardWidget(
+              title: 'Status',
+              content: controller.petModel.status,
+              contentColor: controller.petModel.status == 'NORMAL'
+                  ? GREEN_COLOR
+                  : YELLOW_COLOR,
+            ),
+            petGeneralInformationCardWidget(
+              title: 'Gender',
+              content: controller.petModel.gender,
+              contentColor: controller.petModel.gender == 'MALE'
+                  ? BLUE_COLOR
+                  : PINK_COLOR,
+            ),
+            petGeneralInformationCardWidget(
+              title: 'Age',
+              content: controller.petModel.ageRange,
+            ),
+            petGeneralInformationCardWidget(
+              title: 'Fertility',
+              content: controller.petModel.isFertility ? 'YES' : 'NO',
+            ),
+          ],
+        ),
+      );
+
+  Widget petGeneralInformationCardWidget({
+    required String title,
+    required String content,
+    Color contentColor = DARK_GREY_TEXT_COLOR,
+  }) =>
+      Container(
+        height: 70,
+        width: 70,
+        decoration: BoxDecoration(
+          borderRadius: const BorderRadius.all(Radius.circular(15)),
+          border: Border.all(
+            width: 1,
+            color: Colors.black12,
+          ),
+          color: WHITE_COLOR.withOpacity(0.6),
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            CUSTOM_TEXT(
+              title,
+              fontSize: 14,
+              letterSpacing: 1,
+              color: DARK_GREY_TEXT_COLOR.withOpacity(0.6),
+            ),
+            FittedBox(
+              fit: BoxFit.scaleDown,
+              child: CUSTOM_TEXT(
+                content,
+                fontSize: 14,
+                letterSpacing: 1,
+                color: contentColor,
+                padding: const EdgeInsets.symmetric(horizontal: 5),
+                textAlign: TextAlign.center,
+              ),
+            )
+          ],
         ),
       );
 
@@ -239,15 +243,13 @@ class PostDetailInformationWidget extends GetView<PostDetailPageController> {
             Row(
               children: [
                 Image.asset(
-                  controller
-                      .postModel.petModel!.breedModel!.speciesModel!.imageUrl!,
+                  controller.petModel.breedModel!.speciesModel!.imageUrl!,
                   height: 15,
                 ),
                 Padding(
                   padding: const EdgeInsets.only(left: 5),
                   child: Text(
-                    controller
-                        .postModel.petModel!.breedModel!.speciesModel!.name,
+                    controller.petModel.breedModel!.speciesModel!.name,
                     style: GoogleFonts.quicksand(
                       fontSize: 15,
                       fontWeight: FontWeight.w600,
@@ -277,20 +279,24 @@ class PostDetailInformationWidget extends GetView<PostDetailPageController> {
             Row(
               children: [
                 SvgPicture.asset(
-                  controller.postModel.petModel!.gender == 'MALE'
+                  controller.petModel.gender == 'MALE'
                       ? ICON_PATH + MALE_SVG
                       : ICON_PATH + FEMALE_SVG,
                   height: 13,
-                  color: const Color.fromARGB(255, 101, 152, 214),
+                  color: controller.petModel.gender == 'MALE'
+                      ? BLUE_COLOR
+                      : PINK_COLOR,
                 ),
                 Padding(
                   padding: const EdgeInsets.only(left: 5),
                   child: Text(
-                    controller.postModel.petModel!.gender,
+                    controller.petModel.gender,
                     style: GoogleFonts.quicksand(
                       fontSize: 15,
                       fontWeight: FontWeight.w600,
-                      color: const Color.fromARGB(255, 101, 152, 214),
+                      color: controller.petModel.gender == 'MALE'
+                          ? BLUE_COLOR
+                          : PINK_COLOR,
                     ),
                   ),
                 ),
@@ -308,6 +314,7 @@ class PostDetailInformationWidget extends GetView<PostDetailPageController> {
         padding: const EdgeInsets.only(top: 10),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Row(
               children: [

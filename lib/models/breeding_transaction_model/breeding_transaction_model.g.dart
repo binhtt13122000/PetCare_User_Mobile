@@ -55,7 +55,7 @@ BreedingTransactionModel _$BreedingTransactionModelFromJson(
       transactionTime: json['transactionTime'] == null
           ? null
           : DateTime.parse(json['transactionTime'] as String),
-      placeMeeting: json['placeMeeting'] as String,
+      placeMeeting: json['placeMeeting'] as String?,
     );
 
 Map<String, dynamic> _$BreedingTransactionModelToJson(

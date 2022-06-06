@@ -29,16 +29,20 @@ Widget CUSTOM_TEXT(
   FontStyle fontStyle = FontStyle.normal,
   Color backGroundColor = Colors.transparent,
   TextOverflow textOverflow = TextOverflow.ellipsis,
+  EdgeInsets padding = EdgeInsets.zero,
 }) =>
-    Text(
-      data,
-      textAlign: textAlign,
-      overflow: textOverflow,
-      style: GoogleFonts.quicksand(
-          fontWeight: fontWeight,
-          color: color,
-          fontSize: fontSize,
-          letterSpacing: letterSpacing,
-          fontStyle: fontStyle,
-          backgroundColor: backGroundColor),
+    Padding(
+      padding: padding,
+      child: Text(
+        data,
+        textAlign: textAlign,
+        overflow: textOverflow,
+        style: GoogleFonts.quicksand(
+            fontWeight: fontWeight,
+            color: color,
+            fontSize: fontSize,
+            letterSpacing: letterSpacing,
+            fontStyle: fontStyle,
+            backgroundColor: backGroundColor),
+      ),
     );

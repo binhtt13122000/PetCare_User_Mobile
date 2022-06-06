@@ -14,6 +14,7 @@ import 'package:petapp_mobile/bindings/notification_page_binding.dart';
 import 'package:petapp_mobile/bindings/payment_for_center_services_transaction_page_binding.dart';
 import 'package:petapp_mobile/bindings/personal_information_page_binding.dart';
 import 'package:petapp_mobile/bindings/pet_detail_page_binding.dart';
+import 'package:petapp_mobile/bindings/pet_weight_page_binding.dart';
 import 'package:petapp_mobile/bindings/profile_page_binding.dart';
 import 'package:petapp_mobile/bindings/post_detail_page_binding.dart';
 import 'package:petapp_mobile/bindings/register_page_binding.dart';
@@ -43,6 +44,7 @@ import 'package:petapp_mobile/views/customer/payment_for_center_services_transac
 import 'package:petapp_mobile/views/customer/personal_information_page/personal_information_page.dart';
 import 'package:petapp_mobile/views/customer/pet_detail_page/pet_detail_page.dart';
 import 'package:petapp_mobile/views/customer/pet_management_page/pet_management_page.dart';
+import 'package:petapp_mobile/views/customer/pet_weight_page/pet_weight_page.dart';
 import 'package:petapp_mobile/views/customer/post_detail_page/post_detail_page.dart';
 import 'package:petapp_mobile/views/customer/post_management_page/post_management_page.dart';
 import 'package:petapp_mobile/views/customer/profile_page/profile_page.dart';
@@ -237,6 +239,13 @@ class MainApp extends StatelessWidget {
           page: () => const ProfilePage(),
           binding: ProfilePageBinding(),
         ),
+
+        GetPage(
+          name: PERSONAl_INFORMATION_PAGE_ROUTE,
+          page: () => const PersonalInformationPage(),
+          binding: PersonalInformationPageBinding(),
+        ),
+        //*Pet
         GetPage(
           name: PET_MANAGEMENT_PAGE_ROUTE,
           page: () => const PetManagementPage(),
@@ -248,14 +257,14 @@ class MainApp extends StatelessWidget {
           binding: AddPetPagePageBinding(),
         ),
         GetPage(
-          name: PERSONAl_INFORMATION_PAGE_ROUTE,
-          page: () => const PersonalInformationPage(),
-          binding: PersonalInformationPageBinding(),
-        ),
-        GetPage(
           name: '$PET_DETAIL_PAGE_ROUTE/:petId',
           page: () => const PetDetailPage(),
           binding: PetDetailPageBinding(),
+        ),
+        GetPage(
+          name: '$PET_WEIGHT_PAGE_ROUTE/:petId',
+          page: () => const PetWeightPage(),
+          binding: PetWeightPageBinding(),
         ),
         //*Chatting
         GetPage(

@@ -82,9 +82,6 @@ class PostDetailSellerInformationWidget
                           fontWeight: FontWeight.w700,
                         ),
                       ),
-                      CUSTOM_TEXT(' (Seller)',
-                          color: DARK_GREY_TEXT_COLOR.withOpacity(0.8),
-                          fontSize: 14),
                     ],
                   ),
                   const SizedBox(

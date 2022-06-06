@@ -10,7 +10,7 @@ class PersonalInformationPageController extends GetxController {
   late RxString lastName;
   late RxString email;
   late RxString avatarCharacter;
-  late RxString avatarfilePath;
+  late RxString avatarFilePath;
   late Rx<String> address;
   late RxString selectedGender;
 
@@ -22,7 +22,7 @@ class PersonalInformationPageController extends GetxController {
     lastName = accountModel.customerModel.lastName.obs;
     email = accountModel.customerModel.email.obs;
     avatarCharacter = accountModel.customerModel.avatarCharacter.obs;
-    avatarfilePath = (accountModel.customerModel.avatar ?? '').obs;
+    avatarFilePath = (accountModel.customerModel.avatar ?? '').obs;
     address = (accountModel.customerModel.address ?? '').obs;
     selectedGender = accountModel.customerModel.gender.obs;
   }

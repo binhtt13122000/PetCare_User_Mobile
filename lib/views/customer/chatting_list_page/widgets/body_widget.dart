@@ -8,34 +8,109 @@ import 'package:petapp_mobile/controllers/chatting_list_page_controller.dart';
 import 'package:petapp_mobile/models/chat_room_model/chat_room_model.dart';
 import 'package:petapp_mobile/services/chat_services.dart';
 import 'package:petapp_mobile/utilities/utilities.dart';
+import 'package:petapp_mobile/views/widgets/customize_widget.dart';
 
 class ChattingListBodyWidget extends GetView<ChattingListPageController> {
   const ChattingListBodyWidget({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return GetBuilder<ChattingListPageController>(builder: (_) {
-      WidgetsBinding.instance!.addPostFrameCallback((timeStamp) async {
-        controller.isLoadingRoom.value = true;
-        controller.chatRoomList =
-            await ChatServices.fetchChatRoomListByCustomerId(
-                customerId: controller.accountModel.customerModel.id);
-        controller.isLoadingRoom.value = false;
-      });
-      return Obx(() {
-        return controller.isLoadingRoom.value
-            ? const Expanded(
-                child: Center(
-                  child: SpinKitSpinningLines(
-                    color: PRIMARY_COLOR,
-                    size: 100,
+    return Expanded(
+      child: Column(
+        children: [
+          viewTypeWidget(),
+          GetBuilder<ChattingListPageController>(builder: (_) {
+            WidgetsBinding.instance!.addPostFrameCallback((timeStamp) async {
+              controller.isLoadingRoom.value = true;
+              controller.chatRoomList =
+                  await ChatServices.fetchChatRoomListByCustomerId(
+                      customerId: controller.accountModel.customerModel.id);
+              controller.isLoadingRoom.value = false;
+            });
+            return Obx(
+              () => controller.isLoadingRoom.value
+                  ? const Expanded(
+                      child: Center(
+                        child: SpinKitSpinningLines(
+                          color: PRIMARY_COLOR,
+                          size: 100,
+                        ),
+                      ),
+                    )
+                  : listMessageRoom(),
+            );
+          }),
+        ],
+      ),
+    );
+  }
+
+  Widget viewTypeWidget() => Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: controller.chatRoomTypes
+            .asMap()
+            .entries
+            .map((e) => viewTypeItemWidget(viewType: e.value))
+            .toList(),
+      );
+
+  Widget viewTypeItemWidget({required String viewType, int flex = 1}) =>
+      Expanded(
+        flex: flex,
+        child: Obx(
+          () => InkWell(
+            onTap: () {
+              controller.selectedChatRoomType.value == viewType
+                  ? null
+                  : controller.selectedChatRoomType.value = viewType;
+            },
+            child: Column(
+              children: [
+                Container(
+                  height: 30,
+                  color: controller.selectedChatRoomType.value == viewType
+                      ? PRIMARY_LIGHT_COLOR.withOpacity(0.3)
+                      : Colors.transparent,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(right: 10),
+                        child: CircleAvatar(
+                          maxRadius: 3,
+                          backgroundColor:
+                              controller.selectedChatRoomType.value == viewType
+                                  ? PRIMARY_COLOR
+                                  : Colors.transparent,
+                        ),
+                      ),
+                      Text(
+                        viewType,
+                        style: GoogleFonts.quicksand(
+                          color:
+                              controller.selectedChatRoomType.value == viewType
+                                  ? PRIMARY_COLOR
+                                  : const Color.fromARGB(255, 116, 122, 143),
+                          fontSize: 15,
+                          fontWeight: FontWeight.w500,
+                          height: 1,
+                        ),
+                      ),
+                    ],
                   ),
                 ),
-              )
-            : listMessageRoom();
-      });
-    });
-  }
+                Container(
+                  height: 3,
+                  color: controller.selectedChatRoomType.value == viewType
+                      ? PRIMARY_COLOR
+                      : const Color.fromARGB(255, 233, 235, 241),
+                ),
+              ],
+            ),
+          ),
+        ),
+      );
 
   Widget listMessageRoom() => GetBuilder<ChattingListPageController>(
         builder: (_) => Expanded(
@@ -112,16 +187,26 @@ class ChattingListBodyWidget extends GetView<ChattingListPageController> {
                           Expanded(
                             child: FittedBox(
                               fit: BoxFit.scaleDown,
-                              child: Text(
-                                'Chatbox for post #0${chatRoomModel.postId}',
-                                textAlign: TextAlign.start,
-                                maxLines: 1,
-                                style: GoogleFonts.quicksand(
-                                  color: const Color.fromARGB(255, 62, 68, 87),
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w700,
-                                  letterSpacing: 2,
-                                ),
+                              child: Row(
+                                children: [
+                                  CUSTOM_TEXT('[${chatRoomModel.type}]',
+                                      padding: const EdgeInsets.only(right: 5),
+                                      color: chatRoomModel.type == 'SALE'
+                                          ? BLUE_COLOR
+                                          : PINK_COLOR),
+                                  Text(
+                                    'Chatroom #0${chatRoomModel.postId}',
+                                    textAlign: TextAlign.start,
+                                    maxLines: 1,
+                                    style: GoogleFonts.quicksand(
+                                      color:
+                                          const Color.fromARGB(255, 62, 68, 87),
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w700,
+                                      letterSpacing: 2,
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
                           ),
@@ -143,17 +228,40 @@ class ChattingListBodyWidget extends GetView<ChattingListPageController> {
                           ),
                         ],
                       ),
-                      Text(
-                        chatRoomModel.newestMessage,
-                        textAlign: TextAlign.start,
-                        overflow: TextOverflow.ellipsis,
-                        maxLines: 1,
-                        style: GoogleFonts.quicksand(
-                          color: const Color.fromARGB(255, 135, 145, 175),
-                          fontSize: 13,
-                          fontWeight: FontWeight.w600,
-                          letterSpacing: 1,
-                        ),
+                      Row(
+                        children: [
+                          Text(
+                            chatRoomModel.isSellerMessage &&
+                                    (chatRoomModel.sellerId ==
+                                        controller
+                                            .accountModel.customerModel.id)
+                                ? 'You: '
+                                : 'Other: ',
+                            textAlign: TextAlign.start,
+                            overflow: TextOverflow.ellipsis,
+                            maxLines: 1,
+                            style: GoogleFonts.quicksand(
+                              color: const Color.fromARGB(255, 135, 145, 175),
+                              fontSize: 13,
+                              fontWeight: FontWeight.w600,
+                              letterSpacing: 1,
+                            ),
+                          ),
+                          Expanded(
+                            child: Text(
+                              chatRoomModel.newestMessage,
+                              textAlign: TextAlign.start,
+                              overflow: TextOverflow.ellipsis,
+                              maxLines: 1,
+                              style: GoogleFonts.quicksand(
+                                color: const Color.fromARGB(255, 135, 145, 175),
+                                fontSize: 13,
+                                fontWeight: FontWeight.w600,
+                                letterSpacing: 1,
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
                     ],
                   ),
