@@ -68,14 +68,10 @@ class CustomerService {
         case 200:
         case 201:
         case 202:
-          print(response.data);
           return CustomerModel.fromJson(response.data['data']);
         default:
-          print(response.data);
       }
-    } on DioError catch (e) {
-      print(e.error + e.response!.data.toString());
-    }
+    } on DioError catch (_) {}
     return null;
   }
 }

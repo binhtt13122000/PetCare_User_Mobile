@@ -25,7 +25,7 @@ class UpdatePostBottomWidget extends GetView<UpdateSalePostPageController> {
                 onTap: () async {
                   if (controller.title.value.isNotEmpty &&
                       controller.price.value > 0 &&
-                      controller.selectedPetId != -1 &&
+                      controller.selectedPetId.value != -1 &&
                       controller.evidences.isNotEmpty) {
                     controller.isShowLoadingWidget.value = true;
                     await PostService.updatePost(
@@ -58,7 +58,7 @@ class UpdatePostBottomWidget extends GetView<UpdateSalePostPageController> {
                       borderRadius: BorderRadius.circular(5),
                       color: controller.title.value.isNotEmpty &&
                               controller.price.value > 0 &&
-                              controller.selectedPetId != -1 &&
+                              controller.selectedPetId.value != -1 &&
                               controller.evidences.isNotEmpty
                           ? PRIMARY_COLOR
                           : PRIMARY_COLOR.withOpacity(0.5),

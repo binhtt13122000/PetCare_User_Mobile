@@ -27,9 +27,7 @@ class ChattingListPageController extends GetxController {
             .setTransports(['websocket']) // for Flutter or Dart VM
             .setExtraHeaders({'foo': 'bar'}) // optional
             .build());
-    socket.onConnect((_) {
-      print('connect');
-    });
-    socket.onDisconnect((_) => print('disconnect'));
+    socket.onConnect((_) {});
+    socket.onDisconnect((_) {});
   }
 }

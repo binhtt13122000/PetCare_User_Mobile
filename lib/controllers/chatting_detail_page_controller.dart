@@ -57,8 +57,8 @@ class ChattingDetailPageController extends GetxController {
             .setTransports(['websocket']) // for Flutter or Dart VM
             .setExtraHeaders({'foo': 'bar'}) // optional
             .build());
-    socket.on('joinedRoom', (data) => print(data));
-    socket.on('leftRoom', (data) => print(data));
+    socket.on('joinedRoom', (data) {});
+    socket.on('leftRoom', (data) {});
     socket.on('chatToClient', (data) async {
       MessageModel messageModel = MessageModel.fromJson(data);
       messageModelList.add(messageModel);

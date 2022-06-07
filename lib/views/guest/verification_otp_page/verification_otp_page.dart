@@ -20,20 +20,14 @@ class VerificationOTPPage extends GetView<SignInPageController> {
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
       RemoteNotification? remoteNotification = message.notification;
       AndroidNotification? androidNotification = message.notification?.android;
-      print('co tin nhan: ');
 
-      if (remoteNotification != null && androidNotification != null) {
-        print('co tin nhan: ' + remoteNotification.body!);
-      }
+      if (remoteNotification != null && androidNotification != null) {}
     });
 
     FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
       RemoteNotification? remoteNotification = message.notification;
       AndroidNotification? androidNotification = message.notification?.android;
-      print('co tin nhan: ');
-      if (remoteNotification != null && androidNotification != null) {
-        print('co tin nhan: ' + remoteNotification.body!);
-      }
+      if (remoteNotification != null && androidNotification != null) {}
     });
     return Scaffold(
       body: SafeArea(
@@ -82,7 +76,7 @@ class VerificationOTPPage extends GetView<SignInPageController> {
                             width: 2,
                           ),
                           Text(
-                            'iU Petshop',
+                            'iU PetShop',
                             style: GoogleFonts.satisfy(
                               textStyle: const TextStyle(color: PRIMARY_COLOR),
                               fontWeight: FontWeight.w700,

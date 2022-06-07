@@ -249,7 +249,7 @@ class SelectPetWidget extends GetView<UpdateSalePostPageController> {
                         width: 20,
                         height: 45,
                         decoration: BoxDecoration(
-                            color: controller.selectedPetId == petModel.id
+                            color: controller.selectedPetId.value == petModel.id
                                 ? PRIMARY_COLOR
                                 : Colors.transparent,
                             borderRadius: BorderRadius.circular(4)),
@@ -274,7 +274,7 @@ class SelectPetWidget extends GetView<UpdateSalePostPageController> {
                       textAlign: TextAlign.center,
                       style: GoogleFonts.quicksand(
                         fontWeight: FontWeight.w500,
-                        color: controller.selectedPetId == petModel.id
+                        color: controller.selectedPetId.value == petModel.id
                             ? PRIMARY_COLOR
                             : const Color.fromARGB(255, 121, 128, 141),
                         fontSize: 16,

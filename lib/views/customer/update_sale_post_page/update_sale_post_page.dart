@@ -1,12 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
-import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:petapp_mobile/configs/theme.dart';
 import 'package:petapp_mobile/controllers/update_sale_post_page_controller.dart';
-import 'package:petapp_mobile/graphql/graphql_config.dart';
-import 'package:petapp_mobile/graphql/query_mutation/post.dart';
-import 'package:petapp_mobile/models/post_model/post_model.dart';
 import 'package:petapp_mobile/services/post_services.dart';
 import 'package:petapp_mobile/services/transaction_fees_services.dart';
 import 'package:petapp_mobile/views/customer/update_sale_post_page/widgets/body_widget.dart';
@@ -17,7 +13,7 @@ import 'package:petapp_mobile/views/customer/update_sale_post_page/widgets/pet_f
 import 'package:petapp_mobile/views/customer/update_sale_post_page/widgets/popup_widget.dart';
 import 'package:petapp_mobile/views/customer/update_sale_post_page/widgets/sale_transaction_fees.dart';
 import 'package:petapp_mobile/views/customer/update_sale_post_page/widgets/select_pet_widget.dart';
-import 'package:petapp_mobile/views/customer/update_sale_post_page/widgets/selecte_branch_widget.dart';
+import 'package:petapp_mobile/views/customer/update_sale_post_page/widgets/select_branch_widget.dart';
 import 'package:petapp_mobile/views/customer/update_sale_post_page/widgets/top_widget.dart';
 
 class UpdateSalePostPage extends GetView<UpdateSalePostPageController> {

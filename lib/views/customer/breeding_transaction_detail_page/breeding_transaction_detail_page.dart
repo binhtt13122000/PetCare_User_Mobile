@@ -38,11 +38,9 @@ class BreedingTransactionDetailPage
                 const BreedingTransactionDetailTopWidget(),
                 Obx(
                   () => controller.isLoading.value
-                      ? Expanded(
-                          child: Container(
-                            color: const Color.fromARGB(106, 198, 188, 201),
-                            alignment: Alignment.center,
-                            child: const SpinKitSpinningLines(
+                      ? const Expanded(
+                          child: Center(
+                            child: SpinKitSpinningLines(
                               color: PRIMARY_COLOR,
                               size: 150,
                             ),

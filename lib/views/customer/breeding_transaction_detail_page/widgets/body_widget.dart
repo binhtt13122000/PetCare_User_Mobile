@@ -25,7 +25,15 @@ class BreedingTransactionDetailBodyWidget
             children: [
               breedingTransactionInformationWidget(),
               //saleTransactionStatusWidget(),
-              petInformationWidget(),
+              malePetInformationWidget(),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 25),
+                child: Container(
+                  height: 1,
+                  color: LIGHT_GREY_COLOR.withOpacity(0.1),
+                ),
+              ),
+              femalePetInformationWidget(),
               Container(
                 height: 1,
                 color: LIGHT_GREY_COLOR.withOpacity(0.1),
@@ -412,7 +420,7 @@ class BreedingTransactionDetailBodyWidget
   //                       color: controller.saleTransactionModel.status ==
   //                                   'RECEIVED' ||
   //                               controller.saleTransactionModel.status ==
-  //                                   'PAYMENTED'
+  //                                   'Payment'
   //                           ? PRIMARY_COLOR
   //                           : PRIMARY_COLOR.withAlpha(100),
   //                     ),
@@ -420,13 +428,13 @@ class BreedingTransactionDetailBodyWidget
   //                 radius: 8,
   //                 backgroundColor: controller.saleTransactionModel.status ==
   //                             'RECEIVED' ||
-  //                         controller.saleTransactionModel.status == 'PAYMENTED'
+  //                         controller.saleTransactionModel.status == 'Payment'
   //                     ? PRIMARY_COLOR
   //                     : PRIMARY_COLOR.withAlpha(100),
   //                 child: Icon(
   //                   controller.saleTransactionModel.status == 'RECEIVED' ||
   //                           controller.saleTransactionModel.status ==
-  //                               'PAYMENTED'
+  //                               'Payment'
   //                       ? Icons.check_circle_outline_rounded
   //                       : Icons.remove_circle_outline,
   //                   color: WHITE_COLOR,
@@ -456,7 +464,7 @@ class BreedingTransactionDetailBodyWidget
   //               ),
   //               SizedBox(
   //                 child: Text(
-  //                   'Pet available to recive',
+  //                   'Pet available to receive',
   //                   style: GoogleFonts.quicksand(
   //                     fontSize: 14,
   //                     fontWeight: FontWeight.w500,
@@ -472,14 +480,14 @@ class BreedingTransactionDetailBodyWidget
   //               ),
   //               SizedBox(
   //                 child: Text(
-  //                   'Paymented and recieved pet',
+  //                   'Payment and received pet',
   //                   style: GoogleFonts.quicksand(
   //                     fontSize: 14,
   //                     fontWeight: FontWeight.w500,
   //                     color: controller.saleTransactionModel.status ==
   //                                 'RECEIVED' ||
   //                             controller.saleTransactionModel.status ==
-  //                                 'PAYMENTED'
+  //                                 'Payment'
   //                         ? PRIMARY_COLOR
   //                         : PRIMARY_COLOR.withAlpha(160),
   //                   ),
@@ -584,11 +592,11 @@ class BreedingTransactionDetailBodyWidget
                     ),
                   ),
                   Text(
-                    'Purchase',
+                    '[BREEDING]',
                     style: GoogleFonts.quicksand(
                       fontSize: 15,
                       fontWeight: FontWeight.w500,
-                      color: const Color.fromARGB(255, 77, 82, 105),
+                      color: PINK_COLOR,
                       letterSpacing: 0.5,
                     ),
                   ),
@@ -751,75 +759,12 @@ class BreedingTransactionDetailBodyWidget
                     ),
                   ),
                   Text(
-                    controller.breedingTransactionModel.placeMeeting ?? '',
+                    controller.breedingTransactionModel.placeMeeting,
                     style: GoogleFonts.quicksand(
                       fontSize: 15,
                       fontWeight: FontWeight.w500,
                       color: const Color.fromARGB(255, 77, 82, 105),
                       letterSpacing: 0.5,
-                    ),
-                  ),
-                ],
-              ),
-              Container(
-                margin: const EdgeInsets.symmetric(
-                  vertical: 5,
-                  horizontal: 15,
-                ),
-                height: 1,
-                color: DARK_GREY_COLOR.withAlpha(50),
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    'Deposits time',
-                    style: GoogleFonts.quicksand(
-                      fontSize: 15,
-                      fontWeight: FontWeight.w500,
-                      color: const Color.fromARGB(255, 77, 82, 105),
-                      letterSpacing: 0.5,
-                    ),
-                  ),
-                  Text(
-                    'N/A',
-                    style: GoogleFonts.quicksand(
-                      fontSize: 15,
-                      fontWeight: FontWeight.w500,
-                      color: const Color.fromARGB(255, 77, 82, 105),
-                      letterSpacing: 0.5,
-                    ),
-                  ),
-                ],
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Row(
-                    children: [
-                      Text(
-                        'Deposits',
-                        style: GoogleFonts.quicksand(
-                          fontSize: 15,
-                          fontWeight: FontWeight.w500,
-                          color: const Color.fromARGB(255, 77, 82, 105),
-                          letterSpacing: 0.5,
-                        ),
-                      ),
-                      Icon(
-                        Icons.info_outline_rounded,
-                        size: 15,
-                        color: DARK_GREY_COLOR.withAlpha(100),
-                      ),
-                    ],
-                  ),
-                  Text(
-                    FORMAT_MONEY(price: 0),
-                    style: GoogleFonts.quicksand(
-                      fontSize: 15,
-                      fontWeight: FontWeight.w500,
-                      letterSpacing: 0.5,
-                      color: PRIMARY_COLOR,
                     ),
                   ),
                 ],
@@ -972,8 +917,7 @@ class BreedingTransactionDetailBodyWidget
         ),
         onRatingUpdate: (_) {},
       );
-
-  Widget petInformationWidget() => Container(
+  Widget femalePetInformationWidget() => Container(
         color: WHITE_COLOR,
         padding: const EdgeInsets.symmetric(
           vertical: 15,
@@ -982,16 +926,151 @@ class BreedingTransactionDetailBodyWidget
         child: Row(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            // Padding(
-            //   padding: const EdgeInsets.only(right: 20),
-            //   child: CircleAvatar(
-            //     radius: 30,
-            //     backgroundImage: NetworkImage(
-            //       controller
-            //           .saleTransactionModel.postModel!.mediaModels![0].url,
-            //     ),
-            //   ),
-            // ),
+            Padding(
+              padding: const EdgeInsets.only(right: 20),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(5),
+                child: Image.network(
+                  controller
+                      .breedingTransactionModel.postModel!.mediaModels![0].url,
+                  fit: BoxFit.cover,
+                  height: 60,
+                  width: 60,
+                ),
+              ),
+            ),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        'Pet name',
+                        style: GoogleFonts.quicksand(
+                          fontSize: 17,
+                          color: const Color.fromARGB(255, 100, 107, 133),
+                          fontWeight: FontWeight.w500,
+                          letterSpacing: 1,
+                        ),
+                      ),
+                      Text(
+                        controller.breedingTransactionModel.malePetModel.name,
+                        style: GoogleFonts.quicksand(
+                          fontSize: 17,
+                          color: const Color.fromARGB(255, 77, 82, 105),
+                          fontWeight: FontWeight.w500,
+                          letterSpacing: 1,
+                        ),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        'Breed',
+                        style: GoogleFonts.quicksand(
+                          fontSize: 15,
+                          color: const Color.fromARGB(255, 100, 107, 133),
+                          fontWeight: FontWeight.w500,
+                          letterSpacing: 1,
+                        ),
+                      ),
+                      Text(
+                        controller.breedingTransactionModel.malePetModel
+                                .breedModel!.name +
+                            ' - ' +
+                            controller.breedingTransactionModel.malePetModel
+                                .breedModel!.speciesModel!.name,
+                        style: GoogleFonts.quicksand(
+                          fontSize: 15,
+                          color: const Color.fromARGB(255, 77, 82, 105),
+                          fontWeight: FontWeight.w500,
+                          letterSpacing: 1,
+                        ),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        'Gender',
+                        style: GoogleFonts.quicksand(
+                          fontSize: 15,
+                          color: const Color.fromARGB(255, 100, 107, 133),
+                          fontWeight: FontWeight.w500,
+                          letterSpacing: 1,
+                        ),
+                      ),
+                      Row(
+                        children: [
+                          SvgPicture.asset(
+                            controller.breedingTransactionModel.malePetModel
+                                        .gender ==
+                                    'MALE'
+                                ? ICON_PATH + MALE_SVG
+                                : ICON_PATH + FEMALE_SVG,
+                            color: controller.breedingTransactionModel
+                                        .malePetModel.gender ==
+                                    'MALE'
+                                ? const Color.fromARGB(255, 39, 111, 245)
+                                : const Color.fromARGB(255, 244, 55, 165),
+                            height: 10,
+                          ),
+                          const SizedBox(
+                            width: 2,
+                          ),
+                          Text(
+                            controller
+                                .breedingTransactionModel.malePetModel.gender,
+                            style: GoogleFonts.quicksand(
+                              fontSize: 15,
+                              color: controller.breedingTransactionModel
+                                          .malePetModel.gender ==
+                                      'MALE'
+                                  ? const Color.fromARGB(255, 39, 111, 245)
+                                  : const Color.fromARGB(255, 244, 55, 165),
+                              fontWeight: FontWeight.w500,
+                              letterSpacing: 1,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      );
+
+  Widget malePetInformationWidget() => Container(
+        color: WHITE_COLOR,
+        padding: const EdgeInsets.symmetric(
+          vertical: 15,
+          horizontal: 20,
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(right: 20),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(5),
+                child: Image.network(
+                  controller
+                      .breedingTransactionModel.postModel!.mediaModels![0].url,
+                  fit: BoxFit.cover,
+                  height: 60,
+                  width: 60,
+                ),
+              ),
+            ),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,

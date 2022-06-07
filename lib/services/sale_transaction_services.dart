@@ -63,7 +63,6 @@ class SaleTransactionService {
         // return jsonDecode(response.body)['data']['id'];
         return json.decode(response.body)['data']['id'];
       default:
-        print(response.body);
         throw Exception(
             'Error ${response.statusCode}, cannot create transaction');
     }
@@ -113,7 +112,6 @@ class SaleTransactionService {
       case 202:
         return json.decode(response.body)['data']['id'];
       default:
-        print(response.body);
         throw Exception(
             'Error ${response.statusCode}, cannot create transaction');
     }
@@ -140,7 +138,6 @@ class SaleTransactionService {
       'point': transactionTotal ~/ 1000,
       'message': 'Thank for your payment!'
     });
-    print(jsonBody);
     final response = await http.post(
       Uri.http(
           API_SERVER_PATH, 'v1/api/sale-transactions/payment', queryParameters),
@@ -153,10 +150,8 @@ class SaleTransactionService {
       case 200:
       case 201:
       case 202:
-        print(jsonDecode(response.body));
         return jsonDecode(response.body)['data']['url'];
       default:
-        print(response.body);
         throw Exception('Error ${response.statusCode}, cannot payment');
     }
   }

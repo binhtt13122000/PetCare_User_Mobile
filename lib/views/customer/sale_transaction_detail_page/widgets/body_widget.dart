@@ -576,11 +576,11 @@ class SaleTransactionDetailBodyWidget
                     ),
                   ),
                   Text(
-                    'Purchase',
+                    '[SALE]',
                     style: GoogleFonts.quicksand(
                       fontSize: 15,
                       fontWeight: FontWeight.w500,
-                      color: const Color.fromARGB(255, 77, 82, 105),
+                      color: BLUE_COLOR,
                       letterSpacing: 0.5,
                     ),
                   ),
@@ -762,69 +762,6 @@ class SaleTransactionDetailBodyWidget
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    'Deposits time',
-                    style: GoogleFonts.quicksand(
-                      fontSize: 15,
-                      fontWeight: FontWeight.w500,
-                      color: const Color.fromARGB(255, 77, 82, 105),
-                      letterSpacing: 0.5,
-                    ),
-                  ),
-                  Text(
-                    'N/A',
-                    style: GoogleFonts.quicksand(
-                      fontSize: 15,
-                      fontWeight: FontWeight.w500,
-                      color: const Color.fromARGB(255, 77, 82, 105),
-                      letterSpacing: 0.5,
-                    ),
-                  ),
-                ],
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Row(
-                    children: [
-                      Text(
-                        'Deposits',
-                        style: GoogleFonts.quicksand(
-                          fontSize: 15,
-                          fontWeight: FontWeight.w500,
-                          color: const Color.fromARGB(255, 77, 82, 105),
-                          letterSpacing: 0.5,
-                        ),
-                      ),
-                      Icon(
-                        Icons.info_outline_rounded,
-                        size: 15,
-                        color: DARK_GREY_COLOR.withAlpha(100),
-                      ),
-                    ],
-                  ),
-                  Text(
-                    FORMAT_MONEY(price: 0),
-                    style: GoogleFonts.quicksand(
-                      fontSize: 15,
-                      fontWeight: FontWeight.w500,
-                      letterSpacing: 0.5,
-                      color: PRIMARY_COLOR,
-                    ),
-                  ),
-                ],
-              ),
-              Container(
-                margin: const EdgeInsets.symmetric(
-                  vertical: 5,
-                  horizontal: 15,
-                ),
-                height: 1,
-                color: DARK_GREY_COLOR.withAlpha(50),
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
                     controller.saleTransactionModel.buyerId ==
                             controller.accountModel.customerModel.id
                         ? 'Payment time'
@@ -971,16 +908,19 @@ class SaleTransactionDetailBodyWidget
         child: Row(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            // Padding(
-            //   padding: const EdgeInsets.only(right: 20),
-            //   child: CircleAvatar(
-            //     radius: 30,
-            //     backgroundImage: NetworkImage(
-            //       controller
-            //           .saleTransactionModel.postModel!.mediaModels![0].url,
-            //     ),
-            //   ),
-            // ),
+            Padding(
+              padding: const EdgeInsets.only(right: 20),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(5),
+                child: Image.network(
+                  controller
+                      .saleTransactionModel.postModel!.mediaModels![0].url,
+                  fit: BoxFit.cover,
+                  height: 60,
+                  width: 60,
+                ),
+              ),
+            ),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,

@@ -3,7 +3,6 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:petapp_mobile/configs/theme.dart';
-import 'package:petapp_mobile/controllers/create_post_page_controller.dart';
 import 'package:petapp_mobile/controllers/update_sale_post_page_controller.dart';
 import 'package:petapp_mobile/services/branch_services.dart';
 
