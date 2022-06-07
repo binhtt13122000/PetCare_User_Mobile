@@ -5,7 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:petapp_mobile/configs/path.dart';
 import 'package:petapp_mobile/configs/theme.dart';
 import 'package:petapp_mobile/controllers/breeding_transaction_detail_page_controller.dart';
-import 'package:petapp_mobile/services/sale_transaction_services.dart';
+import 'package:petapp_mobile/services/breeding_transaction_services.dart';
 import 'package:petapp_mobile/views/widgets/customize_widget.dart';
 
 class BreedingTransactionMoreOptionWidget
@@ -268,7 +268,7 @@ class BreedingTransactionMoreOptionWidget
               }
 
               cancelContent += controller.cancelDescription.value;
-              await SaleTransactionService.updateSaleTransaction(
+              await BreedingTransactionService.updateBreedingTransaction(
                   id: controller.breedingTransactionModel.id,
                   meetingTime: controller.breedingTransactionModel.meetingTime,
                   placeMeeting:

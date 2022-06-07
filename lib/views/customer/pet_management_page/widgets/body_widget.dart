@@ -105,7 +105,7 @@ class PetsManagementBodyWidget extends GetView<PetManagementPageController> {
                     Obx(
                       () => SvgPicture.asset(
                         controller.postManagementTableHeaders['Title'] == 2
-                            ? ICON_PATH + TOPWARD_ARROW_SVG
+                            ? ICON_PATH + TOP_WARD_ARROW_SVG
                             : ICON_PATH + DOWNWARD_ARROW_SVG,
                         color:
                             controller.postManagementTableHeaders['Title'] == 0
@@ -142,7 +142,7 @@ class PetsManagementBodyWidget extends GetView<PetManagementPageController> {
                       Obx(
                         () => SvgPicture.asset(
                           controller.postManagementTableHeaders['Title'] == 2
-                              ? ICON_PATH + TOPWARD_ARROW_SVG
+                              ? ICON_PATH + TOP_WARD_ARROW_SVG
                               : ICON_PATH + DOWNWARD_ARROW_SVG,
                           color:
                               controller.postManagementTableHeaders['Title'] ==
@@ -182,7 +182,7 @@ class PetsManagementBodyWidget extends GetView<PetManagementPageController> {
                       () => SvgPicture.asset(
                         controller.postManagementTableHeaders['Create time'] ==
                                 2
-                            ? ICON_PATH + TOPWARD_ARROW_SVG
+                            ? ICON_PATH + TOP_WARD_ARROW_SVG
                             : ICON_PATH + DOWNWARD_ARROW_SVG,
                         color: controller.postManagementTableHeaders[
                                     'Create time'] ==

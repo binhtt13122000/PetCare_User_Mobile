@@ -1,19 +1,19 @@
 // ignore_for_file: constant_identifier_names
 
-//*gifs
+//*gifts
 const CRYSTAL_GIF = 'crystal.gif';
 
 //*images
 const IMAGE_PATH = 'assets/images/';
 const SWEET_HOME_PNG = 'sweet_home.png';
-const VERTERINARIAN_PNG = 'veterinarian.png';
+const VETERINARIAN_PNG = 'veterinarian.png';
 const GROOMING_PNG = 'grooming.png';
 const REPRODUCTION_PNG = 'reproduction.png';
 const BREEDING_PNG = 'breeding.png';
 const TRANSACTION_PNG = 'transaction.png';
 const DONATION_PNG = 'donation.png';
 const PET_BABY_PNG = 'pet_baby.png';
-const TRANING_PNG = 'traning.png';
+const TRAINING_PNG = 'training.png';
 const HAND_SHAKE_PNG = 'handshake.png';
 const DOG_CARTOON_PNG = 'dog_cartoon.png';
 const VIETNAM_PNG = 'vietnam.png';
@@ -32,13 +32,14 @@ const GUEST_AVATAR_PNG = 'guest_avatar.png';
 const LORETTA_PNG = 'loretta.png';
 const OTP_WALLPAPER_PNG = 'otp_wallpaper.png';
 const VNPAY_PNG = 'vnpay.png';
+const HEARTS_PNG = 'hearts.png';
 
 //*icons
 const ICON_PATH = 'assets/icons/';
 const HOME_PAGE_SVG = 'homepage.svg';
 const SETTING_SVG = 'setting.svg';
 const USER_SVG = 'user.svg';
-const SUPPROT_SVG = 'support.svg';
+const SUPPORT_SVG = 'support.svg';
 const HISTORY_SVG = 'history.svg';
 const GALLERY_SVG = 'gallery.svg';
 const CAMERA_SVG = 'camera.svg';
@@ -53,7 +54,7 @@ const MALE_SVG = 'male.svg';
 const FEMALE_SVG = 'female.svg';
 const PET_LOGO_SVG = 'pet_logo.svg';
 const BOOKMARK_SVG = 'bookmark.svg';
-const TOPWARD_ARROW_SVG = 'topward_arrow.svg';
+const TOP_WARD_ARROW_SVG = 'top_ward_arrow.svg';
 const FILTER_SVG = 'filter.svg';
 const SORT_SVG = 'sort.svg';
 const NOTIFICATION_SVG = 'notification.svg';
@@ -106,6 +107,8 @@ const SALE_TRANSACTION_API_PATH = '/v1/api/sale-transactions';
 const BREEDING_TRANSACTION_RETURN_API_PATH =
     '/v1/api/breed-transactions/vnpay/vnpay_return';
 const BREEDING_TRANSACTION_API_PATH = '/v1/api/breed-transactions';
+const BREEDING_TRANSACTION_PAYMENT_API_PATH =
+    '/v1/api/breed-transactions/payment';
 
 //*pet
 const PET_TO_CREATE_POST_API_PATH = '/v1/api/pets/fetch-pet';

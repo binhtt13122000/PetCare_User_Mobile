@@ -10,7 +10,7 @@ class HomePageController extends GetxController {
   late RxInt selectedServiceIndex;
   List<ServiceModel> services = List.empty(growable: true);
   //List<PurchasePostModel> purchasePosts = List.empty(growable: true);
-  List<PostModel> postList= List.empty(growable: true);
+  List<PostModel> postList = List.empty(growable: true);
   RxBool isLoading = false.obs;
   HomePageController() {
     services.add(
@@ -25,7 +25,7 @@ class HomePageController extends GetxController {
       ServiceModel(
           id: 2,
           name: 'Veterinary',
-          imageUrl: IMAGE_PATH + VERTERINARIAN_PNG,
+          imageUrl: IMAGE_PATH + VETERINARIAN_PNG,
           description: 'description',
           status: 1),
     );
@@ -49,7 +49,7 @@ class HomePageController extends GetxController {
       ServiceModel(
           id: 5,
           name: 'Traning',
-          imageUrl: IMAGE_PATH + TRANING_PNG,
+          imageUrl: IMAGE_PATH + TRAINING_PNG,
           description: 'description',
           status: 1),
     );

@@ -67,7 +67,7 @@ class BreedingTransactionService {
     }
   }
 
-  static Future<int> updateSaleTransaction({
+  static Future<int> updateBreedingTransaction({
     required int id,
     required DateTime meetingTime,
     required String placeMeeting,
@@ -84,7 +84,7 @@ class BreedingTransactionService {
     String? message,
   }) async {
     final response = await http.put(
-      Uri.http(API_SERVER_PATH, SALE_TRANSACTION_API_PATH),
+      Uri.http(API_SERVER_PATH, BREEDING_TRANSACTION_API_PATH),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -127,7 +127,8 @@ class BreedingTransactionService {
     final queryParameters = {
       'message': message ?? '',
       'locale': locale,
-      'returnUrl': 'http://$API_SERVER_PATH$SALE_TRANSACTION_RETURN_API_PATH'
+      'returnUrl':
+          'http://$API_SERVER_PATH$BREEDING_TRANSACTION_RETURN_API_PATH'
     };
     String jsonBody = jsonEncode({
       'id': id,
@@ -138,8 +139,8 @@ class BreedingTransactionService {
       'message': 'Thank for your payment!'
     });
     final response = await http.post(
-      Uri.http(
-          API_SERVER_PATH, 'v1/api/sale-transactions/payment', queryParameters),
+      Uri.http(API_SERVER_PATH, BREEDING_TRANSACTION_PAYMENT_API_PATH,
+          queryParameters),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },

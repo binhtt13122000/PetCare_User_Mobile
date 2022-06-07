@@ -25,15 +25,7 @@ class BreedingTransactionDetailBodyWidget
             children: [
               breedingTransactionInformationWidget(),
               //saleTransactionStatusWidget(),
-              malePetInformationWidget(),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 25),
-                child: Container(
-                  height: 1,
-                  color: LIGHT_GREY_COLOR.withOpacity(0.1),
-                ),
-              ),
-              femalePetInformationWidget(),
+              petInformation(),
               Container(
                 height: 1,
                 color: LIGHT_GREY_COLOR.withOpacity(0.1),
@@ -49,6 +41,34 @@ class BreedingTransactionDetailBodyWidget
       ),
     );
   }
+
+  Widget petInformation() => Stack(
+        children: [
+          Column(
+            children: [
+              malePetInformationWidget(),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 25),
+                child: Container(
+                  height: 1,
+                  color: LIGHT_GREY_COLOR.withOpacity(0.1),
+                ),
+              ),
+              femalePetInformationWidget(),
+            ],
+          ),
+          SizedBox(
+            height: 180,
+            child: Center(
+              child: Image.asset(
+                IMAGE_PATH + HEARTS_PNG,
+                height: 40,
+                fit: BoxFit.cover,
+              ),
+            ),
+          ),
+        ],
+      );
 
   Widget saleTransactionPriceWidget({required double width}) => Stack(
         children: [
@@ -917,6 +937,7 @@ class BreedingTransactionDetailBodyWidget
         ),
         onRatingUpdate: (_) {},
       );
+
   Widget femalePetInformationWidget() => Container(
         color: WHITE_COLOR,
         padding: const EdgeInsets.symmetric(
@@ -931,8 +952,7 @@ class BreedingTransactionDetailBodyWidget
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(5),
                 child: Image.network(
-                  controller
-                      .breedingTransactionModel.postModel!.mediaModels![0].url,
+                  controller.breedingTransactionModel.femalePetModel.avatar,
                   fit: BoxFit.cover,
                   height: 60,
                   width: 60,
@@ -957,7 +977,7 @@ class BreedingTransactionDetailBodyWidget
                         ),
                       ),
                       Text(
-                        controller.breedingTransactionModel.malePetModel.name,
+                        controller.breedingTransactionModel.femalePetModel.name,
                         style: GoogleFonts.quicksand(
                           fontSize: 17,
                           color: const Color.fromARGB(255, 77, 82, 105),
@@ -980,10 +1000,10 @@ class BreedingTransactionDetailBodyWidget
                         ),
                       ),
                       Text(
-                        controller.breedingTransactionModel.malePetModel
+                        controller.breedingTransactionModel.femalePetModel
                                 .breedModel!.name +
                             ' - ' +
-                            controller.breedingTransactionModel.malePetModel
+                            controller.breedingTransactionModel.femalePetModel
                                 .breedModel!.speciesModel!.name,
                         style: GoogleFonts.quicksand(
                           fontSize: 15,
@@ -1009,13 +1029,13 @@ class BreedingTransactionDetailBodyWidget
                       Row(
                         children: [
                           SvgPicture.asset(
-                            controller.breedingTransactionModel.malePetModel
+                            controller.breedingTransactionModel.femalePetModel
                                         .gender ==
                                     'MALE'
                                 ? ICON_PATH + MALE_SVG
                                 : ICON_PATH + FEMALE_SVG,
                             color: controller.breedingTransactionModel
-                                        .malePetModel.gender ==
+                                        .femalePetModel.gender ==
                                     'MALE'
                                 ? const Color.fromARGB(255, 39, 111, 245)
                                 : const Color.fromARGB(255, 244, 55, 165),
@@ -1026,11 +1046,11 @@ class BreedingTransactionDetailBodyWidget
                           ),
                           Text(
                             controller
-                                .breedingTransactionModel.malePetModel.gender,
+                                .breedingTransactionModel.femalePetModel.gender,
                             style: GoogleFonts.quicksand(
                               fontSize: 15,
                               color: controller.breedingTransactionModel
-                                          .malePetModel.gender ==
+                                          .femalePetModel.gender ==
                                       'MALE'
                                   ? const Color.fromARGB(255, 39, 111, 245)
                                   : const Color.fromARGB(255, 244, 55, 165),

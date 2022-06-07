@@ -6,7 +6,7 @@ import 'package:petapp_mobile/configs/path.dart';
 import 'package:petapp_mobile/configs/route.dart';
 import 'package:petapp_mobile/configs/theme.dart';
 import 'package:petapp_mobile/controllers/breeding_transaction_detail_page_controller.dart';
-import 'package:petapp_mobile/services/sale_transaction_services.dart';
+import 'package:petapp_mobile/services/breeding_transaction_services.dart';
 import 'package:petapp_mobile/utilities/utilities.dart';
 import 'package:petapp_mobile/views/widgets/customize_widget.dart';
 
@@ -175,15 +175,16 @@ class BreedingTransactionDetailBottomWidget
             padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
             child: InkWell(
               onTap: () async {
-                controller.paymentUrl.value = await SaleTransactionService.payment(
-                    id: controller.breedingTransactionModel.id,
-                    transactionTime: DateTime.now(),
-                    transactionTotal:
-                        controller.breedingTransactionModel.transactionTotal,
-                    locale: 'vi',
-                    paymentMethod: 'VNPAY',
-                    message:
-                        'Customer #0${controller.accountModel.customerModel.id} payment for sale transaction #0${controller.breedingTransactionModel.id}');
+                controller.paymentUrl.value =
+                    await BreedingTransactionService.payment(
+                        id: controller.breedingTransactionModel.id,
+                        transactionTime: DateTime.now(),
+                        transactionTotal: controller
+                            .breedingTransactionModel.transactionTotal,
+                        locale: 'vi',
+                        paymentMethod: 'VNPAY',
+                        message:
+                            'Customer #0${controller.accountModel.customerModel.id} payment for breeding transaction #0${controller.breedingTransactionModel.id}');
               },
               child: Container(
                 height: 45,
