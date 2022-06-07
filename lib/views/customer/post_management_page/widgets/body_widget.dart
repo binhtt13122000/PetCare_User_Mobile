@@ -109,7 +109,7 @@ class PostsManagementBodyWidget extends GetView<PostManagementPageController> {
                     Obx(
                       () => SvgPicture.asset(
                         controller.postManagementTableHeaders['Title'] == 2
-                            ? ICON_PATH + TOPWARD_ARROW_SVG
+                            ? ICON_PATH + TOP_WARD_ARROW_SVG
                             : ICON_PATH + DOWNWARD_ARROW_SVG,
                         color:
                             controller.postManagementTableHeaders['Title'] == 0
@@ -146,7 +146,7 @@ class PostsManagementBodyWidget extends GetView<PostManagementPageController> {
                     Obx(
                       () => SvgPicture.asset(
                         controller.postManagementTableHeaders['Title'] == 2
-                            ? ICON_PATH + TOPWARD_ARROW_SVG
+                            ? ICON_PATH + TOP_WARD_ARROW_SVG
                             : ICON_PATH + DOWNWARD_ARROW_SVG,
                         color:
                             controller.postManagementTableHeaders['Title'] == 0
@@ -184,7 +184,7 @@ class PostsManagementBodyWidget extends GetView<PostManagementPageController> {
                       () => SvgPicture.asset(
                         controller.postManagementTableHeaders['Create time'] ==
                                 2
-                            ? ICON_PATH + TOPWARD_ARROW_SVG
+                            ? ICON_PATH + TOP_WARD_ARROW_SVG
                             : ICON_PATH + DOWNWARD_ARROW_SVG,
                         color: controller.postManagementTableHeaders[
                                     'Create time'] ==

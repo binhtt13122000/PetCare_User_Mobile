@@ -5,7 +5,6 @@ import 'package:get/get.dart';
 import 'package:petapp_mobile/configs/path.dart';
 import 'package:petapp_mobile/configs/theme.dart';
 import 'package:petapp_mobile/controllers/breeding_transaction_detail_page_controller.dart';
-import 'package:petapp_mobile/controllers/sale_transaction_detail_page_controller.dart';
 
 class BreedingTransactionDetailWebViewWidget
     extends GetView<BreedingTransactionDetailPageController> {
@@ -30,8 +29,8 @@ class BreedingTransactionDetailWebViewWidget
                       url: Uri.parse(controller.paymentUrl.value),
                     ),
                     onLoadStart: (InAppWebViewController controller, Uri? uri) {
-                      if (uri!.path == SALE_TRANSACTION_RETURN_API_PATH) {
-                        Get.find<SaleTransactionDetailPageController>()
+                      if (uri!.path == BREEDING_TRANSACTION_RETURN_API_PATH) {
+                        Get.find<BreedingTransactionDetailPageController>()
                           ..update()
                           ..paymentUrl.value = ''
                           ..isShowPopup.value = true;
