@@ -54,19 +54,28 @@ class PetDetailInformationWidget extends GetView<PetDetailPageController> {
               ),
               textCardWidget(
                 keyText: 'Color',
-                valueText: controller.petModel.color ?? 'N/A',
+                valueText: controller.petModel.color != null &&
+                        controller.petModel.color!.isNotEmpty
+                    ? controller.petModel.color!
+                    : 'N/A',
               ),
               textCardWidget(
                 keyText: 'Fertility',
                 valueText: controller.petModel.isFertility ? 'YES' : 'NO',
               ),
               textCardWidget(
-                keyText: 'Vaccination information',
-                valueText: controller.petModel.vaccineDescription ?? 'N/A',
+                keyText: 'Vaccinations',
+                valueText: controller.petModel.vaccineDescription != null &&
+                        controller.petModel.vaccineDescription!.isNotEmpty
+                    ? controller.petModel.vaccineDescription!
+                    : 'N/A',
               ),
               textCardWidget(
                 keyText: 'Special markings',
-                valueText: controller.petModel.specialMarkings ?? 'N/A',
+                valueText: controller.petModel.specialMarkings != null &&
+                        controller.petModel.specialMarkings!.isNotEmpty
+                    ? controller.petModel.specialMarkings!
+                    : 'N/A',
               ),
               descriptionCardWidget(),
             ],
@@ -215,14 +224,10 @@ class PetDetailInformationWidget extends GetView<PetDetailPageController> {
                 color: const Color.fromARGB(255, 86, 104, 126),
               ),
             ),
-            Text(
+            CUSTOM_TEXT(
               valueText,
-              style: GoogleFonts.quicksand(
-                fontSize: 15,
-                fontWeight: FontWeight.w600,
-                color: const Color.fromARGB(255, 86, 104, 126),
-              ),
-            ),
+              fontSize: 15,
+            )
           ],
         ),
       );

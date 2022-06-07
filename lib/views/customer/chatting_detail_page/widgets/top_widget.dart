@@ -7,6 +7,7 @@ import 'package:petapp_mobile/configs/route.dart';
 import 'package:petapp_mobile/configs/theme.dart';
 import 'package:petapp_mobile/controllers/chatting_detail_page_controller.dart';
 import 'package:petapp_mobile/controllers/chatting_list_page_controller.dart';
+import 'package:petapp_mobile/controllers/post_detail_page_controller.dart';
 import 'package:petapp_mobile/utilities/utilities.dart';
 
 class ChattingDetailTopWidget extends GetView<ChattingDetailPageController> {
@@ -84,6 +85,7 @@ class ChattingDetailTopWidget extends GetView<ChattingDetailPageController> {
                           letterSpacing: 0.5,
                         ),
                       ),
+                      const SizedBox(width: 10),
                       Text(
                         'Price: ${FORMAT_MONEY(price: controller.postModel.provisionalTotal)}',
                         textAlign: TextAlign.start,
@@ -376,7 +378,7 @@ class ChattingDetailTopWidget extends GetView<ChattingDetailPageController> {
         ),
       );
 
-  Widget denineRequestWidget() => InkWell(
+  Widget denyRequestWidget() => InkWell(
         onTap: () => Get.back(),
         child: Container(
           height: 35,
@@ -481,13 +483,10 @@ class ChattingDetailTopWidget extends GetView<ChattingDetailPageController> {
                     ? controller.socket
                         .emit('leaveRoom', controller.chatRoomModel!.id)
                     : null;
-                Get.back();
-                try {
-                  Get.put(ChattingListPageController());
-                  Get.find<ChattingListPageController>().update();
-                } on Exception catch (e) {
-                  print(e);
-                }
+                Get
+                  ..back()
+                  ..put(ChattingListPageController()).update()
+                  ..put(PostDetailPageController()).update();
               },
               child: Container(
                 height: 35,

@@ -281,6 +281,7 @@ class ProfilePageTopWidget extends GetView<ProfilePageController> {
               itemSize: 20,
               allowHalfRating: false,
               unratedColor: Colors.amber.withOpacity(0.2),
+              ignoreGestures: true,
               itemBuilder: (context, index) => const Icon(
                 Icons.star_rate_rounded,
                 color: Color.fromARGB(255, 255, 211, 78),

@@ -181,8 +181,8 @@ class ChattingDetailBodyWidget extends GetView<ChattingDetailPageController> {
                             (controller.chatRoomModel == null ||
                                     controller.accountModel.customerModel.id ==
                                         controller.chatRoomModel!.buyerId)
-                                ? ' - Buyer '
-                                : ' - Seller',
+                                ? ' - You (Buyer)'
+                                : ' - You (Seller)',
                             textAlign: TextAlign.start,
                             overflow: TextOverflow.clip,
                             style: GoogleFonts.quicksand(
@@ -279,8 +279,8 @@ class ChattingDetailBodyWidget extends GetView<ChattingDetailPageController> {
                             !(controller.chatRoomModel == null ||
                                     controller.accountModel.customerModel.id ==
                                         controller.chatRoomModel!.buyerId)
-                                ? 'Buyer - '
-                                : 'Seller - ',
+                                ? '${controller.anotherChatRoomMember.firstName} ${controller.anotherChatRoomMember.lastName} (Buyer) - '
+                                : '${controller.anotherChatRoomMember.firstName} ${controller.anotherChatRoomMember.lastName} (Seller) - ',
                             textAlign: TextAlign.start,
                             overflow: TextOverflow.clip,
                             style: GoogleFonts.quicksand(

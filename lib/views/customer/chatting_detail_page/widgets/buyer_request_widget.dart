@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -6,6 +7,7 @@ import 'package:petapp_mobile/configs/path.dart';
 import 'package:petapp_mobile/configs/theme.dart';
 import 'package:petapp_mobile/controllers/chatting_detail_page_controller.dart';
 import 'package:petapp_mobile/services/breeding_transaction_services.dart';
+import 'package:petapp_mobile/services/pet_services.dart';
 import 'package:petapp_mobile/services/sale_transaction_services.dart';
 import 'package:petapp_mobile/utilities/utilities.dart';
 
@@ -27,34 +29,65 @@ class BuyerRequestWidget extends GetView<ChattingDetailPageController> {
                       onTap: () {},
                       child: Container(
                         width: 300,
-                        height: 510,
+                        height: controller.chatRoomModel!.type == 'BREED'
+                            ? 610
+                            : 510,
                         padding: const EdgeInsets.symmetric(
                             horizontal: 12, vertical: 12),
                         decoration: BoxDecoration(
                           color: WHITE_COLOR,
                           borderRadius: BorderRadius.circular(10),
                         ),
-                        child: Column(
-                          children: [
-                            Text(
-                              'Transaction request',
-                              textAlign: TextAlign.center,
-                              style: GoogleFonts.quicksand(
-                                color: PRIMARY_COLOR,
-                                fontSize: 16,
-                                fontWeight: FontWeight.w700,
-                                letterSpacing: 1,
-                              ),
-                            ),
-                            transactionTimeWidget(),
-                            transactionLocationWidget(
-                                ownerAddress: controller
-                                    .accountModel.customerModel.address!),
-                            descriptionWidget(),
-                            acceptBuyerRequestWidget(),
-                            denyBuyerRequestWidget(),
-                          ],
-                        ),
+                        child: GetBuilder<ChattingDetailPageController>(
+                            builder: (_) {
+                          if (controller.chatRoomModel!.type == 'BREED') {
+                            controller.isShowLoadingPet.value = true;
+
+                            WidgetsBinding.instance!
+                                .addPostFrameCallback((_) async {
+                              controller
+                                ..femalePet = await PetService.fetchPetById(
+                                    petId: controller.chatRoomModel!.petId!
+                                        .toString())
+                                ..isShowLoadingPet.value = false;
+                            });
+                          }
+
+                          return Obx(
+                            () => controller.isShowLoadingPet.value
+                                ? const SpinKitSpinningLines(
+                                    color: PRIMARY_COLOR,
+                                    size: 150,
+                                  )
+                                : Column(
+                                    children: [
+                                      Text(
+                                        'Transaction request',
+                                        textAlign: TextAlign.center,
+                                        style: GoogleFonts.quicksand(
+                                          color: PRIMARY_COLOR,
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.w700,
+                                          letterSpacing: 1,
+                                        ),
+                                      ),
+                                      transactionTimeWidget(),
+                                      transactionLocationWidget(
+                                          ownerAddress: controller.accountModel
+                                              .customerModel.address!),
+                                      controller.chatRoomModel!.type == 'BREED'
+                                          ? buyerFemalePet()
+                                          : const SizedBox.shrink(),
+                                      controller.chatRoomModel!.type == 'BREED'
+                                          ? petItemWidget()
+                                          : const SizedBox.shrink(),
+                                      descriptionWidget(),
+                                      acceptBuyerRequestWidget(),
+                                      denyBuyerRequestWidget(),
+                                    ],
+                                  ),
+                          );
+                        }),
                       ),
                     ),
                   ),
@@ -64,6 +97,62 @@ class BuyerRequestWidget extends GetView<ChattingDetailPageController> {
           : const SizedBox.shrink(),
     );
   }
+
+  Widget buyerFemalePet() => Container(
+        padding: const EdgeInsets.only(top: 15),
+        alignment: Alignment.topLeft,
+        child: Text(
+          'Buyer female pet for breeding',
+          style: GoogleFonts.quicksand(
+            fontWeight: FontWeight.w500,
+            color: const Color.fromARGB(255, 78, 98, 124),
+            fontSize: 16,
+          ),
+        ),
+      );
+
+  Widget petItemWidget() => Container(
+        padding: const EdgeInsets.only(top: 10),
+        alignment: Alignment.center,
+        child: InkWell(
+          onTap: () {},
+          child: Container(
+            height: 50,
+            width: 200,
+            decoration: BoxDecoration(
+                borderRadius: const BorderRadius.all(
+                  Radius.circular(10),
+                ),
+                border: Border.all(color: PRIMARY_COLOR),
+                color: PRIMARY_LIGHT_COLOR.withOpacity(0.3)),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(9.8),
+                  child: Image.network(
+                    controller.femalePet.avatar,
+                    height: 50,
+                    width: 80,
+                    fit: BoxFit.cover,
+                  ),
+                ),
+                Expanded(
+                  child: Text(
+                    controller.femalePet.name,
+                    textAlign: TextAlign.center,
+                    style: GoogleFonts.quicksand(
+                      fontWeight: FontWeight.w500,
+                      color: PRIMARY_COLOR,
+                      fontSize: 16,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      );
 
   Widget acceptBuyerRequestWidget() => Padding(
         padding: const EdgeInsets.only(top: 20),
@@ -95,7 +184,7 @@ class BuyerRequestWidget extends GetView<ChattingDetailPageController> {
                     description: controller.chatRoomModel!.description ?? '',
                     ownerPetFemaleId: controller.chatRoomModel!.buyerId,
                     ownerPetMaleId: controller.chatRoomModel!.sellerId,
-                    petFemaleId: controller.postModel.petId,
+                    petFemaleId: controller.chatRoomModel!.petId!,
                     petMaleId: controller.postModel.petId,
                     postId: controller.chatRoomModel!.postId,
                     branchId: controller.postModel.branchId,

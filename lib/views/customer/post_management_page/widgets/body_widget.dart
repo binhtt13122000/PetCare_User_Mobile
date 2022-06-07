@@ -42,10 +42,8 @@ class PostsManagementBodyWidget extends GetView<PostManagementPageController> {
               });
               return Obx(
                 () => controller.isLoadingPostList.value
-                    ? Container(
-                        color: const Color.fromARGB(106, 198, 188, 201),
-                        alignment: Alignment.center,
-                        child: const SpinKitSpinningLines(
+                    ? const Center(
+                        child: SpinKitSpinningLines(
                           color: PRIMARY_COLOR,
                           size: 150,
                         ),

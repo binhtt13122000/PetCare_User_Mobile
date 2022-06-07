@@ -1,108 +1,172 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:petapp_mobile/configs/path.dart';
 import 'package:petapp_mobile/configs/theme.dart';
 import 'package:petapp_mobile/controllers/chatting_detail_page_controller.dart';
+import 'package:petapp_mobile/services/pet_services.dart';
 import 'package:petapp_mobile/utilities/utilities.dart';
+import 'package:petapp_mobile/views/customer/chatting_detail_page/widgets/pet_drop_down_list_widget.dart';
+import 'package:petapp_mobile/views/customer/chatting_detail_page/widgets/select_pet_widget.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
 class CreateRequestWidget extends GetView<ChattingDetailPageController> {
   const CreateRequestWidget({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    return Obx(
-      () => controller.isShowCreateRequest.value
-          ? Stack(
-              children: [
-                InkWell(
-                  onTap: () => controller.isShowCreateRequest.value = false,
-                  child: Container(
-                    color: const Color.fromARGB(106, 188, 196, 201),
-                    alignment: Alignment.center,
-                    child: InkWell(
-                      onTap: () {},
-                      child: Container(
-                        width: 300,
-                        height: controller.chatRoomModel!.status == 'REQUESTED'
-                            ? 520
-                            : 470,
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 12, vertical: 12),
-                        decoration: BoxDecoration(
-                          color: WHITE_COLOR,
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        child: Column(
-                          children: [
-                            Text(
-                              'Create Transaction Request',
-                              textAlign: TextAlign.center,
-                              style: GoogleFonts.quicksand(
-                                color: PRIMARY_COLOR,
-                                fontSize: 16,
-                                fontWeight: FontWeight.w700,
-                                letterSpacing: 1,
+  Widget build(BuildContext context) => Obx(() {
+        return controller.isShowCreateRequest.value
+            ? GetBuilder<ChattingDetailPageController>(builder: (_) {
+                if (controller.chatRoomModel!.type == 'BREED') {
+                  controller.isShowLoadingPet.value = true;
+
+                  WidgetsBinding.instance!.addPostFrameCallback((_) async {
+                    controller
+                      ..pets = await PetService.fetchPetListToCreatePost(
+                          customerId: controller.accountModel.customerModel.id,
+                          type: controller.chatRoomModel!.type,
+                          speciesId: controller
+                              .postModel.petModel!.breedModel!.speciesId)
+                      ..selectedPetIndex.value =
+                          controller.pets.isNotEmpty ? 0 : -1
+                      ..isShowLoadingPet.value = false;
+                  });
+                }
+                double widgetHeight =
+                    controller.chatRoomModel!.status == 'REQUESTED' ? 520 : 470;
+                widgetHeight +=
+                    controller.chatRoomModel!.type == 'BREED' ? 95 : 0;
+                return Obx(
+                  () => controller.isShowLoadingPet.value
+                      ? InkWell(
+                          onTap: () =>
+                              controller.isShowCreateRequest.value = false,
+                          child: Container(
+                            color: const Color.fromARGB(106, 188, 196, 201),
+                            alignment: Alignment.center,
+                            child: InkWell(
+                              onTap: () {},
+                              child: Container(
+                                width: 300,
+                                height: widgetHeight,
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 12, vertical: 12),
+                                decoration: BoxDecoration(
+                                  color: WHITE_COLOR,
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                child: const SpinKitSpinningLines(
+                                  color: PRIMARY_COLOR,
+                                  size: 150,
+                                ),
                               ),
                             ),
-                            transactionTimeWidget(),
-                            transactionLocationWidget(
-                                ownerAddress: controller
-                                    .accountModel.customerModel.address!),
-                            descriptionWidget(),
-                            sendRequestWidget(),
-                            cancelRequestWidget(),
+                          ),
+                        )
+                      : Stack(
+                          children: [
+                            InkWell(
+                              onTap: () =>
+                                  controller.isShowCreateRequest.value = false,
+                              child: Container(
+                                color: const Color.fromARGB(106, 188, 196, 201),
+                                alignment: Alignment.center,
+                                child: InkWell(
+                                  onTap: () {},
+                                  child: Container(
+                                    width: 300,
+                                    height: widgetHeight,
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 12, vertical: 12),
+                                    decoration: BoxDecoration(
+                                      color: WHITE_COLOR,
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
+                                    child: Column(
+                                      children: [
+                                        Text(
+                                          'Create Transaction Request',
+                                          textAlign: TextAlign.center,
+                                          style: GoogleFonts.quicksand(
+                                            color: PRIMARY_COLOR,
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.w700,
+                                            letterSpacing: 1,
+                                          ),
+                                        ),
+                                        transactionTimeWidget(),
+                                        transactionLocationWidget(
+                                            ownerAddress: controller
+                                                .accountModel
+                                                .customerModel
+                                                .address!),
+                                        const ChattingDetailSelectPetWidget(),
+                                        descriptionWidget(),
+                                        sendRequestWidget(),
+                                        cancelRequestWidget(),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            calendarWidget(),
+                            const ChattingDetailPetDropdownListWidget(),
                           ],
                         ),
-                      ),
-                    ),
-                  ),
-                ),
-                calendarWidget(),
-              ],
-            )
-          : const SizedBox.shrink(),
-    );
-  }
+                );
+              })
+            : const SizedBox.shrink();
+      });
 
   Widget sendRequestWidget() => Padding(
         padding: const EdgeInsets.only(top: 20, bottom: 10),
         child: InkWell(
           onTap: () {
-            controller.isShowCreateRequest.value = false;
-            String message = 'Transaction request - status: ' +
-                (controller.chatRoomModel!.status == 'REQUESTED'
-                    ? '[UPDATED]'
-                    : '[CREATED]') +
-                '. Transaction place: ${controller.transactionLocation.value}. Transaction time: ${FORMAT_DATE_TIME(dateTime: controller.transactionTime!, pattern: DATE_TIME_PATTERN)}. ' +
-                controller.description.value;
-            controller.chatRoomModel!
-              ..transactionPlace = controller.transactionLocation.value
-              ..transactionTime = controller.transactionTime
-              ..description = controller.description.value
-              ..status = 'REQUESTED'
-              ..isSellerMessage = false
-              ..newestMessage = message
-              ..newestMessageTime = DateTime.now();
-            Map<String, dynamic> emitJsonMap =
-                controller.chatRoomModel!.toJson();
-            emitJsonMap.addAll({
-              'message': message,
-            });
+            if (controller.transactionTimeText.value.isNotEmpty &&
+                controller.transactionLocation.value.isNotEmpty &&
+                (controller.chatRoomModel!.type == 'BREED'
+                    ? controller.selectedPetIndex.value != -1
+                    : true)) {
+              controller.isShowCreateRequest.value = false;
+              String message = 'Transaction request - status: ' +
+                  (controller.chatRoomModel!.status == 'REQUESTED'
+                      ? '[UPDATED]'
+                      : '[CREATED]') +
+                  '. Transaction place: ${controller.transactionLocation.value}. Transaction time: ${FORMAT_DATE_TIME(dateTime: controller.transactionTime!, pattern: DATE_TIME_PATTERN)}. ' +
+                  controller.description.value;
+              controller.chatRoomModel!
+                ..transactionPlace = controller.transactionLocation.value
+                ..transactionTime = controller.transactionTime
+                ..description = controller.description.value
+                ..status = 'REQUESTED'
+                ..isSellerMessage = false
+                ..newestMessage = message
+                ..newestMessageTime = DateTime.now()
+                ..petId = controller.pets[controller.selectedPetIndex.value].id;
+              Map<String, dynamic> emitJsonMap =
+                  controller.chatRoomModel!.toJson();
+              emitJsonMap.addAll({
+                'message': message,
+              });
 
-            controller.socket.emit(
-              'updateRoom',
-              emitJsonMap,
-            );
+              controller.socket.emit(
+                'updateRoom',
+                emitJsonMap,
+              );
+            }
           },
           child: Obx(
             () => Container(
               height: 35,
               decoration: BoxDecoration(
                 color: controller.transactionTimeText.value.isNotEmpty &&
-                        controller.transactionLocation.value.isNotEmpty
+                        controller.transactionLocation.value.isNotEmpty &&
+                        (controller.chatRoomModel!.type == 'BREED'
+                            ? controller.selectedPetIndex.value != -1
+                            : true)
                     ? PRIMARY_COLOR.withOpacity(0.9)
                     : PRIMARY_COLOR.withOpacity(0.5),
                 borderRadius: BorderRadius.circular(100),

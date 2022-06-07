@@ -39,7 +39,7 @@ class PetService {
   }
 
   static Future<List<PetModel>> fetchPetListToCreatePost(
-      int customerId, int? speciesId) async {
+      {required int customerId, int? speciesId, required String type}) async {
     Map<String, String> parameters = {
       'customerId': customerId.toString(),
       'speciesId': speciesId != null ? speciesId.toString() : "",

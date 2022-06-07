@@ -23,15 +23,16 @@ class PostDetailPage extends GetView<PostDetailPageController> {
 
             WidgetsBinding.instance!.addPostFrameCallback((_) async {
               controller.postModel = await PostService.fetchPostById(
-                  postId: int.parse(Get.parameters['postId'].toString()));
+                  postId: Get.parameters['postId'] != null
+                      ? int.parse(Get.parameters['postId'].toString())
+                      : controller.postModel.id);
               controller.isShowLoadingPost.value = false;
             });
 
             return Obx(
               () => controller.isShowLoadingPost.value
-                  ? Container(
-                      color: const Color.fromARGB(75, 249, 236, 253),
-                      child: const SpinKitSpinningLines(
+                  ? const Center(
+                      child: SpinKitSpinningLines(
                         color: PRIMARY_COLOR,
                         size: 150,
                       ),
