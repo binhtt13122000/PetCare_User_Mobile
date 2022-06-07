@@ -39,10 +39,15 @@ class PetService {
   }
 
   static Future<List<PetModel>> fetchPetListToCreatePost(
-      {required int customerId, int? speciesId, required String type}) async {
-    Map<String, String> parameters = {
+      {required int customerId,
+      int? speciesId,
+      required String type,
+      String? gender}) async {
+    Map<String, String?> parameters = {
       'customerId': customerId.toString(),
       'speciesId': speciesId != null ? speciesId.toString() : "",
+      'type': type,
+      'gender': gender,
     };
     final response = await http.get(
       Uri.http(API_SERVER_PATH, '/v1/api/pets/fetch-pet', parameters),
