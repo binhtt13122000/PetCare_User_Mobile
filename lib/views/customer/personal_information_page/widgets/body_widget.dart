@@ -55,7 +55,7 @@ class PersonalInformationBodyWidget
             email: controller.email.value,
             firstName: controller.firstName.value,
             lastName: controller.lastName.value,
-            adrress: controller.address.value,
+            address: controller.address.value,
             gender: controller.selectedGender.value,
             avatarFilePath: controller.avatarFilePath.value,
             avatarFile: controller.avatarFile,

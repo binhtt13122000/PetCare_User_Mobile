@@ -186,6 +186,7 @@ class PostDetailSellerInformationWidget
                   itemCount: 5,
                   itemSize: 17,
                   allowHalfRating: true,
+                  ignoreGestures: true,
                   unratedColor: Colors.amber.withOpacity(0.4),
                   itemBuilder: (context, _) => const Icon(
                     Icons.star_rate_rounded,

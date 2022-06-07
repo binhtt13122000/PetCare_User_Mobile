@@ -21,6 +21,7 @@ class ChatRoomModel {
   DateTime? sellerLastViewTime;
   DateTime? buyerLastViewTime;
   final String type;
+  int? petId;
 
   ChatRoomModel(
       {required this.id,
@@ -38,7 +39,8 @@ class ChatRoomModel {
       this.transactionId,
       this.sellerLastViewTime,
       this.buyerLastViewTime,
-      required this.type});
+      required this.type,
+      this.petId});
 
   factory ChatRoomModel.fromJson(Map<String, dynamic> json) =>
       _$ChatRoomModelFromJson(json);

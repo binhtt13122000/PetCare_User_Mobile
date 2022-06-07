@@ -27,18 +27,15 @@ class SelectPetWidget extends GetView<CreatePostPageController> {
               : null;
           controller
             ..pets = await PetService.fetchPetListToCreatePost(
-                controller.accountModel.customerModel.id,
-                controller.selectedSpeciesId.value)
+                customerId: controller.accountModel.customerModel.id,
+                speciesId: controller.selectedSpeciesId.value,
+                type: controller.selectedPostType.value)
             ..isShowPetDropdownList.value = true;
-          // ..mainScrollController.animateTo(
-          //   247,
-          //   duration: const Duration(milliseconds: 1000),
-          //   curve: Curves.ease,
-          // );
         } else {
           controller
             ..pets = await PetService.fetchPetListToCreatePost(
-                controller.accountModel.customerModel.id, null)
+                customerId: controller.accountModel.customerModel.id,
+                type: controller.selectedPostType.value)
             ..isShowPetDropdownList.value = true;
         }
 

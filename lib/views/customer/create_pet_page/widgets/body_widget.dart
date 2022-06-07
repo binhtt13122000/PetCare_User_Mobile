@@ -28,10 +28,8 @@ class CreatePetBodyWidget extends GetView<CreatePetPageController> {
     return Expanded(
       child: Obx(
         () => controller.isLoadingData.value
-            ? Container(
-                color: const Color.fromARGB(106, 198, 188, 201),
-                alignment: Alignment.center,
-                child: const SpinKitSpinningLines(
+            ? const Center(
+                child: SpinKitSpinningLines(
                   color: PRIMARY_COLOR,
                   size: 150,
                 ),
@@ -624,7 +622,7 @@ class CreatePetBodyWidget extends GetView<CreatePetPageController> {
           () => controller.isLoadingBreedData.value
               ? const SpinKitSpinningLines(
                   color: PRIMARY_COLOR,
-                  size: 150,
+                  size: 80,
                 )
               : Padding(
                   padding: const EdgeInsets.only(top: 5),

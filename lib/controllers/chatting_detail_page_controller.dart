@@ -8,6 +8,7 @@ import 'package:petapp_mobile/models/account_model/account_model.dart';
 import 'package:petapp_mobile/models/chat_room_model/chat_room_model.dart';
 import 'package:petapp_mobile/models/customer_model/customer_model.dart';
 import 'package:petapp_mobile/models/message_model.dart/message_model.dart';
+import 'package:petapp_mobile/models/pet_model/pet_model.dart';
 import 'package:petapp_mobile/models/post_model/post_model.dart';
 import 'package:petapp_mobile/services/chat_services.dart';
 import 'package:petapp_mobile/utilities/utilities.dart';
@@ -38,6 +39,12 @@ class ChattingDetailPageController extends GetxController {
   double currentMaxScrollPosition = -1;
   final RxBool isShowBuyerRequest = false.obs;
   bool isJoinedRoom = false;
+  RxBool isShowLoadingPet = false.obs;
+  List<PetModel> pets = [];
+  RxInt selectedPetIndex = (-1).obs;
+  RxBool isShowPetDropdownList = false.obs;
+  late PetModel femalePet;
+
   TextEditingController transactionLocationTextEditingController =
       TextEditingController();
   TextEditingController descriptionTextEditingController =
@@ -53,7 +60,6 @@ class ChattingDetailPageController extends GetxController {
     socket.on('joinedRoom', (data) => print(data));
     socket.on('leftRoom', (data) => print(data));
     socket.on('chatToClient', (data) async {
-      print('aaaaaaaaaaaaaaaaaaaaaaaaa');
       MessageModel messageModel = MessageModel.fromJson(data);
       messageModelList.add(messageModel);
       sortListMessage();

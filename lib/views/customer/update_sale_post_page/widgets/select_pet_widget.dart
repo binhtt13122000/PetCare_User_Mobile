@@ -19,10 +19,11 @@ class SelectPetWidget extends GetView<UpdateSalePostPageController> {
 
       WidgetsBinding.instance!.addPostFrameCallback((_) async {
         controller.pets = await PetService.fetchPetListToCreatePost(
-            controller.accountModel.customerModel.id,
-            controller.isShowPetFilter.value
+            customerId: controller.accountModel.customerModel.id,
+            speciesId: controller.isShowPetFilter.value
                 ? controller.selectedSpeciesId
-                : null);
+                : null,
+            type: controller.postModel.type);
 
         controller.selectedPetId.value =
             controller.pets.isNotEmpty ? controller.pets[0].id : -1;

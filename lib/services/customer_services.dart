@@ -1,15 +1,35 @@
+import 'dart:convert';
+
 import 'package:petapp_mobile/configs/path.dart';
 import 'package:petapp_mobile/models/customer_model/customer_model.dart';
 import 'package:dio/dio.dart';
 import 'dart:io';
+import 'package:http/http.dart' as http;
 
 class CustomerService {
+  static Future<CustomerModel> fetchCustomerById(int customerId) async {
+    final response = await http.get(
+      Uri.http(API_SERVER_PATH, '$CUSTOMER_API_PATH/$customerId'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+    );
+    switch (response.statusCode) {
+      case 200:
+      case 201:
+      case 202:
+        return CustomerModel.fromJson(jsonDecode(response.body)['data']);
+      default:
+        throw Exception('Error ${response.statusCode}, cannot get customer');
+    }
+  }
+
   static Future<CustomerModel?> updateProfile({
     required int id,
     required String email,
     required String firstName,
     required String lastName,
-    required String adrress,
+    required String address,
     required String gender,
     required String avatarFilePath,
     required File? avatarFile,
@@ -21,7 +41,7 @@ class CustomerService {
         'email': email,
         'firstName': firstName,
         'lastName': lastName,
-        'address': adrress,
+        'address': address,
         'gender': gender,
         'bankName': "",
         'bankCode': "",

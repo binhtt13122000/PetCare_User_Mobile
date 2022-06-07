@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
-import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:petapp_mobile/configs/theme.dart';
 import 'package:petapp_mobile/controllers/chatting_detail_page_controller.dart';
-import 'package:petapp_mobile/graphql/graphql_config.dart';
-import 'package:petapp_mobile/graphql/query_mutation/customer.dart';
-import 'package:petapp_mobile/models/customer_model/customer_model.dart';
 import 'package:petapp_mobile/services/chat_services.dart';
+import 'package:petapp_mobile/services/customer_services.dart';
 import 'package:petapp_mobile/services/post_services.dart';
 import 'package:petapp_mobile/utilities/utilities.dart';
 import 'package:petapp_mobile/views/customer/chatting_detail_page/widgets/body_widget.dart';
@@ -52,47 +49,29 @@ class ChattingDetailPage extends GetView<ChattingDetailPageController> {
         ));
         controller.sortListMessage();
 
-        QueryResult result_1 = await CLIENT_TO_QUERY().query(
-          QueryOptions(document: gql(FETCH_CUSTOMER_BY_ID), variables: {
-            // '_customerId': chatRoomModel.buyerId ==
-            //         controller.accountModel.customerModel.id
-            //     ? chatRoomModel.sellerId
-            //     : chatRoomModel.buyerId
-            '_customerId': controller.chatRoomModel!.buyerId ==
-                    controller.accountModel.customerModel.id
-                ? controller.chatRoomModel!.sellerId
-                : controller.chatRoomModel!.buyerId,
-          }),
+        controller.anotherChatRoomMember =
+            await CustomerService.fetchCustomerById(
+          controller.chatRoomModel!.buyerId ==
+                  controller.accountModel.customerModel.id
+              ? controller.chatRoomModel!.sellerId
+              : controller.chatRoomModel!.buyerId,
         );
-
-        if (result_1.data != null) {
-          controller.anotherChatRoomMember =
-              CustomerModel.fromJson(result_1.data!['customer'][0]);
-        }
 
         controller.postModel = await PostService.fetchPostById(
             postId: controller.chatRoomModel!.postId);
-        if (result_1.data != null) {
-          controller.socket.emit('joinRoom', controller.chatRoomModel!.id);
-          controller.isLoadingChat.value = false;
-        }
+
+        controller.socket.emit('joinRoom', controller.chatRoomModel!.id);
+        controller.isLoadingChat.value = false;
       } else {
-        QueryResult result_1 = await CLIENT_TO_QUERY().query(
-          QueryOptions(document: gql(FETCH_CUSTOMER_BY_ID), variables: {
-            '_customerId': Get.parameters['sellerId'],
-          }),
+        controller.anotherChatRoomMember =
+            await CustomerService.fetchCustomerById(
+          int.parse(Get.parameters['sellerId']!),
         );
 
-        if (result_1.data != null) {
-          controller.anotherChatRoomMember =
-              CustomerModel.fromJson(result_1.data!['customer'][0]);
-        }
         controller.postModel = await PostService.fetchPostById(
             postId: int.parse(Get.parameters['postId']!));
 
-        if (result_1.data != null) {
-          controller.isLoadingChat.value = false;
-        }
+        controller.isLoadingChat.value = false;
       }
     });
 
@@ -113,10 +92,8 @@ class ChattingDetailPage extends GetView<ChattingDetailPageController> {
                   const BuyerRequestWidget(),
                 ],
               )
-            : Container(
-                color: const Color.fromARGB(106, 198, 188, 201),
-                alignment: Alignment.center,
-                child: const SpinKitSpinningLines(
+            : const Center(
+                child: SpinKitSpinningLines(
                   color: PRIMARY_COLOR,
                   size: 150,
                 ),
