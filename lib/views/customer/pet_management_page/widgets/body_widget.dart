@@ -82,7 +82,8 @@ class PetsManagementBodyWidget extends GetView<PetManagementPageController> {
                 ),
               ),
             ),
-            Expanded(
+            SizedBox(
+              width: 70,
               child: InkWell(
                 onTap: () => controller.setHeaderFilter('Title'),
                 child: Row(
@@ -91,7 +92,7 @@ class PetsManagementBodyWidget extends GetView<PetManagementPageController> {
                     Padding(
                       padding: const EdgeInsets.only(right: 5),
                       child: Text(
-                        'Pet name',
+                        'Name',
                         textAlign: TextAlign.start,
                         style: GoogleFonts.quicksand(
                           fontSize: 12,
@@ -133,10 +134,12 @@ class PetsManagementBodyWidget extends GetView<PetManagementPageController> {
                           'Pet breed',
                           textAlign: TextAlign.start,
                           style: GoogleFonts.quicksand(
-                              fontSize: 12,
-                              color: const Color.fromARGB(255, 83, 89, 110),
-                              height: 2,
-                              fontWeight: FontWeight.w600),
+                            fontSize: 12,
+                            color: const Color.fromARGB(255, 83, 89, 110),
+                            height: 2,
+                            fontWeight: FontWeight.w500,
+                            letterSpacing: 1.5,
+                          ),
                         ),
                       ),
                       Obx(

@@ -70,7 +70,7 @@ class PetWeightBodyWidget extends GetView<PetWeightPageController> {
         child: LineChart(
           LineChartData(
             minX: 0,
-            maxX: 5,
+            maxX: controller.recordsTime.length.toDouble(),
             minY: 0,
             maxY: 6,
             titlesData: FlTitlesData(

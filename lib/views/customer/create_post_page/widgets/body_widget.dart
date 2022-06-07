@@ -58,9 +58,12 @@ class CreatePostBodyWidget extends GetView<CreatePostPageController> {
           () => Row(
             children: [
               InkWell(
-                onTap: () => controller.selectedPostType.value == 'SALE'
-                    ? controller.selectedPostType.value = 'BREED'
-                    : controller.selectedPostType.value = 'SALE',
+                onTap: () => controller
+                  ..selectedPostType.value =
+                      controller.selectedPostType.value == 'SALE'
+                          ? 'BREED'
+                          : 'SALE'
+                  ..update(),
                 child: Row(
                   children: [
                     Container(

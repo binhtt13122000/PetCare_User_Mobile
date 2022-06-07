@@ -460,18 +460,15 @@ class CreatePetBodyWidget extends GetView<CreatePetPageController> {
 
   Widget imageItemWidget({required File avatar}) => Stack(
         children: [
-          SizedBox(
-            height: 180,
-            width: 250,
-            child: ClipRRect(
-              borderRadius: const BorderRadius.all(
-                Radius.circular(7),
-              ),
-              child: Image.file(
-                avatar,
-                width: 250,
-                fit: BoxFit.cover,
-              ),
+          ClipRRect(
+            borderRadius: const BorderRadius.all(
+              Radius.circular(7),
+            ),
+            child: Image.file(
+              avatar,
+              width: 280,
+              height: 180,
+              fit: BoxFit.cover,
             ),
           ),
           const Positioned(

@@ -21,9 +21,10 @@ class ChatServices {
   }
 
   static Future<List<ChatRoomModel>> fetchChatRoomListByCustomerId(
-      {required int customerId}) async {
+      {required int customerId, required String roomType}) async {
+    final Map<String, String> parameters = {'type': roomType};
     final response = await http.get(
-      Uri.http(API_SERVER_PATH, '/v1/api/rooms/user/$customerId'),
+      Uri.http(API_SERVER_PATH, '/v1/api/rooms/user/$customerId', parameters),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
