@@ -37,7 +37,7 @@ class CreateRequestWidget extends GetView<ChattingDetailPageController> {
                 double widgetHeight =
                     controller.chatRoomModel!.status == 'REQUESTED' ? 520 : 470;
                 widgetHeight +=
-                    controller.chatRoomModel!.type == 'BREED' ? 95 : 0;
+                    controller.chatRoomModel!.type == 'BREED' ? 100 : 0;
                 return Obx(
                   () => controller.isShowLoadingPet.value
                       ? InkWell(
@@ -102,7 +102,10 @@ class CreateRequestWidget extends GetView<ChattingDetailPageController> {
                                                 .accountModel
                                                 .customerModel
                                                 .address!),
-                                        const ChattingDetailSelectPetWidget(),
+                                        controller.chatRoomModel!.type ==
+                                                'BREED'
+                                            ? const ChattingDetailSelectPetWidget()
+                                            : const SizedBox.shrink(),
                                         descriptionWidget(),
                                         sendRequestWidget(),
                                         cancelRequestWidget(),
@@ -144,13 +147,20 @@ class CreateRequestWidget extends GetView<ChattingDetailPageController> {
                 ..status = 'REQUESTED'
                 ..isSellerMessage = false
                 ..newestMessage = message
-                ..newestMessageTime = DateTime.now()
-                ..petId = controller.pets[controller.selectedPetIndex.value].id;
+                ..newestMessageTime = DateTime.now();
+
               Map<String, dynamic> emitJsonMap =
                   controller.chatRoomModel!.toJson();
+
               emitJsonMap.addAll({
                 'message': message,
               });
+              if (controller.chatRoomModel!.type == 'BREED') {
+                emitJsonMap.addAll({
+                  'petId':
+                      controller.pets[controller.selectedPetIndex.value].id,
+                });
+              }
 
               controller.socket.emit(
                 'updateRoom',

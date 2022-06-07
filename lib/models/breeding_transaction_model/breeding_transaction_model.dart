@@ -34,7 +34,7 @@ class BreedingTransactionModel {
   final DateTime? cancelTime;
   final int transactionFee;
   final DateTime? transactionTime;
-  final String? placeMeeting;
+  final String placeMeeting;
 
   @JsonKey(name: 'post')
   final PostModel? postModel;
@@ -83,7 +83,7 @@ class BreedingTransactionModel {
     required this.ownerPetFemaleCustomerModel,
     required this.transactionFee,
     this.transactionTime,
-    this.placeMeeting,
+    required this.placeMeeting,
   });
 
   factory BreedingTransactionModel.fromJson(Map<String, dynamic> json) =>

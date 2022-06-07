@@ -51,7 +51,6 @@ class ChatServices {
       case 200:
       case 201:
       case 202:
-        print(json.decode(response.body));
         return getChatRoomModel(jsonDecode(response.body)['data']);
       //return json.decode(response.body)['data'];
       default:
@@ -96,7 +95,6 @@ class ChatServices {
       case 200:
       case 201:
       case 202:
-        print(json.decode(response.body));
         return getMessageList(jsonDecode(response.body));
       //return json.decode(response.body)['data'];
       default:
@@ -135,14 +133,10 @@ class ChatServices {
         case 200:
         case 201:
         case 202:
-          print(response.data);
           return response.data['data']['url'];
         default:
-          print(response.data);
       }
-    } on DioError catch (e) {
-      print(e.error + e.response!.data.toString());
-    }
+    } on DioError catch (_) {}
     return null;
   }
 }

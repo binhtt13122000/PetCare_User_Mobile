@@ -272,7 +272,7 @@ class BreedingTransactionMoreOptionWidget
                   id: controller.breedingTransactionModel.id,
                   meetingTime: controller.breedingTransactionModel.meetingTime,
                   placeMeeting:
-                      controller.breedingTransactionModel.placeMeeting ?? '',
+                      controller.breedingTransactionModel.placeMeeting,
                   transactionTotal:
                       controller.breedingTransactionModel.transactionTotal,
                   status: 'CANCELED',

@@ -38,7 +38,6 @@ class RegisterOTPPageBottomWidget extends GetView<RegisterPageController> {
                         await controller.setUserDeviceToken();
                         controller.accessToken =
                             await controller.userCredential.user!.getIdToken();
-                        print('uuuuuuuuuuuu:' + controller.accessToken);
                       }
                       Get.toNamed(REGISTER_USER_INFORMATION_PAGE_ROUTE);
                     } on FirebaseAuthException {

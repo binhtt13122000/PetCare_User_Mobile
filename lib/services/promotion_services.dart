@@ -2,11 +2,9 @@ import 'dart:convert';
 
 import 'package:petapp_mobile/configs/path.dart';
 import 'package:petapp_mobile/models/promotion_model.dart/promotion_model.dart';
-import 'package:petapp_mobile/models/species_model/species_model.dart';
 import 'package:http/http.dart' as http;
 
 class PromotionServices {
-
   static List<PromotionModel> getPromotionList(Map<String, dynamic> jsonData) {
     final promotionListJson = jsonData['data'] as List;
     final List<PromotionModel> promotionList = List.empty(growable: true);

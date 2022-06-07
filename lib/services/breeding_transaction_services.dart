@@ -53,6 +53,7 @@ class BreedingTransactionService {
         'postId': postId,
         'branchId': branchId,
         'transactionFee': transactionFee,
+        'placeMeeting': placeMeeting
       }),
     );
     switch (response.statusCode) {
@@ -61,7 +62,6 @@ class BreedingTransactionService {
       case 202:
         return json.decode(response.body)['data']['id'];
       default:
-        print(response.body);
         throw Exception(
             'Error ${response.statusCode}, cannot create transaction');
     }

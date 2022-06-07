@@ -41,7 +41,6 @@ class PaymentServices {
       case 202:
         return jsonDecode(response.body)['data']['url'];
       default:
-        print(response.body);
         throw Exception('Error ${response.statusCode}, cannot payment');
     }
   }
