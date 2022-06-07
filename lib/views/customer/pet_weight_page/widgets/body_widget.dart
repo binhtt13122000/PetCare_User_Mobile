@@ -64,15 +64,36 @@ class PetWeightBodyWidget extends GetView<PetWeightPageController> {
   }
 
   Widget charWidget() => Container(
-        margin: const EdgeInsets.symmetric(vertical: 10),
+        margin: const EdgeInsets.only(top: 20, right: 30, left: 10),
         height: 300,
         width: 400,
         child: LineChart(
           LineChartData(
             minX: 0,
-            maxX: 11,
+            maxX: 5,
             minY: 0,
             maxY: 6,
+            titlesData: FlTitlesData(
+              show: true,
+              topTitles: SideTitles(showTitles: false),
+              bottomTitles: SideTitles(
+                showTitles: true,
+                getTitles: (value) =>
+                    value != 0 && value != 5 && value - value.toInt() == 0
+                        ? FORMAT_DATE_TIME(
+                            dateTime: DateTime.now(), pattern: DATE_PATTERN_2)
+                        : '',
+                getTextStyles: (_, value) =>
+                    const TextStyle(fontSize: 10, color: DARK_GREY_TEXT_COLOR),
+              ),
+              leftTitles: SideTitles(
+                showTitles: true,
+                getTitles: (value) => '${value.toInt()}kg',
+                getTextStyles: (_, value) =>
+                    const TextStyle(fontSize: 12, color: DARK_GREY_TEXT_COLOR),
+              ),
+              rightTitles: SideTitles(showTitles: false),
+            ),
             gridData: FlGridData(
               show: true,
               getDrawingHorizontalLine: (value) {
@@ -82,31 +103,38 @@ class PetWeightBodyWidget extends GetView<PetWeightPageController> {
                 return FlLine(strokeWidth: 1);
               },
               drawHorizontalLine: true,
-              drawVerticalLine: true,
+              drawVerticalLine: false,
             ),
             lineBarsData: [
               LineChartBarData(
                 spots: [
-                  const FlSpot(0, 3),
-                  const FlSpot(2.6, 2),
-                  const FlSpot(4.9, 5),
-                  const FlSpot(6.8, 2),
-                  const FlSpot(8, 4),
-                  const FlSpot(9.5, 3),
-                  const FlSpot(11, 4),
+                  const FlSpot(1, 2),
+                  const FlSpot(2, 5),
+                  const FlSpot(3, 2),
+                  const FlSpot(4, 2.5),
                 ],
                 isCurved: true,
-                gradient: const LinearGradient(colors: [
-                  Color.fromARGB(255, 123, 41, 255),
-                  Color.fromARGB(255, 1, 226, 226),
-                ]),
                 barWidth: 3,
+                colors: [
+                  const Color.fromARGB(255, 123, 41, 255),
+                  const Color.fromARGB(255, 1, 226, 226),
+                ],
                 belowBarData: BarAreaData(
                   show: true,
-                  gradient: LinearGradient(colors: [
+                  colors: [
                     const Color.fromARGB(255, 123, 41, 255).withOpacity(0.1),
                     const Color.fromARGB(255, 1, 226, 226).withOpacity(0.1),
-                  ]),
+                  ],
+                  //  gradient: const LinearGradient(colors: [
+                  //   Color.fromARGB(255, 123, 41, 255),
+                  //   Color.fromARGB(255, 1, 226, 226),
+                  // ]),
+                  // belowBarData: BarAreaData(
+                  //   show: true,
+                  //   gradient: LinearGradient(colors: [
+                  //     const Color.fromARGB(255, 123, 41, 255).withOpacity(0.1),
+                  //     const Color.fromARGB(255, 1, 226, 226).withOpacity(0.1),
+                  //   ]),
                 ),
               ),
             ],
