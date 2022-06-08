@@ -1,12 +1,13 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'service_model.dart';
+part of 'center_service_model.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-ServiceModel _$ServiceModelFromJson(Map<String, dynamic> json) => ServiceModel(
+CenterServiceModel _$CenterServiceModelFromJson(Map<String, dynamic> json) =>
+    CenterServiceModel(
       id: json['id'] as int,
       name: json['name'] as String,
       description: json['description'] as String?,
@@ -17,7 +18,7 @@ ServiceModel _$ServiceModelFromJson(Map<String, dynamic> json) => ServiceModel(
       estimatedTime: json['estimatedTime'] as int,
     );
 
-Map<String, dynamic> _$ServiceModelToJson(ServiceModel instance) =>
+Map<String, dynamic> _$CenterServiceModelToJson(CenterServiceModel instance) =>
     <String, dynamic>{
       'id': instance.id,
       'name': instance.name,

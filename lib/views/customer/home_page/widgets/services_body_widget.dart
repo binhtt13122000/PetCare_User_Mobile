@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
@@ -8,7 +6,6 @@ import 'package:petapp_mobile/configs/path.dart';
 import 'package:petapp_mobile/configs/route.dart';
 import 'package:petapp_mobile/configs/theme.dart';
 import 'package:petapp_mobile/controllers/home_page_controller.dart';
-import 'package:petapp_mobile/controllers/post_detail_page_controller.dart';
 import 'package:petapp_mobile/models/post_model/post_model.dart';
 import 'package:petapp_mobile/utilities/utilities.dart';
 import 'package:petapp_mobile/views/customer/home_page/widgets/purchase_posts_gird_widget.dart';
@@ -57,7 +54,6 @@ class ServicesBodyWidget extends GetView<HomePageController> {
 
   Widget purchasePostItemWidget({required PostModel postModel}) => InkWell(
         onTap: () {
-          Get.delete<PostDetailPageController>();
           Get.toNamed(PURCHASE_POSTS_PAGE_ROUTE);
         },
         child: Container(
@@ -81,12 +77,12 @@ class ServicesBodyWidget extends GetView<HomePageController> {
                 padding: const EdgeInsets.all(10),
                 child: Row(
                   children: [
-                    const CircleAvatar(
-                      radius: 18,
-                      backgroundColor: PRIMARY_COLOR,
-                      backgroundImage: NetworkImage(
-                          'https://lh3.googleusercontent.com/a-/AOh14Giq7w5GSupG5JXnHM2i-4yAYESAoR3VpEdVFQ1Bkg=s288-p-rw-no'),
-                    ),
+                    // CircleAvatar(
+                    //   radius: 18,
+                    //   backgroundColor: PRIMARY_COLOR,
+                    //   backgroundImage: NetworkImage(
+                    //       controller.accountModel.customerModel.avatar!),
+                    // ),
                     Padding(
                       padding: const EdgeInsets.only(left: 10),
                       child: Column(
@@ -198,39 +194,39 @@ class ServicesBodyWidget extends GetView<HomePageController> {
               ),
               Stack(
                 children: [
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(20),
-                    child: ImageFiltered(
-                      imageFilter: ImageFilter.blur(sigmaY: 8, sigmaX: 8),
-                      child: Container(
-                        height: 270,
-                        width: 300,
-                        alignment: Alignment.topCenter,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(20),
-                          image: DecorationImage(
-                            fit: BoxFit.cover,
-                            alignment: Alignment.topCenter,
-                            image: NetworkImage(postModel.mediaModels![0].url),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                  Container(
-                    height: 220,
-                    width: 300,
-                    alignment: Alignment.topCenter,
-                    decoration: BoxDecoration(
-                      borderRadius: const BorderRadius.vertical(
-                        top: Radius.circular(20),
-                      ),
-                      image: DecorationImage(
-                          fit: BoxFit.cover,
-                          alignment: Alignment.topCenter,
-                          image: NetworkImage(postModel.mediaModels![0].url)),
-                    ),
-                  ),
+                  // ClipRRect(
+                  //   borderRadius: BorderRadius.circular(20),
+                  //   child: ImageFiltered(
+                  //     imageFilter: ImageFilter.blur(sigmaY: 8, sigmaX: 8),
+                  //     child: Container(
+                  //       height: 270,
+                  //       width: 300,
+                  //       alignment: Alignment.topCenter,
+                  //       decoration: BoxDecoration(
+                  //         borderRadius: BorderRadius.circular(20),
+                  //         image: DecorationImage(
+                  //           fit: BoxFit.cover,
+                  //           alignment: Alignment.topCenter,
+                  //           image: NetworkImage(postModel.mediaModels![0].url),
+                  //         ),
+                  //       ),
+                  //     ),
+                  //   ),
+                  // ),
+                  // Container(
+                  //   height: 220,
+                  //   width: 300,
+                  //   alignment: Alignment.topCenter,
+                  //   decoration: BoxDecoration(
+                  //     borderRadius: const BorderRadius.vertical(
+                  //       top: Radius.circular(20),
+                  //     ),
+                  //     image: DecorationImage(
+                  //         fit: BoxFit.cover,
+                  //         alignment: Alignment.topCenter,
+                  //         image: NetworkImage(postModel.mediaModels![0].url)),
+                  //   ),
+                  // ),
                   Positioned(
                     bottom: 0,
                     child: Container(

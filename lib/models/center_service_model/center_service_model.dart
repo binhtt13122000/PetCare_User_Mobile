@@ -1,9 +1,9 @@
 import 'package:json_annotation/json_annotation.dart';
 
-part 'service_model.g.dart';
+part 'center_service_model.g.dart';
 
 @JsonSerializable(explicitToJson: true)
-class ServiceModel {
+class CenterServiceModel {
   final int id;
   final String name;
   final String? description;
@@ -13,7 +13,7 @@ class ServiceModel {
   final String unit;
   final int estimatedTime;
 
-  ServiceModel({
+  CenterServiceModel({
     required this.id,
     required this.name,
     this.description,
@@ -24,8 +24,8 @@ class ServiceModel {
     required this.estimatedTime,
   });
 
-  factory ServiceModel.fromJson(Map<String, dynamic> json) =>
-      _$ServiceModelFromJson(json);
+  factory CenterServiceModel.fromJson(Map<String, dynamic> json) =>
+      _$CenterServiceModelFromJson(json);
 
-  Map<String, dynamic> toJson() => _$ServiceModelToJson(this);
+  Map<String, dynamic> toJson() => _$CenterServiceModelToJson(this);
 }

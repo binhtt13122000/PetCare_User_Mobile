@@ -1,6 +1,7 @@
 // ignore_for_file: non_constant_identifier_names
 
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:petapp_mobile/configs/theme.dart';
 
@@ -44,5 +45,12 @@ Widget CUSTOM_TEXT(
             letterSpacing: letterSpacing,
             fontStyle: fontStyle,
             backgroundColor: backGroundColor),
+      ),
+    );
+
+Widget LOADING_WIDGET({double size = 150}) => Center(
+      child: SpinKitSpinningLines(
+        color: PRIMARY_COLOR,
+        size: size,
       ),
     );

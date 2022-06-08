@@ -117,7 +117,7 @@ class CenterServicesTransactionDetailBodyWidget
                       children: [
                         Text(
                           centerServicesTransactionDetailModel
-                              .serviceModel.name,
+                              .centerServiceModel.name,
                           textAlign: TextAlign.start,
                           style: GoogleFonts.quicksand(
                             textStyle: const TextStyle(

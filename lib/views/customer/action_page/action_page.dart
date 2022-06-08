@@ -24,7 +24,7 @@ class ActionPage extends GetView {
                 Expanded(
                   child: Column(
                     children: [
-                      const AcctionTopWidget(),
+                      const ActionTopWidget(),
                       Expanded(
                         child: Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 40),
@@ -120,7 +120,7 @@ class ActionPage extends GetView {
                                     Get.toNamed(PET_MANAGEMENT_PAGE_ROUTE),
                                 color: PRIMARY_LIGHT_COLOR,
                                 child: Text(
-                                  'Pet Mamagement',
+                                  'Pet Management',
                                   style: GoogleFonts.quicksand(
                                     fontSize: 23,
                                     color: PRIMARY_COLOR,
@@ -152,11 +152,11 @@ class ActionPage extends GetView {
                               MaterialButton(
                                 height: 50,
                                 minWidth: 500,
-                                onPressed: () => Get.toNamed(
-                                    CENTER_SERVICES_TRANSACTION_DETAIL_PAGE_ROUTE),
+                                onPressed: () =>
+                                    Get.toNamed(CREATE_TICKET_PAGE_ROUTE),
                                 color: PRIMARY_LIGHT_COLOR,
                                 child: Text(
-                                  'Test order',
+                                  'Create Ticket',
                                   style: GoogleFonts.quicksand(
                                     fontSize: 23,
                                     color: PRIMARY_COLOR,

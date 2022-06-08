@@ -9,6 +9,7 @@ import 'package:petapp_mobile/bindings/breeding_transaction_detail_page_binding.
 import 'package:petapp_mobile/bindings/chatting_detail_page_binding.dart';
 import 'package:petapp_mobile/bindings/chatting_list_page_binding.dart';
 import 'package:petapp_mobile/bindings/create_post_page_binding.dart';
+import 'package:petapp_mobile/bindings/create_ticket_page_binding.dart';
 import 'package:petapp_mobile/bindings/home_page_binding.dart';
 import 'package:petapp_mobile/bindings/notification_page_binding.dart';
 import 'package:petapp_mobile/bindings/payment_for_center_services_transaction_page_binding.dart';
@@ -38,6 +39,7 @@ import 'package:petapp_mobile/views/customer/chatting_detail_page/chatting_detai
 import 'package:petapp_mobile/views/customer/chatting_list_page/chatting_list_page.dart';
 import 'package:petapp_mobile/views/customer/create_pet_page/create_pet_page.dart';
 import 'package:petapp_mobile/views/customer/create_post_page/create_post_page.dart';
+import 'package:petapp_mobile/views/customer/create_ticket_page/create_ticket_page.dart';
 import 'package:petapp_mobile/views/customer/home_page/home_page.dart';
 import 'package:petapp_mobile/views/customer/notification_page/notification_page.dart';
 import 'package:petapp_mobile/views/customer/payment_for_center_services_transaction_page/payment_for_center_services_transaction_page.dart';
@@ -282,14 +284,12 @@ class MainApp extends StatelessWidget {
           page: () => const ChattingDetailPage(),
           binding: ChattingDetailPageBinding(),
         ),
-        // GetPage(
-        //   name: PAYMENT_PAGE_ROUTE,
-        //   page: () => const PaymentPage(),
-        // ),
-        // GetPage(
-        //   name: PAYMENT_METHOD_PAGE_ROUTE,
-        //   page: () => const PaymentMethodPage(),
-        // ),
+        //*Ticket
+        GetPage(
+          name: CREATE_TICKET_PAGE_ROUTE,
+          page: () => const CreateTicketPage(),
+          binding: CreateTicketPageBinding(),
+        ),
       ],
     );
   }

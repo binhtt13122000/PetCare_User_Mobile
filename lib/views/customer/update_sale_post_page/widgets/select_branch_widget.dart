@@ -45,7 +45,7 @@ class SelectBranchWidget extends GetView<UpdateSalePostPageController> {
                     controller.isLoadingBranch.value = true;
                     WidgetsBinding.instance!.addPostFrameCallback((_) async {
                       controller.branchList =
-                          await BranchServices.fetchListBranch();
+                          await BranchServices.fetchBranchList();
                       controller.selectedBranchId.value =
                           controller.branchList[0].id;
                       controller.isLoadingBranch.value = false;
