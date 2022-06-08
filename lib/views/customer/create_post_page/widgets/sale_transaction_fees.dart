@@ -32,7 +32,7 @@ class CreatePostSaleTransactionFeesWidget
                 padding: const EdgeInsets.symmetric(vertical: 10),
                 child: Column(
                   children: [
-                    CUSTOM_TEXT('Purchase Transaction Fees',
+                    CUSTOM_TEXT('Sale Transaction Fees',
                         fontWeight: FontWeight.w700),
                     const SizedBox(height: 20),
                     // CUSTOM_TEXT(

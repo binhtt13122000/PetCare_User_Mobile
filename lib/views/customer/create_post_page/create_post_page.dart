@@ -29,19 +29,17 @@ class CreatePostPage extends GetView<CreatePostPageController> {
       controller.isShowMainLoading.value = false;
     });
 
-    return Obx(
-      () => controller.isShowMainLoading.value
-          ? Container(
-              color: const Color.fromARGB(106, 198, 188, 201),
-              alignment: Alignment.center,
-              child: const SpinKitSpinningLines(
-                color: PRIMARY_COLOR,
-                size: 150,
-              ),
-            )
-          : Scaffold(
-              backgroundColor: WHITE_COLOR,
-              body: Stack(
+    return Scaffold(
+      backgroundColor: WHITE_COLOR,
+      body: Obx(
+        () => controller.isShowMainLoading.value
+            ? const Center(
+                child: SpinKitSpinningLines(
+                  color: PRIMARY_COLOR,
+                  size: 150,
+                ),
+              )
+            : Stack(
                 children: [
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
@@ -76,7 +74,7 @@ class CreatePostPage extends GetView<CreatePostPageController> {
                   const CreatePostCalendarWidget(),
                 ],
               ),
-            ),
+      ),
     );
   }
 }

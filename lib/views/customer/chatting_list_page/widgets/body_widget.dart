@@ -24,7 +24,11 @@ class ChattingListBodyWidget extends GetView<ChattingListPageController> {
               controller.isLoadingRoom.value = true;
               controller.chatRoomList =
                   await ChatServices.fetchChatRoomListByCustomerId(
-                      customerId: controller.accountModel.customerModel.id);
+                      customerId: controller.accountModel.customerModel.id,
+                      roomType:
+                          controller.selectedChatRoomType.value == 'Opened Room'
+                              ? 'open'
+                              : 'close');
               controller.isLoadingRoom.value = false;
             });
             return Obx(
@@ -60,9 +64,9 @@ class ChattingListBodyWidget extends GetView<ChattingListPageController> {
         child: Obx(
           () => InkWell(
             onTap: () {
-              controller.selectedChatRoomType.value == viewType
-                  ? null
-                  : controller.selectedChatRoomType.value = viewType;
+              controller
+                ..selectedChatRoomType.value = viewType
+                ..update();
             },
             child: Column(
               children: [
