@@ -28,7 +28,9 @@ class PaymentForCenterServicesTransactionBodyWidget
             await CenterServicesTransactionServices
                 .fetchCenterServicesTransactionByCustomerId(
                     transactionId: int.parse(Get.parameters['transactionId']!));
-        controller.promotionModels = await PromotionServices.fetchPromotionByBranchId(branchId: controller.centerServicesTransactionModel.branchId);
+        controller.promotionModels =
+            await PromotionServices.fetchPromotionByBranchId(
+                branchId: controller.centerServicesTransactionModel.branchId);
         controller.isLoadingData.value = false;
       });
       return Obx(
@@ -380,7 +382,7 @@ class PaymentForCenterServicesTransactionBodyWidget
                       children: [
                         Text(
                           centerServicesTransactionDetailModel
-                              .serviceModel.name,
+                              .centerServiceModel.name,
                           textAlign: TextAlign.start,
                           style: GoogleFonts.quicksand(
                             textStyle: const TextStyle(

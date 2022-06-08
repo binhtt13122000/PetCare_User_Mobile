@@ -1,5 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:petapp_mobile/models/service_model/service_model.dart';
+import 'package:petapp_mobile/models/center_service_model/center_service_model.dart';
 
 part 'center_services_transaction_detail_model.g.dart';
 
@@ -13,13 +13,13 @@ class CenterServicesTransactionDetailModel {
   final int serviceId;
 
   @JsonKey(name: 'service')
-  final ServiceModel serviceModel;
+  final CenterServiceModel centerServiceModel;
 
   CenterServicesTransactionDetailModel({
     required this.id,
     required this.price,
     this.description,
-    required this.serviceModel,
+    required this.centerServiceModel,
     required this.quantity,
     required this.serviceId,
     required this.totalPrice,

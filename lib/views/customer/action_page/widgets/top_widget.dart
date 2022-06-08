@@ -5,8 +5,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:petapp_mobile/configs/path.dart';
 import 'package:petapp_mobile/configs/theme.dart';
 
-class AcctionTopWidget extends GetView {
-  const AcctionTopWidget({Key? key}) : super(key: key);
+class ActionTopWidget extends GetView {
+  const ActionTopWidget({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) => Column(

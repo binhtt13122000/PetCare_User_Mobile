@@ -13,7 +13,7 @@ class SelectBranchWidget extends GetView<CreatePostPageController> {
   Widget build(BuildContext context) {
     controller.isLoadingBranch.value = true;
     WidgetsBinding.instance!.addPostFrameCallback((_) async {
-      controller.branchList = await BranchServices.fetchListBranch();
+      controller.branchList = await BranchServices.fetchBranchList();
       controller.selectedBranchId.value = controller.branchList[0].id;
       controller.isLoadingBranch.value = false;
     });
