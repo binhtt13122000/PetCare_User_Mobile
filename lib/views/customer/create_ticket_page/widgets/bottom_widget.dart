@@ -30,7 +30,7 @@ class CreateTicketBottomWidget extends GetView<CreateTicketPageController> {
                       .add(controller.centerServicesModelList[element].id);
                 }
                 controller.isWaitingSendTicket.value = true;
-                await TicketServices.createTicket(
+                controller.ticketId = await TicketServices.createTicket(
                   createdTime: DateTime.now(),
                   meetingDate: DateTime.now().add(
                       Duration(days: controller.selectedDateIndex.value + 1)),

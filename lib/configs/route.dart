@@ -34,6 +34,7 @@ const BREEDING_TRANSACTION_DETAIL_PAGE_ROUTE = '/breeding-transaction-detail';
 
 //ticket
 const CREATE_TICKET_PAGE_ROUTE = '/create-ticket';
+const TICKET_DETAIL_PAGE_ROUTE = '/ticket-detail';
 
 //setting
 const SETTING_PAGE_ROUTE = '/setting';

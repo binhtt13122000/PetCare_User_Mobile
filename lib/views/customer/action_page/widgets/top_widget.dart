@@ -4,8 +4,9 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:petapp_mobile/configs/path.dart';
 import 'package:petapp_mobile/configs/theme.dart';
+import 'package:petapp_mobile/controllers/action_page_controller.dart';
 
-class ActionTopWidget extends GetView {
+class ActionTopWidget extends GetView<ActionPageController> {
   const ActionTopWidget({Key? key}) : super(key: key);
 
   @override
@@ -34,7 +35,7 @@ class ActionTopWidget extends GetView {
               child: Padding(
                 padding: const EdgeInsets.only(right: 35),
                 child: Text(
-                  'Acctions Page',
+                  'Actions Page',
                   textAlign: TextAlign.center,
                   style: GoogleFonts.quicksand(
                     color: const Color.fromARGB(255, 62, 68, 87),

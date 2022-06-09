@@ -95,8 +95,8 @@ const PROFILE_UNSELECTED_SVG = 'profile_unselected.svg';
 // const API_SERVER = '10.0.2.2:4000';
 // const GRAPHL_SERVER = 'http://10.0.2.2:8080';
 
-const API_SERVER_PATH = '54.153.1.149:4000';
-const GRAPHL_SERVER_PATH = 'http://54.153.1.149:8080';
+const API_SERVER_PATH = '54.183.170.177:4000';
+const GRAPHL_SERVER_PATH = 'http://54.183.170.177:8080';
 
 //*sale transaction
 const SALE_TRANSACTION_RETURN_API_PATH =
@@ -122,8 +122,9 @@ const CENTER_SERVICES_TRANSACTION_API_PATH = '/v1/api/orders';
 const TRANSACTION_FEES_API_PATH = '/v1/api/transaction-fees';
 
 //*ticket
-const TICKET_BRANCHES_API_PATH = '/v1/api/tickets/branches';
 const TICKET_API_PATH = '/v1/api/tickets';
+const TICKET_BRANCHES_API_PATH = '/v1/api/tickets/branches';
+const TICKET_CUSTOMER_API_PATH = '/v1/api/tickets/customers';
 
 //*center services
 const CENTER_SERVICES_API = '/v1/api/services';

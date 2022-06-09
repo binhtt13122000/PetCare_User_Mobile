@@ -4,6 +4,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:petapp_mobile/bindings/action_page_binding.dart';
 import 'package:petapp_mobile/bindings/add_pet_page_binding.dart';
 import 'package:petapp_mobile/bindings/breeding_transaction_detail_page_binding.dart';
 import 'package:petapp_mobile/bindings/chatting_detail_page_binding.dart';
@@ -25,6 +26,7 @@ import 'package:petapp_mobile/bindings/pet_management_page_binding.dart';
 import 'package:petapp_mobile/bindings/purchase_posts_page_binding.dart';
 import 'package:petapp_mobile/bindings/post_management_page_binding.dart';
 import 'package:petapp_mobile/bindings/center_services_transaction_detail_page_binding.dart';
+import 'package:petapp_mobile/bindings/ticket_detail_page_binding.dart';
 import 'package:petapp_mobile/bindings/transaction_list_page_binding.dart';
 import 'package:petapp_mobile/bindings/update_sale_post_page_binding.dart';
 import 'package:petapp_mobile/configs/route.dart';
@@ -53,6 +55,7 @@ import 'package:petapp_mobile/views/customer/profile_page/profile_page.dart';
 import 'package:petapp_mobile/views/customer/purchase_posts_filter_page/purchase_posts_filter_page.dart';
 import 'package:petapp_mobile/views/customer/sale_post_list_page/sale_post_page.dart';
 import 'package:petapp_mobile/views/customer/sale_transaction_detail_page/sale_transaction_detail_page.dart';
+import 'package:petapp_mobile/views/customer/ticket_detail_page/ticket_detal_page.dart';
 import 'package:petapp_mobile/views/customer/transaction_list_page/transaction_list_page.dart';
 import 'package:petapp_mobile/views/customer/update_sale_post_page/update_sale_post_page.dart';
 import 'package:petapp_mobile/views/guest/landing_page/landing_page.dart';
@@ -197,6 +200,7 @@ class MainApp extends StatelessWidget {
         GetPage(
           name: ACTION_PAGE_ROUTE,
           page: () => const ActionPage(),
+          binding: ActionPageBinding(),
         ),
         GetPage(
           name: CREATE_POST_PAGE_ROUTE,
@@ -285,6 +289,10 @@ class MainApp extends StatelessWidget {
           binding: ChattingDetailPageBinding(),
         ),
         //*Ticket
+        GetPage(
+            name: '$TICKET_DETAIL_PAGE_ROUTE/:ticketId',
+            page: () => const TicketDetailPage(),
+            binding: TicketDetailPageBinding()),
         GetPage(
           name: CREATE_TICKET_PAGE_ROUTE,
           page: () => const CreateTicketPage(),

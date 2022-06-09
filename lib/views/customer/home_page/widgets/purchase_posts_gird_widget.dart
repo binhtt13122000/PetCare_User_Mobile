@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -155,37 +157,37 @@ class SalePostGirdsWidget extends GetView<HomePageController> {
                 child: Stack(
                   alignment: Alignment.center,
                   children: [
-                    // ClipRRect(
-                    //   borderRadius: const BorderRadius.vertical(
-                    //     top: Radius.circular(7),
-                    //   ),
-                    //   child: Container(
-                    //     alignment: Alignment.topCenter,
-                    //     decoration: BoxDecoration(
-                    //       image: DecorationImage(
-                    //         alignment: Alignment.topCenter,
-                    //         image: NetworkImage(postModel.mediaModels![0].url),
-                    //         fit: BoxFit.cover,
-                    //       ),
-                    //     ),
-                    //   ),
-                    // ),
-                    // Positioned(
-                    //   bottom: 0,
-                    //   child: SizedBox(
-                    //     width: 160,
-                    //     height: 25,
-                    //     child: ImageFiltered(
-                    //       imageFilter:
-                    //           ImageFilter.blur(sigmaX: 10, sigmaY: 0.3),
-                    //       child: Image.network(
-                    //         postModel.mediaModels![0].url,
-                    //         fit: BoxFit.cover,
-                    //         alignment: Alignment.bottomLeft,
-                    //       ),
-                    //     ),
-                    //   ),
-                    // ),
+                    ClipRRect(
+                      borderRadius: const BorderRadius.vertical(
+                        top: Radius.circular(7),
+                      ),
+                      child: Container(
+                        alignment: Alignment.topCenter,
+                        decoration: BoxDecoration(
+                          image: DecorationImage(
+                            alignment: Alignment.topCenter,
+                            image: NetworkImage(postModel.mediaModels![0].url),
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                      ),
+                    ),
+                    Positioned(
+                      bottom: 0,
+                      child: SizedBox(
+                        width: 160,
+                        height: 25,
+                        child: ImageFiltered(
+                          imageFilter:
+                              ImageFilter.blur(sigmaX: 10, sigmaY: 0.3),
+                          child: Image.network(
+                            postModel.mediaModels![0].url,
+                            fit: BoxFit.cover,
+                            alignment: Alignment.bottomLeft,
+                          ),
+                        ),
+                      ),
+                    ),
                     Positioned(
                       bottom: 0,
                       child: Container(

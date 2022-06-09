@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
@@ -77,12 +79,12 @@ class ServicesBodyWidget extends GetView<HomePageController> {
                 padding: const EdgeInsets.all(10),
                 child: Row(
                   children: [
-                    // CircleAvatar(
-                    //   radius: 18,
-                    //   backgroundColor: PRIMARY_COLOR,
-                    //   backgroundImage: NetworkImage(
-                    //       controller.accountModel.customerModel.avatar!),
-                    // ),
+                    CircleAvatar(
+                      radius: 18,
+                      backgroundColor: PRIMARY_COLOR,
+                      backgroundImage: NetworkImage(
+                          controller.accountModel.customerModel.avatar!),
+                    ),
                     Padding(
                       padding: const EdgeInsets.only(left: 10),
                       child: Column(
@@ -194,39 +196,39 @@ class ServicesBodyWidget extends GetView<HomePageController> {
               ),
               Stack(
                 children: [
-                  // ClipRRect(
-                  //   borderRadius: BorderRadius.circular(20),
-                  //   child: ImageFiltered(
-                  //     imageFilter: ImageFilter.blur(sigmaY: 8, sigmaX: 8),
-                  //     child: Container(
-                  //       height: 270,
-                  //       width: 300,
-                  //       alignment: Alignment.topCenter,
-                  //       decoration: BoxDecoration(
-                  //         borderRadius: BorderRadius.circular(20),
-                  //         image: DecorationImage(
-                  //           fit: BoxFit.cover,
-                  //           alignment: Alignment.topCenter,
-                  //           image: NetworkImage(postModel.mediaModels![0].url),
-                  //         ),
-                  //       ),
-                  //     ),
-                  //   ),
-                  // ),
-                  // Container(
-                  //   height: 220,
-                  //   width: 300,
-                  //   alignment: Alignment.topCenter,
-                  //   decoration: BoxDecoration(
-                  //     borderRadius: const BorderRadius.vertical(
-                  //       top: Radius.circular(20),
-                  //     ),
-                  //     image: DecorationImage(
-                  //         fit: BoxFit.cover,
-                  //         alignment: Alignment.topCenter,
-                  //         image: NetworkImage(postModel.mediaModels![0].url)),
-                  //   ),
-                  // ),
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(20),
+                    child: ImageFiltered(
+                      imageFilter: ImageFilter.blur(sigmaY: 8, sigmaX: 8),
+                      child: Container(
+                        height: 270,
+                        width: 300,
+                        alignment: Alignment.topCenter,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(20),
+                          image: DecorationImage(
+                            fit: BoxFit.cover,
+                            alignment: Alignment.topCenter,
+                            image: NetworkImage(postModel.mediaModels![0].url),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  Container(
+                    height: 220,
+                    width: 300,
+                    alignment: Alignment.topCenter,
+                    decoration: BoxDecoration(
+                      borderRadius: const BorderRadius.vertical(
+                        top: Radius.circular(20),
+                      ),
+                      image: DecorationImage(
+                          fit: BoxFit.cover,
+                          alignment: Alignment.topCenter,
+                          image: NetworkImage(postModel.mediaModels![0].url)),
+                    ),
+                  ),
                   Positioned(
                     bottom: 0,
                     child: Container(
