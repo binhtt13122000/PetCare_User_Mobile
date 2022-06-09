@@ -3,10 +3,10 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:petapp_mobile/configs/theme.dart';
 import 'package:petapp_mobile/controllers/action_page_controller.dart';
-import 'package:petapp_mobile/controllers/ticket_page_controller.dart';
+import 'package:petapp_mobile/controllers/ticket_detail_page_controller.dart';
 
-class CreateTicketTopWidget extends GetView<CreateTicketPageController> {
-  const CreateTicketTopWidget({Key? key}) : super(key: key);
+class TicketDetailTopWidget extends GetView<TicketDetailPageController> {
+  const TicketDetailTopWidget({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) => Padding(
@@ -59,7 +59,7 @@ class CreateTicketTopWidget extends GetView<CreateTicketPageController> {
             ),
             Expanded(
               child: Text(
-                'Create Ticket Page',
+                'Ticket Detail Page',
                 textAlign: TextAlign.center,
                 style: GoogleFonts.quicksand(
                   color: const Color.fromARGB(255, 62, 68, 87),

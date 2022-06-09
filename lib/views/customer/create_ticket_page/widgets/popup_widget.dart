@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:petapp_mobile/configs/route.dart';
 import 'package:petapp_mobile/configs/theme.dart';
 import 'package:petapp_mobile/controllers/ticket_page_controller.dart';
 
@@ -51,7 +52,10 @@ class CreateTicketPopupWidget extends GetView<CreateTicketPageController> {
                     padding: const EdgeInsets.symmetric(horizontal: 12),
                     child: InkWell(
                       onTap: () {
-                        controller.isShowPopupWidget.value = false;
+                        controller.ticketId != null
+                            ? Get.offAndToNamed(
+                                '$TICKET_DETAIL_PAGE_ROUTE/${controller.ticketId}')
+                            : controller.isShowPopupWidget.value = false;
                       },
                       child: Container(
                         alignment: Alignment.center,

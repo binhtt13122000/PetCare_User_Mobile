@@ -24,6 +24,7 @@ class CreateTicketPageController extends GetxController {
   RxBool isShowAddServices = false.obs;
   RxBool isWaitingSendTicket = false.obs;
   RxBool isShowPopupWidget = false.obs;
+  int? ticketId;
 
   void setTicketTimeModelList() {
     ticketTimeModelList = [];

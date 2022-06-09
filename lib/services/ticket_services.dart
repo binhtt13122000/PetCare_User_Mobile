@@ -5,7 +5,7 @@ import 'package:petapp_mobile/models/ticket_model/ticket_model.dart';
 import 'package:http/http.dart' as http;
 
 class TicketServices {
-  static Future<int> createTicket({
+  static Future<int?> createTicket({
     required DateTime createdTime,
     required DateTime meetingDate,
     required int startTime,
@@ -50,7 +50,7 @@ class TicketServices {
       case 202:
         return jsonDecode(response.body)['data']['id'];
       default:
-        throw Exception('Error ${response.statusCode}, cannot create ticket');
+        return null;
     }
   }
 
@@ -83,6 +83,43 @@ class TicketServices {
       default:
         throw Exception(
             'Error ${response.statusCode}, cannot not get ticket list');
+    }
+  }
+
+  static Future<TicketModel?> fetchTicketByCustomerId(
+      {required int customerId}) async {
+    final response = await http.get(
+      Uri.http(API_SERVER_PATH, '$TICKET_CUSTOMER_API_PATH/$customerId'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+    );
+
+    switch (response.statusCode) {
+      case 200:
+      case 201:
+      case 202:
+        return TicketModel.fromJson(json.decode(response.body)['data']);
+      default:
+        return null;
+    }
+  }
+
+  static Future<TicketModel> fetchTicketById({required int ticketId}) async {
+    final response = await http.get(
+      Uri.http(API_SERVER_PATH, '$TICKET_API_PATH/$ticketId'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+    );
+
+    switch (response.statusCode) {
+      case 200:
+      case 201:
+      case 202:
+        return TicketModel.fromJson(json.decode(response.body)['data']);
+      default:
+        throw Exception('Error ${response.statusCode}, cannot not get ticket');
     }
   }
 
