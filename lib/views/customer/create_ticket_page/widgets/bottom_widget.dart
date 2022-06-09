@@ -18,8 +18,9 @@ class CreateTicketBottomWidget extends GetView<CreateTicketPageController> {
           height: 1,
           color: LIGHT_GREY_COLOR.withAlpha(30),
         ),
-        Padding(
+        Container(
           padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+          color: WHITE_COLOR,
           child: InkWell(
             onTap: () async {
               if (controller.selectedTicketTimeIndex.value != -1 &&

@@ -17,72 +17,80 @@ class CreateTicketBodyWidget extends GetView<CreateTicketPageController> {
   @override
   Widget build(BuildContext context) {
     return Expanded(
-      child: Column(
-        children: [
-          Expanded(
-            child: SingleChildScrollView(
-              child: Column(
-                children: [
-                  addServicesWidget(),
-                  estimateTimeWidget(),
-                  Container(
-                    height: 1,
-                    margin: const EdgeInsets.only(top: 20),
-                    color: LIGHT_GREY_COLOR.withAlpha(30),
-                  ),
-                  Container(
-                    height: 8,
-                    color: SUPPER_LIGHT_BLUE,
-                  ),
-                  const SelectBranchWidget(),
-                  selectUseServicesDateWidget(),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 20, left: 12),
-                    child: Row(
-                      children: [
-                        CUSTOM_TEXT('Time booking services'),
-                        CUSTOM_TEXT(
-                          '*',
-                          color: RED_COLOR,
-                          fontSize: 18,
-                          fontWeight: FontWeight.w700,
-                        ),
-                      ],
+      child: Container(
+        color: SUPPER_LIGHT_BLUE,
+        child: Column(
+          children: [
+            Expanded(
+              child: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    addServicesWidget(),
+                    estimateTimeWidget(),
+                    Container(
+                      height: 1,
+                      color: LIGHT_GREY_COLOR.withAlpha(30),
                     ),
-                  ),
-                  GetBuilder<CreateTicketPageController>(builder: (_) {
-                    if (controller.totalEstimateTime.value > 0) {
-                      controller.isLoadingTicketList.value = true;
+                    const SelectBranchWidget(),
+                    selectUseServicesDateWidget(),
+                    Container(
+                      padding: const EdgeInsets.only(top: 20, left: 12),
+                      color: WHITE_COLOR,
+                      child: Row(
+                        children: [
+                          CUSTOM_TEXT('Time booking services'),
+                          CUSTOM_TEXT(
+                            '*',
+                            color: RED_COLOR,
+                            fontSize: 18,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ],
+                      ),
+                    ),
+                    GetBuilder<CreateTicketPageController>(builder: (_) {
+                      if (controller.totalEstimateTime.value > 0) {
+                        controller.isLoadingTicketList.value = true;
 
-                      WidgetsBinding.instance!.addPostFrameCallback((_) async {
-                        controller
-                          ..ticketModelList =
-                              await TicketServices.fetchTicketListByBranch(
-                            branchId: controller.selectBranchId.value,
-                            bookingTime: controller.bookingServicesDate,
-                          )
-                          ..setTicketTimeModelList()
-                          ..isLoadingTicketList.value = false;
-                      });
-                    } else {
-                      controller.selectedTicketTimeIndex.value = -1;
-                    }
-                    return Obx(() => controller.isLoadingTicketList.value
-                        ? LOADING_WIDGET(size: 60)
-                        : timeItemWidget());
-                  }),
-                ],
+                        WidgetsBinding.instance!
+                            .addPostFrameCallback((_) async {
+                          controller
+                            ..ticketModelList =
+                                await TicketServices.fetchTicketListByBranch(
+                              branchId: controller.selectBranchId.value,
+                              bookingTime: controller.bookingServicesDate,
+                            )
+                            ..setTicketTimeModelList()
+                            ..isLoadingTicketList.value = false;
+                        });
+                      } else {
+                        controller.selectedTicketTimeIndex.value = -1;
+                      }
+                      return Obx(() => controller.isLoadingTicketList.value
+                          ? Container(
+                              color: WHITE_COLOR,
+                              height: 74,
+                              child: LOADING_WIDGET(size: 40))
+                          : timeItemWidget());
+                    }),
+                    Container(
+                      height: 1,
+                      color: LIGHT_GREY_COLOR.withAlpha(30),
+                    ),
+                  ],
+                ),
               ),
             ),
-          ),
-          const CreateTicketBottomWidget(),
-        ],
+            const CreateTicketBottomWidget(),
+          ],
+        ),
       ),
     );
   }
 
-  Widget estimateTimeWidget() => Padding(
-        padding: const EdgeInsets.only(left: 12, top: 20),
+  Widget estimateTimeWidget() => Container(
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 20),
+        color: WHITE_COLOR,
         child: Row(
           children: [
             CUSTOM_TEXT('Estimate time to\nperform services',
@@ -119,8 +127,9 @@ class CreateTicketBodyWidget extends GetView<CreateTicketPageController> {
         ),
       );
 
-  Widget addServicesWidget() => Padding(
+  Widget addServicesWidget() => Container(
         padding: const EdgeInsets.only(left: 12),
+        color: WHITE_COLOR,
         child: Column(
           children: [
             Padding(
@@ -277,120 +286,132 @@ class CreateTicketBodyWidget extends GetView<CreateTicketPageController> {
   Widget timeItemWidget() => Obx(() {
         return controller.selectedTicketTimeIndex.value != -1 &&
                 controller.totalEstimateTime.value != 0
-            ? Padding(
-                padding: const EdgeInsets.only(top: 10, left: 12),
+            ? Container(
+                padding: const EdgeInsets.only(
+                    top: 10, bottom: 20, left: 12, right: 12),
+                color: WHITE_COLOR,
                 child: InkWell(
                   onTap: () => controller.isShowPickTimeWidget.value = true,
-                  child: Container(
-                    width: 200,
-                    alignment: Alignment.center,
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(5),
-                        border: Border.all(
-                          color: LIGHT_GREY_COLOR.withOpacity(0.3),
-                        ),
-                        color: WHITE_COLOR),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Expanded(
-                          child: CUSTOM_TEXT(
-                            (controller
-                                                .ticketTimeModelList[controller
-                                                    .selectedTicketTimeIndex
-                                                    .value]
-                                                .startTime ~/
-                                            60 +
-                                        7)
-                                    .toString() +
-                                ':' +
-                                ((controller
-                                                .ticketTimeModelList[controller
-                                                    .selectedTicketTimeIndex
-                                                    .value]
-                                                .startTime %
-                                            60) ==
-                                        0
-                                    ? '00'
-                                    : '30') +
-                                ((controller
-                                                    .ticketTimeModelList[controller
-                                                        .selectedTicketTimeIndex
-                                                        .value]
-                                                    .startTime ~/
-                                                60 +
-                                            7) <=
-                                        12
-                                    ? ' AM'
-                                    : ' PM'),
-                            fontSize: 17,
-                            textAlign: TextAlign.right,
+                  child: Center(
+                    child: Container(
+                      width: 200,
+                      alignment: Alignment.center,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(5),
+                          border: Border.all(
+                            color: LIGHT_GREY_COLOR.withOpacity(0.3),
                           ),
-                        ),
-                        CUSTOM_TEXT(
-                          ' - ',
-                          padding: const EdgeInsets.symmetric(vertical: 10),
-                          fontSize: 17,
-                        ),
-                        Expanded(
-                          child: CUSTOM_TEXT(
-                            (controller
-                                                .ticketTimeModelList[controller
-                                                    .selectedTicketTimeIndex
-                                                    .value]
-                                                .endTime ~/
-                                            60 +
-                                        7)
-                                    .toString() +
-                                ':' +
-                                ((controller
-                                                .ticketTimeModelList[controller
-                                                    .selectedTicketTimeIndex
-                                                    .value]
-                                                .endTime %
-                                            60) ==
-                                        0
-                                    ? '00'
-                                    : '30') +
-                                ((controller
-                                                    .ticketTimeModelList[controller
-                                                        .selectedTicketTimeIndex
-                                                        .value]
-                                                    .endTime ~/
-                                                60 +
-                                            7) <=
-                                        12
-                                    ? ' AM'
-                                    : ' PM'),
+                          color: WHITE_COLOR),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Expanded(
+                            child: CUSTOM_TEXT(
+                              (controller
+                                                  .ticketTimeModelList[controller
+                                                      .selectedTicketTimeIndex
+                                                      .value]
+                                                  .startTime ~/
+                                              60 +
+                                          7)
+                                      .toString() +
+                                  ':' +
+                                  ((controller
+                                                  .ticketTimeModelList[controller
+                                                      .selectedTicketTimeIndex
+                                                      .value]
+                                                  .startTime %
+                                              60) ==
+                                          0
+                                      ? '00'
+                                      : '30') +
+                                  ((controller
+                                                      .ticketTimeModelList[
+                                                          controller
+                                                              .selectedTicketTimeIndex
+                                                              .value]
+                                                      .startTime ~/
+                                                  60 +
+                                              7) <=
+                                          12
+                                      ? ' AM'
+                                      : ' PM'),
+                              fontSize: 17,
+                              textAlign: TextAlign.right,
+                            ),
+                          ),
+                          CUSTOM_TEXT(
+                            ' - ',
                             padding: const EdgeInsets.symmetric(vertical: 10),
                             fontSize: 17,
-                            textAlign: TextAlign.left,
                           ),
-                        ),
-                        const Icon(
-                          Icons.arrow_drop_down,
-                          color: DARK_GREY_TEXT_COLOR,
-                          size: 25,
-                        ),
-                      ],
+                          Expanded(
+                            child: CUSTOM_TEXT(
+                              (controller
+                                                  .ticketTimeModelList[controller
+                                                      .selectedTicketTimeIndex
+                                                      .value]
+                                                  .endTime ~/
+                                              60 +
+                                          7)
+                                      .toString() +
+                                  ':' +
+                                  ((controller
+                                                  .ticketTimeModelList[controller
+                                                      .selectedTicketTimeIndex
+                                                      .value]
+                                                  .endTime %
+                                              60) ==
+                                          0
+                                      ? '00'
+                                      : '30') +
+                                  ((controller
+                                                      .ticketTimeModelList[
+                                                          controller
+                                                              .selectedTicketTimeIndex
+                                                              .value]
+                                                      .endTime ~/
+                                                  60 +
+                                              7) <=
+                                          12
+                                      ? ' AM'
+                                      : ' PM'),
+                              padding: const EdgeInsets.symmetric(vertical: 10),
+                              fontSize: 17,
+                              textAlign: TextAlign.left,
+                            ),
+                          ),
+                          const Icon(
+                            Icons.arrow_drop_down,
+                            color: DARK_GREY_TEXT_COLOR,
+                            size: 25,
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),
               )
-            : CUSTOM_TEXT(
-                controller.totalEstimateTime.value == 0
-                    ? 'Select booking services\nto chose booking time!'
-                    : 'There are currently no available time!\nPlease choose another date.',
-                color: controller.totalEstimateTime.value == 0
-                    ? DARK_GREY_TEXT_COLOR.withOpacity(0.7)
-                    : PINK_COLOR,
-                textAlign: TextAlign.center,
-                padding: const EdgeInsets.only(top: 10),
+            : Container(
+                padding: const EdgeInsets.only(top: 10, bottom: 20),
+                color: WHITE_COLOR,
+                child: Center(
+                  child: CUSTOM_TEXT(
+                    controller.totalEstimateTime.value == 0
+                        ? 'Select booking services\nto chose booking time!'
+                        : 'There are currently no available time!\nPlease choose another date.',
+                    color: controller.totalEstimateTime.value == 0
+                        ? DARK_GREY_TEXT_COLOR.withOpacity(0.7)
+                        : PINK_COLOR,
+                    textAlign: TextAlign.center,
+                  ),
+                ),
               );
       });
 
-  Widget selectUseServicesDateWidget() => Padding(
+  Widget selectUseServicesDateWidget() => Container(
         padding: const EdgeInsets.only(left: 12),
+        color: WHITE_COLOR,
         child: Column(
           children: [
             Padding(

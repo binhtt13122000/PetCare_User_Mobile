@@ -10,8 +10,10 @@ class SelectBranchWidget extends GetView<CreateTicketPageController> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
+    return Container(
+      margin: const EdgeInsets.only(top: 10),
       padding: const EdgeInsets.symmetric(horizontal: 12),
+      color: WHITE_COLOR,
       child: Column(
         children: [
           Padding(
