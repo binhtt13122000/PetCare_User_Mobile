@@ -10,14 +10,17 @@ TicketModel _$TicketModelFromJson(Map<String, dynamic> json) => TicketModel(
       id: json['id'] as int,
       createdTime: DateTime.parse(json['createdTime'] as String),
       meetingDate: DateTime.parse(json['meetingDate'] as String),
-      startTime: json['startTime'] as int?,
-      endTime: json['endTime'] as int?,
+      startTime: json['startTime'] as int,
+      endTime: json['endTime'] as int,
       branchId: json['branchId'] as int,
       customerId: json['customerId'] as int,
       status: json['status'] as String,
       serviceTicketModelList: (json['serviceTickets'] as List<dynamic>?)
           ?.map((e) => ServiceTicketModel.fromJson(e as Map<String, dynamic>))
           .toList(),
+      branchModel: json['branch'] == null
+          ? null
+          : BranchModel.fromJson(json['branch'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$TicketModelToJson(TicketModel instance) =>
@@ -32,4 +35,5 @@ Map<String, dynamic> _$TicketModelToJson(TicketModel instance) =>
       'status': instance.status,
       'serviceTickets':
           instance.serviceTicketModelList?.map((e) => e.toJson()).toList(),
+      'branch': instance.branchModel?.toJson(),
     };

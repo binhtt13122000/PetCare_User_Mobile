@@ -29,11 +29,11 @@ class CreateTicketPageController extends GetxController {
   void setTicketTimeModelList() {
     ticketTimeModelList = [];
     if (ticketModelList.isNotEmpty) {
-      if (ticketModelList[0].startTime! > totalEstimateTime.value) {
+      if (ticketModelList[0].startTime > totalEstimateTime.value) {
         int tmpStartTime = 0;
         do {
           int tmpEndTime = tmpStartTime + totalEstimateTime.value;
-          if (tmpEndTime <= ticketModelList[0].startTime! &&
+          if (tmpEndTime <= ticketModelList[0].startTime &&
               (tmpEndTime <= 300 ||
                   (tmpStartTime >= 360 && tmpEndTime <= 600))) {
             ticketTimeModelList.add(
@@ -41,11 +41,11 @@ class CreateTicketPageController extends GetxController {
             );
           }
           tmpStartTime += 30;
-        } while (tmpStartTime < ticketModelList[0].startTime!);
+        } while (tmpStartTime < ticketModelList[0].startTime);
       }
-      if (600 - ticketModelList[ticketModelList.length - 1].endTime! >
+      if (600 - ticketModelList[ticketModelList.length - 1].endTime >
           totalEstimateTime.value) {
-        int tmpStartTime = ticketModelList[ticketModelList.length - 1].endTime!;
+        int tmpStartTime = ticketModelList[ticketModelList.length - 1].endTime;
         do {
           int tmpEndTime = tmpStartTime + totalEstimateTime.value;
           if (tmpEndTime <= 300 || (tmpStartTime >= 360 && tmpEndTime <= 600)) {
@@ -59,13 +59,13 @@ class CreateTicketPageController extends GetxController {
       if (ticketModelList.length > 1) {
         int index = 1;
         do {
-          if (ticketModelList[index].startTime! -
-                  ticketModelList[index - 1].endTime! >
+          if (ticketModelList[index].startTime -
+                  ticketModelList[index - 1].endTime >
               totalEstimateTime.value) {
-            int tmpStartTime = ticketModelList[index - 1].endTime!;
+            int tmpStartTime = ticketModelList[index - 1].endTime;
             do {
               int tmpEndTime = tmpStartTime + totalEstimateTime.value;
-              if (tmpEndTime <= ticketModelList[index].startTime! &&
+              if (tmpEndTime <= ticketModelList[index].startTime &&
                   (tmpEndTime <= 300 ||
                       (tmpStartTime >= 360 && tmpEndTime <= 600))) {
                 ticketTimeModelList.add(
@@ -73,7 +73,7 @@ class CreateTicketPageController extends GetxController {
                 );
               }
               tmpStartTime += 30;
-            } while (tmpStartTime < ticketModelList[index].startTime!);
+            } while (tmpStartTime < ticketModelList[index].startTime);
           }
           index++;
         } while (index < ticketModelList.length);

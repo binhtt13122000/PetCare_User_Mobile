@@ -15,7 +15,7 @@ class CreateTicketPopupWidget extends GetView<CreateTicketPageController> {
           child: Container(
             alignment: Alignment.center,
             decoration: const BoxDecoration(
-              color: Color.fromARGB(106, 201, 188, 190),
+              color: DARK_GREY_TRANSPARENT,
             ),
             child: Container(
               height: 220,
@@ -36,7 +36,7 @@ class CreateTicketPopupWidget extends GetView<CreateTicketPageController> {
                         textStyle: const TextStyle(
                           color: Color.fromARGB(255, 92, 98, 124),
                         ),
-                        fontWeight: FontWeight.w700,
+                        fontWeight: FontWeight.w500,
                         fontSize: 15,
                         height: 1,
                         letterSpacing: 1,

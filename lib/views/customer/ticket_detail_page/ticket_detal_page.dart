@@ -25,7 +25,7 @@ class TicketDetailPage extends GetView<TicketDetailPageController> {
               controller.isLoadingData.value = false;
             });
             return Obx(() => controller.isLoadingData.value
-                ? LOADING_WIDGET()
+                ? Expanded(child: LOADING_WIDGET())
                 : const TicketDetailBodyWidget());
           })
         ],
