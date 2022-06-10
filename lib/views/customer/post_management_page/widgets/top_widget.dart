@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:petapp_mobile/configs/path.dart';
 import 'package:petapp_mobile/configs/theme.dart';
+import 'package:petapp_mobile/controllers/action_page_controller.dart';
 import 'package:petapp_mobile/controllers/post_management_page_controller.dart';
 
 class PostsManagementTopWidget extends GetView<PostManagementPageController> {
@@ -167,7 +168,9 @@ class PostsManagementTopWidget extends GetView<PostManagementPageController> {
         child: Row(
           children: [
             InkWell(
-              onTap: () => Get.back(),
+              onTap: () => Get
+                ..back()
+                ..put(ActionPageController()).update(),
               child: Container(
                 height: 35,
                 width: 35,

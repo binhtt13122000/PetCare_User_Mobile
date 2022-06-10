@@ -3,9 +3,11 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
 import 'package:petapp_mobile/configs/route.dart';
 import 'package:petapp_mobile/configs/theme.dart';
+import 'package:petapp_mobile/controllers/auth_controller.dart';
 import 'package:petapp_mobile/controllers/transaction_list_page_controller.dart';
 import 'package:petapp_mobile/models/center_services_transaction_model/center_services_transaction_model.dart';
 import 'package:petapp_mobile/services/center_services_transaction_services.dart';
+import 'package:petapp_mobile/services/customer_services.dart';
 import 'package:petapp_mobile/utilities/utilities.dart';
 import 'package:petapp_mobile/views/widgets/customize_widget.dart';
 
@@ -18,13 +20,19 @@ class CenterServicesTransactionListWidget
     return GetBuilder<TransactionListPageController>(builder: (_) {
       controller.isLoadingCenterServicesTransaction.value = true;
       WidgetsBinding.instance!.addPostFrameCallback((_) async {
-        controller.centerServicesTransactionList =
-            await CenterServicesTransactionServices
-                .fetchListCenterServicesTransactionByCustomerId(
-          page: controller.page,
-          limit: controller.limit,
-          customerId: controller.accountModel.customerModel.id,
-        );
+        controller
+          ..centerServicesTransactionList =
+              await CenterServicesTransactionServices
+                  .fetchListCenterServicesTransactionByCustomerId(
+            page: controller.page,
+            limit: controller.limit,
+            customerId: controller.accountModel.customerModel.id,
+          )
+          ..accountModel.customerModel =
+              await CustomerService.fetchCustomerById(
+                  controller.accountModel.customerModel.id);
+        Get.find<AuthController>().accountModel.customerModel =
+            controller.accountModel.customerModel;
         controller.isLoadingCenterServicesTransaction.value = false;
       });
 

@@ -4,8 +4,10 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:petapp_mobile/configs/route.dart';
 import 'package:petapp_mobile/configs/theme.dart';
+import 'package:petapp_mobile/controllers/auth_controller.dart';
 import 'package:petapp_mobile/controllers/transaction_list_page_controller.dart';
 import 'package:petapp_mobile/models/sale_transaction_model/sale_transaction_model.dart';
+import 'package:petapp_mobile/services/customer_services.dart';
 import 'package:petapp_mobile/services/sale_transaction_services.dart';
 import 'package:petapp_mobile/utilities/utilities.dart';
 
@@ -23,19 +25,25 @@ class SaleTransactionListWidget extends GetView<TransactionListPageController> {
               builder: (_) {
                 controller.isLoadingSaleTransaction.value = true;
                 WidgetsBinding.instance!.addPostFrameCallback((_) async {
-                  controller.saleTransactionModelList =
-                      await SaleTransactionService.fetchSaleTransactionList(
-                    buyerId: controller.selectedSaleTransactionType.value ==
-                            'Transaction role: [BUYER]'
-                        ? controller.accountModel.customerModel.id.toString()
-                        : null,
-                    sellerId: controller.selectedSaleTransactionType.value ==
-                            'Transaction role: [SELLER]'
-                        ? controller.accountModel.customerModel.id.toString()
-                        : null,
-                    page: controller.page.toString(),
-                    limit: controller.limit.toString(),
-                  );
+                  controller
+                    ..saleTransactionModelList =
+                        await SaleTransactionService.fetchSaleTransactionList(
+                      buyerId: controller.selectedSaleTransactionType.value ==
+                              'Transaction role: [BUYER]'
+                          ? controller.accountModel.customerModel.id.toString()
+                          : null,
+                      sellerId: controller.selectedSaleTransactionType.value ==
+                              'Transaction role: [SELLER]'
+                          ? controller.accountModel.customerModel.id.toString()
+                          : null,
+                      page: controller.page.toString(),
+                      limit: controller.limit.toString(),
+                    )
+                    ..accountModel.customerModel =
+                        await CustomerService.fetchCustomerById(
+                            controller.accountModel.customerModel.id);
+                  Get.find<AuthController>().accountModel.customerModel =
+                      controller.accountModel.customerModel;
                   controller.isLoadingSaleTransaction.value = false;
                 });
                 return Obx(

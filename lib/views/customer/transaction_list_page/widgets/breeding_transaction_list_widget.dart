@@ -4,9 +4,11 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:petapp_mobile/configs/route.dart';
 import 'package:petapp_mobile/configs/theme.dart';
+import 'package:petapp_mobile/controllers/auth_controller.dart';
 import 'package:petapp_mobile/controllers/transaction_list_page_controller.dart';
 import 'package:petapp_mobile/models/breeding_transaction_model/breeding_transaction_model.dart';
 import 'package:petapp_mobile/services/breeding_transaction_services.dart';
+import 'package:petapp_mobile/services/customer_services.dart';
 import 'package:petapp_mobile/utilities/utilities.dart';
 import 'package:petapp_mobile/views/widgets/customize_widget.dart';
 
@@ -25,22 +27,28 @@ class BreedingTransactionListWidget
               builder: (_) {
                 controller.isLoadingBreedingTransaction.value = true;
                 WidgetsBinding.instance!.addPostFrameCallback((_) async {
-                  controller.breedingTransactionModelList =
-                      await BreedingTransactionService
-                          .fetchBreedingTransactionList(
-                    petOwnerFemaleId: controller
-                                .selectedBreedingTransactionType.value ==
-                            'Transaction role: [BUYER]'
-                        ? controller.accountModel.customerModel.id.toString()
-                        : null,
-                    petOwnerMaleId: controller
-                                .selectedBreedingTransactionType.value ==
-                            'Transaction role: [SELLER]'
-                        ? controller.accountModel.customerModel.id.toString()
-                        : null,
-                    page: controller.page.toString(),
-                    limit: controller.limit.toString(),
-                  );
+                  controller
+                    ..breedingTransactionModelList =
+                        await BreedingTransactionService
+                            .fetchBreedingTransactionList(
+                      petOwnerFemaleId: controller
+                                  .selectedBreedingTransactionType.value ==
+                              'Transaction role: [BUYER]'
+                          ? controller.accountModel.customerModel.id.toString()
+                          : null,
+                      petOwnerMaleId: controller
+                                  .selectedBreedingTransactionType.value ==
+                              'Transaction role: [SELLER]'
+                          ? controller.accountModel.customerModel.id.toString()
+                          : null,
+                      page: controller.page.toString(),
+                      limit: controller.limit.toString(),
+                    )
+                    ..accountModel.customerModel =
+                        await CustomerService.fetchCustomerById(
+                            controller.accountModel.customerModel.id);
+                  Get.find<AuthController>().accountModel.customerModel =
+                      controller.accountModel.customerModel;
                   controller.isLoadingBreedingTransaction.value = false;
                 });
                 return Obx(

@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:petapp_mobile/configs/path.dart';
 import 'package:petapp_mobile/configs/theme.dart';
 import 'package:petapp_mobile/controllers/action_page_controller.dart';
 import 'package:petapp_mobile/controllers/ticket_detail_page_controller.dart';
@@ -67,30 +65,9 @@ class TicketDetailTopWidget extends GetView<TicketDetailPageController> {
                 ),
               ),
             ),
-            InkWell(
-              onTap: () => controller.isShowMoreOptions.value = true,
-              child: Container(
-                height: 35,
-                width: 35,
-                decoration: BoxDecoration(
-                  color: WHITE_COLOR,
-                  borderRadius: BorderRadius.circular(100),
-                  boxShadow: [
-                    BoxShadow(
-                      color: DARK_GREY_COLOR.withOpacity(0.1),
-                      blurRadius: 5,
-                      offset: const Offset(2, 2),
-                    ),
-                  ],
-                ),
-                alignment: Alignment.center,
-                child: SvgPicture.asset(
-                  ICON_PATH + ELLIPSIS_SVG,
-                  color: DARK_GREY_TEXT_COLOR,
-                  height: 16,
-                ),
-              ),
-            ),
+            const SizedBox(
+              width: 35,
+            )
           ],
         ),
       );

@@ -1,7 +1,11 @@
+import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:petapp_mobile/configs/path.dart';
 import 'package:petapp_mobile/configs/theme.dart';
 import 'package:petapp_mobile/controllers/pet_weight_page_controller.dart';
+import 'package:petapp_mobile/models/weight_record_model/weight_record_model.dart';
 import 'package:petapp_mobile/utilities/utilities.dart';
 import 'package:petapp_mobile/views/widgets/customize_widget.dart';
 import 'package:fl_chart/fl_chart.dart';
@@ -36,24 +40,24 @@ class PetWeightBodyWidget extends GetView<PetWeightPageController> {
               ],
             ),
           ),
+          SingleChildScrollView(
+              scrollDirection: Axis.horizontal, child: charWidget()),
           Expanded(
             child: SingleChildScrollView(
               child: Column(
                 children: [
-                  charWidget(),
                   addDataWidget(),
-                  wightItemWidget(
-                    weight: 10.5,
-                    dateTime: DateTime.now(),
-                  ),
-                  wightItemWidget(
-                    weight: 10.5,
-                    dateTime: DateTime.now(),
-                  ),
-                  wightItemWidget(
-                    weight: 10.5,
-                    dateTime: DateTime.now(),
-                  ),
+                  Column(
+                      children: controller.recordsTime
+                          .asMap()
+                          .entries
+                          .map(
+                            (e) => wightItemWidget(
+                              weight: e.value.weight,
+                              dateTime: e.value.recordTime,
+                            ),
+                          )
+                          .toList()),
                 ],
               ),
             ),
@@ -66,102 +70,128 @@ class PetWeightBodyWidget extends GetView<PetWeightPageController> {
   Widget charWidget() => Container(
         margin: const EdgeInsets.only(top: 20, right: 30, left: 10),
         height: 300,
-        width: 400,
-        child: LineChart(
-          LineChartData(
-            minX: 0,
-            maxX: controller.recordsTime.length.toDouble(),
-            minY: 0,
-            maxY: 6,
-            titlesData: FlTitlesData(
-              show: true,
-              topTitles: SideTitles(showTitles: false),
-              bottomTitles: SideTitles(
-                showTitles: true,
-                getTitles: (value) =>
-                    value != 0 && value != 5 && value - value.toInt() == 0
-                        ? FORMAT_DATE_TIME(
-                            dateTime: DateTime.now(), pattern: DATE_PATTERN_2)
-                        : '',
-                getTextStyles: (_, value) =>
-                    const TextStyle(fontSize: 10, color: DARK_GREY_TEXT_COLOR),
-              ),
-              leftTitles: SideTitles(
-                showTitles: true,
-                getTitles: (value) => '${value.toInt()}kg',
-                getTextStyles: (_, value) =>
-                    const TextStyle(fontSize: 12, color: DARK_GREY_TEXT_COLOR),
-              ),
-              rightTitles: SideTitles(showTitles: false),
-            ),
-            gridData: FlGridData(
-              show: true,
-              getDrawingHorizontalLine: (value) {
-                return FlLine(strokeWidth: 1);
-              },
-              getDrawingVerticalLine: (value) {
-                return FlLine(strokeWidth: 1);
-              },
-              drawHorizontalLine: true,
-              drawVerticalLine: false,
-            ),
-            lineBarsData: [
-              LineChartBarData(
-                spots: [
-                  const FlSpot(1, 2),
-                  const FlSpot(2, 5),
-                  const FlSpot(3, 2),
-                  const FlSpot(4, 2.5),
-                ],
-                isCurved: true,
-                barWidth: 3,
-                colors: [
-                  const Color.fromARGB(255, 123, 41, 255),
-                  const Color.fromARGB(255, 1, 226, 226),
-                ],
-                belowBarData: BarAreaData(
-                  show: true,
-                  colors: [
-                    const Color.fromARGB(255, 123, 41, 255).withOpacity(0.1),
-                    const Color.fromARGB(255, 1, 226, 226).withOpacity(0.1),
-                  ],
-                  //  gradient: const LinearGradient(colors: [
-                  //   Color.fromARGB(255, 123, 41, 255),
-                  //   Color.fromARGB(255, 1, 226, 226),
-                  // ]),
-                  // belowBarData: BarAreaData(
-                  //   show: true,
-                  //   gradient: LinearGradient(colors: [
-                  //     const Color.fromARGB(255, 123, 41, 255).withOpacity(0.1),
-                  //     const Color.fromARGB(255, 1, 226, 226).withOpacity(0.1),
-                  //   ]),
+        width: 350,
+        child: Obx(
+          () => LineChart(
+            LineChartData(
+              minX: 0.5,
+              maxX: controller.recordsTime.length.toDouble() + 0.5,
+              minY: controller.minWeight.value != 0
+                  ? controller.minWeight.value - 1
+                  : controller.minWeight.value,
+              maxY: controller.maxWeight.value + 1,
+              titlesData: FlTitlesData(
+                show: true,
+                topTitles: SideTitles(showTitles: false),
+                bottomTitles: SideTitles(
+                  showTitles: true,
+                  getTitles: (value) => value != 0 &&
+                          value !=
+                              controller.recordsTime.length.toDouble() + 1 &&
+                          value - value.toInt() == 0
+                      ? FORMAT_DATE_TIME(
+                          dateTime: controller
+                              .recordsTime[value.toInt() - 1].recordTime,
+                          pattern: DATE_PATTERN_3)
+                      : '',
+                  getTextStyles: (_, value) => const TextStyle(
+                    fontSize: 10,
+                    color: DARK_GREY_TEXT_COLOR,
+                    fontWeight: FontWeight.w700,
+                  ),
                 ),
+                leftTitles: SideTitles(
+                  showTitles: true,
+                  getTitles: (value) => '${value.toInt()}kg',
+                  getTextStyles: (_, value) => const TextStyle(
+                    fontSize: 9,
+                    color: DARK_GREY_TEXT_COLOR,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+                rightTitles: SideTitles(showTitles: false),
               ),
-            ],
+              gridData: FlGridData(
+                show: true,
+                getDrawingHorizontalLine: (value) {
+                  return FlLine(strokeWidth: 1);
+                },
+                getDrawingVerticalLine: (value) {
+                  return FlLine(strokeWidth: 1);
+                },
+                drawHorizontalLine: true,
+                drawVerticalLine: false,
+              ),
+              lineBarsData: [
+                LineChartBarData(
+                  spots: controller.recordsTime
+                      .asMap()
+                      .entries
+                      .map((e) => FlSpot(e.key.toDouble() + 1, e.value.weight))
+                      .toList(),
+                  isCurved: true,
+                  barWidth: 3,
+                  colors: [
+                    const Color.fromARGB(255, 123, 41, 255),
+                    const Color.fromARGB(255, 1, 226, 226),
+                  ],
+                  belowBarData: BarAreaData(
+                    show: true,
+                    colors: [
+                      const Color.fromARGB(255, 123, 41, 255).withOpacity(0.1),
+                      const Color.fromARGB(255, 1, 226, 226).withOpacity(0.1),
+                    ],
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       );
 
-  Widget addDataWidget() => Row(
-        children: [
-          Expanded(
-            child: Container(
-              margin: const EdgeInsets.symmetric(vertical: 20, horizontal: 12),
-              padding: const EdgeInsets.all(5),
-              decoration: BoxDecoration(
-                color: PRIMARY_LIGHT_COLOR.withOpacity(0.3),
-                border: Border.all(color: PRIMARY_COLOR),
-                borderRadius: BorderRadius.circular(5),
+  Widget addDataWidget() => Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
+        child: InkWell(
+          onTap: () => controller
+            ..recordsTime.add(
+              WeightRecordModel(
+                recordTime: DateTime.now(),
+                weight: controller.maxWeight.value + 1,
               ),
-              child: CUSTOM_TEXT(
-                'Add data',
-                textAlign: TextAlign.center,
-                color: PRIMARY_COLOR,
-                letterSpacing: 1,
+            )
+            ..maxWeight.value += 1,
+          child: DottedBorder(
+            color: PRIMARY_COLOR.withOpacity(0.7),
+            strokeWidth: 1,
+            radius: const Radius.circular(5),
+            borderType: BorderType.RRect,
+            dashPattern: const [5, 5],
+            child: Container(
+              padding: const EdgeInsets.symmetric(vertical: 5),
+              margin: const EdgeInsets.all(3),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(5),
+                color: PRIMARY_COLOR.withOpacity(0.05),
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  CUSTOM_TEXT(
+                    'Add data',
+                    color: PRIMARY_COLOR,
+                    letterSpacing: 1,
+                  ),
+                  const SizedBox(width: 10),
+                  SvgPicture.asset(
+                    ICON_PATH + ADD_SVG,
+                    height: 18,
+                    color: PRIMARY_COLOR,
+                  ),
+                ],
               ),
             ),
           ),
-        ],
+        ),
       );
 
   Widget wightItemWidget(

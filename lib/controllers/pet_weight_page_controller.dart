@@ -5,7 +5,7 @@ import 'package:petapp_mobile/models/weight_record_model/weight_record_model.dar
 class PetWeightPageController extends GetxController {
   late PetModel petModel;
   RxBool isLoadingData = false.obs;
-  List<WeightRecordModel> recordsTime = [
+  RxList<WeightRecordModel> recordsTime = [
     WeightRecordModel(
       recordTime: DateTime.now(),
       weight: 10,
@@ -19,20 +19,15 @@ class PetWeightPageController extends GetxController {
       weight: 13,
     ),
     WeightRecordModel(
-      recordTime: DateTime.now(),
+      recordTime: DateTime.now().add(const Duration(days: 36)),
       weight: 10,
     ),
     WeightRecordModel(
-      recordTime: DateTime.now().add(const Duration(days: 33)),
-      weight: 14,
-    ),
-    WeightRecordModel(
-      recordTime: DateTime.now().add(const Duration(days: 49)),
-      weight: 16,
-    ),
-    WeightRecordModel(
       recordTime: DateTime.now().add(const Duration(days: 60)),
-      weight: 15.5,
+      weight: 10,
     ),
-  ];
+  ].obs;
+
+  RxDouble maxWeight = 13.0.obs;
+  RxDouble minWeight = 10.0.obs;
 }
