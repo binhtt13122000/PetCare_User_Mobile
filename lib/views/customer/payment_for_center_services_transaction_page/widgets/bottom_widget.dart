@@ -6,7 +6,7 @@ import 'package:petapp_mobile/configs/path.dart';
 import 'package:petapp_mobile/configs/route.dart';
 import 'package:petapp_mobile/configs/theme.dart';
 import 'package:petapp_mobile/controllers/payment_for_center_services_transaction_page_controller.dart';
-import 'package:petapp_mobile/services/payment_services.dart';
+import 'package:petapp_mobile/services/center_services_transaction_services.dart';
 import 'package:petapp_mobile/utilities/utilities.dart';
 
 class PaymentForCenterServicesTransactionBottomWidget
@@ -21,7 +21,7 @@ class PaymentForCenterServicesTransactionBottomWidget
           children: [
             Container(
               height: 1,
-              color: DARK_GREY_COLOR.withAlpha(50),
+              color: LIGHT_GREY_COLOR.withAlpha(30),
             ),
             Padding(
               padding: const EdgeInsets.only(
@@ -29,72 +29,8 @@ class PaymentForCenterServicesTransactionBottomWidget
               ),
               child: Row(
                 children: [
-                  InkWell(
-                    onTap: () => Get.toNamed(PAYMENT_METHOD_PAGE_ROUTE),
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 20,
-                      ),
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Image.asset(
-                            IMAGE_PATH + VISA_PNG,
-                            height: 28,
-                          ),
-                          const SizedBox(
-                            width: 10,
-                          ),
-                          Text(
-                            '****89',
-                            textAlign: TextAlign.center,
-                            style: GoogleFonts.quicksand(
-                              textStyle:
-                                  const TextStyle(color: PRIMARY_DARK_COLOR),
-                              fontWeight: FontWeight.w600,
-                              fontSize: 18,
-                              height: 1,
-                            ),
-                          ),
-                          const SizedBox(
-                            width: 40,
-                          ),
-                          SvgPicture.asset(
-                            ICON_PATH + UP_ARROW_SVG,
-                            height: 14,
-                          ),
-                          const SizedBox(
-                            width: 20,
-                          ),
-                          Container(
-                            height: 30,
-                            width: 1.5,
-                            color: LIGHT_GREY_COLOR.withAlpha(60),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  Expanded(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Obx(
-                          () => Text(
-                            controller.selectedPromotionName.value,
-                            textAlign: TextAlign.center,
-                            style: GoogleFonts.quicksand(
-                              textStyle: const TextStyle(color: PRIMARY_COLOR),
-                              fontWeight: FontWeight.w800,
-                              fontSize: 15,
-                              height: 1,
-                              letterSpacing: 1,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
+                  paymentMethodWidget(),
+                  promotionWidget(),
                 ],
               ),
             ),
@@ -106,94 +42,183 @@ class PaymentForCenterServicesTransactionBottomWidget
               ),
               child: Row(
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.only(right: 12),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: [
-                        Text(
-                          FORMAT_MONEY(
-                              price: controller.centerServicesTransactionModel
-                                  .provisionalTotal),
-                          textAlign: TextAlign.start,
-                          style: GoogleFonts.quicksand(
-                            textStyle: const TextStyle(
-                              color: Color.fromARGB(255, 115, 121, 151),
-                              decoration: TextDecoration.lineThrough,
-                            ),
-                            fontWeight: FontWeight.w500,
-                            fontSize: 16,
-                            height: 1,
-                            letterSpacing: 0.5,
-                          ),
-                        ),
-                        Obx(
-                          () => Text(
-                            FORMAT_MONEY(
-                                price: controller.centerServicesTransactionModel
-                                        .provisionalTotal -
-                                    controller.discountAmount.value),
-                            textAlign: TextAlign.start,
-                            style: GoogleFonts.quicksand(
-                              textStyle: const TextStyle(
-                                color: PRIMARY_COLOR,
-                              ),
-                              fontWeight: FontWeight.w500,
-                              fontSize: 20,
-                              height: 1,
-                              letterSpacing: 0.5,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Expanded(
-                    child: InkWell(
-                      onTap: () async {
-                        controller.paymentUrl.value = await PaymentServices.payment(
-                            message: controller
-                                    .accountModel.customerModel.lastName +
-                                'paymented ${controller.centerServicesTransactionModel.provisionalTotal - controller.discountAmount.value}',
-                            locale: 'vi',
-                            paymentMethod: 'VNPAY',
-                            transactionId:
-                                controller.centerServicesTransactionModel.id,
-                            customerId:
-                                controller.accountModel.customerModel.id,
-                            branchId: controller
-                                .centerServicesTransactionModel.branchId,
-                            orderTotal: controller
-                                    .centerServicesTransactionModel
-                                    .provisionalTotal -
-                                controller.discountAmount.value,
-                            paymentTime: DateTime.now());
-                      },
-                      child: Container(
-                        alignment: Alignment.center,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(5),
-                          color: PRIMARY_COLOR,
-                        ),
-                        child: Text(
-                          'Payment',
-                          textAlign: TextAlign.center,
-                          style: GoogleFonts.quicksand(
-                            textStyle: const TextStyle(color: WHITE_COLOR),
-                            fontWeight: FontWeight.w600,
-                            fontSize: 20,
-                            height: 1,
-                            letterSpacing: 2,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
+                  paymentMoneyWidget(),
+                  paymentWidget(),
                 ],
               ),
             ),
           ],
+        ),
+      );
+
+  Widget promotionWidget() => Expanded(
+        child: Obx(
+          () => InkWell(
+            onTap: () {},
+            child: Text(
+              controller.selectedPromotionIndex.value != -1
+                  ? controller
+                      .promotionModels[controller.selectedPromotionIndex.value]
+                      .name
+                  : 'ADD PROMO',
+              textAlign: TextAlign.center,
+              style: GoogleFonts.quicksand(
+                textStyle: const TextStyle(color: PRIMARY_COLOR),
+                fontWeight: FontWeight.w800,
+                fontSize: 15,
+                height: 1,
+                letterSpacing: 1,
+              ),
+            ),
+          ),
+        ),
+      );
+
+  Widget paymentMethodWidget() => InkWell(
+        onTap: () =>
+            Get.toNamed(CENTER_SERVICES_TRANSACTION_PAYMENT_METHOD_PAGE_ROUTE),
+        child: Padding(
+          padding: const EdgeInsets.only(
+            left: 20,
+          ),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Image.asset(
+                IMAGE_PATH + VNPAY_PNG,
+                height: 28,
+              ),
+              const SizedBox(
+                width: 10,
+              ),
+              Text(
+                '****98',
+                textAlign: TextAlign.center,
+                style: GoogleFonts.quicksand(
+                  textStyle: const TextStyle(color: PRIMARY_DARK_COLOR),
+                  fontWeight: FontWeight.w600,
+                  fontSize: 18,
+                  height: 1,
+                ),
+              ),
+              const SizedBox(
+                width: 40,
+              ),
+              SvgPicture.asset(
+                ICON_PATH + UP_ARROW_SVG,
+                height: 14,
+              ),
+              const SizedBox(
+                width: 20,
+              ),
+              Container(
+                height: 30,
+                width: 1.5,
+                color: LIGHT_GREY_COLOR.withAlpha(60),
+              ),
+            ],
+          ),
+        ),
+      );
+
+  Widget paymentMoneyWidget() => Container(
+        padding: const EdgeInsets.only(right: 12),
+        width: 90,
+        child: Obx(
+          () => Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              Visibility(
+                visible: controller.discountAmount.value > 0,
+                child: Padding(
+                  padding: const EdgeInsets.only(bottom: 5),
+                  child: Text(
+                    FORMAT_MONEY(
+                        price: controller
+                            .centerServicesTransactionModel.provisionalTotal),
+                    textAlign: TextAlign.start,
+                    style: GoogleFonts.quicksand(
+                      textStyle: const TextStyle(
+                        color: Color.fromARGB(255, 115, 121, 151),
+                        decoration: TextDecoration.lineThrough,
+                      ),
+                      fontWeight: FontWeight.w500,
+                      fontSize: 16,
+                      height: 1,
+                      letterSpacing: 0.5,
+                    ),
+                  ),
+                ),
+              ),
+              FittedBox(
+                fit: BoxFit.scaleDown,
+                child: Text(
+                  FORMAT_MONEY(
+                      price: controller
+                              .centerServicesTransactionModel.provisionalTotal -
+                          controller.discountAmount.value),
+                  textAlign: TextAlign.start,
+                  style: GoogleFonts.quicksand(
+                    textStyle: const TextStyle(
+                      color: PRIMARY_COLOR,
+                    ),
+                    fontWeight: FontWeight.w500,
+                    fontSize: 20,
+                    height: 1,
+                    letterSpacing: 0.5,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      );
+
+  Widget paymentWidget() => Expanded(
+        child: InkWell(
+          onTap: () async {
+            controller.paymentUrl.value =
+                await CenterServicesTransactionServices.payment(
+              message: controller.accountModel.customerModel.lastName +
+                  'payment ${controller.centerServicesTransactionModel.provisionalTotal - controller.discountAmount.value}',
+              locale: 'vi',
+              paymentMethod: 'VNPAY',
+              transactionId: controller.centerServicesTransactionModel.id,
+              orderTotal:
+                  controller.centerServicesTransactionModel.provisionalTotal -
+                      controller.discountAmount.value,
+              paymentTime: DateTime.now(),
+              paymentPoint: controller.usedPoint.value,
+              promotionId: controller.selectedPromotionIndex.value != -1
+                  ? controller
+                      .promotionModels[controller.selectedPromotionIndex.value]
+                      .id
+                  : null,
+              customerId: controller.centerServicesTransactionModel.customerId,
+              branchId: controller.centerServicesTransactionModel.branchId,
+              provisionalTotal:
+                  controller.centerServicesTransactionModel.provisionalTotal,
+            );
+          },
+          child: Container(
+            alignment: Alignment.center,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(5),
+              color: PRIMARY_COLOR,
+            ),
+            child: Text(
+              'Payment',
+              textAlign: TextAlign.center,
+              style: GoogleFonts.quicksand(
+                textStyle: const TextStyle(color: WHITE_COLOR),
+                fontWeight: FontWeight.w600,
+                fontSize: 20,
+                height: 1,
+                letterSpacing: 2,
+              ),
+            ),
+          ),
         ),
       );
 }

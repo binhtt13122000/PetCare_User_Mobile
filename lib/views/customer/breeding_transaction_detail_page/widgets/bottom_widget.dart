@@ -101,7 +101,8 @@ class BreedingTransactionDetailBottomWidget
             child: Row(
               children: [
                 InkWell(
-                  onTap: () => Get.toNamed(PAYMENT_METHOD_PAGE_ROUTE),
+                  onTap: () => Get.toNamed(
+                      CENTER_SERVICES_TRANSACTION_PAYMENT_METHOD_PAGE_ROUTE),
                   child: Padding(
                     padding: const EdgeInsets.symmetric(
                       horizontal: 20,

@@ -2,6 +2,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 import 'package:petapp_mobile/models/branch_model/branch_model.dart';
 import 'package:petapp_mobile/models/center_services_transaction_detail_model/center_services_transaction_detail_model.dart';
+import 'package:petapp_mobile/models/promotion_model.dart/promotion_model.dart';
 
 part 'center_services_transaction_model.g.dart';
 
@@ -27,6 +28,9 @@ class CenterServicesTransactionModel {
   @JsonKey(name: 'orderDetails')
   final List<CenterServicesTransactionDetailModel>?
       centerServicesTransactionDetailModelList;
+  @JsonKey(name: 'promotion')
+  final PromotionModel? promotionModel;
+
   CenterServicesTransactionModel({
     required this.id,
     this.description,
@@ -45,6 +49,7 @@ class CenterServicesTransactionModel {
     this.promotionId,
     required this.customerId,
     required this.registerTime,
+    this.promotionModel,
   });
 
   factory CenterServicesTransactionModel.fromJson(Map<String, dynamic> json) =>

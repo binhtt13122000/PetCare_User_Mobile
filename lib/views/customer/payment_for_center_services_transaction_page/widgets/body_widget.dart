@@ -10,6 +10,7 @@ import 'package:petapp_mobile/services/center_services_transaction_services.dart
 import 'package:petapp_mobile/services/promotion_services.dart';
 import 'package:petapp_mobile/utilities/utilities.dart';
 import 'package:petapp_mobile/views/customer/payment_for_center_services_transaction_page/widgets/bottom_widget.dart';
+import 'package:petapp_mobile/views/widgets/customize_widget.dart';
 
 class PaymentForCenterServicesTransactionBodyWidget
     extends GetView<PaymentForCenterServicesTransactionPageController> {
@@ -19,102 +20,158 @@ class PaymentForCenterServicesTransactionBodyWidget
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
-    return Expanded(child:
-        GetBuilder<PaymentForCenterServicesTransactionPageController>(
-            builder: (_) {
-      controller.isLoadingData.value = true;
-      WidgetsBinding.instance!.addPostFrameCallback((_) async {
-        controller.centerServicesTransactionModel =
-            await CenterServicesTransactionServices
-                .fetchCenterServicesTransactionByCustomerId(
-                    transactionId: int.parse(Get.parameters['transactionId']!));
-        controller.promotionModels =
-            await PromotionServices.fetchPromotionByBranchId(
-                branchId: controller.centerServicesTransactionModel.branchId);
-        controller.isLoadingData.value = false;
-      });
-      return Obx(
-        () => controller.isLoadingData.value
-            ? const Center(
-                child: SpinKitSpinningLines(
-                  color: PRIMARY_COLOR,
-                  size: 150,
-                ),
-              )
-            : Column(
-                children: [
-                  Expanded(
-                    child: SingleChildScrollView(
-                      child: Column(
-                        children: [
-                          Container(
-                            height: 25,
-                            padding: const EdgeInsets.symmetric(horizontal: 12),
-                            color: const Color.fromARGB(255, 242, 244, 247),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    return Expanded(
+      child: GetBuilder<PaymentForCenterServicesTransactionPageController>(
+        builder: (_) {
+          controller.isLoadingData.value = true;
+          WidgetsBinding.instance!.addPostFrameCallback((_) async {
+            controller
+              ..centerServicesTransactionModel =
+                  await CenterServicesTransactionServices
+                      .fetchCenterServicesTransactionByTransactionId(
+                          transactionId:
+                              int.parse(Get.parameters['transactionId']!))
+              ..promotionModels =
+                  await PromotionServices.fetchPromotionByBranchId(
+                      branchId:
+                          controller.centerServicesTransactionModel.branchId)
+              ..isLoadingData.value = false;
+          });
+          return Obx(
+            () => controller.isLoadingData.value
+                ? const Center(
+                    child: SpinKitSpinningLines(
+                      color: PRIMARY_COLOR,
+                      size: 150,
+                    ),
+                  )
+                : Container(
+                    color: SUPPER_LIGHT_BLUE,
+                    child: Column(
+                      children: [
+                        transactionIdWidget(),
+                        Expanded(
+                          child: SingleChildScrollView(
+                            child: Column(
                               children: [
-                                Text(
-                                  'Transaction ID',
-                                  textAlign: TextAlign.start,
-                                  style: GoogleFonts.quicksand(
-                                    textStyle: const TextStyle(
-                                      color: Color.fromARGB(255, 126, 128, 138),
-                                    ),
-                                    fontWeight: FontWeight.w500,
-                                    fontSize: 12,
-                                    height: 1,
-                                    letterSpacing: 0.5,
-                                  ),
-                                ),
-                                Text(
-                                  '#0${controller.centerServicesTransactionModel.id}',
-                                  textAlign: TextAlign.center,
-                                  style: GoogleFonts.quicksand(
-                                    color: const Color.fromARGB(
-                                        255, 126, 128, 138),
-                                    fontWeight: FontWeight.w600,
-                                    fontSize: 12,
-                                    height: 1,
-                                    letterSpacing: 0.5,
-                                  ),
-                                ),
+                                listServices(),
+                                pointWidget(),
+                                listPromotionWidget(),
+                                priceWidget(width: width),
                               ],
                             ),
                           ),
-                          listServices(),
-                          priceWidget(width: width),
-                          Container(
-                            height: 400,
-                            color: const Color.fromARGB(255, 242, 244, 247),
-                            alignment: Alignment.topCenter,
-                            child: SingleChildScrollView(
-                              scrollDirection: Axis.horizontal,
-                              child: Row(
-                                children: controller.promotionModels
-                                    .asMap()
-                                    .entries
-                                    .map(
-                                      (e) => promotionItemWidget(
-                                          promotionModel: e.value),
-                                    )
-                                    .toList(),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
+                        ),
+                        const PaymentForCenterServicesTransactionBottomWidget(),
+                      ],
                     ),
                   ),
-                  const PaymentForCenterServicesTransactionBottomWidget(),
-                ],
-              ),
-      );
-    }));
+          );
+        },
+      ),
+    );
   }
 
-  Widget listServices() => Padding(
+  Widget pointWidget() => Container(
+        color: WHITE_COLOR,
+        margin: const EdgeInsets.only(top: 20),
+        padding: const EdgeInsets.only(
+          bottom: 10,
+        ),
+        child: Obx(
+          () => Column(
+            children: [
+              Container(
+                height: 1,
+                color: LIGHT_GREY_COLOR.withAlpha(30),
+                margin: const EdgeInsets.only(bottom: 10),
+              ),
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 20, vertical: 3),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    CUSTOM_TEXT('Your points', fontSize: 15),
+                    CUSTOM_TEXT(
+                      FORMAT_MONEY_WITHOUT_SYMBOL(
+                          price: controller.accountModel.customerModel.point),
+                    ),
+                  ],
+                ),
+              ),
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 20, vertical: 3),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    CUSTOM_TEXT('Used points', fontSize: 15),
+                    CUSTOM_TEXT(
+                      '- ' +
+                          FORMAT_MONEY_WITHOUT_SYMBOL(
+                              price: controller.usedPoint.value),
+                    ),
+                  ],
+                ),
+              ),
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 20, vertical: 3),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    CUSTOM_TEXT('Remaining points', fontSize: 15),
+                    CUSTOM_TEXT(
+                      FORMAT_MONEY_WITHOUT_SYMBOL(
+                          price: controller.accountModel.customerModel.point -
+                              controller.usedPoint.value),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+      );
+
+  Widget listPromotionWidget() => SingleChildScrollView(
+        scrollDirection: Axis.horizontal,
+        child: Row(
+          children: controller.promotionModels
+              .asMap()
+              .entries
+              .map(
+                (e) =>
+                    promotionItemWidget(index: e.key, promotionModel: e.value),
+              )
+              .toList(),
+        ),
+      );
+
+  Widget transactionIdWidget() => Padding(
+        padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 20),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            CUSTOM_TEXT(
+              'Transaction ID',
+              fontSize: 13,
+              color: DARK_GREY_TEXT_COLOR.withOpacity(0.7),
+            ),
+            CUSTOM_TEXT(
+              (controller.centerServicesTransactionModel.id < 10 ? '#0' : '#') +
+                  controller.centerServicesTransactionModel.id.toString(),
+              fontSize: 13,
+              color: DARK_GREY_TEXT_COLOR.withOpacity(0.7),
+            ),
+          ],
+        ),
+      );
+
+  Widget listServices() => Container(
         padding: const EdgeInsets.symmetric(vertical: 12),
+        color: WHITE_COLOR,
         child: Column(
           children: [
             Padding(
@@ -138,6 +195,7 @@ class PaymentForCenterServicesTransactionBodyWidget
                           ),
                         ),
                       ),
+                      const SizedBox(width: 10),
                       Text(
                         'Services Used',
                         textAlign: TextAlign.start,
@@ -193,10 +251,6 @@ class PaymentForCenterServicesTransactionBodyWidget
           Container(
             height: 1,
             color: DARK_GREY_COLOR.withAlpha(30),
-          ),
-          Container(
-            height: 15,
-            color: const Color.fromARGB(255, 242, 244, 247),
           ),
           Stack(
             children: [
@@ -341,9 +395,7 @@ class PaymentForCenterServicesTransactionBodyWidget
               centerServicesTransactionDetailModel}) =>
       Container(
         padding: const EdgeInsets.symmetric(vertical: 7, horizontal: 12),
-        color: isDarkBackground
-            ? const Color.fromARGB(255, 242, 244, 247)
-            : WHITE_COLOR,
+        color: isDarkBackground ? LIGHT_GREY_COLOR.withAlpha(5) : WHITE_COLOR,
         child: Row(
           children: [
             Padding(
@@ -354,7 +406,7 @@ class PaymentForCenterServicesTransactionBodyWidget
                 child: CircleAvatar(
                   maxRadius: 10,
                   backgroundColor: isDarkBackground
-                      ? const Color.fromARGB(255, 242, 244, 247)
+                      ? WHITE_COLOR.withOpacity(0.9)
                       : WHITE_COLOR,
                   child: Text(
                     index <= 9 ? '0${index + 1}' : '${index + 1}',
@@ -372,45 +424,25 @@ class PaymentForCenterServicesTransactionBodyWidget
                 ),
               ),
             ),
+            const SizedBox(width: 10),
             Expanded(
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          centerServicesTransactionDetailModel
-                              .centerServiceModel.name,
-                          textAlign: TextAlign.start,
-                          style: GoogleFonts.quicksand(
-                            textStyle: const TextStyle(
-                              color: Color.fromARGB(255, 77, 82, 105),
-                            ),
-                            fontWeight: FontWeight.w500,
-                            fontSize: 15,
-                            height: 1,
-                            letterSpacing: 0.5,
-                          ),
+                    child: Text(
+                      centerServicesTransactionDetailModel
+                          .centerServiceModel.name,
+                      textAlign: TextAlign.start,
+                      style: GoogleFonts.quicksand(
+                        textStyle: const TextStyle(
+                          color: Color.fromARGB(255, 77, 82, 105),
                         ),
-                        Text(
-                          centerServicesTransactionDetailModel.description ??
-                              '',
-                          textAlign: TextAlign.start,
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                          style: GoogleFonts.quicksand(
-                            textStyle: const TextStyle(
-                              color: Color.fromARGB(255, 77, 82, 105),
-                            ),
-                            fontWeight: FontWeight.w500,
-                            fontSize: 15,
-                            height: 1.5,
-                            letterSpacing: 0.5,
-                          ),
-                        ),
-                      ],
+                        fontWeight: FontWeight.w500,
+                        fontSize: 15,
+                        height: 1,
+                        letterSpacing: 0.5,
+                      ),
                     ),
                   ),
                   Text(
@@ -434,32 +466,18 @@ class PaymentForCenterServicesTransactionBodyWidget
         ),
       );
 
-  Widget promotionItemWidget({required PromotionModel promotionModel}) => Stack(
-        children: [
-          Row(
-            children: [
-              Padding(
-                padding:
-                    const EdgeInsets.symmetric(vertical: 30, horizontal: 10),
-                child: InkWell(
-                  onTap: () {
-                    if (controller.selectedPromotionName.value !=
-                        promotionModel.name) {
-                      controller.selectedPromotion = promotionModel;
-                      controller.discountAmount.value = (controller
-                                  .centerServicesTransactionModel
-                                  .provisionalTotal /
-                              100 *
-                              promotionModel.promo)
-                          .toInt();
-                      controller.selectedPromotionName.value =
-                          promotionModel.name;
-                    } else {
-                      controller.selectedPromotion = null;
-                      controller.discountAmount.value = 0;
-                      controller.selectedPromotionName.value = 'ADD A PROMO';
-                    }
-                  },
+  Widget promotionItemWidget(
+          {required PromotionModel promotionModel, required int index}) =>
+      Visibility(
+        visible: promotionModel.expireTime.isAfter(DateTime.now()) &&
+            promotionModel.startTime.isBefore(DateTime.now()),
+        child: Stack(
+          children: [
+            Row(
+              children: [
+                Padding(
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 30, horizontal: 10),
                   child: Obx(
                     () => Row(
                       mainAxisAlignment: MainAxisAlignment.start,
@@ -467,7 +485,7 @@ class PaymentForCenterServicesTransactionBodyWidget
                       children: [
                         Container(
                           width: 7,
-                          height: 80,
+                          height: 90,
                           decoration: const BoxDecoration(
                             color: PRIMARY_COLOR,
                             borderRadius: BorderRadius.horizontal(
@@ -477,19 +495,19 @@ class PaymentForCenterServicesTransactionBodyWidget
                         ),
                         Container(
                           width: 210,
-                          height: 80,
+                          height: 90,
                           padding: const EdgeInsets.only(left: 20),
                           decoration: BoxDecoration(
-                            color: controller.selectedPromotionName.value ==
-                                    promotionModel.name
-                                ? PRIMARY_COLOR.withOpacity(0.1)
-                                : WHITE_COLOR,
+                            color:
+                                controller.selectedPromotionIndex.value == index
+                                    ? PRIMARY_COLOR.withOpacity(0.1)
+                                    : WHITE_COLOR,
                             borderRadius: const BorderRadius.horizontal(
-                              right: Radius.circular(10),
+                              right: Radius.circular(20),
                             ),
                             border: Border.all(
-                              color: controller.selectedPromotionName.value ==
-                                      promotionModel.name
+                              color: controller.selectedPromotionIndex.value ==
+                                      index
                                   ? PRIMARY_COLOR
                                   : Colors.transparent,
                             ),
@@ -512,7 +530,7 @@ class PaymentForCenterServicesTransactionBodyWidget
                                 height: 3,
                               ),
                               Text(
-                                promotionModel.description ?? '',
+                                'DISCOUNT ${promotionModel.promo}%',
                                 textAlign: TextAlign.start,
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
@@ -521,13 +539,14 @@ class PaymentForCenterServicesTransactionBodyWidget
                                   fontWeight: FontWeight.w700,
                                   fontSize: 17,
                                   height: 1,
+                                  letterSpacing: 1,
                                 ),
                               ),
                               const SizedBox(
                                 height: 5,
                               ),
                               Text(
-                                'Exp.Date: ${FORMAT_DATE_TIME(dateTime: promotionModel.expireTime, pattern: DATE_PATTERN)}',
+                                'Apply money: ${FORMAT_MONEY(price: promotionModel.applyMoney)}',
                                 textAlign: TextAlign.center,
                                 style: GoogleFonts.quicksand(
                                   color:
@@ -537,40 +556,99 @@ class PaymentForCenterServicesTransactionBodyWidget
                                   height: 1,
                                 ),
                               ),
+                              const SizedBox(
+                                height: 5,
+                              ),
+                              Text(
+                                'Required point: ${FORMAT_MONEY_WITHOUT_SYMBOL(price: promotionModel.point)}',
+                                textAlign: TextAlign.center,
+                                style: GoogleFonts.quicksand(
+                                  color:
+                                      const Color.fromARGB(255, 127, 133, 161),
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 13,
+                                  height: 1,
+                                ),
+                              ),
+                              // const SizedBox(
+                              //   height: 5,
+                              // ),
+                              // Text(
+                              //   'Exp.Date: ${FORMAT_DATE_TIME(dateTime: promotionModel.expireTime, pattern: DATE_PATTERN)}',
+                              //   textAlign: TextAlign.center,
+                              //   style: GoogleFonts.quicksand(
+                              //     color:
+                              //         const Color.fromARGB(255, 127, 133, 161),
+                              //     fontWeight: FontWeight.w500,
+                              //     fontSize: 13,
+                              //     height: 1,
+                              //   ),
+                              // ),
                             ],
                           ),
                         ),
-                        Container(
-                          width: 55,
-                          height: 80,
-                          alignment: Alignment.center,
-                          decoration: BoxDecoration(
-                            color: controller.selectedPromotionName.value ==
-                                    promotionModel.name
-                                ? PRIMARY_COLOR.withOpacity(0.1)
-                                : WHITE_COLOR,
-                            borderRadius: const BorderRadius.horizontal(
-                              left: Radius.circular(10),
-                              right: Radius.circular(5),
+                        InkWell(
+                          onTap: () {
+                            if (controller.selectedPromotionIndex.value !=
+                                    index &&
+                                promotionModel.applyMoney <=
+                                    controller.centerServicesTransactionModel
+                                        .provisionalTotal &&
+                                controller.accountModel.customerModel.point >=
+                                    promotionModel.point) {
+                              int discountMoney = (controller
+                                          .centerServicesTransactionModel
+                                          .provisionalTotal /
+                                      100 *
+                                      promotionModel.promo)
+                                  .toInt();
+
+                              controller
+                                ..selectedPromotionIndex.value = index
+                                ..discountAmount.value =
+                                    discountMoney > promotionModel.maxMoneyPromo
+                                        ? promotionModel.maxMoneyPromo
+                                        : discountMoney
+                                ..usedPoint.value = promotionModel.point;
+                            } else {
+                              controller
+                                ..selectedPromotionIndex.value = -1
+                                ..discountAmount.value = 0
+                                ..usedPoint.value = 0;
+                            }
+                          },
+                          child: Container(
+                            width: 60,
+                            height: 90,
+                            alignment: Alignment.center,
+                            decoration: BoxDecoration(
+                              color: controller.selectedPromotionIndex.value ==
+                                      index
+                                  ? PRIMARY_COLOR.withOpacity(0.1)
+                                  : WHITE_COLOR,
+                              borderRadius: const BorderRadius.horizontal(
+                                left: Radius.circular(20),
+                                right: Radius.circular(5),
+                              ),
+                              border: Border.all(
+                                color:
+                                    controller.selectedPromotionIndex.value ==
+                                            index
+                                        ? PRIMARY_COLOR
+                                        : Colors.transparent,
+                              ),
                             ),
-                            border: Border.all(
-                              color: controller.selectedPromotionName.value ==
-                                      promotionModel.name
-                                  ? PRIMARY_COLOR
-                                  : Colors.transparent,
-                            ),
-                          ),
-                          child: Text(
-                            controller.selectedPromotionName.value ==
-                                    promotionModel.name
-                                ? 'Cancel'
-                                : 'Select',
-                            textAlign: TextAlign.center,
-                            style: GoogleFonts.quicksand(
-                              color: PRIMARY_COLOR,
-                              fontWeight: FontWeight.w800,
-                              fontSize: 15,
-                              height: 1,
+                            child: Text(
+                              controller.selectedPromotionIndex.value == index
+                                  ? 'Cancel'
+                                  : 'Select',
+                              textAlign: TextAlign.center,
+                              style: GoogleFonts.quicksand(
+                                color: PRIMARY_COLOR,
+                                fontWeight: FontWeight.w800,
+                                fontSize: 15,
+                                height: 1,
+                              ),
                             ),
                           ),
                         )
@@ -578,64 +656,114 @@ class PaymentForCenterServicesTransactionBodyWidget
                     ),
                   ),
                 ),
-              ),
-            ],
-          ),
-          Positioned(
-            right: 64.5,
-            child: SizedBox(
-              height: 140,
-              child: Obx(
-                () => Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Container(
-                      height: 5,
-                      width: 1,
-                      color: controller.selectedPromotionName.value ==
-                              promotionModel.name
-                          ? WHITE_COLOR
-                          : LIGHT_GREY_COLOR,
-                    ),
-                    const SizedBox(
-                      height: 7,
-                    ),
-                    Container(
-                      height: 5,
-                      width: 1,
-                      color: controller.selectedPromotionName.value ==
-                              promotionModel.name
-                          ? WHITE_COLOR
-                          : LIGHT_GREY_COLOR,
-                    ),
-                    const SizedBox(
-                      height: 7,
-                    ),
-                    Container(
-                      height: 5,
-                      width: 1,
-                      color: controller.selectedPromotionName.value ==
-                              promotionModel.name
-                          ? WHITE_COLOR
-                          : LIGHT_GREY_COLOR,
-                    ),
-                    const SizedBox(
-                      height: 7,
-                    ),
-                    Container(
-                      height: 5,
-                      width: 1,
-                      color: controller.selectedPromotionName.value ==
-                              promotionModel.name
-                          ? WHITE_COLOR
-                          : LIGHT_GREY_COLOR,
-                    ),
-                  ],
+              ],
+            ),
+            Positioned(
+              right: 69.5,
+              child: SizedBox(
+                height: 150,
+                child: Obx(
+                  () => Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Container(
+                        height: 5,
+                        width: 1,
+                        color: controller.selectedPromotionIndex.value == index
+                            ? WHITE_COLOR
+                            : LIGHT_GREY_COLOR,
+                      ),
+                      const SizedBox(
+                        height: 7,
+                      ),
+                      Container(
+                        height: 5,
+                        width: 1,
+                        color: controller.selectedPromotionIndex.value == index
+                            ? WHITE_COLOR
+                            : LIGHT_GREY_COLOR,
+                      ),
+                      const SizedBox(
+                        height: 7,
+                      ),
+                      Container(
+                        height: 5,
+                        width: 1,
+                        color: controller.selectedPromotionIndex.value == index
+                            ? WHITE_COLOR
+                            : LIGHT_GREY_COLOR,
+                      ),
+                      const SizedBox(
+                        height: 7,
+                      ),
+                      Container(
+                        height: 5,
+                        width: 1,
+                        color: controller.selectedPromotionIndex.value == index
+                            ? WHITE_COLOR
+                            : LIGHT_GREY_COLOR,
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
-          ),
-        ],
+            Visibility(
+              visible: promotionModel.applyMoney >
+                      controller
+                          .centerServicesTransactionModel.provisionalTotal ||
+                  controller.accountModel.customerModel.point <
+                      promotionModel.point,
+              child: Row(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 30, horizontal: 10),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Container(
+                          width: 7,
+                          height: 90,
+                          decoration: BoxDecoration(
+                            color: WHITE_COLOR.withOpacity(0.7),
+                            borderRadius: const BorderRadius.horizontal(
+                              left: Radius.circular(5),
+                            ),
+                          ),
+                        ),
+                        Container(
+                          width: 210,
+                          height: 90,
+                          padding: const EdgeInsets.only(left: 20),
+                          decoration: BoxDecoration(
+                            color: WHITE_COLOR.withOpacity(0.7),
+                            borderRadius: const BorderRadius.horizontal(
+                              right: Radius.circular(20),
+                            ),
+                          ),
+                        ),
+                        Container(
+                          width: 60,
+                          height: 90,
+                          alignment: Alignment.center,
+                          decoration: BoxDecoration(
+                            color: WHITE_COLOR.withOpacity(0.7),
+                            borderRadius: const BorderRadius.horizontal(
+                              left: Radius.circular(20),
+                              right: Radius.circular(5),
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
       );
 
   Widget rhombusItemListWidget({required double screenWidth}) {
@@ -677,7 +805,7 @@ class PaymentForCenterServicesTransactionBodyWidget
               child: Container(
                 height: 7,
                 width: 7,
-                color: const Color.fromARGB(255, 242, 244, 247),
+                color: SUPPER_LIGHT_BLUE,
               ),
             ),
           ),

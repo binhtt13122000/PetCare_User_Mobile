@@ -95,8 +95,8 @@ const PROFILE_UNSELECTED_SVG = 'profile_unselected.svg';
 // const API_SERVER = '10.0.2.2:4000';
 // const GRAPHL_SERVER = 'http://10.0.2.2:8080';
 
-const API_SERVER_PATH = '54.183.170.177:4000';
-const GRAPHL_SERVER_PATH = 'http://54.183.170.177:8080';
+const API_SERVER_PATH = '54.183.67.66';
+const GRAPHL_SERVER_PATH = 'http://54.183.67.66:8080';
 
 //*sale transaction
 const SALE_TRANSACTION_RETURN_API_PATH =
@@ -118,8 +118,13 @@ const PET_API_PATH = '/v1/api/pets';
 const BREED_API_PATH = '/v1/api/breeds';
 const SPECIES_API_PATH = '/v1/api/species';
 const CUSTOMER_API_PATH = '/v1/api/customers';
-const CENTER_SERVICES_TRANSACTION_API_PATH = '/v1/api/orders';
 const TRANSACTION_FEES_API_PATH = '/v1/api/transaction-fees';
+
+//*
+const CENTER_SERVICES_TRANSACTION_API_PATH = '/v1/api/orders';
+const CENTER_SERVICES_TRANSACTION_RETURN_API_PATH =
+    '/v1/api/orders/vnpay/vnpay_return';
+const CENTER_SERVICES_TRANSACTION_PAYMENT_API_PATH = '/v1/api/orders/payment';
 
 //*ticket
 const TICKET_API_PATH = '/v1/api/tickets';

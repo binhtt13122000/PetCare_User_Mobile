@@ -37,6 +37,7 @@ import 'package:petapp_mobile/services/account_services.dart';
 import 'package:petapp_mobile/views/customer/action_page/action_page.dart';
 import 'package:petapp_mobile/views/customer/breeding_transaction_detail_page/breeding_transaction_detail_page.dart';
 import 'package:petapp_mobile/views/customer/center_services_transaction_detail_page/center_services_transaction_detail_page.dart';
+import 'package:petapp_mobile/views/customer/center_services_transaction_payment_method_page/center_services_transaction_payment_method_page.dart';
 import 'package:petapp_mobile/views/customer/chatting_detail_page/chatting_detail_page.dart';
 import 'package:petapp_mobile/views/customer/chatting_list_page/chatting_list_page.dart';
 import 'package:petapp_mobile/views/customer/create_pet_page/create_pet_page.dart';
@@ -55,7 +56,7 @@ import 'package:petapp_mobile/views/customer/profile_page/profile_page.dart';
 import 'package:petapp_mobile/views/customer/purchase_posts_filter_page/purchase_posts_filter_page.dart';
 import 'package:petapp_mobile/views/customer/sale_post_list_page/sale_post_page.dart';
 import 'package:petapp_mobile/views/customer/sale_transaction_detail_page/sale_transaction_detail_page.dart';
-import 'package:petapp_mobile/views/customer/ticket_detail_page/ticket_detal_page.dart';
+import 'package:petapp_mobile/views/customer/ticket_detail_page/ticket_detail_page.dart';
 import 'package:petapp_mobile/views/customer/transaction_list_page/transaction_list_page.dart';
 import 'package:petapp_mobile/views/customer/update_sale_post_page/update_sale_post_page.dart';
 import 'package:petapp_mobile/views/guest/landing_page/landing_page.dart';
@@ -222,6 +223,10 @@ class MainApp extends StatelessWidget {
               '$PAYMENT_FOR_CENTER_SERVICES_TRANSACTION_PAGE_ROUTE/:transactionId',
           page: () => const PaymentForCenterServicesTransactionPage(),
           binding: PaymentForCenterServicesTransactionPageBinding(),
+        ),
+        GetPage(
+          name: CENTER_SERVICES_TRANSACTION_PAYMENT_METHOD_PAGE_ROUTE,
+          page: () => const CenterServicesTransactionPaymentMethodPage(),
         ),
         GetPage(
           name: '$CENTER_SERVICES_TRANSACTION_DETAIL_PAGE_ROUTE/:transactionId',

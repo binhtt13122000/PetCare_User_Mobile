@@ -8,6 +8,7 @@ import 'package:petapp_mobile/models/center_services_transaction_detail_model/ce
 import 'package:petapp_mobile/services/center_services_transaction_services.dart';
 import 'package:petapp_mobile/utilities/utilities.dart';
 import 'package:petapp_mobile/views/customer/center_services_transaction_detail_page/widgets/bottom_widget.dart';
+import 'package:petapp_mobile/views/widgets/customize_widget.dart';
 
 class CenterServicesTransactionDetailBodyWidget
     extends GetView<CenterServicesTransactionDetailPageController> {
@@ -22,12 +23,15 @@ class CenterServicesTransactionDetailBodyWidget
           builder: (_) {
         controller.isLoadingData.value = true;
         WidgetsBinding.instance!.addPostFrameCallback((_) async {
-          controller.centerServicesTransactionModel =
-              await CenterServicesTransactionServices
-                  .fetchCenterServicesTransactionByCustomerId(
-                      transactionId:
-                          int.parse(Get.parameters['transactionId']!));
-          controller.isLoadingData.value = false;
+          int transactionId = Get.parameters['transactionId'] != null
+              ? int.parse(Get.parameters['transactionId']!)
+              : controller.centerServicesTransactionModel.id;
+          controller
+            ..centerServicesTransactionModel =
+                await CenterServicesTransactionServices
+                    .fetchCenterServicesTransactionByTransactionId(
+                        transactionId: transactionId)
+            ..isLoadingData.value = false;
         });
         return Obx(
           () => controller.isLoadingData.value
@@ -37,37 +41,57 @@ class CenterServicesTransactionDetailBodyWidget
                     size: 150,
                   ),
                 )
-              : Column(
-                  children: [
-                    Expanded(
-                      child: SingleChildScrollView(
-                        child: Column(
-                          children: [
-                            transactionInformationWidget(),
-                            listServices(),
-                            priceWidget(width: width),
-                            Container(
-                              height: 400,
-                              color: const Color.fromARGB(255, 242, 244, 247),
-                            ),
-                          ],
+              : Container(
+                  color: SUPPER_LIGHT_BLUE,
+                  child: Column(
+                    children: [
+                      transactionIdWidget(),
+                      Expanded(
+                        child: SingleChildScrollView(
+                          child: Column(
+                            children: [
+                              transactionInformationWidget(),
+                              listServices(),
+                              priceWidget(width: width),
+                            ],
+                          ),
                         ),
                       ),
-                    ),
-                    Visibility(
-                        visible: controller
-                                    .centerServicesTransactionModel.status ==
-                                'WAITING' ||
-                            (controller.centerServicesTransactionModel.star ==
-                                0),
-                        child:
-                            const CenterServicesTransactionDetailBottomWidget()),
-                  ],
+                      Visibility(
+                          visible: controller
+                                      .centerServicesTransactionModel.status ==
+                                  'WAITING' ||
+                              (controller.centerServicesTransactionModel.star ==
+                                  0),
+                          child:
+                              const CenterServicesTransactionDetailBottomWidget()),
+                    ],
+                  ),
                 ),
         );
       }),
     );
   }
+
+  Widget transactionIdWidget() => Padding(
+        padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 20),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            CUSTOM_TEXT(
+              'Transaction ID',
+              fontSize: 13,
+              color: DARK_GREY_TEXT_COLOR.withOpacity(0.7),
+            ),
+            CUSTOM_TEXT(
+              (controller.centerServicesTransactionModel.id < 10 ? '#0' : '#') +
+                  controller.centerServicesTransactionModel.id.toString(),
+              fontSize: 13,
+              color: DARK_GREY_TEXT_COLOR.withOpacity(0.7),
+            ),
+          ],
+        ),
+      );
 
   Widget serviceItemWidget(
           {required bool isDarkBackground,
@@ -76,9 +100,7 @@ class CenterServicesTransactionDetailBodyWidget
               centerServicesTransactionDetailModel}) =>
       Container(
         padding: const EdgeInsets.symmetric(vertical: 7, horizontal: 12),
-        color: isDarkBackground
-            ? const Color.fromARGB(255, 242, 244, 247)
-            : WHITE_COLOR,
+        color: isDarkBackground ? PRIMARY_COLOR.withAlpha(5) : WHITE_COLOR,
         child: Row(
           children: [
             Padding(
@@ -107,45 +129,27 @@ class CenterServicesTransactionDetailBodyWidget
                 ),
               ),
             ),
+            const SizedBox(
+              width: 10,
+            ),
             Expanded(
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          centerServicesTransactionDetailModel
-                              .centerServiceModel.name,
-                          textAlign: TextAlign.start,
-                          style: GoogleFonts.quicksand(
-                            textStyle: const TextStyle(
-                              color: Color.fromARGB(255, 77, 82, 105),
-                            ),
-                            fontWeight: FontWeight.w500,
-                            fontSize: 15,
-                            height: 1,
-                            letterSpacing: 0.5,
-                          ),
+                    child: Text(
+                      centerServicesTransactionDetailModel
+                          .centerServiceModel.name,
+                      textAlign: TextAlign.start,
+                      style: GoogleFonts.quicksand(
+                        textStyle: const TextStyle(
+                          color: Color.fromARGB(255, 77, 82, 105),
                         ),
-                        Text(
-                          centerServicesTransactionDetailModel.description ??
-                              '',
-                          textAlign: TextAlign.start,
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                          style: GoogleFonts.quicksand(
-                            textStyle: const TextStyle(
-                              color: Color.fromARGB(255, 77, 82, 105),
-                            ),
-                            fontWeight: FontWeight.w500,
-                            fontSize: 15,
-                            height: 1.5,
-                            letterSpacing: 0.5,
-                          ),
-                        ),
-                      ],
+                        fontWeight: FontWeight.w500,
+                        fontSize: 15,
+                        height: 1,
+                        letterSpacing: 0.5,
+                      ),
                     ),
                   ),
                   Text(
@@ -169,8 +173,10 @@ class CenterServicesTransactionDetailBodyWidget
         ),
       );
 
-  Widget listServices() => Padding(
+  Widget listServices() => Container(
         padding: const EdgeInsets.symmetric(vertical: 12),
+        margin: const EdgeInsets.only(top: 20),
+        color: WHITE_COLOR,
         child: Column(
           children: [
             Padding(
@@ -194,8 +200,11 @@ class CenterServicesTransactionDetailBodyWidget
                           ),
                         ),
                       ),
+                      const SizedBox(
+                        width: 10,
+                      ),
                       Text(
-                        'Services Used',
+                        'Services used',
                         textAlign: TextAlign.start,
                         style: GoogleFonts.quicksand(
                           color: const Color.fromARGB(255, 85, 91, 110),
@@ -244,23 +253,25 @@ class CenterServicesTransactionDetailBodyWidget
         ),
       );
 
-  Widget transactionInformationWidget() => Column(
-        children: [
-          Container(
-            height: 15,
-            color: const Color.fromARGB(255, 242, 244, 247),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 20),
-            child: Column(
+  Widget applyPromotionWidget() =>
+      controller.centerServicesTransactionModel.promotionModel == null
+          ? const SizedBox.shrink()
+          : Column(
               children: [
+                Container(
+                  height: 1,
+                  color: LIGHT_GREY_COLOR.withAlpha(30),
+                  margin: const EdgeInsets.symmetric(vertical: 10),
+                ),
+                CUSTOM_TEXT('Apply promotion',
+                    fontSize: 15, padding: const EdgeInsets.only(bottom: 10)),
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 3),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        'Transaction ID',
+                        'Promotion name',
                         textAlign: TextAlign.start,
                         style: GoogleFonts.quicksand(
                           textStyle: const TextStyle(
@@ -269,11 +280,11 @@ class CenterServicesTransactionDetailBodyWidget
                           fontWeight: FontWeight.w500,
                           fontSize: 15,
                           height: 1,
-                          letterSpacing: 0.5,
                         ),
                       ),
                       Text(
-                        '#0${controller.centerServicesTransactionModel.id}',
+                        controller.centerServicesTransactionModel
+                            .promotionModel!.name,
                         textAlign: TextAlign.center,
                         style: GoogleFonts.quicksand(
                           color: const Color.fromARGB(255, 77, 82, 105),
@@ -292,7 +303,7 @@ class CenterServicesTransactionDetailBodyWidget
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        'Creation time',
+                        'Discount percent',
                         textAlign: TextAlign.start,
                         style: GoogleFonts.quicksand(
                           textStyle: const TextStyle(
@@ -301,13 +312,13 @@ class CenterServicesTransactionDetailBodyWidget
                           fontWeight: FontWeight.w500,
                           fontSize: 15,
                           height: 1,
-                          letterSpacing: 0.5,
                         ),
                       ),
                       Text(
-                        FORMAT_DATE_TIME(
-                            dateTime: DateTime.now(),
-                            pattern: DATE_TIME_PATTERN),
+                        controller.centerServicesTransactionModel
+                                .promotionModel!.promo
+                                .toString() +
+                            '%',
                         textAlign: TextAlign.center,
                         style: GoogleFonts.quicksand(
                           color: const Color.fromARGB(255, 77, 82, 105),
@@ -326,7 +337,7 @@ class CenterServicesTransactionDetailBodyWidget
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        'Branch of center',
+                        'Used point',
                         textAlign: TextAlign.start,
                         style: GoogleFonts.quicksand(
                           textStyle: const TextStyle(
@@ -338,8 +349,9 @@ class CenterServicesTransactionDetailBodyWidget
                         ),
                       ),
                       Text(
-                        controller
-                            .centerServicesTransactionModel.branchModel!.name,
+                        FORMAT_MONEY_WITHOUT_SYMBOL(
+                            price: controller.centerServicesTransactionModel
+                                .promotionModel!.point),
                         textAlign: TextAlign.center,
                         style: GoogleFonts.quicksand(
                           color: const Color.fromARGB(255, 77, 82, 105),
@@ -347,284 +359,383 @@ class CenterServicesTransactionDetailBodyWidget
                           fontSize: 15,
                           height: 1,
                           letterSpacing: 0.5,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 3),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        'Status',
-                        textAlign: TextAlign.start,
-                        style: GoogleFonts.quicksand(
-                          textStyle: const TextStyle(
-                            color: Color.fromARGB(255, 77, 82, 105),
-                          ),
-                          fontWeight: FontWeight.w500,
-                          fontSize: 15,
-                          height: 1,
-                          letterSpacing: 0.5,
-                        ),
-                      ),
-                      Text(
-                        controller.centerServicesTransactionModel.status ==
-                                'WAITING'
-                            ? 'WAITING FOR PAY'
-                            : 'PAYMENT SUCCESS',
-                        textAlign: TextAlign.center,
-                        style: GoogleFonts.quicksand(
-                          color: controller
-                                      .centerServicesTransactionModel.status ==
-                                  'WAITING'
-                              ? const Color.fromARGB(255, 250, 199, 30)
-                              : const Color.fromARGB(255, 25, 221, 205),
-                          fontWeight: FontWeight.w600,
-                          fontSize: 15,
-                          height: 1,
-                          letterSpacing: 0.5,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                Visibility(
-                  visible: controller.centerServicesTransactionModel.status ==
-                      'SUCCESS',
-                  child: Column(
-                    children: [
-                      Container(
-                        height: 1,
-                        margin: const EdgeInsets.symmetric(vertical: 5),
-                        color: DARK_GREY_COLOR.withAlpha(30),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 3),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              'Payment time',
-                              textAlign: TextAlign.start,
-                              style: GoogleFonts.quicksand(
-                                textStyle: const TextStyle(
-                                  color: Color.fromARGB(255, 77, 82, 105),
-                                ),
-                                fontWeight: FontWeight.w500,
-                                fontSize: 15,
-                                height: 1,
-                              ),
-                            ),
-                            Text(
-                              controller.centerServicesTransactionModel
-                                          .paymentTime !=
-                                      null
-                                  ? FORMAT_DATE_TIME(
-                                      dateTime: controller
-                                          .centerServicesTransactionModel
-                                          .paymentTime!,
-                                      pattern: DATE_TIME_PATTERN)
-                                  : '',
-                              textAlign: TextAlign.center,
-                              style: GoogleFonts.quicksand(
-                                color: const Color.fromARGB(255, 77, 82, 105),
-                                fontWeight: FontWeight.w600,
-                                fontSize: 15,
-                                height: 1,
-                                letterSpacing: 0.5,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 3),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              'Payment method',
-                              textAlign: TextAlign.start,
-                              style: GoogleFonts.quicksand(
-                                textStyle: const TextStyle(
-                                  color: Color.fromARGB(255, 77, 82, 105),
-                                ),
-                                fontWeight: FontWeight.w500,
-                                fontSize: 15,
-                                height: 1,
-                              ),
-                            ),
-                            Text(
-                              controller.centerServicesTransactionModel
-                                      .paymentMethod ??
-                                  '',
-                              textAlign: TextAlign.center,
-                              style: GoogleFonts.quicksand(
-                                color: const Color.fromARGB(255, 77, 82, 105),
-                                fontWeight: FontWeight.w600,
-                                fontSize: 15,
-                                height: 1,
-                                letterSpacing: 0.5,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 3),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              'Provisional total',
-                              textAlign: TextAlign.start,
-                              style: GoogleFonts.quicksand(
-                                textStyle: const TextStyle(
-                                  color: Color.fromARGB(255, 77, 82, 105),
-                                ),
-                                fontWeight: FontWeight.w500,
-                                fontSize: 15,
-                                height: 1,
-                              ),
-                            ),
-                            Text(
-                              FORMAT_MONEY(
-                                  price: controller
-                                      .centerServicesTransactionModel
-                                      .provisionalTotal),
-                              textAlign: TextAlign.center,
-                              style: GoogleFonts.quicksand(
-                                color: const Color.fromARGB(255, 77, 82, 105),
-                                fontWeight: FontWeight.w600,
-                                fontSize: 15,
-                                height: 1,
-                                letterSpacing: 0.5,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 3),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              'Discount amount',
-                              textAlign: TextAlign.start,
-                              style: GoogleFonts.quicksand(
-                                textStyle: const TextStyle(
-                                  color: Color.fromARGB(255, 77, 82, 105),
-                                ),
-                                fontWeight: FontWeight.w500,
-                                fontSize: 15,
-                                height: 1,
-                              ),
-                            ),
-                            Text(
-                              '-${FORMAT_MONEY(price: controller.centerServicesTransactionModel.provisionalTotal - controller.centerServicesTransactionModel.orderTotal)}',
-                              textAlign: TextAlign.center,
-                              style: GoogleFonts.quicksand(
-                                color: const Color.fromARGB(255, 77, 82, 105),
-                                fontWeight: FontWeight.w600,
-                                fontSize: 15,
-                                height: 1,
-                                letterSpacing: 0.5,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 3),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              'Total price',
-                              textAlign: TextAlign.start,
-                              style: GoogleFonts.quicksand(
-                                textStyle: const TextStyle(
-                                  color: Color.fromARGB(255, 77, 82, 105),
-                                ),
-                                fontWeight: FontWeight.w500,
-                                fontSize: 15,
-                                height: 1,
-                              ),
-                            ),
-                            Text(
-                              FORMAT_MONEY(
-                                  price: controller
-                                      .centerServicesTransactionModel
-                                      .orderTotal),
-                              textAlign: TextAlign.center,
-                              style: GoogleFonts.quicksand(
-                                color: const Color.fromARGB(255, 77, 82, 105),
-                                fontWeight: FontWeight.w600,
-                                fontSize: 15,
-                                height: 1,
-                                letterSpacing: 0.5,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 3),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              'Money paid',
-                              textAlign: TextAlign.start,
-                              style: GoogleFonts.quicksand(
-                                textStyle: const TextStyle(
-                                  color: Color.fromARGB(255, 77, 82, 105),
-                                ),
-                                fontWeight: FontWeight.w500,
-                                fontSize: 15,
-                                height: 1,
-                              ),
-                            ),
-                            Text(
-                              controller.centerServicesTransactionModel
-                                          .payment !=
-                                      null
-                                  ? FORMAT_MONEY(
-                                      price: controller
-                                          .centerServicesTransactionModel
-                                          .payment!)
-                                  : '',
-                              textAlign: TextAlign.center,
-                              style: GoogleFonts.quicksand(
-                                color: PRIMARY_COLOR,
-                                fontWeight: FontWeight.w600,
-                                fontSize: 17,
-                                height: 1,
-                                letterSpacing: 0.5,
-                              ),
-                            ),
-                          ],
                         ),
                       ),
                     ],
                   ),
                 ),
               ],
+            );
+
+  Widget transactionInformationWidget() => Container(
+        color: WHITE_COLOR,
+        child: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 20),
+              child: Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 3),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          'Created time',
+                          textAlign: TextAlign.start,
+                          style: GoogleFonts.quicksand(
+                            textStyle: const TextStyle(
+                              color: Color.fromARGB(255, 77, 82, 105),
+                            ),
+                            fontWeight: FontWeight.w500,
+                            fontSize: 15,
+                            height: 1,
+                            letterSpacing: 0.5,
+                          ),
+                        ),
+                        Text(
+                          FORMAT_DATE_TIME(
+                              dateTime: DateTime.now(),
+                              pattern: DATE_TIME_PATTERN),
+                          textAlign: TextAlign.center,
+                          style: GoogleFonts.quicksand(
+                            color: const Color.fromARGB(255, 77, 82, 105),
+                            fontWeight: FontWeight.w600,
+                            fontSize: 15,
+                            height: 1,
+                            letterSpacing: 0.5,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 3),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          'Transaction status',
+                          textAlign: TextAlign.start,
+                          style: GoogleFonts.quicksand(
+                            textStyle: const TextStyle(
+                              color: Color.fromARGB(255, 77, 82, 105),
+                            ),
+                            fontWeight: FontWeight.w500,
+                            fontSize: 15,
+                            height: 1,
+                            letterSpacing: 0.5,
+                          ),
+                        ),
+                        Text(
+                          controller.centerServicesTransactionModel.status ==
+                                  'WAITING'
+                              ? 'WAITING FOR PAY'
+                              : 'PAYMENT SUCCESS',
+                          textAlign: TextAlign.center,
+                          style: GoogleFonts.quicksand(
+                            color: controller.centerServicesTransactionModel
+                                        .status ==
+                                    'WAITING'
+                                ? YELLOW_COLOR
+                                : GREEN_COLOR,
+                            fontWeight: FontWeight.w600,
+                            fontSize: 15,
+                            height: 1,
+                            letterSpacing: 0.5,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  paymentInformationWidget(),
+                  Container(
+                    height: 1,
+                    color: LIGHT_GREY_COLOR.withAlpha(30),
+                    margin: const EdgeInsets.symmetric(vertical: 10),
+                  ),
+                  CUSTOM_TEXT('Branch perform services',
+                      fontSize: 15, padding: const EdgeInsets.only(bottom: 10)),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 3),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          'Branch name',
+                          textAlign: TextAlign.start,
+                          style: GoogleFonts.quicksand(
+                            textStyle: const TextStyle(
+                              color: Color.fromARGB(255, 77, 82, 105),
+                            ),
+                            fontWeight: FontWeight.w500,
+                            fontSize: 15,
+                            height: 1,
+                          ),
+                        ),
+                        Text(
+                          controller
+                              .centerServicesTransactionModel.branchModel!.name,
+                          textAlign: TextAlign.center,
+                          style: GoogleFonts.quicksand(
+                            color: const Color.fromARGB(255, 77, 82, 105),
+                            fontWeight: FontWeight.w600,
+                            fontSize: 15,
+                            height: 1,
+                            letterSpacing: 0.5,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 3),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          'Branch phone number',
+                          textAlign: TextAlign.start,
+                          style: GoogleFonts.quicksand(
+                            textStyle: const TextStyle(
+                              color: Color.fromARGB(255, 77, 82, 105),
+                            ),
+                            fontWeight: FontWeight.w500,
+                            fontSize: 15,
+                            height: 1,
+                          ),
+                        ),
+                        Text(
+                          controller.centerServicesTransactionModel.branchModel!
+                              .phoneNumber,
+                          textAlign: TextAlign.center,
+                          style: GoogleFonts.quicksand(
+                            color: const Color.fromARGB(255, 77, 82, 105),
+                            fontWeight: FontWeight.w600,
+                            fontSize: 15,
+                            height: 1,
+                            letterSpacing: 0.5,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 3),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          'Branch address',
+                          textAlign: TextAlign.start,
+                          style: GoogleFonts.quicksand(
+                            textStyle: const TextStyle(
+                              color: Color.fromARGB(255, 77, 82, 105),
+                            ),
+                            fontWeight: FontWeight.w500,
+                            fontSize: 15,
+                            height: 1,
+                          ),
+                        ),
+                        Text(
+                          controller.centerServicesTransactionModel.branchModel!
+                              .address!,
+                          textAlign: TextAlign.center,
+                          style: GoogleFonts.quicksand(
+                            color: const Color.fromARGB(255, 77, 82, 105),
+                            fontWeight: FontWeight.w600,
+                            fontSize: 15,
+                            height: 1,
+                            letterSpacing: 0.5,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  applyPromotionWidget(),
+                ],
+              ),
             ),
-          ),
-          Container(
-            height: 1,
-            color: DARK_GREY_COLOR.withAlpha(30),
-          ),
-          Container(
-            height: 15,
-            color: const Color.fromARGB(255, 242, 244, 247),
-          ),
-        ],
+            Container(
+              height: 1,
+              color: DARK_GREY_COLOR.withAlpha(30),
+            ),
+          ],
+        ),
+      );
+
+  Widget paymentInformationWidget() => Visibility(
+        visible: controller.centerServicesTransactionModel.status == 'SUCCESS',
+        child: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 3),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    'Payment time',
+                    textAlign: TextAlign.start,
+                    style: GoogleFonts.quicksand(
+                      textStyle: const TextStyle(
+                        color: Color.fromARGB(255, 77, 82, 105),
+                      ),
+                      fontWeight: FontWeight.w500,
+                      fontSize: 15,
+                      height: 1,
+                    ),
+                  ),
+                  Text(
+                    controller.centerServicesTransactionModel.paymentTime !=
+                            null
+                        ? FORMAT_DATE_TIME(
+                            dateTime: controller
+                                .centerServicesTransactionModel.paymentTime!,
+                            pattern: DATE_TIME_PATTERN)
+                        : '',
+                    textAlign: TextAlign.center,
+                    style: GoogleFonts.quicksand(
+                      color: const Color.fromARGB(255, 77, 82, 105),
+                      fontWeight: FontWeight.w600,
+                      fontSize: 15,
+                      height: 1,
+                      letterSpacing: 0.5,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 3),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    'Payment method',
+                    textAlign: TextAlign.start,
+                    style: GoogleFonts.quicksand(
+                      textStyle: const TextStyle(
+                        color: Color.fromARGB(255, 77, 82, 105),
+                      ),
+                      fontWeight: FontWeight.w500,
+                      fontSize: 15,
+                      height: 1,
+                    ),
+                  ),
+                  Text(
+                    controller.centerServicesTransactionModel.paymentMethod ??
+                        '',
+                    textAlign: TextAlign.center,
+                    style: GoogleFonts.quicksand(
+                      color: const Color.fromARGB(255, 77, 82, 105),
+                      fontWeight: FontWeight.w600,
+                      fontSize: 15,
+                      height: 1,
+                      letterSpacing: 0.5,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 3),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    'Provisional total',
+                    textAlign: TextAlign.start,
+                    style: GoogleFonts.quicksand(
+                      textStyle: const TextStyle(
+                        color: Color.fromARGB(255, 77, 82, 105),
+                      ),
+                      fontWeight: FontWeight.w500,
+                      fontSize: 15,
+                      height: 1,
+                    ),
+                  ),
+                  Text(
+                    FORMAT_MONEY(
+                        price: controller
+                            .centerServicesTransactionModel.provisionalTotal),
+                    textAlign: TextAlign.center,
+                    style: GoogleFonts.quicksand(
+                      color: const Color.fromARGB(255, 77, 82, 105),
+                      fontWeight: FontWeight.w600,
+                      fontSize: 15,
+                      height: 1,
+                      letterSpacing: 0.5,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 3),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    'Discount amount',
+                    textAlign: TextAlign.start,
+                    style: GoogleFonts.quicksand(
+                      textStyle: const TextStyle(
+                        color: Color.fromARGB(255, 77, 82, 105),
+                      ),
+                      fontWeight: FontWeight.w500,
+                      fontSize: 15,
+                      height: 1,
+                    ),
+                  ),
+                  Text(
+                    '-${FORMAT_MONEY(price: controller.centerServicesTransactionModel.provisionalTotal - controller.centerServicesTransactionModel.orderTotal)}',
+                    textAlign: TextAlign.center,
+                    style: GoogleFonts.quicksand(
+                      color: const Color.fromARGB(255, 77, 82, 105),
+                      fontWeight: FontWeight.w600,
+                      fontSize: 15,
+                      height: 1,
+                      letterSpacing: 0.5,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 3),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    'Total price',
+                    textAlign: TextAlign.start,
+                    style: GoogleFonts.quicksand(
+                      textStyle: const TextStyle(
+                        color: Color.fromARGB(255, 77, 82, 105),
+                      ),
+                      fontWeight: FontWeight.w500,
+                      fontSize: 15,
+                      height: 1,
+                    ),
+                  ),
+                  Text(
+                    FORMAT_MONEY(
+                        price: controller
+                            .centerServicesTransactionModel.orderTotal),
+                    textAlign: TextAlign.center,
+                    style: GoogleFonts.quicksand(
+                      color: PRIMARY_COLOR,
+                      fontWeight: FontWeight.w600,
+                      fontSize: 15,
+                      height: 1,
+                      letterSpacing: 0.5,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
       );
 
   Widget priceWidget({required double width}) => Stack(
@@ -728,7 +839,7 @@ class CenterServicesTransactionDetailBodyWidget
               child: Container(
                 height: 7,
                 width: 7,
-                color: const Color.fromARGB(255, 242, 244, 247),
+                color: SUPPER_LIGHT_BLUE,
               ),
             ),
           ),

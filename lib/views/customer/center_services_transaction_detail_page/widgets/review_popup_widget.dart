@@ -6,6 +6,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:petapp_mobile/configs/path.dart';
 import 'package:petapp_mobile/configs/theme.dart';
 import 'package:petapp_mobile/controllers/center_services_transaction_detail_page_controller.dart';
+import 'package:petapp_mobile/services/center_services_transaction_services.dart';
 
 class CenterSerVicesTransactionDetailReviewPopupWidget
     extends GetView<CenterServicesTransactionDetailPageController> {
@@ -188,6 +189,7 @@ class CenterSerVicesTransactionDetailReviewPopupWidget
         child: InkWell(
           onTap: () async {
             if (controller.selectedStar.value != 0) {
+              controller.isWaitingUpdate.value = true;
               String reviewContent = '';
               int index = 0;
               do {
@@ -197,12 +199,22 @@ class CenterSerVicesTransactionDetailReviewPopupWidget
                 index++;
               } while (index < controller.quickFeedBackList.length - 1);
 
-              reviewContent += controller.reviewContent;
+              reviewContent = reviewContent.isNotEmpty
+                  ? reviewContent + ' ' + controller.reviewContent
+                  : controller.reviewContent;
 
-              controller.selectedStar.value = 0;
-              controller.reviewContent = '';
-              controller.isShowReviewPopup.value = false;
-              controller.isShowThankPopup.value = true;
+              await CenterServicesTransactionServices.update(
+                  transactionId: controller.centerServicesTransactionModel.id,
+                  star: controller.selectedStar.value,
+                  review: reviewContent);
+
+              controller
+                ..selectedStar.value = 0
+                ..reviewContent = ''
+                ..isShowReviewPopup.value = false
+                ..isWaitingUpdate.value = false
+                ..update()
+                ..isShowThankPopup.value = true;
             }
           },
           child: Obx(

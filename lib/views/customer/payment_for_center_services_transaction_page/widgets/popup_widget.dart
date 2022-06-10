@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:petapp_mobile/configs/route.dart';
 import 'package:petapp_mobile/configs/theme.dart';
+import 'package:petapp_mobile/controllers/center_services_transaction_detail_page_controller.dart';
 import 'package:petapp_mobile/controllers/payment_for_center_services_transaction_page_controller.dart';
 
 class PaymentForCenterServicesTransactionPopupWidget
@@ -27,10 +27,15 @@ class PaymentForCenterServicesTransactionPopupWidget
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               Text(
-                'Payment Successfully',
+                controller.centerServicesTransactionModel.status == 'SUCCESS'
+                    ? 'Payment Successfully'
+                    : 'Payment Failed',
                 style: GoogleFonts.quicksand(
-                  textStyle: const TextStyle(
-                    color: Color.fromARGB(255, 92, 98, 124),
+                  textStyle: TextStyle(
+                    color: controller.centerServicesTransactionModel.status ==
+                            'SUCCESS'
+                        ? DARK_GREY_TEXT_COLOR
+                        : RED_COLOR,
                   ),
                   fontWeight: FontWeight.w700,
                   fontSize: 15,
@@ -38,22 +43,37 @@ class PaymentForCenterServicesTransactionPopupWidget
                   letterSpacing: 1,
                 ),
               ),
-              const Icon(
-                Icons.verified_outlined,
+              Icon(
+                controller.centerServicesTransactionModel.status == 'SUCCESS'
+                    ? Icons.verified_outlined
+                    : Icons.error,
                 size: 70,
-                color: PRIMARY_COLOR,
+                color: controller.centerServicesTransactionModel.status ==
+                        'SUCCESS'
+                    ? PRIMARY_COLOR
+                    : RED_COLOR,
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 12),
                 child: InkWell(
-                  onTap: () => Get.toNamed(
-                      '$CENTER_SERVICES_TRANSACTION_DETAIL_PAGE_ROUTE/${controller.centerServicesTransactionModel.id}'),
+                  onTap: () =>
+                      controller.centerServicesTransactionModel.status ==
+                              'SUCCESS'
+                          ? () {
+                              Get.back();
+                              Get.put(CenterServicesTransactionDetailPageController())
+                                  .update();
+                            }.call()
+                          : controller.isShowPopup.value = false,
                   child: Container(
                     alignment: Alignment.center,
                     padding: const EdgeInsets.symmetric(vertical: 5),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(5),
-                      color: PRIMARY_COLOR,
+                      color: controller.centerServicesTransactionModel.status ==
+                              'SUCCESS'
+                          ? PRIMARY_COLOR
+                          : RED_COLOR,
                     ),
                     child: Text(
                       'OK',

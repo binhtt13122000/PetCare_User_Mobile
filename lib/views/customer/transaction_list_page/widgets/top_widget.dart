@@ -20,7 +20,7 @@ class TransactionListTopWidget extends GetView<TransactionListPageController> {
           ),
           Container(
             height: 15,
-            color: const Color.fromARGB(255, 242, 244, 247),
+            color: SUPPER_LIGHT_BLUE,
           ),
         ],
       );
