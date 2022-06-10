@@ -65,6 +65,15 @@ class CenterServicesTransactionDetailBodyWidget
                                   0),
                           child:
                               const CenterServicesTransactionDetailBottomWidget()),
+                      Visibility(
+                        visible:
+                            controller.centerServicesTransactionModel.star > 0,
+                        child: CUSTOM_TEXT(
+                          'You have submitted a review for this transaction',
+                          fontSize: 12,
+                          color: DARK_GREY_TEXT_COLOR.withOpacity(0.7),
+                        ),
+                      ),
                     ],
                   ),
                 ),
