@@ -6,14 +6,15 @@ import 'package:petapp_mobile/models/center_services_transaction_model/center_se
 import 'package:petapp_mobile/models/promotion_model.dart/promotion_model.dart';
 
 class PaymentForCenterServicesTransactionPageController extends GetxController {
-  RxBool isLoadingData = false.obs;
   AccountModel accountModel = Get.find<AuthController>().accountModel;
+  RxBool isLoadingData = false.obs;
   RxBool isShowPopup = false.obs;
   late CenterServicesTransactionModel centerServicesTransactionModel;
-  PromotionModel? selectedPromotion;
   RxInt discountAmount = 0.obs;
-  RxString selectedPromotionName = ''.obs;
+  RxInt usedPoint = 0.obs;
   RxString paymentUrl = ''.obs;
-  late List<PromotionModel> promotionModels;
   late InAppWebViewController inAppWebViewController;
+  late List<PromotionModel> promotionModels;
+  RxInt selectedPromotionIndex = (-1).obs;
+  RxBool isWaitingPayment = false.obs;
 }

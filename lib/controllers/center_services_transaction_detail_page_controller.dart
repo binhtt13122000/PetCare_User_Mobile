@@ -10,6 +10,7 @@ class CenterServicesTransactionDetailPageController extends GetxController {
   RxBool isShowReviewPopup = false.obs;
   String reviewContent = '';
   late CenterServicesTransactionModel centerServicesTransactionModel;
+  RxBool isWaitingUpdate = false.obs;
 
   updateRatingText() {
     switch (selectedStar.value) {

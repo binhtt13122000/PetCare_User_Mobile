@@ -6,6 +6,7 @@ import 'package:petapp_mobile/views/customer/center_services_transaction_detail_
 import 'package:petapp_mobile/views/customer/center_services_transaction_detail_page/widgets/popup_widget.dart';
 import 'package:petapp_mobile/views/customer/center_services_transaction_detail_page/widgets/review_popup_widget.dart';
 import 'package:petapp_mobile/views/customer/center_services_transaction_detail_page/widgets/top_widget.dart';
+import 'package:petapp_mobile/views/widgets/customize_widget.dart';
 
 class CenterServicesTransactionDetailPage
     extends GetView<CenterServicesTransactionDetailPageController> {
@@ -28,6 +29,10 @@ class CenterServicesTransactionDetailPage
           ),
           const CenterSerVicesTransactionDetailReviewPopupWidget(),
           const CenterServicesTransactionDetailPopupWidget(),
+          Obx(() => Visibility(
+              visible: controller.isWaitingUpdate.value,
+              child: Container(
+                  color: DARK_GREY_TRANSPARENT, child: LOADING_WIDGET()))),
         ],
       ),
     );

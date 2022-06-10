@@ -55,7 +55,8 @@ const CHATTING_DETAIL_PAGE_ROUTE = '/chatting-detail';
 
 //payment
 const PAYMENT_PAGE_ROUTE = '/payment';
-const PAYMENT_METHOD_PAGE_ROUTE = '/payment/method';
+const CENTER_SERVICES_TRANSACTION_PAYMENT_METHOD_PAGE_ROUTE =
+    '/payment-for-center-services-transaction-payment-method';
 
 //post
 const UPDATE_SALE_POST_PAGE_ROUTE = '/post/sale/update';

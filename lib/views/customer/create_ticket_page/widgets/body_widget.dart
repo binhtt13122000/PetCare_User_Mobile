@@ -63,8 +63,6 @@ class CreateTicketBodyWidget extends GetView<CreateTicketPageController> {
                             ..setTicketTimeModelList()
                             ..isLoadingTicketList.value = false;
                         });
-                      } else {
-                        controller.selectedTicketTimeIndex.value = -1;
                       }
                       return Obx(() => controller.isLoadingTicketList.value
                           ? Container(

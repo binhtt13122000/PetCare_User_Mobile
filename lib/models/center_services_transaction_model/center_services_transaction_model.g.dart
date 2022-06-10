@@ -34,6 +34,9 @@ CenterServicesTransactionModel _$CenterServicesTransactionModelFromJson(
       promotionId: json['promotionId'] as int?,
       customerId: json['customerId'] as int,
       registerTime: DateTime.parse(json['registerTime'] as String),
+      promotionModel: json['promotion'] == null
+          ? null
+          : PromotionModel.fromJson(json['promotion'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$CenterServicesTransactionModelToJson(
@@ -58,4 +61,5 @@ Map<String, dynamic> _$CenterServicesTransactionModelToJson(
       'orderDetails': instance.centerServicesTransactionDetailModelList
           ?.map((e) => e.toJson())
           .toList(),
+      'promotion': instance.promotionModel?.toJson(),
     };

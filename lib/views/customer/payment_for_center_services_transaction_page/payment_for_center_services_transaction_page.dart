@@ -6,6 +6,7 @@ import 'package:petapp_mobile/views/customer/payment_for_center_services_transac
 import 'package:petapp_mobile/views/customer/payment_for_center_services_transaction_page/widgets/popup_widget.dart';
 import 'package:petapp_mobile/views/customer/payment_for_center_services_transaction_page/widgets/top_widget.dart';
 import 'package:petapp_mobile/views/customer/payment_for_center_services_transaction_page/widgets/web_view_widget.dart';
+import 'package:petapp_mobile/views/widgets/customize_widget.dart';
 
 class PaymentForCenterServicesTransactionPage
     extends GetView<PaymentForCenterServicesTransactionPageController> {
@@ -25,16 +26,22 @@ class PaymentForCenterServicesTransactionPage
                 PaymentForCenterServicesTransactionBodyWidget(),
               ],
             ),
-            Obx(
-              () => Visibility(
-                visible: controller.paymentUrl.value.isNotEmpty,
-                child: const PaymentForCenterServicesTransactionWebViewWidget(),
-              ),
-            ),
+            Obx(() => controller.paymentUrl.value.isNotEmpty
+                ? const PaymentForCenterServicesTransactionWebViewWidget()
+                : const SizedBox.shrink()),
             Obx(
               () => Visibility(
                 visible: controller.isShowPopup.value,
                 child: const PaymentForCenterServicesTransactionPopupWidget(),
+              ),
+            ),
+            Obx(
+              () => Visibility(
+                visible: controller.isWaitingPayment.value,
+                child: Container(
+                  color: DARK_GREY_TRANSPARENT,
+                  child: LOADING_WIDGET(),
+                ),
               ),
             ),
           ],

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:petapp_mobile/configs/theme.dart';
+import 'package:petapp_mobile/controllers/center_services_transaction_detail_page_controller.dart';
 import 'package:petapp_mobile/controllers/payment_for_center_services_transaction_page_controller.dart';
 
 class PaymentForCenterServicesTransactionTopWidget
@@ -28,7 +29,9 @@ class PaymentForCenterServicesTransactionTopWidget
           children: [
             //*back button
             InkWell(
-              onTap: () => Get.back(),
+              onTap: () => Get
+                ..back()
+                ..put(CenterServicesTransactionDetailPageController()).update(),
               child: Container(
                 height: 35,
                 width: 35,
