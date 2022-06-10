@@ -6,6 +6,7 @@ import 'package:petapp_mobile/services/branch_services.dart';
 import 'package:petapp_mobile/services/center_services_services.dart';
 import 'package:petapp_mobile/views/customer/create_ticket_page/widgets/add_services_widget.dart';
 import 'package:petapp_mobile/views/customer/create_ticket_page/widgets/body_widget.dart';
+import 'package:petapp_mobile/views/customer/create_ticket_page/widgets/calendar_widget.dart';
 import 'package:petapp_mobile/views/customer/create_ticket_page/widgets/pick_time_widget.dart';
 import 'package:petapp_mobile/views/customer/create_ticket_page/widgets/popup_widget.dart';
 import 'package:petapp_mobile/views/customer/create_ticket_page/widgets/top_widget.dart';
@@ -53,6 +54,7 @@ class CreateTicketPage extends GetView<CreateTicketPageController> {
             ),
           ),
           const CreateTicketPopupWidget(),
+          const CreateTicketCalendarWidget(),
         ],
       ),
     );

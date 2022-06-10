@@ -32,7 +32,17 @@ class CreateTicketBodyWidget extends GetView<CreateTicketPageController> {
                       color: LIGHT_GREY_COLOR.withAlpha(30),
                     ),
                     const SelectBranchWidget(),
-                    selectUseServicesDateWidget(),
+                    Container(
+                      color: WHITE_COLOR,
+                      padding:
+                          const EdgeInsets.only(top: 10, left: 12, right: 12),
+                      child: Row(
+                        children: [
+                          bookingDateTitleWidget(),
+                          bookingDateWidget(),
+                        ],
+                      ),
+                    ),
                     Container(
                       padding: const EdgeInsets.only(top: 20, left: 12),
                       color: WHITE_COLOR,
@@ -85,6 +95,48 @@ class CreateTicketBodyWidget extends GetView<CreateTicketPageController> {
       ),
     );
   }
+
+  Widget bookingDateWidget() => Expanded(
+        child: Padding(
+          padding: const EdgeInsets.only(left: 20, right: 30),
+          child: InkWell(
+            onTap: () => controller.isDisplayCalender.value = true,
+            child: Container(
+              height: 40,
+              decoration: BoxDecoration(
+                border: Border.all(
+                  color: const Color.fromARGB(255, 167, 181, 201),
+                  width: 1.2,
+                ),
+                borderRadius: BorderRadius.circular(5),
+                color: WHITE_COLOR,
+              ),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 20),
+                      child: Obx(
+                        () => CUSTOM_TEXT(
+                          controller.bookingServicesDateText.value,
+                          textAlign: TextAlign.left,
+                        ),
+                      ),
+                    ),
+                  ),
+                  const Padding(
+                    padding: EdgeInsets.only(right: 10),
+                    child: Icon(
+                      Icons.calendar_month_rounded,
+                      color: PRIMARY_COLOR,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+      );
 
   Widget estimateTimeWidget() => Container(
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 20),
@@ -407,40 +459,16 @@ class CreateTicketBodyWidget extends GetView<CreateTicketPageController> {
               );
       });
 
-  Widget selectUseServicesDateWidget() => Container(
-        padding: const EdgeInsets.only(left: 12),
-        color: WHITE_COLOR,
-        child: Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(top: 20),
-              child: Row(
-                children: [
-                  CUSTOM_TEXT('Date booking services'),
-                  CUSTOM_TEXT(
-                    '*',
-                    color: RED_COLOR,
-                    fontSize: 18,
-                    fontWeight: FontWeight.w700,
-                  ),
-                ],
-              ),
-            ),
-            Row(
-              children: [
-                dateItemWidget(index: 0),
-                dateItemWidget(
-                  dateTime: DateTime.now().add(const Duration(days: 2)),
-                  index: 1,
-                ),
-                dateItemWidget(
-                  dateTime: DateTime.now().add(const Duration(days: 3)),
-                  index: 2,
-                ),
-              ],
-            ),
-          ],
-        ),
+  Widget bookingDateTitleWidget() => Row(
+        children: [
+          CUSTOM_TEXT('Date booking'),
+          CUSTOM_TEXT(
+            '*',
+            color: RED_COLOR,
+            fontSize: 18,
+            fontWeight: FontWeight.w700,
+          ),
+        ],
       );
 
   Widget dateItemWidget({DateTime? dateTime, required int index}) => Obx(

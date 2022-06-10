@@ -4,6 +4,7 @@ import 'package:petapp_mobile/configs/theme.dart';
 import 'package:petapp_mobile/controllers/ticket_detail_page_controller.dart';
 import 'package:petapp_mobile/models/service_ticket_model/service_ticket_model.dart';
 import 'package:petapp_mobile/utilities/utilities.dart';
+import 'package:petapp_mobile/views/customer/ticket_detail_page/widgets/bottom_widget.dart';
 import 'package:petapp_mobile/views/widgets/customize_widget.dart';
 
 class TicketDetailBodyWidget extends GetView<TicketDetailPageController> {
@@ -16,15 +17,22 @@ class TicketDetailBodyWidget extends GetView<TicketDetailPageController> {
         color: SUPPER_LIGHT_BLUE,
         child: Column(
           children: [
-            ticketIdWidget(),
-            ticketTimeWidget(),
-            servicesBookingWidget(),
-            estimateTimeWidget(),
-            Container(
-              height: 1,
-              color: LIGHT_GREY_COLOR.withAlpha(30),
+            Expanded(
+              child: Column(
+                children: [
+                  ticketIdWidget(),
+                  ticketTimeWidget(),
+                  servicesBookingWidget(),
+                  estimateTimeWidget(),
+                  Container(
+                    height: 1,
+                    color: LIGHT_GREY_COLOR.withAlpha(30),
+                  ),
+                  branchPerformServicesWidget(),
+                ],
+              ),
             ),
-            branchPerformServicesWidget(),
+            const TicketDetailBottomWidget(),
           ],
         ),
       ),

@@ -5,6 +5,7 @@ import 'package:petapp_mobile/models/branch_model/branch_model.dart';
 import 'package:petapp_mobile/models/center_service_model/center_service_model.dart';
 import 'package:petapp_mobile/models/ticket_model/ticket_model.dart';
 import 'package:petapp_mobile/models/ticket_time_model/ticket_time_model.dart';
+import 'package:petapp_mobile/utilities/utilities.dart';
 
 class CreateTicketPageController extends GetxController {
   AccountModel accountModel = Get.find<AuthController>().accountModel;
@@ -12,7 +13,6 @@ class CreateTicketPageController extends GetxController {
   RxInt selectedDateIndex = 0.obs;
   RxBool isShowPickTimeWidget = false.obs;
   late List<TicketModel> ticketModelList;
-  DateTime bookingServicesDate = DateTime.now().add(const Duration(days: 1));
   late List<BranchModel> branchModelList;
   RxInt selectBranchId = 7.obs;
   List<TicketTimeModel> ticketTimeModelList = [];
@@ -25,6 +25,14 @@ class CreateTicketPageController extends GetxController {
   RxBool isWaitingSendTicket = false.obs;
   RxBool isShowPopupWidget = false.obs;
   int? ticketId;
+  RxBool isDisplayCalender = false.obs;
+
+  DateTime bookingServicesDate = DateTime.now().add(const Duration(days: 1));
+  DateTime tmpBookingServicesDate = DateTime.now().add(const Duration(days: 1));
+  RxString bookingServicesDateText = FORMAT_DATE_TIME(
+          dateTime: DateTime.now().add(const Duration(days: 1)),
+          pattern: DATE_PATTERN_2)
+      .obs;
 
   void setTicketTimeModelList() {
     ticketTimeModelList = [];
