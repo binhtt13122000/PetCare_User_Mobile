@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:petapp_mobile/configs/theme.dart';
 import 'package:petapp_mobile/controllers/ticket_detail_page_controller.dart';
+import 'package:petapp_mobile/services/ticket_services.dart';
 import 'package:petapp_mobile/views/widgets/customize_widget.dart';
 
 class TicketDetailCancelWidget extends GetView<TicketDetailPageController> {
@@ -108,7 +109,38 @@ class TicketDetailCancelWidget extends GetView<TicketDetailPageController> {
         () => Padding(
           padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
           child: InkWell(
-            onTap: () => controller.isShowCancelPopup.value = true,
+            onTap: () async {
+              if (controller.cancelTicketReason.value.isNotEmpty ||
+                  controller.selectReasonCancelList.isNotEmpty) {
+                String reasonCancel = '';
+
+                if (controller.selectReasonCancelList.isEmpty) {
+                  reasonCancel = controller.cancelTicketReason.value;
+                } else {
+                  int index = 0;
+                  do {
+                    reasonCancel +=
+                        index == controller.selectReasonCancelList.length
+                            ? '${controller.selectReasonCancelList[index]}, '
+                            : '${controller.selectReasonCancelList[index]}. ';
+                    index++;
+                  } while (
+                      index < controller.selectReasonCancelList.length - 1);
+
+                  reasonCancel += ' ' + controller.cancelTicketReason.value;
+                }
+
+                controller.isWaitingUpdateTicket.value = true;
+                await TicketServices.updateTicket(
+                    ticketId: controller.ticketModel.id,
+                    status: 'CANCELED',
+                    reasonCancel: reasonCancel);
+                controller
+                  ..isWaitingUpdateTicket.value = false
+                  ..isShowCancelPopup.value = false
+                  ..isShowPopupWidget.value = true;
+              }
+            },
             child: Container(
               padding: const EdgeInsets.symmetric(vertical: 10),
               decoration: BoxDecoration(

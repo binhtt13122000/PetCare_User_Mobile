@@ -54,6 +54,33 @@ class TicketServices {
     }
   }
 
+  static Future<int?> updateTicket({
+    required int ticketId,
+    String? reasonCancel,
+    required String status,
+  }) async {
+    String jsonBody = jsonEncode({
+      'id': ticketId,
+      'reasonCancel': reasonCancel,
+      'status': status,
+    });
+    final response = await http.patch(
+      Uri.http(API_SERVER_PATH, TICKET_API_PATH),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonBody,
+    );
+    switch (response.statusCode) {
+      case 200:
+      case 201:
+      case 202:
+        return jsonDecode(response.body)['data']['id'];
+      default:
+        return null;
+    }
+  }
+
   static Future<List<TicketModel>> fetchTicketListByBranch(
       {required int branchId, required DateTime bookingTime}) async {
     Map<String, dynamic> parameters = {

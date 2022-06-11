@@ -5,6 +5,7 @@ import 'package:petapp_mobile/controllers/ticket_detail_page_controller.dart';
 import 'package:petapp_mobile/services/ticket_services.dart';
 import 'package:petapp_mobile/views/customer/ticket_detail_page/widgets/body_widget.dart';
 import 'package:petapp_mobile/views/customer/ticket_detail_page/widgets/cancel_widget.dart';
+import 'package:petapp_mobile/views/customer/ticket_detail_page/widgets/popup_widget.dart';
 import 'package:petapp_mobile/views/customer/ticket_detail_page/widgets/top_widget.dart';
 import 'package:petapp_mobile/views/widgets/customize_widget.dart';
 
@@ -34,6 +35,16 @@ class TicketDetailPage extends GetView<TicketDetailPageController> {
             ],
           ),
           const TicketDetailCancelWidget(),
+          Obx(
+            () => Visibility(
+              visible: controller.isWaitingUpdateTicket.value,
+              child: Container(
+                color: DARK_GREY_TRANSPARENT,
+                child: LOADING_WIDGET(),
+              ),
+            ),
+          ),
+          const TicketDetailPopupWidget(),
         ],
       ),
     );
