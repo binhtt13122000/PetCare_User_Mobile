@@ -3,10 +3,13 @@ import 'package:petapp_mobile/controllers/auth_controller.dart';
 import 'package:petapp_mobile/models/account_model/account_model.dart';
 import 'package:petapp_mobile/models/breed_model/breed_model.dart';
 import 'package:petapp_mobile/models/post_model/post_model.dart';
+import 'package:petapp_mobile/models/post_model_hasura/post_model_hasura.dart';
 import 'package:petapp_mobile/models/species_model/species_model.dart';
 
 class PurchasePostsPageController extends GetxController {
   RxList<PostModel> postList = <PostModel>[].obs;
+  RxList<PostModelHasura> postHasuraList = <PostModelHasura>[].obs;
+
   AccountModel accountModel = Get.find<AuthController>().accountModel;
 
   List<dynamic> selectedGenderList = ['MALE', 'FEMALE'];
@@ -32,8 +35,8 @@ class PurchasePostsPageController extends GetxController {
     '> 20 milion',
   ];
 
-  RxInt ltAge = 999999999.obs;
-  RxInt gteAge = 0.obs;
+  RxString lteDob = 'now()'.obs;
+  RxString gteDob = '1700-01-01'.obs;
   RxString selectedAge = ''.obs;
   List<String> ages = [
     '< 6 month',

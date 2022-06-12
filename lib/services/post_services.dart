@@ -7,6 +7,7 @@ import 'dart:io';
 
 import 'package:petapp_mobile/models/post_model/post_model.dart';
 import 'package:http/http.dart' as http;
+import 'package:petapp_mobile/models/post_model_hasura/post_model_hasura.dart';
 
 class PostService {
   static List<PostModel> getPostList(Map<String, dynamic> jsonData) {
@@ -14,6 +15,15 @@ class PostService {
     final List<PostModel> postList = List.empty(growable: true);
     for (var element in postListJson) {
       postList.add(PostModel.fromJson(element));
+    }
+    return postList;
+  }
+
+  static List<PostModelHasura> getPostHasuraList(Map<String, dynamic> jsonData) {
+    final postListJson = jsonData['post'] as List;
+    final List<PostModelHasura> postList = List.empty(growable: true);
+    for (var element in postListJson) {
+      postList.add(PostModelHasura.fromJson(element));
     }
     return postList;
   }

@@ -1,16 +1,45 @@
 // ignore_for_file: constant_identifier_names
 
 const FETCH_PURCHASE_POST_LIST = r'''
-query MyQuery($ltPrice: Int, $gtePrice: Int, $gender: [pet_gender_enum!], $isSeed: [Boolean!], $ltAgeRange: Int, $gteAgeRange: Int, $breedName: order_by, $price: order_by, $speciesId: Int, $status: post_status_enum, $breeds: [Int!]) {
-  post(where: {pet: {breed: {species: {id: {_eq: $speciesId}}, id: {_in: $breeds}}, gender: {_in: $gender}, isSeed: {_in: $isSeed}, ageRange: {_lt: $ltAgeRange}, _and: {ageRange: {_gte: $gteAgeRange}}}, price: {_lt: $ltPrice}, _and: {price: {_gte: $gtePrice}, status: {_eq: $status}}}, order_by: {pet: {breed: {name: $breedName}}, price: $price}) {
-    createTime
+query MyQuery($ltPrice: Int, $gtePrice: Int, $gender: [pet_gender_enum!], $isSeed: [Boolean!], $breedName: order_by, $price: order_by, $speciesId: Int, $status: post_status_enum, $breeds: [Int!], $customerId: Int = 0, $lteDob: timestamp = "", $gteDob: timestamp = "") {
+  post(where: {pet: {breed: {species: {id: {_eq: $speciesId}}, id: {_in: $breeds}}, gender: {_in: $gender}, isSeed: {_in: $isSeed}, dob: {_lte: $lteDob, _gte: $gteDob}}, provisionalTotal: {_lt: $ltPrice}, _and: {provisionalTotal: {_gte: $gtePrice}, status: {_eq: $status}, customerId: {_neq: $customerId}}}, order_by: {pet: {breed: {name: $breedName}}, provisionalTotal: $price}) {
     description
+    createTime
+    petId
     id
     provisionalTotal
     status
     sellerReceive
+    isVaccineInject
     type
     shopFee
+    title
+    branchId
+    branch {
+      id
+      name
+      representativeName
+      lat
+      lng
+      email
+      phoneNumber
+      star
+      numberReviewers
+      address
+      isActive
+    }
+    customerId
+    customer {
+      id
+      firstName
+      lastName
+      address
+      gender
+      star
+      point
+      email
+      numberReviewers
+    }
     pet {
       avatar
       description
@@ -38,22 +67,121 @@ query MyQuery($ltPrice: Int, $gtePrice: Int, $gender: [pet_gender_enum!], $isSee
       url
       type
     }
-    
+  }
+}
+''';
+
+const FETCH_ALL_PURCHASE_POST_LIST_WITHOUT_SPECIES = r'''
+query MyQuery($ltPrice: Int, $gtePrice: Int, $gender: [pet_gender_enum!], $isSeed: [Boolean!], $breedName: order_by, $price: order_by, $status: post_status_enum, $customerId: Int!, $lteDob: timestamp = "", $gteDob: timestamp = "") {
+  post(where: {pet: {gender: {_in: $gender}, isSeed: {_in: $isSeed}, dob: {_lte: $lteDob, _gte: $gteDob}}, provisionalTotal: {_lt: $ltPrice}, _and: {provisionalTotal: {_gte: $gtePrice}, status: {_eq: $status}, customerId: {_neq: $customerId}}}, order_by: {pet: {breed: {name: $breedName}}, provisionalTotal: $price}) {
+    isVaccineInject
+    id
+    petId
+    createTime
+    description
+    provisionalTotal
+    status
+    sellerReceive
+    type
+    shopFee
+    title
+    branchId
+    branch {
+      id
+      name
+      representativeName
+      lat
+      lng
+      email
+      phoneNumber
+      star
+      numberReviewers
+      address
+      isActive
+    }
+    customerId
+    customer {
+      id
+      firstName
+      lastName
+      address
+      gender
+      star
+      point
+      email
+      numberReviewers
+    }
+    pet {
+      avatar
+      description
+      color
+      dob
+      id
+      gender
+      isSeed
+      name
+      status
+      breed {
+        id
+        name
+        description
+        species {
+          id
+          name
+          isBreeding
+          description
+        }
+      }
+    }
+    media {
+      id
+      url
+      type
+    }
   }
 }
 ''';
 
 const FETCH_PURCHASE_POST_LIST_WITHOUT_BREED = r'''
-query MyQuery($ltPrice: Int, $gtePrice: Int, $gender: [pet_gender_enum!], $isSeed: [Boolean!], $ltAgeRange: Int, $gteAgeRange: Int, $breedName: order_by, $price: order_by, $speciesId: Int, $status: post_status_enum) {
-  post(where: {pet: {breed: {species: {id: {_eq: $speciesId}}}, gender: {_in: $gender}, isSeed: {_in: $isSeed}, ageRange: {_lt: $ltAgeRange}, _and: {ageRange: {_gte: $gteAgeRange}}}, provisionalTotal: {_lt: $ltPrice}, _and: {provisionalTotal: {_gte: $gtePrice}, status: {_eq: $status}}}, order_by: {pet: {breed: {name: $breedName}}, provisionalTotal: $price}) {
+query MyQuery($ltPrice: Int, $gtePrice: Int, $gender: [pet_gender_enum!], $isSeed: [Boolean!], $breedName: order_by, $price: order_by, $speciesId: Int, $status: post_status_enum, $customerId: Int!, $gteDob: timestamp = "", $lteDob: timestamp = "") {
+  post(where: {pet: {breed: {species: {id: {_eq: $speciesId}}}, gender: {_in: $gender}, isSeed: {_in: $isSeed}, dob: {_gte: $gteDob, _lte: $lteDob}}, provisionalTotal: {_lt: $ltPrice}, _and: {provisionalTotal: {_gte: $gtePrice}, status: {_eq: $status}, customerId: {_neq: $customerId}}}, order_by: {pet: {breed: {name: $breedName}}, provisionalTotal: $price}) {
     createTime
     description
+    petId
+    isVaccineInject
     id
     provisionalTotal
     status
     sellerReceive
     type
     shopFee
+    title
+    branchId
+    branch {
+      id
+      name
+      representativeName
+      lat
+      lng
+      email
+      phoneNumber
+      star
+      numberReviewers
+      address
+      isActive
+    }
+    customerId
+    customer {
+      id
+      firstName
+      lastName
+      address
+      gender
+      star
+      point
+      email
+      numberReviewers
+    }
     pet {
       avatar
       description
