@@ -3,6 +3,9 @@ import 'package:get/get.dart';
 import 'package:petapp_mobile/configs/route.dart';
 import 'package:petapp_mobile/configs/theme.dart';
 import 'package:petapp_mobile/controllers/pet_detail_page_controller.dart';
+import 'package:petapp_mobile/models/pet_combo_model/pet_combo_model.dart';
+import 'package:petapp_mobile/services/pet_combo_services.dart';
+import 'package:petapp_mobile/utilities/utilities.dart';
 import 'package:petapp_mobile/views/widgets/customize_widget.dart';
 
 class PetDetailServicesComboWidget extends GetView<PetDetailPageController> {
@@ -10,12 +13,124 @@ class PetDetailServicesComboWidget extends GetView<PetDetailPageController> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        noExistPetCombo(),
-      ],
+    return GetBuilder<PetDetailPageController>(
+      builder: (_) {
+        controller.isLoadingPetCombo.value = true;
+        WidgetsBinding.instance!.addPostFrameCallback((_) async {
+          controller
+            ..petComboModelList =
+                await PetComboServices.fetchListPetComboByPetId(
+                    petId: controller.petModel.id)
+            ..isLoadingPetCombo.value = false;
+        });
+        return Obx(
+          () => controller.isLoadingPetCombo.value
+              ? Padding(
+                  padding: const EdgeInsets.only(top: 200),
+                  child: LOADING_WIDGET(),
+                )
+              : controller.petComboModelList.isNotEmpty
+                  ? petComboListWidget()
+                  : noExistPetCombo(),
+        );
+      },
     );
   }
+
+  Widget petComboListWidget() => Padding(
+        padding: const EdgeInsets.symmetric(vertical: 20),
+        child: Column(
+          children: [
+            Column(
+              children: controller.petComboModelList
+                  .map((e) => petComboItemWidget(petComboModel: e))
+                  .toList(),
+            ),
+            Row(
+              children: [
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 12, vertical: 20),
+                    child: InkWell(
+                      onTap: () => Get.toNamed(
+                          '$BUY_SERVICES_COMBO_PAGE_ROUTE?petId=${controller.petModel.id}'),
+                      child: Container(
+                        alignment: Alignment.center,
+                        padding: const EdgeInsets.all(10),
+                        decoration: BoxDecoration(
+                          color: PRIMARY_COLOR,
+                          borderRadius: BorderRadius.circular(5),
+                        ),
+                        child: CUSTOM_TEXT('BUY MORE PET SERVICES COMBO',
+                            color: WHITE_COLOR, letterSpacing: 1, fontSize: 15),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
+      );
+
+  Widget petComboItemWidget({required PetComboModel petComboModel}) => Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 5),
+        child: InkWell(
+          onTap: () {},
+          child: Container(
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+            decoration: BoxDecoration(
+                color: WHITE_COLOR,
+                borderRadius: BorderRadius.circular(5),
+                boxShadow: [
+                  BoxShadow(
+                    color: LIGHT_GREY_COLOR.withOpacity(0.15),
+                    offset: const Offset(3, 2),
+                    blurRadius: 3,
+                  )
+                ]),
+            child: Column(
+              children: [
+                CUSTOM_TEXT(petComboModel.servicesComboModel.name,
+                    color: PRIMARY_COLOR, fontWeight: FontWeight.w700),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    CUSTOM_TEXT('Type'),
+                    CUSTOM_TEXT(petComboModel.servicesComboModel.type),
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    CUSTOM_TEXT('Register time'),
+                    CUSTOM_TEXT(
+                      FORMAT_DATE_TIME(
+                          dateTime: petComboModel.registerTime,
+                          pattern: DATE_PATTERN_2),
+                    ),
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    CUSTOM_TEXT('Register brach'),
+                    CUSTOM_TEXT(petComboModel.branchModel.name),
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    CUSTOM_TEXT('Is completed'),
+                    CUSTOM_TEXT(petComboModel.isCompleted ? 'Yes' : 'No'),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ),
+      );
 
   Widget noExistPetCombo() => Padding(
         padding: const EdgeInsets.symmetric(vertical: 200),
@@ -33,7 +148,8 @@ class PetDetailServicesComboWidget extends GetView<PetDetailPageController> {
             Padding(
               padding: const EdgeInsets.only(top: 20),
               child: InkWell(
-                onTap: () => Get.toNamed(BUY_SERVICES_COMBO_PAGE_ROUTE),
+                onTap: () => Get.toNamed(
+                    '$BUY_SERVICES_COMBO_PAGE_ROUTE?petId=${controller.petModel.id}&speciesId=${controller.petModel.breedModel!.speciesId}'),
                 child: Container(
                   padding: const EdgeInsets.all(10),
                   decoration: BoxDecoration(

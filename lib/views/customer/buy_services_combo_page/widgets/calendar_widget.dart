@@ -128,11 +128,10 @@ class BuyServicesComboCalendarWidget
                                   controller
                                     ..bookingServicesDate =
                                         controller.tmpBookingServicesDate
-                                    ..bookingServicesDateText.value =
-                                        FORMAT_DATE_TIME(
-                                            dateTime:
-                                                controller.bookingServicesDate!,
-                                            pattern: DATE_PATTERN_2)
+                                    ..registerDateText.value = FORMAT_DATE_TIME(
+                                        dateTime:
+                                            controller.bookingServicesDate!,
+                                        pattern: DATE_PATTERN_2)
                                     ..isDisplayCalender.value = false
                                     ..update();
                                 },

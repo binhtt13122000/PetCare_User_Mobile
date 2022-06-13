@@ -42,6 +42,7 @@ class BuyServicesComboListComboWidget
                           .petServicesComboModelList[
                               controller.selectPetServicesComboIndex.value]
                           .id)
+              ..totalPrice.value = controller.petServicesComboModel.price
               ..isWaitLoadingPetServicesComboDetail.value = false
               ..isLoadingPetServicesComboDetail = false;
           });
