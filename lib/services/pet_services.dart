@@ -107,6 +107,78 @@ class PetService {
     }
   }
 
+  static Future updatePet({
+    required int id,
+    required int ownerId,
+    required File? avatarFile,
+    required String avatarFilePath,
+    required String name,
+    required bool isSeed,
+    required String gender,
+    required DateTime dob,
+    String? description,
+    required int breedId,
+    required String status,
+    String? color,
+    String? specialMarkings,
+    String? vaccineDescription,
+  }) async {
+    try {
+      FormData formData;
+      print({
+        'id': id,
+        'name': name,
+        'dob': dob,
+        'gender': gender,
+        'description': description ?? '',
+        'isSeed': isSeed,
+        'status': status,
+        'color': color ?? '',
+        'breedId': breedId,
+        'specialMarkings': specialMarkings ?? '',
+        'vaccineDescription': vaccineDescription ?? '',
+        'avatar': avatarFilePath,
+      });
+      formData = FormData.fromMap({
+        'id': id,
+        'name': name,
+        'dob': dob,
+        'gender': gender,
+        'description': description ?? '',
+        'isSeed': isSeed,
+        'status': status,
+        'color': color ?? '',
+        'breedId': breedId,
+        'specialMarkings': specialMarkings ?? '',
+        'vaccineDescription': vaccineDescription ?? '',
+        'avatar': avatarFilePath,
+      });
+
+      if (avatarFile != null) {
+          formData.files.add(
+            MapEntry(
+              'file',
+              await MultipartFile.fromFile(avatarFilePath),
+            ),
+          );
+        }
+
+      Response response = await Dio().put('http://$API_SERVER_PATH/v1/api/pets',
+          data: formData,
+          options: Options(headers: <String, String>{
+            HttpHeaders.contentTypeHeader: 'multipart/form-data',
+          }));
+      print(response.toString());
+
+      return response.statusCode;
+    } on DioError catch (e) {
+      print(e.error);
+      print(e.error.toString());
+
+      return e.response!.statusCode;
+    }
+  }
+
   static Future<List<PetModel>> fetchPetListToCreatePostByCustomerId({
     required int customerId,
     required String postType,
