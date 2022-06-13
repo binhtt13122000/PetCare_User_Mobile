@@ -5,6 +5,7 @@ import 'package:petapp_mobile/configs/theme.dart';
 import 'package:petapp_mobile/controllers/pet_detail_page_controller.dart';
 import 'package:petapp_mobile/views/customer/pet_detail_page/widgets/health_records_widget.dart';
 import 'package:petapp_mobile/views/customer/pet_detail_page/widgets/pet_detail_information_widget.dart';
+import 'package:petapp_mobile/views/customer/pet_detail_page/widgets/services_combo_widget.dart';
 import 'package:petapp_mobile/views/widgets/customize_widget.dart';
 
 class PetDetailBodyWidget extends GetView<PetDetailPageController> {
@@ -63,10 +64,16 @@ class PetDetailBodyWidget extends GetView<PetDetailPageController> {
                             viewTypeWidget(),
                           ],
                         ),
-                        Obx(() =>
-                            controller.selectedViewType.value == 'Pet details'
-                                ? const PetDetailInformationWidget()
-                                : const PetDetailHeathRecordsWidget()),
+                        Obx(() {
+                          switch (controller.selectedViewType.value) {
+                            case 'Health records':
+                              return const PetDetailHeathRecordsWidget();
+                            case 'Services combo':
+                              return const PetDetailServicesComboWidget();
+                            default:
+                              return const PetDetailInformationWidget();
+                          }
+                        }),
                       ],
                     ),
                   ),
@@ -105,11 +112,7 @@ class PetDetailBodyWidget extends GetView<PetDetailPageController> {
         flex: flex,
         child: Obx(
           () => InkWell(
-            onTap: () {
-              controller.selectedViewType.value == viewType
-                  ? null
-                  : controller.selectedViewType.value = viewType;
-            },
+            onTap: () => controller.selectedViewType.value = viewType,
             child: Column(
               children: [
                 Container(
@@ -121,23 +124,22 @@ class PetDetailBodyWidget extends GetView<PetDetailPageController> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Padding(
-                        padding: const EdgeInsets.only(right: 10),
-                        child: CircleAvatar(
-                          maxRadius: 3,
-                          backgroundColor:
-                              controller.selectedViewType.value == viewType
-                                  ? PRIMARY_COLOR
-                                  : Colors.transparent,
-                        ),
-                      ),
+                      controller.selectedViewType.value == viewType
+                          ? const Padding(
+                              padding: EdgeInsets.only(right: 10),
+                              child: CircleAvatar(
+                                maxRadius: 3,
+                                backgroundColor: PRIMARY_COLOR,
+                              ),
+                            )
+                          : const SizedBox.shrink(),
                       Text(
                         viewType,
                         style: GoogleFonts.quicksand(
                           color: controller.selectedViewType.value == viewType
                               ? PRIMARY_COLOR
                               : const Color.fromARGB(255, 116, 122, 143),
-                          fontSize: 15,
+                          fontSize: 14,
                           fontWeight: FontWeight.w500,
                           height: 1,
                         ),

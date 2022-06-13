@@ -7,6 +7,7 @@ import 'package:get/get.dart';
 import 'package:petapp_mobile/bindings/action_page_binding.dart';
 import 'package:petapp_mobile/bindings/add_pet_page_binding.dart';
 import 'package:petapp_mobile/bindings/breeding_transaction_detail_page_binding.dart';
+import 'package:petapp_mobile/bindings/buy_services_combo_page_binding.dart';
 import 'package:petapp_mobile/bindings/chatting_detail_page_binding.dart';
 import 'package:petapp_mobile/bindings/chatting_list_page_binding.dart';
 import 'package:petapp_mobile/bindings/create_post_page_binding.dart';
@@ -28,6 +29,7 @@ import 'package:petapp_mobile/bindings/post_management_page_binding.dart';
 import 'package:petapp_mobile/bindings/center_services_transaction_detail_page_binding.dart';
 import 'package:petapp_mobile/bindings/ticket_detail_page_binding.dart';
 import 'package:petapp_mobile/bindings/transaction_list_page_binding.dart';
+import 'package:petapp_mobile/bindings/update_pet_page_binding.dart';
 import 'package:petapp_mobile/bindings/update_sale_post_page_binding.dart';
 import 'package:petapp_mobile/configs/route.dart';
 import 'package:petapp_mobile/controllers/auth_controller.dart';
@@ -36,6 +38,7 @@ import 'package:petapp_mobile/models/account_model/account_model.dart';
 import 'package:petapp_mobile/services/account_services.dart';
 import 'package:petapp_mobile/views/customer/action_page/action_page.dart';
 import 'package:petapp_mobile/views/customer/breeding_transaction_detail_page/breeding_transaction_detail_page.dart';
+import 'package:petapp_mobile/views/customer/buy_services_combo_page/buy_services_combo_page.dart';
 import 'package:petapp_mobile/views/customer/center_services_transaction_detail_page/center_services_transaction_detail_page.dart';
 import 'package:petapp_mobile/views/customer/center_services_transaction_payment_method_page/center_services_transaction_payment_method_page.dart';
 import 'package:petapp_mobile/views/customer/chatting_detail_page/chatting_detail_page.dart';
@@ -58,6 +61,7 @@ import 'package:petapp_mobile/views/customer/sale_post_list_page/sale_post_page.
 import 'package:petapp_mobile/views/customer/sale_transaction_detail_page/sale_transaction_detail_page.dart';
 import 'package:petapp_mobile/views/customer/ticket_detail_page/ticket_detail_page.dart';
 import 'package:petapp_mobile/views/customer/transaction_list_page/transaction_list_page.dart';
+import 'package:petapp_mobile/views/customer/update_pet_page/update_pet_page.dart';
 import 'package:petapp_mobile/views/customer/update_sale_post_page/update_sale_post_page.dart';
 import 'package:petapp_mobile/views/guest/landing_page/landing_page.dart';
 import 'package:petapp_mobile/views/guest/register_otp_page/register_otp_page.dart';
@@ -277,6 +281,11 @@ class MainApp extends StatelessWidget {
           page: () => const PetWeightPage(),
           binding: PetWeightPageBinding(),
         ),
+        GetPage(
+          name: '$UPDATE_PET_PAGE_ROUTE/:petId',
+          page: () => const UpdatePetPage(),
+          binding: UpdatePetPageBinding(),
+        ),
         //*Chatting
         GetPage(
           name: CHATTING_LIST_PAGE_ROUTE,
@@ -292,6 +301,12 @@ class MainApp extends StatelessWidget {
           name: '$CHATTING_DETAIL_PAGE_ROUTE/sellerId/:sellerId/postId/:postId',
           page: () => const ChattingDetailPage(),
           binding: ChattingDetailPageBinding(),
+        ),
+        //*Buy Services Combo
+        GetPage(
+          name: BUY_SERVICES_COMBO_PAGE_ROUTE,
+          page: () => const BuyServicesComboPage(),
+          binding: BuyServicesComboPageBinding(),
         ),
         //*Ticket
         GetPage(

@@ -6,7 +6,7 @@ class PetDetailPageController extends GetxController {
   late PetModel petModel;
   RxBool isLoadingData = false.obs;
   late RxString selectedViewType;
-  List<String> viewTypes = ['Pet details', 'Pet health records'];
+  List<String> viewTypes = ['Pet details', 'Health records', 'Services combo'];
   RxBool isViewPetPapers = false.obs;
   ScrollController scrollController = ScrollController();
   RxBool isOnTopScroll = false.obs;

@@ -21,7 +21,9 @@ class PetDetailPage extends GetView<PetDetailPageController> {
 
             WidgetsBinding.instance!.addPostFrameCallback((_) async {
               controller.petModel = await PetService.fetchPetById(
-                  petId: Get.parameters['petId']!);
+                petId: Get.parameters['petId'] ??
+                    controller.petModel.id.toString(),
+              );
               controller.isLoadingData.value = false;
             });
             return Obx(
