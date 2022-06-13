@@ -121,7 +121,7 @@ class BuyServicesComboBottomWidget
 
   Widget paymentMoneyWidget() => Container(
         padding: const EdgeInsets.only(right: 12),
-        width: 90,
+        width: 110,
         child: Obx(
           () => Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -173,34 +173,40 @@ class BuyServicesComboBottomWidget
   Widget paymentWidget() => Expanded(
         child: InkWell(
           onTap: () async {
-            if (controller.bookingServicesDateText.isNotEmpty) {
+            if (controller.registerDateText.isNotEmpty) {
               controller.paymentUrl.value = await PetComboServices.payment(
-                  message: 'buy a pet combo',
-                  locale: 'vi',
-                  paymentMethod: 'VNPAY',
-                  comboId: controller.petServicesComboModel.id,
-                  orderTotal: controller.petServicesComboModel.price,
-                  paymentTime: DateTime.now(),
-                  registerTime: controller.bookingServicesDate!,
-                  branchId: controller.selectBranchId.value,
-                  customerId: controller.accountModel.customerModel.id);
+                message: 'buy a pet combo',
+                locale: 'vi',
+                paymentMethod: 'VNPAY',
+                comboId: controller.petServicesComboModel.id,
+                orderTotal: controller.petServicesComboModel.price,
+                paymentTime: DateTime.now(),
+                registerTime: controller.bookingServicesDate!,
+                branchId: controller.selectBranchId.value,
+                customerId: controller.accountModel.customerModel.id,
+                petId: controller.selectedPetId.value,
+              );
             }
           },
-          child: Container(
-            alignment: Alignment.center,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(5),
-              color: PRIMARY_COLOR,
-            ),
-            child: Text(
-              'Payment',
-              textAlign: TextAlign.center,
-              style: GoogleFonts.quicksand(
-                textStyle: const TextStyle(color: WHITE_COLOR),
-                fontWeight: FontWeight.w600,
-                fontSize: 20,
-                height: 1,
-                letterSpacing: 2,
+          child: Obx(
+            () => Container(
+              alignment: Alignment.center,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(5),
+                color: controller.registerDateText.value.isNotEmpty
+                    ? PRIMARY_COLOR
+                    : PRIMARY_COLOR.withOpacity(0.3),
+              ),
+              child: Text(
+                'Payment',
+                textAlign: TextAlign.center,
+                style: GoogleFonts.quicksand(
+                  textStyle: const TextStyle(color: WHITE_COLOR),
+                  fontWeight: FontWeight.w600,
+                  fontSize: 20,
+                  height: 1,
+                  letterSpacing: 2,
+                ),
               ),
             ),
           ),

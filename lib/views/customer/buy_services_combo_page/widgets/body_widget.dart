@@ -28,6 +28,10 @@ class BuyServicesComboBodyWidget
                         height: 10,
                       ),
                       GetBuilder<BuyServicesComboPageController>(builder: (_) {
+                        String? petId = Get.parameters['petId'];
+                        petId != null
+                            ? controller.selectedPetId.value = int.parse(petId)
+                            : null;
                         if (controller.isLoadingPet) {
                           controller.isWaitLoadingPet.value = true;
                           WidgetsBinding.instance!
@@ -124,8 +128,8 @@ class BuyServicesComboBodyWidget
                       padding: const EdgeInsets.only(left: 20),
                       child: Obx(
                         () => CUSTOM_TEXT(
-                          controller.bookingServicesDateText.value.isNotEmpty
-                              ? controller.bookingServicesDateText.value
+                          controller.registerDateText.value.isNotEmpty
+                              ? controller.registerDateText.value
                               : 'dd/MM/yyyy',
                           textAlign: TextAlign.left,
                         ),

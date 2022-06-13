@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:petapp_mobile/configs/theme.dart';
 import 'package:petapp_mobile/controllers/chatting_detail_page_controller.dart';
-import 'package:petapp_mobile/models/message_model.dart/message_model.dart';
+import 'package:petapp_mobile/models/message_model/message_model.dart';
 import 'package:petapp_mobile/utilities/utilities.dart';
 
 class ChattingDetailBodyWidget extends GetView<ChattingDetailPageController> {

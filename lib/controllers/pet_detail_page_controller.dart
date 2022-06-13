@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:petapp_mobile/models/pet_combo_model/pet_combo_model.dart';
 import 'package:petapp_mobile/models/pet_model/pet_model.dart';
 
 class PetDetailPageController extends GetxController {
+  RxBool isLoadingPetCombo = false.obs;
+  late List<PetComboModel> petComboModelList;
   late PetModel petModel;
   RxBool isLoadingData = false.obs;
   late RxString selectedViewType;

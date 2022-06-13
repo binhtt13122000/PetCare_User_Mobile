@@ -24,7 +24,7 @@ class BuyServicesComboPageController extends GetxController {
   RxBool isDisplayCalender = false.obs;
   DateTime? bookingServicesDate;
   DateTime? tmpBookingServicesDate;
-  RxString bookingServicesDateText = ''.obs;
+  RxString registerDateText = ''.obs;
   RxInt totalPrice = 0.obs;
   RxBool isWaitLoadingPetServicesComboDetail = false.obs;
   bool isLoadingPetServicesComboDetail = true;
