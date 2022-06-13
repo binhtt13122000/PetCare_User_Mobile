@@ -20,7 +20,7 @@ class BuyPetServicesComboSelectBranchWidget
           Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              CUSTOM_TEXT('Register Branch'),
+              CUSTOM_TEXT('Register branch'),
               CUSTOM_TEXT('*',
                   color: RED_COLOR,
                   fontSize: 18,

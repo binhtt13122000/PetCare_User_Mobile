@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:petapp_mobile/configs/path.dart';
 import 'package:petapp_mobile/models/chat_room_model/chat_room_model.dart';
-import 'package:petapp_mobile/models/message_model.dart/message_model.dart';
+import 'package:petapp_mobile/models/message_model/message_model.dart';
 import 'package:dio/dio.dart';
 import 'dart:io';
 

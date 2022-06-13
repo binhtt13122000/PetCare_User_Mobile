@@ -16,7 +16,7 @@ class BuyServicesComboPopupWidget
           child: Container(
             alignment: Alignment.center,
             decoration: const BoxDecoration(
-              color: Color.fromARGB(106, 201, 188, 190),
+              color: DARK_GREY_TRANSPARENT,
             ),
             child: Container(
               height: 200,
