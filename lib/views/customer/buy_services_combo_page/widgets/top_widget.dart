@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:petapp_mobile/configs/theme.dart';
-import 'package:petapp_mobile/controllers/pet_detail_page_controller.dart';
+import 'package:petapp_mobile/controllers/buy_services_combo_page_controller.dart';
 import 'package:petapp_mobile/controllers/pet_management_page_controller.dart';
 import 'package:petapp_mobile/views/widgets/customize_widget.dart';
 
-class PetDetailTopWidget extends GetView<PetDetailPageController> {
-  const PetDetailTopWidget({Key? key}) : super(key: key);
+class BuyServicesComboTopWidget
+    extends GetView<BuyServicesComboPageController> {
+  const BuyServicesComboTopWidget({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) => Column(
@@ -15,6 +16,10 @@ class PetDetailTopWidget extends GetView<PetDetailPageController> {
           Container(
             height: 1,
             color: DARK_GREY_COLOR.withAlpha(30),
+          ),
+          Container(
+            height: 16,
+            color: SUPPER_LIGHT_BLUE,
           ),
         ],
       );
@@ -55,16 +60,13 @@ class PetDetailTopWidget extends GetView<PetDetailPageController> {
             ),
             //*app logo
             Expanded(
-              child: Obx(
-                () => FittedBox(
-                  fit: BoxFit.scaleDown,
-                  child: CUSTOM_TEXT(controller.topTitle.value,
-                      fontWeight: FontWeight.w700,
-                      letterSpacing: 1,
-                      textAlign: TextAlign.center,
-                      fontSize: 18,
-                      padding: const EdgeInsets.symmetric(horizontal: 20)),
-                ),
+              child: CUSTOM_TEXT(
+                'Buy Pet Services Combo Page',
+                fontWeight: FontWeight.w700,
+                letterSpacing: 1,
+                textAlign: TextAlign.center,
+                fontSize: 18,
+                padding: const EdgeInsets.symmetric(horizontal: 20),
               ),
             ),
           ],

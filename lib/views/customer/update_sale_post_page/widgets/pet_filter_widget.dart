@@ -22,8 +22,7 @@ class PetFilterWidget extends GetView<UpdateSalePostPageController> {
                 controller.isShowLoadingPetSpecies.value = true;
                 WidgetsBinding.instance!
                     .addPostFrameCallback((timeStamp) async {
-                  controller.species =
-                      await SpeciesService.fetchSpeciesList(true);
+                  controller.species = await SpeciesService.fetchSpeciesList();
                   controller.selectedSpeciesId ??= controller.species[0].id;
                   controller.isShowLoadingPetSpecies.value = false;
                 });

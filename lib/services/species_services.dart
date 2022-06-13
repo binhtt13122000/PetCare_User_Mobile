@@ -32,10 +32,9 @@ class SpeciesService {
     }
   }
 
-  static Future<List<SpeciesModel>> fetchSpeciesList(bool? isActive) async {
-    Map<String, String> parameters = {
-      'isActive': isActive != null ? isActive.toString() : "",
-    };
+  static Future<List<SpeciesModel>> fetchSpeciesList(
+      {bool isActive = true}) async {
+    Map<String, dynamic> parameters = {'isActive': isActive.toString()};
     final response = await http.get(
       Uri.http(API_SERVER_PATH, SPECIES_API_PATH, parameters),
       headers: <String, String>{

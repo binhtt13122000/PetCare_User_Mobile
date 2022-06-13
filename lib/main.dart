@@ -7,6 +7,7 @@ import 'package:get/get.dart';
 import 'package:petapp_mobile/bindings/action_page_binding.dart';
 import 'package:petapp_mobile/bindings/add_pet_page_binding.dart';
 import 'package:petapp_mobile/bindings/breeding_transaction_detail_page_binding.dart';
+import 'package:petapp_mobile/bindings/buy_services_combo_page_binding.dart';
 import 'package:petapp_mobile/bindings/chatting_detail_page_binding.dart';
 import 'package:petapp_mobile/bindings/chatting_list_page_binding.dart';
 import 'package:petapp_mobile/bindings/create_post_page_binding.dart';
@@ -36,6 +37,7 @@ import 'package:petapp_mobile/models/account_model/account_model.dart';
 import 'package:petapp_mobile/services/account_services.dart';
 import 'package:petapp_mobile/views/customer/action_page/action_page.dart';
 import 'package:petapp_mobile/views/customer/breeding_transaction_detail_page/breeding_transaction_detail_page.dart';
+import 'package:petapp_mobile/views/customer/buy_services_combo_page/buy_services_combo_page.dart';
 import 'package:petapp_mobile/views/customer/center_services_transaction_detail_page/center_services_transaction_detail_page.dart';
 import 'package:petapp_mobile/views/customer/center_services_transaction_payment_method_page/center_services_transaction_payment_method_page.dart';
 import 'package:petapp_mobile/views/customer/chatting_detail_page/chatting_detail_page.dart';
@@ -292,6 +294,12 @@ class MainApp extends StatelessWidget {
           name: '$CHATTING_DETAIL_PAGE_ROUTE/sellerId/:sellerId/postId/:postId',
           page: () => const ChattingDetailPage(),
           binding: ChattingDetailPageBinding(),
+        ),
+        //*Buy Services Combo
+        GetPage(
+          name: BUY_SERVICES_COMBO_PAGE_ROUTE,
+          page: () => const BuyServicesComboPage(),
+          binding: BuyServicesComboPageBinding(),
         ),
         //*Ticket
         GetPage(

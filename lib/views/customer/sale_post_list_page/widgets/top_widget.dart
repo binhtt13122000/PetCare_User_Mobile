@@ -71,7 +71,7 @@ class SalePostTopWidget extends GetView<PurchasePostsPageController> {
           child: GetBuilder<PurchasePostsPageController>(builder: (_) {
             controller.isShowLoadingPetSpecies.value = true;
             WidgetsBinding.instance!.addPostFrameCallback((timeStamp) async {
-              controller.species = await SpeciesService.fetchSpeciesList(true);
+              controller.species = await SpeciesService.fetchSpeciesList();
               controller.selectedSpeciesId.value = controller.species[0].id;
               controller.isShowLoadingPetSpecies.value = false;
             });

@@ -60,3 +60,6 @@ const CENTER_SERVICES_TRANSACTION_PAYMENT_METHOD_PAGE_ROUTE =
 
 //post
 const UPDATE_SALE_POST_PAGE_ROUTE = '/post/sale/update';
+
+//services combo
+const BUY_SERVICES_COMBO_PAGE_ROUTE = '/buy-services-combo';
