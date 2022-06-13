@@ -26,12 +26,10 @@ class PetService {
         'Content-Type': 'application/json; charset=UTF-8',
       },
     );
-    print(response.statusCode);
     switch (response.statusCode) {
       case 200:
       case 201:
       case 202:
-        print(jsonDecode(response.body));
         return getPetList(jsonDecode(response.body)['data']);
       default:
         throw Exception('Error ${response.statusCode}, cannot get pet list');
@@ -102,11 +100,9 @@ class PetService {
               options: Options(headers: <String, String>{
                 HttpHeaders.contentTypeHeader: 'multipart/form-data',
               }));
-      print(response.data);
 
       return response.statusCode;
     } on DioError catch (e) {
-      print(e.error);
       return e.response!.statusCode;
     }
   }

@@ -28,6 +28,26 @@ class PetComboServices {
       case 202:
         return getPetComboList(json.decode(response.body)['data']);
       default:
+        throw Exception(
+            'Error ${response.statusCode}, cannot get pet combo list');
+    }
+  }
+
+  static Future<PetComboModel> fetchPetComboById({
+    required String petComboId,
+  }) async {
+    final response = await http.get(
+      Uri.http(API_SERVER_PATH, '$PET_COMBO_API_PATH/$petComboId'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+    );
+    switch (response.statusCode) {
+      case 200:
+      case 201:
+      case 202:
+        return PetComboModel.fromJson(json.decode(response.body)['data']);
+      default:
         throw Exception('Error ${response.statusCode}, cannot get pet combo');
     }
   }

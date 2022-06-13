@@ -75,9 +75,10 @@ class PetDetailServicesComboWidget extends GetView<PetDetailPageController> {
       );
 
   Widget petComboItemWidget({required PetComboModel petComboModel}) => Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 5),
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
         child: InkWell(
-          onTap: () {},
+          onTap: () =>
+              Get.toNamed('$PET_COMBO_DETAIL_PAGE_ROUTE/${petComboModel.id}'),
           child: Container(
             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
             decoration: BoxDecoration(
@@ -85,10 +86,10 @@ class PetDetailServicesComboWidget extends GetView<PetDetailPageController> {
                 borderRadius: BorderRadius.circular(5),
                 boxShadow: [
                   BoxShadow(
-                    color: LIGHT_GREY_COLOR.withOpacity(0.15),
-                    offset: const Offset(3, 2),
+                    color: DARK_GREY_COLOR.withOpacity(0.2),
+                    offset: const Offset(2, 2),
                     blurRadius: 3,
-                  )
+                  ),
                 ]),
             child: Column(
               children: [

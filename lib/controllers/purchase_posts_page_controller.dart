@@ -27,12 +27,12 @@ class PurchasePostsPageController extends GetxController {
   RxInt gtePrice = 0.obs;
   RxString selectedPrices = ''.obs;
   List<String> prices = [
-    '< 1 milion',
-    '1 milion → 4 milion',
-    '4 milion → 7 milion',
-    '7 milion → 13 milion',
-    '13 milion → 20 milion',
-    '> 20 milion',
+    '< 1 million',
+    '1 million → 4 million',
+    '4 million → 7 million',
+    '7 million → 13 million',
+    '13 million → 20 million',
+    '> 20 million',
   ];
 
   RxString lteDob = 'now()'.obs;

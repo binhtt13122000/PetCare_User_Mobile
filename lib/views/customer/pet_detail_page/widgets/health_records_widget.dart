@@ -27,7 +27,7 @@ class PetDetailHeathRecordsWidget extends GetView<PetDetailPageController> {
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 20),
         child: InkWell(
           onTap: () =>
-              Get.toNamed('$PET_WEIGHT_PAGE_ROUTE/${Get.parameters['petId']!}'),
+              Get.toNamed('$PET_WEIGHT_PAGE_ROUTE/${controller.petModel.id}'),
           child: Container(
             padding: const EdgeInsets.all(10),
             decoration: BoxDecoration(

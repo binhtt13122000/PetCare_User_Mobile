@@ -1,6 +1,7 @@
 import 'package:json_annotation/json_annotation.dart';
 
 import 'package:petapp_mobile/models/branch_model/branch_model.dart';
+import 'package:petapp_mobile/models/pet_combo_detail_model/pet_combo_detail_model.dart';
 import 'package:petapp_mobile/models/pet_model/pet_model.dart';
 import 'package:petapp_mobile/models/services_combo_model/services_combo_model.dart';
 
@@ -25,6 +26,8 @@ class PetComboModel {
   final BranchModel branchModel;
   @JsonKey(name: 'combo')
   final ServicesComboModel servicesComboModel;
+  @JsonKey(name: 'petComboServices')
+  final List<PetComboDetailModel>? petComboDetailModelList;
 
   PetComboModel({
     required this.id,
@@ -41,6 +44,7 @@ class PetComboModel {
     required this.petModel,
     required this.branchModel,
     required this.servicesComboModel,
+    this.petComboDetailModelList,
   });
 
   factory PetComboModel.fromJson(Map<String, dynamic> json) =>

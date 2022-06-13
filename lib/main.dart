@@ -16,6 +16,7 @@ import 'package:petapp_mobile/bindings/home_page_binding.dart';
 import 'package:petapp_mobile/bindings/notification_page_binding.dart';
 import 'package:petapp_mobile/bindings/payment_for_center_services_transaction_page_binding.dart';
 import 'package:petapp_mobile/bindings/personal_information_page_binding.dart';
+import 'package:petapp_mobile/bindings/pet_combo_detail_page_binding.dart';
 import 'package:petapp_mobile/bindings/pet_detail_page_binding.dart';
 import 'package:petapp_mobile/bindings/pet_weight_page_binding.dart';
 import 'package:petapp_mobile/bindings/profile_page_binding.dart';
@@ -50,6 +51,7 @@ import 'package:petapp_mobile/views/customer/home_page/home_page.dart';
 import 'package:petapp_mobile/views/customer/notification_page/notification_page.dart';
 import 'package:petapp_mobile/views/customer/payment_for_center_services_transaction_page/payment_for_center_services_transaction_page.dart';
 import 'package:petapp_mobile/views/customer/personal_information_page/personal_information_page.dart';
+import 'package:petapp_mobile/views/customer/pet_combo_detail_page/pet_combo_detail_page.dart';
 import 'package:petapp_mobile/views/customer/pet_detail_page/pet_detail_page.dart';
 import 'package:petapp_mobile/views/customer/pet_management_page/pet_management_page.dart';
 import 'package:petapp_mobile/views/customer/pet_weight_page/pet_weight_page.dart';
@@ -302,11 +304,16 @@ class MainApp extends StatelessWidget {
           page: () => const ChattingDetailPage(),
           binding: ChattingDetailPageBinding(),
         ),
-        //*Buy Services Combo
+        //*Pet Services Combo
         GetPage(
           name: BUY_SERVICES_COMBO_PAGE_ROUTE,
           page: () => const BuyServicesComboPage(),
           binding: BuyServicesComboPageBinding(),
+        ),
+        GetPage(
+          name: '$PET_COMBO_DETAIL_PAGE_ROUTE/:petComboId',
+          page: () => const PetComboDetailPage(),
+          binding: PetComboDetailPageBinding(),
         ),
         //*Ticket
         GetPage(

@@ -1,8 +1,6 @@
-import 'dart:developer';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -55,7 +53,7 @@ class SalePostListWidget extends GetView<PurchasePostsPageController> {
                         document: gql(FETCH_PURCHASE_POST_LIST),
                         variables: {
                           'lteDob': controller.lteDob.value,
-                        'gteDob': controller.gteDob.value,
+                          'gteDob': controller.gteDob.value,
                           'customerId': controller.accountModel.id,
                           'speciesId': controller.selectedSpeciesId.value,
                           'ltPrice': controller.ltPrice.value,
@@ -78,8 +76,8 @@ class SalePostListWidget extends GetView<PurchasePostsPageController> {
                     : QueryOptions(
                         document: gql(FETCH_PURCHASE_POST_LIST_WITHOUT_BREED),
                         variables: {
-                          'lteDob': controller.lteDob.value,
-                        'gteDob': controller.gteDob.value,
+                            'lteDob': controller.lteDob.value,
+                            'gteDob': controller.gteDob.value,
                             'customerId': controller.accountModel.id,
                             'speciesId': controller.selectedSpeciesId.value,
                             'ltPrice': controller.ltPrice.value,
@@ -149,7 +147,7 @@ class SalePostListWidget extends GetView<PurchasePostsPageController> {
         onTap: () {
           // Get.delete<PurchasePostDetailPageController>();
           // Get.put(PurchasePostDetailPageController(postModel: postModel));
-          // Get.to(() => const PurchasePostDetaiPage());
+          // Get.to(() => const PurchasePostDetailPage());
         },
         child: Container(
           margin: const EdgeInsets.all(5),
@@ -411,7 +409,7 @@ class SalePostListWidget extends GetView<PurchasePostsPageController> {
         onTap: () {
           // Get.delete<PurchasePostDetailPageController>();
           // Get.put(PurchasePostDetailPageController(postModel: postModel));
-          // Get.to(() => const PurchasePostDetaiPage());
+          // Get.to(() => const PurchasePostDetailPage());
           Get.toNamed('$POST_DETAIL_PAGE_ROUTE/${postModelHasura.id}');
         },
         child: Container(

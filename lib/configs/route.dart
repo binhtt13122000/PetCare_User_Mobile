@@ -49,6 +49,7 @@ const CREATE_PET_PAGE_ROUTE = '/pet-management/add-pet';
 const PET_MANAGEMENT_PAGE_ROUTE = '/pet-management';
 const PET_WEIGHT_PAGE_ROUTE = '/pet-management/pet-detail/pet-weight';
 const UPDATE_PET_PAGE_ROUTE = '/pet-management/update-pet';
+const PET_COMBO_DETAIL_PAGE_ROUTE = '/pet-management/pet-combo-detail';
 
 //chatting
 const CHATTING_LIST_PAGE_ROUTE = '/chatting-list';
