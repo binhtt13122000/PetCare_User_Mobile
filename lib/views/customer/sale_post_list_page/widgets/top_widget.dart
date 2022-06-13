@@ -71,8 +71,8 @@ class SalePostTopWidget extends GetView<PurchasePostsPageController> {
           child: GetBuilder<PurchasePostsPageController>(builder: (_) {
             controller.isShowLoadingPetSpecies.value = true;
             WidgetsBinding.instance!.addPostFrameCallback((timeStamp) async {
-              controller.species = await SpeciesService.fetchSpeciesList();
-              controller.selectedSpeciesId.value = controller.species[0].id;
+              controller.species =
+                  await SpeciesService.fetchSpeciesList(isActive: true);
               controller.isShowLoadingPetSpecies.value = false;
             });
 
@@ -96,13 +96,17 @@ class SalePostTopWidget extends GetView<PurchasePostsPageController> {
         ),
       );
 
-  Widget speciesItemWidget({required SpeciesModel speciesModel}) => Obx(
-        () => Padding(
+  Widget speciesItemWidget({required SpeciesModel speciesModel}) =>
+      GetBuilder<PurchasePostsPageController>(
+        builder: (controller) => Padding(
           padding: const EdgeInsets.only(right: 15, top: 5, bottom: 5),
           child: InkWell(
-            onTap: () => controller.selectedSpeciesId.value == speciesModel.id
-                ? controller.selectedSpeciesId.value = -1
-                : controller.selectedSpeciesId.value = speciesModel.id,
+            onTap: () {
+              controller.selectedSpeciesId.value == speciesModel.id
+                  ? controller.selectedSpeciesId.value = -1
+                  : controller.selectedSpeciesId.value = speciesModel.id;
+              controller.update();
+            },
             child: Container(
               height: 37,
               padding: const EdgeInsets.symmetric(

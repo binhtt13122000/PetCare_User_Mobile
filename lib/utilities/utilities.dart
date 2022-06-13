@@ -32,6 +32,11 @@ String FORMAT_DATE_TIME({required DateTime dateTime, required String pattern}) {
   return dateFormat.format(dateTime);
 }
 
+DateTime CALCULATE_DATE_BEFORE_DATE_NOW({required int days, required int months, required int years}) {
+  var today = DateTime.now();
+  return DateTime(today.year - years, today.month - months, today.day - days);
+}
+
 Future<File?> PICK_IMAGE({bool isPickFromGalley = true}) async {
   try {
     final XFile? image = await ImagePicker().pickImage(

@@ -10,6 +10,7 @@ import 'package:petapp_mobile/controllers/purchase_posts_page_controller.dart';
 import 'package:petapp_mobile/graphql/graphql_config.dart';
 import 'package:petapp_mobile/models/breed_model/breed_model.dart';
 import 'package:petapp_mobile/services/breed_services.dart';
+import 'package:petapp_mobile/utilities/utilities.dart';
 
 class PurchasePostsFilterPage extends GetView<PurchasePostsPageController> {
   const PurchasePostsFilterPage({Key? key}) : super(key: key);
@@ -93,29 +94,34 @@ class PurchasePostsFilterPage extends GetView<PurchasePostsPageController> {
                         padding: const EdgeInsets.only(
                           left: 20,
                         ),
-                        child: Wrap(
-                          alignment: WrapAlignment.start,
-                          direction: Axis.horizontal,
-                          crossAxisAlignment: WrapCrossAlignment.start,
-                          runAlignment: WrapAlignment.start,
-                          verticalDirection: VerticalDirection.down,
-                          spacing: 10,
-                          runSpacing: 10,
-                          children: controller.species
-                              .asMap()
-                              .entries
-                              .map(
-                                (e) => Obx(
-                                  () => Container(
+                        child: Obx(
+                          () => Wrap(
+                            alignment: WrapAlignment.start,
+                            direction: Axis.horizontal,
+                            crossAxisAlignment: WrapCrossAlignment.start,
+                            runAlignment: WrapAlignment.start,
+                            verticalDirection: VerticalDirection.down,
+                            spacing: 10,
+                            runSpacing: 10,
+                            children: controller.species
+                                .asMap()
+                                .entries
+                                .map(
+                                  (e) => Container(
                                     width: 55 + e.value.name.length * 10,
                                     alignment: Alignment.centerLeft,
                                     child: InkWell(
-                                      onTap: () => controller
-                                                  .selectedSpeciesId.value ==
-                                              e.value.id
-                                          ? null
-                                          : controller.selectedSpeciesId.value =
-                                              e.value.id,
+                                      onTap: () {
+                                        if (controller
+                                                .selectedSpeciesId.value !=
+                                            e.value.id) {
+                                          controller.isShowLoadingBreeds.value =
+                                              true;
+                                          controller.selectedSpeciesId.value =
+                                              e.value.id;
+                                          controller.update();
+                                        }
+                                      },
                                       child: Container(
                                         height: 40,
                                         padding: const EdgeInsets.symmetric(
@@ -174,9 +180,9 @@ class PurchasePostsFilterPage extends GetView<PurchasePostsPageController> {
                                       ),
                                     ),
                                   ),
-                                ),
-                              )
-                              .toList(),
+                                )
+                                .toList(),
+                          ),
                         ),
                       ),
                       //!Breeds
@@ -231,14 +237,23 @@ class PurchasePostsFilterPage extends GetView<PurchasePostsPageController> {
                                             VerticalDirection.down,
                                         spacing: 10,
                                         runSpacing: 10,
-                                        children: controller.breedsMap[
-                                                controller
-                                                    .selectedSpeciesId.value]!
-                                            .asMap()
-                                            .entries
-                                            .map((e) => breedItemWidget(
-                                                breedModel: e.value))
-                                            .toList(),
+                                        children: controller
+                                                .breedsMap.isNotEmpty
+                                            ? controller.breedsMap[controller
+                                                        .selectedSpeciesId
+                                                        .value] ==
+                                                    null
+                                                ? <Widget>[Container()]
+                                                : controller.breedsMap[
+                                                        controller
+                                                            .selectedSpeciesId
+                                                            .value]!
+                                                    .asMap()
+                                                    .entries
+                                                    .map((e) => breedItemWidget(
+                                                        breedModel: e.value))
+                                                    .toList()
+                                            : <Widget>[Container()],
                                       ),
                                     ),
                             );
@@ -442,6 +457,7 @@ class PurchasePostsFilterPage extends GetView<PurchasePostsPageController> {
                                           default:
                                         }
                                       }
+                                      controller.update();
                                     },
                                     child: Container(
                                       height: 30,
@@ -539,34 +555,94 @@ class PurchasePostsFilterPage extends GetView<PurchasePostsPageController> {
                                       if (controller.selectedAge.value ==
                                           e.value) {
                                         controller.selectedAge.value = '';
-                                        controller.ltAge.value = 999999999;
-                                        controller.gteAge.value = 0;
+                                        controller.lteDob.value = 'now()';
+                                        controller.gteDob.value = '1700-01-01';
                                       } else {
                                         controller.selectedAge.value = e.value;
                                         switch (e.value) {
                                           case '< 6 month':
-                                            controller.ltAge.value = 6;
-                                            controller.gteAge.value = 0;
+                                            var dateBeforeSixMonth =
+                                                CALCULATE_DATE_BEFORE_DATE_NOW(
+                                                    days: 0,
+                                                    months: 6,
+                                                    years: 0);
+                                            print(dateBeforeSixMonth
+                                                .toIso8601String());
+                                            controller.lteDob.value = 'now()';
+                                            controller.gteDob.value =
+                                                dateBeforeSixMonth
+                                                    .toIso8601String();
                                             break;
                                           case '6 month → 12 month':
-                                            controller.ltAge.value = 12;
-                                            controller.gteAge.value = 6;
+                                            var dateBeforeSixMonth =
+                                                CALCULATE_DATE_BEFORE_DATE_NOW(
+                                                    days: 0,
+                                                    months: 6,
+                                                    years: 0);
+                                            var dateBeforeTwelfthMonth =
+                                                CALCULATE_DATE_BEFORE_DATE_NOW(
+                                                    days: 0,
+                                                    months: 12,
+                                                    years: 0);
+                                            controller.lteDob.value =
+                                                dateBeforeSixMonth
+                                                    .toIso8601String();
+                                            controller.gteDob.value =
+                                                dateBeforeTwelfthMonth
+                                                    .toIso8601String();
                                             break;
                                           case '1 year → 2 year':
-                                            controller.ltAge.value = 24;
-                                            controller.gteAge.value = 12;
+                                            var dateBeforeOneYear =
+                                                CALCULATE_DATE_BEFORE_DATE_NOW(
+                                                    days: 0,
+                                                    months: 0,
+                                                    years: 1);
+                                            var dateBeforeTwoYears =
+                                                CALCULATE_DATE_BEFORE_DATE_NOW(
+                                                    days: 0,
+                                                    months: 0,
+                                                    years: 2);
+                                            controller.lteDob.value =
+                                                dateBeforeOneYear
+                                                    .toIso8601String();
+                                            controller.gteDob.value =
+                                                dateBeforeTwoYears
+                                                    .toIso8601String();
                                             break;
                                           case '2 year → 4 year':
-                                            controller.ltAge.value = 48;
-                                            controller.gteAge.value = 24;
+                                            var dateBeforeTwoYears =
+                                                CALCULATE_DATE_BEFORE_DATE_NOW(
+                                                    days: 0,
+                                                    months: 0,
+                                                    years: 2);
+                                            var dateBeforeFourYears =
+                                                CALCULATE_DATE_BEFORE_DATE_NOW(
+                                                    days: 0,
+                                                    months: 0,
+                                                    years: 4);
+                                            controller.lteDob.value =
+                                                dateBeforeTwoYears
+                                                    .toIso8601String();
+                                            controller.gteDob.value =
+                                                dateBeforeFourYears
+                                                    .toIso8601String();
                                             break;
                                           case '> 4 year':
-                                            controller.ltAge.value = 999999999;
-                                            controller.gteAge.value = 48;
+                                            var dateBeforeFourYears =
+                                                CALCULATE_DATE_BEFORE_DATE_NOW(
+                                                    days: 0,
+                                                    months: 0,
+                                                    years: 4);
+                                            controller.lteDob.value =
+                                                dateBeforeFourYears
+                                                    .toIso8601String();
+                                            controller.gteDob.value =
+                                                '1700-01-01';
                                             break;
                                           default:
                                         }
                                       }
+                                      controller.update();
                                     },
                                     child: Container(
                                       height: 30,
@@ -627,8 +703,9 @@ class PurchasePostsFilterPage extends GetView<PurchasePostsPageController> {
     );
   }
 
-  Widget breedItemWidget({required BreedModel breedModel}) => Obx(
-        () => InkWell(
+  Widget breedItemWidget({required BreedModel breedModel}) =>
+      GetBuilder<PurchasePostsPageController>(
+        builder: (controller) => InkWell(
           onTap: () {
             if (controller
                     .selectedBreedMap[controller.selectedSpeciesId.value] !=
@@ -645,6 +722,7 @@ class PurchasePostsFilterPage extends GetView<PurchasePostsPageController> {
               controller.selectedBreedMap[controller.selectedSpeciesId.value] =
                   [breedModel.id].obs;
             }
+            controller.update();
             controller.selectedBreedMap.refresh();
           },
           child: Container(
