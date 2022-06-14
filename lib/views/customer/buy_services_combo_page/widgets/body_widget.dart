@@ -41,7 +41,6 @@ class BuyServicesComboBodyWidget
                                   await PetService.fetchPetListToCreatePost(
                                       customerId: controller
                                           .accountModel.customerModel.id,
-                                      type: 'SALE',
                                       speciesId: controller
                                               .isShowPetFilter.value
                                           ? controller.selectedSpeciesId.value

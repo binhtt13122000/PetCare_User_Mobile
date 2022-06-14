@@ -24,7 +24,7 @@ class PetDetailHeathRecordsWidget extends GetView<PetDetailPageController> {
     required String title,
   }) =>
       Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 20),
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
         child: InkWell(
           onTap: () =>
               Get.toNamed('$PET_WEIGHT_PAGE_ROUTE/${controller.petModel.id}'),
@@ -34,12 +34,12 @@ class PetDetailHeathRecordsWidget extends GetView<PetDetailPageController> {
               color: WHITE_COLOR,
               boxShadow: [
                 BoxShadow(
-                  color: DARK_GREY_COLOR.withOpacity(0.2),
+                  color: DARK_GREY_COLOR.withOpacity(0.05),
                   offset: const Offset(2, 2),
                   blurRadius: 3,
                 ),
               ],
-              borderRadius: BorderRadius.circular(5),
+              borderRadius: BorderRadius.circular(10),
             ),
             child: Column(
               children: [

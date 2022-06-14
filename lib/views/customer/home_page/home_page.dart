@@ -22,15 +22,15 @@ class HomePage extends GetView<HomePageController> {
       if (remoteNotification != null) {}
     });
 
-    // FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
-    //   print('co tin nhan2: ');
+    FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
+      print('co tin nhan2: ');
 
-    //   RemoteNotification? remoteNotification = message.notification;
-    //   AndroidNotification? androidNotification = message.notification?.android;
-    //   if (remoteNotification != null && androidNotification != null) {
-    //     print('co tin nhan: ' + remoteNotification.body!);
-    //   }
-    // });
+      RemoteNotification? remoteNotification = message.notification;
+      AndroidNotification? androidNotification = message.notification?.android;
+      if (remoteNotification != null && androidNotification != null) {
+        print('co tin nhan: ' + remoteNotification.body!);
+      }
+    });
 
     return Scaffold(
       backgroundColor: WHITE_COLOR,

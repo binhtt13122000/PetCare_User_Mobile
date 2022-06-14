@@ -17,7 +17,7 @@ PetComboDetailModel _$PetComboDetailModelFromJson(Map<String, dynamic> json) =>
           ? null
           : DateTime.parse(json['realTime'] as String),
       priority: json['priority'] as int?,
-      start: json['start'] as int?,
+      star: json['star'] as int?,
       review: json['review'] as String?,
       centerServiceModel:
           CenterServiceModel.fromJson(json['service'] as Map<String, dynamic>),
@@ -33,7 +33,7 @@ Map<String, dynamic> _$PetComboDetailModelToJson(
       'petComboId': instance.petComboId,
       'realTime': instance.realTime?.toIso8601String(),
       'priority': instance.priority,
-      'start': instance.start,
+      'star': instance.star,
       'review': instance.review,
       'service': instance.centerServiceModel.toJson(),
     };

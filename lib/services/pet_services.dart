@@ -39,7 +39,7 @@ class PetService {
   static Future<List<PetModel>> fetchPetListToCreatePost(
       {required int customerId,
       int? speciesId,
-      required String type,
+      String? type,
       String? gender}) async {
     Map<String, String?> parameters = {
       'customerId': customerId.toString(),
@@ -155,13 +155,13 @@ class PetService {
       });
 
       if (avatarFile != null) {
-          formData.files.add(
-            MapEntry(
-              'file',
-              await MultipartFile.fromFile(avatarFilePath),
-            ),
-          );
-        }
+        formData.files.add(
+          MapEntry(
+            'file',
+            await MultipartFile.fromFile(avatarFilePath),
+          ),
+        );
+      }
 
       Response response = await Dio().put('http://$API_SERVER_PATH/v1/api/pets',
           data: formData,

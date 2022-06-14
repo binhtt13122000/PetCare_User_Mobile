@@ -40,41 +40,47 @@ class PetDetailBodyWidget extends GetView<PetDetailPageController> {
                   ),
                 ),
                 Expanded(
-                  child: SingleChildScrollView(
-                    controller: controller.scrollController,
-                    child: Column(
-                      children: [
-                        Column(
-                          children: [
-                            petDetailAvatarWidget(),
-                            CUSTOM_TEXT(
-                              controller.petModel.name,
-                              fontSize: 24,
-                              letterSpacing: 3,
-                              fontWeight: FontWeight.w700,
-                              padding: const EdgeInsets.only(top: 10),
+                  child: Container(
+                    color: SUPPER_LIGHT_BLUE,
+                    child: SingleChildScrollView(
+                      controller: controller.scrollController,
+                      child: Column(
+                        children: [
+                          Container(
+                            color: WHITE_COLOR,
+                            child: Column(
+                              children: [
+                                petDetailAvatarWidget(),
+                                CUSTOM_TEXT(
+                                  controller.petModel.name,
+                                  fontSize: 24,
+                                  letterSpacing: 3,
+                                  fontWeight: FontWeight.w700,
+                                  padding: const EdgeInsets.only(top: 10),
+                                ),
+                                CUSTOM_TEXT(
+                                  '(${controller.petModel.breedModel!.name} - ${controller.petModel.breedModel!.speciesModel!.name})',
+                                  fontSize: 18,
+                                  letterSpacing: 2,
+                                  color: DARK_GREY_TEXT_COLOR.withOpacity(0.8),
+                                  padding: const EdgeInsets.only(bottom: 10),
+                                ),
+                                viewTypeWidget(),
+                              ],
                             ),
-                            CUSTOM_TEXT(
-                              '(${controller.petModel.breedModel!.name} - ${controller.petModel.breedModel!.speciesModel!.name})',
-                              fontSize: 18,
-                              letterSpacing: 2,
-                              color: DARK_GREY_TEXT_COLOR.withOpacity(0.8),
-                              padding: const EdgeInsets.only(bottom: 10),
-                            ),
-                            viewTypeWidget(),
-                          ],
-                        ),
-                        Obx(() {
-                          switch (controller.selectedViewType.value) {
-                            case 'Health records':
-                              return const PetDetailHeathRecordsWidget();
-                            case 'Services combo':
-                              return const PetDetailServicesComboWidget();
-                            default:
-                              return const PetDetailInformationWidget();
-                          }
-                        }),
-                      ],
+                          ),
+                          Obx(() {
+                            switch (controller.selectedViewType.value) {
+                              case 'Health records':
+                                return const PetDetailHeathRecordsWidget();
+                              case 'Services combo':
+                                return const PetDetailServicesComboWidget();
+                              default:
+                                return const PetDetailInformationWidget();
+                            }
+                          }),
+                        ],
+                      ),
                     ),
                   ),
                 ),

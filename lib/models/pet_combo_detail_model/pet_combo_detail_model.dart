@@ -13,7 +13,7 @@ class PetComboDetailModel {
   final int petComboId;
   final DateTime? realTime;
   final int? priority;
-  final int? start;
+  final int? star;
   final String? review;
   @JsonKey(name: 'service')
   final CenterServiceModel centerServiceModel;
@@ -25,7 +25,7 @@ class PetComboDetailModel {
     required this.petComboId,
     this.realTime,
     this.priority,
-    this.start,
+    this.star,
     this.review,
     required this.centerServiceModel,
   });
