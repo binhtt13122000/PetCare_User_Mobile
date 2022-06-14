@@ -170,11 +170,9 @@ onSelectNotification(String? type, String? metaData) async {
     case "CANCELED_REQUEST":
     case "REJECT_REQUEST":
     case "APPROVE_REQUEST":
+    case "NEW_ROOM_CREATED":
       if (metaData != null) {
-        var id = int.tryParse(metaData);
-        id != null
-            ? Get.toNamed('$CHATTING_DETAIL_PAGE_ROUTE/$id')
-            : Get.toNamed(CHATTING_LIST_PAGE_ROUTE);
+        Get.toNamed('$CHATTING_DETAIL_PAGE_ROUTE/$metaData');
       }
       break;
     case "CREATED_TICKET":
