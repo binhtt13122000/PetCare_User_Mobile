@@ -12,13 +12,53 @@ class PetDetailHeathRecordsWidget extends GetView<PetDetailPageController> {
   Widget build(BuildContext context) {
     return Column(children: [
       healthRecordItemWidget(title: 'Weight'),
+      vaccineItemWidget(),
       healthRecordItemWidget(title: 'Flushing worms'),
-      healthRecordItemWidget(title: 'Vaccinations'),
       healthRecordItemWidget(title: 'Health status'),
       healthRecordItemWidget(title: 'Nutrition'),
       healthRecordItemWidget(title: 'Allergy'),
     ]);
   }
+
+  Widget vaccineItemWidget() => Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+        child: InkWell(
+          onTap: () =>
+              Get.toNamed('$VACCINE_LIST_PAGE_ROUTE/${controller.petModel.id}'),
+          child: Container(
+            padding: const EdgeInsets.all(10),
+            decoration: BoxDecoration(
+              color: WHITE_COLOR,
+              boxShadow: [
+                BoxShadow(
+                  color: DARK_GREY_COLOR.withOpacity(0.05),
+                  offset: const Offset(2, 2),
+                  blurRadius: 3,
+                ),
+              ],
+              borderRadius: BorderRadius.circular(10),
+            ),
+            child: Column(
+              children: [
+                Row(
+                  children: [
+                    CUSTOM_TEXT(
+                      'Vaccinations',
+                    ),
+                  ],
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 20, bottom: 10),
+                  child: CUSTOM_TEXT(
+                    'No data available at the moment',
+                    color: DARK_GREY_TEXT_COLOR.withOpacity(0.6),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      );
 
   Widget healthRecordItemWidget({
     required String title,

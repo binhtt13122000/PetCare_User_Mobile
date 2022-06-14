@@ -32,6 +32,7 @@ import 'package:petapp_mobile/bindings/ticket_detail_page_binding.dart';
 import 'package:petapp_mobile/bindings/transaction_list_page_binding.dart';
 import 'package:petapp_mobile/bindings/update_pet_page_binding.dart';
 import 'package:petapp_mobile/bindings/update_sale_post_page_binding.dart';
+import 'package:petapp_mobile/bindings/vaccine_list_page_binding.dart';
 import 'package:petapp_mobile/configs/route.dart';
 import 'package:petapp_mobile/controllers/auth_controller.dart';
 import 'package:petapp_mobile/controllers/sign_in_page_controller.dart';
@@ -65,6 +66,7 @@ import 'package:petapp_mobile/views/customer/ticket_detail_page/ticket_detail_pa
 import 'package:petapp_mobile/views/customer/transaction_list_page/transaction_list_page.dart';
 import 'package:petapp_mobile/views/customer/update_pet_page/update_pet_page.dart';
 import 'package:petapp_mobile/views/customer/update_sale_post_page/update_sale_post_page.dart';
+import 'package:petapp_mobile/views/customer/vaccine_list_page/vaccine_list_page.dart';
 import 'package:petapp_mobile/views/guest/landing_page/landing_page.dart';
 import 'package:petapp_mobile/views/guest/register_otp_page/register_otp_page.dart';
 import 'package:petapp_mobile/views/guest/register_page/register_page.dart';
@@ -287,6 +289,11 @@ class MainApp extends StatelessWidget {
           name: '$UPDATE_PET_PAGE_ROUTE/:petId',
           page: () => const UpdatePetPage(),
           binding: UpdatePetPageBinding(),
+        ),
+        GetPage(
+          name: '$VACCINE_LIST_PAGE_ROUTE/:petId',
+          page: () => const VaccineListPage(),
+          binding: VaccineListPageBinding(),
         ),
         //*Chatting
         GetPage(
