@@ -75,25 +75,36 @@ class PetDetailServicesComboWidget extends GetView<PetDetailPageController> {
       );
 
   Widget petComboItemWidget({required PetComboModel petComboModel}) => Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 5),
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
         child: InkWell(
-          onTap: () {},
+          onTap: () =>
+              Get.toNamed('$PET_COMBO_DETAIL_PAGE_ROUTE/${petComboModel.id}'),
           child: Container(
             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
             decoration: BoxDecoration(
                 color: WHITE_COLOR,
-                borderRadius: BorderRadius.circular(5),
+                borderRadius: BorderRadius.circular(10),
                 boxShadow: [
                   BoxShadow(
-                    color: LIGHT_GREY_COLOR.withOpacity(0.15),
-                    offset: const Offset(3, 2),
+                    color: DARK_GREY_COLOR.withOpacity(0.1),
+                    offset: const Offset(2, 2),
                     blurRadius: 3,
-                  )
+                  ),
                 ]),
             child: Column(
               children: [
-                CUSTOM_TEXT(petComboModel.servicesComboModel.name,
-                    color: PRIMARY_COLOR, fontWeight: FontWeight.w700),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    CUSTOM_TEXT('#${petComboModel.id}'),
+                    CUSTOM_TEXT(
+                      petComboModel.servicesComboModel.name,
+                      color: PRIMARY_COLOR,
+                      fontWeight: FontWeight.w700,
+                      fontSize: 17,
+                    ),
+                  ],
+                ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -122,8 +133,12 @@ class PetDetailServicesComboWidget extends GetView<PetDetailPageController> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    CUSTOM_TEXT('Is completed'),
-                    CUSTOM_TEXT(petComboModel.isCompleted ? 'Yes' : 'No'),
+                    CUSTOM_TEXT('Status'),
+                    CUSTOM_TEXT(
+                        petComboModel.isCompleted ? 'Completed' : 'In progress',
+                        color: petComboModel.isCompleted
+                            ? GREEN_COLOR
+                            : YELLOW_COLOR),
                   ],
                 ),
               ],

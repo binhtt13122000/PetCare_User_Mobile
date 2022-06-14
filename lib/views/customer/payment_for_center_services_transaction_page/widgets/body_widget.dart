@@ -281,7 +281,10 @@ class PaymentForCenterServicesTransactionBodyWidget
                                 ),
                               ),
                               Text(
-                                '${FORMAT_MONEY(price: controller.centerServicesTransactionModel.provisionalTotal)}',
+                                FORMAT_MONEY(
+                                    price: controller
+                                        .centerServicesTransactionModel
+                                        .provisionalTotal),
                                 textAlign: TextAlign.center,
                                 style: GoogleFonts.quicksand(
                                   color: const Color.fromARGB(255, 77, 82, 105),

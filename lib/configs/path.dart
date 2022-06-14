@@ -139,3 +139,4 @@ const SERVICES_COMBO_API_PATH = '/v1/api/combos';
 //*pet_combo
 const PET_COMBO_API_PATH = '/v1/api/pet-combos';
 const PET_COMBO_RETURN_API_PATH = '/v1/api/pet-combos/vnpay/vnpay_return';
+const PET_COMBO_DETAIL_API_PATH = '/v1/api/pet-combo-services';
