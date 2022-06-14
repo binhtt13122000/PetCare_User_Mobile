@@ -19,7 +19,7 @@ class FirebaseMessagingService {
 
     if (settings.authorizationStatus == AuthorizationStatus.authorized) {
       await _getToken();
-      _firebaseMessagingForgroundHandler();
+      _firebaseMessagingForegroundHandler();
     }
   }
 
@@ -40,7 +40,7 @@ class FirebaseMessagingService {
     _firebaseMessaging.onTokenRefresh.listen(setToken);
   }
 
-  _firebaseMessagingForgroundHandler() {
+  _firebaseMessagingForegroundHandler() {
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
       if (message.notification != null) {
         AlertDialog(

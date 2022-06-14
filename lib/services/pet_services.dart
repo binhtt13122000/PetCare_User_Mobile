@@ -26,12 +26,10 @@ class PetService {
         'Content-Type': 'application/json; charset=UTF-8',
       },
     );
-    print(response.statusCode);
     switch (response.statusCode) {
       case 200:
       case 201:
       case 202:
-        print(jsonDecode(response.body));
         return getPetList(jsonDecode(response.body)['data']);
       default:
         throw Exception('Error ${response.statusCode}, cannot get pet list');
@@ -41,7 +39,7 @@ class PetService {
   static Future<List<PetModel>> fetchPetListToCreatePost(
       {required int customerId,
       int? speciesId,
-      required String type,
+      String? type,
       String? gender}) async {
     Map<String, String?> parameters = {
       'customerId': customerId.toString(),
@@ -102,11 +100,9 @@ class PetService {
               options: Options(headers: <String, String>{
                 HttpHeaders.contentTypeHeader: 'multipart/form-data',
               }));
-      print(response.data);
 
       return response.statusCode;
     } on DioError catch (e) {
-      print(e.error);
       return e.response!.statusCode;
     }
   }
@@ -159,13 +155,13 @@ class PetService {
       });
 
       if (avatarFile != null) {
-          formData.files.add(
-            MapEntry(
-              'file',
-              await MultipartFile.fromFile(avatarFilePath),
-            ),
-          );
-        }
+        formData.files.add(
+          MapEntry(
+            'file',
+            await MultipartFile.fromFile(avatarFilePath),
+          ),
+        );
+      }
 
       Response response = await Dio().put('http://$API_SERVER_PATH/v1/api/pets',
           data: formData,

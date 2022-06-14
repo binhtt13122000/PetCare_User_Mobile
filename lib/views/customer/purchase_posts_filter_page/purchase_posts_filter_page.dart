@@ -427,28 +427,28 @@ class PurchasePostsFilterPage extends GetView<PurchasePostsPageController> {
                                         controller.selectedPrices.value =
                                             e.value;
                                         switch (e.value) {
-                                          case '< 1 milion':
+                                          case '< 1 million':
                                             controller.ltPrice.value = 1000000;
                                             controller.gtePrice.value = 0;
                                             break;
-                                          case '1 milion → 4 milion':
+                                          case '1 million → 4 million':
                                             controller.ltPrice.value = 4000000;
                                             controller.gtePrice.value = 1000000;
                                             break;
-                                          case '4 milion → 7 milion':
+                                          case '4 million → 7 million':
                                             controller.ltPrice.value = 7000000;
                                             controller.gtePrice.value = 4000000;
                                             break;
-                                          case '7 milion → 13 milion':
+                                          case '7 million → 13 million':
                                             controller.ltPrice.value = 13000000;
                                             controller.gtePrice.value = 7000000;
                                             break;
-                                          case '13 milion → 20 milion':
+                                          case '13 million → 20 million':
                                             controller.ltPrice.value = 20000000;
                                             controller.gtePrice.value =
                                                 13000000;
                                             break;
-                                          case '> 20 milion':
+                                          case '> 20 million':
                                             controller.ltPrice.value =
                                                 999999999;
                                             controller.gtePrice.value =
@@ -566,8 +566,7 @@ class PurchasePostsFilterPage extends GetView<PurchasePostsPageController> {
                                                     days: 0,
                                                     months: 6,
                                                     years: 0);
-                                            print(dateBeforeSixMonth
-                                                .toIso8601String());
+
                                             controller.lteDob.value = 'now()';
                                             controller.gteDob.value =
                                                 dateBeforeSixMonth

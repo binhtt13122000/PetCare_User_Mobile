@@ -4,7 +4,7 @@ import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:petapp_mobile/configs/theme.dart';
 import 'package:petapp_mobile/controllers/purchase_posts_page_controller.dart';
 import 'package:petapp_mobile/graphql/graphql_config.dart';
-import 'package:petapp_mobile/views/customer/sale_post_list_page/widgets/purchase_porst_list_widget.dart';
+import 'package:petapp_mobile/views/customer/sale_post_list_page/widgets/purchase_post_list_widget.dart';
 import 'package:petapp_mobile/views/customer/sale_post_list_page/widgets/top_widget.dart';
 
 class SalePostListPage extends GetView<PurchasePostsPageController> {

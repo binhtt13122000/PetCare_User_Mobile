@@ -23,6 +23,9 @@ PetComboModel _$PetComboModelFromJson(Map<String, dynamic> json) =>
       branchModel: BranchModel.fromJson(json['branch'] as Map<String, dynamic>),
       servicesComboModel:
           ServicesComboModel.fromJson(json['combo'] as Map<String, dynamic>),
+      petComboDetailModelList: (json['petComboServices'] as List<dynamic>?)
+          ?.map((e) => PetComboDetailModel.fromJson(e as Map<String, dynamic>))
+          .toList(),
     );
 
 Map<String, dynamic> _$PetComboModelToJson(PetComboModel instance) =>
@@ -41,4 +44,6 @@ Map<String, dynamic> _$PetComboModelToJson(PetComboModel instance) =>
       'pet': instance.petModel.toJson(),
       'branch': instance.branchModel.toJson(),
       'combo': instance.servicesComboModel.toJson(),
+      'petComboServices':
+          instance.petComboDetailModelList?.map((e) => e.toJson()).toList(),
     };
