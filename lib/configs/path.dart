@@ -134,9 +134,11 @@ const TICKET_CUSTOMER_API_PATH = '/v1/api/tickets/customers';
 //*center services
 const CENTER_SERVICES_API = '/v1/api/services';
 
-//*services_combo
+//*services combo
 const SERVICES_COMBO_API_PATH = '/v1/api/combos';
-//*pet_combo
+//*pet combo
 const PET_COMBO_API_PATH = '/v1/api/pet-combos';
 const PET_COMBO_RETURN_API_PATH = '/v1/api/pet-combos/vnpay/vnpay_return';
 const PET_COMBO_DETAIL_API_PATH = '/v1/api/pet-combo-services';
+//* pet health record
+const PET_HEALTH_RECORD_API_PATH = '/v1/api/health-pet-records';

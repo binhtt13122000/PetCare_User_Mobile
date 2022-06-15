@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:petapp_mobile/models/pet_combo_model/pet_combo_model.dart';
+import 'package:petapp_mobile/models/pet_health_records_model/pet_health_records_model.dart';
 import 'package:petapp_mobile/models/pet_model/pet_model.dart';
 
 class PetDetailPageController extends GetxController {
   RxBool isLoadingPetCombo = false.obs;
+  RxBool isLoadingHealthRecord = false.obs;
   late List<PetComboModel> petComboModelList;
   late PetModel petModel;
   RxBool isLoadingData = false.obs;
@@ -14,6 +16,7 @@ class PetDetailPageController extends GetxController {
   ScrollController scrollController = ScrollController();
   RxBool isOnTopScroll = false.obs;
   RxString topTitle = 'Pet Information Page'.obs;
+  late List<PetHealthRecordModel> vaccinesList;
 
   PetDetailPageController() {
     selectedViewType = viewTypes[0].obs;
