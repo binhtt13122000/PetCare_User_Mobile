@@ -162,7 +162,6 @@ class CreateRequestWidget extends GetView<ChattingDetailPageController> {
                       controller.pets[controller.selectedPetIndex.value].id,
                 });
               }
-
               controller.socket.emit(
                 'updateRoom',
                 emitJsonMap,

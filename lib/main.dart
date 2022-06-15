@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -73,22 +74,47 @@ import 'package:petapp_mobile/views/guest/register_page/register_page.dart';
 import 'package:petapp_mobile/views/guest/register_phone_number_page/register_phone_number_page.dart';
 import 'package:petapp_mobile/views/guest/sign_in_page/sign_in_page.dart';
 import 'package:petapp_mobile/views/guest/verification_otp_page/verification_otp_page.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
+final GlobalKey<NavigatorState> navigatorKey =
+    GlobalKey(debugLabel: "Main Navigator");
+
+/// Create a [AndroidNotificationChannel] for heads up notifications
+late AndroidNotificationChannel channel;
+
+/// Initialize the [FlutterLocalNotificationsPlugin] package.
+late FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+    FlutterLocalNotificationsPlugin();
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
 
-  // await flutterLocalNotificationsPlugin
-  //     .resolvePlatformSpecificImplementation<
-  //         AndroidFlutterLocalNotificationsPlugin>()
-  //     ?.createNotificationChannel(channel);
+  if (!kIsWeb) {
+    channel = const AndroidNotificationChannel(
+        'high_importance_channel', // id
+        'High Importance Notifications', // title
+        importance: Importance.high,
+        playSound: true,
+        enableVibration: true);
 
-  await FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(
-    alert: true,
-    badge: true,
-    sound: true,
-  );
+    /// Create an Android Notification Channel.
+    ///
+    /// We use this channel in the `AndroidManifest.xml` file to override the
+    /// default FCM channel to enable heads up notifications.
+    await flutterLocalNotificationsPlugin
+        .resolvePlatformSpecificImplementation<
+            AndroidFlutterLocalNotificationsPlugin>()
+        ?.createNotificationChannel(channel);
+
+    FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
+
+    await FirebaseMessaging.instance
+        .setForegroundNotificationPresentationOptions(
+      alert: true,
+      badge: true,
+      sound: true,
+    );
+  }
 
   late String initRoute;
 
@@ -127,8 +153,95 @@ void main() async {
   runApp(MainApp(initRoute: initRoute));
 }
 
+onSelectNotification(String? type, String? metaData) async {
+  if (type == null) {
+    return;
+  }
+  switch (type) {
+    case "CONFIRM_POST":
+    case "REJECT_POST":
+      if (metaData != null) {
+        var id = int.tryParse(metaData);
+        id != null
+            ? Get.toNamed('$POST_DETAIL_PAGE_ROUTE/$id')
+            : Get.toNamed(POST_MANAGEMENT_PAGE_ROUTE);
+      }
+      break;
+    case "NEW_REQUEST":
+    case "UPDATE_REQUEST":
+    case "CANCELED_REQUEST":
+    case "REJECT_REQUEST":
+    case "APPROVE_REQUEST":
+    case "NEW_ROOM_CREATED":
+      if (metaData != null) {
+        Get.toNamed('$CHATTING_DETAIL_PAGE_ROUTE/$metaData');
+      }
+      break;
+    case "CREATED_TICKET":
+      if (metaData != null) {
+        var id = int.tryParse(metaData);
+        id != null
+            ? Get.toNamed('$TICKET_DETAIL_PAGE_ROUTE/$id')
+            : Get.toNamed(HOME_PAGE_ROUTE);
+      }
+      break;
+    case "SUCCESS_SALE_TRANSACTION":
+      if (metaData != null) {
+        var id = int.tryParse(metaData);
+        id != null
+            ? Get.toNamed('$SALE_TRANSACTION_DETAIL_PAGE_ROUTE/$id')
+            : Get.toNamed(TRANSACTION_PAGE_ROUTE);
+      }
+      break;
+    case "SUCCESS_BREEDING_TRANSACTION":
+      if (metaData != null) {
+        var id = int.tryParse(metaData);
+        id != null
+            ? Get.toNamed('$BREEDING_TRANSACTION_DETAIL_PAGE_ROUTE/$id')
+            : Get.toNamed(TRANSACTION_PAGE_ROUTE);
+      }
+      break;
+    default:
+      Get.toNamed(HOME_PAGE_ROUTE);
+      break;
+  }
+}
+
 Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   await Firebase.initializeApp();
+  showNotification(
+      message.notification!.title ?? "",
+      message.notification!.body ?? "",
+      message.data["metadata"],
+      message.data["type"]);
+}
+
+void showNotification(
+    String title, String body, String? metaData, String type) async {
+  await demoNotification(title, body, metaData, type);
+}
+
+Future<void> demoNotification(
+    String title, String body, String? metaData, String type) async {
+  var androidPlatformChannelSpecifics = const AndroidNotificationDetails(
+      'channel_ID', 'channel name',
+      importance: Importance.max,
+      playSound: true,
+      showProgress: true,
+      priority: Priority.high,
+      ticker: 'test ticker');
+  var iOSChannelSpecifics = const IOSNotificationDetails();
+  var platformChannelSpecifics = NotificationDetails(
+      android: androidPlatformChannelSpecifics, iOS: iOSChannelSpecifics);
+  const initializationSettingsAndroid =
+      AndroidInitializationSettings('@mipmap/ic_launcher');
+  const initializationSettingsIOS = IOSInitializationSettings();
+  var initializationSettings = const InitializationSettings(
+      android: initializationSettingsAndroid, iOS: initializationSettingsIOS);
+  flutterLocalNotificationsPlugin.initialize(initializationSettings,
+      onSelectNotification: (payload) => onSelectNotification(type, metaData));
+  await flutterLocalNotificationsPlugin
+      .show(0, title, body, platformChannelSpecifics, payload: 'notification');
 }
 
 class MainApp extends StatelessWidget {
