@@ -11,6 +11,7 @@ import 'package:petapp_mobile/graphql/graphql_config.dart';
 import 'package:petapp_mobile/models/breed_model/breed_model.dart';
 import 'package:petapp_mobile/services/breed_services.dart';
 import 'package:petapp_mobile/utilities/utilities.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class PurchasePostsFilterPage extends GetView<PurchasePostsPageController> {
   const PurchasePostsFilterPage({Key? key}) : super(key: key);
@@ -119,6 +120,13 @@ class PurchasePostsFilterPage extends GetView<PurchasePostsPageController> {
                                               true;
                                           controller.selectedSpeciesId.value =
                                               e.value.id;
+                                          controller.postHasuraList.clear();
+                                          controller.refreshController
+                                              .requestRefresh();
+                                          controller.refreshController
+                                              .resetNoData();
+                                          controller.isRefresh.value = true;
+                                          controller.offset.value = 0;
                                           controller.update();
                                         }
                                       },
@@ -296,6 +304,10 @@ class PurchasePostsFilterPage extends GetView<PurchasePostsPageController> {
                                       'FEMALE'
                                     ];
                                   }
+                                  controller.refreshController.requestRefresh();
+                                  controller.refreshController.resetNoData();
+                                  controller.isRefresh.value = true;
+                                  controller.offset.value = 0;
                                   controller.update();
                                 },
                                 child: Row(
@@ -457,6 +469,12 @@ class PurchasePostsFilterPage extends GetView<PurchasePostsPageController> {
                                           default:
                                         }
                                       }
+                                      controller.refreshController
+                                          .requestRefresh();
+                                      controller.refreshController
+                                          .resetNoData();
+                                      controller.isRefresh.value = true;
+                                      controller.offset.value = 0;
                                       controller.update();
                                     },
                                     child: Container(
@@ -641,6 +659,12 @@ class PurchasePostsFilterPage extends GetView<PurchasePostsPageController> {
                                           default:
                                         }
                                       }
+                                      controller.refreshController
+                                          .requestRefresh();
+                                      controller.refreshController
+                                          .resetNoData();
+                                      controller.isRefresh.value = true;
+                                      controller.offset.value = 0;
                                       controller.update();
                                     },
                                     child: Container(
@@ -721,6 +745,10 @@ class PurchasePostsFilterPage extends GetView<PurchasePostsPageController> {
               controller.selectedBreedMap[controller.selectedSpeciesId.value] =
                   [breedModel.id].obs;
             }
+            controller.refreshController.requestRefresh();
+            controller.refreshController.resetNoData();
+            controller.isRefresh.value = true;
+            controller.offset.value = 0;
             controller.update();
             controller.selectedBreedMap.refresh();
           },

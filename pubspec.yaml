@@ -47,6 +47,7 @@ dependencies:
   firebase_messaging: 11.3.0
   flutter_rating_bar: 4.0.0
   flutter_local_notifications: any
+  pull_to_refresh: ^2.0.0
   #flutter_html: null
   #html_editor_enhanced: null
   flutter_quill: 4.1.9

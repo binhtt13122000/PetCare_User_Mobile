@@ -10,6 +10,7 @@ import 'package:petapp_mobile/controllers/purchase_posts_page_controller.dart';
 import 'package:petapp_mobile/models/species_model/species_model.dart';
 import 'package:petapp_mobile/services/species_services.dart';
 import 'package:petapp_mobile/views/widgets/customize_widget.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class SalePostTopWidget extends GetView<PurchasePostsPageController> {
   const SalePostTopWidget({Key? key}) : super(key: key);
@@ -102,6 +103,10 @@ class SalePostTopWidget extends GetView<PurchasePostsPageController> {
           padding: const EdgeInsets.only(right: 15, top: 5, bottom: 5),
           child: InkWell(
             onTap: () {
+              controller.refreshController.requestRefresh();
+              controller.refreshController.resetNoData();
+              controller.isRefresh.value = true;
+              controller.offset.value = 0;
               controller.selectedSpeciesId.value == speciesModel.id
                   ? controller.selectedSpeciesId.value = -1
                   : controller.selectedSpeciesId.value = speciesModel.id;
@@ -223,6 +228,10 @@ class SalePostTopWidget extends GetView<PurchasePostsPageController> {
                       } else {
                         controller.selectedGenderList = ['MALE', 'FEMALE'];
                       }
+                      controller.refreshController.requestRefresh();
+                      controller.refreshController.resetNoData();
+                      controller.isRefresh.value = true;
+                      controller.offset.value = 0;
                       controller.update();
                     },
                     child: Row(
