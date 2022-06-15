@@ -68,3 +68,5 @@ const BUY_SERVICES_COMBO_PAGE_ROUTE = '/buy-services-combo';
 
 //vaccine
 const VACCINE_LIST_PAGE_ROUTE = '/pet_management/vaccine_list';
+//deworming
+const DEWORMING_HISTORY_PAGE_ROUtE = '/pet_management/deworming-history';
