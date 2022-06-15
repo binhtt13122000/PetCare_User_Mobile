@@ -12,7 +12,7 @@ PetHealthRecordModel _$PetHealthRecordModelFromJson(
       id: json['id'] as int,
       dateOfInjection: DateTime.parse(json['dateOfInjection'] as String),
       description: json['description'] as String?,
-      vaccineType: json['vaccineType'] as String,
+      vaccineType: json['vaccineType'] as String?,
       type: json['type'] as String,
       vaccineId: json['vaccineId'] as int?,
       petId: json['petId'] as int,
@@ -20,6 +20,9 @@ PetHealthRecordModel _$PetHealthRecordModelFromJson(
       vaccineModel: json['vaccine'] == null
           ? null
           : VaccineModel.fromJson(json['vaccine'] as Map<String, dynamic>),
+      branchModel: json['branch'] == null
+          ? null
+          : BranchModel.fromJson(json['branch'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$PetHealthRecordModelToJson(
@@ -34,4 +37,5 @@ Map<String, dynamic> _$PetHealthRecordModelToJson(
       'petId': instance.petId,
       'vaccine': instance.vaccineModel,
       'branchId': instance.branchId,
+      'branch': instance.branchModel,
     };

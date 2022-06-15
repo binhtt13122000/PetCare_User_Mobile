@@ -16,9 +16,12 @@ class PetService {
     return petList;
   }
 
-  static Future<List<PetModel>> fetchPetListByCustomerId(int customerId) async {
-    Map<String, String> parameters = {
+  static Future<List<PetModel>> fetchPetListByCustomerId(int customerId,
+      {String? type, String? name}) async {
+    Map<String, dynamic> parameters = {
       'customerId': customerId.toString(),
+      'type': type,
+      'name': name,
     };
     final response = await http.get(
       Uri.http(API_SERVER_PATH, '/v1/api/pets', parameters),
