@@ -13,7 +13,7 @@ class PurchasePostsPageController extends GetxController {
   RxBool isRefresh = true.obs;
   RxInt offset = 0.obs;
   RxInt totalPage = 0.obs;
-  RxInt limit = 2.obs;
+  RxInt limit = 8.obs;
   RxString typeLazyLoad = "REFRESH".obs;
   RefreshController refreshController =
       RefreshController(initialRefresh: true);
