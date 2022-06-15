@@ -4,6 +4,7 @@ import 'package:petapp_mobile/configs/theme.dart';
 import 'package:petapp_mobile/controllers/pet_management_page_controller.dart';
 import 'package:petapp_mobile/views/customer/pet_management_page/widgets/body_widget.dart';
 import 'package:petapp_mobile/views/customer/pet_management_page/widgets/bottom_widget.dart';
+import 'package:petapp_mobile/views/customer/pet_management_page/widgets/pop_up_widget.dart';
 import 'package:petapp_mobile/views/customer/pet_management_page/widgets/top_widget.dart';
 
 class PetManagementPage extends GetView<PetManagementPageController> {
@@ -13,11 +14,16 @@ class PetManagementPage extends GetView<PetManagementPageController> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: WHITE_COLOR,
-      body: Column(
-        children: const [
-          PetsManagementTopWidget(),
-          PetsManagementBodyWidget(),
-          PetsManagementBottomWidget(),
+      body: Stack(
+        children: [
+          Column(
+            children: const [
+              PetsManagementTopWidget(),
+              PetsManagementBodyWidget(),
+              PetsManagementBottomWidget(),
+            ],
+          ),
+          const PetManagementConfirmDeletePopupWidget(),
         ],
       ),
     );

@@ -95,8 +95,8 @@ const PROFILE_UNSELECTED_SVG = 'profile_unselected.svg';
 // const API_SERVER = '10.0.2.2:4000';
 // const GRAPHL_SERVER = 'http://10.0.2.2:8080';
 
-const API_SERVER_PATH = '13.52.181.168';
-const GRAPHL_SERVER_PATH = 'http://13.52.181.168:8080';
+const API_SERVER_PATH = '54.219.204.219';
+const GRAPHL_SERVER_PATH = 'http://54.219.204.219:8080';
 
 //*sale transaction
 const SALE_TRANSACTION_RETURN_API_PATH =
@@ -134,9 +134,11 @@ const TICKET_CUSTOMER_API_PATH = '/v1/api/tickets/customers';
 //*center services
 const CENTER_SERVICES_API = '/v1/api/services';
 
-//*services_combo
+//*services combo
 const SERVICES_COMBO_API_PATH = '/v1/api/combos';
-//*pet_combo
+//*pet combo
 const PET_COMBO_API_PATH = '/v1/api/pet-combos';
 const PET_COMBO_RETURN_API_PATH = '/v1/api/pet-combos/vnpay/vnpay_return';
 const PET_COMBO_DETAIL_API_PATH = '/v1/api/pet-combo-services';
+//* pet health record
+const PET_HEALTH_RECORD_API_PATH = '/v1/api/health-pet-records';
