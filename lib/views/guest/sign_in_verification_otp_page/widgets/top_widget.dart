@@ -4,11 +4,11 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:petapp_mobile/configs/path.dart';
 import 'package:petapp_mobile/configs/theme.dart';
-import 'package:petapp_mobile/controllers/register_page_controller.dart';
+import 'package:petapp_mobile/controllers/sign_in_page_controller.dart';
 import 'package:petapp_mobile/views/widgets/customize_widget.dart';
 
-class RegisterPhoneNumberPageTopWidget extends GetView<RegisterPageController> {
-  const RegisterPhoneNumberPageTopWidget({Key? key}) : super(key: key);
+class SignInVerificationOTPPageTopWidget extends GetView<SignInPageController> {
+  const SignInVerificationOTPPageTopWidget({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) => topTitleWidget();

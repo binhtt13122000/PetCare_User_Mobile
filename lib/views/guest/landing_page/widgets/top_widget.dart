@@ -27,9 +27,9 @@ class GuestLandingTopWidget extends GetView {
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.only(right: 5),
+                    padding: const EdgeInsets.only(right: 5, top: 1),
                     child: Text(
-                      'iU Petshop',
+                      'iU PetShop',
                       style: GoogleFonts.satisfy(
                         textStyle: const TextStyle(color: PRIMARY_COLOR),
                         fontWeight: FontWeight.w700,

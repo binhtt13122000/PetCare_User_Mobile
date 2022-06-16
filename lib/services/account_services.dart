@@ -37,7 +37,7 @@ class AccountService {
       case 202:
         return getAccount(json.decode(response.body)['data']);
       default:
-        throw Exception('Error ${response.statusCode}, cannot login');
+        return null;
     }
   }
 

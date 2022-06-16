@@ -71,24 +71,26 @@ class PetsManagementTopWidget extends GetView<PetManagementPageController> {
                 ),
               ),
             ),
-            Obx(() => Visibility(
-                  visible: controller.searchText.isNotEmpty,
-                  child: InkWell(
-                    onTap: () => controller
-                      ..searchText.value = ''
-                      ..textEditingController.text = ''
-                      ..update(),
-                    child: CircleAvatar(
-                      backgroundColor: RED_COLOR.withOpacity(0.9),
-                      maxRadius: 10,
-                      child: SvgPicture.asset(
-                        ICON_PATH + CLOSE_SVG,
-                        height: 10,
-                        color: WHITE_COLOR,
-                      ),
+            Obx(
+              () => Visibility(
+                visible: controller.searchText.isNotEmpty,
+                child: InkWell(
+                  onTap: () => controller
+                    ..searchText.value = ''
+                    ..textEditingController.text = ''
+                    ..update(),
+                  child: CircleAvatar(
+                    backgroundColor: RED_COLOR.withOpacity(0.9),
+                    maxRadius: 10,
+                    child: SvgPicture.asset(
+                      ICON_PATH + CLOSE_SVG,
+                      height: 10,
+                      color: WHITE_COLOR,
                     ),
                   ),
-                ))
+                ),
+              ),
+            ),
           ],
         ),
       );
