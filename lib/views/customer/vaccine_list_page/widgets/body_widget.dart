@@ -275,7 +275,7 @@ class VaccineListPageBodyWidget extends GetView<VaccineListPageController> {
                   children: [
                     Text(
                       controller.showDescriptionIndexList.contains(index)
-                          ? 'Hide post description'
+                          ? 'Hide vaccine description'
                           : 'View vaccine description',
                       style: GoogleFonts.quicksand(
                         fontSize: 13,

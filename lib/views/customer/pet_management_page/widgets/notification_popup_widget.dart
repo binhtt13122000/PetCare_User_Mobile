@@ -3,17 +3,16 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:petapp_mobile/configs/theme.dart';
 import 'package:petapp_mobile/controllers/pet_management_page_controller.dart';
-import 'package:petapp_mobile/services/pet_services.dart';
 
-class PetManagementConfirmDeletePopupWidget
+class PetManagementNotificationPopupWidget
     extends GetView<PetManagementPageController> {
-  const PetManagementConfirmDeletePopupWidget({Key? key}) : super(key: key);
+  const PetManagementNotificationPopupWidget({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) => Obx(
-        () => controller.isShowConfirmDeletePopup.value
+        () => controller.isShowNotificationPopup.value
             ? InkWell(
-                onTap: () => controller.isShowConfirmDeletePopup.value = false,
+                onTap: () => controller.isShowNotificationPopup.value = false,
                 child: Container(
                   color: DARK_GREY_TRANSPARENT,
                   alignment: Alignment.center,
@@ -24,7 +23,7 @@ class PetManagementConfirmDeletePopupWidget
                         Expanded(
                           child: InkWell(
                             onTap: () => controller
-                                .isShowConfirmDeletePopup.value = false,
+                                .isShowNotificationPopup.value = false,
                           ),
                         ),
                         Container(
@@ -43,7 +42,7 @@ class PetManagementConfirmDeletePopupWidget
                                 child: RichText(
                                   textAlign: TextAlign.center,
                                   text: TextSpan(
-                                    text: 'Are you sure to ',
+                                    text: controller.notificationTitle,
                                     style: GoogleFonts.quicksand(
                                       color: DARK_GREY_TEXT_COLOR,
                                       fontSize: 16,
@@ -51,16 +50,6 @@ class PetManagementConfirmDeletePopupWidget
                                       letterSpacing: 1,
                                     ),
                                     children: <TextSpan>[
-                                      const TextSpan(
-                                        text: 'Delete ',
-                                        style: TextStyle(
-                                          fontWeight: FontWeight.w700,
-                                          color: RED_COLOR,
-                                        ),
-                                      ),
-                                      const TextSpan(
-                                        text: 'pet ',
-                                      ),
                                       TextSpan(
                                         text: controller.selectedPetModel.name,
                                         style: const TextStyle(
@@ -69,21 +58,18 @@ class PetManagementConfirmDeletePopupWidget
                                           fontSize: 17,
                                         ),
                                       ),
-                                      TextSpan(
-                                          style: TextStyle(
-                                            fontWeight: FontWeight.w500,
-                                            color: DARK_GREY_TEXT_COLOR
-                                                .withOpacity(0.8),
-                                            fontSize: 14,
-                                          ),
-                                          text:
-                                              ' (${controller.selectedPetModel.breedModel!.name} - ${controller.selectedPetModel.breedModel!.speciesModel!.name})'),
+                                      const TextSpan(text: ' successfully!'),
                                     ],
                                   ),
                                 ),
                               ),
-                              const SizedBox(
-                                height: 20,
+                              const Padding(
+                                padding: EdgeInsets.symmetric(vertical: 15),
+                                child: Icon(
+                                  Icons.verified,
+                                  color: PRIMARY_COLOR,
+                                  size: 70,
+                                ),
                               ),
                               Padding(
                                 padding:
@@ -94,44 +80,15 @@ class PetManagementConfirmDeletePopupWidget
                                   children: [
                                     Expanded(
                                       child: MaterialButton(
-                                        onPressed: () => controller
-                                            .isShowConfirmDeletePopup
-                                            .value = false,
-                                        color: PRIMARY_LIGHT_COLOR,
-                                        child: Text(
-                                          'Cancel',
-                                          style: GoogleFonts.quicksand(
-                                            color: PRIMARY_COLOR,
-                                            fontSize: 18,
-                                            fontWeight: FontWeight.w500,
-                                            letterSpacing: 1,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    const SizedBox(
-                                      width: 24,
-                                    ),
-                                    Expanded(
-                                      child: MaterialButton(
                                         onPressed: () async {
                                           controller
-                                            ..isShowConfirmDeletePopup.value =
-                                                false
-                                            ..isWaitingDeletePet.value = true;
-                                          await PetService.deletePetByPetId(
-                                              petId: controller
-                                                  .selectedPetModel.id);
-
-                                          controller
-                                            ..notificationTitle = 'Delete pet '
-                                            ..isWaitingDeletePet.value = false
                                             ..isShowNotificationPopup.value =
-                                                true;
+                                                false
+                                            ..update();
                                         },
                                         color: PRIMARY_COLOR,
                                         child: Text(
-                                          'Delete',
+                                          'OK',
                                           style: GoogleFonts.quicksand(
                                             color: WHITE_COLOR,
                                             fontSize: 18,
@@ -150,7 +107,7 @@ class PetManagementConfirmDeletePopupWidget
                         Expanded(
                           child: InkWell(
                             onTap: () => controller
-                                .isShowConfirmDeletePopup.value = false,
+                                .isShowNotificationPopup.value = false,
                           ),
                         ),
                       ],

@@ -21,6 +21,15 @@ class PetDetailHeathRecordsWidget extends GetView<PetDetailPageController> {
             ..vaccinesList =
                 await PetHealthRecordsServices.fetchPetHealthRecordList(
                     petId: controller.petModel.id.toString(), type: 'VACCINE')
+            ..sortVaccinesList()
+            ..dewormingList =
+                await PetHealthRecordsServices.fetchPetHealthRecordList(
+                    petId: Get.parameters['petId']!, type: 'HELMINTHIC')
+            ..sortDewormingList()
+            ..removeTicksList =
+                await PetHealthRecordsServices.fetchPetHealthRecordList(
+                    petId: Get.parameters['petId']!, type: 'TICKS')
+            ..sortRemoveTicksList()
             ..isLoadingHealthRecord.value = false;
         });
         return Obx(
@@ -32,7 +41,8 @@ class PetDetailHeathRecordsWidget extends GetView<PetDetailPageController> {
               : Column(children: [
                   healthRecordItemWidget(title: 'Weight'),
                   vaccineItemWidget(),
-                  healthRecordItemWidget(title: 'Flushing worms'),
+                  dewormingItemWidget(),
+                  removeTicksItemWidget(),
                   healthRecordItemWidget(title: 'Health status'),
                   healthRecordItemWidget(title: 'Nutrition'),
                   healthRecordItemWidget(title: 'Allergy'),
@@ -40,11 +50,327 @@ class PetDetailHeathRecordsWidget extends GetView<PetDetailPageController> {
         );
       });
 
+  Widget removeTicksItemWidget() => Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+        child: InkWell(
+          onTap: () {
+            if (controller.removeTicksList.isNotEmpty) {
+              Get.toNamed('$REMOVE_TICKS_PAGE_ROUTE/${controller.petModel.id}');
+            }
+          },
+          child: Container(
+            padding: const EdgeInsets.all(10),
+            decoration: BoxDecoration(
+              color: WHITE_COLOR,
+              boxShadow: [
+                BoxShadow(
+                  color: DARK_GREY_COLOR.withOpacity(0.05),
+                  offset: const Offset(2, 2),
+                  blurRadius: 3,
+                ),
+              ],
+              borderRadius: BorderRadius.circular(10),
+            ),
+            child: Column(
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    CUSTOM_TEXT(
+                      'Remove Ticks',
+                      fontWeight: FontWeight.w700,
+                      letterSpacing: 1,
+                    ),
+                    Visibility(
+                      visible: controller.removeTicksList.isNotEmpty,
+                      child: Text(
+                        'View detail >',
+                        style: GoogleFonts.quicksand(
+                          textStyle: TextStyle(
+                            color: PRIMARY_COLOR.withOpacity(
+                              0.8,
+                            ),
+                          ),
+                          fontWeight: FontWeight.w600,
+                          fontSize: 13,
+                          decoration: TextDecoration.underline,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                controller.vaccinesList.isEmpty
+                    ? Padding(
+                        padding: const EdgeInsets.only(top: 20, bottom: 10),
+                        child: CUSTOM_TEXT(
+                          'Your pet has no remove\nticks data at the moment',
+                          color: DARK_GREY_TEXT_COLOR.withOpacity(0.6),
+                          textAlign: TextAlign.center,
+                        ),
+                      )
+                    : Column(
+                        children: [
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 3),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.only(left: 15),
+                                  child: Row(
+                                    children: [
+                                      const CircleAvatar(
+                                        backgroundColor: GREEN_COLOR,
+                                        maxRadius: 5,
+                                      ),
+                                      CUSTOM_TEXT('Last remove ticks date',
+                                          padding:
+                                              const EdgeInsets.only(left: 15)),
+                                    ],
+                                  ),
+                                ),
+                                CUSTOM_TEXT(
+                                  FORMAT_DATE_TIME(
+                                      dateTime: controller
+                                          .removeTicksList[0].dateOfInjection,
+                                      pattern: DATE_PATTERN_2),
+                                  color: DARK_GREY_TEXT_COLOR.withOpacity(0.7),
+                                  fontSize: 15,
+                                ),
+                              ],
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 3),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.only(left: 15),
+                                  child: Row(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: [
+                                      const CircleAvatar(
+                                        backgroundColor: BLUE_COLOR,
+                                        maxRadius: 5,
+                                      ),
+                                      const SizedBox(
+                                        width: 15,
+                                      ),
+                                      Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          CUSTOM_TEXT(
+                                            'The next time',
+                                          ),
+                                          CUSTOM_TEXT(
+                                            '(Should be remove\nticks every 3 months)',
+                                            color: DARK_GREY_TEXT_COLOR
+                                                .withOpacity(0.8),
+                                            fontSize: 12,
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                CUSTOM_TEXT(
+                                  FORMAT_DATE_TIME(
+                                      dateTime: controller.removeTicksList[0]
+                                                  .dateOfInjection
+                                                  .add(const Duration(days: 90))
+                                                  .difference(DateTime.now())
+                                                  .inDays <
+                                              0
+                                          ? DateTime.now()
+                                          : controller.removeTicksList[0]
+                                              .dateOfInjection
+                                              .add(const Duration(days: 90)),
+                                      pattern: DATE_PATTERN_2),
+                                  color: DARK_GREY_TEXT_COLOR.withOpacity(0.7),
+                                  fontSize: 15,
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      )
+              ],
+            ),
+          ),
+        ),
+      );
+
+  Widget dewormingItemWidget() => Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+        child: InkWell(
+          onTap: () {
+            if (controller.dewormingList.isNotEmpty) {
+              Get.toNamed(
+                  '$DEWORMING_HISTORY_PAGE_ROUTE/${controller.petModel.id}');
+            }
+          },
+          child: Container(
+            padding: const EdgeInsets.all(10),
+            decoration: BoxDecoration(
+              color: WHITE_COLOR,
+              boxShadow: [
+                BoxShadow(
+                  color: DARK_GREY_COLOR.withOpacity(0.05),
+                  offset: const Offset(2, 2),
+                  blurRadius: 3,
+                ),
+              ],
+              borderRadius: BorderRadius.circular(10),
+            ),
+            child: Column(
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    CUSTOM_TEXT(
+                      'Deworming',
+                      fontWeight: FontWeight.w700,
+                      letterSpacing: 1,
+                    ),
+                    Visibility(
+                      visible: controller.dewormingList.isNotEmpty,
+                      child: Text(
+                        'View detail >',
+                        style: GoogleFonts.quicksand(
+                          textStyle: TextStyle(
+                            color: PRIMARY_COLOR.withOpacity(
+                              0.8,
+                            ),
+                          ),
+                          fontWeight: FontWeight.w600,
+                          fontSize: 13,
+                          decoration: TextDecoration.underline,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                controller.vaccinesList.isEmpty
+                    ? Padding(
+                        padding: const EdgeInsets.only(top: 20, bottom: 10),
+                        child: CUSTOM_TEXT(
+                          'Your pet has no deworming\ndata at the moment',
+                          color: DARK_GREY_TEXT_COLOR.withOpacity(0.6),
+                          textAlign: TextAlign.center,
+                        ),
+                      )
+                    : Column(
+                        children: [
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 3),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.only(left: 15),
+                                  child: Row(
+                                    children: [
+                                      const CircleAvatar(
+                                        backgroundColor: GREEN_COLOR,
+                                        maxRadius: 5,
+                                      ),
+                                      CUSTOM_TEXT('Last deworming date',
+                                          padding:
+                                              const EdgeInsets.only(left: 15)),
+                                    ],
+                                  ),
+                                ),
+                                CUSTOM_TEXT(
+                                  FORMAT_DATE_TIME(
+                                      dateTime: controller
+                                          .dewormingList[0].dateOfInjection,
+                                      pattern: DATE_PATTERN_2),
+                                  color: DARK_GREY_TEXT_COLOR.withOpacity(0.7),
+                                  fontSize: 15,
+                                ),
+                              ],
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 3),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.only(left: 15),
+                                  child: Row(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: [
+                                      const CircleAvatar(
+                                        backgroundColor: BLUE_COLOR,
+                                        maxRadius: 5,
+                                      ),
+                                      const SizedBox(
+                                        width: 15,
+                                      ),
+                                      Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          CUSTOM_TEXT(
+                                            'The next time',
+                                          ),
+                                          CUSTOM_TEXT(
+                                            '(Should be dewormed\nevery 3 months)',
+                                            color: DARK_GREY_TEXT_COLOR
+                                                .withOpacity(0.8),
+                                            fontSize: 12,
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                CUSTOM_TEXT(
+                                  FORMAT_DATE_TIME(
+                                      dateTime: controller.dewormingList[0]
+                                                  .dateOfInjection
+                                                  .add(const Duration(days: 90))
+                                                  .difference(DateTime.now())
+                                                  .inDays <
+                                              0
+                                          ? DateTime.now()
+                                          : controller
+                                              .dewormingList[0].dateOfInjection
+                                              .add(const Duration(days: 90)),
+                                      pattern: DATE_PATTERN_2),
+                                  color: DARK_GREY_TEXT_COLOR.withOpacity(0.7),
+                                  fontSize: 15,
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      )
+              ],
+            ),
+          ),
+        ),
+      );
+
   Widget vaccineItemWidget() => Padding(
         padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
         child: InkWell(
-          onTap: () =>
-              Get.toNamed('$VACCINE_LIST_PAGE_ROUTE/${controller.petModel.id}'),
+          onTap: () {
+            if (controller.vaccinesList.isNotEmpty) {
+              Get.toNamed('$VACCINE_LIST_PAGE_ROUTE/${controller.petModel.id}');
+            }
+          },
           child: Container(
             padding: const EdgeInsets.all(10),
             decoration: BoxDecoration(
@@ -65,14 +391,17 @@ class PetDetailHeathRecordsWidget extends GetView<PetDetailPageController> {
                   children: [
                     CUSTOM_TEXT(
                       'Vaccinations',
+                      fontWeight: FontWeight.w700,
+                      letterSpacing: 1,
                     ),
                     Visibility(
+                      visible: controller.vaccinesList.isNotEmpty,
                       child: Text(
                         'View detail >',
                         style: GoogleFonts.quicksand(
                           textStyle: TextStyle(
                             color: PRIMARY_COLOR.withOpacity(
-                              0.7,
+                              0.8,
                             ),
                           ),
                           fontWeight: FontWeight.w600,
@@ -87,13 +416,16 @@ class PetDetailHeathRecordsWidget extends GetView<PetDetailPageController> {
                     ? Padding(
                         padding: const EdgeInsets.only(top: 20, bottom: 10),
                         child: CUSTOM_TEXT(
-                          'No data available at the moment',
+                          'Your pet has no vaccinations\ndata at the moment',
                           color: DARK_GREY_TEXT_COLOR.withOpacity(0.6),
+                          textAlign: TextAlign.center,
                         ),
                       )
                     : Container(
                         padding: const EdgeInsets.only(top: 10),
-                        height: 100,
+                        height: controller.vaccinesList.length >= 3
+                            ? 90
+                            : controller.vaccinesList.length * 30,
                         child: SingleChildScrollView(
                           child: Column(
                             children: controller.vaccinesList
@@ -114,16 +446,23 @@ class PetDetailHeathRecordsWidget extends GetView<PetDetailPageController> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Row(
-              children: [
-                CUSTOM_TEXT(vaccine.vaccineModel!.name,
-                    padding: const EdgeInsets.only(left: 30)),
-                CUSTOM_TEXT(
-                  ' (${vaccine.vaccineType!})',
-                  color: DARK_GREY_TEXT_COLOR.withOpacity(0.7),
-                  fontSize: 15,
-                ),
-              ],
+            Padding(
+              padding: const EdgeInsets.only(left: 15),
+              child: Row(
+                children: [
+                  const CircleAvatar(
+                    backgroundColor: GREEN_COLOR,
+                    maxRadius: 5,
+                  ),
+                  CUSTOM_TEXT(vaccine.vaccineModel!.name,
+                      padding: const EdgeInsets.only(left: 15)),
+                  CUSTOM_TEXT(
+                    ' (${vaccine.vaccineType!})',
+                    color: DARK_GREY_TEXT_COLOR.withOpacity(0.7),
+                    fontSize: 15,
+                  ),
+                ],
+              ),
             ),
             CUSTOM_TEXT(
               FORMAT_DATE_TIME(
@@ -162,6 +501,8 @@ class PetDetailHeathRecordsWidget extends GetView<PetDetailPageController> {
                   children: [
                     CUSTOM_TEXT(
                       title,
+                      fontWeight: FontWeight.w700,
+                      letterSpacing: 1,
                     ),
                   ],
                 ),

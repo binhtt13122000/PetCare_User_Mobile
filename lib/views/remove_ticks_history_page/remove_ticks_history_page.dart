@@ -1,28 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:petapp_mobile/configs/theme.dart';
-import 'package:petapp_mobile/controllers/deworming_history_page_controller.dart';
+import 'package:petapp_mobile/controllers/remove_ticks_history_page_controller.dart';
 import 'package:petapp_mobile/services/pet_health_records_services.dart';
-import 'package:petapp_mobile/views/customer/deworming_history_page/widgets/body_widget.dart';
-import 'package:petapp_mobile/views/customer/deworming_history_page/widgets/top_widget.dart';
+import 'package:petapp_mobile/views/remove_ticks_history_page/widgets/body_widget.dart';
+import 'package:petapp_mobile/views/remove_ticks_history_page/widgets/top_widget.dart';
 import 'package:petapp_mobile/views/widgets/customize_widget.dart';
 
-class DewormingHistoryPage extends GetView<DewormingHistoryPageController> {
-  const DewormingHistoryPage({Key? key}) : super(key: key);
+class RemoveTickHistoryPage extends GetView<RemoveTicksHistoryPageController> {
+  const RemoveTickHistoryPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) => Scaffold(
         backgroundColor: WHITE_COLOR,
         body: Column(
           children: [
-            const DewormingHistoryTopWidget(),
-            GetBuilder<DewormingHistoryPageController>(builder: (_) {
+            const RemoveTicksHistoryTopWidget(),
+            GetBuilder<RemoveTicksHistoryPageController>(builder: (_) {
               controller.isWaitingLoadingData.value = true;
               WidgetsBinding.instance!.addPostFrameCallback((_) async {
                 controller
                   ..dewormingList =
                       await PetHealthRecordsServices.fetchPetHealthRecordList(
-                          petId: Get.parameters['petId']!, type: 'HELMINTHIC')
+                          petId: Get.parameters['petId']!, type: 'TICKS')
                   ..sortDewormingList()
                   ..isWaitingLoadingData.value = false;
               });
@@ -31,7 +31,7 @@ class DewormingHistoryPage extends GetView<DewormingHistoryPageController> {
                   ? Expanded(
                       child: Container(
                           color: SUPPER_LIGHT_BLUE, child: LOADING_WIDGET()))
-                  : const DewormingHistoryBodyWidget());
+                  : const RemoveTicksHistoryBodyWidget());
             })
           ],
         ),

@@ -5,6 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:petapp_mobile/configs/path.dart';
 import 'package:petapp_mobile/configs/theme.dart';
 import 'package:petapp_mobile/controllers/pet_detail_page_controller.dart';
+import 'package:petapp_mobile/services/pet_services.dart';
 import 'package:petapp_mobile/utilities/utilities.dart';
 import 'package:petapp_mobile/views/widgets/customize_widget.dart';
 
@@ -12,82 +13,99 @@ class PetDetailInformationWidget extends GetView<PetDetailPageController> {
   const PetDetailInformationWidget({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    return Container(
-      color: WHITE_COLOR,
-      padding: const EdgeInsets.only(bottom: 20),
-      child: Column(
-        children: [
-          petGeneralInformationWidget(),
-          Container(
-            height: 1,
-            color: DARK_GREY_COLOR.withAlpha(30),
-          ),
-          Container(
-            height: 10,
-            color: SUPPER_LIGHT_BLUE,
-            margin: const EdgeInsets.only(bottom: 20),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(
-              horizontal: 20,
+  Widget build(BuildContext context) =>
+      GetBuilder<PetDetailPageController>(builder: (_) {
+        controller.isLoadingPetDetail.value = true;
+
+        WidgetsBinding.instance!.addPostFrameCallback((_) async {
+          controller
+            ..petModel = await PetService.fetchPetById(
+              petId: controller.petModel.id.toString(),
+            )
+            ..isLoadingPetDetail.value = false;
+        });
+        return Obx(() => controller.isLoadingPetDetail.value
+            ? Padding(
+                padding: const EdgeInsets.only(top: 200),
+                child: LOADING_WIDGET(),
+              )
+            : petDetailWidget());
+      });
+
+  Widget petDetailWidget() => Container(
+        color: WHITE_COLOR,
+        padding: const EdgeInsets.only(bottom: 20),
+        child: Column(
+          children: [
+            petGeneralInformationWidget(),
+            Container(
+              height: 1,
+              color: DARK_GREY_COLOR.withAlpha(30),
             ),
-            child: Column(
-              children: [
-                speciesCardWidget(),
-                textCardWidget(
-                  keyText: 'Breed',
-                  valueText: controller.petModel.breedModel!.name,
-                ),
-                genderCardWidget(),
-                textCardWidget(
-                  keyText: 'Date of birth',
-                  valueText: FORMAT_DATE_TIME(
-                    dateTime: controller.petModel.dob,
-                    pattern: DATE_PATTERN,
+            Container(
+              height: 10,
+              color: SUPPER_LIGHT_BLUE,
+              margin: const EdgeInsets.only(bottom: 20),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: 20,
+              ),
+              child: Column(
+                children: [
+                  speciesCardWidget(),
+                  textCardWidget(
+                    keyText: 'Breed',
+                    valueText: controller.petModel.breedModel!.name,
                   ),
-                ),
-                textCardWidgetWithInfoIcon(
-                  keyText: 'Age range',
-                  valueText: controller.petModel.ageRange,
-                ),
-                textCardWidget(
-                  keyText: 'Weight',
-                  valueText: '7.5 Kilogram',
-                ),
-                textCardWidget(
-                  keyText: 'Color',
-                  valueText: controller.petModel.color != null &&
-                          controller.petModel.color!.isNotEmpty
-                      ? controller.petModel.color!
-                      : 'N/A',
-                ),
-                textCardWidget(
-                  keyText: 'Fertility',
-                  valueText: controller.petModel.isFertility ? 'YES' : 'NO',
-                ),
-                textCardWidget(
-                  keyText: 'Vaccinations',
-                  valueText: controller.petModel.vaccineDescription != null &&
-                          controller.petModel.vaccineDescription!.isNotEmpty
-                      ? controller.petModel.vaccineDescription!
-                      : 'N/A',
-                ),
-                textCardWidget(
-                  keyText: 'Special markings',
-                  valueText: controller.petModel.specialMarkings != null &&
-                          controller.petModel.specialMarkings!.isNotEmpty
-                      ? controller.petModel.specialMarkings!
-                      : 'N/A',
-                ),
-                //  descriptionCardWidget(),
-              ],
+                  genderCardWidget(),
+                  textCardWidget(
+                    keyText: 'Date of birth',
+                    valueText: FORMAT_DATE_TIME(
+                      dateTime: controller.petModel.dob,
+                      pattern: DATE_PATTERN,
+                    ),
+                  ),
+                  textCardWidgetWithInfoIcon(
+                    keyText: 'Age range',
+                    valueText: controller.petModel.ageRange,
+                  ),
+                  textCardWidget(
+                    keyText: 'Weight',
+                    valueText: '7.5 Kilogram',
+                  ),
+                  textCardWidget(
+                    keyText: 'Color',
+                    valueText: controller.petModel.color != null &&
+                            controller.petModel.color!.isNotEmpty
+                        ? controller.petModel.color!
+                        : 'N/A',
+                  ),
+                  textCardWidget(
+                    keyText: 'Fertility',
+                    valueText: controller.petModel.isFertility ? 'YES' : 'NO',
+                  ),
+                  textCardWidget(
+                    keyText: 'Vaccinations',
+                    valueText: controller.petModel.vaccineDescription != null &&
+                            controller.petModel.vaccineDescription!.isNotEmpty
+                        ? controller.petModel.vaccineDescription!
+                        : 'N/A',
+                  ),
+                  textCardWidget(
+                    keyText: 'Special markings',
+                    valueText: controller.petModel.specialMarkings != null &&
+                            controller.petModel.specialMarkings!.isNotEmpty
+                        ? controller.petModel.specialMarkings!
+                        : 'N/A',
+                  ),
+                  //  descriptionCardWidget(),
+                ],
+              ),
             ),
-          ),
-        ],
-      ),
-    );
-  }
+          ],
+        ),
+      );
 
   Widget descriptionCardWidget() => Padding(
         padding: const EdgeInsets.only(top: 20),

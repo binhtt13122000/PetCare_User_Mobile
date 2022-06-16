@@ -67,6 +67,10 @@ const UPDATE_SALE_POST_PAGE_ROUTE = '/post/sale/update';
 const BUY_SERVICES_COMBO_PAGE_ROUTE = '/buy-services-combo';
 
 //vaccine
-const VACCINE_LIST_PAGE_ROUTE = '/pet_management/vaccine_list';
+const VACCINE_LIST_PAGE_ROUTE = '/pet-management/vaccine-list';
 //deworming
-const DEWORMING_HISTORY_PAGE_ROUtE = '/pet_management/deworming-history';
+const DEWORMING_HISTORY_PAGE_ROUTE = '/pet-management/deworming-history';
+//* app logo
+const APP_LOGO_PAGE_ROUTE = '/app-logo';
+//*remove ticks
+const REMOVE_TICKS_PAGE_ROUTE = '/pet-management/remove-ticks';

@@ -33,6 +33,7 @@ const LORETTA_PNG = 'loretta.png';
 const OTP_WALLPAPER_PNG = 'otp_wallpaper.png';
 const VNPAY_PNG = 'vnpay.png';
 const HEARTS_PNG = 'hearts.png';
+const FONDOS_BACKGROUND_PNG = 'fondos_background.png';
 
 //*icons
 const ICON_PATH = 'assets/icons/';

@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:petapp_mobile/configs/theme.dart';
-import 'package:petapp_mobile/controllers/deworming_history_page_controller.dart';
+import 'package:petapp_mobile/controllers/remove_ticks_history_page_controller.dart';
 import 'package:petapp_mobile/models/pet_health_records_model/pet_health_records_model.dart';
 import 'package:petapp_mobile/utilities/utilities.dart';
 import 'package:petapp_mobile/views/widgets/customize_widget.dart';
 
-class DewormingHistoryBodyWidget
-    extends GetView<DewormingHistoryPageController> {
-  const DewormingHistoryBodyWidget({Key? key}) : super(key: key);
+class RemoveTicksHistoryBodyWidget
+    extends GetView<RemoveTicksHistoryPageController> {
+  const RemoveTicksHistoryBodyWidget({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) => Expanded(
@@ -29,7 +29,8 @@ class DewormingHistoryBodyWidget
                     ],
                   )
                 : Center(
-                    child: CUSTOM_TEXT('Sorry, your pet has no deworming data!',
+                    child: CUSTOM_TEXT(
+                        'Sorry, your pet has no remove ticks data!',
                         padding: const EdgeInsets.only(top: 300)),
                   ),
           ),
@@ -49,7 +50,7 @@ class DewormingHistoryBodyWidget
               width: 15,
             ),
             CUSTOM_TEXT(
-              'Suggest the next\ndeworming time',
+              'Suggest the next\nremove ticks time',
             ),
             const SizedBox(
               width: 20,
@@ -70,7 +71,7 @@ class DewormingHistoryBodyWidget
                   color: BLUE_COLOR,
                   fontWeight: FontWeight.w700,
                 ),
-                CUSTOM_TEXT('(Should be dewormed\nevery 3 months)',
+                CUSTOM_TEXT('(Should be remove\nticks every 3 months)',
                     color: DARK_GREY_TEXT_COLOR.withOpacity(0.8),
                     fontSize: 12,
                     textAlign: TextAlign.center),
@@ -88,7 +89,7 @@ class DewormingHistoryBodyWidget
       margin: const EdgeInsets.only(top: 20),
       child: Column(
         children: [
-          CUSTOM_TEXT('Deworming Timeline',
+          CUSTOM_TEXT('Remove Ticks Timeline',
               fontWeight: FontWeight.w700,
               letterSpacing: 2,
               padding: const EdgeInsets.only(bottom: 20)),
@@ -206,7 +207,7 @@ class DewormingHistoryBodyWidget
                   letterSpacing: 1,
                 ),
                 CUSTOM_TEXT(
-                  'Deworming in branch ' +
+                  'Remove tick in branch ' +
                       petHealthRecordModel.branchModel!.name,
                   textOverflow: TextOverflow.clip,
                   fontSize: 15,
