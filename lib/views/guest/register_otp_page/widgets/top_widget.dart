@@ -56,7 +56,7 @@ class RegisterOTPPageTopWidget extends GetView<RegisterPageController> {
                   Padding(
                     padding: const EdgeInsets.only(right: 5),
                     child: Text(
-                      'iU Petshop',
+                      'iU PetShop',
                       style: GoogleFonts.satisfy(
                         textStyle: const TextStyle(color: PRIMARY_COLOR),
                         fontWeight: FontWeight.w700,

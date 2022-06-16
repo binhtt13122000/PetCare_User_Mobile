@@ -54,7 +54,7 @@ class RegisterPhoneNumberPageBodyWidget
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Text(
-                  'Input your phone number to register',
+                  'Type your phone number to register',
                   style: GoogleFonts.quicksand(
                     fontWeight: FontWeight.w500,
                     color: const Color.fromARGB(255, 78, 96, 121),

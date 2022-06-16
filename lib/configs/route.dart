@@ -6,7 +6,7 @@ const MAIN_ROUTE = '/';
 //login
 const LANDING_PAGE_ROUTE = '/landing';
 const SIGN_IN_PAGE_ROUTE = '/landing/sign-in';
-const VERIFICATION_OTP_PAGE_ROUTE = '/landing/sign-in/verification-otp';
+const SIGN_IN_VERIFICATION_OTP_PAGE_ROUTE = '/landing/sign-in/verification-otp';
 
 //register
 const REGISTER_USER_INFORMATION_PAGE_ROUTE = '/register/user-information';

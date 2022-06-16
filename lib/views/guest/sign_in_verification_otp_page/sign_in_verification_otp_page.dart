@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
 import 'package:petapp_mobile/configs/theme.dart';
 import 'package:petapp_mobile/controllers/sign_in_page_controller.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:petapp_mobile/views/guest/sign_in_page/widgets/body_widget.dart';
-import 'package:petapp_mobile/views/guest/sign_in_page/widgets/bottom_widget.dart';
-import 'package:petapp_mobile/views/guest/sign_in_page/widgets/top_widget.dart';
+import 'package:petapp_mobile/views/guest/sign_in_verification_otp_page/widgets/body_widget.dart';
+import 'package:petapp_mobile/views/guest/sign_in_verification_otp_page/widgets/bottom_widget.dart';
+import 'package:petapp_mobile/views/guest/sign_in_verification_otp_page/widgets/top_widget.dart';
 
-class SignInPage extends GetView<SignInPageController> {
-  const SignInPage({Key? key}) : super(key: key);
+class SignInVerificationOTPPage extends GetView<SignInPageController> {
+  const SignInVerificationOTPPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -20,14 +20,14 @@ class SignInPage extends GetView<SignInPageController> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               children: const [
-                SignInTopWidget(),
-                SignInBodyWidget(),
-                SignInBottomWidget(),
+                SignInVerificationOTPPageTopWidget(),
+                SignInVerificationOTPBodyWidget(),
+                SignInVerificationBottomWidget(),
               ],
             ),
           ),
           Obx(
-            () => controller.isWaitingSignIn.value
+            () => controller.isLoadingOTP.value
                 ? Container(
                     color: DARK_GREY_TRANSPARENT,
                     child: const SpinKitSpinningLines(

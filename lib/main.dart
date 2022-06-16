@@ -77,7 +77,7 @@ import 'package:petapp_mobile/views/guest/register_otp_page/register_otp_page.da
 import 'package:petapp_mobile/views/guest/register_page/register_page.dart';
 import 'package:petapp_mobile/views/guest/register_phone_number_page/register_phone_number_page.dart';
 import 'package:petapp_mobile/views/guest/sign_in_page/sign_in_page.dart';
-import 'package:petapp_mobile/views/guest/verification_otp_page/verification_otp_page.dart';
+import 'package:petapp_mobile/views/guest/sign_in_verification_otp_page/sign_in_verification_otp_page.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:petapp_mobile/views/remove_ticks_history_page/remove_ticks_history_page.dart';
 
@@ -284,8 +284,8 @@ class MainApp extends StatelessWidget {
           binding: SignInPageBinding(),
         ),
         GetPage(
-          name: VERIFICATION_OTP_PAGE_ROUTE,
-          page: () => const VerificationOTPPage(),
+          name: SIGN_IN_VERIFICATION_OTP_PAGE_ROUTE,
+          page: () => const SignInVerificationOTPPage(),
         ),
         //*Register page
         GetPage(

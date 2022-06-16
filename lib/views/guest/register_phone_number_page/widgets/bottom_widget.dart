@@ -5,6 +5,7 @@ import 'package:petapp_mobile/configs/route.dart';
 import 'package:petapp_mobile/configs/theme.dart';
 import 'package:petapp_mobile/controllers/register_page_controller.dart';
 import 'package:petapp_mobile/services/account_services.dart';
+import 'package:petapp_mobile/views/widgets/customize_widget.dart';
 
 class RegisterPhoneNumberPageBottomWidget
     extends GetView<RegisterPageController> {
@@ -34,7 +35,7 @@ class RegisterPhoneNumberPageBottomWidget
                     if (!controller.isUsedPhoneNumber.value) {
                       controller.isLoadingPhoneCredential.value = true;
                       if (controller.countDownTime.value > 0) {
-                        Get.toNamed(VERIFICATION_OTP_PAGE_ROUTE);
+                        Get.toNamed(SIGN_IN_VERIFICATION_OTP_PAGE_ROUTE);
                         controller.isLoadingPhoneCredential.value = false;
                       } else {
                         await controller.auth.verifyPhoneNumber(
@@ -94,26 +95,26 @@ class RegisterPhoneNumberPageBottomWidget
 
   Widget bottomWidget() => Padding(
         padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 20),
-        child: RichText(
-          textAlign: TextAlign.center,
-          text: TextSpan(
-            text: 'Joined us before? Back to ',
-            style: GoogleFonts.quicksand(
-              color: const Color.fromARGB(255, 109, 122, 155),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            CUSTOM_TEXT(
+              'Joined us before? Back to ',
+              color: DARK_GREY_TEXT_COLOR.withOpacity(0.7),
               fontSize: 11,
               letterSpacing: 1.5,
-              fontWeight: FontWeight.w600,
             ),
-            children: const [
-              TextSpan(
-                text: 'Sign In',
-                style: TextStyle(
-                  fontWeight: FontWeight.w700,
-                  color: PRIMARY_COLOR,
-                ),
+            InkWell(
+              onTap: () => Get.offNamed(SIGN_IN_PAGE_ROUTE),
+              child: CUSTOM_TEXT(
+                'Sign In',
+                fontWeight: FontWeight.w700,
+                color: PRIMARY_COLOR,
+                fontSize: 11,
+                letterSpacing: 1.5,
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       );
 }

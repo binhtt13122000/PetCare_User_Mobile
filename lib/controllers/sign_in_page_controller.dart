@@ -2,6 +2,7 @@
 
 import 'dart:async';
 
+import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:petapp_mobile/configs/path.dart';
@@ -10,16 +11,22 @@ import 'package:petapp_mobile/services/firebase_messaging_services.dart';
 import 'package:petapp_mobile/services/account_services.dart';
 
 class SignInPageController extends GetxController {
-  RxBool isLoadingPhoneCredential = false.obs;
+  //!new
+  RxBool isUsedPhoneNumber = true.obs;
+  TextEditingController textEditingController = TextEditingController();
+  late int? resendingToken;
+  RxBool isInvalidOTP = false.obs;
+  late String signInPhoneNumber;
+  //!new
+
+  RxBool isWaitingSignIn = false.obs;
   RxBool isLoadingOTP = false.obs;
 
   late RxInt countDownTime = 0.obs;
   int maxTime = 60;
 
-  RxString phoneNumber = '901605667'.obs;
+  RxString phoneNumber = ''.obs;
   bool isFirstInputPhoneNumber = true;
-
-  bool isFirstInputOTP = true;
   RxString otp = ''.obs;
 
   FirebaseAuth auth = FirebaseAuth.instance;
@@ -37,25 +44,24 @@ class SignInPageController extends GetxController {
 
   Future<AccountModel?> signInWithPhoneAuthCredential(
       PhoneAuthCredential phoneAuthCredential) async {
-    isLoadingPhoneCredential.value = true;
     try {
       final UserCredential authCredential =
           await auth.signInWithCredential(phoneAuthCredential);
-      isLoadingPhoneCredential.value = false;
-      String idToken = await authCredential.user!.getIdToken();
       if (authCredential.user != null) {
+        String idToken = await authCredential.user!.getIdToken();
         await setUserDeviceToken();
         return await AccountService.signIn(
             idToken: idToken, userDeviceToken: userDeviceToken);
+      } else {
+        return null;
       }
-    } on FirebaseAuthException catch (e) {
-      print(e);
-      isLoadingPhoneCredential.value = false;
+    } on FirebaseAuthException catch (_) {
+      return null;
     }
-    return null;
   }
 
   startTimer() {
+    countDownTime.value = maxTime;
     Timer.periodic(
       const Duration(seconds: 1),
       (timer) {
