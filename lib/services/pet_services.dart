@@ -66,6 +66,23 @@ class PetService {
     }
   }
 
+  static Future<int> deletePetByPetId({required int petId}) async {
+    final response = await http.delete(
+      Uri.http(API_SERVER_PATH, '$PET_API_PATH/$petId'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+    );
+    switch (response.statusCode) {
+      case 200:
+      case 201:
+      case 202:
+        return jsonDecode(response.body)['data']['id'];
+      default:
+        throw Exception('Error ${response.statusCode}, cannot not delete pet');
+    }
+  }
+
   static Future createPet({
     required int ownerId,
     required String avatarFilePath,

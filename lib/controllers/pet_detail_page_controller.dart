@@ -7,6 +7,7 @@ import 'package:petapp_mobile/models/pet_model/pet_model.dart';
 class PetDetailPageController extends GetxController {
   RxBool isLoadingPetCombo = false.obs;
   RxBool isLoadingHealthRecord = false.obs;
+  RxBool isLoadingPetDetail = false.obs;
   late List<PetComboModel> petComboModelList;
   late PetModel petModel;
   RxBool isLoadingData = false.obs;
@@ -17,6 +18,21 @@ class PetDetailPageController extends GetxController {
   RxBool isOnTopScroll = false.obs;
   RxString topTitle = 'Pet Information Page'.obs;
   late List<PetHealthRecordModel> vaccinesList;
+  late List<PetHealthRecordModel> dewormingList;
+  late List<PetHealthRecordModel> removeTicksList;
+  sortDewormingList() {
+    dewormingList
+        .sort((b, a) => a.dateOfInjection.compareTo(b.dateOfInjection));
+  }
+
+  sortVaccinesList() {
+    vaccinesList.sort((b, a) => a.dateOfInjection.compareTo(b.dateOfInjection));
+  }
+
+  sortRemoveTicksList() {
+    removeTicksList
+        .sort((b, a) => a.dateOfInjection.compareTo(b.dateOfInjection));
+  }
 
   PetDetailPageController() {
     selectedViewType = viewTypes[0].obs;

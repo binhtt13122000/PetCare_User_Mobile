@@ -13,6 +13,7 @@ import 'package:petapp_mobile/bindings/chatting_detail_page_binding.dart';
 import 'package:petapp_mobile/bindings/chatting_list_page_binding.dart';
 import 'package:petapp_mobile/bindings/create_post_page_binding.dart';
 import 'package:petapp_mobile/bindings/create_ticket_page_binding.dart';
+import 'package:petapp_mobile/bindings/deworming_history_page_binding.dart';
 import 'package:petapp_mobile/bindings/home_page_binding.dart';
 import 'package:petapp_mobile/bindings/notification_page_binding.dart';
 import 'package:petapp_mobile/bindings/payment_for_center_services_transaction_page_binding.dart';
@@ -23,6 +24,7 @@ import 'package:petapp_mobile/bindings/pet_weight_page_binding.dart';
 import 'package:petapp_mobile/bindings/profile_page_binding.dart';
 import 'package:petapp_mobile/bindings/post_detail_page_binding.dart';
 import 'package:petapp_mobile/bindings/register_page_binding.dart';
+import 'package:petapp_mobile/bindings/remove_tick_history_page_binding.dart';
 import 'package:petapp_mobile/bindings/sale_transaction_detail_page_binding.dart';
 import 'package:petapp_mobile/bindings/sign_in_page_binding.dart';
 import 'package:petapp_mobile/bindings/pet_management_page_binding.dart';
@@ -40,6 +42,7 @@ import 'package:petapp_mobile/controllers/sign_in_page_controller.dart';
 import 'package:petapp_mobile/models/account_model/account_model.dart';
 import 'package:petapp_mobile/services/account_services.dart';
 import 'package:petapp_mobile/views/customer/action_page/action_page.dart';
+import 'package:petapp_mobile/views/customer/app_logo_page/app_logon_page.dart';
 import 'package:petapp_mobile/views/customer/breeding_transaction_detail_page/breeding_transaction_detail_page.dart';
 import 'package:petapp_mobile/views/customer/buy_services_combo_page/buy_services_combo_page.dart';
 import 'package:petapp_mobile/views/customer/center_services_transaction_detail_page/center_services_transaction_detail_page.dart';
@@ -49,6 +52,7 @@ import 'package:petapp_mobile/views/customer/chatting_list_page/chatting_list_pa
 import 'package:petapp_mobile/views/customer/create_pet_page/create_pet_page.dart';
 import 'package:petapp_mobile/views/customer/create_post_page/create_post_page.dart';
 import 'package:petapp_mobile/views/customer/create_ticket_page/create_ticket_page.dart';
+import 'package:petapp_mobile/views/customer/deworming_history_page/deworming_history_page.dart';
 import 'package:petapp_mobile/views/customer/home_page/home_page.dart';
 import 'package:petapp_mobile/views/customer/notification_page/notification_page.dart';
 import 'package:petapp_mobile/views/customer/payment_for_center_services_transaction_page/payment_for_center_services_transaction_page.dart';
@@ -75,6 +79,7 @@ import 'package:petapp_mobile/views/guest/register_phone_number_page/register_ph
 import 'package:petapp_mobile/views/guest/sign_in_page/sign_in_page.dart';
 import 'package:petapp_mobile/views/guest/verification_otp_page/verification_otp_page.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:petapp_mobile/views/remove_ticks_history_page/remove_ticks_history_page.dart';
 
 final GlobalKey<NavigatorState> navigatorKey =
     GlobalKey(debugLabel: "Main Navigator");
@@ -85,8 +90,20 @@ late AndroidNotificationChannel channel;
 /// Initialize the [FlutterLocalNotificationsPlugin] package.
 late FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
     FlutterLocalNotificationsPlugin();
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  SystemChrome.setSystemUIOverlayStyle(
+    const SystemUiOverlayStyle(
+      statusBarColor: Color.fromARGB(0, 199, 57, 57),
+      statusBarIconBrightness: Brightness.dark,
+      systemNavigationBarColor: Colors.transparent,
+      systemNavigationBarIconBrightness: Brightness.dark,
+    ),
+  );
+
+  runApp(const MainApp());
+
   await Firebase.initializeApp();
 
   if (!kIsWeb) {
@@ -141,16 +158,7 @@ void main() async {
     }
   }
 
-  SystemChrome.setSystemUIOverlayStyle(
-    const SystemUiOverlayStyle(
-      statusBarColor: Color.fromARGB(0, 199, 57, 57),
-      statusBarIconBrightness: Brightness.dark,
-      systemNavigationBarColor: Colors.transparent,
-      systemNavigationBarIconBrightness: Brightness.dark,
-    ),
-  );
-
-  runApp(MainApp(initRoute: initRoute));
+  Get.offNamed(initRoute);
 }
 
 onSelectNotification(String? type, String? metaData) async {
@@ -245,8 +253,7 @@ Future<void> demoNotification(
 }
 
 class MainApp extends StatelessWidget {
-  const MainApp({Key? key, required this.initRoute}) : super(key: key);
-  final String initRoute;
+  const MainApp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -254,11 +261,16 @@ class MainApp extends StatelessWidget {
       title: 'Pet App',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(),
-      initialRoute: initRoute,
+      initialRoute: APP_LOGO_PAGE_ROUTE,
       // routingCallback: (routing) {
       //   print('callback' + routing!.current);
       // },
       getPages: [
+        //*App logo
+        GetPage(
+          name: APP_LOGO_PAGE_ROUTE,
+          page: () => const AppLogoPage(),
+        ),
         //!Guest
         //*Landing page
         GetPage(
@@ -407,6 +419,16 @@ class MainApp extends StatelessWidget {
           name: '$VACCINE_LIST_PAGE_ROUTE/:petId',
           page: () => const VaccineListPage(),
           binding: VaccineListPageBinding(),
+        ),
+        GetPage(
+          name: '$DEWORMING_HISTORY_PAGE_ROUTE/:petId',
+          page: () => const DewormingHistoryPage(),
+          binding: DewormingHistoryPageBiding(),
+        ),
+        GetPage(
+          name: '$REMOVE_TICKS_PAGE_ROUTE/:petId',
+          page: () => const RemoveTickHistoryPage(),
+          binding: RemoveTicksHistoryPageBinding(),
         ),
         //*Chatting
         GetPage(

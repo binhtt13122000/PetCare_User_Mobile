@@ -43,7 +43,7 @@ class TopNavigationBar extends GetView<HomePageController> {
                   ),
                   GRADIENT_WIDGET(
                     child: Text(
-                      'iU Petshop',
+                      'iU PetShop',
                       style: GoogleFonts.satisfy(
                         textStyle: const TextStyle(color: WHITE_COLOR),
                         fontWeight: FontWeight.w700,

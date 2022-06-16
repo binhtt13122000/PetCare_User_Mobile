@@ -20,4 +20,7 @@ class PetManagementPageController extends GetxController {
   PetManagementPageController() {
     selectedPetStatus = postTypeList[0].obs;
   }
+  RxBool isWaitingDeletePet = false.obs;
+  RxBool isShowNotificationPopup = false.obs;
+  late String notificationTitle;
 }
