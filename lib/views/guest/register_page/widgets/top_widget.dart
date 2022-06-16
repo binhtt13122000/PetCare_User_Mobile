@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:petapp_mobile/configs/route.dart';
 import 'package:petapp_mobile/configs/theme.dart';
 import 'package:petapp_mobile/controllers/register_page_controller.dart';
 
@@ -15,7 +16,7 @@ class RegisterPageTopWidget extends GetView<RegisterPageController> {
         child: Row(
           children: [
             InkWell(
-              onTap: () => Get.back(),
+              onTap: () => Get.offAllNamed(LANDING_PAGE_ROUTE),
               child: Container(
                 height: 35,
                 width: 35,

@@ -35,7 +35,11 @@ class AccountService {
       case 200:
       case 201:
       case 202:
-        return getAccount(json.decode(response.body)['data']);
+        if (json.decode(response.body)['data']['status'] == 'SUCCESS') {
+          return getAccount(json.decode(response.body)['data']);
+        } else {
+          return null;
+        }
       default:
         return null;
     }

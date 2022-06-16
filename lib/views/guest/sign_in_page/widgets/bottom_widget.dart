@@ -42,8 +42,7 @@ class SignInBottomWidget extends GetView<SignInPageController> {
                       codeSent: (verificationId, resendingToken) async {
                         controller
                           ..verificationId = verificationId
-                          ..resendingToken = resendingToken
-                          ..countDownTime.value = controller.maxTime;
+                          ..resendingToken = resendingToken;
 
                         Get.toNamed(SIGN_IN_VERIFICATION_OTP_PAGE_ROUTE);
 

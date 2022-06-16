@@ -19,7 +19,7 @@ class SignInTopWidget extends GetView<SignInPageController> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             InkWell(
-              onTap: () => Get.back(),
+              onTap: () => Get..back(),
               child: Container(
                 height: 35,
                 width: 35,

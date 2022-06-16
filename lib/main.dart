@@ -65,6 +65,7 @@ import 'package:petapp_mobile/views/customer/post_detail_page/post_detail_page.d
 import 'package:petapp_mobile/views/customer/post_management_page/post_management_page.dart';
 import 'package:petapp_mobile/views/customer/profile_page/profile_page.dart';
 import 'package:petapp_mobile/views/customer/purchase_posts_filter_page/purchase_posts_filter_page.dart';
+import 'package:petapp_mobile/views/customer/remove_ticks_history_page/remove_ticks_history_page.dart';
 import 'package:petapp_mobile/views/customer/sale_post_list_page/sale_post_page.dart';
 import 'package:petapp_mobile/views/customer/sale_transaction_detail_page/sale_transaction_detail_page.dart';
 import 'package:petapp_mobile/views/customer/ticket_detail_page/ticket_detail_page.dart';
@@ -79,7 +80,6 @@ import 'package:petapp_mobile/views/guest/register_phone_number_page/register_ph
 import 'package:petapp_mobile/views/guest/sign_in_page/sign_in_page.dart';
 import 'package:petapp_mobile/views/guest/sign_in_verification_otp_page/sign_in_verification_otp_page.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:petapp_mobile/views/remove_ticks_history_page/remove_ticks_history_page.dart';
 
 final GlobalKey<NavigatorState> navigatorKey =
     GlobalKey(debugLabel: "Main Navigator");
@@ -134,10 +134,12 @@ void main() async {
   }
 
   late String initRoute;
-
+  late bool isAuth;
   if (FirebaseAuth.instance.currentUser == null) {
     initRoute = LANDING_PAGE_ROUTE;
+    isAuth = false;
   } else {
+    isAuth = true;
     String idToken = await FirebaseAuth.instance.currentUser!.getIdToken();
 
     SignInPageController signInPageController = Get.put(SignInPageController());
@@ -154,11 +156,15 @@ void main() async {
           fenix: true);
       initRoute = HOME_PAGE_ROUTE;
     } else {
+      FirebaseAuth.instance.signOut();
       initRoute = LANDING_PAGE_ROUTE;
     }
   }
 
-  Get.offNamed(initRoute);
+  Future.delayed(
+    Duration(seconds: isAuth ? 0 : 2),
+    () => Get.offNamed(initRoute),
+  );
 }
 
 onSelectNotification(String? type, String? metaData) async {

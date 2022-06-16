@@ -23,56 +23,51 @@ class RegisterPhoneNumberPageBottomWidget
         () => Padding(
           padding: const EdgeInsets.only(left: 12, right: 12),
           child: InkWell(
-            onTap: controller.phoneNumber.value.isNotEmpty &&
-                    !controller.isUsedPhoneNumber.value
-                ? () async {
-                    controller.isUsedPhoneNumber.value =
-                        await AccountService.checkPhoneNumber(
-                      phoneNumber: (controller.selectedAreaCode +
-                              controller.phoneNumber.value)
-                          .replaceAll(' ', ''),
-                    );
-                    if (!controller.isUsedPhoneNumber.value) {
-                      controller.isLoadingPhoneCredential.value = true;
-                      if (controller.countDownTime.value > 0) {
-                        Get.toNamed(SIGN_IN_VERIFICATION_OTP_PAGE_ROUTE);
-                        controller.isLoadingPhoneCredential.value = false;
-                      } else {
-                        await controller.auth.verifyPhoneNumber(
-                            phoneNumber: (controller.selectedAreaCode.value +
-                                    controller.phoneNumber.value)
-                                .replaceAll(' ', ''),
-                            verificationCompleted: (phoneAuthCredential) async {
-                              controller.isLoadingPhoneCredential.value = false;
-                            },
-                            verificationFailed: (verificationFailed) async {
-                              controller.isLoadingPhoneCredential.value = false;
-                            },
-                            codeSent: (verificationId, resendingToken) async {
-                              controller.isLoadingPhoneCredential.value = false;
-                              controller.verificationId = verificationId;
-                              controller.countDownTime.value =
-                                  controller.maxTime;
-                              Get.toNamed(REGISTER_OTP_PAGE_ROUTE);
-                              controller.startTimer();
-                            },
-                            codeAutoRetrievalTimeout: (verificationId) {
-                              controller.isLoadingPhoneCredential.value = false;
-                            });
-                      }
-                    }
-                  }
-                : () {},
+            onTap: () async {
+              if (controller.phoneNumber.value.length == 12 &&
+                  !controller.isUsedPhoneNumber.value) {
+                controller
+                  ..isLoadingPhoneCredential.value = true
+                  ..registerPhoneNumber =
+                      controller.selectedAreaCode + controller.phoneNumber.value
+                  ..isUsedPhoneNumber.value =
+                      await AccountService.checkPhoneNumber(
+                    phoneNumber:
+                        controller.registerPhoneNumber.replaceAll(' ', ''),
+                  );
+                if (!controller.isUsedPhoneNumber.value) {
+                  await controller.auth.verifyPhoneNumber(
+                      phoneNumber:
+                          controller.registerPhoneNumber.replaceAll(' ', ''),
+                      verificationCompleted: (phoneAuthCredential) async {},
+                      verificationFailed: (verificationFailed) async {},
+                      codeSent: (verificationId, resendingToken) async {
+                        controller
+                          ..verificationId = verificationId
+                          ..resendingToken = resendingToken;
+
+                        Get.toNamed(REGISTER_OTP_PAGE_ROUTE);
+
+                        controller
+                          ..startTimer()
+                          ..isLoadingPhoneCredential.value = false;
+                      },
+                      codeAutoRetrievalTimeout: (verificationId) {});
+                } else {
+                  controller.isLoadingPhoneCredential.value = false;
+                }
+              }
+            },
             child: Container(
               height: 40,
               decoration: BoxDecoration(
-                color: controller.phoneNumber.value.isNotEmpty &&
+                color: controller.phoneNumber.value.length == 12 &&
                         !controller.isUsedPhoneNumber.value
                     ? PRIMARY_COLOR.withOpacity(0.9)
                     : PRIMARY_COLOR.withOpacity(0.5),
                 borderRadius: BorderRadius.circular(5),
                 border: Border.all(
-                  color: controller.phoneNumber.value.isNotEmpty &&
+                  color: controller.phoneNumber.value.length == 12 &&
                           !controller.isUsedPhoneNumber.value
                       ? PRIMARY_COLOR
                       : PRIMARY_COLOR.withOpacity(0.1),

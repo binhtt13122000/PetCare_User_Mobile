@@ -30,11 +30,13 @@ class SignInVerificationBottomWidget extends GetView<SignInPageController> {
                   Get.lazyPut<AuthController>(
                       () => AuthController(accountModel: accountModel),
                       fenix: true);
+                  controller
+                    ..countDownTime.value = 0
+                    ..isLoadingOTP.value = false;
                   Get.offAllNamed(HOME_PAGE_ROUTE);
                 } else {
                   controller.isInvalidOTP.value = true;
                 }
-
                 controller.isLoadingOTP.value = false;
               }
             },
