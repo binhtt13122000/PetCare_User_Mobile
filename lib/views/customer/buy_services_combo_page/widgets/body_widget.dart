@@ -46,7 +46,8 @@ class BuyServicesComboBodyWidget
                                           ? controller.selectedSpeciesId.value
                                           : null)
                               ..selectedPetId.value =
-                                  controller.selectedPetId.value == -1
+                                  controller.selectedPetId.value == -1 &&
+                                          controller.petModelList.isNotEmpty
                                       ? controller.petModelList[0].id
                                       : controller.selectedPetId.value
                               ..isWaitLoadingPet.value = false

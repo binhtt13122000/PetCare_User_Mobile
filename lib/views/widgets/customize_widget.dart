@@ -1,9 +1,206 @@
 // ignore_for_file: non_constant_identifier_names
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:petapp_mobile/configs/path.dart';
 import 'package:petapp_mobile/configs/theme.dart';
+
+Widget CUSTOM_REQUIRED_TEXT_FIELD({
+  required String hintText,
+  required Function(String?) onChange,
+  required Function<bool>() checkEmptyString,
+  required Function<bool>() checkErrorText,
+  required Function() onDelete,
+  required String errorText,
+  required Function<String>() countText,
+  required int maxLength,
+  bool isNumberTextField = false,
+  String? initText,
+  bool isNumber = false,
+  double height = 45,
+  int maxLines = 1,
+}) {
+  FocusNode focusNode = FocusNode();
+  TextEditingController textEditingController = TextEditingController();
+  if (initText != null) {
+    textEditingController.text = initText;
+  }
+
+  return Obx(
+    () => Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Container(
+          height: height,
+          alignment: Alignment.center,
+          padding: const EdgeInsets.symmetric(horizontal: 12),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(5),
+            border: Border.all(
+              color: checkEmptyString.call()
+                  ? RED_COLOR
+                  : const Color.fromARGB(255, 136, 154, 180),
+            ),
+          ),
+          child: Row(
+            children: [
+              Expanded(
+                child: TextField(
+                  controller: textEditingController,
+                  textAlign: isNumber ? TextAlign.end : TextAlign.start,
+                  cursorColor:
+                      checkEmptyString.call() ? RED_COLOR : PRIMARY_COLOR,
+                  maxLength: maxLength,
+                  style: GoogleFonts.quicksand(
+                    fontWeight: FontWeight.w500,
+                    color: DARK_GREY_TEXT_COLOR,
+                    fontSize: 16,
+                  ),
+                  maxLines: maxLines,
+                  focusNode: focusNode,
+                  keyboardType: isNumberTextField
+                      ? const TextInputType.numberWithOptions(
+                          decimal: false, signed: false)
+                      : null,
+                  inputFormatters: isNumberTextField
+                      ? [
+                          FilteringTextInputFormatter.allow(
+                            RegExp(
+                              r'[0-9 ]',
+                            ),
+                          ),
+                        ]
+                      : null,
+                  decoration: InputDecoration(
+                    hintText: hintText,
+                    hintStyle: GoogleFonts.quicksand(
+                      fontSize: 12,
+                      color: DARK_GREY_TEXT_COLOR.withOpacity(0.6),
+                      fontWeight: FontWeight.w500,
+                    ),
+                    counterText: '',
+                    isCollapsed: true,
+                    border: InputBorder.none,
+                  ),
+                  onChanged: onChange,
+                ),
+              ),
+              Visibility(
+                visible: !checkEmptyString.call(),
+                child: InkWell(
+                  onTap: () {
+                    onDelete.call();
+                    textEditingController.text = '';
+                    focusNode.requestFocus();
+                  },
+                  child: CircleAvatar(
+                    backgroundColor: RED_COLOR.withOpacity(0.8),
+                    maxRadius: 10,
+                    child: SvgPicture.asset(
+                      ICON_PATH + CLOSE_SVG,
+                      height: 10,
+                      color: WHITE_COLOR,
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+        Visibility(
+          visible: checkErrorText.call(),
+          child: Text(
+            errorText,
+            style: GoogleFonts.quicksand(
+              fontWeight: FontWeight.w500,
+              color: RED_COLOR,
+              fontSize: 10,
+              letterSpacing: 1,
+              height: 2,
+            ),
+          ),
+        ),
+        Visibility(
+          visible: !checkEmptyString.call(),
+          child: Align(
+            alignment: Alignment.topRight,
+            child: Text(
+              countText.call(),
+              style: GoogleFonts.quicksand(
+                fontWeight: FontWeight.w500,
+                color: DARK_GREY_TEXT_COLOR.withOpacity(0.8),
+                fontSize: 12,
+                letterSpacing: 1,
+                height: 2,
+              ),
+            ),
+          ),
+        ),
+      ],
+    ),
+  );
+}
+
+Widget CUSTOM_DISABLE_TEXT_FIELD({
+  required String initText,
+  TextInputFormatter? textInputFormatter,
+  bool isNumber = false,
+}) {
+  FocusNode focusNode = FocusNode();
+  TextEditingController textEditingController = TextEditingController();
+  textEditingController.text = initText;
+  List<TextInputFormatter> textInputFormatterList = [];
+  if (textInputFormatter != null) {
+    textInputFormatterList.add(textInputFormatter);
+  }
+
+  return Column(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: [
+      Container(
+        height: 45,
+        alignment: Alignment.center,
+        padding: const EdgeInsets.symmetric(horizontal: 12),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(5),
+          border: Border.all(
+            color: const Color.fromARGB(255, 185, 197, 214),
+          ),
+          color: const Color.fromARGB(255, 241, 244, 247),
+        ),
+        child: Row(
+          children: [
+            Expanded(
+              child: TextField(
+                controller: textEditingController,
+                textAlign: isNumber ? TextAlign.end : TextAlign.start,
+                style: GoogleFonts.quicksand(
+                  fontWeight: FontWeight.w500,
+                  color: DARK_GREY_TEXT_COLOR.withOpacity(0.6),
+                  fontSize: 16,
+                  letterSpacing: 1,
+                ),
+                enabled: false,
+                focusNode: focusNode,
+                decoration: const InputDecoration(
+                  counterText: '',
+                  isCollapsed: true,
+                  border: InputBorder.none,
+                ),
+                onChanged: (_) {},
+                inputFormatters: textInputFormatterList,
+              ),
+            ),
+          ],
+        ),
+      ),
+    ],
+  );
+}
 
 Widget GRADIENT_WIDGET({
   required Widget child,

@@ -110,7 +110,7 @@ class ProfilePageBodyWidget extends GetView<ProfilePageController> {
                       Padding(
                         padding: const EdgeInsets.only(top: 2),
                         child: Text(
-                          'Refer your friends to join \niU Petshop and together get \n500 bonus points.',
+                          'Refer your friends to join \niU PetShop and together get \n500 bonus points.',
                           style: GoogleFonts.quicksand(
                             color: const Color.fromARGB(255, 62, 68, 87),
                             fontSize: 14,

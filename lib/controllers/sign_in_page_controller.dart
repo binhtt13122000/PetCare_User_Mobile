@@ -8,7 +8,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:petapp_mobile/configs/path.dart';
 import 'package:petapp_mobile/models/account_model/account_model.dart';
 import 'package:petapp_mobile/services/firebase_messaging_services.dart';
-import 'package:petapp_mobile/services/account_services.dart';
+import 'package:petapp_mobile/services/auth_services.dart';
 
 class SignInPageController extends GetxController {
   //!new
@@ -50,7 +50,7 @@ class SignInPageController extends GetxController {
       if (authCredential.user != null) {
         String idToken = await authCredential.user!.getIdToken();
         await setUserDeviceToken();
-        return await AccountService.signIn(
+        return await AuthService.signIn(
             idToken: idToken, userDeviceToken: userDeviceToken);
       } else {
         return null;

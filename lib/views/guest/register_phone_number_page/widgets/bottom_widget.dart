@@ -4,7 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:petapp_mobile/configs/route.dart';
 import 'package:petapp_mobile/configs/theme.dart';
 import 'package:petapp_mobile/controllers/register_page_controller.dart';
-import 'package:petapp_mobile/services/account_services.dart';
+import 'package:petapp_mobile/services/auth_services.dart';
 import 'package:petapp_mobile/views/widgets/customize_widget.dart';
 
 class RegisterPhoneNumberPageBottomWidget
@@ -31,7 +31,7 @@ class RegisterPhoneNumberPageBottomWidget
                   ..registerPhoneNumber =
                       controller.selectedAreaCode + controller.phoneNumber.value
                   ..isUsedPhoneNumber.value =
-                      await AccountService.checkPhoneNumber(
+                      await AuthService.checkPhoneNumber(
                     phoneNumber:
                         controller.registerPhoneNumber.replaceAll(' ', ''),
                   );

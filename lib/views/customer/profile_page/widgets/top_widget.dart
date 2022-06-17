@@ -1,4 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -31,11 +30,7 @@ class ProfilePageTopWidget extends GetView<ProfilePageController> {
       );
 
   Widget phoneNumberWidget() => InkWell(
-        onTap: () {
-          FirebaseAuth.instance.signOut();
-          Get.deleteAll();
-          Get.offAllNamed(LANDING_PAGE_ROUTE);
-        },
+        onTap: () => controller.isShowTabProfile.value = true,
         child: Row(
           children: [
             Text(
@@ -60,52 +55,6 @@ class ProfilePageTopWidget extends GetView<ProfilePageController> {
 
   Widget topIconWidget() => Row(
         children: [
-          // InkWell(
-          //   onTap: () => Get.toNamed(CHATTING_LIST_PAGE_ROUNTER),
-          //   child: Container(
-          //     height: 35,
-          //     width: 35,
-          //     decoration: BoxDecoration(
-          //       color: WHITE_COLOR,
-          //       borderRadius: BorderRadius.circular(10),
-          //       boxShadow: [
-          //         BoxShadow(
-          //           color: DARK_GREY_COLOR.withOpacity(0.1),
-          //           blurRadius: 5,
-          //           offset: const Offset(2, 2),
-          //         )
-          //       ],
-          //     ),
-          //     child: Stack(
-          //       children: [
-          //         const Positioned(
-          //           bottom: 5,
-          //           left: 5,
-          //           child: Icon(
-          //             Icons.message_outlined,
-          //             color: Color.fromARGB(255, 110, 117, 131),
-          //             size: 22,
-          //           ),
-          //         ),
-          //         Positioned(
-          //           top: 3,
-          //           right: 3,
-          //           child: CircleAvatar(
-          //             backgroundColor: const Color.fromARGB(255, 240, 121, 100),
-          //             radius: 7,
-          //             child: Text(
-          //               '1',
-          //               style: GoogleFonts.itim(
-          //                 fontSize: 12,
-          //                 color: WHITE_COLOR,
-          //               ),
-          //             ),
-          //           ),
-          //         ),
-          //       ],
-          //     ),
-          //   ),
-          // ),
           const SizedBox(
             width: 10,
           ),

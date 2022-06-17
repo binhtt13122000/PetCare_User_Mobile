@@ -6,6 +6,8 @@ import 'package:petapp_mobile/controllers/auth_controller.dart';
 import 'package:petapp_mobile/controllers/personal_information_page_controller.dart';
 import 'package:petapp_mobile/models/customer_model/customer_model.dart';
 import 'package:petapp_mobile/services/customer_services.dart';
+import 'package:petapp_mobile/utilities/utilities.dart';
+import 'package:petapp_mobile/views/widgets/customize_widget.dart';
 
 class PersonalInformationBodyWidget
     extends GetView<PersonalInformationPageController> {
@@ -46,6 +48,126 @@ class PersonalInformationBodyWidget
       ),
     );
   }
+
+  Widget emailWidget() => Padding(
+        padding: const EdgeInsets.only(bottom: 12),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              height: 45,
+              padding: const EdgeInsets.only(
+                right: 25,
+              ),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Text(
+                    'Email',
+                    style: GoogleFonts.quicksand(
+                      fontWeight: FontWeight.w500,
+                      color: const Color.fromARGB(255, 61, 78, 100),
+                      fontSize: 16,
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 3),
+                    child: Icon(
+                      Icons.info_outline_rounded,
+                      size: 15,
+                      color: DARK_GREY_COLOR.withAlpha(100),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Expanded(
+              child: CUSTOM_REQUIRED_TEXT_FIELD(
+                hintText: 'Type your email here...',
+                maxLength: 30,
+                onChange: (String? text) {
+                  controller.email.value = text ?? '';
+                },
+                checkEmptyString: <bool>() {
+                  return controller.email.value.isEmpty;
+                },
+                checkErrorText: <bool>() {
+                  return controller.email.value.isEmpty;
+                },
+                onDelete: () {
+                  controller.email.value = '';
+                },
+                errorText: 'Field first name is required!',
+                initText: controller.email.value,
+                countText: <String>() {
+                  return controller.email.value.length.toString() + '/30';
+                },
+              ),
+            ),
+          ],
+        ),
+      );
+
+  Widget firstNameWidget() => Padding(
+        padding: const EdgeInsets.only(bottom: 12),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              height: 45,
+              padding: const EdgeInsets.only(
+                right: 25,
+              ),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Text(
+                    'First name',
+                    style: GoogleFonts.quicksand(
+                      fontWeight: FontWeight.w500,
+                      color: const Color.fromARGB(255, 61, 78, 100),
+                      fontSize: 16,
+                    ),
+                  ),
+                  Text(
+                    '*',
+                    style: GoogleFonts.quicksand(
+                      fontWeight: FontWeight.w800,
+                      color: const Color.fromARGB(255, 241, 99, 88),
+                      fontSize: 20,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Expanded(
+              child: CUSTOM_REQUIRED_TEXT_FIELD(
+                hintText: 'Type your first name here...',
+                maxLength: 20,
+                onChange: (String? text) {
+                  controller.firstName.value = text ?? '';
+                },
+                checkEmptyString: <bool>() {
+                  return controller.firstName.value.isEmpty;
+                },
+                checkErrorText: <bool>() {
+                  return controller.firstName.value.isEmpty;
+                },
+                onDelete: () {
+                  controller.firstName.value = '';
+                },
+                errorText: 'Field first name is required!',
+                initText: controller.firstName.value,
+                countText: <String>() {
+                  return controller.firstName.value.length.toString() + '/20';
+                },
+              ),
+            ),
+          ],
+        ),
+      );
 
   Widget saveWidget() => InkWell(
         onTap: () async {
@@ -91,96 +213,18 @@ class PersonalInformationBodyWidget
             child: Text(
               'SAVE',
               style: GoogleFonts.quicksand(
-                fontWeight: FontWeight.w500,
+                fontWeight: FontWeight.w700,
                 color: WHITE_COLOR,
                 fontSize: 16,
+                letterSpacing: 2,
               ),
             ),
           ),
         ),
       );
 
-  Widget emailWidget() => Padding(
-        padding: const EdgeInsets.only(bottom: 12),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(right: 25),
-              child: Row(
-                children: [
-                  Text(
-                    'Email',
-                    style: GoogleFonts.quicksand(
-                      fontWeight: FontWeight.w500,
-                      color: const Color.fromARGB(255, 61, 78, 100),
-                      fontSize: 16,
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 3),
-                    child: Icon(
-                      Icons.info_outline_rounded,
-                      size: 15,
-                      color: DARK_GREY_COLOR.withAlpha(100),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            Expanded(
-              child: SizedBox(
-                height: 45,
-                child: TextFormField(
-                  cursorColor: PRIMARY_COLOR,
-                  initialValue: controller.accountModel.customerModel.email,
-                  maxLength: 40,
-                  readOnly: true,
-                  style: GoogleFonts.quicksand(
-                    fontWeight: FontWeight.w500,
-                    color: const Color.fromARGB(255, 78, 98, 124),
-                    fontSize: 16,
-                  ),
-                  decoration: controller
-                          .accountModel.customerModel.email.isEmpty
-                      ? const InputDecoration(
-                          errorText: 'The field title is required',
-                          suffixIcon: Icon(
-                            Icons.error,
-                            color: Color.fromARGB(255, 241, 99, 88),
-                            size: 20,
-                          ),
-                        )
-                      : InputDecoration(
-                          counterText: '',
-                          suffixIcon: Align(
-                            widthFactor: 1,
-                            heightFactor: 1,
-                            child: Text(
-                              controller.accountModel.customerModel.email.length
-                                      .toString() +
-                                  '/40',
-                              style: GoogleFonts.quicksand(
-                                fontWeight: FontWeight.w500,
-                                color: const Color.fromARGB(255, 78, 98, 124),
-                                fontSize: 13,
-                              ),
-                            ),
-                          ),
-                          border: const OutlineInputBorder(),
-                        ),
-                  onChanged: (String? value) {},
-                ),
-              ),
-            ),
-          ],
-        ),
-      );
-
   Widget addressWidget() => Padding(
-        padding:
-            const EdgeInsets.only(top: 20, bottom: 12, left: 12, right: 12),
+        padding: const EdgeInsets.only(top: 20, left: 12, right: 12),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -207,52 +251,28 @@ class PersonalInformationBodyWidget
                 ],
               ),
             ),
-            SizedBox(
-              height: 100,
-              child: TextFormField(
-                cursorColor: PRIMARY_COLOR,
-                initialValue: controller.accountModel.customerModel.address,
-                maxLength: 200,
-                maxLines: 3,
-                style: GoogleFonts.quicksand(
-                  fontWeight: FontWeight.w500,
-                  color: const Color.fromARGB(255, 138, 154, 175),
-                  fontSize: 16,
-                ),
-                decoration: controller.accountModel.phoneNumber.isEmpty
-                    ? const InputDecoration(
-                        errorText: 'The field title is required',
-                        suffixIcon: Icon(
-                          Icons.error,
-                          color: Color.fromARGB(255, 241, 99, 88),
-                          size: 20,
-                        ),
-                      )
-                    : InputDecoration(
-                        counterText: '',
-                        suffixIcon: Container(
-                          width: 30,
-                          alignment: Alignment.bottomRight,
-                          child: Padding(
-                            padding: const EdgeInsets.only(bottom: 5, right: 5),
-                            child: Text(
-                              controller.accountModel.phoneNumber.length
-                                      .toString() +
-                                  '/200',
-                              style: GoogleFonts.quicksand(
-                                fontWeight: FontWeight.w500,
-                                color: const Color.fromARGB(255, 78, 98, 124),
-                                fontSize: 13,
-                              ),
-                            ),
-                          ),
-                        ),
-                        border: const OutlineInputBorder(),
-                      ),
-                onChanged: (String? value) {
-                  controller.address.value = value ?? "";
-                },
-              ),
+            CUSTOM_REQUIRED_TEXT_FIELD(
+              hintText: 'Type your last name here...',
+              maxLength: 200,
+              height: 80,
+              maxLines: 3,
+              onChange: (String? text) {
+                controller.lastName.value = text ?? '';
+              },
+              checkEmptyString: <bool>() {
+                return controller.lastName.value.isEmpty;
+              },
+              checkErrorText: <bool>() {
+                return controller.lastName.value.isEmpty;
+              },
+              onDelete: () {
+                controller.lastName.value = '';
+              },
+              errorText: 'Field last name is required!',
+              initText: controller.lastName.value,
+              countText: <String>() {
+                return controller.lastName.value.length.toString() + '/200';
+              },
             ),
           ],
         ),
@@ -372,130 +392,10 @@ class PersonalInformationBodyWidget
               ),
             ),
             Expanded(
-              child: SizedBox(
-                height: 45,
-                child: TextFormField(
-                  cursorColor: PRIMARY_COLOR,
-                  initialValue: controller.accountModel.phoneNumber,
-                  maxLength: 15,
-                  readOnly: true,
-                  style: GoogleFonts.quicksand(
-                    fontWeight: FontWeight.w500,
-                    color: const Color.fromARGB(255, 78, 98, 124),
-                    fontSize: 16,
-                  ),
-                  decoration: controller.accountModel.phoneNumber.isEmpty
-                      ? const InputDecoration(
-                          errorText: 'The field title is required',
-                          suffixIcon: Icon(
-                            Icons.error,
-                            color: Color.fromARGB(255, 241, 99, 88),
-                            size: 20,
-                          ),
-                        )
-                      : InputDecoration(
-                          counterText: '',
-                          suffixIcon: Align(
-                            widthFactor: 1,
-                            heightFactor: 1,
-                            child: Text(
-                              controller.accountModel.phoneNumber.length
-                                      .toString() +
-                                  '/15',
-                              style: GoogleFonts.quicksand(
-                                fontWeight: FontWeight.w500,
-                                color: const Color.fromARGB(255, 78, 98, 124),
-                                fontSize: 13,
-                              ),
-                            ),
-                          ),
-                          border: const OutlineInputBorder(),
-                        ),
-                  onChanged: (String? value) {},
-                ),
-              ),
-            ),
-          ],
-        ),
-      );
-
-  Widget firstNameWidget() => Padding(
-        padding: const EdgeInsets.only(bottom: 12),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(right: 25),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Text(
-                    'First name',
-                    style: GoogleFonts.quicksand(
-                      fontWeight: FontWeight.w500,
-                      color: const Color.fromARGB(255, 61, 78, 100),
-                      fontSize: 16,
-                    ),
-                  ),
-                  Text(
-                    '*',
-                    style: GoogleFonts.quicksand(
-                      fontWeight: FontWeight.w800,
-                      color: const Color.fromARGB(255, 241, 99, 88),
-                      fontSize: 20,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            Expanded(
-              child: SizedBox(
-                height: 45,
-                child: TextFormField(
-                  cursorColor: PRIMARY_COLOR,
-                  initialValue: controller.accountModel.customerModel.firstName,
-                  maxLength: 40,
-                  maxLines: 1,
-                  style: GoogleFonts.quicksand(
-                    fontWeight: FontWeight.w500,
-                    color: const Color.fromARGB(255, 78, 98, 124),
-                    fontSize: 16,
-                  ),
-                  decoration: controller
-                          .accountModel.customerModel.firstName.isEmpty
-                      ? const InputDecoration(
-                          errorText: 'The field title is required',
-                          suffixIcon: Icon(
-                            Icons.error,
-                            color: Color.fromARGB(255, 241, 99, 88),
-                            size: 20,
-                          ),
-                        )
-                      : InputDecoration(
-                          counterText: '',
-                          suffixIcon: Container(
-                            width: 30,
-                            alignment: Alignment.centerRight,
-                            margin: const EdgeInsets.only(right: 5),
-                            child: Text(
-                              controller.accountModel.customerModel.firstName
-                                      .length
-                                      .toString() +
-                                  '/40',
-                              style: GoogleFonts.quicksand(
-                                fontWeight: FontWeight.w500,
-                                color: const Color.fromARGB(255, 78, 98, 124),
-                                fontSize: 13,
-                              ),
-                            ),
-                          ),
-                          border: const OutlineInputBorder(),
-                        ),
-                  onChanged: (String? value) {
-                    controller.firstName.value = value ?? "";
-                  },
-                ),
+              child: CUSTOM_DISABLE_TEXT_FIELD(
+                initText: controller.accountModel.phoneNumber,
+                textInputFormatter: CustomTextFormatter(
+                    sample: 'xxx xx xxx xx xx', separator: ' '),
               ),
             ),
           ],
@@ -506,10 +406,13 @@ class PersonalInformationBodyWidget
         padding: const EdgeInsets.only(bottom: 12),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          crossAxisAlignment: CrossAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Padding(
-              padding: const EdgeInsets.only(right: 25),
+            Container(
+              height: 45,
+              padding: const EdgeInsets.only(
+                right: 25,
+              ),
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
@@ -533,50 +436,26 @@ class PersonalInformationBodyWidget
               ),
             ),
             Expanded(
-              child: SizedBox(
-                height: 45,
-                child: TextFormField(
-                  cursorColor: PRIMARY_COLOR,
-                  initialValue: controller.accountModel.customerModel.lastName,
-                  maxLength: 40,
-                  style: GoogleFonts.quicksand(
-                    fontWeight: FontWeight.w500,
-                    color: const Color.fromARGB(255, 78, 98, 124),
-                    fontSize: 16,
-                  ),
-                  decoration: controller
-                          .accountModel.customerModel.lastName.isEmpty
-                      ? const InputDecoration(
-                          errorText: 'The field title is required',
-                          suffixIcon: Icon(
-                            Icons.error,
-                            color: Color.fromARGB(255, 241, 99, 88),
-                            size: 20,
-                          ),
-                        )
-                      : InputDecoration(
-                          counterText: '',
-                          suffixIcon: Align(
-                            widthFactor: 1,
-                            heightFactor: 1,
-                            child: Text(
-                              controller.accountModel.customerModel.lastName
-                                      .length
-                                      .toString() +
-                                  '/40',
-                              style: GoogleFonts.quicksand(
-                                fontWeight: FontWeight.w500,
-                                color: const Color.fromARGB(255, 78, 98, 124),
-                                fontSize: 13,
-                              ),
-                            ),
-                          ),
-                          border: const OutlineInputBorder(),
-                        ),
-                  onChanged: (String? value) {
-                    controller.lastName.value = value ?? "";
-                  },
-                ),
+              child: CUSTOM_REQUIRED_TEXT_FIELD(
+                hintText: 'Type your last name here...',
+                maxLength: 20,
+                onChange: (String? text) {
+                  controller.lastName.value = text ?? '';
+                },
+                checkEmptyString: <bool>() {
+                  return controller.lastName.value.isEmpty;
+                },
+                checkErrorText: <bool>() {
+                  return controller.lastName.value.isEmpty;
+                },
+                onDelete: () {
+                  controller.lastName.value = '';
+                },
+                errorText: 'Field last name is required!',
+                initText: controller.lastName.value,
+                countText: <String>() {
+                  return controller.lastName.value.length.toString() + '/20';
+                },
               ),
             ),
           ],

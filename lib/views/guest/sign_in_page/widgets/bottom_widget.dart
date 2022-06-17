@@ -4,7 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:petapp_mobile/configs/route.dart';
 import 'package:petapp_mobile/configs/theme.dart';
 import 'package:petapp_mobile/controllers/sign_in_page_controller.dart';
-import 'package:petapp_mobile/services/account_services.dart';
+import 'package:petapp_mobile/services/auth_services.dart';
 import 'package:petapp_mobile/views/widgets/customize_widget.dart';
 
 class SignInBottomWidget extends GetView<SignInPageController> {
@@ -30,7 +30,7 @@ class SignInBottomWidget extends GetView<SignInPageController> {
                   ..signInPhoneNumber =
                       controller.selectedAreaCode + controller.phoneNumber.value
                   ..isUsedPhoneNumber.value =
-                      await AccountService.checkPhoneNumber(
+                      await AuthService.checkPhoneNumber(
                           phoneNumber:
                               controller.signInPhoneNumber.replaceAll(' ', ''));
                 if (controller.isUsedPhoneNumber.value) {

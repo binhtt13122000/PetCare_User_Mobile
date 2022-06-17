@@ -15,7 +15,7 @@ class RegisterPageBodyWidget extends GetView<RegisterPageController> {
       child: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.only(
-            top: 10,
+            top: 20,
           ),
           child: Column(
             children: [

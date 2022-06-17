@@ -6,7 +6,7 @@ import 'package:petapp_mobile/configs/theme.dart';
 import 'package:petapp_mobile/controllers/auth_controller.dart';
 import 'package:petapp_mobile/controllers/register_page_controller.dart';
 import 'package:petapp_mobile/models/account_model/account_model.dart';
-import 'package:petapp_mobile/services/account_services.dart';
+import 'package:petapp_mobile/services/auth_services.dart';
 
 class RegisterPageBottomWidget extends GetView<RegisterPageController> {
   const RegisterPageBottomWidget({Key? key}) : super(key: key);
@@ -21,7 +21,7 @@ class RegisterPageBottomWidget extends GetView<RegisterPageController> {
                     controller.lastName.value.isNotEmpty &&
                     controller.phoneNumber.isNotEmpty) {
                   controller.isLoadingRegister.value = true;
-                  AccountModel? accountModel = await AccountService.register(
+                  AccountModel? accountModel = await AuthService.register(
                     email: controller.email.value,
                     firstName: controller.firstName.value,
                     lastName: controller.lastName.value,
@@ -48,16 +48,21 @@ class RegisterPageBottomWidget extends GetView<RegisterPageController> {
               child: Container(
                 height: 40,
                 decoration: BoxDecoration(
+                  color: controller.firstName.value.isNotEmpty &&
+                          controller.lastName.value.isNotEmpty
+                      ? PRIMARY_COLOR.withOpacity(0.9)
+                      : PRIMARY_COLOR.withOpacity(0.3),
+                  borderRadius: BorderRadius.circular(5),
+                  border: Border.all(
                     color: controller.firstName.value.isNotEmpty &&
-                            controller.lastName.value.isNotEmpty &&
-                            controller.phoneNumber.isNotEmpty
-                        ? PRIMARY_COLOR.withOpacity(0.9)
-                        : PRIMARY_COLOR.withOpacity(0.3),
-                    borderRadius: BorderRadius.circular(5),
-                    border: Border.all(color: PRIMARY_COLOR)),
+                            controller.lastName.value.isNotEmpty
+                        ? PRIMARY_COLOR
+                        : Colors.transparent,
+                  ),
+                ),
                 alignment: Alignment.center,
                 child: Text(
-                  'Register',
+                  'REGISTER',
                   style: GoogleFonts.quicksand(
                     fontWeight: FontWeight.w700,
                     color: WHITE_COLOR,

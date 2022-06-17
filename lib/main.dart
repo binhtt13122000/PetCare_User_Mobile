@@ -40,7 +40,7 @@ import 'package:petapp_mobile/configs/route.dart';
 import 'package:petapp_mobile/controllers/auth_controller.dart';
 import 'package:petapp_mobile/controllers/sign_in_page_controller.dart';
 import 'package:petapp_mobile/models/account_model/account_model.dart';
-import 'package:petapp_mobile/services/account_services.dart';
+import 'package:petapp_mobile/services/auth_services.dart';
 import 'package:petapp_mobile/views/customer/action_page/action_page.dart';
 import 'package:petapp_mobile/views/customer/app_logo_page/app_logon_page.dart';
 import 'package:petapp_mobile/views/customer/breeding_transaction_detail_page/breeding_transaction_detail_page.dart';
@@ -145,7 +145,7 @@ void main() async {
     SignInPageController signInPageController = Get.put(SignInPageController());
     await signInPageController.setUserDeviceToken();
 
-    AccountModel? accountModel = await AccountService.signIn(
+    AccountModel? accountModel = await AuthService.signIn(
       idToken: idToken,
       userDeviceToken: signInPageController.userDeviceToken,
     );

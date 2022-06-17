@@ -86,6 +86,9 @@ const ACTION_UNSELECTED_SVG = 'action_unselected.svg';
 const CHAT_UNSELECTED_SVG = 'chat_unselected.svg';
 const HOME_UNSELECTED_SVG = 'home_unselected.svg';
 const PROFILE_UNSELECTED_SVG = 'profile_unselected.svg';
+const PET_GROOMING_PNG = 'pet_grooming.png';
+const PET_SHOWER_PNG = 'pet_shower.png';
+const PET_VACCINATION_PNG = 'pet_vaccination.png';
 
 // const API_SERVER = '10.1.127.196:4000';
 // const GRAPHL_SERVER = 'http://10.1.127.196:8080';
@@ -143,3 +146,6 @@ const PET_COMBO_RETURN_API_PATH = '/v1/api/pet-combos/vnpay/vnpay_return';
 const PET_COMBO_DETAIL_API_PATH = '/v1/api/pet-combo-services';
 //* pet health record
 const PET_HEALTH_RECORD_API_PATH = '/v1/api/health-pet-records';
+
+//*auth
+const AUTH_API_PATH = '/v1/api/auth';
