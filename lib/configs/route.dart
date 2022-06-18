@@ -50,6 +50,7 @@ const PET_MANAGEMENT_PAGE_ROUTE = '/pet-management';
 const PET_WEIGHT_PAGE_ROUTE = '/pet-management/pet-detail/pet-weight';
 const UPDATE_PET_PAGE_ROUTE = '/pet-management/update-pet';
 const PET_COMBO_DETAIL_PAGE_ROUTE = '/pet-management/pet-combo-detail';
+const PET_BLOCK_CHAIN_PAGE_ROUTE = '/pet-management/pet-block-chain';
 
 //chatting
 const CHATTING_LIST_PAGE_ROUTE = '/chatting-list';
