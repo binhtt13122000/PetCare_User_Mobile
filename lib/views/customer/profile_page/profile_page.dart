@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:petapp_mobile/configs/route.dart';
+import 'package:petapp_mobile/configs/theme.dart';
 import 'package:petapp_mobile/controllers/auth_controller.dart';
 import 'package:petapp_mobile/controllers/profile_page_controller.dart';
 import 'package:petapp_mobile/services/customer_services.dart';
 import 'package:petapp_mobile/views/customer/custom_bottom_navigation_bar/custom_bottom_navigator_bar.dart';
 import 'package:petapp_mobile/views/customer/profile_page/widgets/body_widget.dart';
+import 'package:petapp_mobile/views/customer/profile_page/widgets/tab_widget.dart';
 import 'package:petapp_mobile/views/customer/profile_page/widgets/top_widget.dart';
 import 'package:petapp_mobile/views/widgets/customize_widget.dart';
 
@@ -50,6 +52,16 @@ class ProfilePage extends GetView<ProfilePageController> {
           const Align(
             alignment: Alignment.bottomCenter,
             child: CustomBottomNavigatorBarWidget(route: PROFILE_PAGE_ROUTE),
+          ),
+          const ProfileTabWidget(),
+          Obx(
+            () => Visibility(
+              visible: controller.isWaitingSignOut.value,
+              child: Container(
+                color: DARK_GREY_TRANSPARENT,
+                child: LOADING_WIDGET(),
+              ),
+            ),
           ),
         ],
       ),

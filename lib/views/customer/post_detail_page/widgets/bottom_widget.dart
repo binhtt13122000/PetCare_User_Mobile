@@ -14,7 +14,7 @@ class PostDetailBottomWidget extends GetView<PostDetailPageController> {
         children: [
           Container(
             height: 1,
-            color: LIGHT_GREY_COLOR.withOpacity(0.1),
+            color: LIGHT_GREY_COLOR.withAlpha(30),
           ),
           Container(
             color: WHITE_COLOR,
@@ -55,11 +55,18 @@ class PostDetailBottomWidget extends GetView<PostDetailPageController> {
                 Visibility(
                   visible: controller.accountModel.customerModel.id ==
                           controller.postModel.customerId &&
-                      controller.postModel.status == "REQUESTED",
+                      (controller.postModel.status == "REQUESTED" ||
+                          controller.postModel.status == "CANCELED"),
                   child: Expanded(
                     child: InkWell(
-                      onTap: () => Get.toNamed(
-                          '$UPDATE_SALE_POST_PAGE_ROUTE/${controller.postModel.id}'),
+                      onTap: () => controller.postModel.status == "REQUESTED"
+                          ? Get.toNamed(
+                              '$UPDATE_SALE_POST_PAGE_ROUTE/${controller.postModel.id}')
+                          : {
+                              controller
+                                ..confirmType = 'REOPEN'
+                                ..isShowConfirmPopup.value = true
+                            },
                       child: Container(
                         height: 40,
                         margin: const EdgeInsets.symmetric(horizontal: 12),
@@ -67,11 +74,13 @@ class PostDetailBottomWidget extends GetView<PostDetailPageController> {
                         decoration: const BoxDecoration(
                           color: PRIMARY_COLOR,
                           borderRadius: BorderRadius.all(
-                            Radius.circular(15),
+                            Radius.circular(10),
                           ),
                         ),
                         child: Text(
-                          'Update post information',
+                          controller.postModel.status == "REQUESTED"
+                              ? 'Update Post Information'
+                              : 'Reopen Post',
                           style: GoogleFonts.quicksand(
                             fontSize: 14,
                             color: WHITE_COLOR,

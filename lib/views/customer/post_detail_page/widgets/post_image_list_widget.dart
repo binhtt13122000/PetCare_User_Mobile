@@ -28,7 +28,7 @@ class PostDetailImageListWidget extends GetView<PostDetailPageController> {
         ),
         Container(
           height: 8,
-          color: const Color.fromARGB(255, 247, 248, 250),
+          color: SUPPER_LIGHT_BLUE,
         )
       ],
     );

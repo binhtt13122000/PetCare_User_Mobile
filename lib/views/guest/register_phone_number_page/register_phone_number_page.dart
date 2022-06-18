@@ -29,7 +29,7 @@ class RegisterPhoneNumberPage extends GetView<RegisterPageController> {
           Obx(
             () => controller.isLoadingPhoneCredential.value
                 ? Container(
-                    color: const Color.fromARGB(75, 249, 236, 253),
+                    color: DARK_GREY_TRANSPARENT,
                     child: const SpinKitSpinningLines(
                       color: PRIMARY_COLOR,
                       size: 150,

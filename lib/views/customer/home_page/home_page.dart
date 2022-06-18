@@ -23,7 +23,6 @@ class HomePage extends GetView<HomePageController> {
       sound: true,
     );
 
-
     // void showNotification(
     //     String title, String body, String? metaData, String type) async {
     //   await demoNotification(title, body, metaData, type);
@@ -42,7 +41,6 @@ class HomePage extends GetView<HomePageController> {
     });
 
     FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
-
       RemoteNotification? remoteNotification = message.notification;
       AndroidNotification? androidNotification = message.notification?.android;
       if (remoteNotification != null && androidNotification != null) {

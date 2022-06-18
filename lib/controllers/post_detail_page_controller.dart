@@ -11,4 +11,10 @@ class PostDetailPageController extends GetxController {
   RxBool isShowLoadingPost = false.obs;
   ScrollController mainScrollController = ScrollController();
   AccountModel accountModel = Get.find<AuthController>().accountModel;
+  RxBool isShowMoreOptionWidget = false.obs;
+  RxBool isShowConfirmPopup = false.obs;
+  String notificationPopupTitle = '';
+  RxBool isWaitLoadingDataForeGround = false.obs;
+  RxBool isShowNotificationPopup = false.obs;
+  late String confirmType;
 }

@@ -2,14 +2,18 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:petapp_mobile/configs/path.dart';
 import 'package:petapp_mobile/models/account_model/account_model.dart';
 import 'package:petapp_mobile/services/firebase_messaging_services.dart';
 
 class RegisterPageController extends GetxController {
+  late int? resendingToken;
+  TextEditingController textEditingController = TextEditingController();
   RxString firstName = ''.obs;
   RxBool isFirstInputFirstName = true.obs;
+  late String registerPhoneNumber;
 
   RxString lastName = ''.obs;
   RxBool isFirstInputLastName = true.obs;
@@ -17,11 +21,10 @@ class RegisterPageController extends GetxController {
   RxString gender = 'MALE'.obs;
 
   RxString phoneNumber = ''.obs;
-  RxBool isFirstInputPhoneNumber = true.obs;
+  bool isFirstInputPhoneNumber = true;
   RxBool isUsedPhoneNumber = false.obs;
 
   RxString otp = ''.obs;
-  RxBool isFirstInputOTP = true.obs;
   RxBool isInvalidOTP = false.obs;
   RxString email = ''.obs;
 
@@ -51,33 +54,11 @@ class RegisterPageController extends GetxController {
   late String userDeviceToken;
   AccountModel? accountModel;
 
-  late PhoneAuthCredential phoneAuthCredential;
   late UserCredential userCredential;
   late String accessToken;
 
-  // Future<AccountModel?> signInWithPhoneAuthCredential(
-  //     PhoneAuthCredential phoneAuthCredential) async {
-  //   isLoadingPhoneCredential.value = true;
-  //   try {
-  //     Get.offAndToNamed(HOME_PAGE_ROUNTER);
-
-  //     final UserCredential authCredential =
-  //         await auth.signInWithCredential(phoneAuthCredential);
-  //     isLoadingPhoneCredential.value = false;
-  //     String idToken = await authCredential.user!.getIdToken();
-  //     if (authCredential.user != null) {
-  //       await setUserDeviceToken();
-  //       return await AccountService.signIn(
-  //           idToken: idToken, userDeviceToken: userDeviceToken);
-  //     }
-  //   } on FirebaseAuthException catch (e) {
-  //     print(e);
-  //     isLoadingPhoneCredential.value = false;
-  //   }
-  //   return null;
-  // }
-
   startTimer() {
+    countDownTime.value = maxTime;
     Timer.periodic(
       const Duration(seconds: 1),
       (timer) {

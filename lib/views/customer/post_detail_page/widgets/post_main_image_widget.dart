@@ -63,18 +63,21 @@ class PostDetailMainImageWidget extends GetView<PostDetailPageController> {
   Widget bookmarkButtonBackgroundWidget() => Positioned(
         right: 67,
         top: 30,
-        child: CircleAvatar(
-          radius: 20,
-          backgroundColor: WHITE_COLOR.withOpacity(0.5),
-          child: GRADIENT_WIDGET(
-            gradient: const LinearGradient(colors: [
-              Color.fromARGB(255, 123, 41, 255),
-              Color.fromARGB(255, 5, 209, 73),
-            ]),
-            child: SvgPicture.asset(
-              ICON_PATH + BOOKMARK_SVG,
-              height: 20,
-              color: DARK_GREY_COLOR,
+        child: InkWell(
+          onTap: () {},
+          child: CircleAvatar(
+            radius: 20,
+            backgroundColor: WHITE_COLOR.withOpacity(0.5),
+            child: GRADIENT_WIDGET(
+              gradient: const LinearGradient(colors: [
+                Color.fromARGB(255, 123, 41, 255),
+                Color.fromARGB(255, 5, 209, 73),
+              ]),
+              child: SvgPicture.asset(
+                ICON_PATH + BOOKMARK_SVG,
+                height: 20,
+                color: DARK_GREY_COLOR,
+              ),
             ),
           ),
         ),
@@ -96,6 +99,7 @@ class PostDetailMainImageWidget extends GetView<PostDetailPageController> {
         right: 15,
         top: 30,
         child: InkWell(
+          onTap: () => controller.isShowMoreOptionWidget.value = true,
           child: CircleAvatar(
             radius: 20,
             backgroundColor: WHITE_COLOR.withOpacity(0.5),
@@ -122,6 +126,7 @@ class PostDetailMainImageWidget extends GetView<PostDetailPageController> {
         right: 26.7,
         top: 40.8,
         child: InkWell(
+          onTap: () => controller.isShowMoreOptionWidget.value = true,
           child: SvgPicture.asset(
             ICON_PATH + ELLIPSIS_SVG,
             height: 15,

@@ -37,16 +37,21 @@ class BuyServicesComboBodyWidget
                           WidgetsBinding.instance!
                               .addPostFrameCallback((timeStamp) async {
                             controller
+                              // ..petModelList =
+                              //     await PetService.fetchPetListToCreatePost(
+                              //         customerId: controller
+                              //             .accountModel.customerModel.id,
+                              //         speciesId: controller
+                              //                 .isShowPetFilter.value
+                              //             ? controller.selectedSpeciesId.value
+                              //             : null)
                               ..petModelList =
-                                  await PetService.fetchPetListToCreatePost(
-                                      customerId: controller
-                                          .accountModel.customerModel.id,
-                                      speciesId: controller
-                                              .isShowPetFilter.value
-                                          ? controller.selectedSpeciesId.value
-                                          : null)
+                                  await PetService.fetchPetListByCustomerId(
+                                controller.accountModel.customerModel.id,
+                              )
                               ..selectedPetId.value =
-                                  controller.selectedPetId.value == -1
+                                  controller.selectedPetId.value == -1 &&
+                                          controller.petModelList.isNotEmpty
                                       ? controller.petModelList[0].id
                                       : controller.selectedPetId.value
                               ..isWaitLoadingPet.value = false

@@ -40,7 +40,7 @@ import 'package:petapp_mobile/configs/route.dart';
 import 'package:petapp_mobile/controllers/auth_controller.dart';
 import 'package:petapp_mobile/controllers/sign_in_page_controller.dart';
 import 'package:petapp_mobile/models/account_model/account_model.dart';
-import 'package:petapp_mobile/services/account_services.dart';
+import 'package:petapp_mobile/services/auth_services.dart';
 import 'package:petapp_mobile/views/customer/action_page/action_page.dart';
 import 'package:petapp_mobile/views/customer/app_logo_page/app_logon_page.dart';
 import 'package:petapp_mobile/views/customer/breeding_transaction_detail_page/breeding_transaction_detail_page.dart';
@@ -65,6 +65,7 @@ import 'package:petapp_mobile/views/customer/post_detail_page/post_detail_page.d
 import 'package:petapp_mobile/views/customer/post_management_page/post_management_page.dart';
 import 'package:petapp_mobile/views/customer/profile_page/profile_page.dart';
 import 'package:petapp_mobile/views/customer/purchase_posts_filter_page/purchase_posts_filter_page.dart';
+import 'package:petapp_mobile/views/customer/remove_ticks_history_page/remove_ticks_history_page.dart';
 import 'package:petapp_mobile/views/customer/sale_post_list_page/sale_post_page.dart';
 import 'package:petapp_mobile/views/customer/sale_transaction_detail_page/sale_transaction_detail_page.dart';
 import 'package:petapp_mobile/views/customer/ticket_detail_page/ticket_detail_page.dart';
@@ -79,7 +80,6 @@ import 'package:petapp_mobile/views/guest/register_phone_number_page/register_ph
 import 'package:petapp_mobile/views/guest/sign_in_page/sign_in_page.dart';
 import 'package:petapp_mobile/views/guest/sign_in_verification_otp_page/sign_in_verification_otp_page.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:petapp_mobile/views/remove_ticks_history_page/remove_ticks_history_page.dart';
 
 final GlobalKey<NavigatorState> navigatorKey =
     GlobalKey(debugLabel: "Main Navigator");
@@ -134,16 +134,18 @@ void main() async {
   }
 
   late String initRoute;
-
+  late bool isAuth;
   if (FirebaseAuth.instance.currentUser == null) {
     initRoute = LANDING_PAGE_ROUTE;
+    isAuth = false;
   } else {
+    isAuth = true;
     String idToken = await FirebaseAuth.instance.currentUser!.getIdToken();
 
     SignInPageController signInPageController = Get.put(SignInPageController());
     await signInPageController.setUserDeviceToken();
 
-    AccountModel? accountModel = await AccountService.signIn(
+    AccountModel? accountModel = await AuthService.signIn(
       idToken: idToken,
       userDeviceToken: signInPageController.userDeviceToken,
     );
@@ -154,11 +156,15 @@ void main() async {
           fenix: true);
       initRoute = HOME_PAGE_ROUTE;
     } else {
+      FirebaseAuth.instance.signOut();
       initRoute = LANDING_PAGE_ROUTE;
     }
   }
 
-  Get.offNamed(initRoute);
+  Future.delayed(
+    Duration(seconds: isAuth ? 0 : 2),
+    () => Get.offNamed(initRoute),
+  );
 }
 
 onSelectNotification(String? type, String? metaData) async {
@@ -207,6 +213,14 @@ onSelectNotification(String? type, String? metaData) async {
         id != null
             ? Get.toNamed('$BREEDING_TRANSACTION_DETAIL_PAGE_ROUTE/$id')
             : Get.toNamed(TRANSACTION_PAGE_ROUTE);
+      }
+      break;
+    case 'AVAILABLE_SERVICE_IN_COMBO':
+      if (metaData != null) {
+        var id = int.tryParse(metaData);
+        id != null
+            ? Get.toNamed('$PET_COMBO_DETAIL_PAGE_ROUTE/$id')
+            : Get.toNamed(PET_MANAGEMENT_PAGE_ROUTE);
       }
       break;
     default:

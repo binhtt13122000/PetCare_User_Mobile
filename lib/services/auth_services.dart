@@ -6,7 +6,31 @@ import 'package:petapp_mobile/models/customer_model/customer_model.dart';
 import 'package:dio/dio.dart';
 import 'dart:io';
 
-class AccountService {
+class AuthService {
+  static Future<String> signOut({
+    required int accountId,
+    required String deviceToken,
+  }) async {
+    final response = await http.post(
+      Uri.http(API_SERVER_PATH, '$AUTH_API_PATH/logout'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode({
+        'id': accountId,
+        'fcmToken': deviceToken,
+      }),
+    );
+    switch (response.statusCode) {
+      case 200:
+      case 201:
+      case 202:
+        return json.decode(response.body)['data']['status'];
+      default:
+        throw Exception('Error ${response.statusCode}, cannot sign out');
+    }
+  }
+
   static AccountModel getAccount(Map<String, dynamic> jsonData) {
     Map<String, dynamic> userJson = jsonData['user'];
     AccountModel accountModel = AccountModel.fromJson(userJson);
@@ -35,7 +59,11 @@ class AccountService {
       case 200:
       case 201:
       case 202:
-        return getAccount(json.decode(response.body)['data']);
+        if (json.decode(response.body)['data']['status'] == 'SUCCESS') {
+          return getAccount(json.decode(response.body)['data']);
+        } else {
+          return null;
+        }
       default:
         return null;
     }

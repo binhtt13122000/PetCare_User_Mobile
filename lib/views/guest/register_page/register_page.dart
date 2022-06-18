@@ -14,7 +14,7 @@ class RegisterUserInformationPage extends GetView<RegisterPageController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color.fromARGB(255, 250, 251, 255),
+      backgroundColor: WHITE_COLOR,
       body: Stack(
         children: [
           Column(
