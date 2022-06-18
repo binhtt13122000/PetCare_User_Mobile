@@ -19,7 +19,8 @@ class PostService {
     return postList;
   }
 
-  static List<PostModelHasura> getPostHasuraList(Map<String, dynamic> jsonData) {
+  static List<PostModelHasura> getPostHasuraList(
+      Map<String, dynamic> jsonData) {
     final postListJson = jsonData['post'] as List;
     final List<PostModelHasura> postList = List.empty(growable: true);
     for (var element in postListJson) {
@@ -34,6 +35,36 @@ class PostService {
       postList.add(PostModel.fromJson(element));
     }
     return postList;
+  }
+
+  static Future<int?> updatePostStatusByPostId(
+      {required int postId,
+      required bool isVaccineInject,
+      required String postStatus}) async {
+    final response = await http.patch(
+      Uri.http(API_SERVER_PATH, POST_API_PATH),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(
+        {
+          'id': postId,
+          'status': postStatus,
+          'reasonReject': null,
+          'rejectTime': null,
+          'isVaccineInject': isVaccineInject
+        },
+      ),
+    );
+
+    switch (response.statusCode) {
+      case 200:
+      case 201:
+      case 202:
+        return json.decode(response.body)['data']['id'];
+      default:
+        throw Exception('Error ${response.statusCode}, cannot cancel post');
+    }
   }
 
   static Future updatePost({

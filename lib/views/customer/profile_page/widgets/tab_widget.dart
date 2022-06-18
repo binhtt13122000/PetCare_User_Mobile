@@ -16,54 +16,58 @@ class ProfileTabWidget extends GetView<ProfilePageController> {
           visible: controller.isShowTabProfile.value,
           child: InkWell(
             onTap: () => controller.isShowTabProfile.value = false,
-            child: Container(
-              color: DARK_GREY_TRANSPARENT,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Column(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(top: 70, left: 12),
-                        child: InkWell(
-                          onTap: () {},
-                          child: Container(
-                            width: 200,
-                            height: 240,
-                            decoration: BoxDecoration(
-                              color: WHITE_COLOR,
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                buttonWidget(content: 'Hi', onTap: () {}),
-                                buttonWidget(content: 'Guy', onTap: () {}),
-                                buttonWidget(content: 'Me Luci', onTap: () {}),
-                                buttonWidget(
-                                    content: 'Sign out',
-                                    isImportant: true,
-                                    onTap: () async {
-                                      controller.isWaitingSignOut.value = true;
-                                      await controller.setUserDeviceToken();
-                                      await FirebaseAuth.instance.signOut();
-                                      await AuthService.signOut(
-                                          accountId: controller.accountModel.id,
-                                          deviceToken:
-                                              controller.userDeviceToken);
-                                      Get.deleteAll();
-                                      Get.offAllNamed(LANDING_PAGE_ROUTE);
-                                    })
-                              ],
-                            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Column(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(top: 70, left: 12),
+                      child: InkWell(
+                        onTap: () {},
+                        child: Container(
+                          width: 200,
+                          height: 240,
+                          decoration: BoxDecoration(
+                            color: WHITE_COLOR,
+                            borderRadius: BorderRadius.circular(10),
+                            boxShadow: [
+                              BoxShadow(
+                                color: DARK_GREY_COLOR.withOpacity(0.5),
+                                offset: const Offset(3, 3),
+                                blurRadius: 3,
+                              ),
+                            ],
+                          ),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              buttonWidget(content: 'Hi', onTap: () {}),
+                              buttonWidget(content: 'Guy', onTap: () {}),
+                              buttonWidget(content: 'Me Luci', onTap: () {}),
+                              buttonWidget(
+                                  content: 'Sign out',
+                                  isImportant: true,
+                                  onTap: () async {
+                                    controller.isWaitingSignOut.value = true;
+                                    await controller.setUserDeviceToken();
+                                    await FirebaseAuth.instance.signOut();
+                                    await AuthService.signOut(
+                                        accountId: controller.accountModel.id,
+                                        deviceToken:
+                                            controller.userDeviceToken);
+                                    Get.deleteAll();
+                                    Get.offAllNamed(LANDING_PAGE_ROUTE);
+                                  })
+                            ],
                           ),
                         ),
                       ),
-                      const Spacer(flex: 1),
-                    ],
-                  ),
-                ],
-              ),
+                    ),
+                    const Spacer(flex: 1),
+                  ],
+                ),
+              ],
             ),
           ),
         ),

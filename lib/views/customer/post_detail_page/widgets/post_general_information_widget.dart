@@ -30,6 +30,10 @@ class PostDetailGeneralInformationWidget
                   textOverflow: TextOverflow.clip,
                 ),
                 priceWidget(),
+                Visibility(
+                    visible: controller.accountModel.customerModel.id ==
+                        controller.postModel.customerId,
+                    child: statusWidget()),
                 informationCartList(),
               ],
             ),
@@ -37,21 +41,66 @@ class PostDetailGeneralInformationWidget
           Container(
             height: 1,
             margin: const EdgeInsets.only(top: 5),
-            color: LIGHT_GREY_COLOR.withOpacity(0.1),
+            color: LIGHT_GREY_COLOR.withAlpha(30),
           ),
           Container(
             height: 8,
-            color: const Color.fromARGB(255, 247, 248, 250),
+            color: SUPPER_LIGHT_BLUE,
           ),
         ],
       );
+
+  Widget statusWidget() {
+    late Color color;
+    late String statusText;
+
+    switch (controller.postModel.status) {
+      case 'REQUESTED':
+        color = YELLOW_COLOR.withOpacity(0.8);
+        statusText = 'Waiting for approved';
+        break;
+      case 'REJECTED':
+        color = RED_COLOR;
+        statusText = 'Rejected';
+        break;
+      case 'PUBLISHED':
+        color = GREEN_COLOR;
+        statusText = 'Published for anyone';
+        break;
+      case 'CLOSED':
+        color = DARK_GREY_TEXT_COLOR.withOpacity(0.7);
+        statusText = 'Closed';
+        break;
+      case 'WAITING_FOR_PAYMENT':
+        color = YELLOW_COLOR;
+        statusText = 'Waiting for buyer payment';
+        break;
+      case 'CANCELED':
+        color = RED_COLOR;
+        statusText = 'Canceled';
+        break;
+      default:
+        color = YELLOW_COLOR;
+        statusText = controller.postModel.status;
+    }
+    return Row(children: [
+      CUSTOM_TEXT(
+        'Status: ',
+        color: DARK_GREY_TEXT_COLOR.withOpacity(0.8),
+      ),
+      CUSTOM_TEXT(
+        statusText,
+        color: color,
+      )
+    ]);
+  }
 
   Widget petBreedInformationWidget() => Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           CUSTOM_TEXT('[${controller.postModel.type}] ',
-              fontSize: 20,
-              letterSpacing: 1,
+              fontSize: 16,
+              letterSpacing: 0,
               color: controller.postModel.type == 'SALE'
                   ? BLUE_COLOR
                   : PINK_COLOR),
@@ -59,10 +108,12 @@ class PostDetailGeneralInformationWidget
             controller.postModel.petModel!.breedModel!.name,
             fontSize: 20,
             fontWeight: FontWeight.w700,
-            letterSpacing: 1.5,
+            letterSpacing: 1,
+            color: DARK_GREY_TEXT_COLOR.withOpacity(0.85),
           ),
           CUSTOM_TEXT(
             ' (${controller.postModel.petModel!.breedModel!.speciesModel!.name})',
+            color: DARK_GREY_TEXT_COLOR.withOpacity(0.85),
           ),
         ],
       );
@@ -76,15 +127,16 @@ class PostDetailGeneralInformationWidget
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               CUSTOM_TEXT(
-                'Pet price: ',
-                fontSize: 22,
+                'Price: ',
+                fontSize: 18,
+                color: DARK_GREY_TEXT_COLOR.withOpacity(0.8),
               ),
               CUSTOM_TEXT(
                 FORMAT_MONEY(price: controller.postModel.provisionalTotal),
                 color: PRIMARY_COLOR,
-                fontWeight: FontWeight.w700,
-                fontSize: 30,
-                letterSpacing: 2.5,
+                fontWeight: FontWeight.w500,
+                fontSize: 25,
+                letterSpacing: 1.5,
               )
             ],
           ),

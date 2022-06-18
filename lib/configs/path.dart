@@ -99,8 +99,8 @@ const PET_VACCINATION_PNG = 'pet_vaccination.png';
 // const API_SERVER = '10.0.2.2:4000';
 // const GRAPHL_SERVER = 'http://10.0.2.2:8080';
 
-const API_SERVER_PATH = '54.219.204.219';
-const GRAPHL_SERVER_PATH = 'http://54.219.204.219:8080';
+const API_SERVER_PATH = '54.177.17.137';
+const GRAPHL_SERVER_PATH = 'http://54.177.17.137:8080';
 
 //*sale transaction
 const SALE_TRANSACTION_RETURN_API_PATH =
@@ -149,3 +149,6 @@ const PET_HEALTH_RECORD_API_PATH = '/v1/api/health-pet-records';
 
 //*auth
 const AUTH_API_PATH = '/v1/api/auth';
+
+//post
+const POST_API_PATH = '/v1/api/posts';

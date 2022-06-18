@@ -5,6 +5,7 @@ import 'package:petapp_mobile/configs/theme.dart';
 import 'package:petapp_mobile/controllers/pet_detail_page_controller.dart';
 import 'package:petapp_mobile/services/pet_services.dart';
 import 'package:petapp_mobile/views/customer/pet_detail_page/widgets/body_widget.dart';
+import 'package:petapp_mobile/views/customer/pet_detail_page/widgets/more_option_widget.dart';
 import 'package:petapp_mobile/views/customer/pet_detail_page/widgets/top_widget.dart';
 
 class PetDetailPage extends GetView<PetDetailPageController> {
@@ -21,21 +22,26 @@ class PetDetailPage extends GetView<PetDetailPageController> {
     });
     return Scaffold(
       backgroundColor: WHITE_COLOR,
-      body: Column(
+      body: Stack(
         children: [
-          const PetDetailTopWidget(),
-          Obx(
-            () => controller.isLoadingData.value
-                ? const Expanded(
-                    child: Center(
-                      child: SpinKitSpinningLines(
-                        color: PRIMARY_COLOR,
-                        size: 150,
-                      ),
-                    ),
-                  )
-                : const PetDetailBodyWidget(),
+          Column(
+            children: [
+              const PetDetailTopWidget(),
+              Obx(
+                () => controller.isLoadingData.value
+                    ? const Expanded(
+                        child: Center(
+                          child: SpinKitSpinningLines(
+                            color: PRIMARY_COLOR,
+                            size: 150,
+                          ),
+                        ),
+                      )
+                    : const PetDetailBodyWidget(),
+              ),
+            ],
           ),
+          const PetDetailMoreOptionWidget(),
         ],
       ),
     );

@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:petapp_mobile/configs/path.dart';
 import 'package:petapp_mobile/configs/route.dart';
 import 'package:petapp_mobile/configs/theme.dart';
 import 'package:petapp_mobile/controllers/post_management_page_controller.dart';
@@ -79,122 +77,50 @@ class PostsManagementBodyWidget extends GetView<PostManagementPageController> {
                   'Image',
                   textAlign: TextAlign.center,
                   style: GoogleFonts.quicksand(
-                      fontSize: 12,
+                      fontSize: 13,
                       color: const Color.fromARGB(255, 83, 89, 110),
                       height: 2,
-                      fontWeight: FontWeight.w600),
+                      fontWeight: FontWeight.w700),
                 ),
               ),
             ),
             Expanded(
-              child: InkWell(
-                onTap: () => controller.setHeaderFilter('Title'),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(right: 5),
-                      child: Text(
-                        'Post title',
-                        textAlign: TextAlign.start,
-                        style: GoogleFonts.quicksand(
-                          fontSize: 12,
-                          color: const Color.fromARGB(255, 83, 89, 110),
-                          height: 2,
-                          fontWeight: FontWeight.w600,
-                          letterSpacing: 1,
-                        ),
-                      ),
-                    ),
-                    Obx(
-                      () => SvgPicture.asset(
-                        controller.postManagementTableHeaders['Title'] == 2
-                            ? ICON_PATH + TOP_WARD_ARROW_SVG
-                            : ICON_PATH + DOWNWARD_ARROW_SVG,
-                        color:
-                            controller.postManagementTableHeaders['Title'] == 0
-                                ? const Color.fromARGB(255, 116, 125, 158)
-                                : const Color.fromARGB(255, 244, 55, 165),
-                        height: 12,
-                      ),
-                    ),
-                  ],
+              child: Text(
+                'Post title',
+                textAlign: TextAlign.center,
+                style: GoogleFonts.quicksand(
+                  fontSize: 13,
+                  color: const Color.fromARGB(255, 83, 89, 110),
+                  height: 2,
+                  fontWeight: FontWeight.w700,
+                  letterSpacing: 1,
                 ),
               ),
             ),
-            InkWell(
-              onTap: () => controller.setHeaderFilter('Status'),
-              child: Container(
-                width: 70,
-                alignment: Alignment.center,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(right: 3),
-                      child: Text(
-                        'Status',
-                        textAlign: TextAlign.start,
-                        style: GoogleFonts.quicksand(
-                            fontSize: 12,
-                            color: const Color.fromARGB(255, 83, 89, 110),
-                            height: 2,
-                            fontWeight: FontWeight.w600),
-                      ),
-                    ),
-                    Obx(
-                      () => SvgPicture.asset(
-                        controller.postManagementTableHeaders['Title'] == 2
-                            ? ICON_PATH + TOP_WARD_ARROW_SVG
-                            : ICON_PATH + DOWNWARD_ARROW_SVG,
-                        color:
-                            controller.postManagementTableHeaders['Title'] == 0
-                                ? const Color.fromARGB(255, 116, 125, 158)
-                                : const Color.fromARGB(255, 244, 55, 165),
-                        height: 12,
-                      ),
-                    ),
-                  ],
-                ),
+            Container(
+              width: 70,
+              alignment: Alignment.center,
+              child: Text(
+                'Status',
+                textAlign: TextAlign.center,
+                style: GoogleFonts.quicksand(
+                    fontSize: 13,
+                    color: const Color.fromARGB(255, 83, 89, 110),
+                    height: 2,
+                    fontWeight: FontWeight.w700),
               ),
             ),
-            InkWell(
-              onTap: () => controller.setHeaderFilter('Create time'),
-              child: SizedBox(
-                width: 85,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(right: 3),
-                      child: Text(
-                        'Created',
-                        textAlign: TextAlign.start,
-                        style: GoogleFonts.quicksand(
-                          fontSize: 12,
-                          color: const Color.fromARGB(255, 83, 89, 110),
-                          height: 2,
-                          fontWeight: FontWeight.w500,
-                          letterSpacing: 1,
-                        ),
-                      ),
-                    ),
-                    Obx(
-                      () => SvgPicture.asset(
-                        controller.postManagementTableHeaders['Create time'] ==
-                                2
-                            ? ICON_PATH + TOP_WARD_ARROW_SVG
-                            : ICON_PATH + DOWNWARD_ARROW_SVG,
-                        color: controller.postManagementTableHeaders[
-                                    'Create time'] ==
-                                0
-                            ? const Color.fromARGB(255, 116, 125, 158)
-                            : const Color.fromARGB(255, 244, 55, 165),
-                        height: 12,
-                      ),
-                    ),
-                  ],
+            SizedBox(
+              width: 85,
+              child: Text(
+                'Created',
+                textAlign: TextAlign.center,
+                style: GoogleFonts.quicksand(
+                  fontSize: 13,
+                  color: const Color.fromARGB(255, 83, 89, 110),
+                  height: 2,
+                  fontWeight: FontWeight.w700,
+                  letterSpacing: 1,
                 ),
               ),
             ),
@@ -257,30 +183,7 @@ class PostsManagementBodyWidget extends GetView<PostManagementPageController> {
                   ),
                 ),
               ),
-              Container(
-                width: 70,
-                alignment: Alignment.center,
-                child: Text(
-                  postModel.status,
-                  maxLines: 3,
-                  overflow: TextOverflow.ellipsis,
-                  textAlign: TextAlign.center,
-                  style: GoogleFonts.quicksand(
-                    color: () {
-                      switch (postModel.status) {
-                        case 'REQUESTED':
-                          return const Color.fromARGB(255, 248, 204, 60);
-                        case 'PUBLISHED':
-                          return const Color.fromARGB(255, 68, 204, 214);
-                        default:
-                          return const Color.fromARGB(255, 68, 204, 214);
-                      }
-                    }.call(),
-                    fontWeight: FontWeight.w500,
-                    fontSize: 12,
-                  ),
-                ),
-              ),
+              statusWidget(status: postModel.status),
               SizedBox(
                 width: 85,
                 child: Column(
@@ -316,6 +219,56 @@ class PostsManagementBodyWidget extends GetView<PostManagementPageController> {
         ),
       );
 
+  Widget statusWidget({required String status}) {
+    late Color color;
+    late String statusText;
+
+    switch (status) {
+      case 'REQUESTED':
+        color = YELLOW_COLOR.withOpacity(0.8);
+        statusText = 'Waiting for approved';
+        break;
+      case 'REJECTED':
+        color = RED_COLOR;
+        statusText = 'Rejected';
+        break;
+      case 'PUBLISHED':
+        color = GREEN_COLOR;
+        statusText = 'Published for anyone';
+        break;
+      case 'CLOSED':
+        color = DARK_GREY_TEXT_COLOR.withOpacity(0.7);
+        statusText = 'Closed';
+        break;
+      case 'WAITING_FOR_PAYMENT':
+        color = YELLOW_COLOR;
+        statusText = 'Waiting for buyer payment';
+        break;
+      case 'CANCELED':
+        color = RED_COLOR;
+        statusText = 'Canceled';
+        break;
+      default:
+        color = YELLOW_COLOR;
+        statusText = status;
+    }
+    return Container(
+      width: 70,
+      alignment: Alignment.center,
+      child: Text(
+        statusText,
+        maxLines: 3,
+        overflow: TextOverflow.ellipsis,
+        textAlign: TextAlign.center,
+        style: GoogleFonts.quicksand(
+          color: color,
+          fontWeight: FontWeight.w700,
+          fontSize: 12,
+        ),
+      ),
+    );
+  }
+
   Widget postCardDarkThemeWidget({required PostModel postModel}) => Column(
         children: [
           Container(
@@ -329,7 +282,7 @@ class PostsManagementBodyWidget extends GetView<PostManagementPageController> {
               height: 70,
               padding: const EdgeInsets.symmetric(horizontal: 12),
               decoration: const BoxDecoration(
-                color: Color.fromARGB(255, 241, 243, 250),
+                color: Color.fromARGB(255, 244, 246, 253),
               ),
               child: Row(
                 children: [
@@ -378,30 +331,7 @@ class PostsManagementBodyWidget extends GetView<PostManagementPageController> {
                           ],
                         )),
                   ),
-                  Container(
-                    width: 70,
-                    alignment: Alignment.center,
-                    child: Text(
-                      postModel.status,
-                      maxLines: 3,
-                      overflow: TextOverflow.ellipsis,
-                      textAlign: TextAlign.center,
-                      style: GoogleFonts.quicksand(
-                        color: () {
-                          switch (postModel.status) {
-                            case 'REQUESTED':
-                              return const Color.fromARGB(255, 248, 204, 60);
-                            case 'PUBLISHED':
-                              return const Color.fromARGB(255, 68, 204, 214);
-                            default:
-                              return const Color.fromARGB(255, 68, 204, 214);
-                          }
-                        }.call(),
-                        fontWeight: FontWeight.w500,
-                        fontSize: 12,
-                      ),
-                    ),
-                  ),
+                  statusWidget(status: postModel.status),
                   SizedBox(
                     width: 85,
                     child: Column(

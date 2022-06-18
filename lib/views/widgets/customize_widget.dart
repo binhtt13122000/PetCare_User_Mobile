@@ -98,12 +98,12 @@ Widget CUSTOM_REQUIRED_TEXT_FIELD({
                     focusNode.requestFocus();
                   },
                   child: CircleAvatar(
-                    backgroundColor: RED_COLOR.withOpacity(0.8),
+                    backgroundColor: Colors.transparent,
                     maxRadius: 10,
                     child: SvgPicture.asset(
                       ICON_PATH + CLOSE_SVG,
                       height: 10,
-                      color: WHITE_COLOR,
+                      color: RED_COLOR.withOpacity(0.8),
                     ),
                   ),
                 ),

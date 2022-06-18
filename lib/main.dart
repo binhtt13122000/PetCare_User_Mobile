@@ -215,6 +215,14 @@ onSelectNotification(String? type, String? metaData) async {
             : Get.toNamed(TRANSACTION_PAGE_ROUTE);
       }
       break;
+    case 'AVAILABLE_SERVICE_IN_COMBO':
+      if (metaData != null) {
+        var id = int.tryParse(metaData);
+        id != null
+            ? Get.toNamed('$PET_COMBO_DETAIL_PAGE_ROUTE/$id')
+            : Get.toNamed(PET_MANAGEMENT_PAGE_ROUTE);
+      }
+      break;
     default:
       Get.toNamed(HOME_PAGE_ROUTE);
       break;

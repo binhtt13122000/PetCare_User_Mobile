@@ -13,12 +13,14 @@ class ActionPageBodyWidget extends GetView<ActionPageController> {
   Widget build(BuildContext context) {
     return Expanded(
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 30),
+        padding: const EdgeInsets.symmetric(
+          horizontal: 40,
+        ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             const SizedBox(
-              height: 20,
+              height: 40,
             ),
             imageCardWidget(),
             const SizedBox(
@@ -60,6 +62,9 @@ class ActionPageBodyWidget extends GetView<ActionPageController> {
                 ),
               ),
             ),
+            const SizedBox(
+              height: 20,
+            )
           ],
         ),
       ),
