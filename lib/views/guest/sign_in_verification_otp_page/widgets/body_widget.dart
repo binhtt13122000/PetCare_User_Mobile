@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:petapp_mobile/configs/path.dart';
 import 'package:petapp_mobile/configs/theme.dart';
-import 'package:petapp_mobile/controllers/sign_in_page_controller.dart';
+import 'package:petapp_mobile/controllers/guest_page_controllers/sign_in_page_controller.dart';
 import 'package:petapp_mobile/views/widgets/customize_widget.dart';
 
 class SignInVerificationOTPBodyWidget extends GetView<SignInPageController> {

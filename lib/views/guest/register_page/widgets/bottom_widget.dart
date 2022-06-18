@@ -3,10 +3,10 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:petapp_mobile/configs/route.dart';
 import 'package:petapp_mobile/configs/theme.dart';
-import 'package:petapp_mobile/controllers/auth_controller.dart';
-import 'package:petapp_mobile/controllers/register_page_controller.dart';
+import 'package:petapp_mobile/controllers/other_controllers/auth_controller.dart';
+import 'package:petapp_mobile/controllers/guest_page_controllers/register_page_controller.dart';
 import 'package:petapp_mobile/models/account_model/account_model.dart';
-import 'package:petapp_mobile/services/auth_services.dart';
+import 'package:petapp_mobile/services/other_services/auth_services.dart';
 
 class RegisterPageBottomWidget extends GetView<RegisterPageController> {
   const RegisterPageBottomWidget({Key? key}) : super(key: key);

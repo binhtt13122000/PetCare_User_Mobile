@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:petapp_mobile/configs/route.dart';
 import 'package:petapp_mobile/configs/theme.dart';
-import 'package:petapp_mobile/controllers/register_page_controller.dart';
+import 'package:petapp_mobile/controllers/guest_page_controllers/register_page_controller.dart';
 
 class RegisterOTPPageBottomWidget extends GetView<RegisterPageController> {
   const RegisterOTPPageBottomWidget({Key? key}) : super(key: key);
