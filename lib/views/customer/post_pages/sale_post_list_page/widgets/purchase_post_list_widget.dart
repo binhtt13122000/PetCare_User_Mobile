@@ -9,27 +9,63 @@ import 'package:petapp_mobile/configs/path.dart';
 import 'package:petapp_mobile/configs/route.dart';
 import 'package:petapp_mobile/configs/theme.dart';
 import 'package:petapp_mobile/controllers/post_page_controllers/purchase_posts_page_controller.dart';
+import 'package:petapp_mobile/graphql/graphql_config.dart';
 import 'package:petapp_mobile/graphql/query_mutation/post.dart';
 import 'package:petapp_mobile/models/post_model/post_model.dart';
 import 'package:petapp_mobile/models/post_model_hasura/post_model_hasura.dart';
 import 'package:petapp_mobile/services/post_services/post_services.dart';
 import 'package:petapp_mobile/utilities/utilities.dart';
 import 'package:petapp_mobile/views/widgets/customize_widget.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class SalePostListWidget extends GetView<PurchasePostsPageController> {
   const SalePostListWidget({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) => Expanded(
-        child: GetBuilder<PurchasePostsPageController>(
-          builder: (controller) => Query(
-            options: controller.selectedSpeciesId.value == -1
-                ? QueryOptions(
-                    document: gql(FETCH_ALL_PURCHASE_POST_LIST_WITHOUT_SPECIES),
-                    variables: {
+  Widget build(BuildContext context) =>
+      GetBuilder<PurchasePostsPageController>(builder: (_) {
+        controller.isLoadingData.value = true;
+        WidgetsBinding.instance!.addPostFrameCallback((_) async {
+          QueryResult queryResult = await CLIENT_TO_QUERY().query(controller
+                      .selectedSpeciesId.value ==
+                  -1
+              ? QueryOptions(
+                  document: gql(FETCH_ALL_PURCHASE_POST_LIST_WITHOUT_SPECIES),
+                  variables: {
+                    'offset': controller.offset.value,
+                    'limit': controller.limit.value,
+                    'lteDob': controller.lteDob.value,
+                    'gteDob': controller.gteDob.value,
+                    'customerId': controller.accountModel.id,
+                    'ltPrice': controller.ltPrice.value,
+                    'gtePrice': controller.gtePrice.value,
+                    'gender': controller.selectedGenderList,
+                    'isSeed': const [true, false],
+                    'breedName': controller.orderByBreed.isNotEmpty
+                        ? controller.orderByBreed.value
+                        : null,
+                    'price': controller.orderByPrice.isNotEmpty
+                        ? controller.orderByPrice.value
+                        : null,
+                    'status': 'PUBLISHED',
+                  },
+                  cacheRereadPolicy: CacheRereadPolicy.ignoreAll,
+                  fetchPolicy: FetchPolicy.networkOnly)
+              : controller.selectedBreedMap[
+                              controller.selectedSpeciesId.value] !=
+                          null &&
+                      controller
+                          .selectedBreedMap[controller.selectedSpeciesId.value]!
+                          .isNotEmpty
+                  ? QueryOptions(
+                      document: gql(FETCH_PURCHASE_POST_LIST),
+                      variables: {
+                        'offset': controller.offset.value,
+                        'limit': controller.limit.value,
                         'lteDob': controller.lteDob.value,
                         'gteDob': controller.gteDob.value,
                         'customerId': controller.accountModel.id,
+                        'speciesId': controller.selectedSpeciesId.value,
                         'ltPrice': controller.ltPrice.value,
                         'gtePrice': controller.gtePrice.value,
                         'gender': controller.selectedGenderList,
@@ -41,106 +77,117 @@ class SalePostListWidget extends GetView<PurchasePostsPageController> {
                             ? controller.orderByPrice.value
                             : null,
                         'status': 'PUBLISHED',
-                      })
-                : controller.selectedBreedMap[
-                                controller.selectedSpeciesId.value] !=
-                            null &&
-                        controller
-                            .selectedBreedMap[
-                                controller.selectedSpeciesId.value]!
-                            .isNotEmpty
-                    ? QueryOptions(
-                        document: gql(FETCH_PURCHASE_POST_LIST),
-                        variables: {
-                          'lteDob': controller.lteDob.value,
-                          'gteDob': controller.gteDob.value,
-                          'customerId': controller.accountModel.id,
-                          'speciesId': controller.selectedSpeciesId.value,
-                          'ltPrice': controller.ltPrice.value,
-                          'gtePrice': controller.gtePrice.value,
-                          'gender': controller.selectedGenderList,
-                          'isSeed': const [true, false],
-                          'breedName': controller.orderByBreed.isNotEmpty
-                              ? controller.orderByBreed.value
-                              : null,
-                          'price': controller.orderByPrice.isNotEmpty
-                              ? controller.orderByPrice.value
-                              : null,
-                          'status': 'PUBLISHED',
-                          'breeds': [
-                            ...?controller.selectedBreedMap[
-                                controller.selectedSpeciesId.value]
-                          ]
-                        },
-                      )
-                    : QueryOptions(
-                        document: gql(FETCH_PURCHASE_POST_LIST_WITHOUT_BREED),
-                        variables: {
-                            'lteDob': controller.lteDob.value,
-                            'gteDob': controller.gteDob.value,
-                            'customerId': controller.accountModel.id,
-                            'speciesId': controller.selectedSpeciesId.value,
-                            'ltPrice': controller.ltPrice.value,
-                            'gtePrice': controller.gtePrice.value,
-                            'gender': controller.selectedGenderList,
-                            'isSeed': const [true, false],
-                            'breedName': controller.orderByBreed.isNotEmpty
-                                ? controller.orderByBreed.value
-                                : null,
-                            'price': controller.orderByPrice.isNotEmpty
-                                ? controller.orderByPrice.value
-                                : null,
-                            'status': 'PUBLISHED',
-                          }),
-            builder: (
-              QueryResult result, {
-              VoidCallback? refetch,
-              FetchMore? fetchMore,
-            }) {
-              if (result.hasException) {
-                return Text(result.exception.toString());
-              }
-              if (result.isLoading) {
-                return const Center(
-                  child: CircularProgressIndicator(),
-                );
-              }
-              if (result.data != null && result.data!.isNotEmpty) {
-                controller.postHasuraList.value =
-                    PostService.getPostHasuraList(result.data!);
+                        'breeds': [
+                          ...?controller.selectedBreedMap[
+                              controller.selectedSpeciesId.value]
+                        ]
+                      },
+                      cacheRereadPolicy: CacheRereadPolicy.ignoreAll,
+                      fetchPolicy: FetchPolicy.networkOnly)
+                  : QueryOptions(
+                      document: gql(FETCH_PURCHASE_POST_LIST_WITHOUT_BREED),
+                      variables: {
+                        'offset': controller.offset.value,
+                        'limit': controller.limit.value,
+                        'lteDob': controller.lteDob.value,
+                        'gteDob': controller.gteDob.value,
+                        'customerId': controller.accountModel.id,
+                        'speciesId': controller.selectedSpeciesId.value,
+                        'ltPrice': controller.ltPrice.value,
+                        'gtePrice': controller.gtePrice.value,
+                        'gender': controller.selectedGenderList,
+                        'isSeed': const [true, false],
+                        'breedName': controller.orderByBreed.isNotEmpty
+                            ? controller.orderByBreed.value
+                            : null,
+                        'price': controller.orderByPrice.isNotEmpty
+                            ? controller.orderByPrice.value
+                            : null,
+                        'status': 'PUBLISHED',
+                      },
+                      cacheRereadPolicy: CacheRereadPolicy.ignoreAll,
+                      fetchPolicy: FetchPolicy.networkOnly));
+          controller.totalPage.value =
+              queryResult.data?['post_aggregate']['aggregate']['count'] ?? 0;
+          if (queryResult.data != null && queryResult.data!.isNotEmpty) {
+            queryResult.data?["post"].length > 0
+                ? controller.statusLoadData.value = "SUCCESS"
+                : controller.statusLoadData.value = "NO-DATA";
+            List<PostModelHasura> convertData =
+                PostService.getPostHasuraList(queryResult.data!);
+            if (controller.isRefresh.value) {
+              controller.postHasuraList.value = convertData;
+            } else {
+              if (controller.postHasuraList.isNotEmpty) {
+                controller.postHasuraList.value = [
+                  ...controller.postHasuraList,
+                  ...convertData
+                ];
               } else {
-                controller.postHasuraList.value = [];
+                controller.postHasuraList.value = convertData;
               }
-              return Column(
-                children: [
-                  Expanded(
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 14),
-                      child: CustomScrollView(
-                        slivers: [
-                          SliverGrid.count(
-                            crossAxisCount: 2,
-                            childAspectRatio: 0.63,
-                            mainAxisSpacing: 5,
-                            crossAxisSpacing: 4,
-                            children: controller.postHasuraList
-                                .asMap()
-                                .entries
-                                .map(
-                                  (e) => purchasePostItemHasuraWidget(
-                                      postModelHasura: e.value),
-                                )
-                                .toList(),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
-              );
-            },
+            }
+            controller.postHasuraList.refresh();
+          } else {
+            controller.statusLoadData.value = "FAIL";
+            if (controller.isRefresh.value) {
+              controller.postHasuraList.value = [];
+              controller.postHasuraList.refresh();
+            }
+          }
+          controller.isLoadingData.value = false;
+        });
+        return Obx(() => controller.isLoadingData.value
+            ? Expanded(child: LOADING_WIDGET())
+            : Expanded(
+                child: SmartRefresher(
+                    controller: controller.refreshController,
+                    enablePullUp: true,
+                    onRefresh: () async {
+                      controller.isRefresh.value = true;
+                      if (controller.statusLoadData.value == "SUCCESS") {
+                        controller.statusLoadData.value = "NORMAL";
+                        controller.refreshController.refreshCompleted();
+                      } else {
+                        controller.refreshController.refreshFailed();
+                      }
+                    },
+                    onLoading: () async {
+                      controller.isRefresh.value = false;
+                      var nextOffset =
+                          (controller.offset.value + controller.limit.value);
+                      if (nextOffset >= controller.totalPage.value) {
+                        controller.refreshController.loadNoData();
+                      } else {
+                        controller.offset.value = nextOffset;
+                        if (controller.statusLoadData.value == "SUCCESS") {
+                          controller.refreshController.loadComplete();
+                        } else {
+                          controller.refreshController.loadFailed();
+                        }
+                        controller.update();
+                      }
+                      controller.statusLoadData.value = "NORMAL";
+                    },
+                    child: bodyWidget())));
+      });
+
+  Widget bodyWidget() => CustomScrollView(
+        slivers: [
+          SliverGrid.count(
+            crossAxisCount: 2,
+            childAspectRatio: 0.63,
+            mainAxisSpacing: 5,
+            crossAxisSpacing: 4,
+            children: controller.postHasuraList
+                .asMap()
+                .entries
+                .map(
+                  (e) => purchasePostItemHasuraWidget(postModelHasura: e.value),
+                )
+                .toList(),
           ),
-        ),
+        ],
       );
 
   Widget purchasePostItemWidget({required PostModel postModel}) => InkWell(
