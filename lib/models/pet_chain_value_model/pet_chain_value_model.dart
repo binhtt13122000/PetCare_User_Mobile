@@ -5,7 +5,7 @@ part 'pet_chain_value_model.g.dart';
 
 @JsonSerializable(explicitToJson: true)
 class PetChainValueModel {
-  final String date;
+  final DateTime date;
   final String type;
   final String txId;
   @JsonKey(name: 'content')

@@ -14,7 +14,7 @@ class PetBlockChainPageController extends GetxController {
   late PetChainValueModel petChainValueModel;
   ScrollController scrollController = ScrollController();
   ScrollController detailScrollController = ScrollController();
-
+  late int chainId;
   RxBool isShowTimelineTitle = false.obs;
   RxBool isShowFullId = false.obs;
   RxString selectedViewType = 'Pet details'.obs;

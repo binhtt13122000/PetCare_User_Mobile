@@ -18,6 +18,10 @@ class BreedingTransactionDetailPage
 
   @override
   Widget build(BuildContext context) {
+    if (Get.parameters['breedingTransactionId'] != null) {
+      controller.breedingTransactionId =
+          int.parse(Get.parameters['breedingTransactionId']!);
+    }
     return Scaffold(
       backgroundColor: WHITE_COLOR,
       body: GetBuilder<BreedingTransactionDetailPageController>(builder: (_) {
@@ -27,8 +31,7 @@ class BreedingTransactionDetailPage
           controller
             ..breedingTransactionModel =
                 await BreedingTransactionService.fetchBreedingTransactionById(
-                    breedingTransactionId:
-                        int.parse(Get.parameters['breedingTransactionId']!))
+                    breedingTransactionId: controller.breedingTransactionId)
             ..isLoading.value = false;
         });
         return Stack(

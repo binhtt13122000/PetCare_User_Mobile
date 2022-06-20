@@ -25,6 +25,9 @@ PetModel _$PetModelFromJson(Map<String, dynamic> json) => PetModel(
       petHealthRecordModelList: (json['healthPetRecords'] as List<dynamic>?)
           ?.map((e) => PetHealthRecordModel.fromJson(e as Map<String, dynamic>))
           .toList(),
+      petOwnerModelList: (json['petOwners'] as List<dynamic>?)
+          ?.map((e) => PetOwnerModel.fromJson(e as Map<String, dynamic>))
+          .toList(),
     );
 
 Map<String, dynamic> _$PetModelToJson(PetModel instance) => <String, dynamic>{
@@ -43,4 +46,5 @@ Map<String, dynamic> _$PetModelToJson(PetModel instance) => <String, dynamic>{
       'breed': instance.breedModel?.toJson(),
       'healthPetRecords':
           instance.petHealthRecordModelList?.map((e) => e.toJson()).toList(),
+      'petOwners': instance.petOwnerModelList?.map((e) => e.toJson()).toList(),
     };

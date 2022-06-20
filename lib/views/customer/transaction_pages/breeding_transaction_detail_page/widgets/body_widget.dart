@@ -18,22 +18,22 @@ class BreedingTransactionDetailBodyWidget
 
     return Expanded(
       child: Container(
-        color: const Color.fromARGB(255, 245, 248, 253),
+        color: SUPPER_LIGHT_BLUE,
         child: SingleChildScrollView(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              breedingTransactionInformationWidget(),
-              //saleTransactionStatusWidget(),
               petInformation(),
               Container(
                 height: 1,
-                color: LIGHT_GREY_COLOR.withOpacity(0.1),
+                color: LIGHT_GREY_COLOR.withAlpha(30),
               ),
               Container(
-                color: const Color.fromARGB(255, 245, 248, 253),
+                color: SUPPER_LIGHT_BLUE,
                 height: 16,
               ),
+              viewTypeWidget(),
+              breedingTransactionInformationWidget(),
               saleTransactionPriceWidget(width: width),
             ],
           ),
@@ -41,6 +41,65 @@ class BreedingTransactionDetailBodyWidget
       ),
     );
   }
+
+  Widget viewTypeWidget() => Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: controller.viewTabList
+            .map((e) => viewTypeItemWidget(viewType: e))
+            .toList(),
+      );
+
+  Widget viewTypeItemWidget({required String viewType, int flex = 1}) =>
+      Expanded(
+        flex: flex,
+        child: Obx(
+          () => InkWell(
+            onTap: () => controller.selectedViewTab.value = viewType,
+            child: Column(
+              children: [
+                Container(
+                  height: 30,
+                  color: controller.selectedViewTab.value == viewType
+                      ? PRIMARY_LIGHT_COLOR.withOpacity(0.3)
+                      : WHITE_COLOR,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      controller.selectedViewTab.value == viewType
+                          ? const Padding(
+                              padding: EdgeInsets.only(right: 10),
+                              child: CircleAvatar(
+                                maxRadius: 3,
+                                backgroundColor: PRIMARY_COLOR,
+                              ),
+                            )
+                          : const SizedBox.shrink(),
+                      Text(
+                        viewType,
+                        style: GoogleFonts.quicksand(
+                          color: controller.selectedViewTab.value == viewType
+                              ? PRIMARY_COLOR
+                              : const Color.fromARGB(255, 116, 122, 143),
+                          fontSize: 14,
+                          fontWeight: FontWeight.w500,
+                          height: 1,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                Container(
+                  height: 3,
+                  color: controller.selectedViewTab.value == viewType
+                      ? PRIMARY_COLOR
+                      : const Color.fromARGB(255, 233, 235, 241),
+                ),
+              ],
+            ),
+          ),
+        ),
+      );
 
   Widget petInformation() => Stack(
         children: [
@@ -51,7 +110,7 @@ class BreedingTransactionDetailBodyWidget
                 padding: const EdgeInsets.symmetric(horizontal: 25),
                 child: Container(
                   height: 1,
-                  color: LIGHT_GREY_COLOR.withOpacity(0.1),
+                  color: LIGHT_GREY_COLOR.withAlpha(30),
                 ),
               ),
               femalePetInformationWidget(),
@@ -302,222 +361,9 @@ class BreedingTransactionDetailBodyWidget
             const SizedBox(
               height: 10,
             ),
-            // Row(
-            //   children: [
-            //     Expanded(
-            //       child: SingleChildScrollView(
-            //         scrollDirection: Axis.horizontal,
-            //         child: Row(
-            //           children: controller
-            //               .saleTransactionModel
-            //               .mediaModelsForBuyer
-            //               .asMap()
-            //               .entries
-            //               .map(
-            //                 (e) => Row(
-            //                   children: [
-            //                     Stack(
-            //                       children: [
-            //                         ClipRRect(
-            //                           borderRadius:
-            //                               const BorderRadius
-            //                                   .all(
-            //                             Radius
-            //                                 .circular(
-            //                                     7),
-            //                           ),
-            //                           child: Image
-            //                               .network(
-            //                             e.value.url,
-            //                             height: 100,
-            //                             fit: BoxFit
-            //                                 .cover,
-            //                           ),
-            //                         ),
-            //                         const Positioned(
-            //                           child: Icon(
-            //                             Icons
-            //                                 .zoom_out_map,
-            //                             size: 20,
-            //                             color:
-            //                                 PRIMARY_COLOR,
-            //                           ),
-            //                           bottom: 5,
-            //                           right: 5,
-            //                         ),
-            //                       ],
-            //                     ),
-            //                     const SizedBox(
-            //                       width: 10,
-            //                     ),
-            //                   ],
-            //                 ),
-            //               )
-            //               .toList(),
-            //         ),
-            //       ),
-            //     ),
-            //   ],
-            // )
           ],
         ),
       );
-
-  // Widget saleTransactionStatusWidget() => Container(
-  //       color: WHITE_COLOR,
-  //       padding: const EdgeInsets.symmetric(
-  //         vertical: 15,
-  //         horizontal: 40,
-  //       ),
-  //       child: Row(
-  //         children: [
-  //           Column(
-  //             children: [
-  //               const CircleAvatar(
-  //                 radius: 8,
-  //                 backgroundColor: PRIMARY_COLOR,
-  //                 child: Icon(
-  //                   Icons.check_circle_outline_rounded,
-  //                   color: WHITE_COLOR,
-  //                   size: 15,
-  //                 ),
-  //               ),
-  //               controller.saleTransactionModel.status == 'NOT_PET_AVAILABLE'
-  //                   ? const SizedBox(
-  //                       height: 15,
-  //                       child: RotatedBox(
-  //                         quarterTurns: 1,
-  //                         child: SizedBox(
-  //                           height: 2,
-  //                           child: LinearProgressIndicator(
-  //                             valueColor: AlwaysStoppedAnimation<Color>(
-  //                               PRIMARY_COLOR,
-  //                             ),
-  //                             backgroundColor: Color(0xFFD1C1E0),
-  //                           ),
-  //                         ),
-  //                       ),
-  //                     )
-  //                   : Container(
-  //                       height: 15,
-  //                       width: 2,
-  //                       color: PRIMARY_COLOR,
-  //                     ),
-  //               CircleAvatar(
-  //                 radius: 8,
-  //                 backgroundColor: controller.saleTransactionModel.status ==
-  //                         'NOT_PET_AVAILABLE'
-  //                     ? PRIMARY_COLOR.withAlpha(160)
-  //                     : PRIMARY_COLOR,
-  //                 child: Icon(
-  //                   controller.saleTransactionModel.status ==
-  //                           'NOT_PET_AVAILABLE'
-  //                       ? Icons.remove_circle_outline
-  //                       : Icons.check_circle_outline_rounded,
-  //                   color: WHITE_COLOR,
-  //                   size: 15,
-  //                 ),
-  //               ),
-  //               controller.saleTransactionModel.status == 'PET_AVAILABLE'
-  //                   ? const SizedBox(
-  //                       height: 15,
-  //                       child: RotatedBox(
-  //                         quarterTurns: 1,
-  //                         child: SizedBox(
-  //                           height: 2,
-  //                           child: LinearProgressIndicator(
-  //                             valueColor: AlwaysStoppedAnimation<Color>(
-  //                               PRIMARY_COLOR,
-  //                             ),
-  //                             backgroundColor: Color(0xFFD1C1E0),
-  //                           ),
-  //                         ),
-  //                       ),
-  //                     )
-  //                   : Container(
-  //                       height: 15,
-  //                       width: 2,
-  //                       color: controller.saleTransactionModel.status ==
-  //                                   'RECEIVED' ||
-  //                               controller.saleTransactionModel.status ==
-  //                                   'Payment'
-  //                           ? PRIMARY_COLOR
-  //                           : PRIMARY_COLOR.withAlpha(100),
-  //                     ),
-  //               CircleAvatar(
-  //                 radius: 8,
-  //                 backgroundColor: controller.saleTransactionModel.status ==
-  //                             'RECEIVED' ||
-  //                         controller.saleTransactionModel.status == 'Payment'
-  //                     ? PRIMARY_COLOR
-  //                     : PRIMARY_COLOR.withAlpha(100),
-  //                 child: Icon(
-  //                   controller.saleTransactionModel.status == 'RECEIVED' ||
-  //                           controller.saleTransactionModel.status ==
-  //                               'Payment'
-  //                       ? Icons.check_circle_outline_rounded
-  //                       : Icons.remove_circle_outline,
-  //                   color: WHITE_COLOR,
-  //                   size: 15,
-  //                 ),
-  //               ),
-  //             ],
-  //           ),
-  //           const SizedBox(
-  //             width: 40,
-  //           ),
-  //           Column(
-  //             crossAxisAlignment: CrossAxisAlignment.start,
-  //             children: [
-  //               SizedBox(
-  //                 child: Text(
-  //                   'Deposited',
-  //                   style: GoogleFonts.quicksand(
-  //                     fontSize: 14,
-  //                     fontWeight: FontWeight.w500,
-  //                     color: PRIMARY_COLOR,
-  //                   ),
-  //                 ),
-  //               ),
-  //               const SizedBox(
-  //                 height: 15,
-  //               ),
-  //               SizedBox(
-  //                 child: Text(
-  //                   'Pet available to receive',
-  //                   style: GoogleFonts.quicksand(
-  //                     fontSize: 14,
-  //                     fontWeight: FontWeight.w500,
-  //                     color: controller.saleTransactionModel.status ==
-  //                             'NOT_PET_AVAILABLE'
-  //                         ? PRIMARY_COLOR.withAlpha(160)
-  //                         : PRIMARY_COLOR,
-  //                   ),
-  //                 ),
-  //               ),
-  //               const SizedBox(
-  //                 height: 15,
-  //               ),
-  //               SizedBox(
-  //                 child: Text(
-  //                   'Payment and received pet',
-  //                   style: GoogleFonts.quicksand(
-  //                     fontSize: 14,
-  //                     fontWeight: FontWeight.w500,
-  //                     color: controller.saleTransactionModel.status ==
-  //                                 'RECEIVED' ||
-  //                             controller.saleTransactionModel.status ==
-  //                                 'Payment'
-  //                         ? PRIMARY_COLOR
-  //                         : PRIMARY_COLOR.withAlpha(160),
-  //                   ),
-  //                 ),
-  //               ),
-  //             ],
-  //           ),
-  //         ],
-  //       ),
-  //     );
 
   Widget breedingTransactionInformationWidget() {
     late String displayStatus;
@@ -564,34 +410,6 @@ class BreedingTransactionDetailBodyWidget
     return Column(
       children: [
         Container(
-          color: const Color.fromARGB(255, 245, 248, 253),
-          padding: const EdgeInsets.symmetric(
-            vertical: 8,
-            horizontal: 20,
-          ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                'Transaction ID',
-                style: GoogleFonts.quicksand(
-                  fontSize: 13,
-                  color: DARK_GREY_COLOR.withAlpha(130),
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-              Text(
-                '#0' + controller.breedingTransactionModel.id.toString(),
-                style: GoogleFonts.quicksand(
-                  fontSize: 13,
-                  color: DARK_GREY_COLOR.withAlpha(130),
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-            ],
-          ),
-        ),
-        Container(
           color: WHITE_COLOR,
           padding: const EdgeInsets.symmetric(
             vertical: 15,
@@ -599,29 +417,29 @@ class BreedingTransactionDetailBodyWidget
           ),
           child: Column(
             children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    'Transaction type',
-                    style: GoogleFonts.quicksand(
-                      fontSize: 15,
-                      fontWeight: FontWeight.w500,
-                      color: const Color.fromARGB(255, 77, 82, 105),
-                      letterSpacing: 0.5,
-                    ),
-                  ),
-                  Text(
-                    '[BREEDING]',
-                    style: GoogleFonts.quicksand(
-                      fontSize: 15,
-                      fontWeight: FontWeight.w500,
-                      color: PINK_COLOR,
-                      letterSpacing: 0.5,
-                    ),
-                  ),
-                ],
-              ),
+              // Row(
+              //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              //   children: [
+              //     Text(
+              //       'Transaction type',
+              //       style: GoogleFonts.quicksand(
+              //         fontSize: 15,
+              //         fontWeight: FontWeight.w500,
+              //         color: const Color.fromARGB(255, 77, 82, 105),
+              //         letterSpacing: 0.5,
+              //       ),
+              //     ),
+              //     Text(
+              //       '[BREEDING]',
+              //       style: GoogleFonts.quicksand(
+              //         fontSize: 15,
+              //         fontWeight: FontWeight.w500,
+              //         color: PINK_COLOR,
+              //         letterSpacing: 0.5,
+              //       ),
+              //     ),
+              //   ],
+              // ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -915,7 +733,7 @@ class BreedingTransactionDetailBodyWidget
         ),
         Container(
           height: 1,
-          color: LIGHT_GREY_COLOR.withOpacity(0.1),
+          color: LIGHT_GREY_COLOR.withAlpha(30),
         ),
         Container(
           color: const Color.fromARGB(255, 245, 248, 253),

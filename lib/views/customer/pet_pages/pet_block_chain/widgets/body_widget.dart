@@ -190,7 +190,7 @@ class PetBlockChainBodyWidget extends GetView<PetBlockChainPageController> {
       required DateTime currentTime,
       required int index}) {
     int durationDays =
-        (currentTime.difference(DateTime.now()).inHours / 24).ceil();
+        (currentTime.difference(petChainValueModel.date).inHours / 24).ceil();
 
     String durationText = '';
     String durationUnit = '';
@@ -269,7 +269,8 @@ class PetBlockChainBodyWidget extends GetView<PetBlockChainPageController> {
               children: [
                 CUSTOM_TEXT(
                   FORMAT_DATE_TIME(
-                      dateTime: DateTime.now(), pattern: DATE_PATTERN_2),
+                      dateTime: petChainValueModel.date,
+                      pattern: DATE_PATTERN_2),
                   fontSize: 15,
                   color: DARK_GREY_TEXT_COLOR.withOpacity(0.9),
                   fontWeight: FontWeight.w700,

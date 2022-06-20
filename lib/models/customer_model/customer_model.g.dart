@@ -21,6 +21,7 @@ CustomerModel _$CustomerModelFromJson(Map<String, dynamic> json) =>
       bankName: json['bankName'] as String?,
       bankCode: json['bankCode'] as String?,
       bankBranch: json['bankBranch'] as String?,
+      phoneNumber: json['phoneNumber'] as String,
     );
 
 Map<String, dynamic> _$CustomerModelToJson(CustomerModel instance) =>
@@ -34,6 +35,7 @@ Map<String, dynamic> _$CustomerModelToJson(CustomerModel instance) =>
       'star': instance.star,
       'point': instance.point,
       'email': instance.email,
+      'phoneNumber': instance.phoneNumber,
       'numberReviewers': instance.numberReviewers,
       'bankName': instance.bankName,
       'bankCode': instance.bankCode,

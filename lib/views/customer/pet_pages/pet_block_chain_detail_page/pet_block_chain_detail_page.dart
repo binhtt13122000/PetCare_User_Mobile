@@ -10,8 +10,12 @@ class PetBlockChainDetailPage extends GetView<PetBlockChainPageController> {
 
   @override
   Widget build(BuildContext context) {
+    if (Get.parameters['chainId'] != null) {
+      controller
+        ..chainId = int.parse(Get.parameters['chainId']!)
+        ..chainIndex = int.parse(Get.parameters['chainId']!);
+    }
     controller
-      ..chainIndex = int.parse(Get.parameters['chainId']!)
       ..petChainValueModel =
           controller.petChainModel.valueModelList[controller.chainIndex]
       ..setListPetHealthRecord();

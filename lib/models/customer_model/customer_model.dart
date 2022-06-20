@@ -12,7 +12,7 @@ class CustomerModel {
   final double star;
   final int point;
   final String email;
-
+  final String phoneNumber;
   final int numberReviewers;
   final String? bankName;
   final String? bankCode;
@@ -34,6 +34,7 @@ class CustomerModel {
     this.bankName,
     this.bankCode,
     this.bankBranch,
+    required this.phoneNumber,
   }) {
     List<String> words = lastName.split(' ');
     avatarCharacter = words[words.length - 1][0];
