@@ -20,7 +20,7 @@ class PetBlockChainDetailBodyWidget
         child: Column(
           children: [
             petChainWidget(),
-            petGeneralInformation(),
+            petOwnerGeneralInformation(),
             viewTypeWidget(),
             Obx(() => controller.selectedViewType.value == 'Pet details'
                 ? const PetBlockChainDetailInformationWidget()
@@ -120,7 +120,7 @@ class PetBlockChainDetailBodyWidget
                         CUSTOM_TEXT(
                           FORMAT_DATE_TIME(
                               dateTime: DateTime.now(),
-                              pattern: DATE_TIME_PATTERN),
+                              pattern: DATE_PATTERN_2),
                           letterSpacing: 1,
                           fontSize: 15,
                           color: DARK_GREY_TEXT_COLOR.withOpacity(0.9),
@@ -265,7 +265,7 @@ class PetBlockChainDetailBodyWidget
         ],
       );
 
-  Widget petDetailAvatarWidget() => Stack(
+  Widget avatarWidget({required String url}) => Stack(
         children: [
           GRADIENT_WIDGET(
             child: const CircleAvatar(
@@ -280,14 +280,13 @@ class PetBlockChainDetailBodyWidget
             child: CircleAvatar(
               maxRadius: 27,
               minRadius: 27,
-              backgroundImage: NetworkImage(controller.petChainValueModel
-                  .petChainValueContentModel.petModel.avatar),
+              backgroundImage: NetworkImage(url),
             ),
           ),
         ],
       );
 
-  Widget petGeneralInformation() => Column(
+  Widget petOwnerGeneralInformation() => Column(
         children: [
           Container(
             color: WHITE_COLOR,
@@ -295,7 +294,7 @@ class PetBlockChainDetailBodyWidget
             child: Column(
               children: [
                 CUSTOM_TEXT(
-                  'Pet General Information',
+                  'Pet Owner General Information',
                   letterSpacing: 0.5,
                   color: DARK_GREY_TEXT_COLOR.withOpacity(0.95),
                   padding: const EdgeInsets.only(bottom: 10),
@@ -303,10 +302,6 @@ class PetBlockChainDetailBodyWidget
                 ),
                 Row(
                   children: [
-                    petDetailAvatarWidget(),
-                    const SizedBox(
-                      width: 10,
-                    ),
                     Expanded(
                       child: Column(
                         children: [
@@ -319,69 +314,22 @@ class PetBlockChainDetailBodyWidget
                                 fontSize: 14,
                                 color: DARK_GREY_TEXT_COLOR.withOpacity(0.9),
                               ),
-                              Row(
-                                children: [
-                                  CUSTOM_TEXT(
-                                    controller
-                                        .petChainValueModel
-                                        .petChainValueContentModel
-                                        .petModel
-                                        .name,
-                                    letterSpacing: 1,
-                                    fontSize: 15,
-                                    color:
-                                        DARK_GREY_TEXT_COLOR.withOpacity(0.9),
-                                  ),
-                                  CUSTOM_TEXT(
-                                    ' (' +
-                                        (controller
-                                                    .petChainValueModel
-                                                    .petChainValueContentModel
-                                                    .petModel
-                                                    .gender ==
-                                                'MALE'
-                                            ? 'Male'
-                                            : 'Female') +
-                                        ')',
-                                    letterSpacing: 1,
-                                    fontSize: 15,
-                                    color: controller
-                                                .petChainValueModel
-                                                .petChainValueContentModel
-                                                .petModel
-                                                .gender ==
-                                            'MALE'
-                                        ? BLUE_COLOR
-                                        : PINK_COLOR,
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              CUSTOM_TEXT(
-                                'Breed',
-                                letterSpacing: 1,
-                                color: DARK_GREY_TEXT_COLOR.withOpacity(0.9),
-                                fontSize: 14,
-                              ),
                               CUSTOM_TEXT(
                                 controller
                                         .petChainValueModel
                                         .petChainValueContentModel
                                         .petModel
-                                        .breedModel!
-                                        .name +
-                                    ' - ' +
+                                        .currentPetOwner!
+                                        .customerModel
+                                        .firstName +
+                                    ' ' +
                                     controller
                                         .petChainValueModel
                                         .petChainValueContentModel
                                         .petModel
-                                        .breedModel!
-                                        .speciesModel!
-                                        .name,
+                                        .currentPetOwner!
+                                        .customerModel
+                                        .lastName,
                                 letterSpacing: 1,
                                 fontSize: 15,
                                 color: DARK_GREY_TEXT_COLOR.withOpacity(0.9),
@@ -392,30 +340,55 @@ class PetBlockChainDetailBodyWidget
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               CUSTOM_TEXT(
-                                'Status',
+                                'Phone number',
                                 letterSpacing: 1,
-                                color: DARK_GREY_TEXT_COLOR.withOpacity(0.9),
                                 fontSize: 14,
+                                color: DARK_GREY_TEXT_COLOR.withOpacity(0.9),
                               ),
                               CUSTOM_TEXT(
-                                  controller
-                                              .petChainValueModel
-                                              .petChainValueContentModel
-                                              .petModel
-                                              .status ==
-                                          'IN_POST'
-                                      ? 'In a post'
-                                      : 'Normal',
-                                  letterSpacing: 1,
-                                  fontSize: 15,
-                                  color: controller
-                                              .petChainValueModel
-                                              .petChainValueContentModel
-                                              .petModel
-                                              .status ==
-                                          'IN_POST'
-                                      ? YELLOW_COLOR
-                                      : GREEN_COLOR),
+                                controller
+                                    .petChainValueModel
+                                    .petChainValueContentModel
+                                    .petModel
+                                    .currentPetOwner!
+                                    .customerModel
+                                    .phoneNumber,
+                                letterSpacing: 1,
+                                fontSize: 15,
+                                color: DARK_GREY_TEXT_COLOR.withOpacity(0.9),
+                              ),
+                            ],
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              CUSTOM_TEXT(
+                                'Email',
+                                letterSpacing: 1,
+                                fontSize: 14,
+                                color: DARK_GREY_TEXT_COLOR.withOpacity(0.9),
+                              ),
+                              CUSTOM_TEXT(
+                                controller
+                                        .petChainValueModel
+                                        .petChainValueContentModel
+                                        .petModel
+                                        .currentPetOwner!
+                                        .customerModel
+                                        .email
+                                        .isEmpty
+                                    ? 'N/A'
+                                    : controller
+                                        .petChainValueModel
+                                        .petChainValueContentModel
+                                        .petModel
+                                        .currentPetOwner!
+                                        .customerModel
+                                        .email,
+                                letterSpacing: 1,
+                                fontSize: 15,
+                                color: DARK_GREY_TEXT_COLOR.withOpacity(0.9),
+                              ),
                             ],
                           ),
                         ],

@@ -6,6 +6,7 @@ import 'package:petapp_mobile/controllers/pet_page_controllers/pet_block_chain_p
 import 'package:petapp_mobile/models/pet_health_records_model/pet_health_records_model.dart';
 import 'package:petapp_mobile/utilities/utilities.dart';
 import 'package:petapp_mobile/views/widgets/customize_widget.dart';
+import 'package:flutter_html/flutter_html.dart';
 
 class VaccineBlockChainListPageBodyWidget
     extends GetView<PetBlockChainPageController> {
@@ -214,13 +215,13 @@ class VaccineBlockChainListPageBodyWidget
                   fontSize: 15,
                   color: DARK_GREY_COLOR.withOpacity(0.7),
                 ),
-                // CUSTOM_TEXT(
-                //   'Injected in branch ' +
-                //       petHealthRecordModel.branchModel!.name,
-                //   textOverflow: TextOverflow.clip,
-                //   fontSize: 15,
-                //   color: DARK_GREY_COLOR.withOpacity(0.7),
-                // ),
+                CUSTOM_TEXT(
+                  'Injected in branch ' +
+                      petHealthRecordModel.branchModel!.name,
+                  textOverflow: TextOverflow.clip,
+                  fontSize: 15,
+                  color: DARK_GREY_COLOR.withOpacity(0.7),
+                ),
                 showDescriptionWidget(
                   backgroundColor: backgroundColor,
                   index: index,
@@ -251,23 +252,8 @@ class VaccineBlockChainListPageBodyWidget
                   visible: controller.showDescriptionIndexList.contains(index),
                   child: Align(
                     alignment: Alignment.topLeft,
-                    child: RichText(
-                      textAlign: TextAlign.start,
-                      text: TextSpan(
-                        text: 'Description: ',
-                        style: GoogleFonts.quicksand(
-                          color: DARK_GREY_TEXT_COLOR.withOpacity(0.8),
-                          fontSize: 13,
-                          letterSpacing: 1.5,
-                          fontWeight: FontWeight.w600,
-                        ),
-                        children: [
-                          TextSpan(
-                            text: description,
-                            style: const TextStyle(),
-                          ),
-                        ],
-                      ),
+                    child: Html(
+                      data: description,
                     ),
                   ),
                 ),

@@ -5,7 +5,7 @@ import 'package:petapp_mobile/models/breeding_transaction_model/breeding_transac
 
 class BreedingTransactionDetailPageController extends GetxController {
   AccountModel accountModel = Get.find<AuthController>().accountModel;
-
+  late int breedingTransactionId;
   RxBool isShowCancelPopup = false.obs;
   RxBool isShowMoreOptions = false.obs;
   late BreedingTransactionModel breedingTransactionModel;
@@ -21,6 +21,8 @@ class BreedingTransactionDetailPageController extends GetxController {
   RxBool isShowThankPopup = false.obs;
   RxString cancelDescription = ''.obs;
   RxBool isShowCancelResultPopup = false.obs;
+  List<String> viewTabList = ['Transaction details', 'Breeding services'];
+  RxString selectedViewTab = 'Transaction details'.obs;
 
   updateRatingText() {
     switch (selectedStar.value) {

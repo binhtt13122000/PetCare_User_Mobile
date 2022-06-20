@@ -1,6 +1,7 @@
 import 'package:json_annotation/json_annotation.dart';
 import 'package:petapp_mobile/models/breed_model/breed_model.dart';
 import 'package:petapp_mobile/models/pet_health_records_model/pet_health_records_model.dart';
+import 'package:petapp_mobile/models/pet_owner_model/pet_owner_model.dart';
 
 part 'pet_model.g.dart';
 
@@ -24,7 +25,11 @@ class PetModel {
   @JsonKey(name: 'breed')
   BreedModel? breedModel;
   @JsonKey(name: 'healthPetRecords')
-  List<PetHealthRecordModel>? petHealthRecordModelList;
+  final List<PetHealthRecordModel>? petHealthRecordModelList;
+  @JsonKey(name: 'petOwners')
+  final List<PetOwnerModel>? petOwnerModelList;
+  @JsonKey(ignore: true)
+  PetOwnerModel? currentPetOwner;
 
   PetModel({
     required this.id,
@@ -41,6 +46,7 @@ class PetModel {
     this.breedId,
     required this.isFertility,
     this.petHealthRecordModelList,
+    this.petOwnerModelList,
   }) {
     var diff = DateTime.now().difference(dob);
     int dateAge = diff.inDays;
@@ -49,6 +55,14 @@ class PetModel {
           '${(dateAge - (dateAge ~/ 365) * 365) ~/ 30} months';
     } else {
       ageRange = '${dateAge ~/ 30} months';
+    }
+    if (petOwnerModelList != null) {
+      for (var element in petOwnerModelList!) {
+        if (element.isCurrentOwner == true) {
+          currentPetOwner = element;
+          break;
+        }
+      }
     }
   }
 

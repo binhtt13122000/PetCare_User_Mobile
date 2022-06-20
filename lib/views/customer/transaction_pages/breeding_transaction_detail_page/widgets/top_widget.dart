@@ -22,6 +22,34 @@ class BreedingTransactionDetailTopWidget
               margin: const EdgeInsets.only(top: 20),
               color: LIGHT_GREY_COLOR.withOpacity(0.1),
             ),
+            Container(
+              color: SUPPER_LIGHT_BLUE,
+              padding: const EdgeInsets.symmetric(
+                vertical: 8,
+                horizontal: 20,
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    'Transaction ID',
+                    style: GoogleFonts.quicksand(
+                      fontSize: 13,
+                      color: DARK_GREY_COLOR.withAlpha(130),
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                  Text(
+                    '#0' + controller.breedingTransactionId.toString(),
+                    style: GoogleFonts.quicksand(
+                      fontSize: 13,
+                      color: DARK_GREY_COLOR.withAlpha(130),
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                ],
+              ),
+            ),
           ],
         ),
       );
@@ -33,8 +61,7 @@ class BreedingTransactionDetailTopWidget
             InkWell(
               onTap: () => Get
                 ..back()
-                ..put(TransactionListPageController())
-                ..find<TransactionListPageController>().update(),
+                ..put(TransactionListPageController()).update(),
               child: Container(
                 height: 35,
                 width: 35,

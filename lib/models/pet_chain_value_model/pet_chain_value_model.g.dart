@@ -8,7 +8,7 @@ part of 'pet_chain_value_model.dart';
 
 PetChainValueModel _$PetChainValueModelFromJson(Map<String, dynamic> json) =>
     PetChainValueModel(
-      date: json['date'] as String,
+      date: DateTime.parse(json['date'] as String),
       type: json['type'] as String,
       txId: json['txId'] as String,
       petChainValueContentModel: PetChainValueContentModel.fromJson(
@@ -17,7 +17,7 @@ PetChainValueModel _$PetChainValueModelFromJson(Map<String, dynamic> json) =>
 
 Map<String, dynamic> _$PetChainValueModelToJson(PetChainValueModel instance) =>
     <String, dynamic>{
-      'date': instance.date,
+      'date': instance.date.toIso8601String(),
       'type': instance.type,
       'txId': instance.txId,
       'content': instance.petChainValueContentModel.toJson(),
