@@ -13,6 +13,7 @@ import 'package:petapp_mobile/models/species_model/species_model.dart';
 import 'package:petapp_mobile/services/pet_services/breed_services.dart';
 import 'package:petapp_mobile/services/pet_services/species_services.dart';
 import 'package:petapp_mobile/utilities/utilities.dart';
+import 'package:petapp_mobile/views/widgets/customize_widget.dart';
 
 class CreatePetBodyWidget extends GetView<CreatePetPageController> {
   const CreatePetBodyWidget({Key? key}) : super(key: key);
@@ -37,6 +38,9 @@ class CreatePetBodyWidget extends GetView<CreatePetPageController> {
             : SingleChildScrollView(
                 child: Column(
                   children: [
+                    const SizedBox(
+                      height: 20,
+                    ),
                     petNameWidget(),
                     petSpicesWidget(),
                     petBreedWidget(),
@@ -733,10 +737,12 @@ class CreatePetBodyWidget extends GetView<CreatePetPageController> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Image.asset(
-                    speciesModel.imageUrl!,
-                    height: 25,
-                  ),
+                  speciesModel.imageUrl != null
+                      ? Image.asset(
+                          speciesModel.imageUrl!,
+                          height: 25,
+                        )
+                      : const SizedBox.shrink(),
                   const SizedBox(
                     width: 3,
                   ),
@@ -760,14 +766,14 @@ class CreatePetBodyWidget extends GetView<CreatePetPageController> {
       );
 
   Widget petNameWidget() {
-    TextEditingController _textEditingController = TextEditingController();
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 12),
-      child: Column(
+      child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Padding(
-            padding: const EdgeInsets.only(top: 20),
+          Container(
+            height: 45,
+            padding: const EdgeInsets.only(right: 20),
             child: Row(
               children: [
                 Text(
@@ -790,51 +796,31 @@ class CreatePetBodyWidget extends GetView<CreatePetPageController> {
               ],
             ),
           ),
-          Container(
-            height: 45,
-            alignment: Alignment.center,
-            margin: const EdgeInsets.only(top: 8),
-            padding: const EdgeInsets.all(10),
-            decoration: BoxDecoration(
-              border: Border.all(
-                color: const Color.fromARGB(255, 167, 181, 201),
-                width: 1.2,
-              ),
-              borderRadius: BorderRadius.circular(5),
+          Expanded(
+            child: CUSTOM_REQUIRED_TEXT_FIELD(
+              hintText: 'Type your pet name here...',
+              maxLength: 20,
+              onChange: (String? text) {
+                controller
+                  ..petName.value = text ?? ''
+                  ..isFirstInputPetName.value = false;
+              },
+              checkEmptyString: <bool>() {
+                return controller.petName.value.isEmpty;
+              },
+              checkErrorText: <bool>() {
+                return controller.petName.value.isEmpty &&
+                    !controller.isFirstInputPetName.value;
+              },
+              onDelete: () {
+                controller.petName.value = '';
+              },
+              errorText: 'Field pet name is required!',
+              countText: <String>() {
+                return controller.petName.value.length.toString() + '/20';
+              },
             ),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Expanded(
-                  child: TextField(
-                    minLines: 1,
-                    maxLines: 1,
-                    controller: _textEditingController,
-                    onChanged: (String text) {
-                      controller.petName.value = text;
-                    },
-                    keyboardType: TextInputType.multiline,
-                    cursorColor: PRIMARY_COLOR,
-                    style: GoogleFonts.quicksand(
-                      fontWeight: FontWeight.w500,
-                      color: const Color.fromARGB(255, 113, 135, 168),
-                      fontSize: 15,
-                      letterSpacing: 1,
-                    ),
-                    decoration: InputDecoration.collapsed(
-                      hintText: 'Type your pet name here...',
-                      hintStyle: GoogleFonts.quicksand(
-                        fontWeight: FontWeight.w500,
-                        color: const Color.fromARGB(255, 162, 176, 194),
-                        fontSize: 13,
-                        letterSpacing: 1,
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
+          ), /////./..,//,
         ],
       ),
     );
