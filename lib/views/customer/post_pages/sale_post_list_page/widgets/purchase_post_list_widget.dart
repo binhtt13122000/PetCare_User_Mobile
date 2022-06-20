@@ -242,6 +242,13 @@ class SalePostListWidget extends GetView<PurchasePostsPageController> {
                             postModel.mediaModels![0].url,
                             fit: BoxFit.cover,
                             alignment: Alignment.bottomLeft,
+                            errorBuilder: (_, object, stackTrace) =>
+                                Image.asset(
+                              IMAGE_PATH + NO_IMAGE_PNG,
+                              fit: BoxFit.cover,
+                              width: 50,
+                              height: 50,
+                            ),
                           ),
                         ),
                       ),
@@ -506,6 +513,13 @@ class SalePostListWidget extends GetView<PurchasePostsPageController> {
                             postModelHasura.mediaModels![0].url,
                             fit: BoxFit.cover,
                             alignment: Alignment.bottomLeft,
+                            errorBuilder: (_, object, stackTrace) =>
+                                Image.asset(
+                              IMAGE_PATH + NO_IMAGE_PNG,
+                              fit: BoxFit.cover,
+                              width: 50,
+                              height: 50,
+                            ),
                           ),
                         ),
                       ),

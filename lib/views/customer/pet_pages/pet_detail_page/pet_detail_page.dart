@@ -12,11 +12,14 @@ class PetDetailPage extends GetView<PetDetailPageController> {
   const PetDetailPage({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
+    if (Get.parameters['petId'] != null) {
+      controller.petId = int.parse(Get.parameters['petId']!);
+    }
     controller.isLoadingData.value = true;
 
     WidgetsBinding.instance!.addPostFrameCallback((_) async {
       controller.petModel = await PetService.fetchPetById(
-        petId: Get.parameters['petId'] ?? controller.petModel.id.toString(),
+        petId: controller.petId.toString(),
       );
       controller.isLoadingData.value = false;
     });

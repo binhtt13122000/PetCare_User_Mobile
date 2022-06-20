@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:petapp_mobile/configs/path.dart';
 import 'package:petapp_mobile/configs/theme.dart';
 import 'package:petapp_mobile/controllers/other_controllers/chatting_detail_page_controller.dart';
 
@@ -98,6 +99,13 @@ class ChattingDetailPetDropdownListWidget
                             height: 45,
                             width: 77.5,
                             fit: BoxFit.cover,
+                            errorBuilder: (_, object, stackTrace) =>
+                                Image.asset(
+                              IMAGE_PATH + NO_IMAGE_PNG,
+                              fit: BoxFit.cover,
+                              width: 50,
+                              height: 50,
+                            ),
                           ),
                         ),
                       ),

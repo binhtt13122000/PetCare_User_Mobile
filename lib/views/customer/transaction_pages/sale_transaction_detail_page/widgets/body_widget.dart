@@ -918,6 +918,12 @@ class SaleTransactionDetailBodyWidget
                   fit: BoxFit.cover,
                   height: 60,
                   width: 60,
+                  errorBuilder: (_, object, stackTrace) => Image.asset(
+                    IMAGE_PATH + NO_IMAGE_PNG,
+                    fit: BoxFit.cover,
+                    width: 50,
+                    height: 50,
+                  ),
                 ),
               ),
             ),

@@ -8,7 +8,6 @@ class CenterServiceModel {
   final String name;
   final String? description;
   final String? healthCheckTemplate;
-  final bool isHealthCheck;
   final bool status;
   final String unit;
   final int estimatedTime;
@@ -18,7 +17,6 @@ class CenterServiceModel {
     required this.name,
     this.description,
     this.healthCheckTemplate,
-    required this.isHealthCheck,
     required this.status,
     required this.unit,
     required this.estimatedTime,

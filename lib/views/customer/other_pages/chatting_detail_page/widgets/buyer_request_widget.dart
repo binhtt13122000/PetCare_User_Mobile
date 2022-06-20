@@ -135,6 +135,12 @@ class BuyerRequestWidget extends GetView<ChattingDetailPageController> {
                     height: 50,
                     width: 80,
                     fit: BoxFit.cover,
+                    errorBuilder: (_, object, stackTrace) => Image.asset(
+                      IMAGE_PATH + NO_IMAGE_PNG,
+                      fit: BoxFit.cover,
+                      width: 50,
+                      height: 50,
+                    ),
                   ),
                 ),
                 Expanded(

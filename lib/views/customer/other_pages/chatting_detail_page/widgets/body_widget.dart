@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:petapp_mobile/configs/path.dart';
 import 'package:petapp_mobile/configs/theme.dart';
 import 'package:petapp_mobile/controllers/other_controllers/chatting_detail_page_controller.dart';
 import 'package:petapp_mobile/models/message_model/message_model.dart';
@@ -153,6 +154,13 @@ class ChattingDetailBodyWidget extends GetView<ChattingDetailPageController> {
                               child: Image.network(
                                 messageModel.content,
                                 height: 100,
+                                errorBuilder: (_, object, stackTrace) =>
+                                    Image.asset(
+                                  IMAGE_PATH + NO_IMAGE_PNG,
+                                  fit: BoxFit.cover,
+                                  width: 50,
+                                  height: 50,
+                                ),
                               ),
                             ),
                           ),
@@ -259,6 +267,13 @@ class ChattingDetailBodyWidget extends GetView<ChattingDetailPageController> {
                                   child: Image.network(
                                     messageModel.content,
                                     height: 100,
+                                    errorBuilder: (_, object, stackTrace) =>
+                                        Image.asset(
+                                      IMAGE_PATH + NO_IMAGE_PNG,
+                                      fit: BoxFit.cover,
+                                      width: 50,
+                                      height: 50,
+                                    ),
                                   ),
                                 ),
                               ),

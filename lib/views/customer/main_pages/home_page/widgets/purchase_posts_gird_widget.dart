@@ -184,6 +184,13 @@ class SalePostGirdsWidget extends GetView<HomePageController> {
                             postModel.mediaModels![0].url,
                             fit: BoxFit.cover,
                             alignment: Alignment.bottomLeft,
+                            errorBuilder: (_, object, stackTrace) =>
+                                Image.asset(
+                              IMAGE_PATH + NO_IMAGE_PNG,
+                              fit: BoxFit.cover,
+                              width: 50,
+                              height: 50,
+                            ),
                           ),
                         ),
                       ),

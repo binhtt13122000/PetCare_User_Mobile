@@ -224,6 +224,12 @@ class MediaPickerWidget extends GetView<UpdateSalePostPageController> {
                   ? Image.network(
                       controller.evidencesPath[index].url,
                       height: 180,
+                      errorBuilder: (_, object, stackTrace) => Image.asset(
+                        IMAGE_PATH + NO_IMAGE_PNG,
+                        fit: BoxFit.cover,
+                        width: 50,
+                        height: 50,
+                      ),
                     )
                   : Image.file(
                       File(controller.evidencesPath[index].url),
@@ -235,10 +241,12 @@ class MediaPickerWidget extends GetView<UpdateSalePostPageController> {
               right: 5,
               child: InkWell(
                 onTap: () => {
-                  if(controller.evidencesPath[index].id != null) {
-                    // ignore: invalid_use_of_protected_member
-                    controller.deletedIds.value.add(controller.evidencesPath[index].id ?? 0)
-                  },
+                  if (controller.evidencesPath[index].id != null)
+                    {
+                      // ignore: invalid_use_of_protected_member
+                      controller.deletedIds.value
+                          .add(controller.evidencesPath[index].id ?? 0)
+                    },
                   controller.evidencesPath.removeAt(index)
                 },
                 child: Container(

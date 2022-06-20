@@ -20,15 +20,15 @@ class PetDetailHeathRecordsWidget extends GetView<PetDetailPageController> {
           controller
             ..vaccinesList =
                 await PetHealthRecordsServices.fetchPetHealthRecordList(
-                    petId: controller.petModel.id.toString(), type: 'VACCINE')
+                    petId: controller.petId.toString(), type: 'VACCINE')
             ..sortVaccinesList()
             ..dewormingList =
                 await PetHealthRecordsServices.fetchPetHealthRecordList(
-                    petId: Get.parameters['petId']!, type: 'HELMINTHIC')
+                    petId: controller.petId.toString(), type: 'HELMINTHIC')
             ..sortDewormingList()
             ..removeTicksList =
                 await PetHealthRecordsServices.fetchPetHealthRecordList(
-                    petId: Get.parameters['petId']!, type: 'TICKS')
+                    petId: controller.petId.toString(), type: 'TICKS')
             ..sortRemoveTicksList()
             ..isLoadingHealthRecord.value = false;
         });
@@ -39,13 +39,10 @@ class PetDetailHeathRecordsWidget extends GetView<PetDetailPageController> {
                   child: LOADING_WIDGET(),
                 )
               : Column(children: [
-                  healthRecordItemWidget(title: 'Weight'),
                   vaccineItemWidget(),
                   dewormingItemWidget(),
                   removeTicksItemWidget(),
-                  healthRecordItemWidget(title: 'Health status'),
-                  healthRecordItemWidget(title: 'Nutrition'),
-                  healthRecordItemWidget(title: 'Allergy'),
+                  healthRecordItemWidget(title: 'Weight'),
                 ]),
         );
       });
@@ -99,7 +96,7 @@ class PetDetailHeathRecordsWidget extends GetView<PetDetailPageController> {
                     ),
                   ],
                 ),
-                controller.vaccinesList.isEmpty
+                controller.removeTicksList.isEmpty
                     ? Padding(
                         padding: const EdgeInsets.only(top: 20, bottom: 10),
                         child: CUSTOM_TEXT(
@@ -256,7 +253,7 @@ class PetDetailHeathRecordsWidget extends GetView<PetDetailPageController> {
                     ),
                   ],
                 ),
-                controller.vaccinesList.isEmpty
+                controller.dewormingList.isEmpty
                     ? Padding(
                         padding: const EdgeInsets.only(top: 20, bottom: 10),
                         child: CUSTOM_TEXT(
