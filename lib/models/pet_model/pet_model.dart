@@ -1,5 +1,6 @@
 import 'package:json_annotation/json_annotation.dart';
 import 'package:petapp_mobile/models/breed_model/breed_model.dart';
+import 'package:petapp_mobile/models/pet_health_records_model/pet_health_records_model.dart';
 
 part 'pet_model.g.dart';
 
@@ -22,21 +23,25 @@ class PetModel {
   final bool isFertility;
   @JsonKey(name: 'breed')
   BreedModel? breedModel;
+  @JsonKey(name: 'healthPetRecords')
+  List<PetHealthRecordModel>? petHealthRecordModelList;
 
-  PetModel(
-      {required this.id,
-      required this.name,
-      required this.avatar,
-      this.description,
-      this.color,
-      required this.status,
-      required this.breedModel,
-      required this.dob,
-      required this.gender,
-      this.specialMarkings,
-      this.vaccineDescription,
-      this.breedId,
-      required this.isFertility}) {
+  PetModel({
+    required this.id,
+    required this.name,
+    required this.avatar,
+    this.description,
+    this.color,
+    required this.status,
+    required this.breedModel,
+    required this.dob,
+    required this.gender,
+    this.specialMarkings,
+    this.vaccineDescription,
+    this.breedId,
+    required this.isFertility,
+    this.petHealthRecordModelList,
+  }) {
     var diff = DateTime.now().difference(dob);
     int dateAge = diff.inDays;
     if (dateAge > 365) {

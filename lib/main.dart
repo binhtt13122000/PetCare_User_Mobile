@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:petapp_mobile/bindings/main_page_bindings/action_page_binding.dart';
+import 'package:petapp_mobile/bindings/pet_page_bindings/pet_block_chain_page_binding.dart';
 import 'package:petapp_mobile/bindings/transaction_page_bindings/breeding_transaction_detail_page_binding.dart';
 import 'package:petapp_mobile/bindings/transaction_page_bindings/buy_services_combo_page_binding.dart';
 import 'package:petapp_mobile/bindings/other_page_bindings/chatting_detail_page_binding.dart';
@@ -50,13 +51,18 @@ import 'package:petapp_mobile/views/customer/other_pages/chatting_detail_page/ch
 import 'package:petapp_mobile/views/customer/other_pages/notification_page/notification_page.dart';
 import 'package:petapp_mobile/views/customer/other_pages/personal_information_page/personal_information_page.dart';
 import 'package:petapp_mobile/views/customer/pet_pages/create_pet_page/create_pet_page.dart';
+import 'package:petapp_mobile/views/customer/pet_pages/deworming_blockchain_history_page/deworming_blockchain_history_page.dart';
 import 'package:petapp_mobile/views/customer/pet_pages/deworming_history_page/deworming_history_page.dart';
+import 'package:petapp_mobile/views/customer/pet_pages/pet_block_chain/pet_block_chain_page.dart';
+import 'package:petapp_mobile/views/customer/pet_pages/pet_block_chain_detail_page/pet_block_chain_detail_page.dart';
 import 'package:petapp_mobile/views/customer/pet_pages/pet_combo_detail_page/pet_combo_detail_page.dart';
 import 'package:petapp_mobile/views/customer/pet_pages/pet_detail_page/pet_detail_page.dart';
 import 'package:petapp_mobile/views/customer/pet_pages/pet_management_page/pet_management_page.dart';
 import 'package:petapp_mobile/views/customer/pet_pages/pet_weight_page/pet_weight_page.dart';
+import 'package:petapp_mobile/views/customer/pet_pages/remove_ticks_blockchain_history_page/remove_ticks_blockchain_history_page.dart';
 import 'package:petapp_mobile/views/customer/pet_pages/remove_ticks_history_page/remove_ticks_history_page.dart';
 import 'package:petapp_mobile/views/customer/pet_pages/update_pet_page/update_pet_page.dart';
+import 'package:petapp_mobile/views/customer/pet_pages/vaccine_block_chain_list_page/vaccine_blockchain_list_page.dart';
 import 'package:petapp_mobile/views/customer/pet_pages/vaccine_list_page/vaccine_list_page.dart';
 import 'package:petapp_mobile/views/customer/post_pages/create_post_page/create_post_page.dart';
 import 'package:petapp_mobile/views/customer/post_pages/post_detail_page/post_detail_page.dart';
@@ -435,6 +441,18 @@ class MainApp extends StatelessWidget {
           binding: VaccineListPageBinding(),
         ),
         GetPage(
+          name: VACCINE_LIST_BLOCKCHAIN_PAGE_ROUTE,
+          page: () => const VaccineBlockChainListPage(),
+        ),
+        GetPage(
+          name: DEWORMING_BLOCKCHAIN_HISTORY_PAGE_ROUTE,
+          page: () => const DewormingBlockchainHistoryPage(),
+        ),
+        GetPage(
+          name: REMOVE_TICKS_BLOCKCHAIN_PAGE_ROUTE,
+          page: () => const RemoveTickBlockchainHistoryPage(),
+        ),
+        GetPage(
           name: '$DEWORMING_HISTORY_PAGE_ROUTE/:petId',
           page: () => const DewormingHistoryPage(),
           binding: DewormingHistoryPageBiding(),
@@ -443,6 +461,15 @@ class MainApp extends StatelessWidget {
           name: '$REMOVE_TICKS_PAGE_ROUTE/:petId',
           page: () => const RemoveTickHistoryPage(),
           binding: RemoveTicksHistoryPageBinding(),
+        ),
+        GetPage(
+          name: '$PET_BLOCK_CHAIN_PAGE_ROUTE/:petId',
+          page: () => const PetBlockChainPage(),
+          binding: PetBlockChainPageBinding(),
+        ),
+        GetPage(
+          name: '$PET_BLOCK_CHAIN_DETAIL_PAGE_ROUTE/:chainId',
+          page: () => const PetBlockChainDetailPage(),
         ),
         //*Chatting
         GetPage(

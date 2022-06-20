@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:petapp_mobile/configs/route.dart';
 import 'package:petapp_mobile/configs/theme.dart';
 import 'package:petapp_mobile/controllers/pet_page_controllers/pet_detail_page_controller.dart';
 import 'package:petapp_mobile/views/widgets/customize_widget.dart';
@@ -20,7 +21,7 @@ class PetDetailMoreOptionWidget extends GetView<PetDetailPageController> {
                 onTap: () {},
                 child: Container(
                   width: 200,
-                  height: 80,
+                  height: 170,
                   decoration: BoxDecoration(
                     color: WHITE_COLOR,
                     borderRadius: BorderRadius.circular(10),
@@ -34,7 +35,27 @@ class PetDetailMoreOptionWidget extends GetView<PetDetailPageController> {
                   ),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: const [],
+                    children: [
+                      buttonWidget(
+                          content: 'Update information',
+                          onTap: () {
+                            controller.isShowMoreOptionWidget.value = false;
+                            Get.toNamed(
+                                '$UPDATE_PET_PAGE_ROUTE/${controller.petModel.id}');
+                          }),
+                      buttonWidget(
+                          content: 'View pet history',
+                          onTap: () {
+                            controller.isShowMoreOptionWidget.value = false;
+                            Get.toNamed(
+                                '$PET_BLOCK_CHAIN_PAGE_ROUTE/${controller.petModel.id}');
+                          }),
+                      buttonWidget(
+                        content: 'Delete pet',
+                        onTap: () {},
+                        isImportant: true,
+                      ),
+                    ],
                   ),
                 ),
               ),

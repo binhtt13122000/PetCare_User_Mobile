@@ -5,8 +5,8 @@ import 'package:petapp_mobile/models/pet_health_records_model/pet_health_records
 import 'package:petapp_mobile/models/pet_model/pet_model.dart';
 
 class PetDetailPageController extends GetxController {
+  late int petId;
   RxBool isShowMoreOptionWidget = false.obs;
-
   RxBool isLoadingPetCombo = false.obs;
   RxBool isLoadingHealthRecord = false.obs;
   RxBool isLoadingPetDetail = false.obs;

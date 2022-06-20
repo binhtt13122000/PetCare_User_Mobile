@@ -4,11 +4,11 @@ import 'package:petapp_mobile/models/pet_health_records_model/pet_health_records
 class VaccineListPageController extends GetxController {
   late List<PetHealthRecordModel> vaccinesList;
   RxBool isWaitingLoadingData = false.obs;
-  late Map<String, List<PetHealthRecordModel>> vaccinesMap;
-  late List<String> vaccinesMapKeys;
   late RxString selectedVaccine = 'All vaccines'.obs;
   RxBool isShowVaccinesList = false.obs;
   RxList<int> showDescriptionIndexList = <int>[].obs;
+  late Map<String, List<PetHealthRecordModel>> vaccinesMap;
+  late List<String> vaccinesMapKeys;
 
   setMapVaccines() {
     vaccinesMapKeys = ['All vaccines'];

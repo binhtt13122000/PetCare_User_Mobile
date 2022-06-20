@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:petapp_mobile/configs/path.dart';
 import 'package:petapp_mobile/configs/route.dart';
 import 'package:petapp_mobile/configs/theme.dart';
 import 'package:petapp_mobile/controllers/pet_page_controllers/pet_management_page_controller.dart';
@@ -184,6 +185,18 @@ class PetsManagementBodyWidget extends GetView<PetManagementPageController> {
                       fit: BoxFit.cover,
                       width: 50,
                       height: 50,
+                      errorBuilder: (_, object, stackTrace) => Image.asset(
+                        IMAGE_PATH + NO_IMAGE_PNG,
+                        fit: BoxFit.cover,
+                        width: 50,
+                        height: 50,
+                        errorBuilder: (_, object, stackTrace) => Image.asset(
+                          IMAGE_PATH + NO_IMAGE_PNG,
+                          fit: BoxFit.cover,
+                          width: 50,
+                          height: 50,
+                        ),
+                      ),
                     ),
                   ),
                 ),
@@ -307,6 +320,20 @@ class PetsManagementBodyWidget extends GetView<PetManagementPageController> {
                             fit: BoxFit.cover,
                             width: 50,
                             height: 50,
+                            errorBuilder: (_, object, stackTrace) =>
+                                Image.asset(
+                              IMAGE_PATH + NO_IMAGE_PNG,
+                              fit: BoxFit.cover,
+                              width: 50,
+                              height: 50,
+                              errorBuilder: (_, object, stackTrace) =>
+                                  Image.asset(
+                                IMAGE_PATH + NO_IMAGE_PNG,
+                                fit: BoxFit.cover,
+                                width: 50,
+                                height: 50,
+                              ),
+                            ),
                           ),
                         ),
                       ),

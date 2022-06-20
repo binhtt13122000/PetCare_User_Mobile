@@ -89,6 +89,7 @@ const PROFILE_UNSELECTED_SVG = 'profile_unselected.svg';
 const PET_GROOMING_PNG = 'pet_grooming.png';
 const PET_SHOWER_PNG = 'pet_shower.png';
 const PET_VACCINATION_PNG = 'pet_vaccination.png';
+const NO_IMAGE_PNG = 'no_image.png';
 
 // const API_SERVER = '10.1.127.196:4000';
 // const GRAPHL_SERVER = 'http://10.1.127.196:8080';
@@ -99,8 +100,8 @@ const PET_VACCINATION_PNG = 'pet_vaccination.png';
 // const API_SERVER = '10.0.2.2:4000';
 // const GRAPHL_SERVER = 'http://10.0.2.2:8080';
 
-const API_SERVER_PATH = '54.177.17.137';
-const GRAPHL_SERVER_PATH = 'http://54.177.17.137:8080';
+const API_SERVER_PATH = '54.176.32.33';
+const GRAPHL_SERVER_PATH = 'http://54.176.32.33:8080';
 
 //*sale transaction
 const SALE_TRANSACTION_RETURN_API_PATH =
@@ -150,5 +151,8 @@ const PET_HEALTH_RECORD_API_PATH = '/v1/api/health-pet-records';
 //*auth
 const AUTH_API_PATH = '/v1/api/auth';
 
-//post
+//*post
 const POST_API_PATH = '/v1/api/posts';
+
+//*pet chain
+const PET_CHAIN_API = '/v1/api/pets/chain';

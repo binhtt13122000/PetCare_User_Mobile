@@ -24,7 +24,7 @@ class UpdatePetBodyWidget extends GetView<UpdatePetPageController> {
       controller.species.value = await SpeciesService.fetchSpeciesList();
       controller.selectedSpeciesId.value = controller.species[0].id;
     });
-      controller.isLoadingDataSpecies.value = false;
+    controller.isLoadingDataSpecies.value = false;
     return Obx(
       () => controller.isLoadingDataSpecies.value
           ? const Center(
@@ -34,7 +34,7 @@ class UpdatePetBodyWidget extends GetView<UpdatePetPageController> {
               ),
             )
           : Expanded(
-            child: SingleChildScrollView(
+              child: SingleChildScrollView(
                 child: Column(
                   children: [
                     petNameWidget(),
@@ -50,7 +50,7 @@ class UpdatePetBodyWidget extends GetView<UpdatePetPageController> {
                   ],
                 ),
               ),
-          ),
+            ),
     );
   }
 
@@ -477,6 +477,12 @@ class UpdatePetBodyWidget extends GetView<UpdatePetPageController> {
                     width: 280,
                     height: 180,
                     fit: BoxFit.cover,
+                    errorBuilder: (_, object, stackTrace) => Image.asset(
+                      IMAGE_PATH + NO_IMAGE_PNG,
+                      fit: BoxFit.cover,
+                      width: 50,
+                      height: 50,
+                    ),
                   ),
           ),
           const Positioned(
@@ -620,8 +626,9 @@ class UpdatePetBodyWidget extends GetView<UpdatePetPageController> {
       GetBuilder<UpdatePetPageController>(builder: (_) {
         controller.isLoadingBreedData.value = true;
         WidgetsBinding.instance!.addPostFrameCallback((_) async {
-          controller.breeds.value = await BreedService.fetchBreedListBySpeciesId(
-              speciesId: controller.selectedSpeciesId.value);
+          controller.breeds.value =
+              await BreedService.fetchBreedListBySpeciesId(
+                  speciesId: controller.selectedSpeciesId.value);
           controller.selectedBreedsId.value = controller.breeds[0].id;
           controller.isLoadingBreedData.value = false;
         });

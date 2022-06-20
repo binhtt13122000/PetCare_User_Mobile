@@ -208,6 +208,12 @@ class BuyServicesComboSelectPetWidget
                     height: 50,
                     width: 80,
                     fit: BoxFit.cover,
+                    errorBuilder: (_, object, stackTrace) => Image.asset(
+                      IMAGE_PATH + NO_IMAGE_PNG,
+                      fit: BoxFit.cover,
+                      width: 50,
+                      height: 50,
+                    ),
                   ),
                 ),
                 Expanded(
@@ -270,6 +276,13 @@ class BuyServicesComboSelectPetWidget
                             height: 45,
                             width: 77.5,
                             fit: BoxFit.cover,
+                            errorBuilder: (_, object, stackTrace) =>
+                                Image.asset(
+                              IMAGE_PATH + NO_IMAGE_PNG,
+                              fit: BoxFit.cover,
+                              width: 50,
+                              height: 50,
+                            ),
                           ),
                         ),
                       ),

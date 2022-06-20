@@ -71,6 +71,13 @@ class ChattingDetailTopWidget extends GetView<ChattingDetailPageController> {
                             height: 40,
                             width: 40,
                             fit: BoxFit.cover,
+                            errorBuilder: (_, object, stackTrace) =>
+                                Image.asset(
+                              IMAGE_PATH + NO_IMAGE_PNG,
+                              fit: BoxFit.cover,
+                              width: 50,
+                              height: 50,
+                            ),
                           ),
                         ),
                       ),

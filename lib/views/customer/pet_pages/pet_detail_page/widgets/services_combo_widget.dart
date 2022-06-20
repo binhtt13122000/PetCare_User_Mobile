@@ -20,7 +20,7 @@ class PetDetailServicesComboWidget extends GetView<PetDetailPageController> {
           controller
             ..petComboModelList =
                 await PetComboServices.fetchListPetComboByPetId(
-                    petId: controller.petModel.id)
+                    petId: controller.petId)
             ..isLoadingPetCombo.value = false;
         });
         return Obx(
