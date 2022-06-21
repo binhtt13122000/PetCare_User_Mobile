@@ -252,7 +252,6 @@ Future<void> initDynamicLinks({String initRoute = LANDING_PAGE_ROUTE}) async {
   final Uri? deepLink = data?.link;
   if (deepLink != null) {
     String? petId = deepLink.queryParameters['petId'].toString();
-    print(petId);
     if (FirebaseAuth.instance.currentUser != null) {
       Get.toNamed('$PET_BLOCK_CHAIN_PAGE_ROUTE/$petId');
     } else {
