@@ -13,7 +13,7 @@ class PetGenerateQrCodeBodyWidget extends GetView<GenerateQrCodeController> {
   Widget build(BuildContext context) {
     return Obx(
       () => Container(
-        padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 15),
+        padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 12),
         margin: const EdgeInsets.all(25),
         decoration: BoxDecoration(
           color: WHITE_COLOR,
@@ -52,8 +52,8 @@ class PetGenerateQrCodeBodyWidget extends GetView<GenerateQrCodeController> {
                             fontWeight: FontWeight.w600,
                             letterSpacing: 1,
                             textAlign: TextAlign.center,
-                            padding: const EdgeInsets.symmetric(horizontal: 2),
-                            fontSize: 13,
+                            padding: const EdgeInsets.symmetric(horizontal: 1),
+                            fontSize: 12,
                           ),
                           controller.countDownTime.value < 55
                               ? InkWell(
@@ -61,7 +61,7 @@ class PetGenerateQrCodeBodyWidget extends GetView<GenerateQrCodeController> {
                                       fontWeight: FontWeight.w600,
                                       letterSpacing: 1,
                                       textAlign: TextAlign.center,
-                                      fontSize: 13,
+                                      fontSize: 12,
                                       color: Colors.pink),
                                   onTap: () {
                                     if (controller.timerUpdate.isActive) {
