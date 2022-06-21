@@ -158,3 +158,5 @@ const POST_API_PATH = '/v1/api/posts';
 
 //*pet chain
 const PET_CHAIN_API = '/v1/api/pets/chain';
+const PET_CHAIN_HASH_API = '/v1/api/pets/chain/hash';
+

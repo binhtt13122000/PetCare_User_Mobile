@@ -1,11 +1,13 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:petapp_mobile/bindings/main_page_bindings/action_page_binding.dart';
+import 'package:petapp_mobile/bindings/pet_page_bindings/generate_qr_code_binding.dart';
 import 'package:petapp_mobile/bindings/pet_page_bindings/pet_block_chain_page_binding.dart';
 import 'package:petapp_mobile/bindings/transaction_page_bindings/breeding_transaction_detail_page_binding.dart';
 import 'package:petapp_mobile/bindings/transaction_page_bindings/buy_services_combo_page_binding.dart';
@@ -42,6 +44,7 @@ import 'package:petapp_mobile/controllers/other_controllers/auth_controller.dart
 import 'package:petapp_mobile/controllers/guest_page_controllers/sign_in_page_controller.dart';
 import 'package:petapp_mobile/models/account_model/account_model.dart';
 import 'package:petapp_mobile/services/other_services/auth_services.dart';
+import 'package:petapp_mobile/views/customer/generate_qr_code/qr_code_page.dart';
 import 'package:petapp_mobile/views/customer/main_pages/action_page/action_page.dart';
 import 'package:petapp_mobile/views/customer/main_pages/chatting_list_page/chatting_list_page.dart';
 import 'package:petapp_mobile/views/customer/main_pages/home_page/home_page.dart';
@@ -97,8 +100,9 @@ late AndroidNotificationChannel channel;
 late FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
     FlutterLocalNotificationsPlugin();
 
-void main() async {
+Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   SystemChrome.setSystemUIOverlayStyle(
     const SystemUiOverlayStyle(
       statusBarColor: Color.fromARGB(0, 199, 57, 57),
@@ -109,8 +113,6 @@ void main() async {
   );
 
   runApp(const MainApp());
-
-  await Firebase.initializeApp();
 
   if (!kIsWeb) {
     channel = const AndroidNotificationChannel(
@@ -166,7 +168,7 @@ void main() async {
       initRoute = LANDING_PAGE_ROUTE;
     }
   }
-
+  await initDynamicLinks(initRoute: initRoute);
   Future.delayed(
     Duration(seconds: isAuth ? 0 : 2),
     () => Get.offNamed(initRoute),
@@ -244,6 +246,35 @@ Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
       message.data["type"]);
 }
 
+Future<void> initDynamicLinks({String initRoute = LANDING_PAGE_ROUTE}) async {
+  final PendingDynamicLinkData? data =
+      await FirebaseDynamicLinks.instance.getInitialLink();
+  final Uri? deepLink = data?.link;
+  if (deepLink != null) {
+    //  Navigator.pushNamed(context, deepLink.path);
+  }
+  FirebaseDynamicLinks.instance.onLink
+      .listen((PendingDynamicLinkData? dynamicLink) async {
+    final Uri? deepLink = dynamicLink?.link;
+
+    String? petId = deepLink?.queryParameters['petId'].toString();
+    print(petId);
+    if (petId != null) {
+      if (FirebaseAuth.instance.currentUser != null) {
+        Get.toNamed('$PET_BLOCK_CHAIN_PAGE_ROUTE/$petId');
+      } else {
+        if (FirebaseAuth.instance.currentUser == null) {
+          Get.toNamed(SIGN_IN_PAGE_ROUTE);
+        } else {
+          Get.toNamed(initRoute);
+        }
+      }
+    }
+  }).onError((error) {
+    print(error.message);
+  });
+}
+
 void showNotification(
     String title, String body, String? metaData, String type) async {
   await demoNotification(title, body, metaData, type);
@@ -272,8 +303,18 @@ Future<void> demoNotification(
       .show(0, title, body, platformChannelSpecifics, payload: 'notification');
 }
 
-class MainApp extends StatelessWidget {
+class MainApp extends StatefulWidget {
   const MainApp({Key? key}) : super(key: key);
+
+  @override
+  _MainAppState createState() => _MainAppState();
+}
+
+class _MainAppState extends State<MainApp> {
+  @override
+  void initState() {
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -470,6 +511,11 @@ class MainApp extends StatelessWidget {
         GetPage(
           name: '$PET_BLOCK_CHAIN_DETAIL_PAGE_ROUTE/:chainId',
           page: () => const PetBlockChainDetailPage(),
+        ),
+        GetPage(
+          name: '$PET_GENERATE_QR_CODE_ROUTE/:petId',
+          page: () => const PetGenerateQrCodePage(),
+          binding: GenerateQrCodePageBinding(),
         ),
         //*Chatting
         GetPage(

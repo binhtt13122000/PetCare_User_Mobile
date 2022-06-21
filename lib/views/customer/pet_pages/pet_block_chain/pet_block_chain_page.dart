@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:petapp_mobile/configs/route.dart';
 import 'package:petapp_mobile/configs/theme.dart';
 import 'package:petapp_mobile/controllers/pet_page_controllers/pet_block_chain_page_controller.dart';
 import 'package:petapp_mobile/services/pet_services/pet_chain_services.dart';
@@ -14,7 +15,13 @@ class PetBlockChainPage extends GetView<PetBlockChainPageController> {
   @override
   Widget build(BuildContext context) {
     if (Get.parameters['petId'] != null) {
-      controller.petId = int.parse(Get.parameters['petId']!);
+      if (int.tryParse(Get.parameters['petId'] ?? "") != null) {
+        controller.petId = int.parse(Get.parameters['petId']!);
+        controller.hashPetId = "";
+      } else {
+        controller.hashPetId = Get.parameters['petId'] ?? "";
+        controller.petId = 0;
+      }
     }
     return Scaffold(
       backgroundColor: WHITE_COLOR,
@@ -25,12 +32,31 @@ class PetBlockChainPage extends GetView<PetBlockChainPageController> {
             GetBuilder<PetBlockChainPageController>(builder: (_) {
               controller.isWaitingLoadingData.value = true;
               WidgetsBinding.instance!.addPostFrameCallback((timeStamp) async {
-                controller
-                  ..petModel = await PetService.fetchPetById(
-                      petId: controller.petId.toString())
-                  ..petChainModel = await PetChainService.fetchPetChainByPetId(
-                      petId: controller.petId.toString())
-                  ..isWaitingLoadingData.value = false;
+                if (controller.hashPetId.isNotEmpty) {
+                  controller.petChainModel =
+                      await PetChainService.fetchPetChainByHashPetId(
+                          petId: controller.hashPetId);
+                  if (controller.petChainModel.valueModelList.isNotEmpty) {
+                    controller.petModel = await PetService.fetchPetById(
+                        petId: controller.petChainModel.valueModelList.first
+                            .petChainValueContentModel.petModel.id
+                            .toString());
+                      controller.petId = controller.petModel.id;
+                  } else {
+                    Get.replace(HOME_PAGE_ROUTE);
+                  }
+                  controller.hashPetId = "";
+                } else {
+                  controller
+                    ..petModel = await PetService.fetchPetById(
+                        petId: controller.petId.toString())
+                    ..petChainModel =
+                        await PetChainService.fetchPetChainByPetId(
+                            petId: controller.petId.toString())
+                    ..isWaitingLoadingData.value = false;
+                    controller.hashPetId = "";
+                }
+              controller.isWaitingLoadingData.value = false;
               });
               return Obx(() => controller.isWaitingLoadingData.value
                   ? Expanded(child: LOADING_WIDGET())
