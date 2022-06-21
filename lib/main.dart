@@ -251,6 +251,17 @@ Future<void> initDynamicLinks({String initRoute = LANDING_PAGE_ROUTE}) async {
       await FirebaseDynamicLinks.instance.getInitialLink();
   final Uri? deepLink = data?.link;
   if (deepLink != null) {
+    String? petId = deepLink.queryParameters['petId'].toString();
+    print(petId);
+    if (FirebaseAuth.instance.currentUser != null) {
+      Get.toNamed('$PET_BLOCK_CHAIN_PAGE_ROUTE/$petId');
+    } else {
+      if (FirebaseAuth.instance.currentUser == null) {
+        Get.toNamed(SIGN_IN_PAGE_ROUTE);
+      } else {
+        Get.toNamed(initRoute);
+      }
+    }
     //  Navigator.pushNamed(context, deepLink.path);
   }
   FirebaseDynamicLinks.instance.onLink
@@ -258,7 +269,6 @@ Future<void> initDynamicLinks({String initRoute = LANDING_PAGE_ROUTE}) async {
     final Uri? deepLink = dynamicLink?.link;
 
     String? petId = deepLink?.queryParameters['petId'].toString();
-    print(petId);
     if (petId != null) {
       if (FirebaseAuth.instance.currentUser != null) {
         Get.toNamed('$PET_BLOCK_CHAIN_PAGE_ROUTE/$petId');
@@ -314,6 +324,7 @@ class _MainAppState extends State<MainApp> {
   @override
   void initState() {
     super.initState();
+    initDynamicLinks();
   }
 
   @override
