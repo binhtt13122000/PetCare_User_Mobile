@@ -55,6 +55,12 @@ class BuyServicesComboBodyWidget
                                       ? controller.petModelList[0].id
                                       : controller.selectedPetId.value
                               ..isWaitLoadingPet.value = false
+                              ..selectedPetGender.value = controller
+                                  .petModelList
+                                  .firstWhere((element) =>
+                                      element.id ==
+                                      controller.selectedPetId.value)
+                                  .gender
                               ..isLoadingPet = false;
                           });
                         }

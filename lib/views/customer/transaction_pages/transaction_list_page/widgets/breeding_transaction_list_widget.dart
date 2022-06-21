@@ -176,12 +176,12 @@ class BreedingTransactionListWidget
           displayStatus = 'The transaction is completed';
           statusColor = GREEN_COLOR;
           timeTitle = 'Payment time';
-          timeValue = breedingTransactionModel.transactionTime!;
+          timeValue = breedingTransactionModel.paymentForBranchTime!;
           break;
 
         default:
           timeTitle = 'Payment time';
-          timeValue = breedingTransactionModel.transactionTime!;
+          timeValue = breedingTransactionModel.paymentForBranchTime!;
           displayStatus = breedingTransactionModel.status;
           statusColor = GREEN_COLOR;
       }
@@ -204,7 +204,7 @@ class BreedingTransactionListWidget
           displayStatus = 'The transaction is completed';
           statusColor = GREEN_COLOR;
           timeTitle = 'Payment time';
-          timeValue = breedingTransactionModel.transactionTime!;
+          timeValue = breedingTransactionModel.paymentForBranchTime!;
           break;
         default:
           displayStatus = breedingTransactionModel.status;
@@ -349,10 +349,7 @@ class BreedingTransactionListWidget
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   CUSTOM_TEXT(
-                    controller.selectedBreedingTransactionType.value ==
-                            'Transaction role: [BUYER]'
-                        ? 'Male pet'
-                        : 'Male pet (owner)',
+                    'Male pet',
                     color: DARK_GREY_TEXT_COLOR.withOpacity(0.8),
                     fontSize: 13,
                   ),
@@ -370,10 +367,7 @@ class BreedingTransactionListWidget
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   CUSTOM_TEXT(
-                    controller.selectedBreedingTransactionType.value ==
-                            'Transaction role: [BUYER]'
-                        ? 'Female pet (owner)'
-                        : 'Female pet',
+                    'Female pet',
                     color: DARK_GREY_TEXT_COLOR.withOpacity(0.8),
                     fontSize: 13,
                   ),

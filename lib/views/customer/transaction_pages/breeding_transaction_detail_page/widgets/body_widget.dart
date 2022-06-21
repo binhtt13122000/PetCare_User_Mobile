@@ -7,6 +7,7 @@ import 'package:petapp_mobile/configs/path.dart';
 import 'package:petapp_mobile/configs/theme.dart';
 import 'package:petapp_mobile/controllers/transaction_page_controllers/breeding_transaction_detail_page_controller.dart';
 import 'package:petapp_mobile/utilities/utilities.dart';
+import 'package:petapp_mobile/views/customer/transaction_pages/breeding_transaction_detail_page/widgets/breeding_services_widget.dart';
 
 class BreedingTransactionDetailBodyWidget
     extends GetView<BreedingTransactionDetailPageController> {
@@ -20,10 +21,13 @@ class BreedingTransactionDetailBodyWidget
       child: Container(
         color: SUPPER_LIGHT_BLUE,
         child: SingleChildScrollView(
+          controller: controller.scrollController,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              petInformation(),
+              controller.breedingTransactionModel.self
+                  ? const SizedBox.shrink()
+                  : petInformation(),
               Container(
                 height: 1,
                 color: LIGHT_GREY_COLOR.withAlpha(30),
@@ -33,8 +37,10 @@ class BreedingTransactionDetailBodyWidget
                 height: 16,
               ),
               viewTypeWidget(),
-              breedingTransactionInformationWidget(),
-              saleTransactionPriceWidget(width: width),
+              Obx(() => controller.selectedViewTab.value ==
+                      'Transaction details'
+                  ? transactionDetailsWidget(width: width)
+                  : const BreedingTransactionDetailBreedingServicesWidget()),
             ],
           ),
         ),
@@ -42,11 +48,21 @@ class BreedingTransactionDetailBodyWidget
     );
   }
 
-  Widget viewTypeWidget() => Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: controller.viewTabList
-            .map((e) => viewTypeItemWidget(viewType: e))
-            .toList(),
+  Widget transactionDetailsWidget({required double width}) => Column(
+        children: [
+          breedingTransactionInformationWidget(),
+          saleTransactionPriceWidget(width: width),
+        ],
+      );
+
+  Widget viewTypeWidget() => Container(
+        color: WHITE_COLOR,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: controller.viewTabList
+              .map((e) => viewTypeItemWidget(viewType: e))
+              .toList(),
+        ),
       );
 
   Widget viewTypeItemWidget({required String viewType, int flex = 1}) =>
@@ -607,69 +623,83 @@ class BreedingTransactionDetailBodyWidget
                   ),
                 ],
               ),
-              Container(
-                margin: const EdgeInsets.symmetric(
-                  vertical: 5,
-                  horizontal: 15,
+              Visibility(
+                visible: controller
+                        .breedingTransactionModel.paymentForMalePetOwnerTime !=
+                    null,
+                child: Column(
+                  children: [
+                    Container(
+                      margin: const EdgeInsets.symmetric(
+                        vertical: 5,
+                        horizontal: 15,
+                      ),
+                      height: 1,
+                      color: DARK_GREY_COLOR.withAlpha(50),
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          controller.breedingTransactionModel
+                                      .ownerPetFemaleId ==
+                                  controller.accountModel.customerModel.id
+                              ? 'Payment time'
+                              : 'Buyer payment time',
+                          style: GoogleFonts.quicksand(
+                            fontSize: 15,
+                            fontWeight: FontWeight.w500,
+                            color: const Color.fromARGB(255, 77, 82, 105),
+                            letterSpacing: 0.5,
+                          ),
+                        ),
+                        Text(
+                          controller.breedingTransactionModel
+                                      .paymentForMalePetOwnerTime !=
+                                  null
+                              ? FORMAT_DATE_TIME(
+                                  dateTime: controller.breedingTransactionModel
+                                      .paymentForMalePetOwnerTime!,
+                                  pattern: DATE_TIME_PATTERN)
+                              : 'N/A',
+                          style: GoogleFonts.quicksand(
+                            fontSize: 15,
+                            fontWeight: FontWeight.w500,
+                            color: const Color.fromARGB(255, 77, 82, 105),
+                            letterSpacing: 0.5,
+                          ),
+                        ),
+                      ],
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          controller.breedingTransactionModel
+                                      .ownerPetFemaleId ==
+                                  controller.accountModel.customerModel.id
+                              ? 'Payment method'
+                              : 'Buyer payment method',
+                          style: GoogleFonts.quicksand(
+                            fontSize: 15,
+                            fontWeight: FontWeight.w500,
+                            color: const Color.fromARGB(255, 77, 82, 105),
+                            letterSpacing: 0.5,
+                          ),
+                        ),
+                        Text(
+                          controller.breedingTransactionModel.paymentMethod ??
+                              'N/A',
+                          style: GoogleFonts.quicksand(
+                            fontSize: 15,
+                            fontWeight: FontWeight.w500,
+                            color: const Color.fromARGB(255, 77, 82, 105),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
                 ),
-                height: 1,
-                color: DARK_GREY_COLOR.withAlpha(50),
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    controller.breedingTransactionModel.ownerPetFemaleId ==
-                            controller.accountModel.customerModel.id
-                        ? 'Payment time'
-                        : 'Buyer payment time',
-                    style: GoogleFonts.quicksand(
-                      fontSize: 15,
-                      fontWeight: FontWeight.w500,
-                      color: const Color.fromARGB(255, 77, 82, 105),
-                      letterSpacing: 0.5,
-                    ),
-                  ),
-                  Text(
-                    controller.breedingTransactionModel.transactionTime != null
-                        ? FORMAT_DATE_TIME(
-                            dateTime: controller
-                                .breedingTransactionModel.transactionTime!,
-                            pattern: DATE_TIME_PATTERN)
-                        : 'N/A',
-                    style: GoogleFonts.quicksand(
-                      fontSize: 15,
-                      fontWeight: FontWeight.w500,
-                      color: const Color.fromARGB(255, 77, 82, 105),
-                      letterSpacing: 0.5,
-                    ),
-                  ),
-                ],
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    controller.breedingTransactionModel.ownerPetFemaleId ==
-                            controller.accountModel.customerModel.id
-                        ? 'Payment method'
-                        : 'Buyer payment method',
-                    style: GoogleFonts.quicksand(
-                      fontSize: 15,
-                      fontWeight: FontWeight.w500,
-                      color: const Color.fromARGB(255, 77, 82, 105),
-                      letterSpacing: 0.5,
-                    ),
-                  ),
-                  Text(
-                    controller.breedingTransactionModel.paymentMethod ?? 'N/A',
-                    style: GoogleFonts.quicksand(
-                      fontSize: 15,
-                      fontWeight: FontWeight.w500,
-                      color: const Color.fromARGB(255, 77, 82, 105),
-                    ),
-                  ),
-                ],
               ),
               controller.breedingTransactionModel.star != null &&
                       controller.breedingTransactionModel.star != 0 &&
@@ -825,10 +855,7 @@ class BreedingTransactionDetailBodyWidget
                       ),
                       Text(
                         controller.breedingTransactionModel.femalePetModel
-                                .breedModel!.name +
-                            ' - ' +
-                            controller.breedingTransactionModel.femalePetModel
-                                .breedModel!.speciesModel!.name,
+                            .breedModel!.name,
                         style: GoogleFonts.quicksand(
                           fontSize: 15,
                           color: const Color.fromARGB(255, 77, 82, 105),
@@ -963,10 +990,7 @@ class BreedingTransactionDetailBodyWidget
                       ),
                       Text(
                         controller.breedingTransactionModel.malePetModel
-                                .breedModel!.name +
-                            ' - ' +
-                            controller.breedingTransactionModel.malePetModel
-                                .breedModel!.speciesModel!.name,
+                            .breedModel!.name,
                         style: GoogleFonts.quicksand(
                           fontSize: 15,
                           color: const Color.fromARGB(255, 77, 82, 105),

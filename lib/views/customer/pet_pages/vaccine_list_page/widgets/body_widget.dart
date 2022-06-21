@@ -90,7 +90,6 @@ class VaccineListPageBodyWidget extends GetView<VaccineListPageController> {
       durationUnit = '';
     }
 
-    // Color backgroundColor = const Color.fromRGBO(163, 55, 244, 1);
     Color backgroundColor = Colors.primaries[index].withOpacity(0.8);
 
     return Row(
@@ -110,30 +109,6 @@ class VaccineListPageBodyWidget extends GetView<VaccineListPageController> {
             fit: BoxFit.scaleDown,
             child: Row(
               children: [
-                // Expanded(
-                //   child: CUSTOM_TEXT(
-                //     durationText,
-                //     textAlign: TextAlign.right,
-                //     fontWeight: FontWeight.w700,
-                //     color: WHITE_COLOR,
-                //     fontSize: 15,
-                //   ),
-                // ),
-                // Container(
-                //   width: 80,
-                //   padding: const EdgeInsets.only(right: 10),
-                //   child: FittedBox(
-                //     fit: BoxFit.scaleDown,
-                //     child: CUSTOM_TEXT(
-                //       durationUnit,
-                //       fontSize: 14,
-                //       textAlign: TextAlign.start,
-                //       color: WHITE_COLOR,
-                //       fontWeight: FontWeight.w700,
-                //     ),
-                //   ),
-                // ),
-
                 CUSTOM_TEXT(
                   durationText,
                   textAlign: TextAlign.center,
@@ -275,8 +250,8 @@ class VaccineListPageBodyWidget extends GetView<VaccineListPageController> {
                   children: [
                     Text(
                       controller.showDescriptionIndexList.contains(index)
-                          ? 'Hide vaccine description'
-                          : 'View vaccine description',
+                          ? 'Hide description'
+                          : 'View description',
                       style: GoogleFonts.quicksand(
                         fontSize: 13,
                         fontWeight: FontWeight.w600,
@@ -296,6 +271,7 @@ class VaccineListPageBodyWidget extends GetView<VaccineListPageController> {
                 ),
                 Container(
                   height: 1,
+                  width: 140,
                   color: backgroundColor,
                   margin: const EdgeInsets.only(
                     top: 2,

@@ -14,11 +14,11 @@ BreedingTransactionModel _$BreedingTransactionModelFromJson(
       petFemaleId: json['petFemaleId'] as int,
       reasonCancel: json['reasonCancel'] as String?,
       status: json['status'] as String,
-      postId: json['postId'] as int,
+      postId: json['postId'] as int?,
       createdTime: DateTime.parse(json['createdTime'] as String),
       meetingTime: DateTime.parse(json['meetingTime'] as String),
       sellerReceive: json['sellerReceive'] as int,
-      serviceFee: json['serviceFee'] as int,
+      serviceFee: json['serviceFee'] as int?,
       transactionTotal: json['transactionTotal'] as int,
       pickupMalePetTime: json['pickupMalePetTime'] == null
           ? null
@@ -52,10 +52,15 @@ BreedingTransactionModel _$BreedingTransactionModelFromJson(
       ownerPetFemaleCustomerModel: CustomerModel.fromJson(
           json['ownerPetFemale'] as Map<String, dynamic>),
       transactionFee: json['transactionFee'] as int,
-      transactionTime: json['transactionTime'] == null
-          ? null
-          : DateTime.parse(json['transactionTime'] as String),
+      breedingBranchId: json['breedingBranchId'] as int?,
       placeMeeting: json['placeMeeting'] as String,
+      paymentForBranchTime: json['paymentForBranchTime'] == null
+          ? null
+          : DateTime.parse(json['paymentForBranchTime'] as String),
+      paymentForMalePetOwnerTime: json['paymentForMalePetOwnerTime'] == null
+          ? null
+          : DateTime.parse(json['paymentForMalePetOwnerTime'] as String),
+      self: json['self'] as bool,
     );
 
 Map<String, dynamic> _$BreedingTransactionModelToJson(
@@ -86,8 +91,12 @@ Map<String, dynamic> _$BreedingTransactionModelToJson(
       'point': instance.point,
       'cancelTime': instance.cancelTime?.toIso8601String(),
       'transactionFee': instance.transactionFee,
-      'transactionTime': instance.transactionTime?.toIso8601String(),
+      'paymentForMalePetOwnerTime':
+          instance.paymentForMalePetOwnerTime?.toIso8601String(),
       'placeMeeting': instance.placeMeeting,
+      'paymentForBranchTime': instance.paymentForBranchTime?.toIso8601String(),
+      'self': instance.self,
+      'breedingBranchId': instance.breedingBranchId,
       'post': instance.postModel?.toJson(),
       'petMale': instance.malePetModel.toJson(),
       'petFemale': instance.femalePetModel.toJson(),

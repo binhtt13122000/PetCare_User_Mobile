@@ -48,7 +48,7 @@ dependencies:
   #tflite: null
   firebase_messaging: 11.3.0
   flutter_rating_bar: 4.0.0
-  flutter_local_notifications: any
+  flutter_local_notifications: 9.5.3+1
   pull_to_refresh: ^2.0.0
   flutter_html: 3.0.0-alpha.5
   #html_editor_enhanced: null

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_html/flutter_html.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:petapp_mobile/configs/theme.dart';
@@ -78,15 +79,85 @@ class BuyServicesComboListComboWidget
                             ],
                           ),
                         ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 3),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        Obx(
+                          () => Column(
                             children: [
-                              CUSTOM_TEXT('Description'),
-                              CUSTOM_TEXT(controller
-                                      .petServicesComboModel.description ??
-                                  'N/A'),
+                              Visibility(
+                                visible: controller
+                                    .isViewServicesComboDescriptionWidget.value,
+                                child: Padding(
+                                  padding:
+                                      const EdgeInsets.symmetric(vertical: 3),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      CUSTOM_TEXT('Description'),
+                                      Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 20),
+                                        child: FittedBox(
+                                          fit: BoxFit.scaleDown,
+                                          child: Html(
+                                              data: controller
+                                                  .petServicesComboModel
+                                                  .description),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                              InkWell(
+                                onTap: () => controller
+                                        .isViewServicesComboDescriptionWidget
+                                        .value =
+                                    !controller
+                                        .isViewServicesComboDescriptionWidget
+                                        .value,
+                                child: Column(
+                                  children: [
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Text(
+                                          controller
+                                                  .isViewServicesComboDescriptionWidget
+                                                  .value
+                                              ? 'Hide description'
+                                              : 'View description',
+                                          style: GoogleFonts.quicksand(
+                                            fontSize: 13,
+                                            fontWeight: FontWeight.w600,
+                                            color: PRIMARY_COLOR,
+                                            letterSpacing: 2,
+                                          ),
+                                        ),
+                                        const SizedBox(width: 5),
+                                        Icon(
+                                          controller
+                                                  .isViewServicesComboDescriptionWidget
+                                                  .value
+                                              ? Icons
+                                                  .keyboard_double_arrow_up_outlined
+                                              : Icons
+                                                  .keyboard_double_arrow_down_outlined,
+                                          size: 18,
+                                          color: PRIMARY_COLOR,
+                                        )
+                                      ],
+                                    ),
+                                    Container(
+                                      height: 1,
+                                      width: 160,
+                                      color: PRIMARY_COLOR,
+                                      margin: const EdgeInsets.only(
+                                          top: 2, left: 15, right: 15),
+                                    ),
+                                  ],
+                                ),
+                              ),
                             ],
                           ),
                         ),
@@ -152,11 +223,20 @@ class BuyServicesComboListComboWidget
             padding: const EdgeInsets.symmetric(vertical: 3),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                Expanded(
+                  child: CUSTOM_TEXT(
+                    petServicesComboDetailModel.centerServiceModel.name,
+                    textOverflow: TextOverflow.clip,
+                  ),
+                ),
                 CUSTOM_TEXT(
-                    petServicesComboDetailModel.centerServiceModel.name),
-                CUSTOM_TEXT(
-                    petServicesComboDetailModel.nextEvent.toString() + ' days'),
+                  petServicesComboDetailModel.nextEvent.toString() + ' days',
+                  padding: const EdgeInsets.only(
+                    left: 20,
+                  ),
+                ),
               ],
             ),
           ),

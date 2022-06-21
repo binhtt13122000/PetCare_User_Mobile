@@ -13,11 +13,11 @@ class BreedingTransactionModel {
   final int petFemaleId;
   final String? reasonCancel;
   final String status;
-  final int postId;
+  final int? postId;
   final DateTime createdTime;
   final DateTime meetingTime;
   final int sellerReceive;
-  final int serviceFee;
+  final int? serviceFee;
   final int transactionTotal;
   final DateTime? pickupMalePetTime;
   final DateTime? pickupFemalePetTime;
@@ -33,8 +33,11 @@ class BreedingTransactionModel {
   final int? point;
   final DateTime? cancelTime;
   final int transactionFee;
-  final DateTime? transactionTime;
+  final DateTime? paymentForMalePetOwnerTime;
   final String placeMeeting;
+  final DateTime? paymentForBranchTime;
+  final bool self;
+  final int? breedingBranchId;
 
   @JsonKey(name: 'post')
   final PostModel? postModel;
@@ -57,11 +60,11 @@ class BreedingTransactionModel {
     required this.petFemaleId,
     this.reasonCancel,
     required this.status,
-    required this.postId,
+    this.postId,
     required this.createdTime,
     required this.meetingTime,
     required this.sellerReceive,
-    required this.serviceFee,
+    this.serviceFee,
     required this.transactionTotal,
     this.pickupMalePetTime,
     this.pickupFemalePetTime,
@@ -82,8 +85,11 @@ class BreedingTransactionModel {
     required this.ownerPetMaleCustomerModel,
     required this.ownerPetFemaleCustomerModel,
     required this.transactionFee,
-    this.transactionTime,
+    this.breedingBranchId,
     required this.placeMeeting,
+    this.paymentForBranchTime,
+    this.paymentForMalePetOwnerTime,
+    required this.self,
   });
 
   factory BreedingTransactionModel.fromJson(Map<String, dynamic> json) =>

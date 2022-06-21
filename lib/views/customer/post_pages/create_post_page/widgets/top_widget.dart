@@ -17,11 +17,11 @@ class CreatePostTopWidget extends GetView<CreatePostPageController> {
             Container(
               height: 1,
               margin: const EdgeInsets.only(top: 15),
-              color: LIGHT_GREY_COLOR.withOpacity(0.1),
+              color: LIGHT_GREY_COLOR.withAlpha(30),
             ),
             Container(
-              height: 8,
-              color: const Color.fromARGB(255, 245, 248, 253),
+              height: 16,
+              color: SUPPER_LIGHT_BLUE,
             ),
           ],
         ),
@@ -67,7 +67,7 @@ class CreatePostTopWidget extends GetView<CreatePostPageController> {
                     color: const Color.fromARGB(255, 62, 68, 87),
                     fontSize: 18,
                     fontWeight: FontWeight.w700,
-                    letterSpacing: 1,
+                    letterSpacing: 1.5,
                   ),
                 ),
               ),

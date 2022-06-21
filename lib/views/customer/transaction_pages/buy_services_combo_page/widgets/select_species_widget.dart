@@ -11,45 +11,43 @@ class BuyServicesComboSelectSpeciesWidget
   const BuyServicesComboSelectSpeciesWidget({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) => Obx(
-        () => Visibility(
-          visible: controller.isShowPetFilter.value,
-          child: Column(
-            children: [
-              Align(
-                alignment: Alignment.centerLeft,
-                child: Padding(
-                    padding: const EdgeInsets.only(left: 40),
-                    child: CUSTOM_TEXT(
-                      'Pet species',
-                      fontWeight: FontWeight.w500,
-                      fontStyle: FontStyle.italic,
-                    )),
-              ),
-              Column(
-                children: [
-                  Container(
-                    alignment: Alignment.topLeft,
-                    padding: const EdgeInsets.only(left: 40, top: 10),
-                    child: Wrap(
-                      alignment: WrapAlignment.start,
-                      direction: Axis.horizontal,
-                      crossAxisAlignment: WrapCrossAlignment.start,
-                      runAlignment: WrapAlignment.start,
-                      verticalDirection: VerticalDirection.down,
-                      spacing: 10,
-                      runSpacing: 10,
-                      children: controller.speciesModelList
-                          .asMap()
-                          .entries
-                          .map((e) => speciesItemWidget(speciesModel: e.value))
-                          .toList(),
-                    ),
+  Widget build(BuildContext context) => Visibility(
+        visible: controller.isShowPetFilter.value,
+        child: Column(
+          children: [
+            Align(
+              alignment: Alignment.centerLeft,
+              child: Padding(
+                  padding: const EdgeInsets.only(left: 40),
+                  child: CUSTOM_TEXT(
+                    'Pet species',
+                    fontWeight: FontWeight.w500,
+                    fontStyle: FontStyle.italic,
+                  )),
+            ),
+            Column(
+              children: [
+                Container(
+                  alignment: Alignment.topLeft,
+                  padding: const EdgeInsets.only(left: 40, top: 10),
+                  child: Wrap(
+                    alignment: WrapAlignment.start,
+                    direction: Axis.horizontal,
+                    crossAxisAlignment: WrapCrossAlignment.start,
+                    runAlignment: WrapAlignment.start,
+                    verticalDirection: VerticalDirection.down,
+                    spacing: 10,
+                    runSpacing: 10,
+                    children: controller.speciesModelList
+                        .asMap()
+                        .entries
+                        .map((e) => speciesItemWidget(speciesModel: e.value))
+                        .toList(),
                   ),
-                ],
-              ),
-            ],
-          ),
+                ),
+              ],
+            ),
+          ],
         ),
       );
 
@@ -86,10 +84,12 @@ class BuyServicesComboSelectSpeciesWidget
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Image.asset(
-                  speciesModel.imageUrl!,
-                  height: 25,
-                ),
+                speciesModel.imageUrl != null
+                    ? Image.asset(
+                        speciesModel.imageUrl!,
+                        height: 25,
+                      )
+                    : const SizedBox.shrink(),
                 const SizedBox(
                   width: 3,
                 ),

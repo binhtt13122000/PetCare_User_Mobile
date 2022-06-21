@@ -8,9 +8,10 @@ import 'package:petapp_mobile/configs/theme.dart';
 import 'package:petapp_mobile/controllers/transaction_page_controllers/breeding_transaction_detail_page_controller.dart';
 import 'package:petapp_mobile/services/transaction_services/breeding_transaction_services.dart';
 
-class BreedingTransactionReviewPopupWidget
+class BreedingTransactionDetailReviewPopupWidget
     extends GetView<BreedingTransactionDetailPageController> {
-  const BreedingTransactionReviewPopupWidget({Key? key}) : super(key: key);
+  const BreedingTransactionDetailReviewPopupWidget({Key? key})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -289,7 +290,7 @@ class BreedingTransactionReviewPopupWidget
                 star: controller.selectedStar.value,
                 review: reviewContent,
                 transactionTime:
-                    controller.breedingTransactionModel.transactionTime,
+                    controller.breedingTransactionModel.paymentForBranchTime,
                 paymentMethod:
                     controller.breedingTransactionModel.paymentMethod,
               );

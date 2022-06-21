@@ -8,9 +8,9 @@ import 'package:petapp_mobile/controllers/transaction_page_controllers/breeding_
 import 'package:petapp_mobile/services/transaction_services/breeding_transaction_services.dart';
 import 'package:petapp_mobile/views/widgets/customize_widget.dart';
 
-class BreedingTransactionMoreOptionWidget
+class BreedingTransactionDetailMoreOptionWidget
     extends GetView<BreedingTransactionDetailPageController> {
-  const BreedingTransactionMoreOptionWidget({Key? key}) : super(key: key);
+  const BreedingTransactionDetailMoreOptionWidget({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

@@ -32,11 +32,4 @@ class CreatePetPage extends GetView<CreatePetPageController> {
       ),
     );
   }
-
-  // loadModel() async {
-  //   await Tflite.loadModel(
-  //     model: 'assets/model_unquant.tflite',
-  //     labels: 'assets/labels.txt',
-  //   );
-  // }
 }

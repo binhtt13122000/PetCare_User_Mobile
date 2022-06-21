@@ -352,7 +352,7 @@ class PetBlockChainDetailBodyWidget
                                     .petModel
                                     .currentPetOwner!
                                     .customerModel
-                                    .phoneNumber,
+                                    .phoneNumber!,
                                 letterSpacing: 1,
                                 fontSize: 15,
                                 color: DARK_GREY_TEXT_COLOR.withOpacity(0.9),

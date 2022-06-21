@@ -30,7 +30,7 @@ class MediaPickerWidget extends GetView<CreatePostPageController> {
             color: const Color.fromARGB(255, 247, 248, 250),
           ),
           titleWidget(),
-          //mediasWidget(),
+          mediasWidget(),
           pickMediasFromGalleryWidget(),
           pickMediasFromCameraWidget(),
           Container(

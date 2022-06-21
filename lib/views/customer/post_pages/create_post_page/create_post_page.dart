@@ -7,7 +7,6 @@ import 'package:petapp_mobile/services/transaction_services/transaction_fees_ser
 import 'package:petapp_mobile/views/customer/post_pages/create_post_page/widgets/body_widget.dart';
 import 'package:petapp_mobile/views/customer/post_pages/create_post_page/widgets/bottom_widget.dart';
 import 'package:petapp_mobile/views/customer/post_pages/create_post_page/widgets/calendar_widget.dart';
-import 'package:petapp_mobile/views/customer/post_pages/create_post_page/widgets/description_widget.dart';
 import 'package:petapp_mobile/views/customer/post_pages/create_post_page/widgets/loading_widget.dart';
 import 'package:petapp_mobile/views/customer/post_pages/create_post_page/widgets/media_picker_widget.dart';
 import 'package:petapp_mobile/views/customer/post_pages/create_post_page/widgets/popup_widget.dart';
@@ -59,7 +58,7 @@ class CreatePostPage extends GetView<CreatePostPageController> {
                                 SelectPetWidget(),
                                 MediaPickerWidget(),
                                 SelectBranchWidget(),
-                                DescriptionWidget(),
+                                // DescriptionWidget(),
                               ],
                             ),
                           ),
