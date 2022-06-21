@@ -7,6 +7,7 @@ import 'package:petapp_mobile/models/pet_model/pet_model.dart';
 
 class PetBlockChainPageController extends GetxController {
   late int petId;
+  late String hashPetId;
   late int chainIndex;
   RxBool isWaitingLoadingData = false.obs;
   late PetChainModel petChainModel;
