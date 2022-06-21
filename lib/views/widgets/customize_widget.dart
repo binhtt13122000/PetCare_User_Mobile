@@ -41,7 +41,7 @@ Widget CUSTOM_REQUIRED_TEXT_FIELD({
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(5),
             border: Border.all(
-              color: checkEmptyString.call()
+              color: checkErrorText.call()
                   ? RED_COLOR
                   : const Color.fromARGB(255, 136, 154, 180),
             ),
@@ -53,7 +53,7 @@ Widget CUSTOM_REQUIRED_TEXT_FIELD({
                   controller: textEditingController,
                   textAlign: isNumber ? TextAlign.end : TextAlign.start,
                   cursorColor:
-                      checkEmptyString.call() ? RED_COLOR : PRIMARY_COLOR,
+                      checkErrorText.call() ? RED_COLOR : PRIMARY_COLOR,
                   maxLength: maxLength,
                   style: GoogleFonts.quicksand(
                     fontWeight: FontWeight.w500,
@@ -125,7 +125,7 @@ Widget CUSTOM_REQUIRED_TEXT_FIELD({
           ),
         ),
         Visibility(
-          visible: !checkEmptyString.call(),
+          visible: !checkEmptyString.call() || !checkErrorText.call(),
           child: Align(
             alignment: Alignment.topRight,
             child: Text(

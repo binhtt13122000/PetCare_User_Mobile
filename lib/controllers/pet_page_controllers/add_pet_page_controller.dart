@@ -4,7 +4,6 @@ import 'package:petapp_mobile/controllers/other_controllers/auth_controller.dart
 import 'package:petapp_mobile/models/account_model/account_model.dart';
 import 'package:petapp_mobile/models/breed_model/breed_model.dart';
 import 'package:petapp_mobile/models/species_model/species_model.dart';
-//import 'package:tflite/tflite.dart';
 
 class CreatePetPageController extends GetxController {
   AccountModel accountModel = Get.find<AuthController>().accountModel;
