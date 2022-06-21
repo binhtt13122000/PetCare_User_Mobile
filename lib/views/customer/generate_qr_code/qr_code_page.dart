@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:petapp_mobile/configs/theme.dart';
@@ -16,19 +18,23 @@ class PetGenerateQrCodePage extends GetView<GenerateQrCodeController> {
       controller.petId = int.parse(Get.parameters['petId']!);
     }
     return Scaffold(
-      backgroundColor: WHITE_COLOR,
+      backgroundColor: Colors.pink.shade500,
       body: Stack(
         children: [
           Column(children: [
             const PetGenerateQrCodeTopWidget(),
             GetBuilder<GenerateQrCodeController>(builder: (_) {
               controller.isWaitingLoadingData.value = true;
-              WidgetsBinding.instance!
-                  .addPostFrameCallback((timeStamp) async {
-                    controller.petDeepLink.value = await  PetGenerateQrCodeService.fetchDeepLinkFromPetId(petId: controller.petId.toString());
-                    controller.isWaitingLoadingData.value = false;
-                  });
-              return Obx(() => controller.isWaitingLoadingData.value ? Expanded(child: LOADING_WIDGET()) : const PetGenerateQrCodeBodyWidget());
+              WidgetsBinding.instance!.addPostFrameCallback((timeStamp) async {
+                controller.petDeepLink.value =
+                    await PetGenerateQrCodeService.fetchDeepLinkFromPetId(
+                        petId: controller.petId.toString());
+                controller.isWaitingLoadingData.value = false;
+                controller.startTimer();
+              });
+              return Obx(() => controller.isWaitingLoadingData.value
+                  ? Expanded(child: LOADING_WIDGET())
+                  : const PetGenerateQrCodeBodyWidget());
             })
           ]),
         ],

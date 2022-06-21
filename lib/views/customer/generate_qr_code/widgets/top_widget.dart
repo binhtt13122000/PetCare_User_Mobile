@@ -86,6 +86,7 @@ class PetGenerateQrCodeTopWidget extends GetView<GenerateQrCodeController> {
                   textAlign: TextAlign.center,
                   padding: const EdgeInsets.symmetric(horizontal: 20),
                   fontSize: 18,
+                  color: WHITE_COLOR,
                 ),
               ),
             ),

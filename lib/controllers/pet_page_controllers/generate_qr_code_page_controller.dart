@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 import 'package:get/get.dart';
 import 'package:petapp_mobile/controllers/other_controllers/auth_controller.dart';
@@ -11,8 +12,26 @@ class GenerateQrCodeController extends GetxController {
   RxBool isWaitingCreatePet = false.obs;
   RxBool isLoadingData = false.obs;
   RxBool isWaitingLoadingData = false.obs;
+  RxInt countDownTime = 0.obs;
+  int maxTime = 60;
 
   RxBool isFirstInputPetName = true.obs;
   RxString petName = ''.obs;
   RxString petDeepLink = ''.obs;
+  late Timer timerUpdate;
+
+  startTimer() {
+    countDownTime.value = maxTime;
+    timerUpdate = Timer.periodic(
+      const Duration(seconds: 1),
+      (timer) {
+        if(countDownTime > 0) {
+          countDownTime.value--;
+        }else {
+          timer.cancel();
+          update();
+        }
+      },
+    );
+  }
 }
