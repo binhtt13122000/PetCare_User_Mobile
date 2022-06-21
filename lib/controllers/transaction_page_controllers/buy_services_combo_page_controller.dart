@@ -31,4 +31,7 @@ class BuyServicesComboPageController extends GetxController {
   late ServicesComboModel petServicesComboModel;
   RxString paymentUrl = ''.obs;
   RxBool isShowPopup = false.obs;
+  RxBool isViewServicesComboDescriptionWidget = false.obs;
+  RxString selectedPetGender = ''.obs;
+  RxString selectedComboType = ''.obs;
 }

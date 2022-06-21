@@ -9,21 +9,21 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:petapp_mobile/configs/path.dart';
 import 'package:petapp_mobile/configs/theme.dart';
 
-Widget CUSTOM_REQUIRED_TEXT_FIELD({
-  required String hintText,
-  required Function(String?) onChange,
-  required Function<bool>() checkEmptyString,
-  required Function<bool>() checkErrorText,
-  required Function() onDelete,
-  required String errorText,
-  required Function<String>() countText,
-  required int maxLength,
-  bool isNumberTextField = false,
-  String? initText,
-  bool isNumber = false,
-  double height = 45,
-  int maxLines = 1,
-}) {
+Widget CUSTOM_REQUIRED_TEXT_FIELD(
+    {required String hintText,
+    required Function(String?) onChange,
+    required Function<bool>() checkEmptyString,
+    required Function<bool>() checkErrorText,
+    required Function() onDelete,
+    required String errorText,
+    required Function<String>() countText,
+    required int maxLength,
+    bool isNumberTextField = false,
+    String? initText,
+    bool isNumber = false,
+    double height = 40,
+    int maxLines = 1,
+    EdgeInsets padding = EdgeInsets.zero}) {
   FocusNode focusNode = FocusNode();
   TextEditingController textEditingController = TextEditingController();
   if (initText != null) {
@@ -31,116 +31,119 @@ Widget CUSTOM_REQUIRED_TEXT_FIELD({
   }
 
   return Obx(
-    () => Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Container(
-          height: height,
-          alignment: Alignment.center,
-          padding: const EdgeInsets.symmetric(horizontal: 12),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(5),
-            border: Border.all(
-              color: checkErrorText.call()
-                  ? RED_COLOR
-                  : const Color.fromARGB(255, 136, 154, 180),
+    () => Padding(
+      padding: padding,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(
+            height: height,
+            alignment: Alignment.center,
+            padding: const EdgeInsets.symmetric(horizontal: 12),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(5),
+              border: Border.all(
+                color: checkErrorText.call()
+                    ? RED_COLOR
+                    : const Color.fromARGB(255, 136, 154, 180),
+              ),
             ),
-          ),
-          child: Row(
-            children: [
-              Expanded(
-                child: TextField(
-                  controller: textEditingController,
-                  textAlign: isNumber ? TextAlign.end : TextAlign.start,
-                  cursorColor:
-                      checkErrorText.call() ? RED_COLOR : PRIMARY_COLOR,
-                  maxLength: maxLength,
-                  style: GoogleFonts.quicksand(
-                    fontWeight: FontWeight.w500,
-                    color: DARK_GREY_TEXT_COLOR,
-                    fontSize: 16,
-                  ),
-                  maxLines: maxLines,
-                  focusNode: focusNode,
-                  keyboardType: isNumberTextField
-                      ? const TextInputType.numberWithOptions(
-                          decimal: false, signed: false)
-                      : null,
-                  inputFormatters: isNumberTextField
-                      ? [
-                          FilteringTextInputFormatter.allow(
-                            RegExp(
-                              r'[0-9 ]',
-                            ),
-                          ),
-                        ]
-                      : null,
-                  decoration: InputDecoration(
-                    hintText: hintText,
-                    hintStyle: GoogleFonts.quicksand(
-                      fontSize: 12,
-                      color: DARK_GREY_TEXT_COLOR.withOpacity(0.6),
+            child: Row(
+              children: [
+                Expanded(
+                  child: TextField(
+                    controller: textEditingController,
+                    textAlign: isNumber ? TextAlign.end : TextAlign.start,
+                    cursorColor:
+                        checkErrorText.call() ? RED_COLOR : PRIMARY_COLOR,
+                    maxLength: maxLength,
+                    style: GoogleFonts.quicksand(
                       fontWeight: FontWeight.w500,
+                      color: DARK_GREY_TEXT_COLOR,
+                      fontSize: 16,
                     ),
-                    counterText: '',
-                    isCollapsed: true,
-                    border: InputBorder.none,
+                    maxLines: maxLines,
+                    focusNode: focusNode,
+                    keyboardType: isNumberTextField
+                        ? const TextInputType.numberWithOptions(
+                            decimal: false, signed: false)
+                        : null,
+                    inputFormatters: isNumberTextField
+                        ? [
+                            FilteringTextInputFormatter.allow(
+                              RegExp(
+                                r'[0-9 ]',
+                              ),
+                            ),
+                          ]
+                        : null,
+                    decoration: InputDecoration(
+                      hintText: hintText,
+                      hintStyle: GoogleFonts.quicksand(
+                        fontSize: 12,
+                        color: DARK_GREY_TEXT_COLOR.withOpacity(0.6),
+                        fontWeight: FontWeight.w500,
+                      ),
+                      counterText: '',
+                      isCollapsed: true,
+                      border: InputBorder.none,
+                    ),
+                    onChanged: onChange,
                   ),
-                  onChanged: onChange,
                 ),
-              ),
-              Visibility(
-                visible: !checkEmptyString.call(),
-                child: InkWell(
-                  onTap: () {
-                    onDelete.call();
-                    textEditingController.text = '';
-                    focusNode.requestFocus();
-                  },
-                  child: CircleAvatar(
-                    backgroundColor: Colors.transparent,
-                    maxRadius: 10,
-                    child: SvgPicture.asset(
-                      ICON_PATH + CLOSE_SVG,
-                      height: 10,
-                      color: RED_COLOR.withOpacity(0.8),
+                Visibility(
+                  visible: !checkEmptyString.call(),
+                  child: InkWell(
+                    onTap: () {
+                      onDelete.call();
+                      textEditingController.text = '';
+                      focusNode.requestFocus();
+                    },
+                    child: CircleAvatar(
+                      backgroundColor: Colors.transparent,
+                      maxRadius: 10,
+                      child: SvgPicture.asset(
+                        ICON_PATH + CLOSE_SVG,
+                        height: 10,
+                        color: RED_COLOR.withOpacity(0.8),
+                      ),
                     ),
                   ),
                 ),
-              ),
-            ],
-          ),
-        ),
-        Visibility(
-          visible: checkErrorText.call(),
-          child: Text(
-            errorText,
-            style: GoogleFonts.quicksand(
-              fontWeight: FontWeight.w500,
-              color: RED_COLOR,
-              fontSize: 10,
-              letterSpacing: 1,
-              height: 2,
+              ],
             ),
           ),
-        ),
-        Visibility(
-          visible: !checkEmptyString.call() || !checkErrorText.call(),
-          child: Align(
-            alignment: Alignment.topRight,
+          Visibility(
+            visible: checkErrorText.call(),
             child: Text(
-              countText.call(),
+              errorText,
               style: GoogleFonts.quicksand(
                 fontWeight: FontWeight.w500,
-                color: DARK_GREY_TEXT_COLOR.withOpacity(0.8),
-                fontSize: 12,
+                color: RED_COLOR,
+                fontSize: 10,
                 letterSpacing: 1,
                 height: 2,
               ),
             ),
           ),
-        ),
-      ],
+          Visibility(
+            visible: !checkEmptyString.call() || !checkErrorText.call(),
+            child: Align(
+              alignment: Alignment.topRight,
+              child: Text(
+                countText.call(),
+                style: GoogleFonts.quicksand(
+                  fontWeight: FontWeight.w500,
+                  color: DARK_GREY_TEXT_COLOR.withOpacity(0.8),
+                  fontSize: 12,
+                  letterSpacing: 1,
+                  height: 2,
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
     ),
   );
 }

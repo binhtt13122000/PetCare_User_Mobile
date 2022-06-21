@@ -10,6 +10,7 @@ import 'package:petapp_mobile/views/customer/transaction_pages/breeding_transact
 import 'package:petapp_mobile/views/customer/transaction_pages/breeding_transaction_detail_page/widgets/popup_widget.dart';
 import 'package:petapp_mobile/views/customer/transaction_pages/breeding_transaction_detail_page/widgets/review_popup_widget.dart';
 import 'package:petapp_mobile/views/customer/transaction_pages/breeding_transaction_detail_page/widgets/top_widget.dart';
+import 'package:petapp_mobile/views/customer/transaction_pages/breeding_transaction_detail_page/widgets/view_tab_widget.dart';
 import 'package:petapp_mobile/views/customer/transaction_pages/breeding_transaction_detail_page/widgets/web_view.dart';
 
 class BreedingTransactionDetailPage
@@ -22,6 +23,7 @@ class BreedingTransactionDetailPage
       controller.breedingTransactionId =
           int.parse(Get.parameters['breedingTransactionId']!);
     }
+
     return Scaffold(
       backgroundColor: WHITE_COLOR,
       body: GetBuilder<BreedingTransactionDetailPageController>(builder: (_) {
@@ -51,9 +53,13 @@ class BreedingTransactionDetailPage
                         )
                       : Expanded(
                           child: Column(
-                            children: const [
-                              BreedingTransactionDetailBodyWidget(),
-                              BreedingTransactionDetailBottomWidget(),
+                            children: [
+                              const BreedingTransactionDetailBodyWidget(),
+                              Obx(() => Visibility(
+                                  visible: controller.selectedViewTab.value ==
+                                      'Transaction details',
+                                  child:
+                                      const BreedingTransactionDetailBottomWidget())),
                             ],
                           ),
                         ),
@@ -66,9 +72,10 @@ class BreedingTransactionDetailPage
                   : Stack(
                       children: const [
                         BreedingTransactionDetailWebViewWidget(),
-                        BreedingTransactionPopupWidget(),
-                        BreedingTransactionReviewPopupWidget(),
-                        BreedingTransactionMoreOptionWidget(),
+                        BreedingTransactionDetailPopupWidget(),
+                        BreedingTransactionDetailReviewPopupWidget(),
+                        BreedingTransactionDetailMoreOptionWidget(),
+                        BreedingTransactionDetailViewTypeTabWidget(),
                       ],
                     ),
             ),

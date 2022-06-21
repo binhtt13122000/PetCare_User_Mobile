@@ -173,7 +173,12 @@ class BuyServicesComboBottomWidget
   Widget paymentWidget() => Expanded(
         child: InkWell(
           onTap: () async {
-            if (controller.registerDateText.isNotEmpty) {
+            if (controller.registerDateText.isNotEmpty
+                //&&
+                // (controller.selectedComboType.value != 'BREED'
+                //     ? true
+                //     : controller.selectedPetGender.value == 'FEMALE')
+                ) {
               controller.paymentUrl.value = await PetComboServices.payment(
                 message: 'buy a pet combo',
                 locale: 'vi',

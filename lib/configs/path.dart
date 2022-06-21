@@ -100,8 +100,8 @@ const NO_IMAGE_PNG = 'no_image.png';
 // const API_SERVER = '10.0.2.2:4000';
 // const GRAPHL_SERVER = 'http://10.0.2.2:8080';
 
-const API_SERVER_PATH = '54.176.32.33';
-const GRAPHL_SERVER_PATH = 'http://54.176.32.33:8080';
+const API_SERVER_PATH = '54.241.102.214';
+const GRAPHL_SERVER_PATH = 'http://54.241.102.214:8080';
 
 //*sale transaction
 const SALE_TRANSACTION_RETURN_API_PATH =

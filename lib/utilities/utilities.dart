@@ -40,10 +40,10 @@ DateTime CALCULATE_DATE_BEFORE_DATE_NOW(
 
 Future<File?> PICK_IMAGE({bool isPickFromGalley = true}) async {
   try {
-    // final XFile? image = await ImagePicker().pickImage(
-    //     source: isPickFromGalley ? ImageSource.gallery : ImageSource.camera);
-    final XFile? image =
-        await ImagePicker().pickVideo(source: ImageSource.gallery);
+    final XFile? image = await ImagePicker().pickImage(
+        source: isPickFromGalley ? ImageSource.gallery : ImageSource.camera);
+    // final XFile? image =
+    //     await ImagePicker().pickVideo(source: ImageSource.gallery);
 
     return image == null ? null : File(image.path);
   } on PlatformException catch (_) {

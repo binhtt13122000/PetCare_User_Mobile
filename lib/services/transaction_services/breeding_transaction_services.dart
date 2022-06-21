@@ -16,9 +16,9 @@ class BreedingTransactionService {
 
   static Future<int> createBreedingTransaction({
     required DateTime createdTime,
+    required String placeMeeting,
     required DateTime meetingTime,
     required int sellerReceive,
-    int serviceFee = 1,
     required int transactionTotal,
     int point = 0,
     String description = '',
@@ -30,7 +30,7 @@ class BreedingTransactionService {
     required int postId,
     required int branchId,
     required int transactionFee,
-    required String placeMeeting,
+    bool isSelf = false,
   }) async {
     final response = await http.post(
       Uri.http(API_SERVER_PATH, BREEDING_TRANSACTION_API_PATH),
@@ -41,7 +41,6 @@ class BreedingTransactionService {
         'createdTime': createdTime.toIso8601String(),
         'meetingTime': meetingTime.toIso8601String(),
         'sellerReceive': sellerReceive,
-        'serviceFee': serviceFee,
         'transactionTotal': transactionTotal,
         'point': point,
         'description': description,
@@ -53,7 +52,8 @@ class BreedingTransactionService {
         'postId': postId,
         'branchId': branchId,
         'transactionFee': transactionFee,
-        'placeMeeting': placeMeeting
+        'placeMeeting': placeMeeting,
+        'self': isSelf
       }),
     );
     switch (response.statusCode) {

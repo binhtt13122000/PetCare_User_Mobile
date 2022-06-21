@@ -73,7 +73,7 @@ class CreatePetTopWidget extends GetView<CreatePetPageController> {
                     color: const Color.fromARGB(255, 62, 68, 87),
                     fontSize: 18,
                     fontWeight: FontWeight.w700,
-                    letterSpacing: 1,
+                    letterSpacing: 1.5,
                   ),
                 ),
               ),

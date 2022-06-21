@@ -5,6 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:petapp_mobile/configs/theme.dart';
 import 'package:petapp_mobile/controllers/post_page_controllers/create_post_page_controller.dart';
 import 'package:petapp_mobile/utilities/utilities.dart';
+import 'package:petapp_mobile/views/widgets/customize_widget.dart';
 
 class CreatePostBodyWidget extends GetView<CreatePostPageController> {
   const CreatePostBodyWidget({Key? key}) : super(key: key);
@@ -22,7 +23,7 @@ class CreatePostBodyWidget extends GetView<CreatePostPageController> {
   }
 
   Widget postTypeWidget() => Padding(
-        padding: const EdgeInsets.only(top: 10, left: 12),
+        padding: const EdgeInsets.only(top: 25, left: 12),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -227,6 +228,90 @@ class CreatePostBodyWidget extends GetView<CreatePostPageController> {
   }
 
   Widget receivedMoneyWidget() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 12),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(top: 20),
+            child: Row(
+              children: [
+                Text(
+                  'Received money',
+                  style: GoogleFonts.quicksand(
+                    fontWeight: FontWeight.w500,
+                    color: const Color.fromARGB(255, 61, 78, 100),
+                    fontSize: 16,
+                    letterSpacing: 0.5,
+                  ),
+                ),
+                Text(
+                  '*',
+                  style: GoogleFonts.quicksand(
+                    fontWeight: FontWeight.w800,
+                    color: const Color.fromARGB(255, 241, 99, 88),
+                    fontSize: 20,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          Expanded(
+            child: CUSTOM_REQUIRED_TEXT_FIELD(
+              hintText: 'Type received money here...',
+              maxLength: 40,
+              onChange: (String? text) {
+                if (text != null && text.isNotEmpty) {
+                  controller.isFirstInputReceivedMoney.value = false;
+                  String tmpText = text.replaceAll('.', '');
+                  controller.receivedMoney.value = tmpText;
+
+                  if (tmpText.isNotEmpty) {
+                    int intReceivedMoney = int.parse(tmpText);
+
+                    for (var element
+                        in controller.listPurchaseTransactionFees) {
+                      if (element.min <= intReceivedMoney &&
+                          element.max > intReceivedMoney) {
+                        controller.selectedPurchaseTransactionFeesId.value =
+                            element.id;
+                        controller.price.value =
+                            intReceivedMoney + element.price;
+                        break;
+                      }
+                    }
+                  } else {
+                    controller
+                      ..price.value = 0
+                      ..selectedPurchaseTransactionFeesId.value = -1;
+                  }
+                }
+              },
+              checkEmptyString: <bool>() {
+                return controller.receivedMoney.value.isEmpty;
+              },
+              checkErrorText: <bool>() {
+                return controller.receivedMoney.value.isEmpty &&
+                    !controller.isFirstInputReceivedMoney.value;
+              },
+              onDelete: () {
+                controller
+                  ..receivedMoney.value = ''
+                  ..price.value = 0;
+              },
+              errorText: 'Field post title is required!',
+              countText: <String>() {
+                return controller.receivedMoney.value.length.toString() + '/40';
+              },
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget receivedMoneyyyWidget() {
     TextEditingController _textEditingController = TextEditingController();
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 12),
@@ -356,7 +441,6 @@ class CreatePostBodyWidget extends GetView<CreatePostPageController> {
   }
 
   Widget titleWidget() {
-    TextEditingController _textEditingController = TextEditingController();
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 12),
       child: Column(
@@ -386,109 +470,31 @@ class CreatePostBodyWidget extends GetView<CreatePostPageController> {
               ],
             ),
           ),
-          Container(
-            height: 45,
-            alignment: Alignment.center,
-            margin: const EdgeInsets.only(top: 8),
-            padding: const EdgeInsets.all(10),
-            decoration: BoxDecoration(
-              border: Border.all(
-                color: const Color.fromARGB(255, 167, 181, 201),
-                width: 1.2,
-              ),
-              borderRadius: BorderRadius.circular(5),
-            ),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Expanded(
-                  child: TextField(
-                    minLines: 1,
-                    maxLines: 1,
-                    maxLength: 40,
-                    controller: _textEditingController,
-                    onChanged: (String text) {
-                      controller.title.value = text;
-                    },
-                    keyboardType: TextInputType.multiline,
-                    cursorColor: PRIMARY_COLOR,
-                    style: GoogleFonts.quicksand(
-                      fontWeight: FontWeight.w500,
-                      color: const Color.fromARGB(255, 113, 135, 168),
-                      fontSize: 15,
-                      letterSpacing: 1,
-                    ),
-                    decoration: InputDecoration(
-                      isCollapsed: true,
-                      counterText: '',
-                      border: InputBorder.none,
-                      hintText: 'Type a post title here...',
-                      hintStyle: GoogleFonts.quicksand(
-                        fontWeight: FontWeight.w500,
-                        color: const Color.fromARGB(255, 162, 176, 194),
-                        fontSize: 13,
-                        letterSpacing: 1,
-                      ),
-                    ),
-                  ),
-                ),
-                Obx(
-                  () => Text(
-                    controller.title.value.length.toString() + '/40',
-                    style: GoogleFonts.quicksand(
-                      fontWeight: FontWeight.w500,
-                      color: const Color.fromARGB(255, 162, 176, 194),
-                      fontSize: 13,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
+          CUSTOM_REQUIRED_TEXT_FIELD(
+              hintText: 'Type post title here...',
+              maxLength: 40,
+              onChange: (String? text) {
+                controller
+                  ..title.value = text ?? ''
+                  ..isFirstInputTitle = false;
+              },
+              checkEmptyString: <bool>() {
+                return controller.title.value.isEmpty;
+              },
+              checkErrorText: <bool>() {
+                return controller.title.value.isEmpty &&
+                    !controller.isFirstInputTitle;
+              },
+              onDelete: () {
+                controller.title.value = '';
+              },
+              errorText: 'Field post title is required!',
+              countText: <String>() {
+                return controller.title.value.length.toString() + '/40';
+              },
+              padding: const EdgeInsets.only(top: 5)),
         ],
       ),
     );
   }
-
-  // Widget postTypeWidget() => Row(
-  //       mainAxisAlignment: MainAxisAlignment.start,
-  //       children: [
-  //         Text(
-  //           'Post type:',
-  //           style: GoogleFonts.quicksand(
-  //             fontWeight: FontWeight.w500,
-  //             fontStyle: FontStyle.italic,
-  //             color: LIGHT_GREY_COLOR,
-  //             fontSize: 16,
-  //           ),
-  //         ),
-  //         const SizedBox(
-  //           width: 10,
-  //         ),
-  //         Obx(
-  //           () => DropdownButton<String>(
-  //             value: controller.selectedPostType.value,
-  //             style: GoogleFonts.itim(
-  //               color: PRIMARY_COLOR,
-  //               fontSize: 15,
-  //             ),
-  //             underline: Container(
-  //               height: 2,
-  //               color: PRIMARY_COLOR,
-  //             ),
-  //             onChanged: (String? value) {
-  //               controller.selectedPostType.value = value!;
-  //             },
-  //             items: <String>['SALE', 'BREED']
-  //                 .map<DropdownMenuItem<String>>(
-  //                   (String value) => DropdownMenuItem<String>(
-  //                     value: value,
-  //                     child: Text(value),
-  //                   ),
-  //                 )
-  //                 .toList(),
-  //           ),
-  //         ),
-  //       ],
-  //     );
 }

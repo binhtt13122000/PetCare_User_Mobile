@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -39,16 +40,21 @@ class CreatePetBodyWidget extends GetView<CreatePetPageController> {
                 child: Column(
                   children: [
                     const SizedBox(
-                      height: 20,
+                      height: 25,
                     ),
                     petNameWidget(),
                     petSpicesWidget(),
                     petBreedWidget(),
                     petAvatarWidget(),
                     genderAndFertilityWidget(),
+                    const SizedBox(
+                      height: 25,
+                    ),
                     dateOfBirthWidget(),
+                    const SizedBox(
+                      height: 25,
+                    ),
                     colorWidget(),
-                    specialMarkingsWidget(),
                     vaccinationInformationWidget(),
                     descriptionWidget(),
                   ],
@@ -134,94 +140,93 @@ class CreatePetBodyWidget extends GetView<CreatePetPageController> {
 
   Widget dateOfBirthWidget() => Padding(
         padding: const EdgeInsets.symmetric(horizontal: 12),
-        child: Column(
+        child: Row(
           children: [
-            Padding(
-              padding: const EdgeInsets.only(top: 25),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.end,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.end,
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(right: 5),
+                      child: SvgPicture.asset(
+                        ICON_PATH + CLOCK_SVG,
+                        height: 17,
+                        color: const Color.fromARGB(255, 61, 78, 100),
+                      ),
+                    ),
+                    Text(
+                      'Date of birth',
+                      style: GoogleFonts.quicksand(
+                        fontWeight: FontWeight.w500,
+                        color: const Color.fromARGB(255, 61, 78, 100),
+                        fontSize: 16,
+                        letterSpacing: 0.5,
+                      ),
+                    ),
+                    Text(
+                      '*',
+                      style: GoogleFonts.quicksand(
+                        fontWeight: FontWeight.w800,
+                        color: const Color.fromARGB(255, 241, 99, 88),
+                        fontSize: 20,
+                        height: 0.8,
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+            Expanded(
+              child: InkWell(
+                onTap: () => controller.isDisplayCalender.value = true,
+                child: Container(
+                  height: 45,
+                  margin: const EdgeInsets.only(top: 8),
+                  padding: const EdgeInsets.all(10),
+                  decoration: BoxDecoration(
+                    border: Border.all(
+                      color: const Color.fromARGB(255, 167, 181, 201),
+                      width: 1.2,
+                    ),
+                    borderRadius: BorderRadius.circular(5),
+                  ),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Padding(
-                        padding: const EdgeInsets.only(right: 5),
-                        child: SvgPicture.asset(
-                          ICON_PATH + CLOCK_SVG,
-                          height: 17,
-                          color: const Color.fromARGB(255, 61, 78, 100),
+                      Expanded(
+                        child: Obx(
+                          () => controller.dayOfBirthText.value.isEmpty
+                              ? Text(
+                                  'dd/MM/yyyy',
+                                  style: GoogleFonts.quicksand(
+                                    fontWeight: FontWeight.w500,
+                                    color: const Color.fromARGB(
+                                        255, 162, 176, 194),
+                                    fontSize: 13,
+                                    letterSpacing: 2,
+                                  ),
+                                )
+                              : Text(
+                                  controller.dayOfBirthText.value,
+                                  style: GoogleFonts.quicksand(
+                                    fontWeight: FontWeight.w500,
+                                    color: const Color.fromARGB(
+                                        255, 113, 135, 168),
+                                    fontSize: 15,
+                                    letterSpacing: 2,
+                                  ),
+                                ),
                         ),
                       ),
-                      Text(
-                        'Date of birth',
-                        style: GoogleFonts.quicksand(
-                          fontWeight: FontWeight.w500,
-                          color: const Color.fromARGB(255, 61, 78, 100),
-                          fontSize: 16,
-                          letterSpacing: 0.5,
-                        ),
-                      ),
-                      Text(
-                        '*',
-                        style: GoogleFonts.quicksand(
-                          fontWeight: FontWeight.w800,
-                          color: const Color.fromARGB(255, 241, 99, 88),
-                          fontSize: 20,
-                          height: 0.8,
-                        ),
+                      const Icon(
+                        Icons.calendar_month_rounded,
+                        color: PRIMARY_COLOR,
                       ),
                     ],
                   ),
-                ],
-              ),
-            ),
-            InkWell(
-              onTap: () => controller.isDisplayCalender.value = true,
-              child: Container(
-                height: 45,
-                margin: const EdgeInsets.only(top: 8),
-                padding: const EdgeInsets.all(10),
-                decoration: BoxDecoration(
-                  border: Border.all(
-                    color: const Color.fromARGB(255, 167, 181, 201),
-                    width: 1.2,
-                  ),
-                  borderRadius: BorderRadius.circular(5),
-                ),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Expanded(
-                      child: Obx(
-                        () => controller.dayOfBirthText.value.isEmpty
-                            ? Text(
-                                'dd/MM/yyyy',
-                                style: GoogleFonts.quicksand(
-                                  fontWeight: FontWeight.w500,
-                                  color:
-                                      const Color.fromARGB(255, 162, 176, 194),
-                                  fontSize: 13,
-                                  letterSpacing: 2,
-                                ),
-                              )
-                            : Text(
-                                controller.dayOfBirthText.value,
-                                style: GoogleFonts.quicksand(
-                                  fontWeight: FontWeight.w500,
-                                  color:
-                                      const Color.fromARGB(255, 113, 135, 168),
-                                  fontSize: 15,
-                                  letterSpacing: 2,
-                                ),
-                              ),
-                      ),
-                    ),
-                    const Icon(
-                      Icons.calendar_month_rounded,
-                      color: PRIMARY_COLOR,
-                    ),
-                  ],
                 ),
               ),
             ),
@@ -397,7 +402,7 @@ class CreatePetBodyWidget extends GetView<CreatePetPageController> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
-            padding: const EdgeInsets.only(top: 20),
+            padding: const EdgeInsets.only(top: 0),
             child: Row(
               children: [
                 Text(
@@ -495,39 +500,47 @@ class CreatePetBodyWidget extends GetView<CreatePetPageController> {
             Obx(
               () => controller.avatarUrl.value.isNotEmpty
                   ? imageItemWidget(avatar: controller.avatar!)
-                  : Container(
-                      height: 180,
-                      width: 280,
-                      alignment: Alignment.center,
-                      margin: const EdgeInsets.symmetric(
-                        horizontal: 20,
-                      ),
-                      decoration: const BoxDecoration(
-                        color: Color.fromARGB(255, 237, 240, 243),
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(5),
+                  : DottedBorder(
+                      color: LIGHT_GREY_COLOR.withOpacity(0.2),
+                      strokeWidth: 1,
+                      radius: const Radius.circular(30),
+                      borderType: BorderType.RRect,
+                      dashPattern: const [5, 5],
+                      child: Container(
+                        height: 140,
+                        width: 240,
+                        alignment: Alignment.center,
+                        margin: const EdgeInsets.symmetric(
+                          horizontal: 10,
+                          vertical: 10,
                         ),
-                      ),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            'No medias have \nbeen selected yet!',
-                            textAlign: TextAlign.center,
-                            style: GoogleFonts.itim(
-                              fontSize: 16,
-                              fontStyle: FontStyle.italic,
-                              color: const Color.fromARGB(255, 127, 136, 148),
-                            ),
+                        decoration: BoxDecoration(
+                          color: LIGHT_GREY_COLOR.withOpacity(0.03),
+                          borderRadius: const BorderRadius.all(
+                            Radius.circular(25),
                           ),
-                        ],
+                        ),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              'No medias have \nbeen selected yet!',
+                              textAlign: TextAlign.center,
+                              style: GoogleFonts.itim(
+                                fontSize: 16,
+                                fontStyle: FontStyle.italic,
+                                color: DARK_GREY_TEXT_COLOR.withOpacity(0.4),
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
             ),
             Container(
               padding: const EdgeInsets.only(
-                top: 10,
-                right: 40,
+                top: 20,
+                right: 50,
               ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.end,
@@ -820,129 +833,55 @@ class CreatePetBodyWidget extends GetView<CreatePetPageController> {
                 return controller.petName.value.length.toString() + '/20';
               },
             ),
-          ), /////./..,//,
+          ),
         ],
       ),
     );
   }
 
   Widget colorWidget() {
-    TextEditingController _textEditingController = TextEditingController();
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 12),
-      child: Column(
+      child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Padding(
-            padding: const EdgeInsets.only(top: 20),
-            child: Text(
-              'Pet color',
-              style: GoogleFonts.quicksand(
-                fontWeight: FontWeight.w500,
-                color: const Color.fromARGB(255, 61, 78, 100),
-                fontSize: 16,
-                letterSpacing: 0.5,
-              ),
-            ),
-          ),
           Container(
             height: 45,
-            alignment: Alignment.center,
-            margin: const EdgeInsets.only(top: 8),
-            padding: const EdgeInsets.all(10),
-            decoration: BoxDecoration(
-              border: Border.all(
-                color: const Color.fromARGB(255, 167, 181, 201),
-                width: 1.2,
-              ),
-              borderRadius: BorderRadius.circular(5),
-            ),
-            child: TextField(
-              minLines: 1,
-              maxLines: 1,
-              controller: _textEditingController,
-              onChanged: (String text) {
-                controller.color.value = text;
-              },
-              keyboardType: TextInputType.multiline,
-              cursorColor: PRIMARY_COLOR,
-              style: GoogleFonts.quicksand(
-                fontWeight: FontWeight.w500,
-                color: const Color.fromARGB(255, 113, 135, 168),
-                fontSize: 15,
-                letterSpacing: 1,
-              ),
-              decoration: InputDecoration.collapsed(
-                hintText: 'Type your pet colors here...',
-                hintStyle: GoogleFonts.quicksand(
-                  fontWeight: FontWeight.w500,
-                  color: const Color.fromARGB(255, 162, 176, 194),
-                  fontSize: 13,
-                  letterSpacing: 1,
+            padding: const EdgeInsets.only(right: 20),
+            child: Row(
+              children: [
+                Text(
+                  'Pet color',
+                  style: GoogleFonts.quicksand(
+                    fontWeight: FontWeight.w500,
+                    color: const Color.fromARGB(255, 61, 78, 100),
+                    fontSize: 16,
+                    letterSpacing: 0.5,
+                  ),
                 ),
-              ),
+              ],
             ),
           ),
-        ],
-      ),
-    );
-  }
-
-  Widget specialMarkingsWidget() {
-    TextEditingController _textEditingController = TextEditingController();
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 12),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Padding(
-            padding: const EdgeInsets.only(top: 20),
-            child: Text(
-              'Special markings',
-              style: GoogleFonts.quicksand(
-                fontWeight: FontWeight.w500,
-                color: const Color.fromARGB(255, 61, 78, 100),
-                fontSize: 16,
-                letterSpacing: 0.5,
-              ),
-            ),
-          ),
-          Container(
-            height: 80,
-            margin: const EdgeInsets.only(top: 8),
-            alignment: Alignment.center,
-            padding: const EdgeInsets.all(10),
-            decoration: BoxDecoration(
-              border: Border.all(
-                color: const Color.fromARGB(255, 167, 181, 201),
-                width: 1.2,
-              ),
-              borderRadius: BorderRadius.circular(5),
-            ),
-            child: TextField(
-              minLines: 3,
-              maxLines: 3,
-              controller: _textEditingController,
-              onChanged: (String text) {
-                controller.specialMarkings.value = text;
+          Expanded(
+            child: CUSTOM_REQUIRED_TEXT_FIELD(
+              hintText: 'Type your pet color here...',
+              maxLength: 20,
+              onChange: (String? text) {
+                controller.color.value = text ?? '';
               },
-              keyboardType: TextInputType.multiline,
-              cursorColor: PRIMARY_COLOR,
-              style: GoogleFonts.quicksand(
-                fontWeight: FontWeight.w500,
-                color: const Color.fromARGB(255, 113, 135, 168),
-                fontSize: 15,
-                letterSpacing: 1,
-              ),
-              decoration: InputDecoration.collapsed(
-                hintText: 'Type your pet special markings here...',
-                hintStyle: GoogleFonts.quicksand(
-                  fontWeight: FontWeight.w500,
-                  color: const Color.fromARGB(255, 162, 176, 194),
-                  fontSize: 13,
-                  letterSpacing: 1,
-                ),
-              ),
+              checkEmptyString: <bool>() {
+                return controller.color.value.isEmpty;
+              },
+              checkErrorText: <bool>() {
+                return false;
+              },
+              onDelete: () {
+                controller.color.value = '';
+              },
+              errorText: '',
+              countText: <String>() {
+                return controller.color.value.length.toString() + '/20';
+              },
             ),
           ),
         ],

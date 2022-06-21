@@ -6,6 +6,7 @@ import 'package:petapp_mobile/configs/path.dart';
 import 'package:petapp_mobile/configs/theme.dart';
 import 'package:petapp_mobile/controllers/transaction_page_controllers/breeding_transaction_detail_page_controller.dart';
 import 'package:petapp_mobile/controllers/transaction_page_controllers/transaction_list_page_controller.dart';
+import 'package:petapp_mobile/views/widgets/customize_widget.dart';
 
 class BreedingTransactionDetailTopWidget
     extends GetView<BreedingTransactionDetailPageController> {
@@ -40,7 +41,8 @@ class BreedingTransactionDetailTopWidget
                     ),
                   ),
                   Text(
-                    '#0' + controller.breedingTransactionId.toString(),
+                    (controller.breedingTransactionId <= 9 ? '#0' : '#') +
+                        controller.breedingTransactionId.toString(),
                     style: GoogleFonts.quicksand(
                       fontSize: 13,
                       color: DARK_GREY_COLOR.withAlpha(130),
@@ -85,15 +87,14 @@ class BreedingTransactionDetailTopWidget
               ),
             ),
             Expanded(
-              child: Text(
-                'Breeding Transaction Page',
-                textAlign: TextAlign.center,
-                style: GoogleFonts.quicksand(
-                  color: const Color.fromARGB(255, 62, 68, 87),
-                  fontSize: 18,
-                  fontWeight: FontWeight.w700,
-                  letterSpacing: 1,
-                ),
+              child: FittedBox(
+                fit: BoxFit.scaleDown,
+                child: CUSTOM_TEXT('Breeding Transaction Page',
+                    textAlign: TextAlign.center,
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    fontSize: 18,
+                    letterSpacing: 1.5,
+                    fontWeight: FontWeight.w700),
               ),
             ),
             InkWell(

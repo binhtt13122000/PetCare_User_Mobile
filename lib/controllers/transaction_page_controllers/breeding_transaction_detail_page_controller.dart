@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:petapp_mobile/controllers/other_controllers/auth_controller.dart';
 import 'package:petapp_mobile/models/account_model/account_model.dart';
@@ -23,6 +24,8 @@ class BreedingTransactionDetailPageController extends GetxController {
   RxBool isShowCancelResultPopup = false.obs;
   List<String> viewTabList = ['Transaction details', 'Breeding services'];
   RxString selectedViewTab = 'Transaction details'.obs;
+  ScrollController scrollController = ScrollController();
+  RxBool isShowViewTypeTabWidget = false.obs;
 
   updateRatingText() {
     switch (selectedStar.value) {
@@ -46,5 +49,12 @@ class BreedingTransactionDetailPageController extends GetxController {
         break;
       default:
     }
+  }
+
+  BreedingTransactionDetailPageController() {
+    scrollController.addListener(() {
+      isShowViewTypeTabWidget.value =
+          scrollController.position.pixels > 200 ? true : false;
+    });
   }
 }
