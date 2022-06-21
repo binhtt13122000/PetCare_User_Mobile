@@ -52,6 +52,7 @@ const UPDATE_PET_PAGE_ROUTE = '/update-pet';
 const PET_COMBO_DETAIL_PAGE_ROUTE = '/pet-combo-detail';
 const PET_BLOCK_CHAIN_PAGE_ROUTE = '/pet-block-chain';
 const PET_BLOCK_CHAIN_DETAIL_PAGE_ROUTE = '/pet-block-chain-detail';
+const PET_GENERATE_QR_CODE_ROUTE = "/pet-generate-qr-code";
 
 //chatting
 const CHATTING_LIST_PAGE_ROUTE = '/chatting-list';

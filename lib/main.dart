@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:petapp_mobile/bindings/main_page_bindings/action_page_binding.dart';
+import 'package:petapp_mobile/bindings/pet_page_bindings/generate_qr_code_binding.dart';
 import 'package:petapp_mobile/bindings/pet_page_bindings/pet_block_chain_page_binding.dart';
 import 'package:petapp_mobile/bindings/transaction_page_bindings/breeding_transaction_detail_page_binding.dart';
 import 'package:petapp_mobile/bindings/transaction_page_bindings/buy_services_combo_page_binding.dart';
@@ -43,6 +44,7 @@ import 'package:petapp_mobile/controllers/other_controllers/auth_controller.dart
 import 'package:petapp_mobile/controllers/guest_page_controllers/sign_in_page_controller.dart';
 import 'package:petapp_mobile/models/account_model/account_model.dart';
 import 'package:petapp_mobile/services/other_services/auth_services.dart';
+import 'package:petapp_mobile/views/customer/generate_qr_code/qr_code_page.dart';
 import 'package:petapp_mobile/views/customer/main_pages/action_page/action_page.dart';
 import 'package:petapp_mobile/views/customer/main_pages/chatting_list_page/chatting_list_page.dart';
 import 'package:petapp_mobile/views/customer/main_pages/home_page/home_page.dart';
@@ -509,6 +511,11 @@ class _MainAppState extends State<MainApp> {
         GetPage(
           name: '$PET_BLOCK_CHAIN_DETAIL_PAGE_ROUTE/:chainId',
           page: () => const PetBlockChainDetailPage(),
+        ),
+        GetPage(
+          name: '$PET_GENERATE_QR_CODE_ROUTE/:petId',
+          page: () => const PetGenerateQrCodePage(),
+          binding: GenerateQrCodePageBinding(),
         ),
         //*Chatting
         GetPage(

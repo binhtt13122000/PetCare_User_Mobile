@@ -17,6 +17,7 @@ class PetBlockChainPage extends GetView<PetBlockChainPageController> {
     if (Get.parameters['petId'] != null) {
       if (int.tryParse(Get.parameters['petId'] ?? "") != null) {
         controller.petId = int.parse(Get.parameters['petId']!);
+        controller.hashPetId = "";
       } else {
         controller.hashPetId = Get.parameters['petId'] ?? "";
         controller.petId = 0;
@@ -53,6 +54,7 @@ class PetBlockChainPage extends GetView<PetBlockChainPageController> {
                         await PetChainService.fetchPetChainByPetId(
                             petId: controller.petId.toString())
                     ..isWaitingLoadingData.value = false;
+                    controller.hashPetId = "";
                 }
               controller.isWaitingLoadingData.value = false;
               });
