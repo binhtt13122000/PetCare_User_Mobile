@@ -116,6 +116,34 @@ class BreedingTransactionService {
     }
   }
 
+  static Future<String> quickPayment({
+    required int id,
+    required DateTime paymentForMalePetOwnerTime,
+  }) async {
+    String jsonBody = jsonEncode({
+      'id': id,
+      'paymentForMalePetOwnerTime': DateTime.now().toIso8601String(),
+    });
+    final response = await http.post(
+      Uri.http(
+        API_SERVER_PATH,
+        BREEDING_TRANSACTION_PAYMENT_FOR_PET_MALE_OWNER_API,
+      ),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonBody,
+    );
+    switch (response.statusCode) {
+      case 200:
+      case 201:
+      case 202:
+        return jsonDecode(response.body)['data']['status'];
+      default:
+        throw Exception('Error ${response.statusCode}, cannot payment');
+    }
+  }
+
   static Future<String> payment({
     required int id,
     required DateTime transactionTime,

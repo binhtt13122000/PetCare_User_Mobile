@@ -12,6 +12,7 @@ import 'package:petapp_mobile/views/customer/transaction_pages/breeding_transact
 import 'package:petapp_mobile/views/customer/transaction_pages/breeding_transaction_detail_page/widgets/top_widget.dart';
 import 'package:petapp_mobile/views/customer/transaction_pages/breeding_transaction_detail_page/widgets/view_tab_widget.dart';
 import 'package:petapp_mobile/views/customer/transaction_pages/breeding_transaction_detail_page/widgets/web_view.dart';
+import 'package:petapp_mobile/views/widgets/customize_widget.dart';
 
 class BreedingTransactionDetailPage
     extends GetView<BreedingTransactionDetailPageController> {
@@ -78,6 +79,13 @@ class BreedingTransactionDetailPage
                         BreedingTransactionDetailViewTypeTabWidget(),
                       ],
                     ),
+            ),
+            Obx(
+              () => Visibility(
+                visible: controller.isWaitingPayment.value,
+                child: Container(
+                    color: DARK_GREY_TRANSPARENT, child: LOADING_WIDGET()),
+              ),
             ),
           ],
         );

@@ -20,15 +20,17 @@ class BreedingTransactionDetailBottomWidget
         child: Column(
           children: [
             Visibility(
-              visible:
-                  controller.breedingTransactionModel.status == 'CREATED' &&
-                      controller.breedingTransactionModel.ownerPetFemaleId ==
-                          controller.accountModel.customerModel.id,
+              visible: controller.breedingTransactionModel.status ==
+                      'CREATED' &&
+                  controller.breedingTransactionModel.ownerPetFemaleId ==
+                      controller.accountModel.customerModel.id &&
+                  !(controller.breedingTransactionModel.paymentMethod != null),
               child: paymentWidget(),
             ),
             Visibility(
               visible:
-                  controller.breedingTransactionModel.status == 'SUCCESS' &&
+                  // controller.breedingTransactionModel.status == 'SUCCESS'
+                  controller.breedingTransactionModel.paymentMethod != null &&
                       (controller.breedingTransactionModel.star == null ||
                           controller.breedingTransactionModel.star == 0) &&
                       controller.breedingTransactionModel.ownerPetFemaleId ==
@@ -37,7 +39,8 @@ class BreedingTransactionDetailBottomWidget
             ),
             Visibility(
               visible:
-                  controller.breedingTransactionModel.status == 'SUCCESS' &&
+                  // controller.breedingTransactionModel.status == 'SUCCESS'
+                  controller.breedingTransactionModel.paymentMethod != null &&
                       (controller.breedingTransactionModel.star != null &&
                           controller.breedingTransactionModel.star! > 0) &&
                       controller.breedingTransactionModel.ownerPetFemaleId ==
@@ -176,16 +179,23 @@ class BreedingTransactionDetailBottomWidget
             padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
             child: InkWell(
               onTap: () async {
-                controller.paymentUrl.value =
-                    await BreedingTransactionService.payment(
-                        id: controller.breedingTransactionModel.id,
-                        transactionTime: DateTime.now(),
-                        transactionTotal: controller
-                            .breedingTransactionModel.transactionTotal,
-                        locale: 'vi',
-                        paymentMethod: 'VNPAY',
-                        message:
-                            'Customer #0${controller.accountModel.customerModel.id} payment for breeding transaction #0${controller.breedingTransactionModel.id}');
+                controller.isWaitingPayment.value = true;
+                await BreedingTransactionService.quickPayment(
+                    id: controller.breedingTransactionModel.id,
+                    paymentForMalePetOwnerTime: DateTime.now());
+                controller
+                  ..isWaitingPayment.value = false
+                  ..isShowPopup.value = true;
+                // controller.paymentUrl.value =
+                //     await BreedingTransactionService.payment(
+                //         id: controller.breedingTransactionModel.id,
+                //         transactionTime: DateTime.now(),
+                //         transactionTotal: controller
+                //             .breedingTransactionModel.transactionTotal,
+                //         locale: 'vi',
+                //         paymentMethod: 'VNPAY',
+                //         message:
+                //             'Customer #0${controller.accountModel.customerModel.id} payment for breeding transaction #0${controller.breedingTransactionModel.id}');
               },
               child: Container(
                 height: 45,

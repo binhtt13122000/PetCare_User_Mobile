@@ -18,7 +18,7 @@ BreedingTransactionModel _$BreedingTransactionModelFromJson(
       createdTime: DateTime.parse(json['createdTime'] as String),
       meetingTime: DateTime.parse(json['meetingTime'] as String),
       sellerReceive: json['sellerReceive'] as int,
-      serviceFee: json['serviceFee'] as int,
+      serviceFee: json['serviceFee'] as int?,
       transactionTotal: json['transactionTotal'] as int,
       pickupMalePetTime: json['pickupMalePetTime'] == null
           ? null

@@ -17,7 +17,7 @@ class BreedingTransactionModel {
   final DateTime createdTime;
   final DateTime meetingTime;
   final int sellerReceive;
-  final int serviceFee;
+  final int? serviceFee;
   final int transactionTotal;
   final DateTime? pickupMalePetTime;
   final DateTime? pickupFemalePetTime;
@@ -64,7 +64,7 @@ class BreedingTransactionModel {
     required this.createdTime,
     required this.meetingTime,
     required this.sellerReceive,
-    required this.serviceFee,
+    this.serviceFee,
     required this.transactionTotal,
     this.pickupMalePetTime,
     this.pickupFemalePetTime,

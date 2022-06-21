@@ -25,7 +25,9 @@ class BreedingTransactionDetailBodyWidget
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              petInformation(),
+              controller.breedingTransactionModel.self
+                  ? const SizedBox.shrink()
+                  : petInformation(),
               Container(
                 height: 1,
                 color: LIGHT_GREY_COLOR.withAlpha(30),
@@ -53,11 +55,14 @@ class BreedingTransactionDetailBodyWidget
         ],
       );
 
-  Widget viewTypeWidget() => Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: controller.viewTabList
-            .map((e) => viewTypeItemWidget(viewType: e))
-            .toList(),
+  Widget viewTypeWidget() => Container(
+        color: WHITE_COLOR,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: controller.viewTabList
+              .map((e) => viewTypeItemWidget(viewType: e))
+              .toList(),
+        ),
       );
 
   Widget viewTypeItemWidget({required String viewType, int flex = 1}) =>
@@ -985,10 +990,7 @@ class BreedingTransactionDetailBodyWidget
                       ),
                       Text(
                         controller.breedingTransactionModel.malePetModel
-                                .breedModel!.name +
-                            ' - ' +
-                            controller.breedingTransactionModel.malePetModel
-                                .breedModel!.speciesModel!.name,
+                            .breedModel!.name,
                         style: GoogleFonts.quicksand(
                           fontSize: 15,
                           color: const Color.fromARGB(255, 77, 82, 105),

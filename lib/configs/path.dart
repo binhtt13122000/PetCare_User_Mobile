@@ -114,6 +114,8 @@ const BREEDING_TRANSACTION_RETURN_API_PATH =
 const BREEDING_TRANSACTION_API_PATH = '/v1/api/breed-transactions';
 const BREEDING_TRANSACTION_PAYMENT_API_PATH =
     '/v1/api/breed-transactions/payment';
+const BREEDING_TRANSACTION_PAYMENT_FOR_PET_MALE_OWNER_API =
+    '/v1/api/breed-transactions/petMaleOwner/payment';
 
 //*pet
 const PET_TO_CREATE_POST_API_PATH = '/v1/api/pets/fetch-pet';

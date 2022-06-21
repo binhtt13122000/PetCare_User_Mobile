@@ -15,27 +15,48 @@ class BreedingTransactionDetailBreedingServicesWidget
   Widget build(BuildContext context) {
     return Column(
       children: [
-        breedingServicesTimeLineWidget(),
-        Container(
-          height: 1,
-          color: LIGHT_GREY_COLOR.withAlpha(30),
-        ),
-        Container(
-          height: 16,
-          color: SUPPER_LIGHT_BLUE.withAlpha(30),
-        ),
-        branchWidget(),
-        Container(
-          height: 1,
-          color: LIGHT_GREY_COLOR.withAlpha(30),
-        ),
-        Container(
-          height: 16,
-          color: SUPPER_LIGHT_BLUE.withAlpha(30),
-        ),
+        true ? noHaveDataWidget() : breedingServicesWidget(),
       ],
     );
   }
+
+  Widget noHaveDataWidget() => Container(
+        color: WHITE_COLOR,
+        padding: const EdgeInsets.symmetric(vertical: 20),
+        child: Column(children: [
+          CUSTOM_TEXT(
+            'Your pet does not have any reproductive health services, buy one now!',
+            textOverflow: TextOverflow.clip,
+            textAlign: TextAlign.center,
+            fontSize: 14,
+            padding: const EdgeInsets.symmetric(horizontal: 35),
+          ),
+          Row(),
+        ]),
+      );
+
+  Widget breedingServicesWidget() => Column(
+        children: [
+          breedingServicesTimeLineWidget(),
+          Container(
+            height: 1,
+            color: LIGHT_GREY_COLOR.withAlpha(30),
+          ),
+          Container(
+            height: 16,
+            color: SUPPER_LIGHT_BLUE.withAlpha(30),
+          ),
+          branchWidget(),
+          Container(
+            height: 1,
+            color: LIGHT_GREY_COLOR.withAlpha(30),
+          ),
+          Container(
+            height: 16,
+            color: SUPPER_LIGHT_BLUE.withAlpha(30),
+          ),
+        ],
+      );
 
   Widget branchWidget() => Container(
         color: WHITE_COLOR,
@@ -88,7 +109,7 @@ class BreedingTransactionDetailBreedingServicesWidget
           children: [
             CUSTOM_TEXT(
               'Breeding services timeline',
-              padding: const EdgeInsets.only(bottom: 10),
+              padding: const EdgeInsets.only(bottom: 20),
               fontWeight: FontWeight.w700,
               fontSize: 15,
             ),

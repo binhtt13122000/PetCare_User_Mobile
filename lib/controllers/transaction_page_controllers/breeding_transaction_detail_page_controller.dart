@@ -26,6 +26,7 @@ class BreedingTransactionDetailPageController extends GetxController {
   RxString selectedViewTab = 'Transaction details'.obs;
   ScrollController scrollController = ScrollController();
   RxBool isShowViewTypeTabWidget = false.obs;
+  RxBool isWaitingPayment = false.obs;
 
   updateRatingText() {
     switch (selectedStar.value) {
