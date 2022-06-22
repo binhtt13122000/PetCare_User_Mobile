@@ -78,7 +78,6 @@ class BuyServicesComboBodyWidget
                       }),
                       const BuyServicesComboSelectSpeciesWidget(),
                       const BuyServicesComboListComboWidget(),
-                      const BuyPetServicesComboSelectBranchWidget(),
                       Container(
                         color: WHITE_COLOR,
                         padding: const EdgeInsets.symmetric(
@@ -90,9 +89,14 @@ class BuyServicesComboBodyWidget
                           ],
                         ),
                       ),
+                      const BuyPetServicesComboSelectBranchWidget(),
                       Container(
                         height: 1,
                         color: LIGHT_GREY_COLOR.withAlpha(30),
+                      ),
+                      Container(
+                        height: 30,
+                        color: SUPPER_LIGHT_BLUE,
                       ),
                     ],
                   ),

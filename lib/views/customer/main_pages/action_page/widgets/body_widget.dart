@@ -12,60 +12,49 @@ class ActionPageBodyWidget extends GetView<ActionPageController> {
   @override
   Widget build(BuildContext context) {
     return Expanded(
-      child: Padding(
-        padding: const EdgeInsets.symmetric(
-          horizontal: 40,
-        ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const SizedBox(
-              height: 40,
-            ),
-            imageCardWidget(),
-            const SizedBox(
-              height: 20,
-            ),
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.only(bottom: 55, top: 20),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    buttonWidget(
-                      name: 'Pet Management',
-                      onTap: () => Get.toNamed(PET_MANAGEMENT_PAGE_ROUTE),
-                      iconData: Icons.pets,
-                    ),
-                    buttonWidget(
-                      name: 'Post Management',
-                      onTap: () => Get.toNamed(POST_MANAGEMENT_PAGE_ROUTE),
-                      iconData: Icons.photo_album_sharp,
-                    ),
-                    Obx(
-                      () => buttonWidget(
-                        name: controller.ticketId.value != -1
-                            ? 'View Current Ticket'
-                            : 'Create Ticket',
-                        onTap: () => Get.toNamed(controller.ticketId.value != -1
-                            ? '$TICKET_DETAIL_PAGE_ROUTE/${controller.ticketId.value}'
-                            : CREATE_TICKET_PAGE_ROUTE),
-                        iconData: Icons.airplane_ticket,
-                      ),
-                    ),
-                    buttonWidget(
-                      name: 'Transaction History',
-                      onTap: () => Get.toNamed(TRANSACTION_PAGE_ROUTE),
-                      iconData: Icons.history,
-                    ),
-                  ],
+      child: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(
+            horizontal: 40,
+          ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const SizedBox(
+                height: 40,
+              ),
+              imageCardWidget(),
+              const SizedBox(
+                height: 20,
+              ),
+              buttonWidget(
+                name: 'Pet Management',
+                onTap: () => Get.toNamed(PET_MANAGEMENT_PAGE_ROUTE),
+                iconData: Icons.pets,
+              ),
+              buttonWidget(
+                name: 'Post Management',
+                onTap: () => Get.toNamed(POST_MANAGEMENT_PAGE_ROUTE),
+                iconData: Icons.photo_album_sharp,
+              ),
+              Obx(
+                () => buttonWidget(
+                  name: controller.ticketId.value != -1
+                      ? 'View Current Ticket'
+                      : 'Create Ticket',
+                  onTap: () => Get.toNamed(controller.ticketId.value != -1
+                      ? '$TICKET_DETAIL_PAGE_ROUTE/${controller.ticketId.value}'
+                      : CREATE_TICKET_PAGE_ROUTE),
+                  iconData: Icons.airplane_ticket,
                 ),
               ),
-            ),
-            const SizedBox(
-              height: 20,
-            )
-          ],
+              buttonWidget(
+                name: 'Transaction History',
+                onTap: () => Get.toNamed(TRANSACTION_PAGE_ROUTE),
+                iconData: Icons.history,
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -149,46 +138,49 @@ class ActionPageBodyWidget extends GetView<ActionPageController> {
           {required String name,
           required Function() onTap,
           required IconData iconData}) =>
-      InkWell(
-        onTap: onTap,
-        child: Container(
-          height: 40,
-          decoration: BoxDecoration(
-            border: Border.all(
-              width: 1,
-              color: LIGHT_GREY_COLOR.withOpacity(0.3),
+      Padding(
+        padding: const EdgeInsets.symmetric(vertical: 8),
+        child: InkWell(
+          onTap: onTap,
+          child: Container(
+            height: 40,
+            decoration: BoxDecoration(
+              border: Border.all(
+                width: 1,
+                color: LIGHT_GREY_COLOR.withOpacity(0.3),
+              ),
+              borderRadius: BorderRadius.circular(10),
+              boxShadow: [
+                BoxShadow(
+                  color: LIGHT_GREY_COLOR.withOpacity(0.1),
+                  blurRadius: 3,
+                  offset: const Offset(3, 3),
+                ),
+              ],
+              color: WHITE_COLOR,
             ),
-            borderRadius: BorderRadius.circular(10),
-            boxShadow: [
-              BoxShadow(
-                color: LIGHT_GREY_COLOR.withOpacity(0.1),
-                blurRadius: 3,
-                offset: const Offset(3, 3),
-              ),
-            ],
-            color: WHITE_COLOR,
-          ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Container(
-                width: 70,
-                alignment: Alignment.centerRight,
-                padding: const EdgeInsets.only(right: 20),
-                child: Icon(
-                  iconData,
-                  color: DARK_GREY_TEXT_COLOR,
-                  size: 22,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Container(
+                  width: 70,
+                  alignment: Alignment.centerRight,
+                  padding: const EdgeInsets.only(right: 20),
+                  child: Icon(
+                    iconData,
+                    color: DARK_GREY_TEXT_COLOR,
+                    size: 22,
+                  ),
                 ),
-              ),
-              Expanded(
-                child: CUSTOM_TEXT(
-                  name,
-                  letterSpacing: 2,
-                  textAlign: TextAlign.start,
+                Expanded(
+                  child: CUSTOM_TEXT(
+                    name,
+                    letterSpacing: 2,
+                    textAlign: TextAlign.start,
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       );

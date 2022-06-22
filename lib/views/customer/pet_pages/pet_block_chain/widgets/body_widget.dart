@@ -14,15 +14,18 @@ class PetBlockChainBodyWidget extends GetView<PetBlockChainPageController> {
   @override
   Widget build(BuildContext context) {
     return Expanded(
-      child: SingleChildScrollView(
-        controller: controller.scrollController,
-        child: Column(
-          children: [
-            petGeneralInformation(),
-            vaccinationsTimeLineWidget(),
-          ],
-        ),
-      ),
+      child: controller.petChainModel != null
+          ? SingleChildScrollView(
+              controller: controller.scrollController,
+              child: Column(
+                children: [
+                  petGeneralInformation(),
+                  vaccinationsTimeLineWidget(),
+                ],
+              ))
+          : Center(
+              child: CUSTOM_TEXT('No data'),
+            ),
     );
   }
 
@@ -61,10 +64,10 @@ class PetBlockChainBodyWidget extends GetView<PetBlockChainPageController> {
                     padding: const EdgeInsets.only(bottom: 10)),
                 Row(
                   children: [
-                    petDetailAvatarWidget(),
-                    const SizedBox(
-                      width: 10,
-                    ),
+                    // petDetailAvatarWidget(),
+                    // const SizedBox(
+                    //   width: 10,
+                    // ),
                     Expanded(
                       child: Column(
                         children: [
@@ -170,7 +173,7 @@ class PetBlockChainBodyWidget extends GetView<PetBlockChainPageController> {
             fontWeight: FontWeight.w700,
           ),
           Column(
-            children: controller.petChainModel.valueModelList
+            children: controller.petChainModel!.valueModelList
                 .asMap()
                 .entries
                 .map((e) => vaccinationsTimeLineItemWidget(
@@ -215,7 +218,7 @@ class PetBlockChainBodyWidget extends GetView<PetBlockChainPageController> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Container(
-          width: 100,
+          width: 80,
           height: 30,
           alignment: Alignment.center,
           margin: const EdgeInsets.symmetric(horizontal: 15),

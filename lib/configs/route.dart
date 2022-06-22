@@ -16,7 +16,7 @@ const REGISTER_OTP_PAGE_ROUTE = '/register/otp';
 //home
 const HOME_PAGE_ROUTE = '/home';
 const POST_DETAIL_PAGE_ROUTE = '/post-detail';
-const PURCHASE_POSTS_PAGE_ROUTE = '/post-list';
+const POSTS_LIST_PAGE_ROUTE = '/post-list';
 const PURCHASE_POSTS_FILTER_PAGE_ROUTE = '/posts-filter';
 const NOTIFICATION_PAGE_ROUTE = '/notification-page';
 

@@ -52,11 +52,14 @@ class CreatePetBodyWidget extends GetView<CreatePetPageController> {
                     ),
                     dateOfBirthWidget(),
                     const SizedBox(
-                      height: 25,
+                      height: 20,
                     ),
                     colorWidget(),
                     vaccinationInformationWidget(),
                     descriptionWidget(),
+                    const SizedBox(
+                      height: 25,
+                    ),
                   ],
                 ),
               ),
@@ -147,16 +150,15 @@ class CreatePetBodyWidget extends GetView<CreatePetPageController> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Row(
-                  crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
-                    Padding(
-                      padding: const EdgeInsets.only(right: 5),
-                      child: SvgPicture.asset(
-                        ICON_PATH + CLOCK_SVG,
-                        height: 17,
-                        color: const Color.fromARGB(255, 61, 78, 100),
-                      ),
-                    ),
+                    // Padding(
+                    //   padding: const EdgeInsets.only(right: 5),
+                    //   child: SvgPicture.asset(
+                    //     ICON_PATH + CLOCK_SVG,
+                    //     height: 17,
+                    //     color: const Color.fromARGB(255, 61, 78, 100),
+                    //   ),
+                    // ),
                     Text(
                       'Date of birth',
                       style: GoogleFonts.quicksand(
@@ -178,6 +180,9 @@ class CreatePetBodyWidget extends GetView<CreatePetPageController> {
                   ],
                 ),
               ],
+            ),
+            const SizedBox(
+              width: 20,
             ),
             Expanded(
               child: InkWell(
@@ -890,14 +895,13 @@ class CreatePetBodyWidget extends GetView<CreatePetPageController> {
   }
 
   Widget vaccinationInformationWidget() {
-    TextEditingController _textEditingController = TextEditingController();
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 12),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
-            padding: const EdgeInsets.only(top: 20),
+            padding: const EdgeInsets.only(top: 0),
             child: Row(
               children: [
                 Text(
@@ -920,58 +924,42 @@ class CreatePetBodyWidget extends GetView<CreatePetPageController> {
               ],
             ),
           ),
-          Container(
-            height: 80,
-            alignment: Alignment.center,
-            margin: const EdgeInsets.only(top: 8),
-            padding: const EdgeInsets.all(10),
-            decoration: BoxDecoration(
-              border: Border.all(
-                color: const Color.fromARGB(255, 167, 181, 201),
-                width: 1.2,
-              ),
-              borderRadius: BorderRadius.circular(5),
-            ),
-            child: TextField(
-              minLines: 3,
+          CUSTOM_REQUIRED_TEXT_FIELD(
+              hintText: 'Type your pet vaccination information here...',
+              maxLength: 200,
+              height: 80,
               maxLines: 3,
-              controller: _textEditingController,
-              onChanged: (String text) {
-                controller.vaccineDescription.value = text;
+              onChange: (String? text) {
+                controller.vaccineDescription.value = text ?? '';
               },
-              keyboardType: TextInputType.multiline,
-              cursorColor: PRIMARY_COLOR,
-              style: GoogleFonts.quicksand(
-                fontWeight: FontWeight.w500,
-                color: const Color.fromARGB(255, 113, 135, 168),
-                fontSize: 15,
-                letterSpacing: 1,
-              ),
-              decoration: InputDecoration.collapsed(
-                hintText: 'Type your pet vaccination information here...',
-                hintStyle: GoogleFonts.quicksand(
-                  fontWeight: FontWeight.w500,
-                  color: const Color.fromARGB(255, 162, 176, 194),
-                  fontSize: 13,
-                  letterSpacing: 1,
-                ),
-              ),
-            ),
-          ),
+              checkEmptyString: <bool>() {
+                return controller.vaccineDescription.value.isEmpty;
+              },
+              checkErrorText: <bool>() {
+                return false;
+              },
+              onDelete: () {
+                controller.vaccineDescription.value = '';
+              },
+              errorText: '',
+              countText: <String>() {
+                return controller.vaccineDescription.value.length.toString() +
+                    '/200';
+              },
+              padding: const EdgeInsets.only(top: 5)),
         ],
       ),
     );
   }
 
   Widget descriptionWidget() {
-    TextEditingController _textEditingController = TextEditingController();
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 12),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
-            padding: const EdgeInsets.only(top: 20),
+            padding: const EdgeInsets.only(top: 0),
             child: Text(
               'Description',
               style: GoogleFonts.quicksand(
@@ -982,44 +970,28 @@ class CreatePetBodyWidget extends GetView<CreatePetPageController> {
               ),
             ),
           ),
-          Container(
-            height: 80,
-            alignment: Alignment.center,
-            margin: const EdgeInsets.only(top: 8, bottom: 30),
-            padding: const EdgeInsets.all(10),
-            decoration: BoxDecoration(
-              border: Border.all(
-                color: const Color.fromARGB(255, 167, 181, 201),
-                width: 1.2,
-              ),
-              borderRadius: BorderRadius.circular(5),
-            ),
-            child: TextField(
-              minLines: 3,
+          CUSTOM_REQUIRED_TEXT_FIELD(
+              hintText: 'More information about your pet...',
+              maxLength: 200,
+              height: 80,
               maxLines: 3,
-              controller: _textEditingController,
-              onChanged: (String text) {
-                controller.description.value = text;
+              onChange: (String? text) {
+                controller.description.value = text ?? '';
               },
-              keyboardType: TextInputType.multiline,
-              cursorColor: PRIMARY_COLOR,
-              style: GoogleFonts.quicksand(
-                fontWeight: FontWeight.w500,
-                color: const Color.fromARGB(255, 113, 135, 168),
-                fontSize: 15,
-                letterSpacing: 1,
-              ),
-              decoration: InputDecoration.collapsed(
-                hintText: 'More information about your pet...',
-                hintStyle: GoogleFonts.quicksand(
-                  fontWeight: FontWeight.w500,
-                  color: const Color.fromARGB(255, 162, 176, 194),
-                  fontSize: 13,
-                  letterSpacing: 1,
-                ),
-              ),
-            ),
-          ),
+              checkEmptyString: <bool>() {
+                return controller.description.value.isEmpty;
+              },
+              checkErrorText: <bool>() {
+                return false;
+              },
+              onDelete: () {
+                controller.description.value = '';
+              },
+              errorText: '',
+              countText: <String>() {
+                return controller.description.value.length.toString() + '/200';
+              },
+              padding: const EdgeInsets.only(top: 5)),
         ],
       ),
     );

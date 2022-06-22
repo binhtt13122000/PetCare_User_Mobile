@@ -32,7 +32,7 @@ import 'package:petapp_mobile/bindings/pet_page_bindings/remove_tick_history_pag
 import 'package:petapp_mobile/bindings/transaction_page_bindings/sale_transaction_detail_page_binding.dart';
 import 'package:petapp_mobile/bindings/guest_page_bindings/sign_in_page_binding.dart';
 import 'package:petapp_mobile/bindings/pet_page_bindings/pet_management_page_binding.dart';
-import 'package:petapp_mobile/bindings/post_page_bindings/purchase_posts_page_binding.dart';
+import 'package:petapp_mobile/bindings/post_page_bindings/post_list_page_binding.dart';
 import 'package:petapp_mobile/bindings/post_page_bindings/post_management_page_binding.dart';
 import 'package:petapp_mobile/bindings/transaction_page_bindings/center_services_transaction_detail_page_binding.dart';
 import 'package:petapp_mobile/bindings/transaction_page_bindings/ticket_detail_page_binding.dart';
@@ -69,9 +69,9 @@ import 'package:petapp_mobile/views/customer/pet_pages/vaccine_block_chain_list_
 import 'package:petapp_mobile/views/customer/pet_pages/vaccine_list_page/vaccine_list_page.dart';
 import 'package:petapp_mobile/views/customer/post_pages/create_post_page/create_post_page.dart';
 import 'package:petapp_mobile/views/customer/post_pages/post_detail_page/post_detail_page.dart';
+import 'package:petapp_mobile/views/customer/post_pages/post_list_page/post_list_page.dart';
 import 'package:petapp_mobile/views/customer/post_pages/post_management_page/post_management_page.dart';
 import 'package:petapp_mobile/views/customer/post_pages/purchase_posts_filter_page/purchase_posts_filter_page.dart';
-import 'package:petapp_mobile/views/customer/post_pages/sale_post_list_page/sale_post_page.dart';
 import 'package:petapp_mobile/views/customer/post_pages/update_sale_post_page/update_sale_post_page.dart';
 import 'package:petapp_mobile/views/customer/transaction_pages/breeding_transaction_detail_page/breeding_transaction_detail_page.dart';
 import 'package:petapp_mobile/views/customer/transaction_pages/buy_services_combo_page/buy_services_combo_page.dart';
@@ -380,9 +380,9 @@ class _MainAppState extends State<MainApp> {
           binding: HomePageBinding(),
         ),
         GetPage(
-          name: PURCHASE_POSTS_PAGE_ROUTE,
-          page: () => const SalePostListPage(),
-          binding: PurchasePostsPageBinding(),
+          name: POSTS_LIST_PAGE_ROUTE,
+          page: () => const PostListPage(),
+          binding: PostsListPageBinding(),
         ),
         GetPage(
           name: PURCHASE_POSTS_FILTER_PAGE_ROUTE,

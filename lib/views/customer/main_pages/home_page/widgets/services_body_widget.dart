@@ -56,7 +56,7 @@ class ServicesBodyWidget extends GetView<HomePageController> {
 
   Widget purchasePostItemWidget({required PostModel postModel}) => InkWell(
         onTap: () {
-          Get.toNamed(PURCHASE_POSTS_PAGE_ROUTE);
+          Get.toNamed(POSTS_LIST_PAGE_ROUTE);
         },
         child: Container(
           padding: const EdgeInsets.only(bottom: 10),

@@ -5,6 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:petapp_mobile/configs/theme.dart';
 import 'package:petapp_mobile/controllers/post_page_controllers/create_post_page_controller.dart';
 import 'package:petapp_mobile/services/other_services/branch_services.dart';
+import 'package:petapp_mobile/views/widgets/customize_widget.dart';
 
 class SelectBranchWidget extends GetView<CreatePostPageController> {
   const SelectBranchWidget({Key? key}) : super(key: key);
@@ -13,85 +14,98 @@ class SelectBranchWidget extends GetView<CreatePostPageController> {
   Widget build(BuildContext context) {
     controller.isLoadingBranch.value = true;
     WidgetsBinding.instance!.addPostFrameCallback((_) async {
-      controller.branchList = await BranchServices.fetchBranchList();
-      controller.selectedBranchId.value = controller.branchList[0].id;
-      controller.isLoadingBranch.value = false;
+      controller
+        ..branchList = await BranchServices.fetchBranchList()
+        ..selectedBranchIndex.value = 0
+        ..branchAddress.value = controller.branchList[0].address!
+        ..isLoadingBranch.value = false;
     });
 
-    return SizedBox(
-      height: 120,
-      child: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 12),
-            child: Column(
-              children: [
-                Row(
+    return Column(
+      children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 12),
+          child: Column(
+            children: [
+              meetingTimeWidget(),
+              Row(
+                children: [
+                  Row(
+                    children: [
+                      Text(
+                        'Select branch',
+                        style: GoogleFonts.quicksand(
+                          fontWeight: FontWeight.w500,
+                          color: const Color.fromARGB(255, 78, 98, 124),
+                          fontSize: 16,
+                        ),
+                      ),
+                      Text(
+                        '*',
+                        style: GoogleFonts.quicksand(
+                          fontWeight: FontWeight.w800,
+                          color: const Color.fromARGB(255, 241, 99, 88),
+                          fontSize: 20,
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(width: 20),
+                  Obx(
+                    () => controller.isLoadingBranch.value
+                        ? const SpinKitSpinningLines(
+                            color: PRIMARY_COLOR,
+                            size: 50,
+                          )
+                        : DropdownButton<int>(
+                            value: controller.selectedBranchIndex.value,
+                            items: controller.branchList
+                                .asMap()
+                                .entries
+                                .map((e) => DropdownMenuItem(
+                                    value: e.key,
+                                    child: Text(
+                                      e.value.name,
+                                      style: GoogleFonts.quicksand(
+                                        fontWeight: FontWeight.w500,
+                                        color: const Color.fromARGB(
+                                            255, 78, 98, 124),
+                                        fontSize: 16,
+                                      ),
+                                    )))
+                                .toList(),
+                            onChanged: (int? value) {
+                              controller
+                                ..selectedBranchIndex.value = value!
+                                ..branchAddress.value =
+                                    controller.branchList[value].address!;
+                            },
+                          ),
+                  ),
+                ],
+              ),
+              Obx(
+                () => Row(
                   children: [
-                    Row(
-                      children: [
-                        Text(
-                          'Select branch',
-                          style: GoogleFonts.quicksand(
-                            fontWeight: FontWeight.w500,
-                            color: const Color.fromARGB(255, 78, 98, 124),
-                            fontSize: 16,
-                          ),
-                        ),
-                        Text(
-                          '*',
-                          style: GoogleFonts.quicksand(
-                            fontWeight: FontWeight.w800,
-                            color: const Color.fromARGB(255, 241, 99, 88),
-                            fontSize: 20,
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(width: 20),
-                    Obx(
-                      () => controller.isLoadingBranch.value
-                          ? const SpinKitSpinningLines(
-                              color: PRIMARY_COLOR,
-                              size: 50,
-                            )
-                          : DropdownButton<int>(
-                              value: controller.selectedBranchId.value,
-                              items: controller.branchList
-                                  .map((e) => DropdownMenuItem(
-                                      value: e.id,
-                                      child: Text(
-                                        e.name,
-                                        style: GoogleFonts.quicksand(
-                                          fontWeight: FontWeight.w500,
-                                          color: const Color.fromARGB(
-                                              255, 78, 98, 124),
-                                          fontSize: 16,
-                                        ),
-                                      )))
-                                  .toList(),
-                              onChanged: (int? value) {
-                                controller.selectedBranchId.value = value!;
-                              },
-                            ),
-                    ),
+                    CUSTOM_TEXT('Branch address',
+                        padding: const EdgeInsets.only(right: 10)),
+                    CUSTOM_TEXT(controller.branchAddress.value),
                   ],
                 ),
-                meetingTimeWidget(),
-              ],
-            ),
+              ),
+            ],
           ),
-          Container(
-            height: 1,
-            margin: const EdgeInsets.only(top: 10),
-            color: LIGHT_GREY_COLOR.withOpacity(0.1),
-          ),
-          Container(
-            height: 8,
-            color: const Color.fromARGB(255, 247, 248, 250),
-          ),
-        ],
-      ),
+        ),
+        Container(
+          height: 1,
+          margin: const EdgeInsets.only(top: 20),
+          color: LIGHT_GREY_COLOR.withAlpha(30),
+        ),
+        Container(
+          height: 30,
+          color: SUPPER_LIGHT_BLUE,
+        ),
+      ],
     );
   }
 

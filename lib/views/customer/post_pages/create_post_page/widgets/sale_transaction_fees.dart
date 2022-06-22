@@ -24,7 +24,7 @@ class CreatePostSaleTransactionFeesWidget
               onTap: () {},
               child: Container(
                 height: 220,
-                width: 370,
+                width: 330,
                 decoration: BoxDecoration(
                   color: WHITE_COLOR,
                   borderRadius: BorderRadius.circular(10),

@@ -70,7 +70,7 @@ class AppLogoPage extends GetView {
               style: GoogleFonts.satisfy(
                 textStyle: TextStyle(color: WHITE_COLOR.withOpacity(0.9)),
                 fontWeight: FontWeight.w700,
-                fontSize: 19,
+                fontSize: 17,
                 height: 1.2,
                 letterSpacing: 1,
               ),

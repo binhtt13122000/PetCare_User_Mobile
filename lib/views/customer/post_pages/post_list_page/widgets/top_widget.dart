@@ -10,18 +10,30 @@ import 'package:petapp_mobile/controllers/post_page_controllers/purchase_posts_p
 import 'package:petapp_mobile/models/species_model/species_model.dart';
 import 'package:petapp_mobile/services/pet_services/species_services.dart';
 import 'package:petapp_mobile/views/widgets/customize_widget.dart';
-import 'package:pull_to_refresh/pull_to_refresh.dart';
 
-class SalePostTopWidget extends GetView<PurchasePostsPageController> {
-  const SalePostTopWidget({Key? key}) : super(key: key);
+class PostListTopWidget extends GetView<PostListPageController> {
+  const PostListTopWidget({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) => Column(
-        children: [
-          titleWidget(),
-          speciesWidget(),
-          filterWidget(),
-        ],
+  Widget build(BuildContext context) => Container(
+        padding: const EdgeInsets.only(top: 33),
+        decoration: const BoxDecoration(
+          color: WHITE_COLOR,
+          boxShadow: [
+            BoxShadow(
+              color: Color.fromARGB(255, 198, 206, 223),
+              offset: Offset(1, 1),
+              blurRadius: 5,
+            ),
+          ],
+        ),
+        child: Column(
+          children: [
+            titleWidget(),
+            speciesWidget(),
+            filterWidget(),
+          ],
+        ),
       );
 
   Widget titleWidget() => Padding(
@@ -69,7 +81,7 @@ class SalePostTopWidget extends GetView<PurchasePostsPageController> {
         padding: const EdgeInsets.symmetric(horizontal: 20),
         child: SingleChildScrollView(
           scrollDirection: Axis.horizontal,
-          child: GetBuilder<PurchasePostsPageController>(builder: (_) {
+          child: GetBuilder<PostListPageController>(builder: (_) {
             controller.isShowLoadingPetSpecies.value = true;
             WidgetsBinding.instance!.addPostFrameCallback((timeStamp) async {
               controller.species =
@@ -98,7 +110,7 @@ class SalePostTopWidget extends GetView<PurchasePostsPageController> {
       );
 
   Widget speciesItemWidget({required SpeciesModel speciesModel}) =>
-      GetBuilder<PurchasePostsPageController>(
+      GetBuilder<PostListPageController>(
         builder: (controller) => Padding(
           padding: const EdgeInsets.only(right: 15, top: 5, bottom: 5),
           child: InkWell(
@@ -169,7 +181,7 @@ class SalePostTopWidget extends GetView<PurchasePostsPageController> {
 
   Widget filterWidget() => Padding(
         padding: const EdgeInsets.symmetric(
-          horizontal: 15,
+          horizontal: 5,
           vertical: 5,
         ),
         child: Row(
@@ -216,7 +228,7 @@ class SalePostTopWidget extends GetView<PurchasePostsPageController> {
             //*Gender
             Row(
               children: [
-                GetBuilder<PurchasePostsPageController>(
+                GetBuilder<PostListPageController>(
                   builder: (controller) => InkWell(
                     onTap: () {
                       if (controller.selectedGenderList.contains('MALE') &&

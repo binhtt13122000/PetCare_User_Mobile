@@ -6,7 +6,7 @@ import 'package:http/http.dart' as http;
 import 'package:petapp_mobile/models/pet_chain_model/pet_chain_model.dart';
 
 class PetChainService {
-  static Future<PetChainModel> fetchPetChainByPetId(
+  static Future<PetChainModel?> fetchPetChainByPetId(
       {required String petId}) async {
     final response = await http.get(
       Uri.http(API_SERVER_PATH, '$PET_CHAIN_API/$petId'),
@@ -20,7 +20,7 @@ class PetChainService {
       case 202:
         return PetChainModel.fromJson(jsonDecode(response.body)['data']);
       default:
-        throw Exception('Error ${response.statusCode}, cannot get pet chain');
+        return null;
     }
   }
 
