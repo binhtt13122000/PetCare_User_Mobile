@@ -71,7 +71,6 @@ import 'package:petapp_mobile/views/customer/post_pages/create_post_page/create_
 import 'package:petapp_mobile/views/customer/post_pages/post_detail_page/post_detail_page.dart';
 import 'package:petapp_mobile/views/customer/post_pages/post_list_page/post_list_page.dart';
 import 'package:petapp_mobile/views/customer/post_pages/post_management_page/post_management_page.dart';
-import 'package:petapp_mobile/views/customer/post_pages/purchase_posts_filter_page/purchase_posts_filter_page.dart';
 import 'package:petapp_mobile/views/customer/post_pages/update_sale_post_page/update_sale_post_page.dart';
 import 'package:petapp_mobile/views/customer/transaction_pages/breeding_transaction_detail_page/breeding_transaction_detail_page.dart';
 import 'package:petapp_mobile/views/customer/transaction_pages/buy_services_combo_page/buy_services_combo_page.dart';
@@ -384,10 +383,10 @@ class _MainAppState extends State<MainApp> {
           page: () => const PostListPage(),
           binding: PostsListPageBinding(),
         ),
-        GetPage(
-          name: PURCHASE_POSTS_FILTER_PAGE_ROUTE,
-          page: () => const PurchasePostsFilterPage(),
-        ),
+        // GetPage(
+        //   name: PURCHASE_POSTS_FILTER_PAGE_ROUTE,
+        //   page: () => const PurchasePostsFilterPage(),
+        // ),
         GetPage(
           name: NOTIFICATION_PAGE_ROUTE,
           page: () => const NotificationPage(),
