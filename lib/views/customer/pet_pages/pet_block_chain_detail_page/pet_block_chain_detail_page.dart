@@ -17,7 +17,7 @@ class PetBlockChainDetailPage extends GetView<PetBlockChainPageController> {
     }
     controller
       ..petChainValueModel =
-          controller.petChainModel.valueModelList[controller.chainIndex]
+          controller.petChainModel!.valueModelList[controller.chainIndex]
       ..setListPetHealthRecord();
 
     return Scaffold(

@@ -10,7 +10,7 @@ class PetBlockChainPageController extends GetxController {
   late String hashPetId;
   late int chainIndex;
   RxBool isWaitingLoadingData = false.obs;
-  late PetChainModel petChainModel;
+  late PetChainModel? petChainModel;
   late PetModel petModel;
   late PetChainValueModel petChainValueModel;
   ScrollController scrollController = ScrollController();

@@ -158,18 +158,19 @@ class CreateTicketBodyWidget extends GetView<CreateTicketPageController> {
                 timeText = '$minutes minutes';
               }
 
-              return Container(
-                padding: const EdgeInsets.all(8.0),
-                width: 200,
-                alignment: Alignment.center,
-                decoration: BoxDecoration(
-                  border: Border.all(
-                    color: LIGHT_GREY_COLOR.withOpacity(0.3),
+              return Expanded(
+                child: Container(
+                  padding: const EdgeInsets.all(8.0),
+                  alignment: Alignment.center,
+                  decoration: BoxDecoration(
+                    border: Border.all(
+                      color: LIGHT_GREY_COLOR.withOpacity(0.3),
+                    ),
+                    borderRadius: BorderRadius.circular(5),
                   ),
-                  borderRadius: BorderRadius.circular(5),
-                ),
-                child: CUSTOM_TEXT(
-                  timeText,
+                  child: CUSTOM_TEXT(
+                    timeText,
+                  ),
                 ),
               );
             }),

@@ -18,12 +18,12 @@ import 'package:petapp_mobile/utilities/utilities.dart';
 import 'package:petapp_mobile/views/widgets/customize_widget.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
-class SalePostListWidget extends GetView<PurchasePostsPageController> {
-  const SalePostListWidget({Key? key}) : super(key: key);
+class PostListBodyWidget extends GetView<PostListPageController> {
+  const PostListBodyWidget({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) =>
-      GetBuilder<PurchasePostsPageController>(builder: (_) {
+      GetBuilder<PostListPageController>(builder: (_) {
         controller.isLoadingData.value = true;
         WidgetsBinding.instance!.addPostFrameCallback((_) async {
           QueryResult queryResult = await CLIENT_TO_QUERY().query(controller

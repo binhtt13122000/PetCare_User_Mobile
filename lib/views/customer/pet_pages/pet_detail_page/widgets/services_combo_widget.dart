@@ -148,7 +148,7 @@ class PetDetailServicesComboWidget extends GetView<PetDetailPageController> {
       );
 
   Widget noExistPetCombo() => Padding(
-        padding: const EdgeInsets.symmetric(vertical: 200),
+        padding: const EdgeInsets.symmetric(vertical: 100),
         child: Column(
           children: [
             CUSTOM_TEXT(

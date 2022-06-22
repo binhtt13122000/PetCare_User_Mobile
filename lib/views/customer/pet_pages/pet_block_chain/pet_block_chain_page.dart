@@ -36,16 +36,16 @@ class PetBlockChainPage extends GetView<PetBlockChainPageController> {
                   controller.petChainModel =
                       await PetChainService.fetchPetChainByHashPetId(
                           petId: controller.hashPetId);
-                  if (controller.petChainModel.valueModelList.isNotEmpty) {
+                  if (controller.petChainModel!.valueModelList.isNotEmpty) {
                     controller.petModel = await PetService.fetchPetById(
-                        petId: controller.petChainModel.valueModelList.first
+                        petId: controller.petChainModel!.valueModelList.first
                             .petChainValueContentModel.petModel.id
                             .toString());
-                      controller.petId = controller.petModel.id;
+                    controller.petId = controller.petModel.id;
                   } else {
                     Get.replace(HOME_PAGE_ROUTE);
                   }
-                  controller.hashPetId = "";
+                  // controller.hashPetId = "";
                 } else {
                   controller
                     ..petModel = await PetService.fetchPetById(
@@ -54,9 +54,9 @@ class PetBlockChainPage extends GetView<PetBlockChainPageController> {
                         await PetChainService.fetchPetChainByPetId(
                             petId: controller.petId.toString())
                     ..isWaitingLoadingData.value = false;
-                    controller.hashPetId = "";
+                  // controller.hashPetId = "";
                 }
-              controller.isWaitingLoadingData.value = false;
+                controller.isWaitingLoadingData.value = false;
               });
               return Obx(() => controller.isWaitingLoadingData.value
                   ? Expanded(child: LOADING_WIDGET())

@@ -17,7 +17,6 @@ class BuyServicesComboListComboWidget
   Widget build(BuildContext context) => Column(
         children: [
           Container(
-            margin: const EdgeInsets.only(top: 10),
             padding: const EdgeInsets.only(top: 15),
             color: WHITE_COLOR,
             child: Column(
@@ -92,7 +91,7 @@ class BuyServicesComboListComboWidget
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
-                                      CUSTOM_TEXT('Description'),
+                                      //CUSTOM_TEXT('Description'),
                                       Padding(
                                         padding: const EdgeInsets.symmetric(
                                             horizontal: 20),
@@ -177,6 +176,10 @@ class BuyServicesComboListComboWidget
                   Container(
                     height: 1,
                     color: LIGHT_GREY_COLOR.withAlpha(30),
+                  ),
+                  Container(
+                    height: 10,
+                    color: SUPPER_LIGHT_BLUE,
                   ),
                 ],
               ));

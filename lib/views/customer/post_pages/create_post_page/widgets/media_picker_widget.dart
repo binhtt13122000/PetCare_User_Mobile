@@ -23,11 +23,11 @@ class MediaPickerWidget extends GetView<CreatePostPageController> {
           Container(
             height: 1,
             margin: const EdgeInsets.only(top: 10),
-            color: LIGHT_GREY_COLOR.withOpacity(0.1),
+            color: LIGHT_GREY_COLOR.withAlpha(30),
           ),
           Container(
-            height: 8,
-            color: const Color.fromARGB(255, 247, 248, 250),
+            height: 10,
+            color: SUPPER_LIGHT_BLUE,
           ),
           titleWidget(),
           mediasWidget(),
@@ -36,11 +36,11 @@ class MediaPickerWidget extends GetView<CreatePostPageController> {
           Container(
             height: 1,
             margin: const EdgeInsets.only(top: 10),
-            color: LIGHT_GREY_COLOR.withOpacity(0.1),
+            color: LIGHT_GREY_COLOR.withAlpha(30),
           ),
           Container(
-            height: 8,
-            color: const Color.fromARGB(255, 247, 248, 250),
+            height: 10,
+            color: SUPPER_LIGHT_BLUE,
           ),
         ],
       ),

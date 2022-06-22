@@ -132,7 +132,7 @@ class PetDetailBodyWidget extends GetView<PetDetailPageController> {
                     children: [
                       controller.selectedViewType.value == viewType
                           ? const Padding(
-                              padding: EdgeInsets.only(right: 10),
+                              padding: EdgeInsets.only(right: 8),
                               child: CircleAvatar(
                                 maxRadius: 3,
                                 backgroundColor: PRIMARY_COLOR,

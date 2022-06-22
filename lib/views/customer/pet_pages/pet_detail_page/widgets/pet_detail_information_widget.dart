@@ -246,9 +246,11 @@ class PetDetailInformationWidget extends GetView<PetDetailPageController> {
                 color: const Color.fromARGB(255, 86, 104, 126),
               ),
             ),
-            CUSTOM_TEXT(
-              valueText,
-              fontSize: 15,
+            Expanded(
+              child: CUSTOM_TEXT(
+                valueText,
+                fontSize: 15,
+              ),
             )
           ],
         ),

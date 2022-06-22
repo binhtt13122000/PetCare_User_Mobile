@@ -12,104 +12,109 @@ class BuyServicesComboSelectPetWidget
   const BuyServicesComboSelectPetWidget({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) => Obx(
-        () => Column(
-          children: [
-            Container(
-              color: WHITE_COLOR,
-              padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 12),
-              child: Column(children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
+  Widget build(BuildContext context) => Container(
+        color: WHITE_COLOR,
+        padding: const EdgeInsets.only(left: 12, top: 20),
+        child: Obx(
+          () => Column(
+            children: [
+              Row(
+                children: [
+                  Text(
+                    'Select pet',
+                    style: GoogleFonts.quicksand(
+                      fontWeight: FontWeight.w500,
+                      color: const Color.fromARGB(255, 78, 98, 124),
+                      fontSize: 16,
+                    ),
+                  ),
+                  Text(
+                    '*',
+                    style: GoogleFonts.quicksand(
+                      fontWeight: FontWeight.w800,
+                      color: const Color.fromARGB(255, 241, 99, 88),
+                      fontSize: 20,
+                    ),
+                  ),
+                ],
+              ),
+              Container(
+                padding: const EdgeInsets.only(top: 10),
+                alignment: Alignment.center,
+                child: Row(
                   children: [
-                    Row(
-                      children: [
-                        Text(
-                          'Select pet',
-                          style: GoogleFonts.quicksand(
-                            fontWeight: FontWeight.w500,
-                            color: const Color.fromARGB(255, 78, 98, 124),
-                            fontSize: 16,
-                          ),
-                        ),
-                        Text(
-                          '*',
-                          style: GoogleFonts.quicksand(
-                            fontWeight: FontWeight.w800,
-                            color: const Color.fromARGB(255, 241, 99, 88),
-                            fontSize: 20,
-                          ),
-                        ),
-                        controller.petModelList.isNotEmpty
-                            ? Padding(
-                                padding: const EdgeInsets.only(left: 10),
-                                child: petItemWidget(
-                                  petModel: controller.petModelList.firstWhere(
-                                      (element) =>
-                                          element.id ==
-                                          controller.selectedPetId.value),
-                                ),
-                              )
-                            : Padding(
-                                padding: const EdgeInsets.only(left: 15),
-                                child: Text(
-                                  'No suitable pet!',
-                                  style: GoogleFonts.quicksand(
-                                    fontWeight: FontWeight.w700,
-                                    color:
-                                        const Color.fromARGB(255, 244, 55, 159),
-                                    fontSize: 16,
+                    Expanded(
+                      child: Column(children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Row(
+                              children: [
+                                controller.petModelList.isNotEmpty
+                                    ? petItemWidget(
+                                        petModel: controller.petModelList
+                                            .firstWhere((element) =>
+                                                element.id ==
+                                                controller.selectedPetId.value),
+                                      )
+                                    : Text(
+                                        'No suitable pet!',
+                                        style: GoogleFonts.quicksand(
+                                          fontWeight: FontWeight.w700,
+                                          color: const Color.fromARGB(
+                                              255, 244, 55, 159),
+                                          fontSize: 16,
+                                        ),
+                                      ),
+                              ],
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(left: 15),
+                              child: InkWell(
+                                onTap: () => controller
+                                  ..isShowPetFilter.value =
+                                      !controller.isShowPetFilter.value
+                                  ..update(),
+                                child: Container(
+                                  height: 40,
+                                  width: 40,
+                                  decoration: BoxDecoration(
+                                      border: Border.all(
+                                        color: controller.isShowPetFilter.value
+                                            ? PRIMARY_COLOR
+                                            : const Color.fromARGB(
+                                                255, 156, 175, 202),
+                                        width: 1,
+                                      ),
+                                      borderRadius: BorderRadius.circular(5),
+                                      color: controller.isShowPetFilter.value
+                                          ? PRIMARY_COLOR
+                                          : WHITE_COLOR),
+                                  child: Center(
+                                    child: SvgPicture.asset(
+                                      ICON_PATH + FILTER_SVG,
+                                      height: 18,
+                                      color: controller.isShowPetFilter.value
+                                          ? WHITE_COLOR
+                                          : const Color.fromARGB(
+                                              255, 102, 116, 136),
+                                    ),
                                   ),
                                 ),
                               ),
-                      ],
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 15),
-                      child: InkWell(
-                        onTap: () => controller
-                          ..isShowPetFilter.value =
-                              !controller.isShowPetFilter.value
-                          ..isLoadingPet = true
-                          ..update(),
-                        child: Container(
-                          height: 40,
-                          width: 40,
-                          decoration: BoxDecoration(
-                              border: Border.all(
-                                color: controller.isShowPetFilter.value
-                                    ? PRIMARY_COLOR
-                                    : const Color.fromARGB(255, 156, 175, 202),
-                                width: 1,
-                              ),
-                              borderRadius: BorderRadius.circular(5),
-                              color: controller.isShowPetFilter.value
-                                  ? PRIMARY_COLOR
-                                  : WHITE_COLOR),
-                          child: Center(
-                            child: SvgPicture.asset(
-                              ICON_PATH + FILTER_SVG,
-                              height: 18,
-                              color: controller.isShowPetFilter.value
-                                  ? WHITE_COLOR
-                                  : const Color.fromARGB(255, 102, 116, 136),
                             ),
-                          ),
+                          ],
                         ),
-                      ),
+                        controller.petModelList.isNotEmpty
+                            ? petItemDropdownListWidget()
+                            : const SizedBox.shrink()
+                      ]),
                     ),
                   ],
                 ),
-                controller.petServicesComboModelList.isNotEmpty
-                    ? petItemDropdownListWidget()
-                    : const SizedBox.shrink(),
-              ]),
-            ),
-            Container(
-              height: 1,
-              color: LIGHT_GREY_COLOR.withAlpha(30),
-            ),
-          ],
+              ),
+            ],
+          ),
         ),
       );
 
@@ -193,7 +198,7 @@ class BuyServicesComboSelectPetWidget
           },
           child: Container(
             height: 50,
-            width: 170,
+            width: 230,
             decoration: BoxDecoration(
                 borderRadius: const BorderRadius.all(
                   Radius.circular(10),

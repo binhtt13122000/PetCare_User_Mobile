@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:petapp_mobile/configs/theme.dart';
@@ -14,18 +13,30 @@ class CreatePostBodyWidget extends GetView<CreatePostPageController> {
   Widget build(BuildContext context) {
     return Column(
       children: [
+        const SizedBox(
+          height: 20,
+        ),
         postTypeWidget(),
         titleWidget(),
+        const SizedBox(
+          height: 15,
+        ),
         receivedMoneyWidget(),
+        const SizedBox(
+          height: 15,
+        ),
         postPriceWidget(),
+        const SizedBox(
+          height: 15,
+        ),
       ],
     );
   }
 
   Widget postTypeWidget() => Padding(
-        padding: const EdgeInsets.only(top: 25, left: 12),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+        padding: const EdgeInsets.symmetric(horizontal: 12),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Row(
               children: [
@@ -48,114 +59,108 @@ class CreatePostBodyWidget extends GetView<CreatePostPageController> {
                 ),
               ],
             ),
-            selectPostTypeWidget(),
+            Expanded(child: selectPostTypeWidget()),
           ],
         ),
       );
 
   Widget selectPostTypeWidget() => Padding(
-        padding: const EdgeInsets.only(top: 5),
+        padding: const EdgeInsets.symmetric(horizontal: 20),
         child: Obx(
-          () => Row(
-            children: [
-              InkWell(
-                onTap: () => controller
-                  ..selectedPostType.value =
-                      controller.selectedPostType.value == 'SALE'
-                          ? 'BREED'
-                          : 'SALE'
-                  ..update(),
-                child: Row(
-                  children: [
-                    Container(
-                      height: 30,
-                      width: 130,
-                      alignment: Alignment.center,
-                      decoration: BoxDecoration(
+          () => InkWell(
+            onTap: () => controller
+              ..selectedPostType.value =
+                  controller.selectedPostType.value == 'SALE' ? 'BREED' : 'SALE'
+              ..update(),
+            child: Row(
+              children: [
+                Expanded(
+                  child: Container(
+                    height: 30,
+                    alignment: Alignment.center,
+                    decoration: BoxDecoration(
+                      color: controller.selectedPostType.value == 'SALE'
+                          ? const Color.fromARGB(255, 99, 194, 238)
+                          : const Color.fromARGB(255, 237, 240, 243),
+                      borderRadius: const BorderRadius.horizontal(
+                        left: Radius.circular(7),
+                      ),
+                      border: Border.all(
                         color: controller.selectedPostType.value == 'SALE'
                             ? const Color.fromARGB(255, 99, 194, 238)
-                            : const Color.fromARGB(255, 237, 240, 243),
-                        borderRadius: const BorderRadius.horizontal(
-                          left: Radius.circular(7),
-                        ),
-                        border: Border.all(
-                          color: controller.selectedPostType.value == 'SALE'
-                              ? const Color.fromARGB(255, 99, 194, 238)
-                              : DARK_GREY_COLOR.withOpacity(0.2),
-                          width: 1,
-                        ),
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          Text(
-                            'SALE',
-                            style: GoogleFonts.quicksand(
-                              color: controller.selectedPostType.value == 'SALE'
-                                  ? WHITE_COLOR
-                                  : DARK_GREY_COLOR.withOpacity(0.3),
-                              fontSize: 15,
-                              fontWeight: FontWeight.w500,
-                              letterSpacing: 2,
-                            ),
-                          ),
-                          // SvgPicture.asset(
-                          //   ICON_PATH + MALE_SVG,
-                          //   height: 14,
-                          //   color: controller.selectedPostType.value == 'SALE'
-                          //       ? WHITE_COLOR
-                          //       : DARK_GREY_COLOR.withOpacity(0.3),
-                          // ),
-                        ],
+                            : DARK_GREY_COLOR.withOpacity(0.2),
+                        width: 1,
                       ),
                     ),
-                    Container(
-                      height: 30,
-                      width: 130,
-                      alignment: Alignment.center,
-                      decoration: BoxDecoration(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Text(
+                          'SALE',
+                          style: GoogleFonts.quicksand(
+                            color: controller.selectedPostType.value == 'SALE'
+                                ? WHITE_COLOR
+                                : DARK_GREY_COLOR.withOpacity(0.3),
+                            fontSize: 15,
+                            fontWeight: FontWeight.w500,
+                            letterSpacing: 2,
+                          ),
+                        ),
+                        // SvgPicture.asset(
+                        //   ICON_PATH + MALE_SVG,
+                        //   height: 14,
+                        //   color: controller.selectedPostType.value == 'SALE'
+                        //       ? WHITE_COLOR
+                        //       : DARK_GREY_COLOR.withOpacity(0.3),
+                        // ),
+                      ],
+                    ),
+                  ),
+                ),
+                Expanded(
+                  child: Container(
+                    height: 30,
+                    alignment: Alignment.center,
+                    decoration: BoxDecoration(
+                      color: controller.selectedPostType.value == 'BREED'
+                          ? const Color.fromARGB(255, 240, 128, 171)
+                          : const Color.fromARGB(255, 237, 240, 243),
+                      borderRadius: const BorderRadius.horizontal(
+                          right: Radius.circular(7)),
+                      border: Border.all(
                         color: controller.selectedPostType.value == 'BREED'
                             ? const Color.fromARGB(255, 240, 128, 171)
-                            : const Color.fromARGB(255, 237, 240, 243),
-                        borderRadius: const BorderRadius.horizontal(
-                            right: Radius.circular(7)),
-                        border: Border.all(
-                          color: controller.selectedPostType.value == 'BREED'
-                              ? const Color.fromARGB(255, 240, 128, 171)
-                              : DARK_GREY_COLOR.withOpacity(0.2),
-                          width: 1,
-                        ),
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          Text(
-                            'BREED',
-                            style: GoogleFonts.quicksand(
-                              color:
-                                  controller.selectedPostType.value == 'BREED'
-                                      ? WHITE_COLOR
-                                      : DARK_GREY_COLOR.withOpacity(0.3),
-                              fontSize: 15,
-                              fontWeight: FontWeight.w500,
-                              letterSpacing: 2,
-                            ),
-                          ),
-                          // SvgPicture.asset(
-                          //   ICON_PATH + FEMALE_SVG,
-                          //   height: 14,
-                          //   color: controller.selectedPostType.value == 'BREED'
-                          //       ? WHITE_COLOR
-                          //       : DARK_GREY_COLOR.withOpacity(0.3),
-                          // ),
-                        ],
+                            : DARK_GREY_COLOR.withOpacity(0.2),
+                        width: 1,
                       ),
                     ),
-                  ],
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Text(
+                          'BREED',
+                          style: GoogleFonts.quicksand(
+                            color: controller.selectedPostType.value == 'BREED'
+                                ? WHITE_COLOR
+                                : DARK_GREY_COLOR.withOpacity(0.3),
+                            fontSize: 15,
+                            fontWeight: FontWeight.w500,
+                            letterSpacing: 2,
+                          ),
+                        ),
+                        // SvgPicture.asset(
+                        //   ICON_PATH + FEMALE_SVG,
+                        //   height: 14,
+                        //   color: controller.selectedPostType.value == 'BREED'
+                        //       ? WHITE_COLOR
+                        //       : DARK_GREY_COLOR.withOpacity(0.3),
+                        // ),
+                      ],
+                    ),
+                  ),
                 ),
-              ),
-              const Spacer(flex: 1),
-            ],
+              ],
+            ),
           ),
         ),
       );
@@ -163,61 +168,58 @@ class CreatePostBodyWidget extends GetView<CreatePostPageController> {
   Widget postPriceWidget() {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 12),
-      child: Column(
+      child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Padding(
-            padding: const EdgeInsets.only(top: 20),
-            child: Row(
-              children: [
-                InkWell(
-                  onTap: () =>
-                      controller.isShowPurchaseTransactionFees.value = true,
-                  child: Row(
-                    children: [
-                      Text(
-                        'Post price',
-                        style: GoogleFonts.quicksand(
-                          fontWeight: FontWeight.w500,
-                          color: const Color.fromARGB(255, 61, 78, 100),
-                          fontSize: 16,
-                          letterSpacing: 0.5,
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 5),
-                        child: Icon(
-                          Icons.info_outline_rounded,
-                          size: 15,
-                          color: DARK_GREY_COLOR.withAlpha(100),
-                        ),
-                      ),
-                    ],
+          InkWell(
+            onTap: () => controller.isShowPurchaseTransactionFees.value = true,
+            child: SizedBox(
+              height: 45,
+              child: Row(
+                children: [
+                  Text(
+                    'Post price',
+                    style: GoogleFonts.quicksand(
+                      fontWeight: FontWeight.w500,
+                      color: const Color.fromARGB(255, 61, 78, 100),
+                      fontSize: 16,
+                      letterSpacing: 0.5,
+                    ),
                   ),
-                ),
-              ],
+                  Padding(
+                    padding: const EdgeInsets.only(left: 5),
+                    child: Icon(
+                      Icons.info_outline_rounded,
+                      size: 15,
+                      color: DARK_GREY_COLOR.withAlpha(100),
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
-          Container(
-            height: 45,
-            alignment: Alignment.centerLeft,
-            margin: const EdgeInsets.only(top: 8),
-            padding: const EdgeInsets.all(10),
-            decoration: BoxDecoration(
-              border: Border.all(
-                color: const Color.fromARGB(255, 167, 181, 201),
-                width: 1.2,
+          Expanded(
+            child: Container(
+              height: 45,
+              alignment: Alignment.centerRight,
+              padding: const EdgeInsets.symmetric(horizontal: 10),
+              margin: const EdgeInsets.only(left: 20),
+              decoration: BoxDecoration(
+                border: Border.all(
+                  color: const Color.fromARGB(255, 167, 181, 201),
+                  width: 1.2,
+                ),
+                borderRadius: BorderRadius.circular(5),
               ),
-              borderRadius: BorderRadius.circular(5),
-            ),
-            child: Obx(
-              () => Text(
-                FORMAT_MONEY(price: controller.price.value),
-                style: GoogleFonts.quicksand(
-                  fontWeight: FontWeight.w700,
-                  color: PRIMARY_COLOR,
-                  fontSize: 20,
-                  letterSpacing: 1,
+              child: Obx(
+                () => Text(
+                  FORMAT_MONEY(price: controller.price.value),
+                  style: GoogleFonts.quicksand(
+                    fontWeight: FontWeight.w700,
+                    color: PRIMARY_COLOR,
+                    fontSize: 20,
+                    letterSpacing: 1,
+                  ),
                 ),
               ),
             ),
@@ -233,8 +235,8 @@ class CreatePostBodyWidget extends GetView<CreatePostPageController> {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Padding(
-            padding: const EdgeInsets.only(top: 20),
+          SizedBox(
+            height: 45,
             child: Row(
               children: [
                 Text(
@@ -260,7 +262,8 @@ class CreatePostBodyWidget extends GetView<CreatePostPageController> {
           Expanded(
             child: CUSTOM_REQUIRED_TEXT_FIELD(
               hintText: 'Type received money here...',
-              maxLength: 40,
+              maxLength: 10,
+              padding: const EdgeInsets.only(left: 20),
               onChange: (String? text) {
                 if (text != null && text.isNotEmpty) {
                   controller.isFirstInputReceivedMoney.value = false;
@@ -300,139 +303,11 @@ class CreatePostBodyWidget extends GetView<CreatePostPageController> {
                   ..receivedMoney.value = ''
                   ..price.value = 0;
               },
-              errorText: 'Field post title is required!',
+              errorText: 'Field received money is required!',
               countText: <String>() {
-                return controller.receivedMoney.value.length.toString() + '/40';
+                return controller.receivedMoney.value.length.toString() + '/10';
               },
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget receivedMoneyyyWidget() {
-    TextEditingController _textEditingController = TextEditingController();
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 12),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Padding(
-            padding: const EdgeInsets.only(top: 20),
-            child: Row(
-              children: [
-                Text(
-                  'Received money',
-                  style: GoogleFonts.quicksand(
-                    fontWeight: FontWeight.w500,
-                    color: const Color.fromARGB(255, 61, 78, 100),
-                    fontSize: 16,
-                    letterSpacing: 0.5,
-                  ),
-                ),
-                Text(
-                  '*',
-                  style: GoogleFonts.quicksand(
-                    fontWeight: FontWeight.w800,
-                    color: const Color.fromARGB(255, 241, 99, 88),
-                    fontSize: 20,
-                  ),
-                ),
-              ],
-            ),
-          ),
-          Container(
-            height: 45,
-            alignment: Alignment.center,
-            margin: const EdgeInsets.only(top: 8),
-            padding: const EdgeInsets.all(10),
-            decoration: BoxDecoration(
-              border: Border.all(
-                color: const Color.fromARGB(255, 167, 181, 201),
-                width: 1.2,
-              ),
-              borderRadius: BorderRadius.circular(5),
-            ),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Expanded(
-                  child: TextField(
-                    minLines: 1,
-                    maxLines: 1,
-                    maxLength: 11,
-                    controller: _textEditingController,
-                    onChanged: (String text) {
-                      String tmpText = text.replaceAll('.', '');
-                      controller.receivedMoney.value = tmpText;
-
-                      if (tmpText.isNotEmpty) {
-                        int intReceivedMoney = int.parse(tmpText);
-
-                        for (var element
-                            in controller.listPurchaseTransactionFees) {
-                          if (element.min <= intReceivedMoney &&
-                              element.max > intReceivedMoney) {
-                            controller.selectedPurchaseTransactionFeesId.value =
-                                element.id;
-                            controller.price.value =
-                                intReceivedMoney + element.price;
-                            break;
-                          }
-                        }
-                      } else {
-                        controller.price.value = 0;
-                        controller.selectedPurchaseTransactionFeesId.value = -1;
-                      }
-                    },
-                    keyboardType: const TextInputType.numberWithOptions(
-                        decimal: false, signed: false),
-                    inputFormatters: [
-                      FilteringTextInputFormatter.allow(
-                        RegExp(
-                          r'[0-9.]',
-                        ),
-                      ),
-                      CustomTextFormatter(
-                          sample: 'xxx.xxx.xxx', separator: '.'),
-                    ],
-                    cursorColor: PRIMARY_COLOR,
-                    style: GoogleFonts.quicksand(
-                      fontWeight: FontWeight.w500,
-                      color: const Color.fromARGB(255, 113, 135, 168),
-                      fontSize: 15,
-                      letterSpacing: 1,
-                    ),
-                    decoration: InputDecoration(
-                      isCollapsed: true,
-                      counterText: '',
-                      border: InputBorder.none,
-                      hintText: 'Type the amount you want to receive...',
-                      hintStyle: GoogleFonts.quicksand(
-                        fontWeight: FontWeight.w500,
-                        color: const Color.fromARGB(255, 162, 176, 194),
-                        fontSize: 12,
-                        letterSpacing: 1,
-                      ),
-                    ),
-                  ),
-                ),
-                Obx(
-                  () => Text(
-                    controller.receivedMoney.value
-                            .replaceAll('.', '')
-                            .length
-                            .toString() +
-                        '/9',
-                    style: GoogleFonts.quicksand(
-                      fontWeight: FontWeight.w500,
-                      color: const Color.fromARGB(255, 162, 176, 194),
-                      fontSize: 13,
-                    ),
-                  ),
-                ),
-              ],
+              isNumberTextField: true,
             ),
           ),
         ],

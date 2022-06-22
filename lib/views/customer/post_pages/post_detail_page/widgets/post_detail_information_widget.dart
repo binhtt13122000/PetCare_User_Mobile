@@ -83,7 +83,7 @@ class PostDetailInformationWidget extends GetView<PostDetailPageController> {
                         controller
                             .postModel.petModel!.vaccineDescription!.isNotEmpty,
                 child: textCardWidget(
-                  keyText: 'Vaccination information',
+                  keyText: 'Vaccinations',
                   valueText:
                       controller.postModel.petModel!.vaccineDescription ?? '',
                 ),
@@ -202,6 +202,7 @@ class PostDetailInformationWidget extends GetView<PostDetailPageController> {
         padding: const EdgeInsets.only(top: 10),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
               keyText,
@@ -211,12 +212,18 @@ class PostDetailInformationWidget extends GetView<PostDetailPageController> {
                 color: const Color.fromARGB(255, 86, 104, 126),
               ),
             ),
-            Text(
-              valueText,
-              style: GoogleFonts.quicksand(
-                fontSize: 15,
-                fontWeight: FontWeight.w600,
-                color: const Color.fromARGB(255, 86, 104, 126),
+            const SizedBox(
+              width: 20,
+            ),
+            Expanded(
+              child: Text(
+                valueText,
+                textAlign: TextAlign.right,
+                style: GoogleFonts.quicksand(
+                  fontSize: 15,
+                  fontWeight: FontWeight.w600,
+                  color: const Color.fromARGB(255, 86, 104, 126),
+                ),
               ),
             ),
           ],

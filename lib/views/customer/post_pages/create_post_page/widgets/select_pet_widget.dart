@@ -321,98 +321,108 @@ class SelectPetWidget extends GetView<CreatePostPageController> {
           Container(
             height: 1,
             margin: const EdgeInsets.only(top: 10),
-            color: LIGHT_GREY_COLOR.withOpacity(0.1),
+            color: LIGHT_GREY_COLOR.withAlpha(30),
           ),
           Container(
-            height: 8,
-            color: const Color.fromARGB(255, 247, 248, 250),
+            height: 10,
+            color: SUPPER_LIGHT_BLUE,
           ),
           Padding(
-            padding: const EdgeInsets.only(top: 15, left: 20),
-            child: Column(children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Row(
-                    children: [
-                      Text(
-                        'Select pet',
-                        style: GoogleFonts.quicksand(
-                          fontWeight: FontWeight.w500,
-                          color: const Color.fromARGB(255, 78, 98, 124),
-                          fontSize: 16,
+            padding: const EdgeInsets.only(left: 12, top: 20),
+            child: Row(
+              children: [
+                Text(
+                  'Select pet',
+                  style: GoogleFonts.quicksand(
+                    fontWeight: FontWeight.w500,
+                    color: const Color.fromARGB(255, 78, 98, 124),
+                    fontSize: 16,
+                  ),
+                ),
+                Text(
+                  '*',
+                  style: GoogleFonts.quicksand(
+                    fontWeight: FontWeight.w800,
+                    color: const Color.fromARGB(255, 241, 99, 88),
+                    fontSize: 20,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          Container(
+            padding: const EdgeInsets.only(top: 15),
+            alignment: Alignment.center,
+            child: Row(
+              children: [
+                Expanded(
+                  child: Column(children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Row(
+                          children: [
+                            controller.pets.isNotEmpty
+                                ? petItemWidget(
+                                    petModel: controller.pets.firstWhere(
+                                        (element) =>
+                                            element.id ==
+                                            controller.selectedPetId.value),
+                                  )
+                                : Text(
+                                    'No suitable pet!',
+                                    style: GoogleFonts.quicksand(
+                                      fontWeight: FontWeight.w700,
+                                      color: const Color.fromARGB(
+                                          255, 244, 55, 159),
+                                      fontSize: 16,
+                                    ),
+                                  ),
+                          ],
                         ),
-                      ),
-                      Text(
-                        '*',
-                        style: GoogleFonts.quicksand(
-                          fontWeight: FontWeight.w800,
-                          color: const Color.fromARGB(255, 241, 99, 88),
-                          fontSize: 20,
-                        ),
-                      ),
-                      controller.pets.isNotEmpty
-                          ? Padding(
-                              padding: const EdgeInsets.only(left: 10),
-                              child: petItemWidget(
-                                petModel: controller.pets.firstWhere(
-                                    (element) =>
-                                        element.id ==
-                                        controller.selectedPetId.value),
-                              ),
-                            )
-                          : Padding(
-                              padding: const EdgeInsets.only(left: 15),
-                              child: Text(
-                                'No suitable pet!',
-                                style: GoogleFonts.quicksand(
-                                  fontWeight: FontWeight.w700,
-                                  color:
-                                      const Color.fromARGB(255, 244, 55, 159),
-                                  fontSize: 16,
+                        Padding(
+                          padding: const EdgeInsets.only(left: 15),
+                          child: InkWell(
+                            onTap: () => controller
+                              ..isShowPetFilter = !controller.isShowPetFilter
+                              ..update(),
+                            child: Container(
+                              height: 40,
+                              width: 40,
+                              decoration: BoxDecoration(
+                                  border: Border.all(
+                                    color: controller.isShowPetFilter
+                                        ? PRIMARY_COLOR
+                                        : const Color.fromARGB(
+                                            255, 156, 175, 202),
+                                    width: 1,
+                                  ),
+                                  borderRadius: BorderRadius.circular(5),
+                                  color: controller.isShowPetFilter
+                                      ? PRIMARY_COLOR
+                                      : WHITE_COLOR),
+                              child: Center(
+                                child: SvgPicture.asset(
+                                  ICON_PATH + FILTER_SVG,
+                                  height: 18,
+                                  color: controller.isShowPetFilter
+                                      ? WHITE_COLOR
+                                      : const Color.fromARGB(
+                                          255, 102, 116, 136),
                                 ),
                               ),
                             ),
-                    ],
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 15),
-                    child: InkWell(
-                      onTap: () => controller
-                        ..isShowPetFilter = !controller.isShowPetFilter
-                        ..update(),
-                      child: Container(
-                        height: 40,
-                        width: 40,
-                        decoration: BoxDecoration(
-                            border: Border.all(
-                              color: controller.isShowPetFilter
-                                  ? PRIMARY_COLOR
-                                  : const Color.fromARGB(255, 156, 175, 202),
-                              width: 1,
-                            ),
-                            borderRadius: BorderRadius.circular(5),
-                            color: controller.isShowPetFilter
-                                ? PRIMARY_COLOR
-                                : WHITE_COLOR),
-                        child: Center(
-                          child: SvgPicture.asset(
-                            ICON_PATH + FILTER_SVG,
-                            height: 18,
-                            color: controller.isShowPetFilter
-                                ? WHITE_COLOR
-                                : const Color.fromARGB(255, 102, 116, 136),
                           ),
                         ),
-                      ),
+                      ],
                     ),
-                  ),
-                ],
-              ),
-              controller.pets.isNotEmpty
-                  ? petItemDropdownListWidget()
-                  : const SizedBox.shrink()
-            ]),
+                    controller.pets.isNotEmpty
+                        ? petItemDropdownListWidget()
+                        : const SizedBox.shrink()
+                  ]),
+                ),
+              ],
+            ),
           ),
         ],
       );
@@ -437,8 +447,8 @@ class SelectPetWidget extends GetView<CreatePostPageController> {
       child: Stack(
         children: [
           Positioned(
-            right: 15,
-            top: 6,
+            right: 65,
+            top: 16,
             child: RotationTransition(
               turns: const AlwaysStoppedAnimation(45 / 360),
               child: Container(
@@ -449,7 +459,7 @@ class SelectPetWidget extends GetView<CreatePostPageController> {
             ),
           ),
           Container(
-            margin: const EdgeInsets.only(left: 18, top: 10),
+            margin: const EdgeInsets.only(top: 20),
             height: dropDownHeight,
             decoration: BoxDecoration(
               border: Border.all(
@@ -492,7 +502,7 @@ class SelectPetWidget extends GetView<CreatePostPageController> {
           },
           child: Container(
             height: 50,
-            width: 170,
+            width: 220,
             decoration: BoxDecoration(
                 borderRadius: const BorderRadius.all(
                   Radius.circular(10),
@@ -518,13 +528,16 @@ class SelectPetWidget extends GetView<CreatePostPageController> {
                   ),
                 ),
                 Expanded(
-                  child: Text(
-                    petModel.name,
-                    textAlign: TextAlign.center,
-                    style: GoogleFonts.quicksand(
-                      fontWeight: FontWeight.w500,
-                      color: PRIMARY_COLOR,
-                      fontSize: 16,
+                  child: FittedBox(
+                    fit: BoxFit.scaleDown,
+                    child: Text(
+                      petModel.name,
+                      textAlign: TextAlign.center,
+                      style: GoogleFonts.quicksand(
+                        fontWeight: FontWeight.w500,
+                        color: PRIMARY_COLOR,
+                        fontSize: 16,
+                      ),
                     ),
                   ),
                 ),
@@ -557,7 +570,7 @@ class SelectPetWidget extends GetView<CreatePostPageController> {
                   controller.vaccinationDescription,
             child: Container(
               height: 50,
-              width: 200,
+              width: 280,
               decoration: BoxDecoration(
                 color: const Color.fromARGB(255, 247, 248, 250),
                 borderRadius: BorderRadius.circular(9.8),
@@ -598,15 +611,21 @@ class SelectPetWidget extends GetView<CreatePostPageController> {
                     ],
                   ),
                   Expanded(
-                    child: Text(
-                      petModel.name,
-                      textAlign: TextAlign.center,
-                      style: GoogleFonts.quicksand(
-                        fontWeight: FontWeight.w500,
-                        color: controller.selectedPetId.value == petModel.id
-                            ? PRIMARY_COLOR
-                            : const Color.fromARGB(255, 121, 128, 141),
-                        fontSize: 16,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 10),
+                      child: FittedBox(
+                        fit: BoxFit.scaleDown,
+                        child: Text(
+                          petModel.name,
+                          textAlign: TextAlign.center,
+                          style: GoogleFonts.quicksand(
+                            fontWeight: FontWeight.w500,
+                            color: controller.selectedPetId.value == petModel.id
+                                ? PRIMARY_COLOR
+                                : const Color.fromARGB(255, 121, 128, 141),
+                            fontSize: 16,
+                          ),
+                        ),
                       ),
                     ),
                   ),

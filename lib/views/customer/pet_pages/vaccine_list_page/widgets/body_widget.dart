@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_html/flutter_html.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:petapp_mobile/configs/theme.dart';
@@ -96,7 +97,7 @@ class VaccineListPageBodyWidget extends GetView<VaccineListPageController> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Container(
-          width: 100,
+          width: 80,
           height: 30,
           alignment: Alignment.center,
           margin: const EdgeInsets.symmetric(horizontal: 15),
@@ -224,26 +225,12 @@ class VaccineListPageBodyWidget extends GetView<VaccineListPageController> {
                 Visibility(
                   visible: controller.showDescriptionIndexList.contains(index),
                   child: Align(
-                    alignment: Alignment.topLeft,
-                    child: RichText(
-                      textAlign: TextAlign.start,
-                      text: TextSpan(
-                        text: 'Description: ',
-                        style: GoogleFonts.quicksand(
-                          color: DARK_GREY_TEXT_COLOR.withOpacity(0.8),
-                          fontSize: 13,
-                          letterSpacing: 1.5,
-                          fontWeight: FontWeight.w600,
-                        ),
+                      alignment: Alignment.topLeft,
+                      child: Column(
                         children: [
-                          TextSpan(
-                            text: description,
-                            style: const TextStyle(),
-                          ),
+                          Html(data: description),
                         ],
-                      ),
-                    ),
-                  ),
+                      )),
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,

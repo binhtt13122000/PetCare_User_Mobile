@@ -12,7 +12,7 @@ import 'package:petapp_mobile/models/breed_model/breed_model.dart';
 import 'package:petapp_mobile/services/pet_services/breed_services.dart';
 import 'package:petapp_mobile/utilities/utilities.dart';
 
-class PurchasePostsFilterPage extends GetView<PurchasePostsPageController> {
+class PurchasePostsFilterPage extends GetView<PostListPageController> {
   const PurchasePostsFilterPage({Key? key}) : super(key: key);
 
   @override
@@ -209,7 +209,7 @@ class PurchasePostsFilterPage extends GetView<PurchasePostsPageController> {
                         padding: const EdgeInsets.only(
                           right: 20,
                         ),
-                        child: GetBuilder<PurchasePostsPageController>(
+                        child: GetBuilder<PostListPageController>(
                           builder: (_) {
                             controller.isShowLoadingBreeds.value = true;
                             WidgetsBinding.instance!
@@ -286,7 +286,7 @@ class PurchasePostsFilterPage extends GetView<PurchasePostsPageController> {
                         ),
                         child: Row(
                           children: [
-                            GetBuilder<PurchasePostsPageController>(
+                            GetBuilder<PostListPageController>(
                               builder: (controller) => InkWell(
                                 onTap: () {
                                   if (controller.selectedGenderList
@@ -726,7 +726,7 @@ class PurchasePostsFilterPage extends GetView<PurchasePostsPageController> {
   }
 
   Widget breedItemWidget({required BreedModel breedModel}) =>
-      GetBuilder<PurchasePostsPageController>(
+      GetBuilder<PostListPageController>(
         builder: (controller) => InkWell(
           onTap: () {
             if (controller

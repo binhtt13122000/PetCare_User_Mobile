@@ -187,7 +187,8 @@ class BuyServicesComboBottomWidget
                 orderTotal: controller.petServicesComboModel.price,
                 paymentTime: DateTime.now(),
                 registerTime: controller.bookingServicesDate!,
-                branchId: controller.selectBranchId.value,
+                branchId: controller
+                    .branchModelList[controller.selectBranchIndex.value].id,
                 customerId: controller.accountModel.customerModel.id,
                 petId: controller.selectedPetId.value,
               );

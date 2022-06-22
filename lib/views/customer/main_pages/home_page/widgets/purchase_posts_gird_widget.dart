@@ -113,7 +113,7 @@ class SalePostGirdsWidget extends GetView<HomePageController> {
                   ),
                 ),
                 InkWell(
-                  onTap: () => Get.toNamed(PURCHASE_POSTS_PAGE_ROUTE),
+                  onTap: () => Get.toNamed(POSTS_LIST_PAGE_ROUTE),
                   child: Text(
                     'View All',
                     style: GoogleFonts.quicksand(

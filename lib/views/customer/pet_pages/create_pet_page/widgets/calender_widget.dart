@@ -40,6 +40,7 @@ class CreatePetCalenderWidget extends GetView<CreatePetPageController> {
                         backgroundColor: WHITE_COLOR,
                         initialSelectedDate: controller.dateOfBirthTime,
                         initialDisplayDate: controller.dateOfBirthTime,
+                        maxDate: DateTime.now(),
                       ),
                     ),
                   ),

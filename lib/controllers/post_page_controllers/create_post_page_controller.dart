@@ -28,7 +28,7 @@ class CreatePostPageController extends GetxController {
   RxString deposit = ''.obs;
   RxString selectedPostType = 'SALE'.obs;
   RxBool isFirstInputReceivedMoney = true.obs;
-
+  RxString branchAddress = ''.obs;
   bool isFirstInputTitle = true;
   bool isShowPetFilter = false;
   RxBool isShowPetDropdownList = false.obs;
@@ -37,7 +37,7 @@ class CreatePostPageController extends GetxController {
   RxBool isShowSuccessfullyPopup = false.obs;
 
   List<BranchModel> branchList = [];
-  RxInt selectedBranchId = (-1).obs;
+  RxInt selectedBranchIndex = (-1).obs;
 
   quill.QuillController quillController = quill.QuillController.basic();
 

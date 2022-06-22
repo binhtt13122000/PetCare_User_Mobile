@@ -968,11 +968,8 @@ class SaleTransactionDetailBodyWidget
                         ),
                       ),
                       Text(
-                        controller.saleTransactionModel.petModel!.breedModel!
-                                .name +
-                            ' - ' +
-                            controller.saleTransactionModel.petModel!
-                                .breedModel!.speciesModel!.name,
+                        controller
+                            .saleTransactionModel.petModel!.breedModel!.name,
                         style: GoogleFonts.quicksand(
                           fontSize: 15,
                           color: const Color.fromARGB(255, 77, 82, 105),

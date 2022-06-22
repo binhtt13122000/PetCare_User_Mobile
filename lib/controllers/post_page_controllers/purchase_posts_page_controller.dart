@@ -7,7 +7,7 @@ import 'package:petapp_mobile/models/post_model_hasura/post_model_hasura.dart';
 import 'package:petapp_mobile/models/species_model/species_model.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
-class PurchasePostsPageController extends GetxController {
+class PostListPageController extends GetxController {
   RxBool isLoadingData = false.obs;
   RxString statusLoadData = "NORMAL".obs;
   RxBool isRefresh = true.obs;
@@ -15,8 +15,7 @@ class PurchasePostsPageController extends GetxController {
   RxInt totalPage = 0.obs;
   RxInt limit = 8.obs;
   RxString typeLazyLoad = "REFRESH".obs;
-  RefreshController refreshController =
-      RefreshController(initialRefresh: true);
+  RefreshController refreshController = RefreshController(initialRefresh: true);
   RxList<PostModel> postList = <PostModel>[].obs;
   RxList<PostModelHasura> postHasuraList = <PostModelHasura>[].obs;
 
@@ -66,7 +65,7 @@ class PurchasePostsPageController extends GetxController {
     'Breed: Z to A',
   ];
 
-  PurchasePostsPageController() {
+  PostListPageController() {
     selectedSort = sorts[0].obs;
   }
 }
