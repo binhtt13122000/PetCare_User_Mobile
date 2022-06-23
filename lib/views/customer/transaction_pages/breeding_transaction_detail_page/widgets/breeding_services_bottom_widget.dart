@@ -8,11 +8,11 @@ import 'package:petapp_mobile/configs/theme.dart';
 import 'package:petapp_mobile/controllers/transaction_page_controllers/breeding_transaction_detail_page_controller.dart';
 import 'package:petapp_mobile/services/transaction_services/breeding_transaction_services.dart';
 import 'package:petapp_mobile/utilities/utilities.dart';
-import 'package:petapp_mobile/views/widgets/customize_widget.dart';
 
-class BreedingTransactionDetailBottomWidget
+class BreedingTransactionDetailBreedingServicesBottomWidget
     extends GetView<BreedingTransactionDetailPageController> {
-  const BreedingTransactionDetailBottomWidget({Key? key}) : super(key: key);
+  const BreedingTransactionDetailBreedingServicesBottomWidget({Key? key})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) => Container(
@@ -24,36 +24,38 @@ class BreedingTransactionDetailBottomWidget
               : malePetBottomWidget());
 
   Widget malePetBottomWidget() => Column(
-        children: const [],
+        children: [
+          Visibility(
+            visible: ![
+                  'CREATED',
+                  'CANCELED',
+                  'EXPIRED',
+                  'SUCCESS',
+                  'BREEDING_REQUESTED',
+                  'BREEDING_EXPIRED',
+                  'BREEDING_CANCELED',
+                  'IN_PROGRESS',
+                  'PAYMENTED',
+                ].contains(controller.breedingTransactionModel.status) &&
+                controller.breedingTransactionModel.pickupMalePetTime == null,
+            child: pickupWidget(),
+          ),
+        ],
       );
 
   Widget femalePetBottomWidget() => Column(
         children: [
           Visibility(
-            visible: controller.breedingTransactionModel.status == 'CREATED',
+            visible: controller.breedingTransactionModel.status ==
+                    'BREEDING_FINISHED' &&
+                controller.breedingTransactionModel.ownerPetFemaleId ==
+                    controller.accountModel.customerModel.id,
             child: paymentWidget(),
-          ),
-          Visibility(
-            visible: controller
-                        .breedingTransactionModel.paymentForMalePetOwnerTime !=
-                    null &&
-                (controller.breedingTransactionModel.star == null ||
-                    controller.breedingTransactionModel.star == 0),
-            child: ratingWidget(),
-          ),
-          Visibility(
-            visible: controller.breedingTransactionModel.star != null &&
-                controller.breedingTransactionModel.star! > 0,
-            child: CUSTOM_TEXT(
-              'You have submitted a review for this transaction',
-              fontSize: 12,
-              color: DARK_GREY_TEXT_COLOR.withOpacity(0.7),
-            ),
           ),
         ],
       );
 
-  Widget ratingWidget() => Column(
+  Widget pickupWidget() => Column(
         children: [
           Container(
             height: 1,
@@ -64,8 +66,22 @@ class BreedingTransactionDetailBottomWidget
             child: InkWell(
               onTap: () async {
                 controller
-                  ..reviewType = 'TRANSACTION_REVIEW'
-                  ..isShowReviewPopup.value = true;
+                  ..confirmPopupTitle =
+                      'Are you sure to confirm you have been pickup your pet?'
+                  ..onTapOk = () async {
+                    controller
+                      ..isShowConfirmPopup.value = false
+                      ..isWaitingForeground.value = true;
+                    await BreedingTransactionService.pickUpMalePet(
+                        id: controller.breedingTransactionModel.id,
+                        pickupMalePetTime: DateTime.now());
+                    controller
+                      ..isWaitingForeground.value = false
+                      ..popupTitle =
+                          'Confirm you have been pickup your pet successfully!'
+                      ..isShowPopup.value = true;
+                  }
+                  ..isShowConfirmPopup.value = true;
               },
               child: Container(
                 height: 35,
@@ -75,12 +91,12 @@ class BreedingTransactionDetailBottomWidget
                   color: PRIMARY_COLOR,
                 ),
                 child: Text(
-                  'Rate Your Transaction Experience',
+                  'Confirm Pickup Pet',
                   textAlign: TextAlign.center,
                   style: GoogleFonts.quicksand(
                     textStyle: const TextStyle(color: WHITE_COLOR),
-                    fontWeight: FontWeight.w600,
-                    fontSize: 13,
+                    fontWeight: FontWeight.w700,
+                    fontSize: 15,
                     height: 1,
                     letterSpacing: 2,
                   ),
@@ -108,20 +124,20 @@ class BreedingTransactionDetailBottomWidget
                       CENTER_SERVICES_TRANSACTION_PAYMENT_METHOD_PAGE_ROUTE),
                   child: Padding(
                     padding: const EdgeInsets.symmetric(
-                      horizontal: 20,
+                      horizontal: 10,
                     ),
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Image.asset(
-                          IMAGE_PATH + VISA_PNG,
+                          IMAGE_PATH + VNPAY_PNG,
                           height: 28,
                         ),
                         const SizedBox(
                           width: 10,
                         ),
                         Text(
-                          '****89',
+                          '****98',
                           textAlign: TextAlign.center,
                           style: GoogleFonts.quicksand(
                             textStyle:
@@ -132,14 +148,14 @@ class BreedingTransactionDetailBottomWidget
                           ),
                         ),
                         const SizedBox(
-                          width: 40,
+                          width: 20,
                         ),
                         SvgPicture.asset(
                           ICON_PATH + UP_ARROW_SVG,
                           height: 14,
                         ),
                         const SizedBox(
-                          width: 20,
+                          width: 10,
                         ),
                         Container(
                           height: 30,
@@ -151,25 +167,28 @@ class BreedingTransactionDetailBottomWidget
                   ),
                 ),
                 Expanded(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        FORMAT_MONEY(
-                            price: controller
-                                .breedingTransactionModel.transactionTotal),
-                        textAlign: TextAlign.start,
-                        style: GoogleFonts.quicksand(
-                          textStyle: const TextStyle(
-                            color: PRIMARY_COLOR,
+                  child: FittedBox(
+                    fit: BoxFit.scaleDown,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          FORMAT_MONEY(
+                              price: controller
+                                  .breedingTransactionModel.serviceFee!),
+                          textAlign: TextAlign.start,
+                          style: GoogleFonts.quicksand(
+                            textStyle: const TextStyle(
+                              color: PRIMARY_COLOR,
+                            ),
+                            fontWeight: FontWeight.w500,
+                            fontSize: 24,
+                            height: 1,
+                            letterSpacing: 2,
                           ),
-                          fontWeight: FontWeight.w500,
-                          fontSize: 24,
-                          height: 1,
-                          letterSpacing: 2,
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
               ],
@@ -180,9 +199,9 @@ class BreedingTransactionDetailBottomWidget
             child: InkWell(
               onTap: () async {
                 controller.isWaitingForeground.value = true;
-                await BreedingTransactionService.quickPayment(
+                await BreedingTransactionService.quickPaymentForBranch(
                     id: controller.breedingTransactionModel.id,
-                    paymentForMalePetOwnerTime: DateTime.now());
+                    paymentForBranchTime: DateTime.now());
                 controller
                   ..isWaitingForeground.value = false
                   ..popupTitle = 'Payment successfully!'

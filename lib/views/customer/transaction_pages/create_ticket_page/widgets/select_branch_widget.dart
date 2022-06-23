@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:petapp_mobile/configs/theme.dart';
-import 'package:petapp_mobile/controllers/transaction_page_controllers/ticket_page_controller.dart';
+import 'package:petapp_mobile/controllers/transaction_page_controllers/create_ticket_page_controller.dart';
 import 'package:petapp_mobile/views/widgets/customize_widget.dart';
 
 class SelectBranchWidget extends GetView<CreateTicketPageController> {

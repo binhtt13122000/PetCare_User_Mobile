@@ -2,13 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:petapp_mobile/configs/theme.dart';
-import 'package:petapp_mobile/controllers/transaction_page_controllers/create_ticket_page_controller.dart';
+import 'package:petapp_mobile/controllers/transaction_page_controllers/booking_breeding_service_page_controller.dart';
 import 'package:petapp_mobile/utilities/utilities.dart';
 import 'package:petapp_mobile/views/widgets/customize_widget.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
-class CreateTicketCalendarWidget extends GetView<CreateTicketPageController> {
-  const CreateTicketCalendarWidget({Key? key}) : super(key: key);
+class BookingBreedingServicesCalendarWidget
+    extends GetView<BookingBreedingServicesPageController> {
+  const BookingBreedingServicesCalendarWidget({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) => Obx(
@@ -16,7 +17,9 @@ class CreateTicketCalendarWidget extends GetView<CreateTicketPageController> {
           visible: controller.isDisplayCalender.value,
           child: InkWell(
             onTap: () {
-              controller.isDisplayCalender.value = false;
+              controller
+                ..isDisplayCalender.value = false
+                ..isInitDate.value = controller.bookingServicesDate != null;
             },
             child: Container(
               color: DARK_GREY_TRANSPARENT,
@@ -25,7 +28,7 @@ class CreateTicketCalendarWidget extends GetView<CreateTicketPageController> {
                 onTap: () {},
                 child: Container(
                   height: 400,
-                  width: 340,
+                  width: 330,
                   decoration: BoxDecoration(
                     color: WHITE_COLOR,
                     borderRadius: BorderRadius.circular(10),
@@ -67,11 +70,11 @@ class CreateTicketCalendarWidget extends GetView<CreateTicketPageController> {
                               onSelectionChanged:
                                   (DateRangePickerSelectionChangedArgs
                                       dateRangePickerSelectionChangedArgs) {
-                                controller.tmpBookingServicesDate =
-                                    DateTime.parse(
-                                        dateRangePickerSelectionChangedArgs
-                                            .value
-                                            .toString());
+                                controller
+                                  ..tmpBookingServicesDate = DateTime.parse(
+                                      dateRangePickerSelectionChangedArgs.value
+                                          .toString())
+                                  ..isInitDate.value = true;
                               },
                               selectionMode:
                                   DateRangePickerSelectionMode.single,
@@ -81,10 +84,7 @@ class CreateTicketCalendarWidget extends GetView<CreateTicketPageController> {
                               initialDisplayDate:
                                   controller.bookingServicesDate,
                               // enablePastDates: false,
-                              minDate:
-                                  DateTime.now().add(const Duration(days: 1)),
-                              maxDate:
-                                  DateTime.now().add(const Duration(days: 5)),
+                              minDate: DateTime.now(),
                             ),
                           ),
                         ),
@@ -102,20 +102,30 @@ class CreateTicketCalendarWidget extends GetView<CreateTicketPageController> {
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
                             Expanded(
-                              child: MaterialButton(
-                                onPressed: () {
-                                  controller.tmpBookingServicesDate =
-                                      controller.bookingServicesDate;
-                                  controller.isDisplayCalender.value = false;
+                              child: InkWell(
+                                onTap: () {
+                                  controller
+                                    ..tmpBookingServicesDate =
+                                        controller.bookingServicesDate
+                                    ..isDisplayCalender.value = false
+                                    ..isInitDate.value =
+                                        controller.bookingServicesDate != null;
                                 },
-                                color: PRIMARY_LIGHT_COLOR,
-                                child: Text(
-                                  'Cancel',
-                                  style: GoogleFonts.quicksand(
-                                    color: PRIMARY_COLOR,
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.w500,
-                                    letterSpacing: 1,
+                                child: Container(
+                                  height: 40,
+                                  alignment: Alignment.center,
+                                  decoration: BoxDecoration(
+                                    color: PRIMARY_LIGHT_COLOR,
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                  child: Text(
+                                    'Cancel',
+                                    style: GoogleFonts.quicksand(
+                                      color: PRIMARY_COLOR,
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.w500,
+                                      letterSpacing: 2,
+                                    ),
                                   ),
                                 ),
                               ),
@@ -124,27 +134,39 @@ class CreateTicketCalendarWidget extends GetView<CreateTicketPageController> {
                               width: 24,
                             ),
                             Expanded(
-                              child: MaterialButton(
-                                onPressed: () {
-                                  controller
-                                    ..bookingServicesDate =
-                                        controller.tmpBookingServicesDate
-                                    ..bookingServicesDateText.value =
-                                        FORMAT_DATE_TIME(
-                                            dateTime:
-                                                controller.bookingServicesDate,
-                                            pattern: DATE_PATTERN_2)
-                                    ..isDisplayCalender.value = false
-                                    ..update();
-                                },
-                                color: PRIMARY_COLOR,
-                                child: Text(
-                                  'OK',
-                                  style: GoogleFonts.quicksand(
-                                    color: WHITE_COLOR,
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.w500,
-                                    letterSpacing: 1,
+                              child: Obx(
+                                () => InkWell(
+                                  onTap: () {
+                                    if (controller.isInitDate.value) {
+                                      controller
+                                        ..bookingServicesDate =
+                                            controller.tmpBookingServicesDate
+                                        ..bookingServicesDateText.value =
+                                            FORMAT_DATE_TIME(
+                                                dateTime: controller
+                                                    .bookingServicesDate!,
+                                                pattern: DATE_PATTERN_2)
+                                        ..isDisplayCalender.value = false;
+                                    }
+                                  },
+                                  child: Container(
+                                    height: 40,
+                                    alignment: Alignment.center,
+                                    decoration: BoxDecoration(
+                                      color: controller.isInitDate.value
+                                          ? PRIMARY_COLOR
+                                          : PRIMARY_COLOR.withOpacity(0.3),
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
+                                    child: Text(
+                                      'OK',
+                                      style: GoogleFonts.quicksand(
+                                        color: WHITE_COLOR,
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.w500,
+                                        letterSpacing: 2,
+                                      ),
+                                    ),
                                   ),
                                 ),
                               ),

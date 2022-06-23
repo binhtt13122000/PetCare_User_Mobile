@@ -48,6 +48,7 @@ class PostListBodyWidget extends GetView<PostListPageController> {
                       ? controller.orderByPrice.value
                       : null,
                   'status': 'PUBLISHED',
+                  'title': '%${controller.searchText.value}%'
                 },
                 cacheRereadPolicy: CacheRereadPolicy.ignoreAll,
                 fetchPolicy: FetchPolicy.networkOnly);
@@ -105,13 +106,13 @@ class PostListBodyWidget extends GetView<PostListPageController> {
                         ? controller.orderByPrice.value
                         : null,
                     'status': 'PUBLISHED',
+                    'title': '%${controller.searchText.value}%'
                   },
                   cacheRereadPolicy: CacheRereadPolicy.ignoreAll,
                   fetchPolicy: FetchPolicy.networkOnly);
             }
           }
           QueryResult queryResult = await CLIENT_TO_QUERY().query(queryOptions);
-
           switch (controller.loadingType) {
             case 'INIT':
               controller
@@ -140,7 +141,6 @@ class PostListBodyWidget extends GetView<PostListPageController> {
               controller.refreshController.loadComplete();
               break;
           }
-
           // controller.totalPage.value =
           //     queryResult.data?['post_aggregate']['aggregate']['count'] ?? 0;
           // if (queryResult.data != null && queryResult.data!.isNotEmpty) {

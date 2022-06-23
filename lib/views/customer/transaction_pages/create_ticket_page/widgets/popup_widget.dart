@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:petapp_mobile/configs/route.dart';
 import 'package:petapp_mobile/configs/theme.dart';
-import 'package:petapp_mobile/controllers/transaction_page_controllers/ticket_page_controller.dart';
+import 'package:petapp_mobile/controllers/transaction_page_controllers/create_ticket_page_controller.dart';
 
 class CreateTicketPopupWidget extends GetView<CreateTicketPageController> {
   const CreateTicketPopupWidget({Key? key}) : super(key: key);

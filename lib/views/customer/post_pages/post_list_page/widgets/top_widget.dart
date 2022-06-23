@@ -101,22 +101,29 @@ class PostListTopWidget extends GetView<PostListPageController> {
               onChanged: (String text) {
                 controller
                   ..searchText.value = text
+                  ..offset = 0
+                  ..loadingType = LoadingType.INIT.name
                   ..update();
               },
-              keyboardType: TextInputType.multiline,
+              keyboardType: TextInputType.text,
+              maxLines: 1,
+              maxLength: 20,
               cursorColor: PRIMARY_COLOR,
               style: GoogleFonts.quicksand(
                 fontWeight: FontWeight.w500,
                 color: const Color.fromARGB(255, 113, 135, 168),
                 fontSize: 15,
               ),
-              decoration: InputDecoration.collapsed(
+              decoration: InputDecoration(
                 hintText: 'Search posts by title...',
                 hintStyle: GoogleFonts.quicksand(
                   fontWeight: FontWeight.w500,
                   color: const Color.fromARGB(255, 162, 176, 194),
                   fontSize: 15,
                 ),
+                counterText: '',
+                isCollapsed: true,
+                border: InputBorder.none,
               ),
             ),
           ),
@@ -128,10 +135,12 @@ class PostListTopWidget extends GetView<PostListPageController> {
                   textEditingController.text = '';
                   controller
                     ..searchText.value = ''
+                    ..offset = 0
+                    ..loadingType = LoadingType.INIT.name
                     ..update();
                 },
                 child: CircleAvatar(
-                  backgroundColor: RED_COLOR.withOpacity(0.9),
+                  backgroundColor: RED_COLOR.withOpacity(0.7),
                   maxRadius: 10,
                   child: SvgPicture.asset(
                     ICON_PATH + CLOSE_SVG,
@@ -284,6 +293,7 @@ class PostListTopWidget extends GetView<PostListPageController> {
                         ? -1
                         : speciesModel.id
                 ..loadingType = LoadingType.INIT.name
+                ..offset = 0
                 ..update();
             },
             child: Container(

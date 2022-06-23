@@ -100,8 +100,8 @@ const NO_IMAGE_PNG = 'no_image.png';
 // const API_SERVER = '10.0.2.2:4000';
 // const GRAPHL_SERVER = 'http://10.0.2.2:8080';
 
-const API_SERVER_PATH = '54.241.102.214';
-const GRAPHL_SERVER_PATH = 'http://54.241.102.214:8080';
+const API_SERVER_PATH = '52.53.152.38';
+const GRAPHL_SERVER_PATH = 'http://52.53.152.38:8080';
 
 //*sale transaction
 const SALE_TRANSACTION_RETURN_API_PATH =
@@ -112,11 +112,16 @@ const SALE_TRANSACTION_API_PATH = '/v1/api/sale-transactions';
 const BREEDING_TRANSACTION_RETURN_API_PATH =
     '/v1/api/breed-transactions/vnpay/vnpay_return';
 const BREEDING_TRANSACTION_API_PATH = '/v1/api/breed-transactions';
+const BREEDING_TRANSACTION_BOOKING_SERVICES_API_PATH =
+    '/v1/api/breed-transactions/branch/request';
 const BREEDING_TRANSACTION_PAYMENT_API_PATH =
     '/v1/api/breed-transactions/payment';
 const BREEDING_TRANSACTION_PAYMENT_FOR_PET_MALE_OWNER_API =
     '/v1/api/breed-transactions/petMaleOwner/payment';
-
+const BREEDING_TRANSACTION_PAYMENT_FOR_BRANCH_API =
+    '/v1/api/breed-transactions/pick-up-pet-female';
+const BREEDING_TRANSACTION_PICKUP_MALE_PET_API =
+    '/v1/api/breed-transactions/pick-up-pet-male';
 //*pet
 const PET_TO_CREATE_POST_API_PATH = '/v1/api/pets/fetch-pet';
 const PET_API_PATH = '/v1/api/pets';
@@ -159,4 +164,3 @@ const POST_API_PATH = '/v1/api/posts';
 //*pet chain
 const PET_CHAIN_API = '/v1/api/pets/chain';
 const PET_CHAIN_HASH_API = '/v1/api/pets/chain/hash';
-

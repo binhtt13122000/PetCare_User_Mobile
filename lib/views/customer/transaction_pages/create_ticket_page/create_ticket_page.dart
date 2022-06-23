@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:petapp_mobile/configs/theme.dart';
-import 'package:petapp_mobile/controllers/transaction_page_controllers/ticket_page_controller.dart';
+import 'package:petapp_mobile/controllers/transaction_page_controllers/create_ticket_page_controller.dart';
 import 'package:petapp_mobile/services/other_services/branch_services.dart';
 import 'package:petapp_mobile/services/transaction_services/center_services_services.dart';
 import 'package:petapp_mobile/views/customer/transaction_pages/create_ticket_page/widgets/add_services_widget.dart';

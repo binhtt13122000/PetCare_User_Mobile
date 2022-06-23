@@ -9,6 +9,7 @@ import 'package:get/get.dart';
 import 'package:petapp_mobile/bindings/main_page_bindings/action_page_binding.dart';
 import 'package:petapp_mobile/bindings/pet_page_bindings/generate_qr_code_binding.dart';
 import 'package:petapp_mobile/bindings/pet_page_bindings/pet_block_chain_page_binding.dart';
+import 'package:petapp_mobile/bindings/transaction_page_bindings/booking_breeding_service_page_binding.dart';
 import 'package:petapp_mobile/bindings/transaction_page_bindings/breeding_transaction_detail_page_binding.dart';
 import 'package:petapp_mobile/bindings/transaction_page_bindings/buy_services_combo_page_binding.dart';
 import 'package:petapp_mobile/bindings/other_page_bindings/chatting_detail_page_binding.dart';
@@ -72,6 +73,7 @@ import 'package:petapp_mobile/views/customer/post_pages/post_detail_page/post_de
 import 'package:petapp_mobile/views/customer/post_pages/post_list_page/post_list_page.dart';
 import 'package:petapp_mobile/views/customer/post_pages/post_management_page/post_management_page.dart';
 import 'package:petapp_mobile/views/customer/post_pages/update_sale_post_page/update_sale_post_page.dart';
+import 'package:petapp_mobile/views/customer/transaction_pages/booking_breeding_service_page/booking_breeding_services_page.dart';
 import 'package:petapp_mobile/views/customer/transaction_pages/breeding_transaction_detail_page/breeding_transaction_detail_page.dart';
 import 'package:petapp_mobile/views/customer/transaction_pages/buy_services_combo_page/buy_services_combo_page.dart';
 import 'package:petapp_mobile/views/customer/transaction_pages/center_services_transaction_detail_page/center_services_transaction_detail_page.dart';
@@ -440,6 +442,17 @@ class _MainAppState extends State<MainApp> {
           name: '$SALE_TRANSACTION_DETAIL_PAGE_ROUTE/:saleTransactionId',
           page: () => const SaleTransactionDetailPage(),
           binding: SaleTransactionDetailPageBinding(),
+        ),
+        GetPage(
+          name:
+              '$BREEDING_TRANSACTION_DETAIL_PAGE_ROUTE/:breedingTransactionId',
+          page: () => const BreedingTransactionDetailPage(),
+          binding: BreedingTransactionDetailPageBinding(),
+        ),
+        GetPage(
+          name: '$BOOKING_BREEDING_SERVICE_PAGE_ROUTE/:breedingTransactionId',
+          page: () => const BookingBreedingServicesPage(),
+          binding: BookingBreedingServicesPageBinding(),
         ),
         GetPage(
           name:

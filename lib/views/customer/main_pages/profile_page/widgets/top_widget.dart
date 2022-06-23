@@ -118,7 +118,8 @@ class ProfilePageTopWidget extends GetView<ProfilePageController> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   phoneNumberWidget(),
-                  topIconWidget(),
+                  // topIconWidget(),
+                  const Spacer()
                 ],
               ),
             ),
