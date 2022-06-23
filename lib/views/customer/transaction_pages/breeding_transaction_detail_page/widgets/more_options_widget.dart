@@ -14,12 +14,9 @@ class BreedingTransactionDetailMoreOptionWidget
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        Obx(
-          () => Visibility(
-            visible: controller.isShowMoreOptions.value,
-            child: InkWell(
+    return Obx(
+      () => controller.isShowMoreOptions.value
+          ? InkWell(
               onTap: () => controller.isShowMoreOptions.value = false,
               child: Container(
                 color: DARK_GREY_TRANSPARENT,
@@ -92,11 +89,8 @@ class BreedingTransactionDetailMoreOptionWidget
                   ],
                 ),
               ),
-            ),
-          ),
-        ),
-        cancelWidget(),
-      ],
+            )
+          : const SizedBox.shrink(),
     );
   }
 

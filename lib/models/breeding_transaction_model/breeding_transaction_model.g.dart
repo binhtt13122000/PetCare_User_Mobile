@@ -41,6 +41,32 @@ BreedingTransactionModel _$BreedingTransactionModelFromJson(
       cancelTime: json['cancelTime'] == null
           ? null
           : DateTime.parse(json['cancelTime'] as String),
+      transactionFee: json['transactionFee'] as int,
+      placeMeeting: json['placeMeeting'] as String,
+      breedingBranchId: json['breedingBranchId'] as int?,
+      self: json['self'] as bool,
+      paymentForMalePetOwnerTime: json['paymentForMalePetOwnerTime'] == null
+          ? null
+          : DateTime.parse(json['paymentForMalePetOwnerTime'] as String),
+      paymentForBranchTime: json['paymentForBranchTime'] == null
+          ? null
+          : DateTime.parse(json['paymentForBranchTime'] as String),
+      servicePoint: json['servicePoint'] as int?,
+      timeToCheckBreeding: json['timeToCheckBreeding'] == null
+          ? null
+          : DateTime.parse(json['timeToCheckBreeding'] as String),
+      isSuccess: json['isSuccess'] as bool?,
+      realDateOfBreeding: json['realDateOfBreeding'] == null
+          ? null
+          : DateTime.parse(json['realDateOfBreeding'] as String),
+      realDateOfFinish: json['realDateOfFinish'] == null
+          ? null
+          : DateTime.parse(json['realDateOfFinish'] as String),
+      realTimeToCheckBreeding: json['realTimeToCheckBreeding'] == null
+          ? null
+          : DateTime.parse(json['realTimeToCheckBreeding'] as String),
+      starBranch: json['starBranch'] as int?,
+      reviewBranch: json['reviewBranch'] as String?,
       postModel: json['post'] == null
           ? null
           : PostModel.fromJson(json['post'] as Map<String, dynamic>),
@@ -51,16 +77,6 @@ BreedingTransactionModel _$BreedingTransactionModelFromJson(
           CustomerModel.fromJson(json['ownerPetMale'] as Map<String, dynamic>),
       ownerPetFemaleCustomerModel: CustomerModel.fromJson(
           json['ownerPetFemale'] as Map<String, dynamic>),
-      transactionFee: json['transactionFee'] as int,
-      breedingBranchId: json['breedingBranchId'] as int?,
-      placeMeeting: json['placeMeeting'] as String,
-      paymentForBranchTime: json['paymentForBranchTime'] == null
-          ? null
-          : DateTime.parse(json['paymentForBranchTime'] as String),
-      paymentForMalePetOwnerTime: json['paymentForMalePetOwnerTime'] == null
-          ? null
-          : DateTime.parse(json['paymentForMalePetOwnerTime'] as String),
-      self: json['self'] as bool,
     );
 
 Map<String, dynamic> _$BreedingTransactionModelToJson(
@@ -91,12 +107,21 @@ Map<String, dynamic> _$BreedingTransactionModelToJson(
       'point': instance.point,
       'cancelTime': instance.cancelTime?.toIso8601String(),
       'transactionFee': instance.transactionFee,
+      'placeMeeting': instance.placeMeeting,
+      'breedingBranchId': instance.breedingBranchId,
+      'self': instance.self,
       'paymentForMalePetOwnerTime':
           instance.paymentForMalePetOwnerTime?.toIso8601String(),
-      'placeMeeting': instance.placeMeeting,
       'paymentForBranchTime': instance.paymentForBranchTime?.toIso8601String(),
-      'self': instance.self,
-      'breedingBranchId': instance.breedingBranchId,
+      'servicePoint': instance.servicePoint,
+      'timeToCheckBreeding': instance.timeToCheckBreeding?.toIso8601String(),
+      'isSuccess': instance.isSuccess,
+      'realDateOfBreeding': instance.realDateOfBreeding?.toIso8601String(),
+      'realDateOfFinish': instance.realDateOfFinish?.toIso8601String(),
+      'realTimeToCheckBreeding':
+          instance.realTimeToCheckBreeding?.toIso8601String(),
+      'starBranch': instance.starBranch,
+      'reviewBranch': instance.reviewBranch,
       'post': instance.postModel?.toJson(),
       'petMale': instance.malePetModel.toJson(),
       'petFemale': instance.femalePetModel.toJson(),

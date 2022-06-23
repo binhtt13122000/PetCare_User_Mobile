@@ -67,6 +67,32 @@ class BreedingTransactionService {
     }
   }
 
+  static Future<bool> bookingBreedingServices({
+    required int breedingTransactionId,
+    required int branchId,
+    required DateTime bookingTime,
+  }) async {
+    final response = await http.post(
+      Uri.http(API_SERVER_PATH, BREEDING_TRANSACTION_BOOKING_SERVICES_API_PATH),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode({
+        'id': breedingTransactionId,
+        'breedingBranchId': branchId,
+        'dateOfBreeding': bookingTime.toIso8601String(),
+      }),
+    );
+    switch (response.statusCode) {
+      case 200:
+      case 201:
+      case 202:
+        return json.decode(response.body)['success'];
+      default:
+        throw Exception('Error ${response.statusCode}, cannot send request');
+    }
+  }
+
   static Future<int> updateBreedingTransaction({
     required int id,
     required DateTime meetingTime,
@@ -122,7 +148,8 @@ class BreedingTransactionService {
   }) async {
     String jsonBody = jsonEncode({
       'id': id,
-      'paymentForMalePetOwnerTime': DateTime.now().toIso8601String(),
+      'paymentForMalePetOwnerTime':
+          paymentForMalePetOwnerTime.toIso8601String(),
     });
     final response = await http.post(
       Uri.http(
@@ -141,6 +168,64 @@ class BreedingTransactionService {
         return jsonDecode(response.body)['data']['status'];
       default:
         throw Exception('Error ${response.statusCode}, cannot payment');
+    }
+  }
+
+  static Future<String> quickPaymentForBranch({
+    required int id,
+    required DateTime paymentForBranchTime,
+  }) async {
+    String jsonBody = jsonEncode({
+      'id': id,
+      'paymentForBranchTime': paymentForBranchTime.toIso8601String(),
+      'pickupFemalePetTime': paymentForBranchTime.toIso8601String(),
+    });
+    final response = await http.put(
+      Uri.http(
+        API_SERVER_PATH,
+        BREEDING_TRANSACTION_PAYMENT_FOR_BRANCH_API,
+      ),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonBody,
+    );
+    switch (response.statusCode) {
+      case 200:
+      case 201:
+      case 202:
+        return jsonDecode(response.body)['data']['status'];
+      default:
+        throw Exception('Error ${response.statusCode}, cannot payment');
+    }
+  }
+
+  static Future<String> pickUpMalePet({
+    required int id,
+    required DateTime pickupMalePetTime,
+  }) async {
+    String jsonBody = jsonEncode({
+      'id': id,
+      'pickupMalePetTime': pickupMalePetTime.toIso8601String(),
+    });
+    final response = await http.put(
+      Uri.http(
+        API_SERVER_PATH,
+        BREEDING_TRANSACTION_PICKUP_MALE_PET_API,
+      ),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonBody,
+    );
+    switch (response.statusCode) {
+      case 200:
+      case 201:
+      case 202:
+        return jsonDecode(response.body)['data']['status'];
+      default:
+        throw Exception(
+            'Error ${response.statusCode}, cannot pick kup male pet');
     }
   }
 

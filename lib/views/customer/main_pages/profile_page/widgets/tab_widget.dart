@@ -27,7 +27,7 @@ class ProfileTabWidget extends GetView<ProfilePageController> {
                         onTap: () {},
                         child: Container(
                           width: 200,
-                          height: 240,
+                          height: 80,
                           decoration: BoxDecoration(
                             color: WHITE_COLOR,
                             borderRadius: BorderRadius.circular(10),
@@ -42,9 +42,9 @@ class ProfileTabWidget extends GetView<ProfilePageController> {
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
-                              buttonWidget(content: 'Hi', onTap: () {}),
-                              buttonWidget(content: 'Guy', onTap: () {}),
-                              buttonWidget(content: 'Me Luci', onTap: () {}),
+                              // buttonWidget(content: 'Hi', onTap: () {}),
+                              // buttonWidget(content: 'Guy', onTap: () {}),
+                              // buttonWidget(content: 'Me Luci', onTap: () {}),
                               buttonWidget(
                                   content: 'Sign out',
                                   isImportant: true,

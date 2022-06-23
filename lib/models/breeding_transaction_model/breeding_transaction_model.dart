@@ -33,24 +33,28 @@ class BreedingTransactionModel {
   final int? point;
   final DateTime? cancelTime;
   final int transactionFee;
-  final DateTime? paymentForMalePetOwnerTime;
   final String placeMeeting;
-  final DateTime? paymentForBranchTime;
-  final bool self;
   final int? breedingBranchId;
+  final bool self;
+  final DateTime? paymentForMalePetOwnerTime;
+  final DateTime? paymentForBranchTime;
+  final int? servicePoint;
+  final DateTime? timeToCheckBreeding;
+  final bool? isSuccess;
+  final DateTime? realDateOfBreeding;
+  final DateTime? realDateOfFinish;
+  final DateTime? realTimeToCheckBreeding;
+  final int? starBranch;
+  final String? reviewBranch;
 
   @JsonKey(name: 'post')
   final PostModel? postModel;
-
   @JsonKey(name: 'petMale')
   final PetModel malePetModel;
-
   @JsonKey(name: 'petFemale')
   final PetModel femalePetModel;
-
   @JsonKey(name: 'ownerPetMale')
   final CustomerModel ownerPetMaleCustomerModel;
-
   @JsonKey(name: 'ownerPetFemale')
   final CustomerModel ownerPetFemaleCustomerModel;
 
@@ -79,17 +83,25 @@ class BreedingTransactionModel {
     this.dateOfBreeding,
     this.point,
     this.cancelTime,
+    required this.transactionFee,
+    required this.placeMeeting,
+    this.breedingBranchId,
+    required this.self,
+    this.paymentForMalePetOwnerTime,
+    this.paymentForBranchTime,
+    this.servicePoint,
+    this.timeToCheckBreeding,
+    this.isSuccess,
+    this.realDateOfBreeding,
+    this.realDateOfFinish,
+    this.realTimeToCheckBreeding,
+    this.starBranch,
+    this.reviewBranch,
     this.postModel,
     required this.malePetModel,
     required this.femalePetModel,
     required this.ownerPetMaleCustomerModel,
     required this.ownerPetFemaleCustomerModel,
-    required this.transactionFee,
-    this.breedingBranchId,
-    required this.placeMeeting,
-    this.paymentForBranchTime,
-    this.paymentForMalePetOwnerTime,
-    required this.self,
   });
 
   factory BreedingTransactionModel.fromJson(Map<String, dynamic> json) =>

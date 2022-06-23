@@ -10,7 +10,7 @@ class BreedingTransactionDetailPageController extends GetxController {
   RxBool isShowCancelPopup = false.obs;
   RxBool isShowMoreOptions = false.obs;
   late BreedingTransactionModel breedingTransactionModel;
-  RxBool isLoading = false.obs;
+  RxBool isWaitingLoadingInitData = false.obs;
   RxString paymentUrl = ''.obs;
   RxBool isShowPopup = false.obs;
   RxBool isShowReviewPopup = false.obs;
@@ -19,14 +19,23 @@ class BreedingTransactionDetailPageController extends GetxController {
   RxList<String> quickFeedBackList = <String>[].obs;
   RxList<String> quickCancelList = <String>[].obs;
   String reviewContent = '';
-  RxBool isShowThankPopup = false.obs;
   RxString cancelDescription = ''.obs;
   RxBool isShowCancelResultPopup = false.obs;
   List<String> viewTabList = ['Transaction details', 'Breeding services'];
   RxString selectedViewTab = 'Transaction details'.obs;
   ScrollController scrollController = ScrollController();
   RxBool isShowViewTypeTabWidget = false.obs;
-  RxBool isWaitingPayment = false.obs;
+  RxBool isWaitingForeground = false.obs;
+  String popupTitle = '';
+  RxBool isWaitingLoadingDataInBreedingTab = false.obs;
+  RxBool isWaitingLoadingTransactionDetailTab = false.obs;
+  RxBool isShowBreedingServicesBottom = false.obs;
+  RxBool isShowTransactionDetailBottom = false.obs;
+  RxBool isShowConfirmPopup = false.obs;
+  late String confirmPopupTitle;
+  RxBool isShowMoreOptionWidget = false.obs;
+  late Function() onTapOk;
+  late String reviewType;
 
   updateRatingText() {
     switch (selectedStar.value) {

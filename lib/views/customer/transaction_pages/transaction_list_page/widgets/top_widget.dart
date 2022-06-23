@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:petapp_mobile/configs/path.dart';
 import 'package:petapp_mobile/configs/theme.dart';
 import 'package:petapp_mobile/controllers/transaction_page_controllers/transaction_list_page_controller.dart';
 
@@ -122,18 +120,18 @@ class TransactionListTopWidget extends GetView<TransactionListPageController> {
                 height: 35,
                 width: 35,
                 padding: const EdgeInsets.all(8),
-                decoration: BoxDecoration(
-                  color: const Color.fromARGB(255, 238, 230, 245),
-                  borderRadius: BorderRadius.circular(10),
-                  border: Border.all(
-                    color: PRIMARY_COLOR.withOpacity(0.7),
-                  ),
-                ),
-                child: SvgPicture.asset(
-                  ICON_PATH + FILTER_SVG,
-                  color: PRIMARY_COLOR,
-                  fit: BoxFit.cover,
-                ),
+                // decoration: BoxDecoration(
+                //   color: const Color.fromARGB(255, 238, 230, 245),
+                //   borderRadius: BorderRadius.circular(10),
+                //   border: Border.all(
+                //     color: PRIMARY_COLOR.withOpacity(0.7),
+                //   ),
+                // ),
+                // child: SvgPicture.asset(
+                //   ICON_PATH + FILTER_SVG,
+                //   color: PRIMARY_COLOR,
+                //   fit: BoxFit.cover,
+                // ),
               ),
             ),
           ],

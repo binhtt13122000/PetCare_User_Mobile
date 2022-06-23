@@ -9,31 +9,30 @@ class BreedingTransactionDetailPopupWidget
   const BreedingTransactionDetailPopupWidget({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) => Obx(
-        () => Visibility(
-          visible: controller.isShowPopup.value && !controller.isLoading.value,
+  Widget build(BuildContext context) => Obx(() => controller.isShowPopup.value
+      ? Container(
+          alignment: Alignment.center,
+          decoration: const BoxDecoration(
+            color: DARK_GREY_TRANSPARENT,
+          ),
           child: Container(
-            alignment: Alignment.center,
-            decoration: const BoxDecoration(
-              color: Color.fromARGB(106, 201, 188, 190),
+            height: 220,
+            width: 270,
+            decoration: BoxDecoration(
+              color: WHITE_COLOR,
+              borderRadius: BorderRadius.circular(10),
             ),
-            child: Container(
-              height: 200,
-              width: 250,
-              decoration: BoxDecoration(
-                color: WHITE_COLOR,
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Text(
-                    controller.breedingTransactionModel.status == 'SUCCESS'
-                        ? 'Payment ully'
-                        : 'Payment Failed',
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 10),
+                  child: Text(
+                    controller.popupTitle,
+                    textAlign: TextAlign.center,
                     style: GoogleFonts.quicksand(
                       textStyle: const TextStyle(
-                        color: Color.fromARGB(255, 92, 98, 124),
+                        color: DARK_GREY_TEXT_COLOR,
                       ),
                       fontWeight: FontWeight.w700,
                       fontSize: 15,
@@ -41,48 +40,44 @@ class BreedingTransactionDetailPopupWidget
                       letterSpacing: 1,
                     ),
                   ),
-                  Icon(
-                    controller.breedingTransactionModel.status == 'SUCCESS'
-                        ? Icons.verified_outlined
-                        : Icons.do_not_disturb_on,
-                    size: 70,
-                    color:
-                        controller.breedingTransactionModel.status == 'SUCCESS'
-                            ? PRIMARY_COLOR
-                            : RED_COLOR,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 12),
-                    child: InkWell(
-                      onTap: () => controller.isShowPopup.value = false,
-                      child: Container(
-                        alignment: Alignment.center,
-                        padding: const EdgeInsets.symmetric(vertical: 5),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(5),
-                          color: controller.breedingTransactionModel.status ==
-                                  'SUCCESS'
-                              ? PRIMARY_COLOR
-                              : RED_COLOR,
-                        ),
-                        child: Text(
-                          'OK',
-                          textAlign: TextAlign.center,
-                          style: GoogleFonts.quicksand(
-                            textStyle: const TextStyle(color: WHITE_COLOR),
-                            fontWeight: FontWeight.w700,
-                            fontSize: 20,
-                            height: 1,
-                            letterSpacing: 2,
-                          ),
+                ),
+                const Icon(
+                  Icons.verified_outlined,
+                  size: 70,
+                  color: PRIMARY_COLOR,
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 12),
+                  child: InkWell(
+                    onTap: () => controller
+                      ..isShowPopup.value = false
+                      ..isShowBreedingServicesBottom.value = false
+                      ..isShowTransactionDetailBottom.value = false
+                      ..update(),
+                    child: Container(
+                      alignment: Alignment.center,
+                      padding: const EdgeInsets.symmetric(vertical: 5),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(5),
+                        color: PRIMARY_COLOR,
+                      ),
+                      child: Text(
+                        'OK',
+                        textAlign: TextAlign.center,
+                        style: GoogleFonts.quicksand(
+                          textStyle: const TextStyle(color: WHITE_COLOR),
+                          fontWeight: FontWeight.w700,
+                          fontSize: 20,
+                          height: 1,
+                          letterSpacing: 2,
                         ),
                       ),
                     ),
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
-        ),
-      );
+        )
+      : const SizedBox.shrink());
 }

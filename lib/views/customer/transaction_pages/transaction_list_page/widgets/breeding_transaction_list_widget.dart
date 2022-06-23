@@ -180,10 +180,10 @@ class BreedingTransactionListWidget
           break;
 
         default:
-          timeTitle = 'Payment time';
-          timeValue = breedingTransactionModel.paymentForBranchTime!;
-          displayStatus = breedingTransactionModel.status;
-          statusColor = GREEN_COLOR;
+          displayStatus = 'Waiting to pick up pet and pay';
+          statusColor = YELLOW_COLOR;
+          timeTitle = 'Meeting time';
+          timeValue = breedingTransactionModel.meetingTime;
       }
     } else {
       switch (breedingTransactionModel.status) {
@@ -209,6 +209,8 @@ class BreedingTransactionListWidget
         default:
           displayStatus = breedingTransactionModel.status;
           statusColor = GREEN_COLOR;
+          timeTitle = 'Meeting time';
+          timeValue = DateTime.now();
       }
     }
     return Padding(

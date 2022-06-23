@@ -10,23 +10,24 @@ class BreedingTransactionDetailViewTypeTabWidget
       : super(key: key);
 
   @override
-  Widget build(BuildContext context) => Obx(() => Visibility(
-        visible: controller.isShowViewTypeTabWidget.value,
-        child: Column(
-          children: [
-            Container(
-              color: WHITE_COLOR,
-              margin: const EdgeInsets.only(top: 115),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: controller.viewTabList
-                    .map((e) => viewTypeItemWidget(viewType: e))
-                    .toList(),
-              ),
-            ),
-          ],
-        ),
-      ));
+  Widget build(BuildContext context) => Obx(
+        () => controller.isShowViewTypeTabWidget.value
+            ? Column(
+                children: [
+                  Container(
+                    color: WHITE_COLOR,
+                    margin: const EdgeInsets.only(top: 115),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: controller.viewTabList
+                          .map((e) => viewTypeItemWidget(viewType: e))
+                          .toList(),
+                    ),
+                  ),
+                ],
+              )
+            : const SizedBox.shrink(),
+      );
 
   Widget viewTypeItemWidget({required String viewType, int flex = 1}) =>
       Expanded(
