@@ -21,11 +21,11 @@ class PetComboModel {
   final int comboId;
   final int? breedingTransactionId;
   @JsonKey(name: 'pet')
-  final PetModel petModel;
+  final PetModel? petModel;
   @JsonKey(name: 'branch')
-  final BranchModel branchModel;
+  final BranchModel? branchModel;
   @JsonKey(name: 'combo')
-  final ServicesComboModel servicesComboModel;
+  final ServicesComboModel? servicesComboModel;
   @JsonKey(name: 'petComboServices')
   final List<PetComboDetailModel>? petComboDetailModelList;
 
@@ -41,9 +41,9 @@ class PetComboModel {
     required this.branchId,
     required this.comboId,
     this.breedingTransactionId,
-    required this.petModel,
-    required this.branchModel,
-    required this.servicesComboModel,
+    this.petModel,
+    this.branchModel,
+    this.servicesComboModel,
     this.petComboDetailModelList,
   });
 

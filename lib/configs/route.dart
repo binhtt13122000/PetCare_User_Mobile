@@ -68,6 +68,7 @@ const UPDATE_SALE_POST_PAGE_ROUTE = '/post-update';
 
 //services combo
 const BUY_SERVICES_COMBO_PAGE_ROUTE = '/buy-services-combo';
+const BUY_BREEDING_SERVICES_COMBO_PAGE_ROUTE = '/buy-breeding-services-combo';
 
 //vaccine
 const VACCINE_LIST_PAGE_ROUTE = '/vaccine-list';

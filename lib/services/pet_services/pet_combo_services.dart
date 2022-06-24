@@ -52,6 +52,48 @@ class PetComboServices {
     }
   }
 
+  static Future<bool> quickPayment({
+    required DateTime registerTime,
+    required int orderTotal,
+    required int branchId,
+    required int comboId,
+    required int petId,
+    required int breedingTransactionId,
+    required int point,
+    String paymentMethod = 'VNPAY',
+    required DateTime dateOfBreeding,
+  }) async {
+    final response = await http.post(
+      Uri.http(
+        API_SERVER_PATH,
+        PET_COMBO_PAYMENT_API_PATH,
+      ),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode({
+        'registerTime': registerTime.toIso8601String(),
+        'orderTotal': orderTotal,
+        'branchId': branchId,
+        'comboId': comboId,
+        'petId': petId,
+        'breedingTransactionId': breedingTransactionId,
+        'point': point,
+        'paymentMethod': paymentMethod,
+        'dateOfBreeding': dateOfBreeding.toIso8601String(),
+      }),
+    );
+    switch (response.statusCode) {
+      case 200:
+      case 201:
+      case 202:
+        return jsonDecode(response.body)['success'];
+      default:
+        print(response.body);
+        throw Exception('Error ${response.statusCode}, cannot payment');
+    }
+  }
+
   static Future<String> payment({
     required String message,
     required String locale,

@@ -42,6 +42,52 @@ class BreedingTransactionDetailBreedingServicesForFemalePetWidget
         );
       });
 
+  Widget buyBreedingServicesCombo() => Container(
+        color: WHITE_COLOR,
+        padding: const EdgeInsets.symmetric(vertical: 20),
+        child: Column(
+          children: [
+            Row(
+              children: [
+                Expanded(
+                  child: CUSTOM_TEXT(
+                    'To take good care of your pet during the breeding period, you can buy more service combos with many attractive incentives',
+                    fontSize: 14,
+                    color: DARK_GREY_TEXT_COLOR.withOpacity(0.8),
+                    textOverflow: TextOverflow.clip,
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 20,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                )
+              ],
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            InkWell(
+              onTap: () => Get.toNamed(
+                  '$BUY_BREEDING_SERVICES_COMBO_PAGE_ROUTE/${controller.breedingTransactionId}'),
+              child: Container(
+                padding:
+                    const EdgeInsets.symmetric(vertical: 5, horizontal: 20),
+                decoration: BoxDecoration(
+                  color: PRIMARY_COLOR,
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: CUSTOM_TEXT(
+                  'Go to buy services combo page',
+                  color: WHITE_COLOR,
+                  fontWeight: FontWeight.w700,
+                  fontSize: 14,
+                ),
+              ),
+            ),
+          ],
+        ),
+      );
+
   Widget noHaveDataWidget() => Container(
         color: WHITE_COLOR,
         padding: EdgeInsets.symmetric(
@@ -92,6 +138,26 @@ class BreedingTransactionDetailBreedingServicesForFemalePetWidget
             height: 16,
             color: SUPPER_LIGHT_BLUE.withAlpha(30),
           ),
+          Visibility(
+            visible: controller.breedingTransactionModel.isSuccess != null &&
+                (controller.breedingTransactionModel.petComboModelList ==
+                        null ||
+                    controller
+                        .breedingTransactionModel.petComboModelList!.isEmpty),
+            child: Column(
+              children: [
+                buyBreedingServicesCombo(),
+                Container(
+                  height: 1,
+                  color: LIGHT_GREY_COLOR.withAlpha(30),
+                ),
+                Container(
+                  height: 16,
+                  color: SUPPER_LIGHT_BLUE.withAlpha(30),
+                ),
+              ],
+            ),
+          ),
           branchWidget(),
           Container(
             height: 1,
@@ -115,12 +181,19 @@ class BreedingTransactionDetailBreedingServicesForFemalePetWidget
               fontWeight: FontWeight.w700,
               fontSize: 15,
             ),
-            textCardWidget(keyText: 'Name', valueText: 'HCM CS1'),
-            textCardWidget(keyText: 'Phone number', valueText: '+84901905999'),
+            textCardWidget(
+                keyText: 'Name',
+                valueText: controller
+                    .breedingTransactionModel.breedingBranchModel!.name),
+            textCardWidget(
+                keyText: 'Phone number',
+                valueText: controller
+                    .breedingTransactionModel.breedingBranchModel!.phoneNumber),
             textCardWidget(
                 keyText: 'Address',
-                valueText:
-                    ' Lô E2a-7, Đường D1, Đ. D1, Long Thạnh Mỹ, Thành Phố Thủ Đức, Thành phố Hồ Chí Minh'),
+                valueText: controller.breedingTransactionModel
+                        .breedingBranchModel!.address ??
+                    'N/A'),
           ],
         ),
       );
@@ -181,6 +254,76 @@ class BreedingTransactionDetailBreedingServicesForFemalePetWidget
     }
   }
 
+  Widget comboServicesTimelineWidget() {
+    DateTime currentTime = DateTime.now();
+
+    return Column(
+      children: controller.breedingTransactionModel.petComboModelList![0]
+          .petComboDetailModelList!
+          .asMap()
+          .entries
+          .map((e) {
+        bool isNext = false;
+        if (e.key == 0) {
+          isNext = !e.value.isCompleted;
+        } else {
+          isNext = !e.value.isCompleted &&
+              controller.breedingTransactionModel.petComboModelList![0]
+                  .petComboDetailModelList![e.key - 1].isCompleted;
+        }
+
+        return timeLineItemWidget(
+          currentTime: currentTime,
+          title: e.value.centerServiceModel.name,
+          performDate: e.value.realTime,
+          estimateDate: e.value.workingTime,
+          isSuccess: e.value.realTime != null,
+          isShowViewDetail: e.value.isCompleted,
+          isLastIndex: e.key + 1 ==
+              controller.breedingTransactionModel.petComboModelList![0]
+                  .petComboDetailModelList!.length,
+          isNext: isNext,
+        );
+      }).toList(),
+    );
+  }
+
+  Widget comboServicesLineWidget() {
+    return Column(
+      children: controller.breedingTransactionModel.petComboModelList![0]
+          .petComboDetailModelList!
+          .asMap()
+          .entries
+          .map((e) {
+        late String status;
+        bool isBeforeItemNext = false;
+        if (e.key == 0) {
+          status = e.value.isCompleted ? 'SUCCESS' : 'NEXT';
+        } else {
+          if (e.value.isCompleted) {
+            status = 'SUCCESS';
+          } else {
+            if (controller.breedingTransactionModel.petComboModelList![0]
+                .petComboDetailModelList![e.key - 1].isCompleted) {
+              status = 'NEXT';
+            } else {
+              status = 'WAITING';
+              if (e.key == 1) {
+                isBeforeItemNext = true;
+              } else {
+                if (controller.breedingTransactionModel.petComboModelList![0]
+                    .petComboDetailModelList![e.key - 2].isCompleted) {
+                  isBeforeItemNext = true;
+                }
+              }
+            }
+          }
+        }
+        return lineWidget(status: status, isBeforeItemNext: isBeforeItemNext);
+      }).toList(),
+    );
+  }
+
   Widget ultrasoundTimelineItemWidget() {
     DateTime currentTime = DateTime.now();
     return Stack(
@@ -190,7 +333,7 @@ class BreedingTransactionDetailBreedingServicesForFemalePetWidget
             timeLineItemWidget(
               currentTime: currentTime,
               isSuccess: true,
-              title: 'Branch receive pets to conduct breeding',
+              title: 'Branch receive pets and conduct breeding',
               dateTitle: 'Start breeding on ',
               performDate:
                   controller.breedingTransactionModel.realDateOfBreeding,
@@ -199,18 +342,12 @@ class BreedingTransactionDetailBreedingServicesForFemalePetWidget
               currentTime: currentTime,
               title: 'Breeding finished',
               isSuccess: true,
-              estimateDate:
-                  controller.breedingTransactionModel.dateOfBreeding!.add(
-                const Duration(
-                  days: 3,
-                ),
-              ),
               dateTitle: 'Breeding finished on ',
               performDate: controller.breedingTransactionModel.realDateOfFinish,
             ),
             timeLineItemWidget(
               currentTime: currentTime,
-              title: 'Received pet and payment',
+              title: 'Pickup pet and payment',
               dateTitle: 'Payment on ',
               performDate:
                   controller.breedingTransactionModel.paymentForBranchTime,
@@ -230,7 +367,17 @@ class BreedingTransactionDetailBreedingServicesForFemalePetWidget
               hintTextColor: controller.breedingTransactionModel.isSuccess!
                   ? BLUE_COLOR
                   : RED_COLOR,
+              isLastIndex:
+                  controller.breedingTransactionModel.petComboModelList ==
+                          null ||
+                      controller
+                          .breedingTransactionModel.petComboModelList!.isEmpty,
             ),
+            controller.breedingTransactionModel.petComboModelList != null &&
+                    controller
+                        .breedingTransactionModel.petComboModelList!.isNotEmpty
+                ? comboServicesTimelineWidget()
+                : const SizedBox.shrink(),
           ],
         ),
         Padding(
@@ -240,6 +387,11 @@ class BreedingTransactionDetailBreedingServicesForFemalePetWidget
               lineWidget(status: 'SUCCESS'),
               lineWidget(status: 'SUCCESS'),
               lineWidget(status: 'SUCCESS'),
+              controller.breedingTransactionModel.petComboModelList != null &&
+                      controller.breedingTransactionModel.petComboModelList!
+                          .isNotEmpty
+                  ? comboServicesLineWidget()
+                  : const SizedBox.shrink(),
             ],
           ),
         ),
@@ -256,7 +408,7 @@ class BreedingTransactionDetailBreedingServicesForFemalePetWidget
             timeLineItemWidget(
               currentTime: currentTime,
               isSuccess: true,
-              title: 'Branch receive pets to conduct breeding',
+              title: 'Branch receive pets and conduct breeding',
               dateTitle: 'Start breeding on ',
               performDate:
                   controller.breedingTransactionModel.realDateOfBreeding,
@@ -265,24 +417,12 @@ class BreedingTransactionDetailBreedingServicesForFemalePetWidget
               currentTime: currentTime,
               title: 'Breeding finished',
               isSuccess: true,
-              estimateDate:
-                  controller.breedingTransactionModel.dateOfBreeding!.add(
-                const Duration(
-                  days: 3,
-                ),
-              ),
               dateTitle: 'Breeding finished on ',
               performDate: controller.breedingTransactionModel.realDateOfFinish,
             ),
             timeLineItemWidget(
               currentTime: currentTime,
-              title: 'Received pet and payment',
-              estimateDate:
-                  controller.breedingTransactionModel.dateOfBreeding!.add(
-                const Duration(
-                  days: 3,
-                ),
-              ),
+              title: 'Pickup pet and payment',
               dateTitle: 'Payment on ',
               performDate:
                   controller.breedingTransactionModel.paymentForBranchTime,
@@ -295,6 +435,7 @@ class BreedingTransactionDetailBreedingServicesForFemalePetWidget
               estimateDate:
                   controller.breedingTransactionModel.timeToCheckBreeding!,
               isNext: true,
+              isLastIndex: true,
             ),
           ],
         ),
@@ -321,7 +462,7 @@ class BreedingTransactionDetailBreedingServicesForFemalePetWidget
             timeLineItemWidget(
               currentTime: currentTime,
               isSuccess: true,
-              title: 'Branch receive pets to conduct breeding',
+              title: 'Branch receive pets and conduct breeding',
               dateTitle: 'Start breeding on ',
               performDate:
                   controller.breedingTransactionModel.realDateOfBreeding,
@@ -330,28 +471,15 @@ class BreedingTransactionDetailBreedingServicesForFemalePetWidget
               currentTime: currentTime,
               title: 'Breeding finished',
               isSuccess: true,
-              estimateDate:
-                  controller.breedingTransactionModel.dateOfBreeding!.add(
-                const Duration(
-                  days: 3,
-                ),
-              ),
               dateTitle: 'Breeding finished on ',
               performDate: controller.breedingTransactionModel.realDateOfFinish,
             ),
             timeLineItemWidget(
               currentTime: currentTime,
-              title: 'Received pet and payment',
-              estimateDate:
-                  controller.breedingTransactionModel.dateOfBreeding!.add(
-                const Duration(
-                  days: 3,
-                ),
-              ),
-              dateTitle: 'Estimate finished on ',
+              title: 'Pickup pet and payment',
               isShowTime: false,
-              cardTimeText: 'Waiting',
-              hintText: 'Waiting for receive pet and payment',
+              cardTimeText: 'Available',
+              hintText: 'Available for pickup pet and payment',
               isNext: true,
             ),
             timeLineItemWidget(
@@ -359,6 +487,7 @@ class BreedingTransactionDetailBreedingServicesForFemalePetWidget
               title: '1st ultrasound',
               estimateDate:
                   controller.breedingTransactionModel.timeToCheckBreeding!,
+              isLastIndex: true,
             ),
           ],
         ),
@@ -435,7 +564,7 @@ class BreedingTransactionDetailBreedingServicesForFemalePetWidget
             timeLineItemWidget(
               currentTime: currentTime,
               isSuccess: true,
-              title: 'Branch receive pets to conduct breeding',
+              title: 'Branch receive pets and conduct breeding',
               dateTitle: 'Start breeding on ',
               performDate:
                   controller.breedingTransactionModel.realDateOfBreeding,
@@ -454,26 +583,20 @@ class BreedingTransactionDetailBreedingServicesForFemalePetWidget
             ),
             timeLineItemWidget(
               currentTime: currentTime,
-              title: 'Received pet and payment',
-              estimateDate:
-                  controller.breedingTransactionModel.dateOfBreeding!.add(
-                const Duration(
-                  days: 3,
-                ),
-              ),
-              dateTitle: 'Estimate finished on ',
+              title: 'Pickup pet and payment',
               isShowTime: false,
               cardTimeText: 'Not applicable',
               hintText: 'Waiting for breeding finished',
-              performDate:
-                  controller.breedingTransactionModel.realDateOfBreeding,
             ),
             timeLineItemWidget(
-                currentTime: currentTime,
-                title: '1st ultrasound',
-                estimateDate: controller
-                    .breedingTransactionModel.realDateOfBreeding!
-                    .add(const Duration(days: 30))),
+              currentTime: currentTime,
+              title: '1st ultrasound',
+              estimateDate:
+                  controller.breedingTransactionModel.realDateOfBreeding!.add(
+                const Duration(days: 30),
+              ),
+              isLastIndex: true,
+            ),
           ],
         ),
         Padding(
@@ -502,7 +625,7 @@ class BreedingTransactionDetailBreedingServicesForFemalePetWidget
             timeLineItemWidget(
               currentTime: currentTime,
               isSuccess: false,
-              title: 'Branch receive pets to conduct breeding',
+              title: 'Branch receive pets and conduct breeding',
               dateTitle: 'Appointment date ',
               estimateDate: controller.breedingTransactionModel.dateOfBreeding,
               isNext: true,
@@ -520,14 +643,7 @@ class BreedingTransactionDetailBreedingServicesForFemalePetWidget
             ),
             timeLineItemWidget(
                 currentTime: currentTime,
-                title: 'Received pet and payment',
-                estimateDate:
-                    controller.breedingTransactionModel.dateOfBreeding!.add(
-                  const Duration(
-                    days: 3,
-                  ),
-                ),
-                dateTitle: 'Estimate finished on ',
+                title: 'Pickup pet and payment',
                 isShowTime: false,
                 cardTimeText: 'Not applicable',
                 hintText: 'Waiting for breeding finished'),
@@ -540,6 +656,7 @@ class BreedingTransactionDetailBreedingServicesForFemalePetWidget
                   days: 33,
                 ),
               ),
+              isLastIndex: true,
             ),
           ],
         ),
@@ -785,32 +902,33 @@ class BreedingTransactionDetailBreedingServicesForFemalePetWidget
                     ],
                   ),
                   const SizedBox(height: 0),
-                  Visibility(
-                    visible: isShowTime,
-                    child: CUSTOM_TEXT(
-                      (dateTitle ??
-                              (isSuccess
-                                  ? 'Perform on '
-                                  : 'Estimated perform on ')) +
-                          FORMAT_DATE_TIME(
-                              dateTime:
-                                  isSuccess ? performDate! : estimateDate!,
-                              pattern: DATE_PATTERN_2),
-                      fontSize: 13,
-                      color: isSuccess || isNext
-                          ? DARK_GREY_TEXT_COLOR.withOpacity(0.85)
-                          : DARK_GREY_TEXT_COLOR.withOpacity(0.7),
-                      textOverflow: TextOverflow.clip,
-                    ),
-                  ),
+                  isShowTime
+                      ? CUSTOM_TEXT(
+                          (dateTitle ??
+                                  (isSuccess
+                                      ? 'Perform on '
+                                      : 'Estimated perform on ')) +
+                              FORMAT_DATE_TIME(
+                                  dateTime:
+                                      isSuccess ? performDate! : estimateDate!,
+                                  pattern: DATE_PATTERN_2),
+                          fontSize: 13,
+                          color: isSuccess || isNext
+                              ? DARK_GREY_TEXT_COLOR.withOpacity(0.85)
+                              : DARK_GREY_TEXT_COLOR.withOpacity(0.7),
+                          textOverflow: TextOverflow.clip,
+                        )
+                      : const SizedBox.shrink(),
                   hintText != null
                       ? CUSTOM_TEXT(
                           hintText,
                           fontSize: 13,
                           color: hintTextColor ??
-                              DARK_GREY_TEXT_COLOR.withOpacity(0.85),
+                              DARK_GREY_TEXT_COLOR.withOpacity(0.7),
                           textOverflow: TextOverflow.clip,
-                          fontWeight: FontWeight.w700,
+                          fontWeight: hintTextColor != null
+                              ? FontWeight.w700
+                              : FontWeight.w500,
                         )
                       : const SizedBox.shrink(),
                   Visibility(

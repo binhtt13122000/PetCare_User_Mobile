@@ -98,7 +98,7 @@ class PetDetailServicesComboWidget extends GetView<PetDetailPageController> {
                   children: [
                     CUSTOM_TEXT('#${petComboModel.id}'),
                     CUSTOM_TEXT(
-                      petComboModel.servicesComboModel.name,
+                      petComboModel.servicesComboModel!.name,
                       color: PRIMARY_COLOR,
                       fontWeight: FontWeight.w700,
                       fontSize: 17,
@@ -109,7 +109,7 @@ class PetDetailServicesComboWidget extends GetView<PetDetailPageController> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     CUSTOM_TEXT('Type'),
-                    CUSTOM_TEXT(petComboModel.servicesComboModel.type),
+                    CUSTOM_TEXT(petComboModel.servicesComboModel!.type),
                   ],
                 ),
                 Row(
@@ -127,7 +127,7 @@ class PetDetailServicesComboWidget extends GetView<PetDetailPageController> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     CUSTOM_TEXT('Register brach'),
-                    CUSTOM_TEXT(petComboModel.branchModel.name),
+                    CUSTOM_TEXT(petComboModel.branchModel!.name),
                   ],
                 ),
                 Row(

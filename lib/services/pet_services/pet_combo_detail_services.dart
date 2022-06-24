@@ -25,7 +25,7 @@ class PetComboDetailServices {
     final response = await http.put(
       Uri.http(API_SERVER_PATH, PET_COMBO_DETAIL_API_PATH),
       headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
+        'Content-Type': 'multipart/form-data; charset=UTF-8'
       },
       body: jsonEncode(jsonBody),
     );

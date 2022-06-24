@@ -5,7 +5,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:petapp_mobile/configs/path.dart';
 import 'package:petapp_mobile/configs/theme.dart';
 import 'package:petapp_mobile/controllers/transaction_page_controllers/breeding_transaction_detail_page_controller.dart';
-import 'package:petapp_mobile/services/transaction_services/breeding_transaction_services.dart';
 import 'package:petapp_mobile/views/widgets/customize_widget.dart';
 
 class BreedingTransactionDetailMoreOptionWidget
@@ -262,17 +261,17 @@ class BreedingTransactionDetailMoreOptionWidget
               }
 
               cancelContent += controller.cancelDescription.value;
-              await BreedingTransactionService.updateBreedingTransaction(
-                  id: controller.breedingTransactionModel.id,
-                  meetingTime: controller.breedingTransactionModel.meetingTime,
-                  placeMeeting:
-                      controller.breedingTransactionModel.placeMeeting,
-                  transactionTotal:
-                      controller.breedingTransactionModel.transactionTotal,
-                  status: 'CANCELED',
-                  reasonCancel: cancelContent,
-                  cancelTime: DateTime.now(),
-                  message: 'The transaction has been canceled!');
+              // await BreedingTransactionService.updateBreedingTransaction(
+              //     id: controller.breedingTransactionModel.id,
+              //     meetingTime: controller.breedingTransactionModel.meetingTime,
+              //     placeMeeting:
+              //         controller.breedingTransactionModel.placeMeeting,
+              //     transactionTotal:
+              //         controller.breedingTransactionModel.transactionTotal,
+              //     status: 'CANCELED',
+              //     reasonCancel: cancelContent,
+              //     cancelTime: DateTime.now(),
+              //     message: 'The transaction has been canceled!');
               controller
                 ..cancelDescription.value = ''
                 ..quickCancelList = <String>[].obs

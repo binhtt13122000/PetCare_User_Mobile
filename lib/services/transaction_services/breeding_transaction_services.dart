@@ -93,43 +93,18 @@ class BreedingTransactionService {
     }
   }
 
-  static Future<int> updateBreedingTransaction({
+  static Future<int> reviewForTransaction({
     required int id,
-    required DateTime meetingTime,
-    required String placeMeeting,
-    DateTime? transactionTime,
-    required int transactionTotal,
-    String? description,
-    String? paymentMethod,
-    int star = 0,
-    String? review,
-    String? reasonCancel,
-    required String status,
-    int point = 0,
-    DateTime? cancelTime,
-    String? message,
+    required int star,
+    required String review,
   }) async {
     final response = await http.put(
-      Uri.http(API_SERVER_PATH, BREEDING_TRANSACTION_API_PATH),
+      Uri.http(API_SERVER_PATH,
+          BREADING_TRANSACTION_REVIEW_FOR_TRANSACTION_API_PATH),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
-      body: jsonEncode({
-        'id': id,
-        'meetingTime': meetingTime.toIso8601String(),
-        'placeMeeting': placeMeeting,
-        'transactionTime': transactionTime?.toIso8601String(),
-        'transactionTotal': transactionTotal,
-        'description': description ?? '',
-        'paymentMethod': paymentMethod ?? '',
-        'review': review ?? '',
-        'reasonCancel': reasonCancel ?? '',
-        'status': status,
-        'point': point,
-        'cancelTime': cancelTime?.toIso8601String(),
-        'message': message,
-        'star': star
-      }),
+      body: jsonEncode({'id': id, 'review': review, 'star': star}),
     );
     switch (response.statusCode) {
       case 200:
@@ -137,8 +112,7 @@ class BreedingTransactionService {
       case 202:
         return json.decode(response.body)['data']['id'];
       default:
-        throw Exception(
-            'Error ${response.statusCode}, cannot create transaction');
+        throw Exception('Error ${response.statusCode}, cannot send review');
     }
   }
 

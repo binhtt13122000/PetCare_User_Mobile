@@ -1,6 +1,8 @@
 import 'package:json_annotation/json_annotation.dart';
+import 'package:petapp_mobile/models/branch_model/branch_model.dart';
 
 import 'package:petapp_mobile/models/customer_model/customer_model.dart';
+import 'package:petapp_mobile/models/pet_combo_model/pet_combo_model.dart';
 import 'package:petapp_mobile/models/pet_model/pet_model.dart';
 import 'package:petapp_mobile/models/post_model/post_model.dart';
 
@@ -46,7 +48,12 @@ class BreedingTransactionModel {
   final DateTime? realTimeToCheckBreeding;
   final int? starBranch;
   final String? reviewBranch;
-
+  @JsonKey(name: 'petCombos')
+  final List<PetComboModel>? petComboModelList;
+  @JsonKey(name: 'breedingBranch')
+  final BranchModel? breedingBranchModel;
+  @JsonKey(name: 'branch')
+  final BranchModel? branchModel;
   @JsonKey(name: 'post')
   final PostModel? postModel;
   @JsonKey(name: 'petMale')
@@ -102,6 +109,9 @@ class BreedingTransactionModel {
     required this.femalePetModel,
     required this.ownerPetMaleCustomerModel,
     required this.ownerPetFemaleCustomerModel,
+    this.petComboModelList,
+    this.branchModel,
+    this.breedingBranchModel,
   });
 
   factory BreedingTransactionModel.fromJson(Map<String, dynamic> json) =>
