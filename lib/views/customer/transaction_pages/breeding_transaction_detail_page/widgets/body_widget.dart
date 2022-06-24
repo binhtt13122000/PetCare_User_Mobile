@@ -196,8 +196,8 @@ class BreedingTransactionDetailBodyWidget
                       Text(
                         'Pet name',
                         style: GoogleFonts.quicksand(
-                          fontSize: 17,
-                          color: const Color.fromARGB(255, 100, 107, 133),
+                          fontSize: 14,
+                          color: DARK_GREY_TEXT_COLOR.withOpacity(0.9),
                           fontWeight: FontWeight.w500,
                           letterSpacing: 1,
                         ),
@@ -205,8 +205,8 @@ class BreedingTransactionDetailBodyWidget
                       Text(
                         controller.breedingTransactionModel.femalePetModel.name,
                         style: GoogleFonts.quicksand(
-                          fontSize: 17,
-                          color: const Color.fromARGB(255, 77, 82, 105),
+                          fontSize: 14,
+                          color: DARK_GREY_TEXT_COLOR.withOpacity(0.9),
                           fontWeight: FontWeight.w500,
                           letterSpacing: 1,
                         ),
@@ -219,8 +219,8 @@ class BreedingTransactionDetailBodyWidget
                       Text(
                         'Breed',
                         style: GoogleFonts.quicksand(
-                          fontSize: 15,
-                          color: const Color.fromARGB(255, 100, 107, 133),
+                          fontSize: 14,
+                          color: DARK_GREY_TEXT_COLOR.withOpacity(0.9),
                           fontWeight: FontWeight.w500,
                           letterSpacing: 1,
                         ),
@@ -229,8 +229,8 @@ class BreedingTransactionDetailBodyWidget
                         controller.breedingTransactionModel.femalePetModel
                             .breedModel!.name,
                         style: GoogleFonts.quicksand(
-                          fontSize: 15,
-                          color: const Color.fromARGB(255, 77, 82, 105),
+                          fontSize: 14,
+                          color: DARK_GREY_TEXT_COLOR.withOpacity(0.9),
                           fontWeight: FontWeight.w500,
                           letterSpacing: 1,
                         ),
@@ -243,8 +243,8 @@ class BreedingTransactionDetailBodyWidget
                       Text(
                         'Gender',
                         style: GoogleFonts.quicksand(
-                          fontSize: 15,
-                          color: const Color.fromARGB(255, 100, 107, 133),
+                          fontSize: 14,
+                          color: DARK_GREY_TEXT_COLOR.withOpacity(0.9),
                           fontWeight: FontWeight.w500,
                           letterSpacing: 1,
                         ),
@@ -262,7 +262,7 @@ class BreedingTransactionDetailBodyWidget
                                     'MALE'
                                 ? const Color.fromARGB(255, 39, 111, 245)
                                 : const Color.fromARGB(255, 244, 55, 165),
-                            height: 10,
+                            height: 12,
                           ),
                           const SizedBox(
                             width: 2,
@@ -271,7 +271,7 @@ class BreedingTransactionDetailBodyWidget
                             controller
                                 .breedingTransactionModel.femalePetModel.gender,
                             style: GoogleFonts.quicksand(
-                              fontSize: 15,
+                              fontSize: 13,
                               color: controller.breedingTransactionModel
                                           .femalePetModel.gender ==
                                       'MALE'
@@ -331,8 +331,8 @@ class BreedingTransactionDetailBodyWidget
                       Text(
                         'Pet name',
                         style: GoogleFonts.quicksand(
-                          fontSize: 17,
-                          color: const Color.fromARGB(255, 100, 107, 133),
+                          fontSize: 14,
+                          color: DARK_GREY_TEXT_COLOR.withOpacity(0.9),
                           fontWeight: FontWeight.w500,
                           letterSpacing: 1,
                         ),
@@ -340,8 +340,8 @@ class BreedingTransactionDetailBodyWidget
                       Text(
                         controller.breedingTransactionModel.malePetModel.name,
                         style: GoogleFonts.quicksand(
-                          fontSize: 17,
-                          color: const Color.fromARGB(255, 77, 82, 105),
+                          fontSize: 14,
+                          color: DARK_GREY_TEXT_COLOR.withOpacity(0.9),
                           fontWeight: FontWeight.w500,
                           letterSpacing: 1,
                         ),
@@ -354,8 +354,8 @@ class BreedingTransactionDetailBodyWidget
                       Text(
                         'Breed',
                         style: GoogleFonts.quicksand(
-                          fontSize: 15,
-                          color: const Color.fromARGB(255, 100, 107, 133),
+                          fontSize: 14,
+                          color: DARK_GREY_TEXT_COLOR.withOpacity(0.9),
                           fontWeight: FontWeight.w500,
                           letterSpacing: 1,
                         ),
@@ -364,8 +364,8 @@ class BreedingTransactionDetailBodyWidget
                         controller.breedingTransactionModel.malePetModel
                             .breedModel!.name,
                         style: GoogleFonts.quicksand(
-                          fontSize: 15,
-                          color: const Color.fromARGB(255, 77, 82, 105),
+                          fontSize: 14,
+                          color: DARK_GREY_TEXT_COLOR.withOpacity(0.9),
                           fontWeight: FontWeight.w500,
                           letterSpacing: 1,
                         ),
@@ -378,8 +378,8 @@ class BreedingTransactionDetailBodyWidget
                       Text(
                         'Gender',
                         style: GoogleFonts.quicksand(
-                          fontSize: 15,
-                          color: const Color.fromARGB(255, 100, 107, 133),
+                          fontSize: 14,
+                          color: DARK_GREY_TEXT_COLOR.withOpacity(0.9),
                           fontWeight: FontWeight.w500,
                           letterSpacing: 1,
                         ),
@@ -397,7 +397,7 @@ class BreedingTransactionDetailBodyWidget
                                     'MALE'
                                 ? const Color.fromARGB(255, 39, 111, 245)
                                 : const Color.fromARGB(255, 244, 55, 165),
-                            height: 10,
+                            height: 12,
                           ),
                           const SizedBox(
                             width: 2,
@@ -406,7 +406,7 @@ class BreedingTransactionDetailBodyWidget
                             controller
                                 .breedingTransactionModel.malePetModel.gender,
                             style: GoogleFonts.quicksand(
-                              fontSize: 15,
+                              fontSize: 13,
                               color: controller.breedingTransactionModel
                                           .malePetModel.gender ==
                                       'MALE'

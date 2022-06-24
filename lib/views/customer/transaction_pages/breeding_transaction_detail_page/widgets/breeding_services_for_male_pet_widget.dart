@@ -154,7 +154,9 @@ class BreedingTransactionDetailBreedingServicesForMalePetWidget
             ? breedingSuccessTimelineItemWidget()
             : breedingFinishedTimelineItemWidget();
       default:
-        return breedingSuccessTimelineItemWidget();
+        return controller.breedingTransactionModel.pickupMalePetTime != null
+            ? breedingSuccessTimelineItemWidget()
+            : breedingFinishedTimelineItemWidget();
     }
   }
 
