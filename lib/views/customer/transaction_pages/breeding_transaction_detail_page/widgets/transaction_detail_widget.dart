@@ -512,7 +512,7 @@ class BreedingTransactionDetailWidget
                               ? FORMAT_DATE_TIME(
                                   dateTime: controller.breedingTransactionModel
                                       .paymentForMalePetOwnerTime!,
-                                  pattern: DATE_TIME_PATTERN)
+                                  pattern: DATE_PATTERN_2)
                               : 'N/A',
                           style: GoogleFonts.quicksand(
                             fontSize: 15,
@@ -636,6 +636,7 @@ class BreedingTransactionDetailWidget
           color: Color.fromARGB(255, 255, 211, 78),
         ),
         onRatingUpdate: (_) {},
+        ignoreGestures: true,
       );
 
   Widget rhombusItemListWidget({required double screenWidth}) {

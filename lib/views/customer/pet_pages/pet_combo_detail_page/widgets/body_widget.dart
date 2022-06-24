@@ -324,10 +324,10 @@ class PetComboDetailBodyWidget extends GetView<PetComboDetailPageController> {
           children: [
             textCardWidget(
                 keyText: 'Name',
-                valueText: controller.petComboModel.servicesComboModel.name),
+                valueText: controller.petComboModel.servicesComboModel!.name),
             textCardWidget(
                 keyText: 'Type',
-                valueText: controller.petComboModel.servicesComboModel.type),
+                valueText: controller.petComboModel.servicesComboModel!.type),
             Obx(() => textCardWidget(
                 keyText: 'Status',
                 valueText: controller.petComboStatus.value,
@@ -359,17 +359,18 @@ class PetComboDetailBodyWidget extends GetView<PetComboDetailPageController> {
             ),
             textCardWidget(
                 keyText: 'Name',
-                valueText: controller.petComboModel.branchModel.name,
+                valueText: controller.petComboModel.branchModel!.name,
                 isImportantValue: true),
             textCardWidget(
                 keyText: 'Address',
-                valueText: controller.petComboModel.branchModel.address!),
+                valueText: controller.petComboModel.branchModel!.address!),
             textCardWidget(
                 keyText: 'Phone number',
-                valueText: controller.petComboModel.branchModel.phoneNumber),
+                valueText: controller.petComboModel.branchModel!.phoneNumber),
             textCardWidget(
                 keyText: 'Email',
-                valueText: controller.petComboModel.branchModel.email ?? 'N/A'),
+                valueText:
+                    controller.petComboModel.branchModel!.email ?? 'N/A'),
           ],
         ),
       );

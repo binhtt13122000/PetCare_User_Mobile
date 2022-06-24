@@ -77,6 +77,16 @@ BreedingTransactionModel _$BreedingTransactionModelFromJson(
           CustomerModel.fromJson(json['ownerPetMale'] as Map<String, dynamic>),
       ownerPetFemaleCustomerModel: CustomerModel.fromJson(
           json['ownerPetFemale'] as Map<String, dynamic>),
+      petComboModelList: (json['petCombos'] as List<dynamic>?)
+          ?.map((e) => PetComboModel.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      branchModel: json['branch'] == null
+          ? null
+          : BranchModel.fromJson(json['branch'] as Map<String, dynamic>),
+      breedingBranchModel: json['breedingBranch'] == null
+          ? null
+          : BranchModel.fromJson(
+              json['breedingBranch'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$BreedingTransactionModelToJson(
@@ -122,6 +132,9 @@ Map<String, dynamic> _$BreedingTransactionModelToJson(
           instance.realTimeToCheckBreeding?.toIso8601String(),
       'starBranch': instance.starBranch,
       'reviewBranch': instance.reviewBranch,
+      'petCombos': instance.petComboModelList?.map((e) => e.toJson()).toList(),
+      'breedingBranch': instance.breedingBranchModel?.toJson(),
+      'branch': instance.branchModel?.toJson(),
       'post': instance.postModel?.toJson(),
       'petMale': instance.malePetModel.toJson(),
       'petFemale': instance.femalePetModel.toJson(),

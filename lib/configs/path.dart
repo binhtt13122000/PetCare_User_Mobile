@@ -100,8 +100,8 @@ const NO_IMAGE_PNG = 'no_image.png';
 // const API_SERVER = '10.0.2.2:4000';
 // const GRAPHL_SERVER = 'http://10.0.2.2:8080';
 
-const API_SERVER_PATH = '52.53.152.38';
-const GRAPHL_SERVER_PATH = 'http://52.53.152.38:8080';
+const API_SERVER_PATH = '13.52.237.230';
+const GRAPHL_SERVER_PATH = 'http://13.52.237.230:8080';
 
 //*sale transaction
 const SALE_TRANSACTION_RETURN_API_PATH =
@@ -112,6 +112,8 @@ const SALE_TRANSACTION_API_PATH = '/v1/api/sale-transactions';
 const BREEDING_TRANSACTION_RETURN_API_PATH =
     '/v1/api/breed-transactions/vnpay/vnpay_return';
 const BREEDING_TRANSACTION_API_PATH = '/v1/api/breed-transactions';
+const BREADING_TRANSACTION_REVIEW_FOR_TRANSACTION_API_PATH =
+    '/v1/api/breed-transactions/review';
 const BREEDING_TRANSACTION_BOOKING_SERVICES_API_PATH =
     '/v1/api/breed-transactions/branch/request';
 const BREEDING_TRANSACTION_PAYMENT_API_PATH =
@@ -148,10 +150,12 @@ const CENTER_SERVICES_API = '/v1/api/services';
 
 //*services combo
 const SERVICES_COMBO_API_PATH = '/v1/api/combos';
+const SERVICES_COMBO_BY_TYPE_API_PATH = '/v1/api/combos/types';
 //*pet combo
 const PET_COMBO_API_PATH = '/v1/api/pet-combos';
 const PET_COMBO_RETURN_API_PATH = '/v1/api/pet-combos/vnpay/vnpay_return';
 const PET_COMBO_DETAIL_API_PATH = '/v1/api/pet-combo-services';
+const PET_COMBO_PAYMENT_API_PATH = '/v1/api/pet-combos/payment';
 //* pet health record
 const PET_HEALTH_RECORD_API_PATH = '/v1/api/health-pet-records';
 

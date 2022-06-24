@@ -32,6 +32,28 @@ class ServicesComboModelServices {
     }
   }
 
+  static Future<List<ServicesComboModel>> fetchServicesComboListByType(
+      {required String serviceType}) async {
+    final response = await http.get(
+      Uri.http(
+        API_SERVER_PATH,
+        '$SERVICES_COMBO_BY_TYPE_API_PATH/$serviceType',
+      ),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+    );
+    switch (response.statusCode) {
+      case 200:
+      case 201:
+      case 202:
+        return getServicesComboModelList(json.decode(response.body)['data']);
+      default:
+        throw Exception(
+            'Error ${response.statusCode}, cannot get services combo list');
+    }
+  }
+
   static Future<ServicesComboModel> fetchServicesComboById(
       {required int id}) async {
     final response = await http.get(

@@ -58,8 +58,8 @@ class TransactionListTopWidget extends GetView<TransactionListPageController> {
                 style: GoogleFonts.quicksand(
                   color: controller.selectedTransactionType.value == typeName
                       ? WHITE_COLOR
-                      : const Color.fromARGB(255, 62, 68, 87),
-                  fontSize: 16,
+                      : DARK_GREY_TEXT_COLOR.withOpacity(0.95),
+                  fontSize: 15,
                   fontWeight: FontWeight.w500,
                   letterSpacing: 1,
                 ),

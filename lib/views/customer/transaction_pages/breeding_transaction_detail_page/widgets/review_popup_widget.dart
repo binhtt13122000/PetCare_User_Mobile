@@ -204,23 +204,12 @@ class BreedingTransactionDetailReviewPopupWidget
 
               reviewContent += controller.reviewContent;
               if (controller.reviewType == 'TRANSACTION_REVIEW') {
-              } else {
-                await BreedingTransactionService.updateBreedingTransaction(
+                await BreedingTransactionService.reviewForTransaction(
                   id: controller.breedingTransactionModel.id,
-                  meetingTime: controller.breedingTransactionModel.meetingTime,
-                  placeMeeting:
-                      controller.breedingTransactionModel.placeMeeting,
-                  transactionTotal:
-                      controller.breedingTransactionModel.transactionTotal,
-                  status: controller.breedingTransactionModel.status,
                   star: controller.selectedStar.value,
                   review: reviewContent,
-                  transactionTime:
-                      controller.breedingTransactionModel.paymentForBranchTime,
-                  paymentMethod:
-                      controller.breedingTransactionModel.paymentMethod,
                 );
-              }
+              } else {}
               controller
                 ..isWaitingForeground.value = false
                 ..popupTitle =

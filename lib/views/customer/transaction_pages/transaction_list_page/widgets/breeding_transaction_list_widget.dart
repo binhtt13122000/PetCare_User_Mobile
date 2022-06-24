@@ -347,24 +347,7 @@ class BreedingTransactionListWidget
               //     ),
               //   ],
               // ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  CUSTOM_TEXT(
-                    'Male pet',
-                    color: DARK_GREY_TEXT_COLOR.withOpacity(0.8),
-                    fontSize: 13,
-                  ),
-                  CUSTOM_TEXT(
-                    breedingTransactionModel.malePetModel.breedModel!.name +
-                        ' - ' +
-                        breedingTransactionModel
-                            .malePetModel.breedModel!.speciesModel!.name,
-                    color: BLUE_COLOR,
-                    fontSize: 13,
-                  ),
-                ],
-              ),
+
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
