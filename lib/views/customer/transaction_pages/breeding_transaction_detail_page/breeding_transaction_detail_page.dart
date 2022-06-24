@@ -9,6 +9,7 @@ import 'package:petapp_mobile/views/customer/transaction_pages/breeding_transact
 import 'package:petapp_mobile/views/customer/transaction_pages/breeding_transaction_detail_page/widgets/popup_widget.dart';
 import 'package:petapp_mobile/views/customer/transaction_pages/breeding_transaction_detail_page/widgets/review_popup_widget.dart';
 import 'package:petapp_mobile/views/customer/transaction_pages/breeding_transaction_detail_page/widgets/top_widget.dart';
+import 'package:petapp_mobile/views/customer/transaction_pages/breeding_transaction_detail_page/widgets/view_detail_popup_widget.dart';
 import 'package:petapp_mobile/views/customer/transaction_pages/breeding_transaction_detail_page/widgets/view_tab_widget.dart';
 import 'package:petapp_mobile/views/customer/transaction_pages/breeding_transaction_detail_page/widgets/web_view.dart';
 import 'package:petapp_mobile/views/widgets/customize_widget.dart';
@@ -30,6 +31,7 @@ class BreedingTransactionDetailPage
         ..breedingTransactionModel =
             await BreedingTransactionService.fetchBreedingTransactionById(
                 breedingTransactionId: controller.breedingTransactionId)
+        ..sortComboList()
         ..isWaitingLoadingInitData.value = false;
     });
 
@@ -55,6 +57,7 @@ class BreedingTransactionDetailPage
           const BreedingTransactionDetailMoreOptionWidget(),
           const BreedingTransactionDetailViewTypeTabWidget(),
           const BreedingTransactionDetailConfirmPopupWidget(),
+          const BreedingTransactionViewDetailPopupWidget(),
           Obx(
             () => Visibility(
               visible: controller.isWaitingForeground.value,

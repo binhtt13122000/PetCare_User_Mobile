@@ -24,6 +24,7 @@ class BreedingTransactionDetailWidget
           ..breedingTransactionModel =
               await BreedingTransactionService.fetchBreedingTransactionById(
                   breedingTransactionId: controller.breedingTransactionId)
+          ..sortComboList()
           ..isWaitingLoadingTransactionDetailTab.value = false
           ..isShowTransactionDetailBottom.value = true;
       });

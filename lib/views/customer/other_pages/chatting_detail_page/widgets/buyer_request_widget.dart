@@ -179,6 +179,7 @@ class BuyerRequestWidget extends GetView<ChattingDetailPageController> {
                     petId: controller.postModel.petId,
                     posId: controller.chatRoomModel!.postId,
                     branchId: controller.postModel.branchId,
+                    point: controller.postModel.provisionalTotal ~/ 1000,
                   )
                 : await BreedingTransactionService.createBreedingTransaction(
                     createdTime: DateTime.now(),
@@ -194,6 +195,7 @@ class BuyerRequestWidget extends GetView<ChattingDetailPageController> {
                     petMaleId: controller.postModel.petId,
                     postId: controller.chatRoomModel!.postId,
                     branchId: controller.postModel.branchId,
+                    point: controller.postModel.provisionalTotal ~/ 1000,
                   );
             String message = 'Transaction request - status: [APPROVED].';
             controller.chatRoomModel!
