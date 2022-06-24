@@ -65,7 +65,7 @@ class BuyServicesComboTopWidget
                 fontWeight: FontWeight.w700,
                 letterSpacing: 1,
                 textAlign: TextAlign.center,
-                fontSize: 18,
+                fontSize: 16,
                 padding: const EdgeInsets.symmetric(horizontal: 20),
               ),
             ),

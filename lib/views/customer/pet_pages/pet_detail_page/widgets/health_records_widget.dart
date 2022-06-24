@@ -123,9 +123,12 @@ class PetDetailHeathRecordsWidget extends GetView<PetDetailPageController> {
                                         backgroundColor: GREEN_COLOR,
                                         maxRadius: 5,
                                       ),
-                                      CUSTOM_TEXT('Last remove ticks date',
-                                          padding:
-                                              const EdgeInsets.only(left: 15)),
+                                      CUSTOM_TEXT(
+                                        'Last remove ticks date',
+                                        padding:
+                                            const EdgeInsets.only(left: 15),
+                                        fontSize: 14,
+                                      ),
                                     ],
                                   ),
                                 ),
@@ -134,7 +137,7 @@ class PetDetailHeathRecordsWidget extends GetView<PetDetailPageController> {
                                       dateTime: controller
                                           .removeTicksList[0].dateOfInjection,
                                       pattern: DATE_PATTERN_2),
-                                  color: DARK_GREY_TEXT_COLOR.withOpacity(0.7),
+                                  color: DARK_GREY_TEXT_COLOR.withOpacity(0.85),
                                   fontSize: 15,
                                 ),
                               ],
@@ -189,7 +192,7 @@ class PetDetailHeathRecordsWidget extends GetView<PetDetailPageController> {
                                               .dateOfInjection
                                               .add(const Duration(days: 90)),
                                       pattern: DATE_PATTERN_2),
-                                  color: DARK_GREY_TEXT_COLOR.withOpacity(0.7),
+                                  color: DARK_GREY_TEXT_COLOR.withOpacity(0.85),
                                   fontSize: 15,
                                 ),
                               ],
@@ -280,9 +283,12 @@ class PetDetailHeathRecordsWidget extends GetView<PetDetailPageController> {
                                         backgroundColor: GREEN_COLOR,
                                         maxRadius: 5,
                                       ),
-                                      CUSTOM_TEXT('Last deworming date',
-                                          padding:
-                                              const EdgeInsets.only(left: 15)),
+                                      CUSTOM_TEXT(
+                                        'Last deworming date',
+                                        padding:
+                                            const EdgeInsets.only(left: 15),
+                                        fontSize: 14,
+                                      ),
                                     ],
                                   ),
                                 ),
@@ -291,7 +297,7 @@ class PetDetailHeathRecordsWidget extends GetView<PetDetailPageController> {
                                       dateTime: controller
                                           .dewormingList[0].dateOfInjection,
                                       pattern: DATE_PATTERN_2),
-                                  color: DARK_GREY_TEXT_COLOR.withOpacity(0.7),
+                                  color: DARK_GREY_TEXT_COLOR.withOpacity(0.85),
                                   fontSize: 15,
                                 ),
                               ],
@@ -346,7 +352,7 @@ class PetDetailHeathRecordsWidget extends GetView<PetDetailPageController> {
                                               .dewormingList[0].dateOfInjection
                                               .add(const Duration(days: 90)),
                                       pattern: DATE_PATTERN_2),
-                                  color: DARK_GREY_TEXT_COLOR.withOpacity(0.7),
+                                  color: DARK_GREY_TEXT_COLOR.withOpacity(0.85),
                                   fontSize: 15,
                                 ),
                               ],
@@ -451,12 +457,15 @@ class PetDetailHeathRecordsWidget extends GetView<PetDetailPageController> {
                     backgroundColor: GREEN_COLOR,
                     maxRadius: 5,
                   ),
-                  CUSTOM_TEXT(vaccine.vaccineModel!.name,
-                      padding: const EdgeInsets.only(left: 15)),
+                  CUSTOM_TEXT(
+                    vaccine.vaccineModel!.name,
+                    padding: const EdgeInsets.only(left: 15),
+                    color: DARK_GREY_TEXT_COLOR.withOpacity(0.95),
+                  ),
                   CUSTOM_TEXT(
                     ' (${vaccine.vaccineType!})',
                     color: DARK_GREY_TEXT_COLOR.withOpacity(0.7),
-                    fontSize: 15,
+                    fontSize: 13,
                   ),
                 ],
               ),
@@ -464,7 +473,7 @@ class PetDetailHeathRecordsWidget extends GetView<PetDetailPageController> {
             CUSTOM_TEXT(
               FORMAT_DATE_TIME(
                   dateTime: vaccine.dateOfInjection, pattern: DATE_PATTERN_2),
-              color: DARK_GREY_TEXT_COLOR.withOpacity(0.7),
+              color: DARK_GREY_TEXT_COLOR.withOpacity(0.85),
               fontSize: 15,
             ),
           ],

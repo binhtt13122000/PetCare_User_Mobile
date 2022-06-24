@@ -696,11 +696,9 @@ class BreedingTransactionDetailBreedingServicesForFemalePetWidget
 
     if (cardTimeText == null) {
       if (isSuccess) {
-        durationDays =
-            (performDate!.difference(currentTime).inHours / 24).ceil();
+        durationDays = (performDate!.difference(currentTime).inHours ~/ 24);
       } else {
-        durationDays =
-            (estimateDate!.difference(currentTime).inHours / 24).ceil();
+        durationDays = (estimateDate!.difference(currentTime).inHours ~/ 24);
       }
       if (durationDays >= 365) {
         int durationUnitNum = (durationDays / 365).ceil();

@@ -35,15 +35,31 @@ class BreedingTransactionDetailReviewPopupWidget
                     ),
                     child: Column(
                       children: [
-                        Text(
-                          'Feedback',
-                          textAlign: TextAlign.center,
-                          style: GoogleFonts.quicksand(
-                            color: PRIMARY_COLOR,
-                            fontSize: 22,
-                            fontWeight: FontWeight.w700,
-                            letterSpacing: 2,
-                          ),
+                        Row(
+                          children: [
+                            Expanded(
+                              child: Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 20),
+                                child: FittedBox(
+                                  fit: BoxFit.scaleDown,
+                                  child: Text(
+                                    controller.reviewType ==
+                                            'TRANSACTION_REVIEW'
+                                        ? 'Transaction Feedback'
+                                        : 'Services Feedback',
+                                    textAlign: TextAlign.center,
+                                    style: GoogleFonts.quicksand(
+                                      color: PRIMARY_COLOR,
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.w700,
+                                      letterSpacing: 2,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
                         ratingBarWidget(),
                         quickRateWidget(),
@@ -209,7 +225,13 @@ class BreedingTransactionDetailReviewPopupWidget
                   star: controller.selectedStar.value,
                   review: reviewContent,
                 );
-              } else {}
+              } else {
+                await BreedingTransactionService.reviewForBranch(
+                  id: controller.breedingTransactionModel.id,
+                  star: controller.selectedStar.value,
+                  review: reviewContent,
+                );
+              }
               controller
                 ..isWaitingForeground.value = false
                 ..popupTitle =

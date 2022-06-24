@@ -99,8 +99,9 @@ class BuyServicesComboListComboWidget
                                           fit: BoxFit.scaleDown,
                                           child: Html(
                                               data: controller
-                                                  .petServicesComboModel
-                                                  .description),
+                                                      .petServicesComboModel
+                                                      .description ??
+                                                  'N/A'),
                                         ),
                                       ),
                                     ],

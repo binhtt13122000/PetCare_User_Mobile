@@ -23,6 +23,44 @@ class BreedingTransactionDetailBreedingServicesBottomWidget
               ? femalePetBottomWidget()
               : malePetBottomWidget());
 
+  Widget ratingWidget() => Column(
+        children: [
+          Container(
+            height: 1,
+            color: DARK_GREY_COLOR.withAlpha(50),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+            child: InkWell(
+              onTap: () async {
+                controller
+                  ..reviewType = 'SERVICES_REVIEW'
+                  ..isShowReviewPopup.value = true;
+              },
+              child: Container(
+                height: 35,
+                alignment: Alignment.center,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(5),
+                  color: PRIMARY_COLOR,
+                ),
+                child: Text(
+                  'Rate Your Services Experience',
+                  textAlign: TextAlign.center,
+                  style: GoogleFonts.quicksand(
+                    textStyle: const TextStyle(color: WHITE_COLOR),
+                    fontWeight: FontWeight.w600,
+                    fontSize: 13,
+                    height: 1,
+                    letterSpacing: 2,
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ],
+      );
+
   Widget malePetBottomWidget() => Column(
         children: [
           Visibility(
@@ -45,13 +83,14 @@ class BreedingTransactionDetailBreedingServicesBottomWidget
 
   Widget femalePetBottomWidget() => Column(
         children: [
-          Visibility(
-            visible: controller.breedingTransactionModel.status ==
-                    'BREEDING_FINISHED' &&
-                controller.breedingTransactionModel.ownerPetFemaleId ==
-                    controller.accountModel.customerModel.id,
-            child: paymentWidget(),
-          ),
+          controller.breedingTransactionModel.status == 'BREEDING_FINISHED'
+              ? paymentWidget()
+              : const SizedBox.shrink(),
+          controller.breedingTransactionModel.paymentForBranchTime != null &&
+                  (controller.breedingTransactionModel.starBranch == null ||
+                      controller.breedingTransactionModel.starBranch == 0)
+              ? ratingWidget()
+              : const SizedBox.shrink(),
         ],
       );
 
