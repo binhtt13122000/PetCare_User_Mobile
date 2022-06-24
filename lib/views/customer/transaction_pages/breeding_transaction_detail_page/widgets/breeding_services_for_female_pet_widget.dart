@@ -23,6 +23,7 @@ class BreedingTransactionDetailBreedingServicesForFemalePetWidget
             ..breedingTransactionModel =
                 await BreedingTransactionService.fetchBreedingTransactionById(
                     breedingTransactionId: controller.breedingTransactionId)
+            ..sortComboList()
             ..isWaitingLoadingDataInBreedingTab.value = false
             ..isShowBreedingServicesBottom.value = true;
         });
@@ -140,6 +141,7 @@ class BreedingTransactionDetailBreedingServicesForFemalePetWidget
           ),
           Visibility(
             visible: controller.breedingTransactionModel.isSuccess != null &&
+                controller.breedingTransactionModel.isSuccess! &&
                 (controller.breedingTransactionModel.petComboModelList ==
                         null ||
                     controller
@@ -364,6 +366,11 @@ class BreedingTransactionDetailBreedingServicesForFemalePetWidget
                   ? 'Your pet is pregnant'
                   : 'Your pet is not pregnant',
               isShowViewDetail: true,
+              onTap: () => controller
+                ..detailPopupEvidence =
+                    controller.breedingTransactionModel.evidence
+                ..detailPopupTitle = '1st Ultrasound Evidences'
+                ..isShowDetailPopup.value = true,
               hintTextColor: controller.breedingTransactionModel.isSuccess!
                   ? BLUE_COLOR
                   : RED_COLOR,
@@ -688,6 +695,7 @@ class BreedingTransactionDetailBreedingServicesForFemalePetWidget
     bool isNext = false,
     bool isShowViewDetail = false,
     Color? hintTextColor,
+    Function()? onTap,
   }) {
     late int durationDays;
     String prefixDurationText = '';
@@ -696,11 +704,9 @@ class BreedingTransactionDetailBreedingServicesForFemalePetWidget
 
     if (cardTimeText == null) {
       if (isSuccess) {
-        durationDays =
-            (performDate!.difference(currentTime).inHours / 24).ceil();
+        durationDays = (performDate!.difference(currentTime).inHours ~/ 24);
       } else {
-        durationDays =
-            (estimateDate!.difference(currentTime).inHours / 24).ceil();
+        durationDays = (estimateDate!.difference(currentTime).inHours ~/ 24);
       }
       if (durationDays >= 365) {
         int durationUnitNum = (durationDays / 365).ceil();
@@ -933,7 +939,7 @@ class BreedingTransactionDetailBreedingServicesForFemalePetWidget
                       : const SizedBox.shrink(),
                   Visibility(
                     visible: isShowViewDetail,
-                    child: viewDetailWidget(),
+                    child: viewDetailWidget(onTap: onTap),
                   ),
                 ],
               ),
@@ -996,39 +1002,42 @@ class BreedingTransactionDetailBreedingServicesForFemalePetWidget
           );
   }
 
-  Widget viewDetailWidget() => Padding(
+  Widget viewDetailWidget({Function()? onTap}) => Padding(
         padding: const EdgeInsets.only(top: 5),
-        child: Column(
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  'View detail',
-                  style: GoogleFonts.quicksand(
-                    fontSize: 12,
-                    fontWeight: FontWeight.w600,
-                    color: PRIMARY_COLOR,
-                    letterSpacing: 1,
+        child: InkWell(
+          onTap: onTap,
+          child: Column(
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    'View detail',
+                    style: GoogleFonts.quicksand(
+                      fontSize: 12,
+                      fontWeight: FontWeight.w600,
+                      color: PRIMARY_COLOR,
+                      letterSpacing: 1,
+                    ),
                   ),
-                ),
-                const SizedBox(width: 5),
-                const Icon(
-                  Icons.keyboard_double_arrow_right_outlined,
-                  size: 14,
-                  color: PRIMARY_COLOR,
-                )
-              ],
-            ),
-            Container(
-              height: 1,
-              width: 95,
-              color: PRIMARY_COLOR,
-              margin: const EdgeInsets.only(
-                top: 2,
+                  const SizedBox(width: 5),
+                  const Icon(
+                    Icons.keyboard_double_arrow_right_outlined,
+                    size: 14,
+                    color: PRIMARY_COLOR,
+                  )
+                ],
               ),
-            ),
-          ],
+              Container(
+                height: 1,
+                width: 95,
+                color: PRIMARY_COLOR,
+                margin: const EdgeInsets.only(
+                  top: 2,
+                ),
+              ),
+            ],
+          ),
         ),
       );
   // Obx(

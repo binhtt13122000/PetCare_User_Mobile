@@ -100,8 +100,8 @@ const NO_IMAGE_PNG = 'no_image.png';
 // const API_SERVER = '10.0.2.2:4000';
 // const GRAPHL_SERVER = 'http://10.0.2.2:8080';
 
-const API_SERVER_PATH = '13.52.237.230';
-const GRAPHL_SERVER_PATH = 'http://13.52.237.230:8080';
+const API_SERVER_PATH = '13.52.179.146';
+const GRAPHL_SERVER_PATH = 'http://13.52.179.146:8080';
 
 //*sale transaction
 const SALE_TRANSACTION_RETURN_API_PATH =
@@ -114,6 +114,8 @@ const BREEDING_TRANSACTION_RETURN_API_PATH =
 const BREEDING_TRANSACTION_API_PATH = '/v1/api/breed-transactions';
 const BREADING_TRANSACTION_REVIEW_FOR_TRANSACTION_API_PATH =
     '/v1/api/breed-transactions/review';
+const BREADING_TRANSACTION_REVIEW_FOR_BRANCH_API_PATH =
+    '/v1/api/breed-transactions/review-branch';
 const BREEDING_TRANSACTION_BOOKING_SERVICES_API_PATH =
     '/v1/api/breed-transactions/branch/request';
 const BREEDING_TRANSACTION_PAYMENT_API_PATH =

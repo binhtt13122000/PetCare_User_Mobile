@@ -116,6 +116,29 @@ class BreedingTransactionService {
     }
   }
 
+  static Future<int> reviewForBranch({
+    required int id,
+    required int star,
+    required String review,
+  }) async {
+    final response = await http.put(
+      Uri.http(
+          API_SERVER_PATH, BREADING_TRANSACTION_REVIEW_FOR_BRANCH_API_PATH),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode({'id': id, 'review': review, 'star': star}),
+    );
+    switch (response.statusCode) {
+      case 200:
+      case 201:
+      case 202:
+        return json.decode(response.body)['data']['id'];
+      default:
+        throw Exception('Error ${response.statusCode}, cannot send review');
+    }
+  }
+
   static Future<String> quickPayment({
     required int id,
     required DateTime paymentForMalePetOwnerTime,

@@ -176,7 +176,7 @@ class BreedingTransactionListWidget
           displayStatus = 'The transaction is completed';
           statusColor = GREEN_COLOR;
           timeTitle = 'Payment time';
-          timeValue = breedingTransactionModel.paymentForBranchTime!;
+          timeValue = breedingTransactionModel.paymentForMalePetOwnerTime!;
           break;
 
         default:
@@ -204,7 +204,7 @@ class BreedingTransactionListWidget
           displayStatus = 'The transaction is completed';
           statusColor = GREEN_COLOR;
           timeTitle = 'Payment time';
-          timeValue = breedingTransactionModel.paymentForBranchTime!;
+          timeValue = breedingTransactionModel.paymentForMalePetOwnerTime!;
           break;
         default:
           displayStatus = breedingTransactionModel.status;

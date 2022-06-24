@@ -618,6 +618,7 @@ class CreateRequestWidget extends GetView<ChattingDetailPageController> {
                         backgroundColor: WHITE_COLOR,
                         initialSelectedDate: controller.transactionTime,
                         initialDisplayDate: controller.transactionTime,
+                        minDate: DateTime.now(),
                       ),
                     ),
                   ),

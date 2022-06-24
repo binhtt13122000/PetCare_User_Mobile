@@ -93,10 +93,10 @@ class PetDetailInformationWidget extends GetView<PetDetailPageController> {
                         : 'N/A',
                   ),
                   textCardWidget(
-                    keyText: 'Special markings',
+                    keyText: 'Microchip ID',
                     valueText: controller.petModel.specialMarkings != null &&
                             controller.petModel.specialMarkings!.isNotEmpty
-                        ? controller.petModel.specialMarkings!
+                        ? '#' + controller.petModel.specialMarkings!
                         : 'N/A',
                   ),
                   //  descriptionCardWidget(),
@@ -243,13 +243,14 @@ class PetDetailInformationWidget extends GetView<PetDetailPageController> {
               style: GoogleFonts.quicksand(
                 fontSize: 15,
                 fontWeight: FontWeight.w600,
-                color: const Color.fromARGB(255, 86, 104, 126),
+                color: DARK_GREY_TEXT_COLOR.withOpacity(0.95),
               ),
             ),
             Expanded(
               child: CUSTOM_TEXT(
                 valueText,
                 fontSize: 15,
+                textAlign: TextAlign.end,
               ),
             )
           ],
@@ -351,15 +352,15 @@ class PetDetailInformationWidget extends GetView<PetDetailPageController> {
                   keyText,
                   style: GoogleFonts.quicksand(
                     fontSize: 15,
-                    fontWeight: FontWeight.w600,
-                    color: const Color.fromARGB(255, 86, 104, 126),
+                    fontWeight: FontWeight.w500,
+                    color: DARK_GREY_TEXT_COLOR.withOpacity(0.95),
                   ),
                 ),
                 const SizedBox(width: 5),
                 const Icon(
                   Icons.info_outline_rounded,
                   size: 15,
-                  color: Color.fromARGB(255, 135, 151, 172),
+                  color: DARK_GREY_TEXT_COLOR,
                 ),
               ],
             ),

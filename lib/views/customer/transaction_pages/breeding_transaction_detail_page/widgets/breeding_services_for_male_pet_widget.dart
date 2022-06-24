@@ -23,6 +23,7 @@ class BreedingTransactionDetailBreedingServicesForMalePetWidget
                 await BreedingTransactionService.fetchBreedingTransactionById(
                     breedingTransactionId: controller.breedingTransactionId)
             ..isWaitingLoadingDataInBreedingTab.value = false
+            ..sortComboList()
             ..isShowBreedingServicesBottom.value = true;
         });
         return Obx(
@@ -38,7 +39,6 @@ class BreedingTransactionDetailBreedingServicesForMalePetWidget
                       'CANCELED',
                       'EXPIRED',
                       'SUCCESS',
-                      'IN_PROGRESS',
                       'PAYMENTED',
                     ].contains(controller.breedingTransactionModel.status)
                         ? noHaveDataWidget()

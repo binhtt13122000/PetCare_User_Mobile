@@ -96,11 +96,17 @@ class PetDetailServicesComboWidget extends GetView<PetDetailPageController> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    CUSTOM_TEXT('#${petComboModel.id}'),
+                    CUSTOM_TEXT(
+                      '#${petComboModel.id}',
+                      color: DARK_GREY_TEXT_COLOR.withOpacity(0.7),
+                      letterSpacing: 1,
+                      fontSize: 15,
+                    ),
                     CUSTOM_TEXT(
                       petComboModel.servicesComboModel!.name,
                       color: PRIMARY_COLOR,
                       fontWeight: FontWeight.w700,
+                      letterSpacing: 1,
                       fontSize: 17,
                     ),
                   ],
@@ -108,37 +114,88 @@ class PetDetailServicesComboWidget extends GetView<PetDetailPageController> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    CUSTOM_TEXT('Type'),
-                    CUSTOM_TEXT(petComboModel.servicesComboModel!.type),
-                  ],
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    CUSTOM_TEXT('Register time'),
                     CUSTOM_TEXT(
-                      FORMAT_DATE_TIME(
-                          dateTime: petComboModel.registerTime,
-                          pattern: DATE_PATTERN_2),
+                      'Type',
+                      fontSize: 14,
+                      color: DARK_GREY_TEXT_COLOR.withOpacity(
+                        0.9,
+                      ),
+                      letterSpacing: 1,
+                    ),
+                    CUSTOM_TEXT(
+                      petComboModel.servicesComboModel!.type,
+                      fontSize: 14.5,
+                      color: DARK_GREY_TEXT_COLOR.withOpacity(
+                        0.95,
+                      ),
+                      letterSpacing: 1,
                     ),
                   ],
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    CUSTOM_TEXT('Register brach'),
-                    CUSTOM_TEXT(petComboModel.branchModel!.name),
+                    CUSTOM_TEXT(
+                      'Register time',
+                      fontSize: 14,
+                      color: DARK_GREY_TEXT_COLOR.withOpacity(
+                        0.9,
+                      ),
+                      letterSpacing: 1,
+                    ),
+                    CUSTOM_TEXT(
+                      FORMAT_DATE_TIME(
+                          dateTime: petComboModel.registerTime,
+                          pattern: DATE_PATTERN_2),
+                      fontSize: 14.5,
+                      color: DARK_GREY_TEXT_COLOR.withOpacity(
+                        0.95,
+                      ),
+                      letterSpacing: 1,
+                    ),
                   ],
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    CUSTOM_TEXT('Status'),
                     CUSTOM_TEXT(
-                        petComboModel.isCompleted ? 'Completed' : 'In progress',
-                        color: petComboModel.isCompleted
-                            ? GREEN_COLOR
-                            : YELLOW_COLOR),
+                      'Register brach',
+                      fontSize: 14,
+                      color: DARK_GREY_TEXT_COLOR.withOpacity(
+                        0.9,
+                      ),
+                      letterSpacing: 1,
+                    ),
+                    CUSTOM_TEXT(
+                      petComboModel.branchModel!.name,
+                      fontSize: 14.5,
+                      color: DARK_GREY_TEXT_COLOR.withOpacity(
+                        0.95,
+                      ),
+                      letterSpacing: 1,
+                    ),
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    CUSTOM_TEXT(
+                      'Status',
+                      fontSize: 14,
+                      color: DARK_GREY_TEXT_COLOR.withOpacity(
+                        0.9,
+                      ),
+                      letterSpacing: 1,
+                    ),
+                    CUSTOM_TEXT(
+                      petComboModel.isCompleted ? 'Completed' : 'In progress',
+                      color: petComboModel.isCompleted
+                          ? GREEN_COLOR
+                          : YELLOW_COLOR,
+                      fontSize: 14.5,
+                      fontWeight: FontWeight.w700,
+                      letterSpacing: 1,
+                    ),
                   ],
                 ),
               ],

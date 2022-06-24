@@ -36,6 +36,10 @@ class BreedingTransactionDetailPageController extends GetxController {
   RxBool isShowMoreOptionWidget = false.obs;
   late Function() onTapOk;
   late String reviewType;
+  RxBool isShowDetailPopup = false.obs;
+  String? detailPopupContent;
+  String? detailPopupEvidence;
+  String? detailPopupTitle;
 
   updateRatingText() {
     switch (selectedStar.value) {
@@ -66,5 +70,19 @@ class BreedingTransactionDetailPageController extends GetxController {
       isShowViewTypeTabWidget.value =
           scrollController.position.pixels > 200 ? true : false;
     });
+  }
+
+  sortComboList() {
+    if (breedingTransactionModel.petComboModelList != null &&
+        breedingTransactionModel.petComboModelList!.isNotEmpty &&
+        breedingTransactionModel
+                .petComboModelList![0].petComboDetailModelList !=
+            null &&
+        breedingTransactionModel
+                .petComboModelList![0].petComboDetailModelList!.length >
+            1) {
+      breedingTransactionModel.petComboModelList![0].petComboDetailModelList!
+          .sort((a, b) => a.priority!.compareTo(b.priority!));
+    }
   }
 }
