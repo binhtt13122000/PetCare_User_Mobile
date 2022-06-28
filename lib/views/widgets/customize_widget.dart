@@ -59,7 +59,7 @@ Widget CUSTOM_REQUIRED_TEXT_FIELD(
                     maxLength: maxLength,
                     style: GoogleFonts.quicksand(
                       fontWeight: FontWeight.w500,
-                      color: DARK_GREY_TEXT_COLOR,
+                      color: DARK_GREY_TEXT_COLOR.withOpacity(0.9),
                       fontSize: 16,
                     ),
                     maxLines: maxLines,
@@ -115,14 +115,17 @@ Widget CUSTOM_REQUIRED_TEXT_FIELD(
           ),
           Visibility(
             visible: checkErrorText.call(),
-            child: Text(
-              errorText,
-              style: GoogleFonts.quicksand(
-                fontWeight: FontWeight.w500,
-                color: RED_COLOR,
-                fontSize: 10,
-                letterSpacing: 1,
-                height: 2,
+            child: Align(
+              alignment: Alignment.topRight,
+              child: Text(
+                errorText,
+                style: GoogleFonts.quicksand(
+                  fontWeight: FontWeight.w500,
+                  color: RED_COLOR,
+                  fontSize: 10,
+                  letterSpacing: 1,
+                  height: 2,
+                ),
               ),
             ),
           ),

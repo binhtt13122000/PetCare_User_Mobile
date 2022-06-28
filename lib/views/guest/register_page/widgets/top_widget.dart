@@ -62,10 +62,6 @@ class RegisterPageTopWidget extends GetView<RegisterPageController> {
             color: LIGHT_GREY_COLOR.withAlpha(30),
             margin: const EdgeInsets.only(top: 10),
           ),
-          Container(
-            height: 20,
-            color: SUPPER_LIGHT_BLUE,
-          ),
         ],
       );
 }

@@ -24,7 +24,7 @@ class BreedingTransactionDetailBreedingServicesForMalePetWidget
                     breedingTransactionId: controller.breedingTransactionId)
             ..isWaitingLoadingDataInBreedingTab.value = false
             ..sortComboList()
-            ..isShowBreedingServicesBottom.value = true;
+            ..isShowBottomWidget.value = true;
         });
         return Obx(
           () => controller.isWaitingLoadingDataInBreedingTab.value

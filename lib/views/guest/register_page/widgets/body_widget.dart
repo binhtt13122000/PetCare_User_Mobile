@@ -13,43 +13,42 @@ class RegisterPageBodyWidget extends GetView<RegisterPageController> {
   Widget build(BuildContext context) {
     return Expanded(
       child: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.only(
-            top: 20,
-          ),
-          child: Column(
-            children: [
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 12),
-                child: Column(
-                  children: [
-                    avatarWidget(),
-                    firstNameWidget(),
-                    lastNameWidget(),
-                    genderWidget(),
-                    emailWidget(),
-                  ],
-                ),
+        child: Column(
+          children: [
+            Container(
+              height: 20,
+              color: SUPPER_LIGHT_BLUE,
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 12),
+              child: Column(
+                children: [
+                  avatarWidget(),
+                  firstNameWidget(),
+                  lastNameWidget(),
+                  genderWidget(),
+                  emailWidget(),
+                ],
               ),
-              Container(
-                height: 1,
-                margin: const EdgeInsets.only(top: 10),
-                color: LIGHT_GREY_COLOR.withOpacity(0.1),
-              ),
-              Container(
-                height: 8,
-                color: const Color.fromARGB(255, 243, 247, 255),
-              ),
-              addressWidget(),
-            ],
-          ),
+            ),
+            Container(
+              height: 1,
+              margin: const EdgeInsets.only(top: 10),
+              color: LIGHT_GREY_COLOR.withOpacity(0.1),
+            ),
+            Container(
+              height: 8,
+              color: const Color.fromARGB(255, 243, 247, 255),
+            ),
+            addressWidget(),
+          ],
         ),
       ),
     );
   }
 
   Widget avatarWidget() => Padding(
-        padding: const EdgeInsets.only(bottom: 20),
+        padding: const EdgeInsets.symmetric(vertical: 20),
         child: Stack(
           children: [
             GRADIENT_WIDGET(
@@ -96,160 +95,80 @@ class RegisterPageBodyWidget extends GetView<RegisterPageController> {
         ),
       );
 
-  Widget emailWidget() => Padding(
-        padding: const EdgeInsets.only(bottom: 12),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(right: 25),
-              child: Row(
-                children: [
-                  Text(
-                    'Email',
-                    style: GoogleFonts.quicksand(
-                      fontWeight: FontWeight.w500,
-                      color: const Color.fromARGB(255, 61, 78, 100),
-                      fontSize: 16,
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 3),
-                    child: Icon(
-                      Icons.info_outline_rounded,
-                      size: 15,
-                      color: DARK_GREY_COLOR.withAlpha(100),
-                    ),
-                  ),
-                ],
+  Widget emailWidget() => Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              CUSTOM_TEXT(
+                'Email',
+                fontWeight: FontWeight.w500,
+                color: DARK_GREY_TEXT_COLOR.withOpacity(0.95),
               ),
-            ),
-            Expanded(
-              child: SizedBox(
-                height: 45,
-                child: TextFormField(
-                  cursorColor: PRIMARY_COLOR,
-                  initialValue: controller.email.value,
-                  maxLength: 40,
-                  style: GoogleFonts.quicksand(
-                    fontWeight: FontWeight.w500,
-                    color: const Color.fromARGB(255, 78, 98, 124),
-                    fontSize: 16,
-                  ),
-                  decoration: InputDecoration(
-                    counterText: '',
-                    suffixIcon: Obx(
-                      () => Align(
-                        widthFactor: 1,
-                        heightFactor: 1,
-                        child: Text(
-                          controller.email.value.length.toString() + '/40',
-                          style: GoogleFonts.quicksand(
-                            fontWeight: FontWeight.w500,
-                            color: const Color.fromARGB(255, 78, 98, 124),
-                            fontSize: 13,
-                          ),
-                        ),
-                      ),
-                    ),
-                    enabledBorder: const OutlineInputBorder(
-                      borderSide: BorderSide(
-                        color: Color.fromARGB(255, 136, 154, 180),
-                      ),
-                    ),
-                    focusedBorder: const OutlineInputBorder(
-                      borderSide: BorderSide(
-                        color: Color.fromARGB(255, 136, 154, 180),
-                      ),
-                    ),
-                  ),
-                  onChanged: (String? value) {
-                    controller.email.value = value ?? '';
-                  },
-                ),
-              ),
-            ),
-          ],
-        ),
+            ],
+          ),
+          CUSTOM_REQUIRED_TEXT_FIELD(
+              hintText: 'Type your email here...',
+              maxLength: 40,
+              onChange: (String? text) {
+                controller.email.value = text ?? '';
+              },
+              checkEmptyString: <bool>() {
+                return controller.email.value.isEmpty;
+              },
+              checkErrorText: <bool>() {
+                return false;
+              },
+              onDelete: () {
+                controller.email.value = '';
+              },
+              errorText: '',
+              countText: <String>() {
+                return controller.email.value.length.toString() + '/40';
+              },
+              padding: const EdgeInsets.only(top: 5)),
+        ],
       );
 
   Widget addressWidget() => Padding(
-        padding:
-            const EdgeInsets.only(top: 20, bottom: 12, left: 12, right: 12),
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 20),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Padding(
-              padding: const EdgeInsets.only(bottom: 12),
-              child: Row(
-                children: [
-                  Text(
-                    'Address',
-                    style: GoogleFonts.quicksand(
-                      fontWeight: FontWeight.w500,
-                      color: const Color.fromARGB(255, 61, 78, 100),
-                      fontSize: 16,
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 3),
-                    child: Icon(
-                      Icons.info_outline_rounded,
-                      size: 15,
-                      color: DARK_GREY_COLOR.withAlpha(100),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            SizedBox(
-              height: 90,
-              child: TextFormField(
-                cursorColor: PRIMARY_COLOR,
-                initialValue: controller.address.value,
-                maxLength: 200,
-                maxLines: 3,
+              padding: const EdgeInsets.only(top: 0),
+              child: Text(
+                'Address',
                 style: GoogleFonts.quicksand(
                   fontWeight: FontWeight.w500,
-                  color: const Color.fromARGB(255, 138, 154, 175),
-                  fontSize: 14,
+                  color: const Color.fromARGB(255, 61, 78, 100),
+                  fontSize: 16,
+                  letterSpacing: 0.5,
                 ),
-                decoration: InputDecoration(
-                  counterText: '',
-                  suffixIcon: Container(
-                    width: 55,
-                    alignment: Alignment.bottomRight,
-                    child: Padding(
-                      padding: const EdgeInsets.only(bottom: 5, right: 5),
-                      child: Obx(
-                        () => Text(
-                          controller.address.value.length.toString() + '/200',
-                          style: GoogleFonts.quicksand(
-                            fontWeight: FontWeight.w500,
-                            color: const Color.fromARGB(255, 78, 98, 124),
-                            fontSize: 13,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                  enabledBorder: const OutlineInputBorder(
-                    borderSide: BorderSide(
-                      color: Color.fromARGB(255, 136, 154, 180),
-                    ),
-                  ),
-                  focusedBorder: const OutlineInputBorder(
-                    borderSide: BorderSide(
-                      color: Color.fromARGB(255, 136, 154, 180),
-                    ),
-                  ),
-                ),
-                onChanged: (String? value) {
-                  controller.address.value = value ?? '';
-                },
               ),
             ),
+            CUSTOM_REQUIRED_TEXT_FIELD(
+                hintText: 'Type your address here...',
+                maxLength: 200,
+                height: 80,
+                maxLines: 3,
+                onChange: (String? text) {
+                  controller.address.value = text ?? '';
+                },
+                checkEmptyString: <bool>() {
+                  return controller.address.value.isEmpty;
+                },
+                checkErrorText: <bool>() {
+                  return false;
+                },
+                onDelete: () {
+                  controller.address.value = '';
+                },
+                errorText: '',
+                countText: <String>() {
+                  return controller.address.value.length.toString() + '/200';
+                },
+                padding: const EdgeInsets.only(top: 5)),
           ],
         ),
       );
@@ -259,13 +178,10 @@ class RegisterPageBodyWidget extends GetView<RegisterPageController> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
+            CUSTOM_TEXT(
               'Gender',
-              style: GoogleFonts.quicksand(
-                fontWeight: FontWeight.w500,
-                color: const Color.fromARGB(255, 61, 78, 100),
-                fontSize: 16,
-              ),
+              fontWeight: FontWeight.w500,
+              color: DARK_GREY_TEXT_COLOR.withOpacity(0.95),
             ),
             Padding(
               padding: const EdgeInsets.only(top: 10),
@@ -323,191 +239,101 @@ class RegisterPageBodyWidget extends GetView<RegisterPageController> {
                 onChange.call();
               },
             ),
-            Text(
+            CUSTOM_TEXT(
               checkboxKey,
-              style: GoogleFonts.quicksand(
+              fontWeight: FontWeight.w500,
+              color: DARK_GREY_TEXT_COLOR.withOpacity(0.9),
+              letterSpacing: 0,
+            )
+          ],
+        ),
+      );
+
+  Widget firstNameWidget() => Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              CUSTOM_TEXT(
+                'First name',
                 fontWeight: FontWeight.w500,
-                color: const Color.fromARGB(255, 61, 78, 100),
-                fontSize: 16,
+                color: DARK_GREY_TEXT_COLOR.withOpacity(0.95),
               ),
-            ),
-          ],
-        ),
+              CUSTOM_TEXT(
+                '*',
+                fontWeight: FontWeight.w500,
+                color: RED_COLOR,
+                fontSize: 20,
+              ),
+            ],
+          ),
+          CUSTOM_REQUIRED_TEXT_FIELD(
+              hintText: 'Type your first name here...',
+              maxLength: 20,
+              onChange: (String? text) {
+                controller
+                  ..firstName.value = text ?? ''
+                  ..isFirstInputFirstName = false;
+              },
+              checkEmptyString: <bool>() {
+                return controller.firstName.value.isEmpty;
+              },
+              checkErrorText: <bool>() {
+                return controller.firstName.value.isEmpty &&
+                    !controller.isFirstInputFirstName;
+              },
+              onDelete: () {
+                controller.firstName.value = '';
+              },
+              errorText: 'Field first name is required!',
+              countText: <String>() {
+                return controller.firstName.value.length.toString() + '/20';
+              },
+              padding: const EdgeInsets.only(top: 5)),
+        ],
       );
 
-  Widget firstNameWidget() => Padding(
-        padding: const EdgeInsets.only(bottom: 12),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(right: 25),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Text(
-                    'First name',
-                    style: GoogleFonts.quicksand(
-                      fontWeight: FontWeight.w500,
-                      color: const Color.fromARGB(255, 61, 78, 100),
-                      fontSize: 16,
-                    ),
-                  ),
-                  Text(
-                    '*',
-                    style: GoogleFonts.quicksand(
-                      fontWeight: FontWeight.w800,
-                      color: const Color.fromARGB(255, 241, 99, 88),
-                      fontSize: 20,
-                    ),
-                  ),
-                ],
+  Widget lastNameWidget() => Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              CUSTOM_TEXT(
+                'Last name',
+                fontWeight: FontWeight.w500,
+                color: DARK_GREY_TEXT_COLOR.withOpacity(0.95),
               ),
-            ),
-            Expanded(
-              child: SizedBox(
-                height: 45,
-                child: TextFormField(
-                  cursorColor: PRIMARY_COLOR,
-                  initialValue: controller.firstName.value,
-                  maxLength: 40,
-                  maxLines: 1,
-                  style: GoogleFonts.quicksand(
-                    fontWeight: FontWeight.w500,
-                    color: const Color.fromARGB(255, 78, 98, 124),
-                    fontSize: 16,
-                  ),
-                  decoration: false
-                      ? const InputDecoration(
-                          errorText: 'The field title is required',
-                          suffixIcon: Icon(
-                            Icons.error,
-                            color: Color.fromARGB(255, 241, 99, 88),
-                            size: 20,
-                          ),
-                        )
-                      : InputDecoration(
-                          counterText: '',
-                          suffixIcon: Container(
-                            width: 30,
-                            alignment: Alignment.centerRight,
-                            margin: const EdgeInsets.only(right: 5),
-                            child: Text(
-                              controller.firstName.value.length.toString() +
-                                  '/40',
-                              style: GoogleFonts.quicksand(
-                                fontWeight: FontWeight.w500,
-                                color: const Color.fromARGB(255, 78, 98, 124),
-                                fontSize: 13,
-                              ),
-                            ),
-                          ),
-                          enabledBorder: const OutlineInputBorder(
-                            borderSide: BorderSide(
-                              color: Color.fromARGB(255, 136, 154, 180),
-                            ),
-                          ),
-                          focusedBorder: const OutlineInputBorder(
-                            borderSide: BorderSide(
-                              color: Color.fromARGB(255, 136, 154, 180),
-                            ),
-                          ),
-                        ),
-                  onChanged: (String? value) {
-                    controller.firstName.value = value ?? '';
-                  },
-                ),
+              CUSTOM_TEXT(
+                '*',
+                fontWeight: FontWeight.w500,
+                color: RED_COLOR,
+                fontSize: 20,
               ),
-            ),
-          ],
-        ),
-      );
-
-  Widget lastNameWidget() => Padding(
-        padding: const EdgeInsets.only(bottom: 12),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(right: 25),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Text(
-                    'Last name',
-                    style: GoogleFonts.quicksand(
-                      fontWeight: FontWeight.w500,
-                      color: const Color.fromARGB(255, 61, 78, 100),
-                      fontSize: 16,
-                    ),
-                  ),
-                  Text(
-                    '*',
-                    style: GoogleFonts.quicksand(
-                      fontWeight: FontWeight.w800,
-                      color: const Color.fromARGB(255, 241, 99, 88),
-                      fontSize: 20,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            Expanded(
-              child: SizedBox(
-                height: 45,
-                child: TextFormField(
-                  cursorColor: PRIMARY_COLOR,
-                  initialValue: controller.lastName.value,
-                  maxLength: 40,
-                  style: GoogleFonts.quicksand(
-                    fontWeight: FontWeight.w500,
-                    color: const Color.fromARGB(255, 78, 98, 124),
-                    fontSize: 16,
-                  ),
-                  decoration: false
-                      ? const InputDecoration(
-                          errorText: 'The field title is required',
-                          suffixIcon: Icon(
-                            Icons.error,
-                            color: Color.fromARGB(255, 241, 99, 88),
-                            size: 20,
-                          ),
-                        )
-                      : InputDecoration(
-                          counterText: '',
-                          suffixIcon: Align(
-                            widthFactor: 1,
-                            heightFactor: 1,
-                            child: Text(
-                              controller.lastName.value.length.toString() +
-                                  '/40',
-                              style: GoogleFonts.quicksand(
-                                fontWeight: FontWeight.w500,
-                                color: const Color.fromARGB(255, 78, 98, 124),
-                                fontSize: 13,
-                              ),
-                            ),
-                          ),
-                          enabledBorder: const OutlineInputBorder(
-                            borderSide: BorderSide(
-                              color: Color.fromARGB(255, 136, 154, 180),
-                            ),
-                          ),
-                          focusedBorder: const OutlineInputBorder(
-                            borderSide: BorderSide(
-                              color: Color.fromARGB(255, 136, 154, 180),
-                            ),
-                          ),
-                        ),
-                  onChanged: (String? value) {
-                    controller.lastName.value = value ?? '';
-                  },
-                ),
-              ),
-            ),
-          ],
-        ),
+            ],
+          ),
+          CUSTOM_REQUIRED_TEXT_FIELD(
+              hintText: 'Type your last name here...',
+              maxLength: 20,
+              onChange: (String? text) {
+                controller
+                  ..lastName.value = text ?? ''
+                  ..isFirstInputLastName = false;
+              },
+              checkEmptyString: <bool>() {
+                return controller.lastName.value.isEmpty;
+              },
+              checkErrorText: <bool>() {
+                return controller.lastName.value.isEmpty &&
+                    !controller.isFirstInputLastName;
+              },
+              onDelete: () {
+                controller.lastName.value = '';
+              },
+              errorText: 'Field last name is required!',
+              countText: <String>() {
+                return controller.lastName.value.length.toString() + '/20';
+              },
+              padding: const EdgeInsets.only(top: 5)),
+        ],
       );
 }

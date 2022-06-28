@@ -50,16 +50,31 @@ class PostDetailSellerInformationWidget
                     radius: 19.5,
                   ),
                 ),
-                CircleAvatar(
-                  radius: 19.5,
-                  backgroundColor: Colors.transparent,
-                  child: CircleAvatar(
-                    radius: 18,
-                    backgroundColor: PRIMARY_COLOR,
-                    backgroundImage: NetworkImage(
-                        controller.postModel.customerModel!.avatar!),
-                  ),
-                ),
+                controller.postModel.customerModel!.avatar == null ||
+                        controller.postModel.customerModel!.avatar!.isEmpty
+                    ? CircleAvatar(
+                        radius: 19.5,
+                        backgroundColor: Colors.transparent,
+                        child: CircleAvatar(
+                          radius: 18,
+                          backgroundColor: PRIMARY_COLOR,
+                          backgroundImage: NetworkImage(
+                              controller.postModel.customerModel!.avatar!),
+                        ),
+                      )
+                    : CircleAvatar(
+                        backgroundColor: PRIMARY_COLOR.withOpacity(0.7),
+                        maxRadius: 19.5,
+                        minRadius: 19.5,
+                        child: Text(
+                          controller.postModel.customerModel!.avatarCharacter,
+                          style: GoogleFonts.quicksand(
+                            color: WHITE_COLOR,
+                            fontSize: 15,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      ),
               ],
             ),
             Padding(

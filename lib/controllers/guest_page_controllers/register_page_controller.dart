@@ -12,11 +12,11 @@ class RegisterPageController extends GetxController {
   late int? resendingToken;
   TextEditingController textEditingController = TextEditingController();
   RxString firstName = ''.obs;
-  RxBool isFirstInputFirstName = true.obs;
+  bool isFirstInputFirstName = true;
   late String registerPhoneNumber;
 
   RxString lastName = ''.obs;
-  RxBool isFirstInputLastName = true.obs;
+  bool isFirstInputLastName = true;
 
   RxString gender = 'MALE'.obs;
 

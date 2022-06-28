@@ -9,7 +9,7 @@ import 'package:http/http.dart' as http;
 class CustomerService {
   static Future<CustomerModel> fetchCustomerById(int customerId) async {
     final response = await http.get(
-      Uri.http(API_SERVER_PATH, '$CUSTOMER_API_PATH/$customerId'),
+      Uri.https(API_SERVER_PATH, '$CUSTOMER_API_PATH/$customerId'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -58,7 +58,7 @@ class CustomerService {
             );
 
       Response response =
-          await Dio().put('http://$API_SERVER_PATH$CUSTOMER_API_PATH',
+          await Dio().put('https://$API_SERVER_PATH$CUSTOMER_API_PATH',
               data: formData,
               options: Options(headers: <String, String>{
                 HttpHeaders.contentTypeHeader: 'multipart/form-data',

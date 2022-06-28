@@ -17,7 +17,7 @@ class BreedService {
     required int breedId,
   }) async {
     final response = await http.get(
-      Uri.http(API_SERVER_PATH, '$BREED_API_PATH/$breedId'),
+      Uri.https(API_SERVER_PATH, '$BREED_API_PATH/$breedId'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -36,7 +36,7 @@ class BreedService {
     required int speciesId,
   }) async {
     final response = await http.get(
-      Uri.http(API_SERVER_PATH, '$BREED_API_PATH/species/$speciesId'),
+      Uri.https(API_SERVER_PATH, '$BREED_API_PATH/species/$speciesId'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },

@@ -6,7 +6,6 @@ import 'package:petapp_mobile/configs/path.dart';
 import 'package:petapp_mobile/configs/theme.dart';
 import 'package:petapp_mobile/controllers/transaction_page_controllers/breeding_transaction_detail_page_controller.dart';
 import 'package:petapp_mobile/views/customer/transaction_pages/breeding_transaction_detail_page/widgets/bottom_widget.dart';
-import 'package:petapp_mobile/views/customer/transaction_pages/breeding_transaction_detail_page/widgets/breeding_services_bottom_widget.dart';
 import 'package:petapp_mobile/views/customer/transaction_pages/breeding_transaction_detail_page/widgets/breeding_services_for_female_pet_widget.dart';
 import 'package:petapp_mobile/views/customer/transaction_pages/breeding_transaction_detail_page/widgets/breeding_services_for_male_pet_widget.dart';
 import 'package:petapp_mobile/views/customer/transaction_pages/breeding_transaction_detail_page/widgets/transaction_detail_widget.dart';
@@ -53,10 +52,10 @@ class BreedingTransactionDetailBodyWidget
                   ),
                 ),
               ),
-              Obx(() => controller.isShowBreedingServicesBottom.value
-                  ? const BreedingTransactionDetailBreedingServicesBottomWidget()
-                  : const SizedBox.shrink()),
-              Obx(() => controller.isShowTransactionDetailBottom.value
+              // Obx(() => controller.isShowBreedingServicesBottom.value
+              //     ? const BreedingTransactionDetailBreedingServicesBottomWidget()
+              //     : const SizedBox.shrink()),
+              Obx(() => controller.isShowBottomWidget.value
                   ? const BreedingTransactionDetailBottomWidget()
                   : const SizedBox.shrink()),
             ],
@@ -80,8 +79,8 @@ class BreedingTransactionDetailBodyWidget
         child: Obx(
           () => InkWell(
             onTap: () => controller
-              ..isShowTransactionDetailBottom.value = false
-              ..isShowBreedingServicesBottom.value = false
+              ..isShowBottomWidget.value = false
+              ..isShowBottomWidget.value = false
               ..selectedViewTab.value = viewType
               ..update(),
             child: Column(

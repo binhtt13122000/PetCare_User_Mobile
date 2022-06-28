@@ -17,7 +17,7 @@ class PetComboServices {
     required int petId,
   }) async {
     final response = await http.get(
-      Uri.http(API_SERVER_PATH, '$PET_COMBO_API_PATH/pet/$petId'),
+      Uri.https(API_SERVER_PATH, '$PET_COMBO_API_PATH/pet/$petId'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -37,7 +37,7 @@ class PetComboServices {
     required String petComboId,
   }) async {
     final response = await http.get(
-      Uri.http(API_SERVER_PATH, '$PET_COMBO_API_PATH/$petComboId'),
+      Uri.https(API_SERVER_PATH, '$PET_COMBO_API_PATH/$petComboId'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -64,7 +64,7 @@ class PetComboServices {
     required DateTime dateOfBreeding,
   }) async {
     final response = await http.post(
-      Uri.http(
+      Uri.https(
         API_SERVER_PATH,
         PET_COMBO_PAYMENT_API_PATH,
       ),
@@ -116,7 +116,7 @@ class PetComboServices {
     };
 
     final response = await http.post(
-      Uri.http(API_SERVER_PATH, PET_COMBO_API_PATH, queryParameters),
+      Uri.https(API_SERVER_PATH, PET_COMBO_API_PATH, queryParameters),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },

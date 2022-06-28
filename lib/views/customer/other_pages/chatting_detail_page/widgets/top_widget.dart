@@ -514,33 +514,48 @@ class ChattingDetailTopWidget extends GetView<ChattingDetailPageController> {
               padding: const EdgeInsets.only(left: 10),
               child: Stack(
                 children: [
-                  Container(
+                  SizedBox(
                     height: 40,
                     width: 40,
-                    alignment: Alignment.topRight,
-                    child: CircleAvatar(
-                      minRadius: 14,
-                      maxRadius: 14,
-                      backgroundImage: NetworkImage(
-                          controller.anotherChatRoomMember.avatar!),
-                    ),
+                    child: controller.anotherChatRoomMember.avatar == null ||
+                            controller.anotherChatRoomMember.avatar!.isEmpty
+                        ? CircleAvatar(
+                            backgroundColor: PRIMARY_COLOR.withOpacity(0.7),
+                            maxRadius: 14,
+                            minRadius: 14,
+                            child: Text(
+                              controller.anotherChatRoomMember.avatarCharacter,
+                              style: GoogleFonts.quicksand(
+                                color: WHITE_COLOR,
+                                fontSize: 10,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                          )
+                        : CircleAvatar(
+                            minRadius: 14,
+                            maxRadius: 14,
+                            backgroundImage: NetworkImage(
+                                controller.anotherChatRoomMember.avatar!),
+                          ),
                   ),
-                  Container(
-                    height: 40,
-                    width: 40,
-                    alignment: Alignment.bottomLeft,
-                    child: CircleAvatar(
-                      minRadius: 15,
-                      maxRadius: 15,
-                      backgroundColor: const Color.fromARGB(255, 250, 251, 255),
-                      child: CircleAvatar(
-                        minRadius: 14,
-                        maxRadius: 14,
-                        backgroundImage: NetworkImage(
-                            controller.accountModel.customerModel.avatar!),
-                      ),
-                    ),
-                  ),
+
+                  // Container(
+                  //   height: 40,
+                  //   width: 40,
+                  //   alignment: Alignment.bottomLeft,
+                  //   child: CircleAvatar(
+                  //     minRadius: 15,
+                  //     maxRadius: 15,
+                  //     backgroundColor: const Color.fromARGB(255, 250, 251, 255),
+                  //     child: CircleAvatar(
+                  //       minRadius: 14,
+                  //       maxRadius: 14,
+                  //       backgroundImage: NetworkImage(
+                  //           controller.accountModel.customerModel.avatar!),
+                  //     ),
+                  //   ),
+                  // ),
                 ],
               ),
             ),
@@ -548,7 +563,7 @@ class ChattingDetailTopWidget extends GetView<ChattingDetailPageController> {
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 5),
                 child: Text(
-                  '[${controller.postModel.type}] Room #${controller.postModel.id}',
+                  'Post room #${controller.postModel.id}',
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   textAlign: TextAlign.center,

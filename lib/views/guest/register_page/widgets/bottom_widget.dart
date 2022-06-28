@@ -13,61 +13,68 @@ class RegisterPageBottomWidget extends GetView<RegisterPageController> {
   @override
   Widget build(BuildContext context) => Column(
         children: [
-          Padding(
-            padding: const EdgeInsets.only(left: 12, right: 12),
-            child: InkWell(
-              onTap: () async {
-                if (controller.firstName.value.isNotEmpty &&
-                    controller.lastName.value.isNotEmpty &&
-                    controller.phoneNumber.isNotEmpty) {
-                  controller.isLoadingRegister.value = true;
-                  AccountModel? accountModel = await AuthService.register(
-                    email: controller.email.value,
-                    firstName: controller.firstName.value,
-                    lastName: controller.lastName.value,
-                    phoneNumber: controller.selectedAreaCode +
-                        controller.phoneNumber.value,
-                    address: controller.address.value,
-                    gender: controller.gender.value,
-                    avatarFilePath: controller.avatarFilePath.value,
-                    accessToken: controller.accessToken,
-                    deviceToken: controller.userDeviceToken,
-                    registerTime: DateTime.now(),
-                  );
-                  if (accountModel != null) {
-                    Get.lazyPut<AuthController>(
-                        () => AuthController(accountModel: accountModel),
-                        fenix: true);
-                    Get.offAllNamed(HOME_PAGE_ROUTE);
-                    controller.isLoadingRegister.value = false;
-                  } else {
-                    controller.isLoadingRegister.value = false;
+          Container(
+            height: 1,
+            color: LIGHT_GREY_COLOR.withAlpha(30),
+            margin: const EdgeInsets.only(bottom: 10),
+          ),
+          Obx(
+            () => Padding(
+              padding: const EdgeInsets.only(left: 12, right: 12),
+              child: InkWell(
+                onTap: () async {
+                  if (controller.firstName.value.isNotEmpty &&
+                      controller.lastName.value.isNotEmpty &&
+                      controller.phoneNumber.isNotEmpty) {
+                    controller.isLoadingRegister.value = true;
+                    AccountModel? accountModel = await AuthService.register(
+                      email: controller.email.value,
+                      firstName: controller.firstName.value,
+                      lastName: controller.lastName.value,
+                      phoneNumber: controller.selectedAreaCode +
+                          controller.phoneNumber.value,
+                      address: controller.address.value,
+                      gender: controller.gender.value,
+                      avatarFilePath: controller.avatarFilePath.value,
+                      accessToken: controller.accessToken,
+                      deviceToken: controller.userDeviceToken,
+                      registerTime: DateTime.now(),
+                    );
+                    if (accountModel != null) {
+                      Get.lazyPut<AuthController>(
+                          () => AuthController(accountModel: accountModel),
+                          fenix: true);
+                      Get.offAllNamed(HOME_PAGE_ROUTE);
+                      controller.isLoadingRegister.value = false;
+                    } else {
+                      controller.isLoadingRegister.value = false;
+                    }
                   }
-                }
-              },
-              child: Container(
-                height: 40,
-                decoration: BoxDecoration(
-                  color: controller.firstName.value.isNotEmpty &&
-                          controller.lastName.value.isNotEmpty
-                      ? PRIMARY_COLOR.withOpacity(0.9)
-                      : PRIMARY_COLOR.withOpacity(0.3),
-                  borderRadius: BorderRadius.circular(5),
-                  border: Border.all(
+                },
+                child: Container(
+                  height: 40,
+                  decoration: BoxDecoration(
                     color: controller.firstName.value.isNotEmpty &&
                             controller.lastName.value.isNotEmpty
-                        ? PRIMARY_COLOR
-                        : Colors.transparent,
+                        ? PRIMARY_COLOR.withOpacity(0.9)
+                        : PRIMARY_COLOR.withOpacity(0.3),
+                    borderRadius: BorderRadius.circular(5),
+                    border: Border.all(
+                      color: controller.firstName.value.isNotEmpty &&
+                              controller.lastName.value.isNotEmpty
+                          ? PRIMARY_COLOR
+                          : Colors.transparent,
+                    ),
                   ),
-                ),
-                alignment: Alignment.center,
-                child: Text(
-                  'REGISTER',
-                  style: GoogleFonts.quicksand(
-                    fontWeight: FontWeight.w700,
-                    color: WHITE_COLOR,
-                    fontSize: 15,
-                    letterSpacing: 2,
+                  alignment: Alignment.center,
+                  child: Text(
+                    'REGISTER',
+                    style: GoogleFonts.quicksand(
+                      fontWeight: FontWeight.w700,
+                      color: WHITE_COLOR,
+                      fontSize: 15,
+                      letterSpacing: 2,
+                    ),
                   ),
                 ),
               ),

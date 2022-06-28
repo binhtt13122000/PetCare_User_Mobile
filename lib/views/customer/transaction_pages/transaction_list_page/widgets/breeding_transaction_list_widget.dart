@@ -176,14 +176,31 @@ class BreedingTransactionListWidget
           displayStatus = 'The transaction is completed';
           statusColor = GREEN_COLOR;
           timeTitle = 'Payment time';
-          timeValue = breedingTransactionModel.paymentForMalePetOwnerTime!;
+          timeValue = breedingTransactionModel.paymentTime!;
           break;
-
-        default:
-          displayStatus = 'Waiting to pick up pet and pay';
+        case 'BREEDING_REQUESTED':
+          displayStatus = 'Waiting bring pet to branch';
           statusColor = YELLOW_COLOR;
-          timeTitle = 'Meeting time';
-          timeValue = breedingTransactionModel.meetingTime;
+          timeTitle = 'Booking time';
+          timeValue = breedingTransactionModel.dateOfBreeding!;
+          break;
+        case 'IN_PROGRESS':
+          displayStatus = 'Waiting for breeding';
+          statusColor = YELLOW_COLOR;
+          timeTitle = 'Start breeding time';
+          timeValue = breedingTransactionModel.realDateOfBreeding!;
+          break;
+        case 'BREEDING_FINISHED':
+          displayStatus = 'Waiting for pickup pet';
+          statusColor = GREEN_COLOR;
+          timeTitle = 'Finished breeding time';
+          timeValue = breedingTransactionModel.realDateOfBreeding!;
+          break;
+        default:
+          displayStatus = 'Transaction is completed';
+          statusColor = GREEN_COLOR;
+          timeTitle = 'Finished breeding time';
+          timeValue = breedingTransactionModel.realDateOfBreeding!;
       }
     } else {
       switch (breedingTransactionModel.status) {
@@ -204,13 +221,31 @@ class BreedingTransactionListWidget
           displayStatus = 'The transaction is completed';
           statusColor = GREEN_COLOR;
           timeTitle = 'Payment time';
-          timeValue = breedingTransactionModel.paymentForMalePetOwnerTime!;
+          timeValue = breedingTransactionModel.paymentTime!;
+          break;
+        case 'BREEDING_REQUESTED':
+          displayStatus = 'Waiting bring pet to branch';
+          statusColor = YELLOW_COLOR;
+          timeTitle = 'Booking time';
+          timeValue = breedingTransactionModel.dateOfBreeding!;
+          break;
+        case 'IN_PROGRESS':
+          displayStatus = 'Waiting for breeding';
+          statusColor = YELLOW_COLOR;
+          timeTitle = 'Start breeding time';
+          timeValue = breedingTransactionModel.realDateOfBreeding!;
+          break;
+        case 'BREEDING_FINISHED':
+          displayStatus = 'Waiting for pickup pet';
+          statusColor = GREEN_COLOR;
+          timeTitle = 'Finished breeding time';
+          timeValue = breedingTransactionModel.realDateOfBreeding!;
           break;
         default:
-          displayStatus = breedingTransactionModel.status;
+          displayStatus = 'Transaction is completed';
           statusColor = GREEN_COLOR;
-          timeTitle = 'Meeting time';
-          timeValue = DateTime.now();
+          timeTitle = 'Finished breeding time';
+          timeValue = breedingTransactionModel.realDateOfBreeding!;
       }
     }
     return Padding(
@@ -382,7 +417,7 @@ class BreedingTransactionListWidget
                   ),
                   Text(
                     FORMAT_DATE_TIME(
-                        dateTime: timeValue, pattern: DATE_TIME_PATTERN),
+                        dateTime: timeValue, pattern: DATE_PATTERN_2),
                     textAlign: TextAlign.start,
                     style: GoogleFonts.quicksand(
                       color: DARK_GREY_TEXT_COLOR.withOpacity(0.8),
