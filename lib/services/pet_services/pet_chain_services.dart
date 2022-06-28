@@ -9,7 +9,7 @@ class PetChainService {
   static Future<PetChainModel?> fetchPetChainByPetId(
       {required String petId}) async {
     final response = await http.get(
-      Uri.http(API_SERVER_PATH, '$PET_CHAIN_API/$petId'),
+      Uri.https(API_SERVER_PATH, '$PET_CHAIN_API/$petId'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -27,7 +27,7 @@ class PetChainService {
   static Future<PetChainModel> fetchPetChainByHashPetId(
       {required String petId}) async {
     final response = await http.get(
-      Uri.http(API_SERVER_PATH, '$PET_CHAIN_HASH_API/$petId'),
+      Uri.https(API_SERVER_PATH, '$PET_CHAIN_HASH_API/$petId'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },

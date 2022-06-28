@@ -100,8 +100,8 @@ const NO_IMAGE_PNG = 'no_image.png';
 // const API_SERVER = '10.0.2.2:4000';
 // const GRAPHL_SERVER = 'http://10.0.2.2:8080';
 
-const API_SERVER_PATH = '13.52.179.146';
-const GRAPHL_SERVER_PATH = 'http://13.52.179.146:8080';
+const API_SERVER_PATH = 'binhtt.tech';
+const GRAPHL_SERVER_PATH = 'https://advanced-shrimp-11.hasura.app';
 
 //*sale transaction
 const SALE_TRANSACTION_RETURN_API_PATH =

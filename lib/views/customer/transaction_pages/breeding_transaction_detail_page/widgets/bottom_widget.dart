@@ -34,9 +34,7 @@ class BreedingTransactionDetailBottomWidget
             child: paymentWidget(),
           ),
           Visibility(
-            visible: controller
-                        .breedingTransactionModel.paymentForMalePetOwnerTime !=
-                    null &&
+            visible: controller.breedingTransactionModel.paymentTime != null &&
                 (controller.breedingTransactionModel.star == null ||
                     controller.breedingTransactionModel.star == 0),
             child: ratingWidget(),
@@ -118,20 +116,20 @@ class BreedingTransactionDetailBottomWidget
                       CENTER_SERVICES_TRANSACTION_PAYMENT_METHOD_PAGE_ROUTE),
                   child: Padding(
                     padding: const EdgeInsets.symmetric(
-                      horizontal: 20,
+                      horizontal: 12,
                     ),
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Image.asset(
-                          IMAGE_PATH + VISA_PNG,
+                          IMAGE_PATH + VNPAY_PNG,
                           height: 28,
                         ),
                         const SizedBox(
                           width: 10,
                         ),
                         Text(
-                          '****89',
+                          '****98',
                           textAlign: TextAlign.center,
                           style: GoogleFonts.quicksand(
                             textStyle:
@@ -142,14 +140,14 @@ class BreedingTransactionDetailBottomWidget
                           ),
                         ),
                         const SizedBox(
-                          width: 40,
+                          width: 10,
                         ),
                         SvgPicture.asset(
                           ICON_PATH + UP_ARROW_SVG,
                           height: 14,
                         ),
                         const SizedBox(
-                          width: 20,
+                          width: 10,
                         ),
                         Container(
                           height: 30,
@@ -161,25 +159,23 @@ class BreedingTransactionDetailBottomWidget
                   ),
                 ),
                 Expanded(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        FORMAT_MONEY(
-                            price: controller
-                                .breedingTransactionModel.transactionTotal),
-                        textAlign: TextAlign.start,
-                        style: GoogleFonts.quicksand(
-                          textStyle: const TextStyle(
-                            color: PRIMARY_COLOR,
-                          ),
-                          fontWeight: FontWeight.w500,
-                          fontSize: 24,
-                          height: 1,
-                          letterSpacing: 2,
+                  child: FittedBox(
+                    fit: BoxFit.scaleDown,
+                    child: Text(
+                      FORMAT_MONEY(
+                          price: controller
+                              .breedingTransactionModel.transactionTotal),
+                      textAlign: TextAlign.start,
+                      style: GoogleFonts.quicksand(
+                        textStyle: const TextStyle(
+                          color: PRIMARY_COLOR,
                         ),
+                        fontWeight: FontWeight.w500,
+                        fontSize: 24,
+                        height: 1,
+                        letterSpacing: 2,
                       ),
-                    ],
+                    ),
                   ),
                 ),
               ],

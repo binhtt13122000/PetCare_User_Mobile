@@ -26,7 +26,7 @@ class BreedingTransactionDetailWidget
                   breedingTransactionId: controller.breedingTransactionId)
           ..sortComboList()
           ..isWaitingLoadingTransactionDetailTab.value = false
-          ..isShowTransactionDetailBottom.value = true;
+          ..isShowBottomWidget.value = true;
       });
       return Obx(() => controller.isWaitingLoadingTransactionDetailTab.value
           ? Padding(
@@ -72,8 +72,15 @@ class BreedingTransactionDetailWidget
                         ),
                         Text(
                           FORMAT_MONEY(
-                              price: controller
-                                  .breedingTransactionModel.transactionTotal),
+                              price: controller.breedingTransactionModel
+                                          .ownerPetFemaleId ==
+                                      controller.accountModel.customerModel.id
+                                  ? controller
+                                      .breedingTransactionModel.transactionTotal
+                                  : controller.breedingTransactionModel
+                                          .sellerReceive +
+                                      controller.breedingTransactionModel
+                                          .transactionFee),
                           style: GoogleFonts.quicksand(
                             fontSize: 15,
                             fontWeight: FontWeight.w500,
@@ -218,10 +225,8 @@ class BreedingTransactionDetailWidget
                           ),
                           Text(
                             FORMAT_MONEY(
-                                price: controller.breedingTransactionModel
-                                        .transactionTotal -
-                                    controller.breedingTransactionModel
-                                        .transactionFee),
+                                price: controller
+                                    .breedingTransactionModel.sellerReceive),
                             style: GoogleFonts.quicksand(
                               fontSize: 20,
                               fontWeight: FontWeight.w700,
@@ -275,9 +280,20 @@ class BreedingTransactionDetailWidget
           displayStatus = 'The transaction is completed';
           statusColor = GREEN_COLOR;
           break;
-
+        case 'BREEDING_REQUESTED':
+          displayStatus = 'Waiting bring pet to branch';
+          statusColor = YELLOW_COLOR;
+          break;
+        case 'IN_PROGRESS':
+          displayStatus = 'Waiting for breeding';
+          statusColor = YELLOW_COLOR;
+          break;
+        case 'BREEDING_FINISHED':
+          displayStatus = 'Waiting for pickup pet';
+          statusColor = YELLOW_COLOR;
+          break;
         default:
-          displayStatus = controller.breedingTransactionModel.status;
+          displayStatus = 'The transaction is completed';
           statusColor = GREEN_COLOR;
       }
     } else {
@@ -287,15 +303,27 @@ class BreedingTransactionDetailWidget
           statusColor = YELLOW_COLOR;
           break;
         case 'CANCELED':
-          displayStatus = 'The transaction has been canceled';
+          displayStatus = 'Transaction has been canceled';
           statusColor = RED_COLOR;
           break;
         case 'SUCCESS':
-          displayStatus = 'The transaction is completed';
+          displayStatus = 'Transaction is completed';
           statusColor = GREEN_COLOR;
           break;
+        case 'BREEDING_REQUESTED':
+          displayStatus = 'Waiting bring pet to branch';
+          statusColor = YELLOW_COLOR;
+          break;
+        case 'IN_PROGRESS':
+          displayStatus = 'Waiting for breeding';
+          statusColor = YELLOW_COLOR;
+          break;
+        case 'BREEDING_FINISHED':
+          displayStatus = 'Waiting for pickup pet';
+          statusColor = YELLOW_COLOR;
+          break;
         default:
-          displayStatus = 'The transaction is completed';
+          displayStatus = 'Transaction is completed';
           statusColor = GREEN_COLOR;
       }
     }
@@ -351,7 +379,7 @@ class BreedingTransactionDetailWidget
                     FORMAT_DATE_TIME(
                         dateTime:
                             controller.breedingTransactionModel.createdTime,
-                        pattern: DATE_TIME_PATTERN),
+                        pattern: DATE_PATTERN_2),
                     style: GoogleFonts.quicksand(
                       fontSize: 15,
                       fontWeight: FontWeight.w500,
@@ -443,7 +471,7 @@ class BreedingTransactionDetailWidget
                     FORMAT_DATE_TIME(
                         dateTime:
                             controller.breedingTransactionModel.meetingTime,
-                        pattern: DATE_TIME_PATTERN),
+                        pattern: DATE_PATTERN_2),
                     style: GoogleFonts.quicksand(
                       fontSize: 15,
                       fontWeight: FontWeight.w500,
@@ -477,9 +505,8 @@ class BreedingTransactionDetailWidget
                 ],
               ),
               Visibility(
-                visible: controller
-                        .breedingTransactionModel.paymentForMalePetOwnerTime !=
-                    null,
+                visible:
+                    controller.breedingTransactionModel.paymentTime != null,
                 child: Column(
                   children: [
                     Container(
@@ -507,12 +534,11 @@ class BreedingTransactionDetailWidget
                           ),
                         ),
                         Text(
-                          controller.breedingTransactionModel
-                                      .paymentForMalePetOwnerTime !=
+                          controller.breedingTransactionModel.paymentTime !=
                                   null
                               ? FORMAT_DATE_TIME(
-                                  dateTime: controller.breedingTransactionModel
-                                      .paymentForMalePetOwnerTime!,
+                                  dateTime: controller
+                                      .breedingTransactionModel.paymentTime!,
                                   pattern: DATE_PATTERN_2)
                               : 'N/A',
                           style: GoogleFonts.quicksand(

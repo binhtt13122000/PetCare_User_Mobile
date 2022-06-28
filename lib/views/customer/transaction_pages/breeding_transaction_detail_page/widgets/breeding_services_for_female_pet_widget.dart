@@ -25,7 +25,7 @@ class BreedingTransactionDetailBreedingServicesForFemalePetWidget
                     breedingTransactionId: controller.breedingTransactionId)
             ..sortComboList()
             ..isWaitingLoadingDataInBreedingTab.value = false
-            ..isShowBreedingServicesBottom.value = true;
+            ..isShowBottomWidget.value = true;
         });
         return Obx(
           () => controller.isWaitingLoadingDataInBreedingTab.value
@@ -92,40 +92,45 @@ class BreedingTransactionDetailBreedingServicesForFemalePetWidget
   Widget noHaveDataWidget() => Container(
         color: WHITE_COLOR,
         padding: EdgeInsets.symmetric(
-            vertical: controller.breedingTransactionModel.status == 'SUCCESS'
-                ? 170
-                : 200),
-        child: Column(children: [
-          CUSTOM_TEXT(
-            controller.breedingTransactionModel.status == 'SUCCESS'
-                ? 'Your pet does not have any reproductive health services, booking one now!'
-                : 'Please payment for male pet owner before buy a breeding services',
-            textOverflow: TextOverflow.clip,
-            textAlign: TextAlign.center,
-            fontSize: 14,
-            padding: const EdgeInsets.symmetric(horizontal: 35),
-          ),
-          Visibility(
-            visible: controller.breedingTransactionModel.status == 'SUCCESS',
-            child: Padding(
-              padding: const EdgeInsets.only(top: 20),
-              child: InkWell(
-                onTap: () => Get.toNamed(
-                    '$BOOKING_BREEDING_SERVICE_PAGE_ROUTE/${controller.breedingTransactionId}'),
-                child: Container(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 20, vertical: 7),
-                  decoration: BoxDecoration(
-                    color: PRIMARY_COLOR,
-                    borderRadius: BorderRadius.circular(10),
+            vertical: controller.breedingTransactionModel.status == 'CREATED'
+                ? 180
+                : 170),
+        child: Center(
+          child: Column(children: [
+            CUSTOM_TEXT(
+              controller.breedingTransactionModel.status == 'CREATED'
+                  ? 'Use our reproductive health\n services, booking one now!'
+                  : 'This breeding transaction is completed, you can buy more breeding services!',
+              textOverflow: TextOverflow.clip,
+              textAlign: TextAlign.center,
+              fontSize: 14,
+              padding: const EdgeInsets.symmetric(horizontal: 35),
+            ),
+            Visibility(
+              visible: controller.breedingTransactionModel.status == 'CREATED',
+              child: Padding(
+                padding: const EdgeInsets.only(top: 20),
+                child: InkWell(
+                  onTap: () => Get.toNamed(
+                      '$BOOKING_BREEDING_SERVICE_PAGE_ROUTE/${controller.breedingTransactionId}'),
+                  child: Container(
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 20, vertical: 7),
+                    decoration: BoxDecoration(
+                      color: PRIMARY_COLOR,
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: CUSTOM_TEXT('Go to booking page',
+                        letterSpacing: 1, color: WHITE_COLOR),
                   ),
-                  child: CUSTOM_TEXT('Go to booking page',
-                      letterSpacing: 1, color: WHITE_COLOR),
                 ),
               ),
             ),
-          ),
-        ]),
+            const SizedBox(
+              height: 100,
+            ),
+          ]),
+        ),
       );
 
   Widget breedingServicesWidget() => Column(
@@ -351,8 +356,7 @@ class BreedingTransactionDetailBreedingServicesForFemalePetWidget
               currentTime: currentTime,
               title: 'Pickup pet and payment',
               dateTitle: 'Payment on ',
-              performDate:
-                  controller.breedingTransactionModel.paymentForBranchTime,
+              performDate: controller.breedingTransactionModel.paymentTime,
               isSuccess: true,
               isShowViewDetail: true,
             ),
@@ -431,10 +435,8 @@ class BreedingTransactionDetailBreedingServicesForFemalePetWidget
               currentTime: currentTime,
               title: 'Pickup pet and payment',
               dateTitle: 'Payment on ',
-              performDate:
-                  controller.breedingTransactionModel.paymentForBranchTime,
+              performDate: controller.breedingTransactionModel.paymentTime,
               isSuccess: true,
-              isShowViewDetail: true,
             ),
             timeLineItemWidget(
               currentTime: currentTime,

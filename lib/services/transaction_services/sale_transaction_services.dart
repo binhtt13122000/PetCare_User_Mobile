@@ -35,7 +35,7 @@ class SaleTransactionService {
     required int branchId,
   }) async {
     final response = await http.post(
-      Uri.http(API_SERVER_PATH, '/v1/api/sale-transactions'),
+      Uri.https(API_SERVER_PATH, '/v1/api/sale-transactions'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -85,7 +85,7 @@ class SaleTransactionService {
     String? message,
   }) async {
     final response = await http.put(
-      Uri.http(API_SERVER_PATH, SALE_TRANSACTION_API_PATH),
+      Uri.https(API_SERVER_PATH, SALE_TRANSACTION_API_PATH),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -139,7 +139,7 @@ class SaleTransactionService {
       'message': 'Thank for your payment!'
     });
     final response = await http.post(
-      Uri.http(
+      Uri.https(
           API_SERVER_PATH, 'v1/api/sale-transactions/payment', queryParameters),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
@@ -169,7 +169,7 @@ class SaleTransactionService {
       'limit': limit,
     };
     final response = await http.get(
-      Uri.http(API_SERVER_PATH, SALE_TRANSACTION_API_PATH, parameters),
+      Uri.https(API_SERVER_PATH, SALE_TRANSACTION_API_PATH, parameters),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -189,7 +189,7 @@ class SaleTransactionService {
     required int saleTransactionId,
   }) async {
     final response = await http.get(
-      Uri.http(
+      Uri.https(
           API_SERVER_PATH, '$SALE_TRANSACTION_API_PATH/$saleTransactionId'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',

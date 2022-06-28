@@ -77,7 +77,7 @@ query MyQuery($ltPrice: Int, $gtePrice: Int, $gender: [pet_gender_enum!], $isSee
 ''';
 
 const FETCH_ALL_PURCHASE_POST_LIST_WITHOUT_SPECIES = r'''
-query MyQuery($ltPrice: Int, $gtePrice: Int, $gender: [pet_gender_enum!], $isSeed: [Boolean!], $breedName: order_by, $price: order_by, $status: post_status_enum, $customerId: Int!, $lteDob: timestamp = "", $gteDob: timestamp = "", $limit: Int = 8, $offset: Int = 0, $title: String) {
+query MyQuery($ltPrice: Int, $gtePrice: Int, $gender: [pet_gender_enum!], $isSeed: [Boolean!], $breedName: order_by, $price: order_by, $status: post_status_enum, $customerId: Int, $lteDob: timestamp = "", $gteDob: timestamp = "", $limit: Int = 8, $offset: Int = 0, $title: String) {
   post(where: {pet: {gender: {_in: $gender}, isSeed: {_in: $isSeed}, dob: {_lte: $lteDob, _gte: $gteDob}}, provisionalTotal: {_lt: $ltPrice}, _and: {provisionalTotal: {_gte: $gtePrice}, status: {_eq: $status}, customerId: {_neq: $customerId}}, title: {_ilike: $title}}, order_by: {pet: {breed: {name: $breedName}}, provisionalTotal: $price}, limit: $limit, offset: $offset) {
     isVaccineInject
     id
@@ -153,7 +153,7 @@ query MyQuery($ltPrice: Int, $gtePrice: Int, $gender: [pet_gender_enum!], $isSee
 ''';
 
 const FETCH_PURCHASE_POST_LIST_WITHOUT_BREED = r'''
-query MyQuery($ltPrice: Int, $gtePrice: Int, $gender: [pet_gender_enum!], $isSeed: [Boolean!], $breedName: order_by, $price: order_by, $speciesId: Int, $status: post_status_enum, $customerId: Int!, $gteDob: timestamp = "", $lteDob: timestamp = "", $limit: Int = 8, $offset: Int = 0, $title: String) {
+query MyQuery($ltPrice: Int, $gtePrice: Int, $gender: [pet_gender_enum!], $isSeed: [Boolean!], $breedName: order_by, $price: order_by, $speciesId: Int, $status: post_status_enum, $customerId: Int, $gteDob: timestamp = "", $lteDob: timestamp = "", $limit: Int = 8, $offset: Int = 0, $title: String) {
   post(where: {pet: {breed: {species: {id: {_eq: $speciesId}}}, gender: {_in: $gender}, isSeed: {_in: $isSeed}, dob: {_gte: $gteDob, _lte: $lteDob}}, provisionalTotal: {_lt: $ltPrice}, _and: {provisionalTotal: {_gte: $gtePrice}, status: {_eq: $status}, customerId: {_neq: $customerId}}, title: {_ilike: $title}}, order_by: {pet: {breed: {name: $breedName}}, provisionalTotal: $price}, limit: $limit, offset: $offset) {
     createTime
     description

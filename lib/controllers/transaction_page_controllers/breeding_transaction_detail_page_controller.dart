@@ -29,8 +29,8 @@ class BreedingTransactionDetailPageController extends GetxController {
   String popupTitle = '';
   RxBool isWaitingLoadingDataInBreedingTab = false.obs;
   RxBool isWaitingLoadingTransactionDetailTab = false.obs;
-  RxBool isShowBreedingServicesBottom = false.obs;
-  RxBool isShowTransactionDetailBottom = false.obs;
+  // RxBool isShowBreedingServicesBottom = false.obs;
+  RxBool isShowBottomWidget = false.obs;
   RxBool isShowConfirmPopup = false.obs;
   late String confirmPopupTitle;
   RxBool isShowMoreOptionWidget = false.obs;

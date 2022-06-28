@@ -38,8 +38,7 @@ class BreedingTransactionModel {
   final String placeMeeting;
   final int? breedingBranchId;
   final bool self;
-  final DateTime? paymentForMalePetOwnerTime;
-  final DateTime? paymentForBranchTime;
+  final DateTime? paymentTime;
   final int? servicePoint;
   final DateTime? timeToCheckBreeding;
   final bool? isSuccess;
@@ -94,8 +93,7 @@ class BreedingTransactionModel {
     required this.placeMeeting,
     this.breedingBranchId,
     required this.self,
-    this.paymentForMalePetOwnerTime,
-    this.paymentForBranchTime,
+    this.paymentTime,
     this.servicePoint,
     this.timeToCheckBreeding,
     this.isSuccess,

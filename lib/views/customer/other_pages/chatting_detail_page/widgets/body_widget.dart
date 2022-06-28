@@ -227,8 +227,19 @@ class ChattingDetailBodyWidget extends GetView<ChattingDetailPageController> {
                           backgroundImage: NetworkImage(
                               controller.anotherChatRoomMember.avatar!),
                         )
-                      : const SizedBox(
-                          width: 28,
+                      : CircleAvatar(
+                          backgroundColor: PRIMARY_COLOR.withOpacity(0.7),
+                          maxRadius: 14,
+                          minRadius: 14,
+                          child: Text(
+                            controller
+                                .accountModel.customerModel.avatarCharacter,
+                            style: GoogleFonts.quicksand(
+                              color: WHITE_COLOR,
+                              fontSize: 14,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
                         ),
                   Container(
                     width: 284,

@@ -17,7 +17,7 @@ class SpeciesService {
     required int speciesId,
   }) async {
     final response = await http.get(
-      Uri.http(API_SERVER_PATH, '$SPECIES_API_PATH/$speciesId'),
+      Uri.https(API_SERVER_PATH, '$SPECIES_API_PATH/$speciesId'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -36,7 +36,7 @@ class SpeciesService {
       {bool isActive = true}) async {
     Map<String, dynamic> parameters = {'isActive': isActive.toString()};
     final response = await http.get(
-      Uri.http(API_SERVER_PATH, SPECIES_API_PATH, parameters),
+      Uri.https(API_SERVER_PATH, SPECIES_API_PATH, parameters),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },

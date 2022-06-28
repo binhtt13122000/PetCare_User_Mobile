@@ -28,7 +28,7 @@ class CenterServicesTransactionServices {
       'customerId': customerId.toString(),
     };
     final response = await http.get(
-      Uri.http(
+      Uri.https(
           API_SERVER_PATH, CENTER_SERVICES_TRANSACTION_API_PATH, parameters),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
@@ -51,7 +51,7 @@ class CenterServicesTransactionServices {
     required int transactionId,
   }) async {
     final response = await http.get(
-      Uri.http(API_SERVER_PATH,
+      Uri.https(API_SERVER_PATH,
           '$CENTER_SERVICES_TRANSACTION_API_PATH/$transactionId'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
@@ -89,7 +89,7 @@ class CenterServicesTransactionServices {
     };
 
     final response = await http.post(
-      Uri.http(API_SERVER_PATH, CENTER_SERVICES_TRANSACTION_PAYMENT_API_PATH,
+      Uri.https(API_SERVER_PATH, CENTER_SERVICES_TRANSACTION_PAYMENT_API_PATH,
           queryParameters),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
@@ -124,7 +124,7 @@ class CenterServicesTransactionServices {
     required String review,
   }) async {
     final response = await http.post(
-      Uri.http(API_SERVER_PATH, CENTER_SERVICES_TRANSACTION_API_PATH),
+      Uri.https(API_SERVER_PATH, CENTER_SERVICES_TRANSACTION_API_PATH),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },

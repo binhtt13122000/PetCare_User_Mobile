@@ -51,8 +51,7 @@ class BreedingTransactionDetailPopupWidget
                   child: InkWell(
                     onTap: () => controller
                       ..isShowPopup.value = false
-                      ..isShowBreedingServicesBottom.value = false
-                      ..isShowTransactionDetailBottom.value = false
+                      ..isShowBottomWidget.value = false
                       ..update(),
                     child: Container(
                       alignment: Alignment.center,

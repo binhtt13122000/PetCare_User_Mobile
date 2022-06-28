@@ -45,12 +45,9 @@ BreedingTransactionModel _$BreedingTransactionModelFromJson(
       placeMeeting: json['placeMeeting'] as String,
       breedingBranchId: json['breedingBranchId'] as int?,
       self: json['self'] as bool,
-      paymentForMalePetOwnerTime: json['paymentForMalePetOwnerTime'] == null
+      paymentTime: json['paymentTime'] == null
           ? null
-          : DateTime.parse(json['paymentForMalePetOwnerTime'] as String),
-      paymentForBranchTime: json['paymentForBranchTime'] == null
-          ? null
-          : DateTime.parse(json['paymentForBranchTime'] as String),
+          : DateTime.parse(json['paymentTime'] as String),
       servicePoint: json['servicePoint'] as int?,
       timeToCheckBreeding: json['timeToCheckBreeding'] == null
           ? null
@@ -120,9 +117,7 @@ Map<String, dynamic> _$BreedingTransactionModelToJson(
       'placeMeeting': instance.placeMeeting,
       'breedingBranchId': instance.breedingBranchId,
       'self': instance.self,
-      'paymentForMalePetOwnerTime':
-          instance.paymentForMalePetOwnerTime?.toIso8601String(),
-      'paymentForBranchTime': instance.paymentForBranchTime?.toIso8601String(),
+      'paymentTime': instance.paymentTime?.toIso8601String(),
       'servicePoint': instance.servicePoint,
       'timeToCheckBreeding': instance.timeToCheckBreeding?.toIso8601String(),
       'isSuccess': instance.isSuccess,
