@@ -25,7 +25,7 @@ class PetComboDetailServices {
       FormData formData;
       formData = FormData.fromMap(jsonData);
       Response response =
-          await Dio().put('https://$API_SERVER_PATH$PET_COMBO_DETAIL_API_PATH',
+          await Dio().put('http://$API_SERVER_PATH$PET_COMBO_DETAIL_API_PATH',
               data: formData,
               options: Options(headers: <String, String>{
                 HttpHeaders.contentTypeHeader: 'multipart/form-data',
@@ -63,7 +63,7 @@ class PetComboDetailServices {
   //   }
 
   //   final response = await http.put(
-  //     Uri.https(API_SERVER_PATH, PET_COMBO_DETAIL_API_PATH),
+  //     Uri.http(API_SERVER_PATH, PET_COMBO_DETAIL_API_PATH),
   //     headers: <String, String>{'Content-Type': 'multipart/form-data'},
   //     body: jsonBody,
   //   );

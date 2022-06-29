@@ -18,7 +18,7 @@ class PromotionServices {
     required int branchId,
   }) async {
     final response = await http.get(
-      Uri.https(API_SERVER_PATH, '/v1/api/promotions/branches/$branchId'),
+      Uri.http(API_SERVER_PATH, '/v1/api/promotions/branches/$branchId'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },

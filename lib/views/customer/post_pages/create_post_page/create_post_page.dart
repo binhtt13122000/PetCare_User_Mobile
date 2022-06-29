@@ -3,6 +3,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
 import 'package:petapp_mobile/configs/theme.dart';
 import 'package:petapp_mobile/controllers/post_page_controllers/create_post_page_controller.dart';
+import 'package:petapp_mobile/services/other_services/branch_services.dart';
 import 'package:petapp_mobile/services/transaction_services/transaction_fees_services.dart';
 import 'package:petapp_mobile/views/customer/post_pages/create_post_page/widgets/body_widget.dart';
 import 'package:petapp_mobile/views/customer/post_pages/create_post_page/widgets/bottom_widget.dart';
@@ -22,10 +23,13 @@ class CreatePostPage extends GetView<CreatePostPageController> {
   Widget build(BuildContext context) {
     controller.isShowMainLoading.value = true;
     WidgetsBinding.instance!.addPostFrameCallback((_) async {
-      controller.listPurchaseTransactionFees =
-          await TransactionFeesServices.fetchTransactionFreesList(
-              transactionType: controller.selectedPostType.value);
-      controller.isShowMainLoading.value = false;
+      controller
+        ..listPurchaseTransactionFees =
+            await TransactionFeesServices.fetchTransactionFreesList(
+                transactionType: controller.selectedPostType.value)
+        ..branchList = await BranchServices.fetchBranchList()
+        ..selectedBranchIndex.value = 0
+        ..isShowMainLoading.value = false;
     });
 
     return Scaffold(

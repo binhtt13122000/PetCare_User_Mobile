@@ -43,19 +43,23 @@ class CenterServicesTransactionListWidget
                 color: PRIMARY_COLOR,
                 size: 150,
               )
-            : SingleChildScrollView(
-                child: Padding(
-                  padding: const EdgeInsets.only(top: 10),
-                  child: Column(
-                    children: controller.centerServicesTransactionList
-                        .asMap()
-                        .entries
-                        .map((e) => centerServicesItemWidget(
-                            centerServicesTransactionModel: e.value))
-                        .toList(),
+            : controller.centerServicesTransactionList.isEmpty
+                ? NO_DATA_WIDGET(
+                    content:
+                        'Sorry, no center services transaction data found.')
+                : SingleChildScrollView(
+                    child: Padding(
+                      padding: const EdgeInsets.only(top: 10),
+                      child: Column(
+                        children: controller.centerServicesTransactionList
+                            .asMap()
+                            .entries
+                            .map((e) => centerServicesItemWidget(
+                                centerServicesTransactionModel: e.value))
+                            .toList(),
+                      ),
+                    ),
                   ),
-                ),
-              ),
       ));
     });
   }

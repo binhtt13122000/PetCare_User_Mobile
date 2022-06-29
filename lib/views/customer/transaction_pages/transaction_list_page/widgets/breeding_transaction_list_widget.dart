@@ -57,16 +57,21 @@ class BreedingTransactionListWidget
                           color: PRIMARY_COLOR,
                           size: 150,
                         )
-                      : SingleChildScrollView(
-                          child: Column(
-                            children: controller.breedingTransactionModelList
-                                .asMap()
-                                .entries
-                                .map((e) => breedingTransactionItemWidget(
-                                    breedingTransactionModel: e.value))
-                                .toList(),
-                          ),
-                        ),
+                      : controller.breedingTransactionModelList.isEmpty
+                          ? NO_DATA_WIDGET(
+                              content:
+                                  'Sorry, no breeding transaction data found.')
+                          : SingleChildScrollView(
+                              child: Column(
+                                children: controller
+                                    .breedingTransactionModelList
+                                    .asMap()
+                                    .entries
+                                    .map((e) => breedingTransactionItemWidget(
+                                        breedingTransactionModel: e.value))
+                                    .toList(),
+                              ),
+                            ),
                 );
               },
             ),

@@ -7,7 +7,7 @@ import 'package:http/http.dart' as http;
 class PetGenerateQrCodeService {
   static Future<String> fetchDeepLinkFromPetId({required String petId}) async {
     final response = await http.post(
-      Uri.https(API_SERVER_PATH, '/v1/api/deep-link/$petId'),
+      Uri.http(API_SERVER_PATH, '/v1/api/deep-link/$petId'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },

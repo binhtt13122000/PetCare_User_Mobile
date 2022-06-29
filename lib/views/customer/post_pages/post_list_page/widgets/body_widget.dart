@@ -113,6 +113,7 @@ class PostListBodyWidget extends GetView<PostListPageController> {
             }
           }
           QueryResult queryResult = await CLIENT_TO_QUERY().query(queryOptions);
+
           switch (controller.loadingType) {
             case 'INIT':
               controller
@@ -171,10 +172,11 @@ class PostListBodyWidget extends GetView<PostListPageController> {
           // }
           controller.isLoadingData.value = false;
         });
-        return Obx(() => controller.isLoadingData.value
-            ? Expanded(child: LOADING_WIDGET())
-            : Expanded(
-                child: SmartRefresher(
+        return Obx(
+          () => controller.isLoadingData.value
+              ? Expanded(child: LOADING_WIDGET())
+              : Expanded(
+                  child: SmartRefresher(
                     controller: controller.refreshController,
                     enablePullUp: true,
                     onRefresh: () async {
@@ -182,61 +184,45 @@ class PostListBodyWidget extends GetView<PostListPageController> {
                         ..offset = 0
                         ..loadingType = LoadingType.REFRESH.name
                         ..update();
-                      // if (controller.statusLoadData.value == "SUCCESS") {
-                      //   controller.statusLoadData.value = "NORMAL";
-                      //   controller.refreshController.refreshCompleted();
-                      // } else {
-                      //   controller.refreshController.refreshFailed();
-                      // }
                     },
                     onLoading: () async {
                       controller
                         ..loadingType = LoadingType.LOAD_MORE.name
                         ..update();
-                      // controller.isRefresh.value = false;
-                      // var nextOffset =
-                      //     (controller.offset.value + controller.limit.value);
-                      // if (nextOffset >= controller.totalPage.value) {
-                      //   controller.refreshController.loadNoData();
-                      // } else {
-                      //   controller.offset.value = nextOffset;
-                      //   if (controller.statusLoadData.value == "SUCCESS") {
-                      //     controller.refreshController.loadComplete();
-                      //   } else {
-                      //     controller.refreshController.loadFailed();
-                      //   }
-                      //   controller.update();
-                      // }
-                      // controller.statusLoadData.value = "NORMAL";
                     },
-                    child: bodyWidget())));
+                    child: bodyWidget(),
+                  ),
+                ),
+        );
       });
 
-  Widget bodyWidget() => SingleChildScrollView(
-        child: Column(
-          children: [
-            const SizedBox(
-              height: 10,
-            ),
-            Wrap(
-              alignment: WrapAlignment.center,
-              // direction: Axis.vertical,
-              // crossAxisAlignment: WrapCrossAlignment.start,
-              // runAlignment: WrapAlignment.start,
-              // verticalDirection: VerticalDirection.down,
-              // spacing: 10,
-              // runSpacing: 10,
-              children: controller.postHasuraList
-                  .asMap()
-                  .entries
-                  .map(
-                    (e) => purchasePostItemHasuraWidget(postModel: e.value),
-                  )
-                  .toList(),
-            ),
-          ],
-        ),
-      );
+  Widget bodyWidget() => controller.postHasuraList.isEmpty
+      ? NO_DATA_WIDGET(content: 'Sorry, no post data found.')
+      : SingleChildScrollView(
+          child: Column(
+            children: [
+              const SizedBox(
+                height: 10,
+              ),
+              Wrap(
+                alignment: WrapAlignment.center,
+                // direction: Axis.vertical,
+                // crossAxisAlignment: WrapCrossAlignment.start,
+                // runAlignment: WrapAlignment.start,
+                // verticalDirection: VerticalDirection.down,
+                // spacing: 10,
+                // runSpacing: 10,
+                children: controller.postHasuraList
+                    .asMap()
+                    .entries
+                    .map(
+                      (e) => purchasePostItemHasuraWidget(postModel: e.value),
+                    )
+                    .toList(),
+              ),
+            ],
+          ),
+        );
 
   Widget purchasePostItemHasuraWidget({required PostModelHasura postModel}) =>
       InkWell(

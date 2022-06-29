@@ -9,6 +9,7 @@ import 'package:petapp_mobile/controllers/other_controllers/chatting_detail_page
 import 'package:petapp_mobile/controllers/main_page_controllers/chatting_list_page_controller.dart';
 import 'package:petapp_mobile/controllers/post_page_controllers/post_detail_page_controller.dart';
 import 'package:petapp_mobile/utilities/utilities.dart';
+import 'package:petapp_mobile/views/widgets/customize_widget.dart';
 
 class ChattingDetailTopWidget extends GetView<ChattingDetailPageController> {
   const ChattingDetailTopWidget({Key? key}) : super(key: key);
@@ -478,8 +479,7 @@ class ChattingDetailTopWidget extends GetView<ChattingDetailPageController> {
       );
 
   Widget topTitleWidget() => Container(
-        padding:
-            const EdgeInsets.only(top: 30, left: 12, right: 12, bottom: 10),
+        padding: const EdgeInsets.only(top: 30, left: 0, right: 12, bottom: 10),
         color: PRIMARY_COLOR,
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -514,30 +514,104 @@ class ChattingDetailTopWidget extends GetView<ChattingDetailPageController> {
               padding: const EdgeInsets.only(left: 10),
               child: Stack(
                 children: [
-                  SizedBox(
-                    height: 40,
-                    width: 40,
-                    child: controller.anotherChatRoomMember.avatar == null ||
-                            controller.anotherChatRoomMember.avatar!.isEmpty
-                        ? CircleAvatar(
-                            backgroundColor: PRIMARY_COLOR.withOpacity(0.7),
-                            maxRadius: 14,
-                            minRadius: 14,
+                  GRADIENT_WIDGET(
+                    child: const CircleAvatar(
+                      radius: 20,
+                    ),
+                  ),
+                  controller.anotherChatRoomMember.avatar == null ||
+                          controller.anotherChatRoomMember.avatar!.isEmpty
+                      ? CircleAvatar(
+                          maxRadius: 20,
+                          minRadius: 20,
+                          backgroundColor: Colors.transparent,
+                          child: CircleAvatar(
+                            maxRadius: 17,
+                            minRadius: 17,
+                            backgroundColor: WHITE_COLOR,
                             child: Text(
                               controller.anotherChatRoomMember.avatarCharacter,
                               style: GoogleFonts.quicksand(
-                                color: WHITE_COLOR,
-                                fontSize: 10,
-                                fontWeight: FontWeight.w500,
+                                color: PRIMARY_COLOR,
+                                fontSize: 1,
+                                fontWeight: FontWeight.w700,
                               ),
                             ),
-                          )
-                        : CircleAvatar(
-                            minRadius: 14,
-                            maxRadius: 14,
-                            backgroundImage: NetworkImage(
-                                controller.anotherChatRoomMember.avatar!),
                           ),
+                        )
+                      : Stack(
+                          children: [
+                            GRADIENT_WIDGET(
+                              child: const CircleAvatar(
+                                radius: 20,
+                              ),
+                            ),
+                            CircleAvatar(
+                              backgroundColor: Colors.transparent,
+                              maxRadius: 20,
+                              minRadius: 20,
+                              child: CircleAvatar(
+                                minRadius: 18,
+                                maxRadius: 18,
+                                backgroundImage: NetworkImage(
+                                    controller.anotherChatRoomMember.avatar!),
+                              ),
+                            ),
+                          ],
+                        ),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 25),
+                    child: GRADIENT_WIDGET(
+                      child: const CircleAvatar(
+                        radius: 20,
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 25),
+                    child:
+                        controller.accountModel.customerModel.avatar == null ||
+                                controller
+                                    .accountModel.customerModel.avatar!.isEmpty
+                            ? CircleAvatar(
+                                maxRadius: 20,
+                                minRadius: 20,
+                                backgroundColor: Colors.transparent,
+                                child: CircleAvatar(
+                                  maxRadius: 17,
+                                  minRadius: 17,
+                                  backgroundColor: WHITE_COLOR,
+                                  child: Text(
+                                    controller.accountModel.customerModel
+                                        .avatarCharacter,
+                                    style: GoogleFonts.quicksand(
+                                      color: PRIMARY_COLOR,
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.w700,
+                                    ),
+                                  ),
+                                ),
+                              )
+                            : Stack(
+                                children: [
+                                  GRADIENT_WIDGET(
+                                    child: const CircleAvatar(
+                                      radius: 20,
+                                    ),
+                                  ),
+                                  CircleAvatar(
+                                    backgroundColor: Colors.transparent,
+                                    maxRadius: 20,
+                                    minRadius: 20,
+                                    child: CircleAvatar(
+                                      minRadius: 18,
+                                      maxRadius: 18,
+                                      backgroundImage: NetworkImage(controller
+                                          .accountModel.customerModel.avatar!),
+                                    ),
+                                  ),
+                                ],
+                              ),
                   ),
 
                   // Container(
@@ -562,16 +636,18 @@ class ChattingDetailTopWidget extends GetView<ChattingDetailPageController> {
             Expanded(
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 5),
-                child: Text(
-                  'Post room #${controller.postModel.id}',
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  textAlign: TextAlign.center,
-                  style: GoogleFonts.quicksand(
-                    color: WHITE_COLOR,
-                    fontSize: 17,
-                    fontWeight: FontWeight.w700,
-                    letterSpacing: 2,
+                child: FittedBox(
+                  fit: BoxFit.scaleDown,
+                  child: Text(
+                    'Post room #${controller.postModel.id}',
+                    maxLines: 1,
+                    textAlign: TextAlign.center,
+                    style: GoogleFonts.quicksand(
+                      color: WHITE_COLOR,
+                      fontSize: 17,
+                      fontWeight: FontWeight.w700,
+                      letterSpacing: 2,
+                    ),
                   ),
                 ),
               ),

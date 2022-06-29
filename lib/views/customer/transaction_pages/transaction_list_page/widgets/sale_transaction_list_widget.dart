@@ -10,6 +10,7 @@ import 'package:petapp_mobile/models/sale_transaction_model/sale_transaction_mod
 import 'package:petapp_mobile/services/other_services/customer_services.dart';
 import 'package:petapp_mobile/services/transaction_services/sale_transaction_services.dart';
 import 'package:petapp_mobile/utilities/utilities.dart';
+import 'package:petapp_mobile/views/widgets/customize_widget.dart';
 
 class SaleTransactionListWidget extends GetView<TransactionListPageController> {
   const SaleTransactionListWidget({Key? key}) : super(key: key);
@@ -52,16 +53,19 @@ class SaleTransactionListWidget extends GetView<TransactionListPageController> {
                           color: PRIMARY_COLOR,
                           size: 150,
                         )
-                      : SingleChildScrollView(
-                          child: Column(
-                            children: controller.saleTransactionModelList
-                                .asMap()
-                                .entries
-                                .map((e) => saleTransactionItemWidget(
-                                    saleTransactionModel: e.value))
-                                .toList(),
-                          ),
-                        ),
+                      : controller.saleTransactionModelList.isEmpty
+                          ? NO_DATA_WIDGET(
+                              content: 'Sorry, no sale transaction data found.')
+                          : SingleChildScrollView(
+                              child: Column(
+                                children: controller.saleTransactionModelList
+                                    .asMap()
+                                    .entries
+                                    .map((e) => saleTransactionItemWidget(
+                                        saleTransactionModel: e.value))
+                                    .toList(),
+                              ),
+                            ),
                 );
               },
             ),
