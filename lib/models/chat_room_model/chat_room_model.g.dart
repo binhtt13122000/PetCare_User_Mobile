@@ -31,6 +31,9 @@ ChatRoomModel _$ChatRoomModelFromJson(Map<String, dynamic> json) =>
           : DateTime.parse(json['buyerLastViewTime'] as String),
       type: json['type'] as String,
       petId: json['petId'] as int?,
+      customerModel: json['customer'] == null
+          ? null
+          : CustomerModel.fromJson(json['customer'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$ChatRoomModelToJson(ChatRoomModel instance) =>
@@ -52,4 +55,5 @@ Map<String, dynamic> _$ChatRoomModelToJson(ChatRoomModel instance) =>
       'buyerLastViewTime': instance.buyerLastViewTime?.toIso8601String(),
       'type': instance.type,
       'petId': instance.petId,
+      'customer': instance.customerModel?.toJson(),
     };

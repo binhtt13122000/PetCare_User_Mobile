@@ -206,7 +206,7 @@ class BreedingTransactionDetailReviewPopupWidget
             if (controller.selectedStar.value != 0) {
               controller
                 ..isShowReviewPopup.value = false
-                ..isWaitingForeground.value = true;
+                ..isWaitingLoading.value = true;
               String reviewContent = '';
               if (controller.quickFeedBackList.isNotEmpty) {
                 int index = 0;
@@ -233,7 +233,7 @@ class BreedingTransactionDetailReviewPopupWidget
                 );
               }
               controller
-                ..isWaitingForeground.value = false
+                ..isWaitingLoading.value = false
                 ..popupTitle =
                     'Submit your transaction experience successfully '
                 ..isShowPopup.value = true;

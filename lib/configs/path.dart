@@ -92,6 +92,7 @@ const PET_VACCINATION_PNG = 'pet_vaccination.png';
 const NO_IMAGE_PNG = 'no_image.png';
 const NO_DATA_ART_PNG = 'no_data_art.png';
 const LAZY_CAT_PNG = 'lazy_cat.png';
+const PET_WITH_CAKE_PNG = 'pet_with_cake.png';
 
 // const API_SERVER = '10.1.127.196:4000';
 // const GRAPHL_SERVER = 'http://10.1.127.196:8080';

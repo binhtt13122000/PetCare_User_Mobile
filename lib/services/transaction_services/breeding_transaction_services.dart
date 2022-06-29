@@ -32,24 +32,6 @@ class BreedingTransactionService {
     required int transactionFee,
     bool isSelf = false,
   }) async {
-    print({
-      'createdTime': createdTime.toIso8601String(),
-      'meetingTime': meetingTime.toIso8601String(),
-      'sellerReceive': sellerReceive,
-      'transactionTotal': transactionTotal,
-      'point': point,
-      'description': description,
-      'status': status,
-      'ownerPetFemaleId': ownerPetFemaleId,
-      'ownerPetMaleId': ownerPetMaleId,
-      'petFemaleId': petFemaleId,
-      'petMaleId': petMaleId,
-      'postId': postId,
-      'branchId': branchId,
-      'transactionFee': transactionFee,
-      'placeMeeting': placeMeeting,
-      'self': isSelf
-    }.toString());
     final response = await http.post(
       Uri.http(API_SERVER_PATH, BREEDING_TRANSACTION_API_PATH),
       headers: <String, String>{
@@ -335,6 +317,31 @@ class BreedingTransactionService {
       default:
         throw Exception(
             'Error ${response.statusCode}, cannot get breeding transaction');
+    }
+  }
+
+  static Future<bool> cancelTransaction({
+    required int id,
+    required String reasonCancel,
+  }) async {
+    final response = await http.put(
+      Uri.http(API_SERVER_PATH, '$BREEDING_TRANSACTION_API_PATH/cancel'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode({
+        'id': id,
+        'cancelTime': DateTime.now().toIso8601String(),
+        'reasonCancel': reasonCancel,
+      }),
+    );
+    switch (response.statusCode) {
+      case 200:
+      case 201:
+      case 202:
+        return json.decode(response.body)['success'];
+      default:
+        return false;
     }
   }
 }

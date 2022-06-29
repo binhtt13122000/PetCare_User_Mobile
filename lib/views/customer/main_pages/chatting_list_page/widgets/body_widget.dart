@@ -162,58 +162,26 @@ class ChattingListBodyWidget extends GetView<ChattingListPageController> {
                         radius: 22,
                       ),
                     ),
-                    // controller.postModel.customerModel!.avatar == null ||
-                    //         controller.postModel.customerModel!.avatar!.isEmpty
-                    //     ? CircleAvatar(
-                    //         backgroundColor: PRIMARY_COLOR.withOpacity(0.7),
-                    //         maxRadius: 19.5,
-                    //         minRadius: 19.5,
-                    //         child: Text(
-                    //           controller.postModel.customerModel!.avatarCharacter,
-                    //           style: GoogleFonts.quicksand(
-                    //             color: WHITE_COLOR,
-                    //             fontSize: 15,
-                    //             fontWeight: FontWeight.w500,
-                    //           ),
-                    //         ),
-                    //       )
-                    //     : CircleAvatar(
-                    //         radius: 19.5,
-                    //         backgroundColor: Colors.transparent,
-                    //         child: CircleAvatar(
-                    //           radius: 18,
-                    //           backgroundColor: PRIMARY_COLOR,
-                    //           backgroundImage: NetworkImage(
-                    //               controller.postModel.customerModel!.avatar!),
-                    //         ),
-                    //       ),
-                    // CircleAvatar(
-                    //   minRadius: 22,
-                    //   maxRadius: 22,
-                    //   backgroundImage: NetworkImage(
-                    //     controller.accountModel.customerModel.avatar!,
-                    //   ),
-                    // ),
-                    // Container(
-                    //   height: 48,
-                    //   width: 48,
-                    //   alignment: Alignment.bottomRight,
-                    //   child: const CircleAvatar(
-                    //     backgroundColor: Color.fromARGB(255, 211, 227, 253),
-                    //     maxRadius: 9,
-                    //     minRadius: 9,
-                    //     child: CircleAvatar(
-                    //       backgroundColor: WHITE_COLOR,
-                    //       maxRadius: 8,
-                    //       minRadius: 8,
-                    //       child: CircleAvatar(
-                    //         backgroundColor: Color.fromARGB(255, 141, 238, 233),
-                    //         maxRadius: 6,
-                    //         minRadius: 6,
-                    //       ),
-                    //     ),
-                    //   ),
-                    // ),
+                    CircleAvatar(
+                      radius: 22,
+                      backgroundColor: Colors.transparent,
+                      child: chatRoomModel.customerModel!.avatar != null
+                          ? CircleAvatar(
+                              radius: 19,
+                              backgroundImage: NetworkImage(
+                                  chatRoomModel.customerModel!.avatar!),
+                            )
+                          : CircleAvatar(
+                              radius: 19,
+                              backgroundColor: WHITE_COLOR,
+                              child: CUSTOM_TEXT(
+                                chatRoomModel.customerModel!.avatarCharacter,
+                                fontWeight: FontWeight.w700,
+                                color: PRIMARY_COLOR,
+                                fontSize: 18,
+                              ),
+                            ),
+                    ),
                   ],
                 ),
               ),

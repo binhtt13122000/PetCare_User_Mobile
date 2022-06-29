@@ -5,10 +5,12 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:petapp_mobile/configs/path.dart';
 import 'package:petapp_mobile/configs/theme.dart';
 import 'package:petapp_mobile/controllers/transaction_page_controllers/breeding_transaction_detail_page_controller.dart';
+import 'package:petapp_mobile/utilities/utilities.dart';
 import 'package:petapp_mobile/views/customer/transaction_pages/breeding_transaction_detail_page/widgets/bottom_widget.dart';
 import 'package:petapp_mobile/views/customer/transaction_pages/breeding_transaction_detail_page/widgets/breeding_services_for_female_pet_widget.dart';
 import 'package:petapp_mobile/views/customer/transaction_pages/breeding_transaction_detail_page/widgets/breeding_services_for_male_pet_widget.dart';
 import 'package:petapp_mobile/views/customer/transaction_pages/breeding_transaction_detail_page/widgets/transaction_detail_widget.dart';
+import 'package:petapp_mobile/views/widgets/customize_widget.dart';
 
 class BreedingTransactionDetailBodyWidget
     extends GetView<BreedingTransactionDetailPageController> {
@@ -27,14 +29,11 @@ class BreedingTransactionDetailBodyWidget
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       petInformation(),
-                      Container(
-                        height: 1,
-                        color: LIGHT_GREY_COLOR.withAlpha(30),
-                      ),
-                      Container(
-                        color: SUPPER_LIGHT_BLUE,
-                        height: 16,
-                      ),
+
+                      // Container(
+                      //   color: SUPPER_LIGHT_BLUE,
+                      //   height: 16,
+                      // ),
                       viewTypeWidget(),
                       Obx(
                         () => controller.selectedViewTab.value ==
@@ -131,6 +130,21 @@ class BreedingTransactionDetailBodyWidget
         children: [
           Column(
             children: [
+              Container(
+                color: WHITE_COLOR,
+                padding: const EdgeInsets.only(top: 10, bottom: 0),
+                alignment: Alignment.center,
+                child: CUSTOM_TEXT(
+                  'Breeding for ' +
+                      controller.breedingTransactionModel.femalePetModel
+                          .breedModel!.name +
+                      ' - ' +
+                      controller.breedingTransactionModel.femalePetModel
+                          .breedModel!.speciesModel!.name,
+                  fontSize: 14,
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
               malePetInformationWidget(),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 25),
@@ -140,14 +154,19 @@ class BreedingTransactionDetailBodyWidget
                 ),
               ),
               femalePetInformationWidget(),
+              Container(
+                height: 1,
+                color: LIGHT_GREY_COLOR.withAlpha(30),
+              ),
             ],
           ),
-          SizedBox(
-            height: 180,
+          Container(
+            height: 233,
+            margin: const EdgeInsets.only(left: 0),
             child: Center(
               child: Image.asset(
                 IMAGE_PATH + HEARTS_PNG,
-                height: 40,
+                height: 30,
                 fit: BoxFit.cover,
               ),
             ),
@@ -165,7 +184,7 @@ class BreedingTransactionDetailBodyWidget
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Padding(
-              padding: const EdgeInsets.only(right: 20),
+              padding: const EdgeInsets.only(right: 10),
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(5),
                 child: Image.network(
@@ -201,30 +220,6 @@ class BreedingTransactionDetailBodyWidget
                       ),
                       Text(
                         controller.breedingTransactionModel.femalePetModel.name,
-                        style: GoogleFonts.quicksand(
-                          fontSize: 14,
-                          color: DARK_GREY_TEXT_COLOR.withOpacity(0.9),
-                          fontWeight: FontWeight.w500,
-                          letterSpacing: 1,
-                        ),
-                      ),
-                    ],
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        'Breed',
-                        style: GoogleFonts.quicksand(
-                          fontSize: 14,
-                          color: DARK_GREY_TEXT_COLOR.withOpacity(0.9),
-                          fontWeight: FontWeight.w500,
-                          letterSpacing: 1,
-                        ),
-                      ),
-                      Text(
-                        controller.breedingTransactionModel.femalePetModel
-                            .breedModel!.name,
                         style: GoogleFonts.quicksand(
                           fontSize: 14,
                           color: DARK_GREY_TEXT_COLOR.withOpacity(0.9),
@@ -282,6 +277,33 @@ class BreedingTransactionDetailBodyWidget
                       ),
                     ],
                   ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        'Age range',
+                        style: GoogleFonts.quicksand(
+                          fontSize: 14,
+                          color: DARK_GREY_TEXT_COLOR.withOpacity(0.9),
+                          fontWeight: FontWeight.w500,
+                          letterSpacing: 1,
+                        ),
+                      ),
+                      Text(
+                        GET_AGE_RANGE(
+                            dob: controller
+                                .breedingTransactionModel.femalePetModel.dob,
+                            currentTime: controller
+                                .breedingTransactionModel.createdTime),
+                        style: GoogleFonts.quicksand(
+                          fontSize: 14,
+                          color: DARK_GREY_TEXT_COLOR.withOpacity(0.9),
+                          fontWeight: FontWeight.w500,
+                          letterSpacing: 1,
+                        ),
+                      ),
+                    ],
+                  ),
                 ],
               ),
             ),
@@ -299,7 +321,7 @@ class BreedingTransactionDetailBodyWidget
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Padding(
-              padding: const EdgeInsets.only(right: 20),
+              padding: const EdgeInsets.only(right: 10),
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(5),
                 child: Image.network(
@@ -336,30 +358,6 @@ class BreedingTransactionDetailBodyWidget
                       ),
                       Text(
                         controller.breedingTransactionModel.malePetModel.name,
-                        style: GoogleFonts.quicksand(
-                          fontSize: 14,
-                          color: DARK_GREY_TEXT_COLOR.withOpacity(0.9),
-                          fontWeight: FontWeight.w500,
-                          letterSpacing: 1,
-                        ),
-                      ),
-                    ],
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        'Breed',
-                        style: GoogleFonts.quicksand(
-                          fontSize: 14,
-                          color: DARK_GREY_TEXT_COLOR.withOpacity(0.9),
-                          fontWeight: FontWeight.w500,
-                          letterSpacing: 1,
-                        ),
-                      ),
-                      Text(
-                        controller.breedingTransactionModel.malePetModel
-                            .breedModel!.name,
                         style: GoogleFonts.quicksand(
                           fontSize: 14,
                           color: DARK_GREY_TEXT_COLOR.withOpacity(0.9),
@@ -414,6 +412,33 @@ class BreedingTransactionDetailBodyWidget
                             ),
                           ),
                         ],
+                      ),
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        'Age range',
+                        style: GoogleFonts.quicksand(
+                          fontSize: 14,
+                          color: DARK_GREY_TEXT_COLOR.withOpacity(0.9),
+                          fontWeight: FontWeight.w500,
+                          letterSpacing: 1,
+                        ),
+                      ),
+                      Text(
+                        GET_AGE_RANGE(
+                            dob: controller
+                                .breedingTransactionModel.malePetModel.dob,
+                            currentTime: controller
+                                .breedingTransactionModel.createdTime),
+                        style: GoogleFonts.quicksand(
+                          fontSize: 14,
+                          color: DARK_GREY_TEXT_COLOR.withOpacity(0.9),
+                          fontWeight: FontWeight.w500,
+                          letterSpacing: 1,
+                        ),
                       ),
                     ],
                   ),

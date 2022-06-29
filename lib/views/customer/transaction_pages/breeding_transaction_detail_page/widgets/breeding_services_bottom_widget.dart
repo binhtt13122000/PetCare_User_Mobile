@@ -110,12 +110,12 @@ class BreedingTransactionDetailBreedingServicesBottomWidget
                   ..onTapOk = () async {
                     controller
                       ..isShowConfirmPopup.value = false
-                      ..isWaitingForeground.value = true;
+                      ..isWaitingLoading.value = true;
                     await BreedingTransactionService.pickUpMalePet(
                         id: controller.breedingTransactionModel.id,
                         pickupMalePetTime: DateTime.now());
                     controller
-                      ..isWaitingForeground.value = false
+                      ..isWaitingLoading.value = false
                       ..popupTitle =
                           'Confirm you have been pickup your pet successfully!'
                       ..isShowPopup.value = true;
@@ -237,12 +237,12 @@ class BreedingTransactionDetailBreedingServicesBottomWidget
             padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
             child: InkWell(
               onTap: () async {
-                controller.isWaitingForeground.value = true;
+                controller.isWaitingLoading.value = true;
                 await BreedingTransactionService.quickPaymentForBranch(
                     id: controller.breedingTransactionModel.id,
                     paymentForBranchTime: DateTime.now());
                 controller
-                  ..isWaitingForeground.value = false
+                  ..isWaitingLoading.value = false
                   ..popupTitle = 'Payment successfully!'
                   ..isShowPopup.value = true;
               },

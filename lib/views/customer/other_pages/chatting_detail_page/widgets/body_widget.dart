@@ -237,8 +237,8 @@ class ChattingDetailBodyWidget extends GetView<ChattingDetailPageController> {
                                   maxRadius: 16,
                                   minRadius: 16,
                                   child: CircleAvatar(
-                                    maxRadius: 12,
-                                    minRadius: 12,
+                                    maxRadius: 14,
+                                    minRadius: 14,
                                     backgroundColor: WHITE_COLOR,
                                     child: Text(
                                       controller.anotherChatRoomMember

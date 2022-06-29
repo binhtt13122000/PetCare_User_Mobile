@@ -37,7 +37,7 @@ class CustomerModel {
     this.phoneNumber,
   }) {
     List<String> words = lastName.split(' ');
-    avatarCharacter = words[words.length - 1][0];
+    avatarCharacter = words[words.length - 1][0].toUpperCase();
   }
 
   factory CustomerModel.fromJson(Map<String, dynamic> json) =>
