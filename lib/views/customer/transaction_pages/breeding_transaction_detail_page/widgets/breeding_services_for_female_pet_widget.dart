@@ -93,7 +93,7 @@ class BreedingTransactionDetailBreedingServicesForFemalePetWidget
         color: WHITE_COLOR,
         padding: EdgeInsets.symmetric(
             vertical: controller.breedingTransactionModel.status == 'CREATED'
-                ? 180
+                ? 140
                 : 170),
         child: Center(
           child: Column(children: [

@@ -7,7 +7,7 @@ import 'package:petapp_mobile/models/center_service_model/center_service_model.d
 class CenterServicesServices {
   static Future<List<CenterServiceModel>> fetchCenterServicesList() async {
     final response = await http.get(
-      Uri.https(API_SERVER_PATH, CENTER_SERVICES_API),
+      Uri.http(API_SERVER_PATH, CENTER_SERVICES_API),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },

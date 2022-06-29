@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
 import 'package:petapp_mobile/configs/theme.dart';
 import 'package:petapp_mobile/controllers/other_controllers/chatting_detail_page_controller.dart';
@@ -12,6 +11,7 @@ import 'package:petapp_mobile/views/customer/other_pages/chatting_detail_page/wi
 import 'package:petapp_mobile/views/customer/other_pages/chatting_detail_page/widgets/buyer_request_widget.dart';
 import 'package:petapp_mobile/views/customer/other_pages/chatting_detail_page/widgets/create_request_widget.dart';
 import 'package:petapp_mobile/views/customer/other_pages/chatting_detail_page/widgets/top_widget.dart';
+import 'package:petapp_mobile/views/widgets/customize_widget.dart';
 
 class ChattingDetailPage extends GetView<ChattingDetailPageController> {
   const ChattingDetailPage({Key? key}) : super(key: key);
@@ -90,14 +90,26 @@ class ChattingDetailPage extends GetView<ChattingDetailPageController> {
                   ),
                   const CreateRequestWidget(),
                   const BuyerRequestWidget(),
+                  NOTIFICATION_POPUP_WIDGET(
+                    onTapBackground: () =>
+                        controller.isShowFailedNotificationPopup.value = false,
+                    onTapOk: () =>
+                        controller.isShowFailedNotificationPopup.value = false,
+                    content:
+                        'Approve for buyer request failed. This post already has a transaction.',
+                    isVisible: <bool>() =>
+                        controller.isShowFailedNotificationPopup.value,
+                    isSuccessNotification: false,
+                  ),
+                  Obx(() => controller.isWaitLoadingData.value
+                      ? Container(
+                          child: LOADING_WIDGET(),
+                          color: DARK_GREY_TRANSPARENT,
+                        )
+                      : const SizedBox.shrink())
                 ],
               )
-            : const Center(
-                child: SpinKitSpinningLines(
-                  color: PRIMARY_COLOR,
-                  size: 150,
-                ),
-              ),
+            : LOADING_WIDGET(),
       ),
     );
   }

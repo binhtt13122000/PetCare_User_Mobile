@@ -7,6 +7,7 @@ import 'package:petapp_mobile/configs/theme.dart';
 import 'package:petapp_mobile/controllers/other_controllers/chatting_detail_page_controller.dart';
 import 'package:petapp_mobile/models/message_model/message_model.dart';
 import 'package:petapp_mobile/utilities/utilities.dart';
+import 'package:petapp_mobile/views/widgets/customize_widget.dart';
 
 class ChattingDetailBodyWidget extends GetView<ChattingDetailPageController> {
   const ChattingDetailBodyWidget({Key? key}) : super(key: key);
@@ -221,25 +222,60 @@ class ChattingDetailBodyWidget extends GetView<ChattingDetailPageController> {
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
                   isLastChat
-                      ? CircleAvatar(
-                          maxRadius: 14,
-                          minRadius: 14,
-                          backgroundImage: NetworkImage(
-                              controller.anotherChatRoomMember.avatar!),
-                        )
-                      : CircleAvatar(
-                          backgroundColor: PRIMARY_COLOR.withOpacity(0.7),
-                          maxRadius: 14,
-                          minRadius: 14,
-                          child: Text(
-                            controller
-                                .accountModel.customerModel.avatarCharacter,
-                            style: GoogleFonts.quicksand(
-                              color: WHITE_COLOR,
-                              fontSize: 14,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
+                      ? controller.anotherChatRoomMember.avatar == null ||
+                              controller.anotherChatRoomMember.avatar!.isEmpty
+                          ? Stack(
+                              children: [
+                                GRADIENT_WIDGET(
+                                  child: const CircleAvatar(
+                                    maxRadius: 16,
+                                    minRadius: 16,
+                                  ),
+                                ),
+                                CircleAvatar(
+                                  backgroundColor: Colors.transparent,
+                                  maxRadius: 16,
+                                  minRadius: 16,
+                                  child: CircleAvatar(
+                                    maxRadius: 12,
+                                    minRadius: 12,
+                                    backgroundColor: WHITE_COLOR,
+                                    child: Text(
+                                      controller.anotherChatRoomMember
+                                          .avatarCharacter,
+                                      style: GoogleFonts.quicksand(
+                                        color: PRIMARY_COLOR,
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            )
+                          : Stack(
+                              children: [
+                                GRADIENT_WIDGET(
+                                  child: const CircleAvatar(
+                                    maxRadius: 16,
+                                    minRadius: 16,
+                                  ),
+                                ),
+                                CircleAvatar(
+                                  backgroundColor: Colors.transparent,
+                                  maxRadius: 16,
+                                  minRadius: 16,
+                                  child: CircleAvatar(
+                                    maxRadius: 14,
+                                    minRadius: 14,
+                                    backgroundImage: NetworkImage(controller
+                                        .anotherChatRoomMember.avatar!),
+                                  ),
+                                ),
+                              ],
+                            )
+                      : const SizedBox(
+                          width: 28,
                         ),
                   Container(
                     width: 284,

@@ -164,7 +164,9 @@ class BuyerRequestWidget extends GetView<ChattingDetailPageController> {
         padding: const EdgeInsets.only(top: 20),
         child: InkWell(
           onTap: () async {
-            controller.isShowBuyerRequest.value = false;
+            controller
+              ..isShowBuyerRequest.value = false
+              ..isWaitLoadingData.value = true;
             int transactionId = controller.chatRoomModel!.type == 'SALE'
                 ? await SaleTransactionService.createSaleTransaction(
                     createdTime: DateTime.now(),
@@ -197,20 +199,27 @@ class BuyerRequestWidget extends GetView<ChattingDetailPageController> {
                     branchId: controller.postModel.branchId,
                     point: controller.postModel.provisionalTotal ~/ 1000,
                   );
-            String message = 'Transaction request - status: [APPROVED].';
-            controller.chatRoomModel!
-              ..transactionId = transactionId
-              ..status = 'CREATED'
-              ..isSellerMessage = true
-              ..newestMessage = message
-              ..newestMessageTime = DateTime.now();
-            Map<String, dynamic> emitJsonMap =
-                controller.chatRoomModel!.toJson();
-            emitJsonMap.addAll({'message': message});
-            controller.socket.emit(
-              'updateRoom',
-              emitJsonMap,
-            );
+            if (transactionId != -1) {
+              String message = 'Transaction request - status: [APPROVED].';
+              controller.chatRoomModel!
+                ..transactionId = transactionId
+                ..status = 'CREATED'
+                ..isSellerMessage = true
+                ..newestMessage = message
+                ..newestMessageTime = DateTime.now();
+              Map<String, dynamic> emitJsonMap =
+                  controller.chatRoomModel!.toJson();
+              emitJsonMap.addAll({'message': message});
+              controller.isWaitLoadingData.value = false;
+              controller.socket.emit(
+                'updateRoom',
+                emitJsonMap,
+              );
+            } else {
+              controller
+                ..isWaitLoadingData.value = false
+                ..isShowFailedNotificationPopup.value = true;
+            }
           },
           child: Container(
             height: 35,

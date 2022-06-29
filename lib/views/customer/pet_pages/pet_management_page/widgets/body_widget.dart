@@ -45,23 +45,25 @@ class PetsManagementBodyWidget extends GetView<PetManagementPageController> {
                           size: 150,
                         ),
                       )
-                    : SingleChildScrollView(
-                        child: Column(
-                          children: controller.petList
-                              .asMap()
-                              .entries
-                              .map(
-                                (e) => e.key.isEven
-                                    ? petCardDarkThemeWidget(
-                                        petModel: e.value,
-                                        screenWidth: screenWidth)
-                                    : petCardWidget(
-                                        petModel: e.value,
-                                        screenWidth: screenWidth),
-                              )
-                              .toList(),
-                        ),
-                      ),
+                    : controller.petList.isEmpty
+                        ? NO_DATA_WIDGET(content: 'Sorry, no pet data found.')
+                        : SingleChildScrollView(
+                            child: Column(
+                              children: controller.petList
+                                  .asMap()
+                                  .entries
+                                  .map(
+                                    (e) => e.key.isEven
+                                        ? petCardDarkThemeWidget(
+                                            petModel: e.value,
+                                            screenWidth: screenWidth)
+                                        : petCardWidget(
+                                            petModel: e.value,
+                                            screenWidth: screenWidth),
+                                  )
+                                  .toList(),
+                            ),
+                          ),
               );
             }),
           ),

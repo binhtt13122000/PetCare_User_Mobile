@@ -12,7 +12,7 @@ class AuthService {
     required String deviceToken,
   }) async {
     final response = await http.post(
-      Uri.https(API_SERVER_PATH, '$AUTH_API_PATH/logout'),
+      Uri.http(API_SERVER_PATH, '$AUTH_API_PATH/logout'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -46,7 +46,7 @@ class AuthService {
     required String userDeviceToken,
   }) async {
     final response = await http.post(
-      Uri.https(API_SERVER_PATH, '/v1/api/auth/login/phone-number'),
+      Uri.http(API_SERVER_PATH, '/v1/api/auth/login/phone-number'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -73,7 +73,7 @@ class AuthService {
     required String phoneNumber,
   }) async {
     final response = await http.get(
-      Uri.https(API_SERVER_PATH, '/v1/api/auth/phone-number/$phoneNumber'),
+      Uri.http(API_SERVER_PATH, '/v1/api/auth/phone-number/$phoneNumber'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -124,7 +124,7 @@ class AuthService {
             )
           : null;
       Response response =
-          await Dio().post('https://$API_SERVER_PATH/v1/api/auth/register',
+          await Dio().post('http://$API_SERVER_PATH/v1/api/auth/register',
               data: formData,
               options: Options(headers: <String, String>{
                 HttpHeaders.contentTypeHeader: 'multipart/form-data',

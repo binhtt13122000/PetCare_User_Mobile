@@ -48,7 +48,7 @@ class CreatePetBottomWidget extends GetView<CreatePetPageController> {
                 },
                 child: Obx(
                   () => Container(
-                    height: 45,
+                    height: 35,
                     alignment: Alignment.center,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(5),
@@ -56,7 +56,7 @@ class CreatePetBottomWidget extends GetView<CreatePetPageController> {
                               controller.avatarUrl.value.isNotEmpty &&
                               controller.dayOfBirthText.value.isNotEmpty
                           ? PRIMARY_COLOR
-                          : PRIMARY_COLOR.withOpacity(0.5),
+                          : PRIMARY_COLOR.withOpacity(0.3),
                     ),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -66,8 +66,8 @@ class CreatePetBottomWidget extends GetView<CreatePetPageController> {
                           textAlign: TextAlign.center,
                           style: GoogleFonts.quicksand(
                             textStyle: const TextStyle(color: WHITE_COLOR),
-                            fontWeight: FontWeight.w600,
-                            fontSize: 18,
+                            fontWeight: FontWeight.w700,
+                            fontSize: 16,
                             height: 1,
                             letterSpacing: 2,
                           ),

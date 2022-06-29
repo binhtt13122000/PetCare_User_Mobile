@@ -44,6 +44,9 @@ class ChattingDetailPageController extends GetxController {
   RxInt selectedPetIndex = (-1).obs;
   RxBool isShowPetDropdownList = false.obs;
   late PetModel femalePet;
+  RxBool isShowSuccessNotificationPopup = false.obs;
+  RxBool isShowFailedNotificationPopup = false.obs;
+  RxBool isWaitLoadingData = false.obs;
 
   TextEditingController transactionLocationTextEditingController =
       TextEditingController();

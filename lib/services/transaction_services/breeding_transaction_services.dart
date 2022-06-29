@@ -32,8 +32,26 @@ class BreedingTransactionService {
     required int transactionFee,
     bool isSelf = false,
   }) async {
+    print({
+      'createdTime': createdTime.toIso8601String(),
+      'meetingTime': meetingTime.toIso8601String(),
+      'sellerReceive': sellerReceive,
+      'transactionTotal': transactionTotal,
+      'point': point,
+      'description': description,
+      'status': status,
+      'ownerPetFemaleId': ownerPetFemaleId,
+      'ownerPetMaleId': ownerPetMaleId,
+      'petFemaleId': petFemaleId,
+      'petMaleId': petMaleId,
+      'postId': postId,
+      'branchId': branchId,
+      'transactionFee': transactionFee,
+      'placeMeeting': placeMeeting,
+      'self': isSelf
+    }.toString());
     final response = await http.post(
-      Uri.https(API_SERVER_PATH, BREEDING_TRANSACTION_API_PATH),
+      Uri.http(API_SERVER_PATH, BREEDING_TRANSACTION_API_PATH),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -60,10 +78,14 @@ class BreedingTransactionService {
       case 200:
       case 201:
       case 202:
-        return json.decode(response.body)['data']['id'];
+        if (json.decode(response.body)['data']['isSuccess'] != null &&
+            json.decode(response.body)['data']['isSuccess']) {
+          return json.decode(response.body)['data']['id'];
+        } else {
+          return -1;
+        }
       default:
-        throw Exception(
-            'Error ${response.statusCode}, cannot create transaction');
+        return -1;
     }
   }
 
@@ -73,8 +95,7 @@ class BreedingTransactionService {
     required DateTime bookingTime,
   }) async {
     final response = await http.post(
-      Uri.https(
-          API_SERVER_PATH, BREEDING_TRANSACTION_BOOKING_SERVICES_API_PATH),
+      Uri.http(API_SERVER_PATH, BREEDING_TRANSACTION_BOOKING_SERVICES_API_PATH),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -100,7 +121,7 @@ class BreedingTransactionService {
     required String review,
   }) async {
     final response = await http.put(
-      Uri.https(API_SERVER_PATH,
+      Uri.http(API_SERVER_PATH,
           BREADING_TRANSACTION_REVIEW_FOR_TRANSACTION_API_PATH),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
@@ -123,7 +144,7 @@ class BreedingTransactionService {
     required String review,
   }) async {
     final response = await http.put(
-      Uri.https(
+      Uri.http(
           API_SERVER_PATH, BREADING_TRANSACTION_REVIEW_FOR_BRANCH_API_PATH),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
@@ -149,7 +170,7 @@ class BreedingTransactionService {
       'paymentTime': paymentForMalePetOwnerTime.toIso8601String(),
     });
     final response = await http.post(
-      Uri.https(
+      Uri.http(
         API_SERVER_PATH,
         BREEDING_TRANSACTION_PAYMENT_FOR_PET_MALE_OWNER_API,
       ),
@@ -178,7 +199,7 @@ class BreedingTransactionService {
       'pickupFemalePetTime': paymentForBranchTime.toIso8601String(),
     });
     final response = await http.put(
-      Uri.https(
+      Uri.http(
         API_SERVER_PATH,
         BREEDING_TRANSACTION_PAYMENT_FOR_BRANCH_API,
       ),
@@ -206,7 +227,7 @@ class BreedingTransactionService {
       'pickupMalePetTime': pickupMalePetTime.toIso8601String(),
     });
     final response = await http.put(
-      Uri.https(
+      Uri.http(
         API_SERVER_PATH,
         BREEDING_TRANSACTION_PICKUP_MALE_PET_API,
       ),
@@ -249,7 +270,7 @@ class BreedingTransactionService {
       'message': 'Thank for your payment!'
     });
     final response = await http.post(
-      Uri.https(API_SERVER_PATH, BREEDING_TRANSACTION_PAYMENT_API_PATH,
+      Uri.http(API_SERVER_PATH, BREEDING_TRANSACTION_PAYMENT_API_PATH,
           queryParameters),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
@@ -279,7 +300,7 @@ class BreedingTransactionService {
       'limit': limit,
     };
     final response = await http.get(
-      Uri.https(API_SERVER_PATH, BREEDING_TRANSACTION_API_PATH, parameters),
+      Uri.http(API_SERVER_PATH, BREEDING_TRANSACTION_API_PATH, parameters),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -299,7 +320,7 @@ class BreedingTransactionService {
     required int breedingTransactionId,
   }) async {
     final response = await http.get(
-      Uri.https(API_SERVER_PATH,
+      Uri.http(API_SERVER_PATH,
           '$BREEDING_TRANSACTION_API_PATH/$breedingTransactionId'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',

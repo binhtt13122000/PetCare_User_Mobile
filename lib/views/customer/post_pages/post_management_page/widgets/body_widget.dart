@@ -9,6 +9,7 @@ import 'package:petapp_mobile/controllers/post_page_controllers/post_management_
 import 'package:petapp_mobile/models/post_model/post_model.dart';
 import 'package:petapp_mobile/services/post_services/post_services.dart';
 import 'package:petapp_mobile/utilities/utilities.dart';
+import 'package:petapp_mobile/views/widgets/customize_widget.dart';
 
 class PostsManagementBodyWidget extends GetView<PostManagementPageController> {
   const PostsManagementBodyWidget({Key? key}) : super(key: key);
@@ -47,16 +48,19 @@ class PostsManagementBodyWidget extends GetView<PostManagementPageController> {
                           size: 150,
                         ),
                       )
-                    : SingleChildScrollView(
-                        child: Column(
-                        children: controller.postList
-                            .asMap()
-                            .entries
-                            .map((e) => e.key.isEven
-                                ? postCardWidget(postModel: e.value)
-                                : postCardDarkThemeWidget(postModel: e.value))
-                            .toList(),
-                      )),
+                    : controller.postList.isEmpty
+                        ? NO_DATA_WIDGET(content: 'Sorry, no post data found.')
+                        : SingleChildScrollView(
+                            child: Column(
+                            children: controller.postList
+                                .asMap()
+                                .entries
+                                .map((e) => e.key.isEven
+                                    ? postCardWidget(postModel: e.value)
+                                    : postCardDarkThemeWidget(
+                                        postModel: e.value))
+                                .toList(),
+                          )),
               );
             },
           ),

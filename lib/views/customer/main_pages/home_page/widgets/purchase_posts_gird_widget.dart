@@ -45,43 +45,50 @@ class SalePostGirdsWidget extends GetView<HomePageController> {
                               ),
                             ),
                           )
-                        : Expanded(
-                            child: Column(
-                              children: [
-                                Expanded(
-                                  child: Container(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 14),
-                                    child: CustomScrollView(
-                                      slivers: [
-                                        SliverGrid.count(
-                                          crossAxisCount: 2,
-                                          childAspectRatio: 15,
-                                          mainAxisSpacing: 5,
-                                          crossAxisSpacing: 4,
-                                          children: const [SizedBox.shrink()],
+                        : controller.postList.isEmpty
+                            ? Expanded(
+                                child: NO_DATA_WIDGET(
+                                    content: 'Sorry, no post data found.'))
+                            : Expanded(
+                                child: Column(
+                                  children: [
+                                    Expanded(
+                                      child: Container(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 14),
+                                        child: CustomScrollView(
+                                          slivers: [
+                                            SliverGrid.count(
+                                              crossAxisCount: 2,
+                                              childAspectRatio: 15,
+                                              mainAxisSpacing: 5,
+                                              crossAxisSpacing: 4,
+                                              children: const [
+                                                SizedBox.shrink()
+                                              ],
+                                            ),
+                                            SliverGrid.count(
+                                              crossAxisCount: 2,
+                                              childAspectRatio: 0.63,
+                                              mainAxisSpacing: 5,
+                                              crossAxisSpacing: 4,
+                                              children: controller.postList
+                                                  .asMap()
+                                                  .entries
+                                                  .map(
+                                                    (e) =>
+                                                        purchasePostItemWidget(
+                                                            postModel: e.value),
+                                                  )
+                                                  .toList(),
+                                            ),
+                                          ],
                                         ),
-                                        SliverGrid.count(
-                                          crossAxisCount: 2,
-                                          childAspectRatio: 0.63,
-                                          mainAxisSpacing: 5,
-                                          crossAxisSpacing: 4,
-                                          children: controller.postList
-                                              .asMap()
-                                              .entries
-                                              .map(
-                                                (e) => purchasePostItemWidget(
-                                                    postModel: e.value),
-                                              )
-                                              .toList(),
-                                        ),
-                                      ],
+                                      ),
                                     ),
-                                  ),
+                                  ],
                                 ),
-                              ],
-                            ),
-                          ),
+                              ),
                   ),
                 ],
               ),

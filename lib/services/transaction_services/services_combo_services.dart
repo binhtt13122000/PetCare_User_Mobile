@@ -16,7 +16,7 @@ class ServicesComboModelServices {
 
   static Future<List<ServicesComboModel>> fetchServicesComboList() async {
     final response = await http.get(
-      Uri.https(API_SERVER_PATH, SERVICES_COMBO_API_PATH),
+      Uri.http(API_SERVER_PATH, SERVICES_COMBO_API_PATH),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -35,7 +35,7 @@ class ServicesComboModelServices {
   static Future<List<ServicesComboModel>> fetchServicesComboListByType(
       {required String serviceType}) async {
     final response = await http.get(
-      Uri.https(
+      Uri.http(
         API_SERVER_PATH,
         '$SERVICES_COMBO_BY_TYPE_API_PATH/$serviceType',
       ),
@@ -57,7 +57,7 @@ class ServicesComboModelServices {
   static Future<ServicesComboModel> fetchServicesComboById(
       {required int id}) async {
     final response = await http.get(
-      Uri.https(API_SERVER_PATH, '$SERVICES_COMBO_API_PATH/$id'),
+      Uri.http(API_SERVER_PATH, '$SERVICES_COMBO_API_PATH/$id'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },

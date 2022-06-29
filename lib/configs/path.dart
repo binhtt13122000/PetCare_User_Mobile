@@ -90,6 +90,8 @@ const PET_GROOMING_PNG = 'pet_grooming.png';
 const PET_SHOWER_PNG = 'pet_shower.png';
 const PET_VACCINATION_PNG = 'pet_vaccination.png';
 const NO_IMAGE_PNG = 'no_image.png';
+const NO_DATA_ART_PNG = 'no_data_art.png';
+const LAZY_CAT_PNG = 'lazy_cat.png';
 
 // const API_SERVER = '10.1.127.196:4000';
 // const GRAPHL_SERVER = 'http://10.1.127.196:8080';
@@ -100,8 +102,8 @@ const NO_IMAGE_PNG = 'no_image.png';
 // const API_SERVER = '10.0.2.2:4000';
 // const GRAPHL_SERVER = 'http://10.0.2.2:8080';
 
-const API_SERVER_PATH = 'binhtt.tech';
-const GRAPHL_SERVER_PATH = 'https://advanced-shrimp-11.hasura.app';
+const API_SERVER_PATH = '52.53.149.252';
+const GRAPHL_SERVER_PATH = 'http://52.53.149.252:8080';
 
 //*sale transaction
 const SALE_TRANSACTION_RETURN_API_PATH =

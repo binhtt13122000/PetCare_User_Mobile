@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:petapp_mobile/configs/theme.dart';
 import 'package:petapp_mobile/controllers/post_page_controllers/create_post_page_controller.dart';
-import 'package:petapp_mobile/services/other_services/branch_services.dart';
 import 'package:petapp_mobile/views/widgets/customize_widget.dart';
 
 class SelectBranchWidget extends GetView<CreatePostPageController> {
@@ -13,13 +11,12 @@ class SelectBranchWidget extends GetView<CreatePostPageController> {
   @override
   Widget build(BuildContext context) {
     controller.isLoadingBranch.value = true;
-    WidgetsBinding.instance!.addPostFrameCallback((_) async {
-      controller
-        ..branchList = await BranchServices.fetchBranchList()
-        ..selectedBranchIndex.value = 0
-        ..branchAddress.value = controller.branchList[0].address!
-        ..isLoadingBranch.value = false;
-    });
+    // WidgetsBinding.instance!.addPostFrameCallback((_) async {
+    //   controller
+    //     ..branchList = await BranchServices.fetchBranchList()
+    //     ..selectedBranchIndex.value = 0
+    //     ..isLoadingBranch.value = false;
+    // });
 
     return Column(
       children: [
@@ -36,8 +33,8 @@ class SelectBranchWidget extends GetView<CreatePostPageController> {
                         'Select branch',
                         style: GoogleFonts.quicksand(
                           fontWeight: FontWeight.w500,
-                          color: const Color.fromARGB(255, 78, 98, 124),
-                          fontSize: 16,
+                          color: DARK_GREY_TEXT_COLOR.withOpacity(0.95),
+                          fontSize: 15,
                         ),
                       ),
                       Text(
@@ -52,44 +49,51 @@ class SelectBranchWidget extends GetView<CreatePostPageController> {
                   ),
                   const SizedBox(width: 20),
                   Obx(
-                    () => controller.isLoadingBranch.value
-                        ? const SpinKitSpinningLines(
-                            color: PRIMARY_COLOR,
-                            size: 50,
-                          )
-                        : DropdownButton<int>(
-                            value: controller.selectedBranchIndex.value,
-                            items: controller.branchList
-                                .asMap()
-                                .entries
-                                .map((e) => DropdownMenuItem(
-                                    value: e.key,
-                                    child: Text(
-                                      e.value.name,
-                                      style: GoogleFonts.quicksand(
-                                        fontWeight: FontWeight.w500,
-                                        color: const Color.fromARGB(
-                                            255, 78, 98, 124),
-                                        fontSize: 16,
-                                      ),
-                                    )))
-                                .toList(),
-                            onChanged: (int? value) {
-                              controller
-                                ..selectedBranchIndex.value = value!
-                                ..branchAddress.value =
-                                    controller.branchList[value].address!;
-                            },
-                          ),
+                    () => DropdownButton<int>(
+                      value: controller.selectedBranchIndex.value,
+                      items: controller.branchList
+                          .asMap()
+                          .entries
+                          .map((e) => DropdownMenuItem(
+                              value: e.key,
+                              child: Text(
+                                e.value.name,
+                                style: GoogleFonts.quicksand(
+                                  fontWeight: FontWeight.w500,
+                                  color: const Color.fromARGB(255, 78, 98, 124),
+                                  fontSize: 16,
+                                ),
+                              )))
+                          .toList(),
+                      onChanged: (int? value) {
+                        controller.selectedBranchIndex.value = value!;
+                      },
+                    ),
                   ),
                 ],
               ),
               Obx(
                 () => Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    CUSTOM_TEXT('Branch address',
-                        padding: const EdgeInsets.only(right: 10)),
-                    CUSTOM_TEXT(controller.branchAddress.value),
+                    CUSTOM_TEXT(
+                      'Branch address',
+                      color: DARK_GREY_TEXT_COLOR.withOpacity(0.95),
+                      padding: const EdgeInsets.only(right: 10),
+                      fontSize: 15,
+                    ),
+                    Expanded(
+                      child: CUSTOM_TEXT(
+                        controller
+                                .branchList[
+                                    controller.selectedBranchIndex.value]
+                                .address ??
+                            'N/A',
+                        textOverflow: TextOverflow.clip,
+                        color: DARK_GREY_TEXT_COLOR.withOpacity(0.95),
+                        fontSize: 15,
+                      ),
+                    ),
                   ],
                 ),
               ),
@@ -124,8 +128,8 @@ class SelectBranchWidget extends GetView<CreatePostPageController> {
                       'Meeting time',
                       style: GoogleFonts.quicksand(
                         fontWeight: FontWeight.w500,
-                        color: const Color.fromARGB(255, 61, 78, 100),
-                        fontSize: 16,
+                        color: DARK_GREY_TEXT_COLOR.withOpacity(0.95),
+                        fontSize: 15,
                         letterSpacing: 0.5,
                       ),
                     ),

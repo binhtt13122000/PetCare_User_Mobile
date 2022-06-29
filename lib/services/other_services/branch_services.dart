@@ -16,7 +16,7 @@ class BranchServices {
 
   static Future<List<BranchModel>> fetchBranchList() async {
     final response = await http.get(
-      Uri.https(API_SERVER_PATH, '/v1/api/branches'),
+      Uri.http(API_SERVER_PATH, '/v1/api/branches'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },

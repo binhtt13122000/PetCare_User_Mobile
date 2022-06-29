@@ -26,9 +26,7 @@ class BreedingTransactionDetailBodyWidget
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      controller.breedingTransactionModel.self
-                          ? const SizedBox.shrink()
-                          : petInformation(),
+                      petInformation(),
                       Container(
                         height: 1,
                         color: LIGHT_GREY_COLOR.withAlpha(30),
