@@ -34,5 +34,5 @@ class BuyServicesComboPageController extends GetxController {
   RxBool isViewServicesComboDescriptionWidget = false.obs;
   RxString selectedPetGender = ''.obs;
   RxString selectedComboType = ''.obs;
-  RxString branchAddress = ''.obs;
+  RxBool isShowBranchDetail = false.obs;
 }

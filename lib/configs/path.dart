@@ -104,8 +104,8 @@ const PET_WITH_CAKE_PNG = 'pet_with_cake.png';
 // const API_SERVER = '10.0.2.2:4000';
 // const GRAPHL_SERVER = 'http://10.0.2.2:8080';
 
-const API_SERVER_PATH = '3.101.55.191';
-const GRAPHL_SERVER_PATH = 'http://3.101.55.191:8080';
+const API_SERVER_PATH = '54.176.67.207';
+const GRAPHL_SERVER_PATH = 'http://54.176.67.207:8080';
 
 //*sale transaction
 const SALE_TRANSACTION_RETURN_API_PATH =

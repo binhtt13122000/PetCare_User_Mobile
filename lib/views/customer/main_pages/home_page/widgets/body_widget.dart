@@ -5,6 +5,7 @@ import 'package:petapp_mobile/configs/theme.dart';
 import 'package:petapp_mobile/controllers/main_page_controllers/home_page_controller.dart';
 import 'package:petapp_mobile/views/customer/main_pages/home_page/widgets/center_widget.dart';
 import 'package:petapp_mobile/views/customer/main_pages/home_page/widgets/post_gird_widget.dart';
+import 'package:petapp_mobile/views/customer/main_pages/home_page/widgets/services_list_widget.dart';
 
 class HomeBodyWidget extends GetView<HomePageController> {
   const HomeBodyWidget({Key? key}) : super(key: key);
@@ -21,7 +22,7 @@ class HomeBodyWidget extends GetView<HomePageController> {
           bodyWidget = const HomeCenterWidget();
           break;
         case 3:
-          bodyWidget = groomingServicesWidget();
+          bodyWidget = const HomeServicesListWidget();
           break;
         case 4:
           bodyWidget = breedServicesWidget();

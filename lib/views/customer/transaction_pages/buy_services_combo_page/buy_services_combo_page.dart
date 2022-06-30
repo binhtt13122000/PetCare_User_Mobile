@@ -26,7 +26,6 @@ class BuyServicesComboPage extends GetView<BuyServicesComboPageController> {
             : controller.selectedSpeciesId.value
         ..branchModelList = await BranchServices.fetchBranchList()
         ..selectBranchIndex.value = 0
-        ..branchAddress.value = controller.branchModelList[0].address!
         ..petServicesComboModelList =
             await ServicesComboModelServices.fetchServicesComboList()
         ..selectPetServicesComboIndex.value = 0

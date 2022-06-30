@@ -104,7 +104,7 @@ class HomeCenterWidget extends GetView<HomePageController> {
                                 branchModel.address ?? 'N/A',
                                 textAlign: TextAlign.end,
                                 color: DARK_GREY_TEXT_COLOR.withOpacity(0.95),
-                                textOverflow: controller.selectedBranch
+                                textOverflow: controller.selectedBranchList
                                         .contains(branchModel.name)
                                     ? TextOverflow.clip
                                     : TextOverflow.ellipsis,
@@ -113,7 +113,7 @@ class HomeCenterWidget extends GetView<HomePageController> {
                           ],
                         ),
                         Visibility(
-                          visible: controller.selectedBranch
+                          visible: controller.selectedBranchList
                               .contains(branchModel.name),
                           child: Column(
                             children: [
@@ -134,7 +134,8 @@ class HomeCenterWidget extends GetView<HomePageController> {
                                       textAlign: TextAlign.end,
                                       color: DARK_GREY_TEXT_COLOR
                                           .withOpacity(0.95),
-                                      textOverflow: controller.selectedBranch
+                                      textOverflow: controller
+                                              .selectedBranchList
                                               .contains(branchModel.name)
                                           ? TextOverflow.clip
                                           : TextOverflow.ellipsis,
@@ -159,7 +160,8 @@ class HomeCenterWidget extends GetView<HomePageController> {
                                       textAlign: TextAlign.end,
                                       color: DARK_GREY_TEXT_COLOR
                                           .withOpacity(0.95),
-                                      textOverflow: controller.selectedBranch
+                                      textOverflow: controller
+                                              .selectedBranchList
                                               .contains(branchModel.name)
                                           ? TextOverflow.clip
                                           : TextOverflow.ellipsis,
@@ -177,18 +179,18 @@ class HomeCenterWidget extends GetView<HomePageController> {
                           children: [
                             const Spacer(),
                             InkWell(
-                              onTap: () => controller.selectedBranch
+                              onTap: () => controller.selectedBranchList
                                       .contains(branchModel.name)
-                                  ? controller.selectedBranch
+                                  ? controller.selectedBranchList
                                       .remove(branchModel.name)
-                                  : controller.selectedBranch
+                                  : controller.selectedBranchList
                                       .add(branchModel.name),
                               child: Column(children: [
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     CUSTOM_TEXT(
-                                      controller.selectedBranch
+                                      controller.selectedBranchList
                                               .contains(branchModel.name)
                                           ? 'Hide details'
                                           : 'View details',
@@ -198,7 +200,7 @@ class HomeCenterWidget extends GetView<HomePageController> {
                                     ),
                                     const SizedBox(width: 5),
                                     Icon(
-                                      controller.selectedBranch
+                                      controller.selectedBranchList
                                               .contains(branchModel.name)
                                           ? Icons
                                               .keyboard_double_arrow_up_outlined

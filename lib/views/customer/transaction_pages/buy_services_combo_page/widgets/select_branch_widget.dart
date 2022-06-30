@@ -47,22 +47,138 @@ class BuyPetServicesComboSelectBranchWidget
                           )))
                       .toList(),
                   onChanged: (int? value) {
-                    controller
-                      ..selectBranchIndex.value = value!
-                      ..branchAddress.value = controller
-                          .branchModelList[controller.selectBranchIndex.value]
-                          .address!;
+                    controller.selectBranchIndex.value = value!;
                   },
                 ),
               ),
             ],
           ),
           Obx(
-            () => Row(
+            () => Column(
               children: [
-                CUSTOM_TEXT('Branch address',
-                    padding: const EdgeInsets.only(right: 10)),
-                CUSTOM_TEXT(controller.branchAddress.value),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    CUSTOM_TEXT(
+                      ' Branch address',
+                      padding: const EdgeInsets.only(right: 15),
+                      color: DARK_GREY_TEXT_COLOR.withOpacity(0.95),
+                    ),
+                    Expanded(
+                      child: CUSTOM_TEXT(
+                        controller
+                                .branchModelList[
+                                    controller.selectBranchIndex.value]
+                                .address ??
+                            'N/A',
+                        textAlign: TextAlign.end,
+                        color: DARK_GREY_TEXT_COLOR.withOpacity(0.95),
+                        textOverflow: controller.isShowBranchDetail.value
+                            ? TextOverflow.clip
+                            : TextOverflow.ellipsis,
+                      ),
+                    ),
+                  ],
+                ),
+                Visibility(
+                  visible: controller.isShowBranchDetail.value,
+                  child: Column(
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          CUSTOM_TEXT(
+                            'Phone number',
+                            padding: const EdgeInsets.only(right: 15),
+                            color: DARK_GREY_TEXT_COLOR.withOpacity(0.95),
+                          ),
+                          Expanded(
+                            child: CUSTOM_TEXT(
+                              controller
+                                  .branchModelList[
+                                      controller.selectBranchIndex.value]
+                                  .phoneNumber,
+                              textAlign: TextAlign.end,
+                              color: DARK_GREY_TEXT_COLOR.withOpacity(0.95),
+                              textOverflow: controller.isShowBranchDetail.value
+                                  ? TextOverflow.clip
+                                  : TextOverflow.ellipsis,
+                            ),
+                          ),
+                        ],
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          CUSTOM_TEXT(
+                            'Email',
+                            padding: const EdgeInsets.only(right: 15),
+                            color: DARK_GREY_TEXT_COLOR.withOpacity(0.95),
+                          ),
+                          Expanded(
+                            child: CUSTOM_TEXT(
+                              controller
+                                      .branchModelList[
+                                          controller.selectBranchIndex.value]
+                                      .email ??
+                                  'N/A',
+                              textAlign: TextAlign.end,
+                              color: DARK_GREY_TEXT_COLOR.withOpacity(0.95),
+                              textOverflow: controller.isShowBranchDetail.value
+                                  ? TextOverflow.clip
+                                  : TextOverflow.ellipsis,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(
+                  height: 5,
+                ),
+                Row(
+                  children: [
+                    const Spacer(),
+                    InkWell(
+                      onTap: () => controller.isShowBranchDetail.value =
+                          !controller.isShowBranchDetail.value,
+                      child: Column(children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            CUSTOM_TEXT(
+                              controller.isShowBranchDetail.value
+                                  ? 'Hide branch details'
+                                  : 'View branch details',
+                              color: PRIMARY_COLOR,
+                              fontSize: 13,
+                              letterSpacing: 2,
+                            ),
+                            const SizedBox(width: 5),
+                            Icon(
+                              controller.isShowBranchDetail.value
+                                  ? Icons.keyboard_double_arrow_up_outlined
+                                  : Icons.keyboard_double_arrow_down_outlined,
+                              size: 18,
+                              color: PRIMARY_COLOR,
+                            ),
+                          ],
+                        ),
+                        Container(
+                          height: 1,
+                          width: 180,
+                          color: PRIMARY_COLOR,
+                          margin: const EdgeInsets.only(top: 2),
+                        ),
+                      ]),
+                    ),
+                    const Spacer(),
+                  ],
+                ),
               ],
             ),
           ),
