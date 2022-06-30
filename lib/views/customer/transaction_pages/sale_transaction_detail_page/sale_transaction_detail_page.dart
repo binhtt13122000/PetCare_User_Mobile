@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
 import 'package:petapp_mobile/configs/theme.dart';
 import 'package:petapp_mobile/controllers/transaction_page_controllers/sale_transaction_detail_page_controller.dart';
@@ -11,6 +10,7 @@ import 'package:petapp_mobile/views/customer/transaction_pages/sale_transaction_
 import 'package:petapp_mobile/views/customer/transaction_pages/sale_transaction_detail_page/widgets/review_popup_widget.dart';
 import 'package:petapp_mobile/views/customer/transaction_pages/sale_transaction_detail_page/widgets/top_widget.dart';
 import 'package:petapp_mobile/views/customer/transaction_pages/sale_transaction_detail_page/widgets/web_view.dart';
+import 'package:petapp_mobile/views/widgets/customize_widget.dart';
 
 class SaleTransactionDetailPage
     extends GetView<SaleTransactionDetailPageController> {
@@ -38,13 +38,8 @@ class SaleTransactionDetailPage
                 const SaleTransactionDetailTopWidget(),
                 Obx(
                   () => controller.isLoading.value
-                      ? const Expanded(
-                          child: Center(
-                            child: SpinKitSpinningLines(
-                              color: PRIMARY_COLOR,
-                              size: 150,
-                            ),
-                          ),
+                      ? Expanded(
+                          child: LOADING_WIDGET(),
                         )
                       : Expanded(
                           child: Column(

@@ -69,6 +69,45 @@ Future<List<File>?> PICK_IMAGE_LIST() async {
   }
 }
 
+String GET_AGE_RANGE({required DateTime dob, required DateTime currentTime}) {
+  late String ageRange;
+  var diff = currentTime.difference(dob);
+  int dateAge = diff.inDays;
+  if (dateAge > 365) {
+    ageRange = '${dateAge ~/ 365} years\n'
+        '${(dateAge - (dateAge ~/ 365) * 365) ~/ 30} months';
+  } else {
+    ageRange = '${dateAge ~/ 30} months';
+  }
+  return ageRange;
+}
+
+String GET_REVIEW_CONTENT({String? description, List<String>? quickRateList}) {
+  String reviewContent = '';
+  if (description == null || description.isEmpty) {
+    int index = 0;
+    do {
+      reviewContent += index == quickRateList!.length
+          ? '${quickRateList[index]}, '
+          : '${quickRateList[index]}. ';
+      index++;
+    } while (index < quickRateList.length - 1);
+  } else if (quickRateList == null || quickRateList.isEmpty) {
+    reviewContent = description;
+  } else {
+    int index = 0;
+    do {
+      reviewContent += index == quickRateList.length
+          ? '${quickRateList[index]}, '
+          : '${quickRateList[index]}. ';
+      index++;
+    } while (index < quickRateList.length - 1);
+    reviewContent += ' ' + description;
+  }
+
+  return reviewContent;
+}
+
 class CustomTextFormatter extends TextInputFormatter {
   final String sample;
   final String separator;

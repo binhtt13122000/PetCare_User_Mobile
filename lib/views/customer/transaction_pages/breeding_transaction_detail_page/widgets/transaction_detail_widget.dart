@@ -62,7 +62,7 @@ class BreedingTransactionDetailWidget
                           controller.breedingTransactionModel
                                       .ownerPetFemaleId ==
                                   controller.accountModel.customerModel.id
-                              ? 'Provisional total'
+                              ? 'Transaction price'
                               : 'Transaction total price',
                           style: GoogleFonts.quicksand(
                             fontSize: 15,
@@ -72,15 +72,11 @@ class BreedingTransactionDetailWidget
                         ),
                         Text(
                           FORMAT_MONEY(
-                              price: controller.breedingTransactionModel
-                                          .ownerPetFemaleId ==
-                                      controller.accountModel.customerModel.id
-                                  ? controller
-                                      .breedingTransactionModel.transactionTotal
-                                  : controller.breedingTransactionModel
-                                          .sellerReceive +
-                                      controller.breedingTransactionModel
-                                          .transactionFee),
+                            price: controller
+                                    .breedingTransactionModel.sellerReceive +
+                                controller
+                                    .breedingTransactionModel.transactionFee,
+                          ),
                           style: GoogleFonts.quicksand(
                             fontSize: 15,
                             fontWeight: FontWeight.w500,
@@ -100,7 +96,7 @@ class BreedingTransactionDetailWidget
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               Text(
-                                'Fees charged ',
+                                'Breeding services fees',
                                 style: GoogleFonts.quicksand(
                                   fontSize: 15,
                                   fontWeight: FontWeight.w500,
@@ -115,7 +111,10 @@ class BreedingTransactionDetailWidget
                             ],
                           ),
                           Text(
-                            FORMAT_MONEY(price: 0),
+                            FORMAT_MONEY(
+                                price: controller
+                                        .breedingTransactionModel.serviceFee ??
+                                    0),
                             style: GoogleFonts.quicksand(
                               fontSize: 15,
                               fontWeight: FontWeight.w500,
@@ -194,14 +193,14 @@ class BreedingTransactionDetailWidget
                               fontWeight: FontWeight.w700,
                               color: PRIMARY_COLOR,
                               letterSpacing: 1,
-                              decoration:
-                                  controller.breedingTransactionModel.status ==
-                                              'CANCELED' ||
-                                          controller.breedingTransactionModel
-                                                  .status ==
-                                              'REJECTED'
-                                      ? TextDecoration.lineThrough
-                                      : TextDecoration.none,
+                              decoration: [
+                                'REJECTED',
+                                'BREEDING_CANCELED',
+                                'CANCELED'
+                              ].contains(controller
+                                      .breedingTransactionModel.status)
+                                  ? TextDecoration.lineThrough
+                                  : TextDecoration.none,
                             ),
                           ),
                         ],
@@ -269,37 +268,7 @@ class BreedingTransactionDetailWidget
         controller.breedingTransactionModel.ownerPetFemaleId) {
       switch (controller.breedingTransactionModel.status) {
         case 'CREATED':
-          displayStatus = 'Waiting to pick up pet and pay';
-          statusColor = YELLOW_COLOR;
-          break;
-        case 'CANCELED':
-          displayStatus = 'The transaction has been canceled';
-          statusColor = RED_COLOR;
-          break;
-        case 'SUCCESS':
-          displayStatus = 'The transaction is completed';
-          statusColor = GREEN_COLOR;
-          break;
-        case 'BREEDING_REQUESTED':
-          displayStatus = 'Waiting bring pet to branch';
-          statusColor = YELLOW_COLOR;
-          break;
-        case 'IN_PROGRESS':
-          displayStatus = 'Waiting for breeding';
-          statusColor = YELLOW_COLOR;
-          break;
-        case 'BREEDING_FINISHED':
-          displayStatus = 'Waiting for pickup pet';
-          statusColor = YELLOW_COLOR;
-          break;
-        default:
-          displayStatus = 'The transaction is completed';
-          statusColor = GREEN_COLOR;
-      }
-    } else {
-      switch (controller.breedingTransactionModel.status) {
-        case 'CREATED':
-          displayStatus = 'Waiting for meeting with buyer';
+          displayStatus = 'Breeding pet and payment';
           statusColor = YELLOW_COLOR;
           break;
         case 'CANCELED':
@@ -320,6 +289,44 @@ class BreedingTransactionDetailWidget
           break;
         case 'BREEDING_FINISHED':
           displayStatus = 'Waiting for pickup pet';
+          statusColor = YELLOW_COLOR;
+          break;
+        case 'BREEDING_CANCELED':
+          displayStatus = 'Transaction has been canceled';
+          statusColor = YELLOW_COLOR;
+          break;
+        default:
+          displayStatus = 'Transaction is completed';
+          statusColor = GREEN_COLOR;
+      }
+    } else {
+      switch (controller.breedingTransactionModel.status) {
+        case 'CREATED':
+          displayStatus = 'Meeting buyer and breeding pet';
+          statusColor = YELLOW_COLOR;
+          break;
+        case 'CANCELED':
+          displayStatus = 'Transaction has been canceled';
+          statusColor = RED_COLOR;
+          break;
+        case 'SUCCESS':
+          displayStatus = 'Transaction is completed';
+          statusColor = GREEN_COLOR;
+          break;
+        case 'BREEDING_REQUESTED':
+          displayStatus = 'Waiting bring pet to branch';
+          statusColor = YELLOW_COLOR;
+          break;
+        case 'IN_PROGRESS':
+          displayStatus = 'Waiting for breeding';
+          statusColor = YELLOW_COLOR;
+          break;
+        case 'BREEDING_FINISHED':
+          displayStatus = 'Waiting for pickup pet';
+          statusColor = YELLOW_COLOR;
+          break;
+        case 'BREEDING_CANCELED':
+          displayStatus = 'Transaction has been canceled';
           statusColor = YELLOW_COLOR;
           break;
         default:
@@ -379,7 +386,7 @@ class BreedingTransactionDetailWidget
                     FORMAT_DATE_TIME(
                         dateTime:
                             controller.breedingTransactionModel.createdTime,
-                        pattern: DATE_PATTERN_2),
+                        pattern: DATE_TIME_PATTERN),
                     style: GoogleFonts.quicksand(
                       fontSize: 15,
                       fontWeight: FontWeight.w500,
@@ -413,8 +420,20 @@ class BreedingTransactionDetailWidget
                 ],
               ),
               Visibility(
-                visible:
-                    controller.breedingTransactionModel.status == 'CANCELED',
+                visible: ['BREEDING_CANCELED', 'CANCELED']
+                    .contains(controller.breedingTransactionModel.status),
+                child: Container(
+                  margin: const EdgeInsets.symmetric(
+                    vertical: 5,
+                    horizontal: 15,
+                  ),
+                  height: 1,
+                  color: DARK_GREY_COLOR.withAlpha(50),
+                ),
+              ),
+              Visibility(
+                visible: ['BREEDING_CANCELED', 'CANCELED']
+                    .contains(controller.breedingTransactionModel.status),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -422,7 +441,10 @@ class BreedingTransactionDetailWidget
                     Padding(
                       padding: const EdgeInsets.only(right: 10),
                       child: Text(
-                        'Reason cancel',
+                        controller.breedingTransactionModel.ownerPetFemaleId ==
+                                controller.accountModel.customerModel.id
+                            ? 'Cancel time'
+                            : 'Buyer cancel time',
                         style: GoogleFonts.quicksand(
                           fontSize: 15,
                           fontWeight: FontWeight.w500,
@@ -431,10 +453,37 @@ class BreedingTransactionDetailWidget
                         ),
                       ),
                     ),
+                    Text(
+                      FORMAT_DATE_TIME(
+                          dateTime:
+                              controller.breedingTransactionModel.cancelTime!,
+                          pattern: DATE_TIME_PATTERN),
+                      overflow: TextOverflow.clip,
+                      style: GoogleFonts.quicksand(
+                        fontSize: 15,
+                        fontWeight: FontWeight.w500,
+                        color: RED_COLOR.withOpacity(0.8),
+                        letterSpacing: 0.5,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Visibility(
+                visible: ['BREEDING_CANCELED', 'CANCELED']
+                    .contains(controller.breedingTransactionModel.status),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    CUSTOM_TEXT('Reason cancel',
+                        color: const Color.fromARGB(255, 77, 82, 105),
+                        padding: const EdgeInsets.only(right: 5)),
                     Expanded(
                       child: Text(
                         controller.breedingTransactionModel.reasonCancel ?? '',
                         overflow: TextOverflow.clip,
+                        textAlign: TextAlign.end,
                         style: GoogleFonts.quicksand(
                           fontSize: 15,
                           fontWeight: FontWeight.w500,
@@ -459,7 +508,7 @@ class BreedingTransactionDetailWidget
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    'Meeting time',
+                    'Meeting date',
                     style: GoogleFonts.quicksand(
                       fontSize: 15,
                       fontWeight: FontWeight.w500,

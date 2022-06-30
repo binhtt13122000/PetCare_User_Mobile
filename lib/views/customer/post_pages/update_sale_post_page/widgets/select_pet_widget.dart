@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -8,6 +7,7 @@ import 'package:petapp_mobile/configs/theme.dart';
 import 'package:petapp_mobile/controllers/post_page_controllers/update_sale_post_page_controller.dart';
 import 'package:petapp_mobile/models/pet_model/pet_model.dart';
 import 'package:petapp_mobile/services/pet_services/pet_services.dart';
+import 'package:petapp_mobile/views/widgets/customize_widget.dart';
 
 class SelectPetWidget extends GetView<UpdateSalePostPageController> {
   const SelectPetWidget({Key? key}) : super(key: key);
@@ -31,10 +31,7 @@ class SelectPetWidget extends GetView<UpdateSalePostPageController> {
         controller.isShowLoadingPet.value = false;
       });
       return Obx(() => controller.isShowLoadingPet.value
-          ? const SpinKitSpinningLines(
-              color: PRIMARY_COLOR,
-              size: 40,
-            )
+          ? LOADING_WIDGET(size: 40)
           : Column(
               children: [
                 Container(

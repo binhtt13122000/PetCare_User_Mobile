@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:petapp_mobile/configs/path.dart';
@@ -22,11 +21,7 @@ class ChattingDetailBodyWidget extends GetView<ChattingDetailPageController> {
               visible: controller.isLoadingMoreChat.value,
               child: Container(
                 padding: const EdgeInsets.symmetric(vertical: 10),
-                alignment: Alignment.center,
-                child: const SpinKitSpinningLines(
-                  color: PRIMARY_COLOR,
-                  size: 40,
-                ),
+                child: LOADING_WIDGET(size: 40),
               ),
             ),
           ),
@@ -237,8 +232,8 @@ class ChattingDetailBodyWidget extends GetView<ChattingDetailPageController> {
                                   maxRadius: 16,
                                   minRadius: 16,
                                   child: CircleAvatar(
-                                    maxRadius: 12,
-                                    minRadius: 12,
+                                    maxRadius: 14,
+                                    minRadius: 14,
                                     backgroundColor: WHITE_COLOR,
                                     child: Text(
                                       controller.anotherChatRoomMember

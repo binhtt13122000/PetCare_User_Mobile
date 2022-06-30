@@ -5,6 +5,12 @@ import 'package:petapp_mobile/models/account_model/account_model.dart';
 import 'package:petapp_mobile/models/breeding_transaction_model/breeding_transaction_model.dart';
 
 class BreedingTransactionDetailPageController extends GetxController {
+  //*notification popup
+  RxBool isShowNotificationPopup = false.obs;
+  bool isSuccessNotification = true;
+  String notificationContent = '';
+  Function()? onTapNotification;
+  //*normal
   AccountModel accountModel = Get.find<AuthController>().accountModel;
   late int breedingTransactionId;
   RxBool isShowCancelPopup = false.obs;
@@ -25,7 +31,7 @@ class BreedingTransactionDetailPageController extends GetxController {
   RxString selectedViewTab = 'Transaction details'.obs;
   ScrollController scrollController = ScrollController();
   RxBool isShowViewTypeTabWidget = false.obs;
-  RxBool isWaitingForeground = false.obs;
+  RxBool isWaitingLoading = false.obs;
   String popupTitle = '';
   RxBool isWaitingLoadingDataInBreedingTab = false.obs;
   RxBool isWaitingLoadingTransactionDetailTab = false.obs;
@@ -68,7 +74,7 @@ class BreedingTransactionDetailPageController extends GetxController {
   BreedingTransactionDetailPageController() {
     scrollController.addListener(() {
       isShowViewTypeTabWidget.value =
-          scrollController.position.pixels > 200 ? true : false;
+          scrollController.position.pixels > 235 ? true : false;
     });
   }
 

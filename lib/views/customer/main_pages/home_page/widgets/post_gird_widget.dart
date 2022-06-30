@@ -1,7 +1,6 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -14,14 +13,14 @@ import 'package:petapp_mobile/services/post_services/post_services.dart';
 import 'package:petapp_mobile/utilities/utilities.dart';
 import 'package:petapp_mobile/views/widgets/customize_widget.dart';
 
-class SalePostGirdsWidget extends GetView<HomePageController> {
-  const SalePostGirdsWidget({Key? key}) : super(key: key);
+class HomePostGirdsWidget extends GetView<HomePageController> {
+  const HomePostGirdsWidget({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Obx(() => controller.selectedServiceIndex.value == 1
         ? GetBuilder<HomePageController>(builder: (_) {
-            controller.isLoading.value = true;
+            controller.isWaitingLoadingPostList.value = true;
             WidgetsBinding.instance!.addPostFrameCallback((_) async {
               controller.postList = await PostService.fetchAllPurchasePostList(
                 limit: 10,
@@ -29,21 +28,16 @@ class SalePostGirdsWidget extends GetView<HomePageController> {
                 customerId: controller.accountModel.customerModel.id,
                 status: "PUBLISHED",
               );
-              controller.isLoading.value = false;
+              controller.isWaitingLoadingPostList.value = false;
             });
             return Expanded(
               child: Column(
                 children: [
                   petSuggestTitleWidget(),
                   Obx(
-                    () => controller.isLoading.value
-                        ? const Expanded(
-                            child: Center(
-                              child: SpinKitSpinningLines(
-                                color: PRIMARY_COLOR,
-                                size: 150,
-                              ),
-                            ),
+                    () => controller.isWaitingLoadingPostList.value
+                        ? Expanded(
+                            child: LOADING_WIDGET(),
                           )
                         : controller.postList.isEmpty
                             ? Expanded(

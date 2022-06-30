@@ -2,16 +2,25 @@ import 'package:get/get.dart';
 import 'package:petapp_mobile/configs/path.dart';
 import 'package:petapp_mobile/controllers/other_controllers/auth_controller.dart';
 import 'package:petapp_mobile/models/account_model/account_model.dart';
+import 'package:petapp_mobile/models/branch_model/branch_model.dart';
+import 'package:petapp_mobile/models/center_service_model/center_service_model.dart';
 import 'package:petapp_mobile/models/post_model/post_model.dart';
 import 'package:petapp_mobile/models/services_model/services_model.dart';
 
 class HomePageController extends GetxController {
+  RxBool isWaitingLoadingBranchList = false.obs;
+  late List<BranchModel> branchModelList;
+  RxList<String> selectedBranchList = <String>[].obs;
+
+  RxBool isWaitingLoadingServicesList = false.obs;
+  late List<CenterServiceModel> servicesList;
+  RxList<String> selectedServicesList = <String>[].obs;
+
   AccountModel accountModel = Get.find<AuthController>().accountModel;
   late RxInt selectedServiceIndex;
   List<ServiceModel> services = List.empty(growable: true);
-  //List<PurchasePostModel> purchasePosts = List.empty(growable: true);
   List<PostModel> postList = List.empty(growable: true);
-  RxBool isLoading = false.obs;
+  RxBool isWaitingLoadingPostList = false.obs;
   HomePageController() {
     services.add(
       ServiceModel(
@@ -24,7 +33,7 @@ class HomePageController extends GetxController {
     services.add(
       ServiceModel(
           id: 2,
-          name: 'Veterinary',
+          name: 'Center',
           imageUrl: IMAGE_PATH + VETERINARIAN_PNG,
           description: 'description',
           status: 1),
@@ -32,7 +41,7 @@ class HomePageController extends GetxController {
     services.add(
       ServiceModel(
           id: 3,
-          name: 'Grooming',
+          name: 'Services',
           imageUrl: IMAGE_PATH + GROOMING_PNG,
           description: 'description',
           status: 1),
@@ -48,7 +57,7 @@ class HomePageController extends GetxController {
     services.add(
       ServiceModel(
           id: 5,
-          name: 'Traning',
+          name: 'Training',
           imageUrl: IMAGE_PATH + TRAINING_PNG,
           description: 'description',
           status: 1),

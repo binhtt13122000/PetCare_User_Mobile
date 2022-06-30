@@ -35,7 +35,10 @@ class BreedingTransactionDetailBreedingServicesForFemalePetWidget
                 )
               : Column(
                   children: [
-                    controller.breedingTransactionModel.dateOfBreeding == null
+                    controller.breedingTransactionModel.dateOfBreeding ==
+                                null ||
+                            ['CANCELED', 'EXPIRED', 'CREATED'].contains(
+                                controller.breedingTransactionModel.status)
                         ? noHaveDataWidget()
                         : breedingServicesWidget(),
                   ],
@@ -89,49 +92,66 @@ class BreedingTransactionDetailBreedingServicesForFemalePetWidget
         ),
       );
 
-  Widget noHaveDataWidget() => Container(
-        color: WHITE_COLOR,
-        padding: EdgeInsets.symmetric(
-            vertical: controller.breedingTransactionModel.status == 'CREATED'
-                ? 140
-                : 170),
-        child: Center(
-          child: Column(children: [
-            CUSTOM_TEXT(
-              controller.breedingTransactionModel.status == 'CREATED'
-                  ? 'Use our reproductive health\n services, booking one now!'
-                  : 'This breeding transaction is completed, you can buy more breeding services!',
-              textOverflow: TextOverflow.clip,
-              textAlign: TextAlign.center,
-              fontSize: 14,
-              padding: const EdgeInsets.symmetric(horizontal: 35),
-            ),
-            Visibility(
-              visible: controller.breedingTransactionModel.status == 'CREATED',
-              child: Padding(
-                padding: const EdgeInsets.only(top: 20),
-                child: InkWell(
-                  onTap: () => Get.toNamed(
-                      '$BOOKING_BREEDING_SERVICE_PAGE_ROUTE/${controller.breedingTransactionId}'),
-                  child: Container(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 20, vertical: 7),
-                    decoration: BoxDecoration(
-                      color: PRIMARY_COLOR,
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: CUSTOM_TEXT('Go to booking page',
-                        letterSpacing: 1, color: WHITE_COLOR),
+  Widget noHaveDataWidget() {
+    late String content;
+    switch (controller.breedingTransactionModel.status) {
+      case 'CREATED':
+        content = 'Use our reproductive health\n services, booking one now!';
+        break;
+      case 'CANCELED':
+        content =
+            'This breeding transaction have been canceled, you can buy more breeding services!';
+        break;
+      case 'EXPIRED':
+        content =
+            'This breeding transaction have been expired, you can buy more breeding services!';
+        break;
+      default:
+        content =
+            'This breeding transaction have been completed, you can buy more breeding services!';
+    }
+    return Container(
+      color: WHITE_COLOR,
+      padding: EdgeInsets.symmetric(
+          vertical: controller.breedingTransactionModel.status == 'CREATED'
+              ? 120
+              : 170),
+      child: Center(
+        child: Column(children: [
+          CUSTOM_TEXT(
+            content,
+            textOverflow: TextOverflow.clip,
+            textAlign: TextAlign.center,
+            fontSize: 14,
+            padding: const EdgeInsets.symmetric(horizontal: 35),
+          ),
+          Visibility(
+            visible: controller.breedingTransactionModel.status == 'CREATED',
+            child: Padding(
+              padding: const EdgeInsets.only(top: 20),
+              child: InkWell(
+                onTap: () => Get.toNamed(
+                    '$BOOKING_BREEDING_SERVICE_PAGE_ROUTE/${controller.breedingTransactionId}'),
+                child: Container(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 20, vertical: 7),
+                  decoration: BoxDecoration(
+                    color: PRIMARY_COLOR,
+                    borderRadius: BorderRadius.circular(10),
                   ),
+                  child: CUSTOM_TEXT('Go to booking page',
+                      letterSpacing: 1, color: WHITE_COLOR),
                 ),
               ),
             ),
-            const SizedBox(
-              height: 100,
-            ),
-          ]),
-        ),
-      );
+          ),
+          const SizedBox(
+            height: 100,
+          ),
+        ]),
+      ),
+    );
+  }
 
   Widget breedingServicesWidget() => Column(
         children: [

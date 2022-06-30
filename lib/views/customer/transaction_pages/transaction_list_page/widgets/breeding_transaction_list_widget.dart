@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:petapp_mobile/configs/route.dart';
@@ -53,10 +52,7 @@ class BreedingTransactionListWidget
                 });
                 return Obx(
                   () => controller.isLoadingBreedingTransaction.value
-                      ? const SpinKitSpinningLines(
-                          color: PRIMARY_COLOR,
-                          size: 150,
-                        )
+                      ? LOADING_WIDGET()
                       : controller.breedingTransactionModelList.isEmpty
                           ? NO_DATA_WIDGET(
                               content:
@@ -172,13 +168,13 @@ class BreedingTransactionListWidget
           timeValue = breedingTransactionModel.meetingTime;
           break;
         case 'CANCELED':
-          displayStatus = 'The transaction has been canceled';
+          displayStatus = 'Transaction has been canceled';
           statusColor = RED_COLOR;
           timeTitle = 'Cancel time';
           timeValue = DateTime.now();
           break;
         case 'SUCCESS':
-          displayStatus = 'The transaction is completed';
+          displayStatus = 'Transaction is completed';
           statusColor = GREEN_COLOR;
           timeTitle = 'Payment time';
           timeValue = breedingTransactionModel.paymentTime!;
@@ -216,14 +212,14 @@ class BreedingTransactionListWidget
           timeValue = breedingTransactionModel.meetingTime;
           break;
         case 'CANCELED':
-          displayStatus = 'The transaction has been canceled';
+          displayStatus = 'Transaction has been canceled';
 
           statusColor = RED_COLOR;
           timeTitle = 'Cancel time';
           timeValue = DateTime.now();
           break;
         case 'SUCCESS':
-          displayStatus = 'The transaction is completed';
+          displayStatus = 'Transaction is completed';
           statusColor = GREEN_COLOR;
           timeTitle = 'Payment time';
           timeValue = breedingTransactionModel.paymentTime!;
@@ -356,43 +352,11 @@ class BreedingTransactionListWidget
                   ),
                 ],
               ),
-              // Row(
-              //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              //   children: [
-              //     Text(
-              //       controller.selectedBreedingTransactionType.value ==
-              //               'Transaction role: [BUYER]'
-              //           ? 'Seller'
-              //           : 'Buyer',
-              //       textAlign: TextAlign.start,
-              //       style: GoogleFonts.quicksand(
-              //         color: DARK_GREY_TEXT_COLOR.withOpacity(0.8),
-              //         fontWeight: FontWeight.w500,
-              //         fontSize: 13,
-              //         height: 1,
-              //       ),
-              //     ),
-              //     Text(
-              //       controller.selectedBreedingTransactionType.value ==
-              //               'Transaction role: [BUYER]'
-              //           ? '${breedingTransactionModel.ownerPetFemaleCustomerModel.firstName} ${breedingTransactionModel.ownerPetFemaleCustomerModel.lastName}'
-              //           : '${breedingTransactionModel.ownerPetMaleCustomerModel.firstName} ${breedingTransactionModel.ownerPetMaleCustomerModel.lastName}',
-              //       textAlign: TextAlign.start,
-              //       style: GoogleFonts.quicksand(
-              //         color: DARK_GREY_TEXT_COLOR.withOpacity(0.8),
-              //         fontWeight: FontWeight.w500,
-              //         fontSize: 13,
-              //         height: 1,
-              //       ),
-              //     ),
-              //   ],
-              // ),
-
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   CUSTOM_TEXT(
-                    'Female pet',
+                    'Breeding pet',
                     color: DARK_GREY_TEXT_COLOR.withOpacity(0.8),
                     fontSize: 13,
                   ),

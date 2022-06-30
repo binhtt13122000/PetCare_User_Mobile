@@ -6,9 +6,9 @@ import 'package:petapp_mobile/configs/theme.dart';
 import 'package:petapp_mobile/controllers/main_page_controllers/home_page_controller.dart';
 import 'package:petapp_mobile/main.dart';
 
-import 'package:petapp_mobile/views/customer/main_pages/home_page/widgets/list_pet_services_widget.dart';
-import 'package:petapp_mobile/views/customer/main_pages/home_page/widgets/services_body_widget.dart';
-import 'package:petapp_mobile/views/customer/main_pages/home_page/widgets/top_navigation_bar.dart';
+import 'package:petapp_mobile/views/customer/main_pages/home_page/widgets/title_widget.dart';
+import 'package:petapp_mobile/views/customer/main_pages/home_page/widgets/body_widget.dart';
+import 'package:petapp_mobile/views/customer/main_pages/home_page/widgets/top_widget.dart';
 import 'package:petapp_mobile/views/customer/other_pages/custom_bottom_navigation_bar/custom_bottom_navigator_bar.dart';
 
 class HomePage extends GetView<HomePageController> {
@@ -60,8 +60,8 @@ class HomePage extends GetView<HomePageController> {
           Column(
             children: const [
               TopNavigationBar(),
-              ListPetServiceWidget(),
-              Expanded(child: ServicesBodyWidget()),
+              HomeTitleWidget(),
+              Expanded(child: HomeBodyWidget()),
             ],
           ),
           const Align(

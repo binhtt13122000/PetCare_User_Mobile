@@ -69,6 +69,7 @@ class BookingBreedingServicesSelectBranchWidget
           ),
           Obx(
             () => Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 CUSTOM_TEXT(
                   'Branch address',
@@ -83,6 +84,7 @@ class BookingBreedingServicesSelectBranchWidget
                         'N/A',
                     fontSize: 15,
                     textAlign: TextAlign.end,
+                    textOverflow: TextOverflow.clip,
                   ),
                 ),
               ],

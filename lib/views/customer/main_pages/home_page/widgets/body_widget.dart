@@ -3,10 +3,12 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:petapp_mobile/configs/theme.dart';
 import 'package:petapp_mobile/controllers/main_page_controllers/home_page_controller.dart';
-import 'package:petapp_mobile/views/customer/main_pages/home_page/widgets/purchase_posts_gird_widget.dart';
+import 'package:petapp_mobile/views/customer/main_pages/home_page/widgets/center_widget.dart';
+import 'package:petapp_mobile/views/customer/main_pages/home_page/widgets/post_gird_widget.dart';
+import 'package:petapp_mobile/views/customer/main_pages/home_page/widgets/services_list_widget.dart';
 
-class ServicesBodyWidget extends GetView<HomePageController> {
-  const ServicesBodyWidget({Key? key}) : super(key: key);
+class HomeBodyWidget extends GetView<HomePageController> {
+  const HomeBodyWidget({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -14,13 +16,13 @@ class ServicesBodyWidget extends GetView<HomePageController> {
       Widget bodyWidget;
       switch (controller.selectedServiceIndex.value) {
         case 1:
-          bodyWidget = const SalePostGirdsWidget();
+          bodyWidget = const HomePostGirdsWidget();
           break;
         case 2:
-          bodyWidget = veterinaryServicesWidget();
+          bodyWidget = const HomeCenterWidget();
           break;
         case 3:
-          bodyWidget = groomingServicesWidget();
+          bodyWidget = const HomeServicesListWidget();
           break;
         case 4:
           bodyWidget = breedServicesWidget();
@@ -29,7 +31,7 @@ class ServicesBodyWidget extends GetView<HomePageController> {
           bodyWidget = trainingServicesWidget();
           break;
         default:
-          bodyWidget = const SalePostGirdsWidget();
+          bodyWidget = const HomePostGirdsWidget();
       }
       return Column(
         children: [

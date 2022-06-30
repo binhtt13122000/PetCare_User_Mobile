@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:petapp_mobile/configs/path.dart';
@@ -42,12 +41,7 @@ class PostsManagementBodyWidget extends GetView<PostManagementPageController> {
               });
               return Obx(
                 () => controller.isLoadingPostList.value
-                    ? const Center(
-                        child: SpinKitSpinningLines(
-                          color: PRIMARY_COLOR,
-                          size: 150,
-                        ),
-                      )
+                    ? LOADING_WIDGET()
                     : controller.postList.isEmpty
                         ? NO_DATA_WIDGET(content: 'Sorry, no post data found.')
                         : SingleChildScrollView(

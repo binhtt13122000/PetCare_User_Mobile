@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
 import 'package:petapp_mobile/configs/theme.dart';
 import 'package:petapp_mobile/controllers/post_page_controllers/update_sale_post_page_controller.dart';
@@ -15,6 +14,7 @@ import 'package:petapp_mobile/views/customer/post_pages/update_sale_post_page/wi
 import 'package:petapp_mobile/views/customer/post_pages/update_sale_post_page/widgets/select_pet_widget.dart';
 import 'package:petapp_mobile/views/customer/post_pages/update_sale_post_page/widgets/select_branch_widget.dart';
 import 'package:petapp_mobile/views/customer/post_pages/update_sale_post_page/widgets/top_widget.dart';
+import 'package:petapp_mobile/views/widgets/customize_widget.dart';
 
 class UpdateSalePostPage extends GetView<UpdateSalePostPageController> {
   const UpdateSalePostPage({Key? key}) : super(key: key);
@@ -60,11 +60,8 @@ class UpdateSalePostPage extends GetView<UpdateSalePostPageController> {
               Obx(
                 () => controller.isShowMainLoading.value
                     ? Container(
-                        color: const Color.fromARGB(75, 249, 236, 253),
-                        child: const SpinKitSpinningLines(
-                          color: PRIMARY_COLOR,
-                          size: 150,
-                        ),
+                        color: DARK_GREY_TRANSPARENT,
+                        child: LOADING_WIDGET(),
                       )
                     : Stack(
                         children: [

@@ -36,9 +36,10 @@ class BookingBreedingServicesBottomWidget
               ..isErrorPopup = false
               ..popupTitle = 'Booking breeding service successfully!'
               ..onTapPopup = () {
-                Get
-                  ..back()
-                  ..put(BreedingTransactionDetailPageController()).update();
+                Get.back();
+                Get.put(BreedingTransactionDetailPageController())
+                  ..isShowBottomWidget.value = false
+                  ..update();
               }
               ..isShowPopup.value = true;
           },

@@ -12,6 +12,7 @@ import 'package:petapp_mobile/views/customer/other_pages/chatting_detail_page/wi
 import 'package:petapp_mobile/views/customer/other_pages/chatting_detail_page/widgets/create_request_widget.dart';
 import 'package:petapp_mobile/views/customer/other_pages/chatting_detail_page/widgets/top_widget.dart';
 import 'package:petapp_mobile/views/widgets/customize_widget.dart';
+import 'package:petapp_mobile/views/widgets/notification_popup_widget.dart';
 
 class ChattingDetailPage extends GetView<ChattingDetailPageController> {
   const ChattingDetailPage({Key? key}) : super(key: key);
@@ -19,11 +20,23 @@ class ChattingDetailPage extends GetView<ChattingDetailPageController> {
   @override
   Widget build(BuildContext context) {
     controller.isLoadingChat.value = true;
+    String? tmpChatRoomId = Get.parameters['chatRoomId'];
+    String? tmpPostId = Get.parameters['postId'];
+    String? tmpSellerId = Get.parameters['sellerId'];
+    if (tmpChatRoomId != null) {
+      controller.chatRoomId = tmpChatRoomId;
+    }
+    if (tmpPostId != null) {
+      controller.postId = tmpPostId;
+    }
+    if (tmpSellerId != null) {
+      controller.sellerId = tmpSellerId;
+    }
 
     WidgetsBinding.instance!.addPostFrameCallback((_) async {
-      if (Get.parameters['chatRoomId'] != null) {
+      if (controller.chatRoomId != null) {
         controller.chatRoomModel = await ChatServices.fetchChatRoomById(
-            chatRoomId: Get.parameters['chatRoomId']!);
+            chatRoomId: controller.chatRoomId!);
         //*location
         controller.transactionLocationTextEditingController.text =
             controller.chatRoomModel!.transactionPlace ?? '';
@@ -65,12 +78,10 @@ class ChattingDetailPage extends GetView<ChattingDetailPageController> {
       } else {
         controller.anotherChatRoomMember =
             await CustomerService.fetchCustomerById(
-          int.parse(Get.parameters['sellerId']!),
+          int.parse(controller.sellerId!),
         );
-
         controller.postModel = await PostService.fetchPostById(
-            postId: int.parse(Get.parameters['postId']!));
-
+            postId: int.parse(controller.postId!));
         controller.isLoadingChat.value = false;
       }
     });
@@ -90,16 +101,18 @@ class ChattingDetailPage extends GetView<ChattingDetailPageController> {
                   ),
                   const CreateRequestWidget(),
                   const BuyerRequestWidget(),
-                  NOTIFICATION_POPUP_WIDGET(
-                    onTapBackground: () =>
-                        controller.isShowFailedNotificationPopup.value = false,
-                    onTapOk: () =>
-                        controller.isShowFailedNotificationPopup.value = false,
-                    content:
-                        'Approve for buyer request failed. This post already has a transaction.',
-                    isVisible: <bool>() =>
-                        controller.isShowFailedNotificationPopup.value,
-                    isSuccessNotification: false,
+                  Obx(
+                    () => controller.isShowFailedNotificationPopup.value
+                        ? NotificationPopupWidget(
+                            onTapBackground: () => controller
+                                .isShowFailedNotificationPopup.value = false,
+                            onTapOk: () => controller
+                                .isShowFailedNotificationPopup.value = false,
+                            content:
+                                'Approve for buyer request failed. This post already has a transaction.',
+                            isSuccessNotification: false,
+                          )
+                        : const SizedBox.shrink(),
                   ),
                   Obx(() => controller.isWaitLoadingData.value
                       ? Container(

@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -13,6 +12,7 @@ import 'package:petapp_mobile/models/species_model/species_model.dart';
 import 'package:petapp_mobile/services/pet_services/breed_services.dart';
 import 'package:petapp_mobile/services/pet_services/species_services.dart';
 import 'package:petapp_mobile/utilities/utilities.dart';
+import 'package:petapp_mobile/views/widgets/customize_widget.dart';
 
 class UpdatePetBodyWidget extends GetView<UpdatePetPageController> {
   const UpdatePetBodyWidget({Key? key}) : super(key: key);
@@ -27,12 +27,7 @@ class UpdatePetBodyWidget extends GetView<UpdatePetPageController> {
     controller.isLoadingDataSpecies.value = false;
     return Obx(
       () => controller.isLoadingDataSpecies.value
-          ? const Center(
-              child: SpinKitSpinningLines(
-                color: PRIMARY_COLOR,
-                size: 150,
-              ),
-            )
+          ? LOADING_WIDGET()
           : Expanded(
               child: SingleChildScrollView(
                 child: Column(
@@ -634,10 +629,7 @@ class UpdatePetBodyWidget extends GetView<UpdatePetPageController> {
         });
         return Obx(
           () => controller.isLoadingBreedData.value
-              ? const SpinKitSpinningLines(
-                  color: PRIMARY_COLOR,
-                  size: 80,
-                )
+              ? LOADING_WIDGET(size: 80)
               : Padding(
                   padding: const EdgeInsets.only(top: 5),
                   child: Wrap(

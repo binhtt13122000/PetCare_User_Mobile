@@ -47,6 +47,9 @@ class ChattingDetailPageController extends GetxController {
   RxBool isShowSuccessNotificationPopup = false.obs;
   RxBool isShowFailedNotificationPopup = false.obs;
   RxBool isWaitLoadingData = false.obs;
+  String? chatRoomId;
+  String? sellerId;
+  String? postId;
 
   TextEditingController transactionLocationTextEditingController =
       TextEditingController();

@@ -6,8 +6,8 @@ import 'package:petapp_mobile/controllers/main_page_controllers/home_page_contro
 import 'package:petapp_mobile/models/services_model/services_model.dart';
 import 'package:petapp_mobile/views/widgets/customize_widget.dart';
 
-class ListPetServiceWidget extends GetView<HomePageController> {
-  const ListPetServiceWidget({Key? key}) : super(key: key);
+class HomeTitleWidget extends GetView<HomePageController> {
+  const HomeTitleWidget({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) => Padding(
         padding: const EdgeInsets.only(
