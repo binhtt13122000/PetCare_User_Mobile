@@ -6,10 +6,9 @@ import 'package:petapp_mobile/configs/path.dart';
 import 'package:petapp_mobile/configs/theme.dart';
 import 'package:petapp_mobile/views/widgets/customize_widget.dart';
 
-class ReviewPopupWidget extends StatelessWidget {
-  const ReviewPopupWidget({
+class CancelPopupWidget extends StatelessWidget {
+  const CancelPopupWidget({
     Key? key,
-    required this.isVisible,
     required this.onTapBackground,
     required this.title,
     required this.content,
@@ -20,13 +19,11 @@ class ReviewPopupWidget extends StatelessWidget {
     required this.onTapSubmit,
     required this.onTapQuickRateText,
     required this.isSelected,
-    this.isCancelPopup = false,
     required this.counterDescriptionText,
     required this.onDeleteDescription,
     required this.checkEmptyDescription,
   }) : super(key: key);
 
-  final Function<bool>() isVisible;
   final Function() onTapBackground;
   final String title;
   final String content;
@@ -37,68 +34,60 @@ class ReviewPopupWidget extends StatelessWidget {
   final Function() onTapSubmit;
   final Function({required String content}) onTapQuickRateText;
   final Function<bool>({required String content}) isSelected;
-  final bool isCancelPopup;
   final Function<String>() counterDescriptionText;
   final Function() onDeleteDescription;
   final Function<bool>() checkEmptyDescription;
 
   @override
-  Widget build(BuildContext context) {
-    return Obx(
-      () => Visibility(
-        visible: isVisible.call(),
-        child: InkWell(
-          onTap: onTapBackground,
-          child: Container(
-            color: DARK_GREY_TRANSPARENT,
-            alignment: Alignment.center,
-            child: InkWell(
-              onTap: () {},
-              child: Container(
-                width: 320,
-                height: 345,
-                decoration: BoxDecoration(
-                  color: WHITE_COLOR,
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: Column(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 12, vertical: 15),
-                      child: Column(
-                        children: [
-                          CUSTOM_TEXT(
-                            title,
-                            textAlign: TextAlign.center,
-                            fontSize: 22,
-                            fontWeight: FontWeight.w700,
-                            letterSpacing: 2,
-                            color: PRIMARY_COLOR,
-                          ),
-                          quickRateWidget(
-                              content: content, quickRateText: quickRateText),
-                          descriptionWidget(
-                            onChangeDescription: onChangeDescription,
-                            descriptionHintText: descriptionHintText,
-                            checkEmptyDescription: checkEmptyDescription,
-                            counterDescriptionText: counterDescriptionText,
-                            onDeleteDescription: onDeleteDescription,
-                          ),
-                        ],
-                      ),
+  Widget build(BuildContext context) => InkWell(
+        onTap: onTapBackground,
+        child: Container(
+          color: DARK_GREY_TRANSPARENT,
+          alignment: Alignment.center,
+          child: InkWell(
+            onTap: () {},
+            child: Container(
+              width: 320,
+              height: 345,
+              decoration: BoxDecoration(
+                color: WHITE_COLOR,
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 12, vertical: 15),
+                    child: Column(
+                      children: [
+                        CUSTOM_TEXT(
+                          title,
+                          textAlign: TextAlign.center,
+                          fontSize: 22,
+                          fontWeight: FontWeight.w700,
+                          letterSpacing: 2,
+                          color: PRIMARY_COLOR,
+                        ),
+                        quickRateWidget(
+                            content: content, quickRateText: quickRateText),
+                        descriptionWidget(
+                          onChangeDescription: onChangeDescription,
+                          descriptionHintText: descriptionHintText,
+                          checkEmptyDescription: checkEmptyDescription,
+                          counterDescriptionText: counterDescriptionText,
+                          onDeleteDescription: onDeleteDescription,
+                        ),
+                      ],
                     ),
-                    submitButtonWidget(
-                        isAllowSummit: isAllowSubmit, onTapSummit: onTapSubmit),
-                  ],
-                ),
+                  ),
+                  submitButtonWidget(
+                      isAllowSummit: isAllowSubmit, onTapSummit: onTapSubmit),
+                ],
               ),
             ),
           ),
         ),
-      ),
-    );
-  }
+      );
 
   Widget quickRateWidget(
           {required String content, required List<String> quickRateText}) =>

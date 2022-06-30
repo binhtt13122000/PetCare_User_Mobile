@@ -27,11 +27,11 @@ class BreedingTransactionDetailMoreOptionWidget
                             onTap: () {},
                             child: Container(
                               width: 200,
-                              height:
-                                  controller.breedingTransactionModel.status ==
-                                          'CREATED'
-                                      ? 240
-                                      : 160,
+                              height: ['CREATED', 'BREEDING_REQUESTED']
+                                      .contains(controller
+                                          .breedingTransactionModel.status)
+                                  ? 240
+                                  : 160,
                               decoration: BoxDecoration(
                                 color: WHITE_COLOR,
                                 borderRadius: BorderRadius.circular(10),
@@ -61,8 +61,10 @@ class BreedingTransactionDetailMoreOptionWidget
                                           ? 'Report seller'
                                           : 'Report buyer',
                                       onTap: () {}),
-                                  controller.breedingTransactionModel.status ==
-                                              'CREATED' &&
+                                  ['CREATED', 'BREEDING_REQUESTED'].contains(
+                                              controller
+                                                  .breedingTransactionModel
+                                                  .status) &&
                                           controller.breedingTransactionModel
                                                   .ownerPetFemaleId ==
                                               controller

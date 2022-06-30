@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:petapp_mobile/configs/theme.dart';
@@ -35,12 +34,7 @@ class CenterServicesTransactionDetailBodyWidget
         });
         return Obx(
           () => controller.isLoadingData.value
-              ? const Center(
-                  child: SpinKitSpinningLines(
-                    color: PRIMARY_COLOR,
-                    size: 150,
-                  ),
-                )
+              ? LOADING_WIDGET()
               : Container(
                   color: SUPPER_LIGHT_BLUE,
                   child: Column(

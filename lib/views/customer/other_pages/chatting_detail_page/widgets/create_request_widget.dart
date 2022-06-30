@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -10,6 +9,7 @@ import 'package:petapp_mobile/services/pet_services/pet_services.dart';
 import 'package:petapp_mobile/utilities/utilities.dart';
 import 'package:petapp_mobile/views/customer/other_pages/chatting_detail_page/widgets/pet_drop_down_list_widget.dart';
 import 'package:petapp_mobile/views/customer/other_pages/chatting_detail_page/widgets/select_pet_widget.dart';
+import 'package:petapp_mobile/views/widgets/customize_widget.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
 class CreateRequestWidget extends GetView<ChattingDetailPageController> {
@@ -50,19 +50,15 @@ class CreateRequestWidget extends GetView<ChattingDetailPageController> {
                             child: InkWell(
                               onTap: () {},
                               child: Container(
-                                width: 300,
-                                height: widgetHeight,
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 12, vertical: 12),
-                                decoration: BoxDecoration(
-                                  color: WHITE_COLOR,
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                                child: const SpinKitSpinningLines(
-                                  color: PRIMARY_COLOR,
-                                  size: 150,
-                                ),
-                              ),
+                                  width: 300,
+                                  height: widgetHeight,
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 12, vertical: 12),
+                                  decoration: BoxDecoration(
+                                    color: WHITE_COLOR,
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                  child: LOADING_WIDGET()),
                             ),
                           ),
                         )

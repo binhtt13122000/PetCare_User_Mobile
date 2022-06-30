@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:petapp_mobile/configs/theme.dart';
 import 'package:petapp_mobile/controllers/post_page_controllers/update_sale_post_page_controller.dart';
 import 'package:petapp_mobile/services/other_services/branch_services.dart';
+import 'package:petapp_mobile/views/widgets/customize_widget.dart';
 
 class SelectBranchWidget extends GetView<UpdateSalePostPageController> {
   const SelectBranchWidget({Key? key}) : super(key: key);
@@ -53,10 +53,7 @@ class SelectBranchWidget extends GetView<UpdateSalePostPageController> {
 
                     return Obx(
                       () => controller.isLoadingBranch.value
-                          ? const SpinKitSpinningLines(
-                              color: PRIMARY_COLOR,
-                              size: 50,
-                            )
+                          ? LOADING_WIDGET(size: 50)
                           : DropdownButton<int>(
                               value: controller.selectedBranchId.value,
                               items: controller.branchList

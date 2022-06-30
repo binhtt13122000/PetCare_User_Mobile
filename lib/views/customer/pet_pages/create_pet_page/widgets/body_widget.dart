@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -30,12 +29,7 @@ class CreatePetBodyWidget extends GetView<CreatePetPageController> {
     return Expanded(
       child: Obx(
         () => controller.isLoadingData.value
-            ? const Center(
-                child: SpinKitSpinningLines(
-                  color: PRIMARY_COLOR,
-                  size: 150,
-                ),
-              )
+            ? LOADING_WIDGET()
             : SingleChildScrollView(
                 child: Column(
                   children: [
@@ -639,10 +633,7 @@ class CreatePetBodyWidget extends GetView<CreatePetPageController> {
         });
         return Obx(
           () => controller.isLoadingBreedData.value
-              ? const SpinKitSpinningLines(
-                  color: PRIMARY_COLOR,
-                  size: 80,
-                )
+              ? LOADING_WIDGET(size: 80)
               : Padding(
                   padding: const EdgeInsets.only(top: 5),
                   child: Wrap(

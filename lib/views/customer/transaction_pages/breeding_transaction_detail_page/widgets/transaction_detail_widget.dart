@@ -193,14 +193,14 @@ class BreedingTransactionDetailWidget
                               fontWeight: FontWeight.w700,
                               color: PRIMARY_COLOR,
                               letterSpacing: 1,
-                              decoration:
-                                  controller.breedingTransactionModel.status ==
-                                              'CANCELED' ||
-                                          controller.breedingTransactionModel
-                                                  .status ==
-                                              'REJECTED'
-                                      ? TextDecoration.lineThrough
-                                      : TextDecoration.none,
+                              decoration: [
+                                'REJECTED',
+                                'BREEDING_CANCELED',
+                                'CANCELED'
+                              ].contains(controller
+                                      .breedingTransactionModel.status)
+                                  ? TextDecoration.lineThrough
+                                  : TextDecoration.none,
                             ),
                           ),
                         ],
@@ -291,6 +291,10 @@ class BreedingTransactionDetailWidget
           displayStatus = 'Waiting for pickup pet';
           statusColor = YELLOW_COLOR;
           break;
+        case 'BREEDING_CANCELED':
+          displayStatus = 'Transaction has been canceled';
+          statusColor = YELLOW_COLOR;
+          break;
         default:
           displayStatus = 'Transaction is completed';
           statusColor = GREEN_COLOR;
@@ -319,6 +323,10 @@ class BreedingTransactionDetailWidget
           break;
         case 'BREEDING_FINISHED':
           displayStatus = 'Waiting for pickup pet';
+          statusColor = YELLOW_COLOR;
+          break;
+        case 'BREEDING_CANCELED':
+          displayStatus = 'Transaction has been canceled';
           statusColor = YELLOW_COLOR;
           break;
         default:
@@ -412,8 +420,8 @@ class BreedingTransactionDetailWidget
                 ],
               ),
               Visibility(
-                visible:
-                    controller.breedingTransactionModel.status == 'CANCELED',
+                visible: ['BREEDING_CANCELED', 'CANCELED']
+                    .contains(controller.breedingTransactionModel.status),
                 child: Container(
                   margin: const EdgeInsets.symmetric(
                     vertical: 5,
@@ -424,8 +432,8 @@ class BreedingTransactionDetailWidget
                 ),
               ),
               Visibility(
-                visible:
-                    controller.breedingTransactionModel.status == 'CANCELED',
+                visible: ['BREEDING_CANCELED', 'CANCELED']
+                    .contains(controller.breedingTransactionModel.status),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -433,7 +441,10 @@ class BreedingTransactionDetailWidget
                     Padding(
                       padding: const EdgeInsets.only(right: 10),
                       child: Text(
-                        'Reason time',
+                        controller.breedingTransactionModel.ownerPetFemaleId ==
+                                controller.accountModel.customerModel.id
+                            ? 'Cancel time'
+                            : 'Buyer cancel time',
                         style: GoogleFonts.quicksand(
                           fontSize: 15,
                           fontWeight: FontWeight.w500,
@@ -459,21 +470,15 @@ class BreedingTransactionDetailWidget
                 ),
               ),
               Visibility(
-                visible:
-                    controller.breedingTransactionModel.status == 'CANCELED',
+                visible: ['BREEDING_CANCELED', 'CANCELED']
+                    .contains(controller.breedingTransactionModel.status),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      'Reason cancel',
-                      style: GoogleFonts.quicksand(
-                        fontSize: 15,
-                        fontWeight: FontWeight.w500,
+                    CUSTOM_TEXT('Reason cancel',
                         color: const Color.fromARGB(255, 77, 82, 105),
-                        letterSpacing: 0.5,
-                      ),
-                    ),
+                        padding: const EdgeInsets.only(right: 5)),
                     Expanded(
                       child: Text(
                         controller.breedingTransactionModel.reasonCancel ?? '',

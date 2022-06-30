@@ -251,11 +251,20 @@ Widget CUSTOM_TEXT(
       ),
     );
 
-Widget LOADING_WIDGET({double size = 150}) => Center(
-      child: SpinKitSpinningLines(
-        color: PRIMARY_COLOR,
-        size: size,
+Widget LOADING_WIDGET({double size = 100}) => Center(
+      child: GRADIENT_WIDGET(
+        gradient: const LinearGradient(colors: [
+          Color.fromARGB(255, 1, 226, 226),
+          Color.fromARGB(255, 123, 41, 255),
+        ]),
+        child: SpinKitSpinningLines(
+          color: PRIMARY_COLOR,
+          size: size,
+          itemCount: 6,
+          lineWidth: 2.5,
+        ),
       ),
+      //  child: Image.asset(IMAGE_PATH + LOADING_GIF,height: size,),
     );
 
 Widget NO_DATA_WIDGET({double size = 200, String? content}) => Center(

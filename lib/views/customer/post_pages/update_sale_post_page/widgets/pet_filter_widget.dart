@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:petapp_mobile/configs/theme.dart';
@@ -8,6 +7,7 @@ import 'package:petapp_mobile/models/breed_model/breed_model.dart';
 import 'package:petapp_mobile/models/species_model/species_model.dart';
 import 'package:petapp_mobile/services/pet_services/breed_services.dart';
 import 'package:petapp_mobile/services/pet_services/species_services.dart';
+import 'package:petapp_mobile/views/widgets/customize_widget.dart';
 
 class PetFilterWidget extends GetView<UpdateSalePostPageController> {
   const PetFilterWidget({Key? key}) : super(key: key);
@@ -28,10 +28,7 @@ class PetFilterWidget extends GetView<UpdateSalePostPageController> {
                 });
                 return Obx(
                   () => controller.isShowLoadingPetSpecies.value
-                      ? const SpinKitSpinningLines(
-                          color: PRIMARY_COLOR,
-                          size: 40,
-                        )
+                      ? LOADING_WIDGET(size: 40)
                       : Column(
                           children: [
                             Align(
@@ -172,12 +169,7 @@ class PetFilterWidget extends GetView<UpdateSalePostPageController> {
           });
           return Obx(
             () => controller.isLoadingBreeds.value
-                ? const Center(
-                    child: SpinKitSpinningLines(
-                      color: PRIMARY_COLOR,
-                      size: 150,
-                    ),
-                  )
+                ? LOADING_WIDGET()
                 : controller.breedsMap[controller.selectedSpeciesId] != null &&
                         controller
                             .breedsMap[controller.selectedSpeciesId]!.isNotEmpty

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
 import 'package:petapp_mobile/configs/theme.dart';
 import 'package:petapp_mobile/controllers/pet_page_controllers/pet_detail_page_controller.dart';
@@ -7,6 +6,7 @@ import 'package:petapp_mobile/services/pet_services/pet_services.dart';
 import 'package:petapp_mobile/views/customer/pet_pages/pet_detail_page/widgets/body_widget.dart';
 import 'package:petapp_mobile/views/customer/pet_pages/pet_detail_page/widgets/more_option_widget.dart';
 import 'package:petapp_mobile/views/customer/pet_pages/pet_detail_page/widgets/top_widget.dart';
+import 'package:petapp_mobile/views/widgets/customize_widget.dart';
 
 class PetDetailPage extends GetView<PetDetailPageController> {
   const PetDetailPage({Key? key}) : super(key: key);
@@ -32,13 +32,8 @@ class PetDetailPage extends GetView<PetDetailPageController> {
               const PetDetailTopWidget(),
               Obx(
                 () => controller.isLoadingData.value
-                    ? const Expanded(
-                        child: Center(
-                          child: SpinKitSpinningLines(
-                            color: PRIMARY_COLOR,
-                            size: 150,
-                          ),
-                        ),
+                    ? Expanded(
+                        child: LOADING_WIDGET(),
                       )
                     : const PetDetailBodyWidget(),
               ),

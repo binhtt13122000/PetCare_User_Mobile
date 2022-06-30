@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:petapp_mobile/configs/route.dart';
@@ -49,10 +48,7 @@ class SaleTransactionListWidget extends GetView<TransactionListPageController> {
                 });
                 return Obx(
                   () => controller.isLoadingSaleTransaction.value
-                      ? const SpinKitSpinningLines(
-                          color: PRIMARY_COLOR,
-                          size: 150,
-                        )
+                      ? LOADING_WIDGET()
                       : controller.saleTransactionModelList.isEmpty
                           ? NO_DATA_WIDGET(
                               content: 'Sorry, no sale transaction data found.')

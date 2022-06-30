@@ -344,4 +344,29 @@ class BreedingTransactionService {
         return false;
     }
   }
+
+  static Future<bool> cancelBreeding({
+    required int id,
+    required String reasonCancel,
+  }) async {
+    final response = await http.put(
+      Uri.http(API_SERVER_PATH, '$BREEDING_TRANSACTION_API_PATH/cancel-breed'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode({
+        'id': id,
+        'cancelTime': DateTime.now().toIso8601String(),
+        'reasonCancel': reasonCancel,
+      }),
+    );
+    switch (response.statusCode) {
+      case 200:
+      case 201:
+      case 202:
+        return json.decode(response.body)['success'];
+      default:
+        return false;
+    }
+  }
 }

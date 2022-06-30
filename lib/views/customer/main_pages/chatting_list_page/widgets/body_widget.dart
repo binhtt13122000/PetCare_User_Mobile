@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:petapp_mobile/configs/route.dart';
@@ -33,14 +32,7 @@ class ChattingListBodyWidget extends GetView<ChattingListPageController> {
             });
             return Obx(
               () => controller.isLoadingRoom.value
-                  ? const Expanded(
-                      child: Center(
-                        child: SpinKitSpinningLines(
-                          color: PRIMARY_COLOR,
-                          size: 100,
-                        ),
-                      ),
-                    )
+                  ? Expanded(child: LOADING_WIDGET(size: 100))
                   : controller.chatRoomList.isEmpty
                       ? Expanded(
                           child: Padding(

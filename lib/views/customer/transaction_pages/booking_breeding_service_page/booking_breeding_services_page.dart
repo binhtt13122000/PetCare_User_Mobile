@@ -6,9 +6,9 @@ import 'package:petapp_mobile/services/other_services/branch_services.dart';
 import 'package:petapp_mobile/views/customer/transaction_pages/booking_breeding_service_page/widgets/body_widget.dart';
 import 'package:petapp_mobile/views/customer/transaction_pages/booking_breeding_service_page/widgets/bottom_widget.dart';
 import 'package:petapp_mobile/views/customer/transaction_pages/booking_breeding_service_page/widgets/calendar_widget.dart';
-import 'package:petapp_mobile/views/customer/transaction_pages/booking_breeding_service_page/widgets/popup_widget.dart';
 import 'package:petapp_mobile/views/customer/transaction_pages/booking_breeding_service_page/widgets/top_widget.dart';
 import 'package:petapp_mobile/views/widgets/customize_widget.dart';
+import 'package:petapp_mobile/views/widgets/notification_popup_widget.dart';
 
 class BookingBreedingServicesPage
     extends GetView<BookingBreedingServicesPageController> {
@@ -59,7 +59,16 @@ class BookingBreedingServicesPage
                   child: LOADING_WIDGET(),
                 ),
               )),
-          const BookingBreedingServicesPopupWidget(),
+          Obx(
+            () => controller.isShowPopup.value
+                ? NotificationPopupWidget(
+                    onTapBackground: () {},
+                    onTapOk: controller.onTapPopup,
+                    content: controller.popupTitle,
+                    isSuccessNotification: true,
+                  )
+                : const SizedBox.shrink(),
+          ),
         ],
       ),
     );

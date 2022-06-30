@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
 import 'package:petapp_mobile/configs/theme.dart';
 import 'package:petapp_mobile/controllers/post_page_controllers/post_detail_page_controller.dart';
@@ -35,12 +34,7 @@ class PostDetailPage extends GetView<PostDetailPageController> {
 
             return Obx(
               () => controller.isShowLoadingPost.value
-                  ? const Center(
-                      child: SpinKitSpinningLines(
-                        color: PRIMARY_COLOR,
-                        size: 150,
-                      ),
-                    )
+                  ? LOADING_WIDGET()
                   : Stack(
                       children: [
                         Column(

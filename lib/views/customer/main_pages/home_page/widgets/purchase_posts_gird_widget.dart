@@ -1,7 +1,6 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -37,13 +36,8 @@ class SalePostGirdsWidget extends GetView<HomePageController> {
                   petSuggestTitleWidget(),
                   Obx(
                     () => controller.isLoading.value
-                        ? const Expanded(
-                            child: Center(
-                              child: SpinKitSpinningLines(
-                                color: PRIMARY_COLOR,
-                                size: 150,
-                              ),
-                            ),
+                        ? Expanded(
+                            child: LOADING_WIDGET(),
                           )
                         : controller.postList.isEmpty
                             ? Expanded(

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -257,10 +256,7 @@ class PostListTopWidget extends GetView<PostListPageController> {
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 5),
       child: Obx(
         () => controller.isShowLoadingPetSpecies.value
-            ? const SpinKitSpinningLines(
-                color: PRIMARY_COLOR,
-                size: 40,
-              )
+            ? LOADING_WIDGET(size: 40)
             : SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
                 child: Row(

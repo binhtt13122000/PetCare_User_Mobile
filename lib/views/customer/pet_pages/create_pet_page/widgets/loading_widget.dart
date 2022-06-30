@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
 import 'package:petapp_mobile/configs/theme.dart';
 import 'package:petapp_mobile/controllers/pet_page_controllers/add_pet_page_controller.dart';
+import 'package:petapp_mobile/views/widgets/customize_widget.dart';
 
 class CreatePetLoadingWidget extends GetView<CreatePetPageController> {
   const CreatePetLoadingWidget({Key? key}) : super(key: key);
@@ -13,12 +13,8 @@ class CreatePetLoadingWidget extends GetView<CreatePetPageController> {
       () => Visibility(
         visible: controller.isWaitingCreatePet.value,
         child: Container(
-          color: const Color.fromARGB(106, 198, 188, 201),
-          alignment: Alignment.center,
-          child: const SpinKitSpinningLines(
-            color: PRIMARY_COLOR,
-            size: 150,
-          ),
+          color: DARK_GREY_TRANSPARENT,
+          child: LOADING_WIDGET(),
         ),
       ),
     );

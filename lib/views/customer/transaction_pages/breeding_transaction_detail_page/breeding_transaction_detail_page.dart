@@ -15,7 +15,7 @@ import 'package:petapp_mobile/views/customer/transaction_pages/breeding_transact
 import 'package:petapp_mobile/views/customer/transaction_pages/breeding_transaction_detail_page/widgets/web_view.dart';
 import 'package:petapp_mobile/views/widgets/customize_widget.dart';
 import 'package:petapp_mobile/views/widgets/notification_popup_widget.dart';
-import 'package:petapp_mobile/views/widgets/review_popup_widget.dart';
+import 'package:petapp_mobile/views/widgets/cancel_popup_widget.dart';
 
 class BreedingTransactionDetailPage
     extends GetView<BreedingTransactionDetailPageController> {
@@ -54,60 +54,71 @@ class BreedingTransactionDetailPage
               ),
             ],
           ),
-          ReviewPopupWidget(
-            isVisible: <bool>() => controller.isShowCancelPopup.value,
-            onTapBackground: () => controller.isShowCancelPopup.value = false,
-            title: 'Cancel Transaction',
-            content: 'Tell us the reason why you cancel?',
-            quickRateText: const [
-              'The seller did not come',
-              'I\'m busy',
-              'Sick pet',
-              'Pet is not correct',
-            ],
-            onChangeDescription: (String? text) {
-              controller.cancelDescription.value = text ?? '';
-            },
-            descriptionHintText: 'Type more about the reason why...',
-            isAllowSubmit: <bool>() =>
-                controller.cancelDescription.value.isNotEmpty ||
-                controller.quickCancelList.isNotEmpty,
-            onTapSubmit: () async {
-              controller.isWaitingLoading.value = true;
-              String reasonText = GET_REVIEW_CONTENT(
-                description: controller.cancelDescription.value,
-                quickRateList: controller.quickCancelList,
-              );
-              await BreedingTransactionService.cancelTransaction(
-                  id: controller.breedingTransactionId,
-                  reasonCancel: reasonText);
-              controller
-                ..isWaitingLoading.value = false
-                ..isShowCancelPopup.value = false
-                ..onTapNotification = () {
-                  controller
-                    ..isShowNotificationPopup.value = false
-                    ..isShowBottomWidget.value = false
-                    ..update();
-                }
-                ..isSuccessNotification = true
-                ..notificationContent = 'Cancel transaction successfully.'
-                ..isShowNotificationPopup.value = true;
-            },
-            onTapQuickRateText: ({required String content}) {
-              controller.quickCancelList.contains(content)
-                  ? controller.quickCancelList.remove(content)
-                  : controller.quickCancelList.add(content);
-            },
-            isSelected: <bool>({required String content}) =>
-                controller.quickCancelList.contains(content),
-            checkEmptyDescription: <bool>() =>
-                controller.cancelDescription.value.isEmpty,
-            counterDescriptionText: <String>() =>
-                controller.cancelDescription.value.length.toString() + '/200',
-            onDeleteDescription: () {
-              controller.cancelDescription.value = '';
-            },
+          Obx(
+            () => controller.isShowCancelPopup.value
+                ? CancelPopupWidget(
+                    onTapBackground: () =>
+                        controller.isShowCancelPopup.value = false,
+                    title: 'Cancel Transaction',
+                    content: 'Tell us the reason why you cancel?',
+                    quickRateText: const [
+                      'The seller did not come',
+                      'I\'m busy',
+                      'Sick pet',
+                      'Pet is not correct',
+                    ],
+                    onChangeDescription: (String? text) {
+                      controller.cancelDescription.value = text ?? '';
+                    },
+                    descriptionHintText: 'Type more about the reason why...',
+                    isAllowSubmit: <bool>() =>
+                        controller.cancelDescription.value.isNotEmpty ||
+                        controller.quickCancelList.isNotEmpty,
+                    onTapSubmit: () async {
+                      controller.isWaitingLoading.value = true;
+                      String reasonText = GET_REVIEW_CONTENT(
+                        description: controller.cancelDescription.value,
+                        quickRateList: controller.quickCancelList,
+                      );
+                      controller.breedingTransactionModel.status == 'CREATED'
+                          ? await BreedingTransactionService.cancelTransaction(
+                              id: controller.breedingTransactionId,
+                              reasonCancel: reasonText)
+                          : await BreedingTransactionService.cancelBreeding(
+                              id: controller.breedingTransactionId,
+                              reasonCancel: reasonText);
+
+                      controller
+                        ..isWaitingLoading.value = false
+                        ..isShowCancelPopup.value = false
+                        ..onTapNotification = () {
+                          controller
+                            ..isShowNotificationPopup.value = false
+                            ..isShowBottomWidget.value = false
+                            ..update();
+                        }
+                        ..isSuccessNotification = true
+                        ..notificationContent =
+                            'Cancel transaction successfully.'
+                        ..isShowNotificationPopup.value = true;
+                    },
+                    onTapQuickRateText: ({required String content}) {
+                      controller.quickCancelList.contains(content)
+                          ? controller.quickCancelList.remove(content)
+                          : controller.quickCancelList.add(content);
+                    },
+                    isSelected: <bool>({required String content}) =>
+                        controller.quickCancelList.contains(content),
+                    checkEmptyDescription: <bool>() =>
+                        controller.cancelDescription.value.isEmpty,
+                    counterDescriptionText: <String>() =>
+                        controller.cancelDescription.value.length.toString() +
+                        '/200',
+                    onDeleteDescription: () {
+                      controller.cancelDescription.value = '';
+                    },
+                  )
+                : const SizedBox.shrink(),
           ),
           Obx(
             () => controller.isShowNotificationPopup.value

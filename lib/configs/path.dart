@@ -2,6 +2,7 @@
 
 //*gifts
 const CRYSTAL_GIF = 'crystal.gif';
+const LOADING_GIF = 'loading.gif';
 
 //*images
 const IMAGE_PATH = 'assets/images/';

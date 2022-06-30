@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:petapp_mobile/configs/route.dart';
@@ -53,10 +52,7 @@ class BreedingTransactionListWidget
                 });
                 return Obx(
                   () => controller.isLoadingBreedingTransaction.value
-                      ? const SpinKitSpinningLines(
-                          color: PRIMARY_COLOR,
-                          size: 150,
-                        )
+                      ? LOADING_WIDGET()
                       : controller.breedingTransactionModelList.isEmpty
                           ? NO_DATA_WIDGET(
                               content:

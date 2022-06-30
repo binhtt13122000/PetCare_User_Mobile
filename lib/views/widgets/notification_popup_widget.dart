@@ -45,7 +45,7 @@ class NotificationPopupWidget extends StatelessWidget {
                       Padding(
                         padding: EdgeInsets.only(
                           top: 20,
-                          bottom: isSuccessNotification ? 10 : 20,
+                          bottom: isSuccessNotification ? 5 : 20,
                         ),
                         child: Image.asset(
                           isSuccessNotification

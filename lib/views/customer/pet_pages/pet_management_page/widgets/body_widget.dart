@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:petapp_mobile/configs/path.dart';
@@ -39,12 +38,7 @@ class PetsManagementBodyWidget extends GetView<PetManagementPageController> {
               });
               return Obx(
                 () => controller.isLoadingPetList.value
-                    ? const Center(
-                        child: SpinKitSpinningLines(
-                          color: PRIMARY_COLOR,
-                          size: 150,
-                        ),
-                      )
+                    ? LOADING_WIDGET()
                     : controller.petList.isEmpty
                         ? NO_DATA_WIDGET(content: 'Sorry, no pet data found.')
                         : SingleChildScrollView(

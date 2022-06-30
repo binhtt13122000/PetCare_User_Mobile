@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
 import 'package:petapp_mobile/configs/theme.dart';
 import 'package:petapp_mobile/controllers/other_controllers/personal_information_page_controller.dart';
 import 'package:petapp_mobile/views/customer/other_pages/personal_information_page/widgets/body_widget.dart';
 import 'package:petapp_mobile/views/customer/other_pages/personal_information_page/widgets/top_widget.dart';
+import 'package:petapp_mobile/views/widgets/customize_widget.dart';
 
 class PersonalInformationPage
     extends GetView<PersonalInformationPageController> {
@@ -32,12 +32,7 @@ class PersonalInformationPage
           Obx(
             () => controller.isLoadingUpdateProfile.value
                 ? Container(
-                    color: const Color.fromARGB(75, 249, 236, 253),
-                    child: const SpinKitSpinningLines(
-                      color: PRIMARY_COLOR,
-                      size: 150,
-                    ),
-                  )
+                    color: DARK_GREY_TRANSPARENT, child: LOADING_WIDGET())
                 : const SizedBox.shrink(),
           ),
         ],
