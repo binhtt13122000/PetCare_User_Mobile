@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:petapp_mobile/configs/path.dart';
+import 'package:petapp_mobile/models/center_services_transaction_detail_model/center_services_transaction_detail_model.dart';
 import 'package:petapp_mobile/models/center_services_transaction_model/center_services_transaction_model.dart';
 import 'package:http/http.dart' as http;
 
@@ -14,6 +15,52 @@ class CenterServicesTransactionServices {
           .add(CenterServicesTransactionModel.fromJson(element));
     }
     return centerServicesTransactionModelList;
+  }
+
+  static Future<int> createCenterServicesTransaction({
+    required int provisionalTotal,
+    required int orderTotal,
+    required int customerId,
+    required int branchId,
+    required String? description,
+    required DateTime registerTime,
+    String status = 'WAITING',
+    required List<CenterServicesTransactionDetailModel> orderDetails,
+  }) async {
+    List<Map<String, dynamic>> orderDetailsJsonMapList = [];
+    for (var element in orderDetails) {
+      orderDetailsJsonMapList.add(element.toJson());
+    }
+
+    Map<String, dynamic> jsonBodyMap = {
+      'provisionalTotal': provisionalTotal,
+      'orderTotal': orderTotal,
+      'customerId': customerId,
+      'branchId': branchId,
+      'description': description ?? '',
+      'registerTime': registerTime.toIso8601String(),
+      'status': status,
+      'orderDetails': orderDetailsJsonMapList,
+    };
+    final response = await http.post(
+      Uri.http(
+        API_SERVER_PATH,
+        CENTER_SERVICES_TRANSACTION_API_PATH,
+      ),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(jsonBodyMap),
+    );
+    switch (response.statusCode) {
+      case 200:
+      case 201:
+      case 202:
+        return jsonDecode(response.body)['data']['id'];
+      default:
+        print(response.body);
+        return -1;
+    }
   }
 
   static Future<List<CenterServicesTransactionModel>>

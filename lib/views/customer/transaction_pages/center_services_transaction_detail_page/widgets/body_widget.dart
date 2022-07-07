@@ -138,37 +138,37 @@ class CenterServicesTransactionDetailBodyWidget
             Expanded(
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Expanded(
-                    child: Text(
-                      centerServicesTransactionDetailModel
-                          .centerServiceModel.name,
-                      textAlign: TextAlign.start,
-                      style: GoogleFonts.quicksand(
-                        textStyle: const TextStyle(
-                          color: Color.fromARGB(255, 77, 82, 105),
-                        ),
-                        fontWeight: FontWeight.w500,
-                        fontSize: 15,
-                        height: 1,
-                        letterSpacing: 0.5,
-                      ),
-                    ),
-                  ),
-                  Text(
-                    FORMAT_MONEY(
-                        price: centerServicesTransactionDetailModel.price),
-                    textAlign: TextAlign.center,
-                    style: GoogleFonts.quicksand(
-                      textStyle: const TextStyle(
-                        color: Color.fromARGB(255, 77, 82, 105),
-                      ),
-                      fontWeight: FontWeight.w600,
-                      fontSize: 16,
-                      height: 1,
-                      letterSpacing: 0.5,
-                    ),
-                  ),
+                children: const [
+                  // Expanded(
+                  //   child: Text(
+                  //     centerServicesTransactionDetailModel
+                  //         .centerServiceModel!.name,
+                  //     textAlign: TextAlign.start,
+                  //     style: GoogleFonts.quicksand(
+                  //       textStyle: const TextStyle(
+                  //         color: Color.fromARGB(255, 77, 82, 105),
+                  //       ),
+                  //       fontWeight: FontWeight.w500,
+                  //       fontSize: 15,
+                  //       height: 1,
+                  //       letterSpacing: 0.5,
+                  //     ),
+                  //   ),
+                  // ),
+                  // Text(
+                  //   FORMAT_MONEY(
+                  //       price: centerServicesTransactionDetailModel.price),
+                  //   textAlign: TextAlign.center,
+                  //   style: GoogleFonts.quicksand(
+                  //     textStyle: const TextStyle(
+                  //       color: Color.fromARGB(255, 77, 82, 105),
+                  //     ),
+                  //     fontWeight: FontWeight.w600,
+                  //     fontSize: 16,
+                  //     height: 1,
+                  //     letterSpacing: 0.5,
+                  //   ),
+                  // ),
                 ],
               ),
             ),
@@ -457,104 +457,104 @@ class CenterServicesTransactionDetailBodyWidget
                     color: LIGHT_GREY_COLOR.withAlpha(30),
                     margin: const EdgeInsets.symmetric(vertical: 10),
                   ),
-                  CUSTOM_TEXT('Branch perform services',
-                      fontSize: 15, padding: const EdgeInsets.only(bottom: 10)),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 3),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          'Branch name',
-                          textAlign: TextAlign.start,
-                          style: GoogleFonts.quicksand(
-                            textStyle: const TextStyle(
-                              color: Color.fromARGB(255, 77, 82, 105),
-                            ),
-                            fontWeight: FontWeight.w500,
-                            fontSize: 15,
-                            height: 1,
-                          ),
-                        ),
-                        Text(
-                          controller
-                              .centerServicesTransactionModel.branchModel!.name,
-                          textAlign: TextAlign.center,
-                          style: GoogleFonts.quicksand(
-                            color: const Color.fromARGB(255, 77, 82, 105),
-                            fontWeight: FontWeight.w600,
-                            fontSize: 15,
-                            height: 1,
-                            letterSpacing: 0.5,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 3),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          'Branch phone number',
-                          textAlign: TextAlign.start,
-                          style: GoogleFonts.quicksand(
-                            textStyle: const TextStyle(
-                              color: Color.fromARGB(255, 77, 82, 105),
-                            ),
-                            fontWeight: FontWeight.w500,
-                            fontSize: 15,
-                            height: 1,
-                          ),
-                        ),
-                        Text(
-                          controller.centerServicesTransactionModel.branchModel!
-                              .phoneNumber,
-                          textAlign: TextAlign.center,
-                          style: GoogleFonts.quicksand(
-                            color: const Color.fromARGB(255, 77, 82, 105),
-                            fontWeight: FontWeight.w600,
-                            fontSize: 15,
-                            height: 1,
-                            letterSpacing: 0.5,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 3),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          'Branch address',
-                          textAlign: TextAlign.start,
-                          style: GoogleFonts.quicksand(
-                            textStyle: const TextStyle(
-                              color: Color.fromARGB(255, 77, 82, 105),
-                            ),
-                            fontWeight: FontWeight.w500,
-                            fontSize: 15,
-                            height: 1,
-                          ),
-                        ),
-                        Text(
-                          controller.centerServicesTransactionModel.branchModel!
-                              .address!,
-                          textAlign: TextAlign.center,
-                          style: GoogleFonts.quicksand(
-                            color: const Color.fromARGB(255, 77, 82, 105),
-                            fontWeight: FontWeight.w600,
-                            fontSize: 15,
-                            height: 1,
-                            letterSpacing: 0.5,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
+                  // CUSTOM_TEXT('Branch perform services',
+                  //     fontSize: 15, padding: const EdgeInsets.only(bottom: 10)),
+                  // Padding(
+                  //   padding: const EdgeInsets.symmetric(vertical: 3),
+                  //   child: Row(
+                  //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  //     children: [
+                  //       Text(
+                  //         'Branch name',
+                  //         textAlign: TextAlign.start,
+                  //         style: GoogleFonts.quicksand(
+                  //           textStyle: const TextStyle(
+                  //             color: Color.fromARGB(255, 77, 82, 105),
+                  //           ),
+                  //           fontWeight: FontWeight.w500,
+                  //           fontSize: 15,
+                  //           height: 1,
+                  //         ),
+                  //       ),
+                  //       Text(
+                  //         controller
+                  //             .centerServicesTransactionModel.branchModel!.name,
+                  //         textAlign: TextAlign.center,
+                  //         style: GoogleFonts.quicksand(
+                  //           color: const Color.fromARGB(255, 77, 82, 105),
+                  //           fontWeight: FontWeight.w600,
+                  //           fontSize: 15,
+                  //           height: 1,
+                  //           letterSpacing: 0.5,
+                  //         ),
+                  //       ),
+                  //     ],
+                  //   ),
+                  // ),
+                  // Padding(
+                  //   padding: const EdgeInsets.symmetric(vertical: 3),
+                  //   child: Row(
+                  //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  //     children: [
+                  //       Text(
+                  //         'Branch phone number',
+                  //         textAlign: TextAlign.start,
+                  //         style: GoogleFonts.quicksand(
+                  //           textStyle: const TextStyle(
+                  //             color: Color.fromARGB(255, 77, 82, 105),
+                  //           ),
+                  //           fontWeight: FontWeight.w500,
+                  //           fontSize: 15,
+                  //           height: 1,
+                  //         ),
+                  //       ),
+                  //       Text(
+                  //         controller.centerServicesTransactionModel.branchModel!
+                  //             .phoneNumber,
+                  //         textAlign: TextAlign.center,
+                  //         style: GoogleFonts.quicksand(
+                  //           color: const Color.fromARGB(255, 77, 82, 105),
+                  //           fontWeight: FontWeight.w600,
+                  //           fontSize: 15,
+                  //           height: 1,
+                  //           letterSpacing: 0.5,
+                  //         ),
+                  //       ),
+                  //     ],
+                  //   ),
+                  // ),
+                  // Padding(
+                  //   padding: const EdgeInsets.symmetric(vertical: 3),
+                  //   child: Row(
+                  //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  //     children: [
+                  //       Text(
+                  //         'Branch address',
+                  //         textAlign: TextAlign.start,
+                  //         style: GoogleFonts.quicksand(
+                  //           textStyle: const TextStyle(
+                  //             color: Color.fromARGB(255, 77, 82, 105),
+                  //           ),
+                  //           fontWeight: FontWeight.w500,
+                  //           fontSize: 15,
+                  //           height: 1,
+                  //         ),
+                  //       ),
+                  //       Text(
+                  //         controller.centerServicesTransactionModel.branchModel!
+                  //             .address!,
+                  //         textAlign: TextAlign.center,
+                  //         style: GoogleFonts.quicksand(
+                  //           color: const Color.fromARGB(255, 77, 82, 105),
+                  //           fontWeight: FontWeight.w600,
+                  //           fontSize: 15,
+                  //           height: 1,
+                  //           letterSpacing: 0.5,
+                  //         ),
+                  //       ),
+                  //     ],
+                  //   ),
+                  // ),
                   applyPromotionWidget(),
                 ],
               ),

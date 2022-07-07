@@ -3,9 +3,10 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:petapp_mobile/configs/theme.dart';
 import 'package:petapp_mobile/controllers/post_page_controllers/post_management_page_controller.dart';
-import 'package:petapp_mobile/controllers/post_page_controllers/update_sale_post_page_controller.dart';
+import 'package:petapp_mobile/controllers/post_page_controllers/update_post_page_controller.dart';
+import 'package:petapp_mobile/views/widgets/customize_widget.dart';
 
-class UpdatePostTopWidget extends GetView<UpdateSalePostPageController> {
+class UpdatePostTopWidget extends GetView<UpdatePostPageController> {
   const UpdatePostTopWidget({Key? key}) : super(key: key);
 
   @override
@@ -14,14 +15,27 @@ class UpdatePostTopWidget extends GetView<UpdateSalePostPageController> {
         child: Column(
           children: [
             topTitleWidget(),
-            Container(
-              height: 1,
-              margin: const EdgeInsets.only(top: 15),
-              color: LIGHT_GREY_COLOR.withOpacity(0.1),
+            postIdWidget(),
+          ],
+        ),
+      );
+
+  Widget postIdWidget() => Container(
+        color: SUPPER_LIGHT_BLUE,
+        padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 20),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            CUSTOM_TEXT(
+              'Pet ID',
+              fontSize: 13,
+              color: DARK_GREY_TEXT_COLOR.withOpacity(0.7),
             ),
-            Container(
-              height: 8,
-              color: const Color.fromARGB(255, 245, 248, 253),
+            CUSTOM_TEXT(
+              (controller.postId < 10 ? '#0' : '#') +
+                  controller.postId.toString(),
+              fontSize: 13,
+              color: DARK_GREY_TEXT_COLOR.withOpacity(0.7),
             ),
           ],
         ),

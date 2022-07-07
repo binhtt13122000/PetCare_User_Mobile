@@ -4,10 +4,10 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:petapp_mobile/configs/path.dart';
 import 'package:petapp_mobile/configs/theme.dart';
-import 'package:petapp_mobile/controllers/post_page_controllers/update_sale_post_page_controller.dart';
+import 'package:petapp_mobile/controllers/post_page_controllers/update_post_page_controller.dart';
 import 'package:petapp_mobile/services/post_services/post_services.dart';
 
-class UpdatePostBottomWidget extends GetView<UpdateSalePostPageController> {
+class UpdatePostBottomWidget extends GetView<UpdatePostPageController> {
   const UpdatePostBottomWidget({Key? key}) : super(key: key);
 
   @override
@@ -52,10 +52,10 @@ class UpdatePostBottomWidget extends GetView<UpdateSalePostPageController> {
                 },
                 child: Obx(
                   () => Container(
-                    height: 45,
+                    height: 40,
                     alignment: Alignment.center,
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(5),
+                      borderRadius: BorderRadius.circular(10),
                       color: controller.title.value.isNotEmpty &&
                               controller.price.value > 0 &&
                               controller.selectedPetId.value != -1 &&
@@ -71,8 +71,7 @@ class UpdatePostBottomWidget extends GetView<UpdateSalePostPageController> {
                           textAlign: TextAlign.center,
                           style: GoogleFonts.quicksand(
                             textStyle: const TextStyle(color: WHITE_COLOR),
-                            fontWeight: FontWeight.w600,
-                            fontSize: 18,
+                            fontWeight: FontWeight.w700,
                             height: 1,
                             letterSpacing: 2,
                           ),
@@ -82,7 +81,7 @@ class UpdatePostBottomWidget extends GetView<UpdateSalePostPageController> {
                           child: SvgPicture.asset(
                             ICON_PATH + ADD_SVG,
                             color: WHITE_COLOR,
-                            height: 19,
+                            height: 16,
                           ),
                         ),
                       ],

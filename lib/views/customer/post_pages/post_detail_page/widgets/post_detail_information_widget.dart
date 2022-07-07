@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -139,6 +140,7 @@ class PostDetailInformationWidget extends GetView<PostDetailPageController> {
                   width: 180,
                   child: Column(
                     children: [
+                      Html(data: controller.postModel.description ?? ''),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [

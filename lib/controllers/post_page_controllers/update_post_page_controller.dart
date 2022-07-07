@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:petapp_mobile/controllers/other_controllers/auth_controller.dart';
 import 'package:petapp_mobile/models/account_model/account_model.dart';
@@ -13,15 +12,11 @@ import 'package:flutter_quill/flutter_quill.dart' as quill;
 import 'package:petapp_mobile/models/species_model/species_model.dart';
 import 'package:petapp_mobile/models/transaction_fees_model/transaction_fees_model.dart';
 
-class UpdateSalePostPageController extends GetxController {
-  TextEditingController titleEditingController = TextEditingController();
-  TextEditingController receiveMoneyEditingController = TextEditingController();
-  TextEditingController depositEditingController = TextEditingController();
-  late PostModel postModel;
-  ScrollController mainScrollController = ScrollController();
+class UpdatePostPageController extends GetxController {
   AccountModel accountModel = Get.find<AuthController>().accountModel;
-
-  RxBool isShowPurchaseTransactionFeees = false.obs;
+  late int postId;
+  late PostModel postModel;
+  RxBool isShowPurchaseTransactionFees = false.obs;
   late List<TransactionFeesModel> listPurchaseTransactionFees;
   RxInt selectedPurchaseTransactionFeesId = (-1).obs;
   RxBool isShowMainLoading = false.obs;
@@ -36,8 +31,6 @@ class UpdateSalePostPageController extends GetxController {
   RxInt price = 0.obs;
   RxInt deposit = 0.obs;
   RxString selectedPostType = 'SALE'.obs;
-
-  bool isFirstInputTitle = true;
   RxBool isShowPetFilter = false.obs;
   RxBool isShowPetDropdownList = false.obs;
   RxString receivedMoney = ''.obs;

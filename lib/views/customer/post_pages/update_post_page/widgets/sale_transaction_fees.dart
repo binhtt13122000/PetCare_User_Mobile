@@ -1,21 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:petapp_mobile/configs/theme.dart';
-import 'package:petapp_mobile/controllers/post_page_controllers/update_sale_post_page_controller.dart';
+import 'package:petapp_mobile/controllers/post_page_controllers/update_post_page_controller.dart';
 import 'package:petapp_mobile/models/transaction_fees_model/transaction_fees_model.dart';
 import 'package:petapp_mobile/utilities/utilities.dart';
 import 'package:petapp_mobile/views/widgets/customize_widget.dart';
 
-class SaleTransactionFeesWidget extends GetView<UpdateSalePostPageController> {
+class SaleTransactionFeesWidget extends GetView<UpdatePostPageController> {
   const SaleTransactionFeesWidget({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Obx(
       () => Visibility(
-        visible: controller.isShowPurchaseTransactionFeees.value,
+        visible: controller.isShowPurchaseTransactionFees.value,
         child: InkWell(
-          onTap: () => controller.isShowPurchaseTransactionFeees.value = false,
+          onTap: () => controller.isShowPurchaseTransactionFees.value = false,
           child: Container(
             color: DARK_GREY_TRANSPARENT,
             alignment: Alignment.center,

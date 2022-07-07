@@ -6,11 +6,11 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:petapp_mobile/configs/path.dart';
 import 'package:petapp_mobile/configs/theme.dart';
-import 'package:petapp_mobile/controllers/post_page_controllers/update_sale_post_page_controller.dart';
+import 'package:petapp_mobile/controllers/post_page_controllers/update_post_page_controller.dart';
 import 'package:petapp_mobile/models/media_model/media_model.dart';
 import 'package:petapp_mobile/utilities/utilities.dart';
 
-class MediaPickerWidget extends GetView<UpdateSalePostPageController> {
+class MediaPickerWidget extends GetView<UpdatePostPageController> {
   const MediaPickerWidget({Key? key}) : super(key: key);
 
   @override

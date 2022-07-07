@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart' as quill;
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:petapp_mobile/controllers/post_page_controllers/update_sale_post_page_controller.dart';
+import 'package:petapp_mobile/controllers/post_page_controllers/update_post_page_controller.dart';
 
-class DescriptionWidget extends GetView<UpdateSalePostPageController> {
-  const DescriptionWidget({Key? key}) : super(key: key);
+class UpdatePostDescriptionWidget extends GetView<UpdatePostPageController> {
+  const UpdatePostDescriptionWidget({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +15,7 @@ class DescriptionWidget extends GetView<UpdateSalePostPageController> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Desciption',
+            'Description',
             style: GoogleFonts.quicksand(
               fontWeight: FontWeight.w500,
               color: const Color.fromARGB(255, 78, 98, 124),

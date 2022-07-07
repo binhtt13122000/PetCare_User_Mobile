@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:petapp_mobile/configs/theme.dart';
 import 'package:petapp_mobile/controllers/transaction_page_controllers/center_services_transaction_detail_page_controller.dart';
 import 'package:petapp_mobile/controllers/transaction_page_controllers/payment_for_center_services_transaction_page_controller.dart';
+import 'package:petapp_mobile/views/widgets/customize_widget.dart';
 
 class PaymentForCenterServicesTransactionTopWidget
     extends GetView<PaymentForCenterServicesTransactionPageController> {
@@ -18,6 +18,7 @@ class PaymentForCenterServicesTransactionTopWidget
             height: 1,
             color: DARK_GREY_COLOR.withAlpha(30),
           ),
+          transactionIdWidget(),
         ],
       );
 
@@ -56,16 +57,34 @@ class PaymentForCenterServicesTransactionTopWidget
             ),
             //*app logo
             Expanded(
-              child: Text(
-                'Payment Page',
-                textAlign: TextAlign.center,
-                style: GoogleFonts.quicksand(
+              child: CUSTOM_TEXT('Payment Page',
+                  textAlign: TextAlign.center,
                   color: const Color.fromARGB(255, 62, 68, 87),
                   fontSize: 18,
                   fontWeight: FontWeight.w700,
                   letterSpacing: 1,
-                ),
-              ),
+                  padding: const EdgeInsets.only(right: 20)),
+            ),
+          ],
+        ),
+      );
+
+  Widget transactionIdWidget() => Container(
+        color: SUPPER_LIGHT_BLUE,
+        padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 20),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            CUSTOM_TEXT(
+              'Transaction ID',
+              fontSize: 13,
+              color: DARK_GREY_TEXT_COLOR.withOpacity(0.7),
+            ),
+            CUSTOM_TEXT(
+              (controller.centerServicesTransactionModel.id < 10 ? '#0' : '#') +
+                  controller.centerServicesTransactionModel.id.toString(),
+              fontSize: 13,
+              color: DARK_GREY_TEXT_COLOR.withOpacity(0.7),
             ),
           ],
         ),

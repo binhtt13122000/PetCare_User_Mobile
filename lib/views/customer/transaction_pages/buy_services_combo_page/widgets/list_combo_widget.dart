@@ -32,7 +32,8 @@ class BuyServicesComboListComboWidget
 
   Widget petServicesComboDetail() =>
       GetBuilder<BuyServicesComboPageController>(builder: (_) {
-        if (controller.isLoadingPetServicesComboDetail) {
+        if (controller.isLoadingPetServicesComboDetail &&
+            controller.selectPetServicesComboIndex.value != -1) {
           controller.isWaitLoadingPetServicesComboDetail.value = true;
           WidgetsBinding.instance!.addPostFrameCallback((_) async {
             controller
@@ -47,113 +48,124 @@ class BuyServicesComboListComboWidget
               ..isLoadingPetServicesComboDetail = false;
           });
         }
-        return Obx(() => controller.isWaitLoadingPetServicesComboDetail.value
-            ? LOADING_WIDGET(size: 60)
-            : Column(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 12),
-                    child: Column(
+        return Obx(
+          () => controller.isWaitLoadingPetServicesComboDetail.value
+              ? LOADING_WIDGET(size: 60)
+              : controller.selectPetServicesComboIndex.value != -1
+                  ? Column(
                       children: [
                         Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 3),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          padding: const EdgeInsets.symmetric(horizontal: 12),
+                          child: Column(
                             children: [
-                              CUSTOM_TEXT('Type'),
-                              CUSTOM_TEXT(
-                                  controller.petServicesComboModel.type),
-                            ],
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 3),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              CUSTOM_TEXT('Price'),
-                              CUSTOM_TEXT(FORMAT_MONEY(
-                                  price:
-                                      controller.petServicesComboModel.price)),
-                            ],
-                          ),
-                        ),
-                        Obx(
-                          () => Column(
-                            children: [
-                              Visibility(
-                                visible: controller
-                                    .isViewServicesComboDescriptionWidget.value,
-                                child: Padding(
-                                  padding:
-                                      const EdgeInsets.symmetric(vertical: 3),
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      //CUSTOM_TEXT('Description'),
-                                      Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 20),
-                                        child: FittedBox(
-                                          fit: BoxFit.scaleDown,
-                                          child: Html(
-                                              data: controller
-                                                      .petServicesComboModel
-                                                      .description ??
-                                                  'N/A'),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
+                              Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 3),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    CUSTOM_TEXT('Type'),
+                                    CUSTOM_TEXT(
+                                        controller.petServicesComboModel.type),
+                                  ],
                                 ),
                               ),
-                              InkWell(
-                                onTap: () => controller
-                                        .isViewServicesComboDescriptionWidget
-                                        .value =
-                                    !controller
-                                        .isViewServicesComboDescriptionWidget
-                                        .value,
-                                child: Column(
+                              Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 3),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
                                   children: [
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        Text(
-                                          controller
-                                                  .isViewServicesComboDescriptionWidget
-                                                  .value
-                                              ? 'Hide description'
-                                              : 'View description',
-                                          style: GoogleFonts.quicksand(
-                                            fontSize: 13,
-                                            fontWeight: FontWeight.w600,
-                                            color: PRIMARY_COLOR,
-                                            letterSpacing: 2,
-                                          ),
+                                    CUSTOM_TEXT('Price'),
+                                    CUSTOM_TEXT(FORMAT_MONEY(
+                                        price: controller
+                                            .petServicesComboModel.price)),
+                                  ],
+                                ),
+                              ),
+                              Obx(
+                                () => Column(
+                                  children: [
+                                    Visibility(
+                                      visible: controller
+                                          .isViewServicesComboDescriptionWidget
+                                          .value,
+                                      child: Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            vertical: 3),
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            //CUSTOM_TEXT('Description'),
+                                            Padding(
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      horizontal: 20),
+                                              child: FittedBox(
+                                                fit: BoxFit.scaleDown,
+                                                child: Html(
+                                                    data: controller
+                                                            .petServicesComboModel
+                                                            .description ??
+                                                        'N/A'),
+                                              ),
+                                            ),
+                                          ],
                                         ),
-                                        const SizedBox(width: 5),
-                                        Icon(
-                                          controller
-                                                  .isViewServicesComboDescriptionWidget
-                                                  .value
-                                              ? Icons
-                                                  .keyboard_double_arrow_up_outlined
-                                              : Icons
-                                                  .keyboard_double_arrow_down_outlined,
-                                          size: 18,
-                                          color: PRIMARY_COLOR,
-                                        )
-                                      ],
+                                      ),
                                     ),
-                                    Container(
-                                      height: 1,
-                                      width: 160,
-                                      color: PRIMARY_COLOR,
-                                      margin: const EdgeInsets.only(
-                                          top: 2, left: 15, right: 15),
+                                    InkWell(
+                                      onTap: () => controller
+                                              .isViewServicesComboDescriptionWidget
+                                              .value =
+                                          !controller
+                                              .isViewServicesComboDescriptionWidget
+                                              .value,
+                                      child: Column(
+                                        children: [
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              Text(
+                                                controller
+                                                        .isViewServicesComboDescriptionWidget
+                                                        .value
+                                                    ? 'Hide description'
+                                                    : 'View description',
+                                                style: GoogleFonts.quicksand(
+                                                  fontSize: 13,
+                                                  fontWeight: FontWeight.w600,
+                                                  color: PRIMARY_COLOR,
+                                                  letterSpacing: 2,
+                                                ),
+                                              ),
+                                              const SizedBox(width: 5),
+                                              Icon(
+                                                controller
+                                                        .isViewServicesComboDescriptionWidget
+                                                        .value
+                                                    ? Icons
+                                                        .keyboard_double_arrow_up_outlined
+                                                    : Icons
+                                                        .keyboard_double_arrow_down_outlined,
+                                                size: 18,
+                                                color: PRIMARY_COLOR,
+                                              )
+                                            ],
+                                          ),
+                                          Container(
+                                            height: 1,
+                                            width: 160,
+                                            color: PRIMARY_COLOR,
+                                            margin: const EdgeInsets.only(
+                                                top: 2, left: 15, right: 15),
+                                          ),
+                                        ],
+                                      ),
                                     ),
                                   ],
                                 ),
@@ -161,29 +173,20 @@ class BuyServicesComboListComboWidget
                             ],
                           ),
                         ),
+                        Container(
+                          height: 1,
+                          color: LIGHT_GREY_COLOR.withAlpha(30),
+                          margin: const EdgeInsets.only(top: 10),
+                        ),
+                        Container(
+                          height: 10,
+                          color: SUPPER_LIGHT_BLUE,
+                        ),
+                        servicesListItemWidget(),
                       ],
-                    ),
-                  ),
-                  Container(
-                    height: 1,
-                    color: LIGHT_GREY_COLOR.withAlpha(30),
-                    margin: const EdgeInsets.only(top: 10),
-                  ),
-                  Container(
-                    height: 10,
-                    color: SUPPER_LIGHT_BLUE,
-                  ),
-                  servicesListItemWidget(),
-                  Container(
-                    height: 1,
-                    color: LIGHT_GREY_COLOR.withAlpha(30),
-                  ),
-                  Container(
-                    height: 10,
-                    color: SUPPER_LIGHT_BLUE,
-                  ),
-                ],
-              ));
+                    )
+                  : const SizedBox.shrink(),
+        );
       });
 
   Widget servicesListItemWidget() => Container(
@@ -250,20 +253,38 @@ class BuyServicesComboListComboWidget
   Widget servicesComboItemList() => Obx(
         () => DropdownButton<int>(
           value: controller.selectPetServicesComboIndex.value,
-          items: controller.petServicesComboModelList
-              .asMap()
-              .entries
-              .map((e) => DropdownMenuItem(
-                  value: e.key,
-                  child: Text(
-                    e.value.name,
-                    style: GoogleFonts.quicksand(
-                      fontWeight: FontWeight.w500,
-                      color: const Color.fromARGB(255, 78, 98, 124),
-                      fontSize: 16,
+          items: [
+            ...[
+              DropdownMenuItem(
+                value: -1,
+                child: Text(
+                  '- Select pet services combo -',
+                  style: GoogleFonts.quicksand(
+                    fontWeight: FontWeight.w500,
+                    color: DARK_GREY_TEXT_COLOR.withOpacity(0.8),
+                    fontSize: 16,
+                  ),
+                ),
+              )
+            ],
+            ...controller.petServicesComboModelList
+                .asMap()
+                .entries
+                .map(
+                  (e) => DropdownMenuItem(
+                    value: e.key,
+                    child: Text(
+                      e.value.name,
+                      style: GoogleFonts.quicksand(
+                        fontWeight: FontWeight.w500,
+                        color: const Color.fromARGB(255, 78, 98, 124),
+                        fontSize: 16,
+                      ),
                     ),
-                  )))
-              .toList(),
+                  ),
+                )
+                .toList()
+          ],
           onChanged: (int? value) => controller
             ..selectPetServicesComboIndex.value = value!
             ..isLoadingPetServicesComboDetail = true
@@ -283,6 +304,4 @@ class BuyServicesComboListComboWidget
               padding: const EdgeInsets.only(right: 20)),
         ],
       );
-
-  Widget servicesComboItem() => Container();
 }

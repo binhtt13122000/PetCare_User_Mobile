@@ -13,7 +13,8 @@ class BuyServicesComboPageController extends GetxController {
   RxInt selectPetServicesComboIndex = (-1).obs;
   late List<PetModel> petModelList;
   late List<SpeciesModel> speciesModelList;
-  RxInt selectedPetId = (-1).obs;
+  int? initSelectedPetId;
+  RxInt selectedPetIndex = (-1).obs;
   RxInt selectedSpeciesId = (-1).obs;
   RxBool isShowPetFilter = false.obs;
   RxBool isShowPetDropdownList = false.obs;
@@ -29,10 +30,8 @@ class BuyServicesComboPageController extends GetxController {
   RxBool isWaitLoadingPetServicesComboDetail = false.obs;
   bool isLoadingPetServicesComboDetail = true;
   late ServicesComboModel petServicesComboModel;
-  RxString paymentUrl = ''.obs;
-  RxBool isShowPopup = false.obs;
   RxBool isViewServicesComboDescriptionWidget = false.obs;
-  RxString selectedPetGender = ''.obs;
-  RxString selectedComboType = ''.obs;
   RxBool isShowBranchDetail = false.obs;
+  late int centerServicesTransactionId;
+  RxBool isWaitingLoadingDataForeground = false.obs;
 }

@@ -13,9 +13,7 @@ class PetComboModel {
   final DateTime registerTime;
   final bool isCompleted;
   final bool isDraft;
-  final String paymentMethod;
   final int orderTotal;
-  final int point;
   final int petId;
   final int branchId;
   final int comboId;
@@ -34,9 +32,7 @@ class PetComboModel {
     required this.registerTime,
     required this.isCompleted,
     required this.isDraft,
-    required this.paymentMethod,
     required this.orderTotal,
-    required this.point,
     required this.petId,
     required this.branchId,
     required this.comboId,

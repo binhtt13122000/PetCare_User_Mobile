@@ -43,7 +43,6 @@ class PaymentForCenterServicesTransactionBodyWidget
                     color: SUPPER_LIGHT_BLUE,
                     child: Column(
                       children: [
-                        transactionIdWidget(),
                         Expanded(
                           child: SingleChildScrollView(
                             child: Column(
@@ -140,26 +139,6 @@ class PaymentForCenterServicesTransactionBodyWidget
                     promotionItemWidget(index: e.key, promotionModel: e.value),
               )
               .toList(),
-        ),
-      );
-
-  Widget transactionIdWidget() => Padding(
-        padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 20),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            CUSTOM_TEXT(
-              'Transaction ID',
-              fontSize: 13,
-              color: DARK_GREY_TEXT_COLOR.withOpacity(0.7),
-            ),
-            CUSTOM_TEXT(
-              (controller.centerServicesTransactionModel.id < 10 ? '#0' : '#') +
-                  controller.centerServicesTransactionModel.id.toString(),
-              fontSize: 13,
-              color: DARK_GREY_TEXT_COLOR.withOpacity(0.7),
-            ),
-          ],
         ),
       );
 
@@ -422,43 +401,43 @@ class PaymentForCenterServicesTransactionBodyWidget
               ),
             ),
             const SizedBox(width: 10),
-            Expanded(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Expanded(
-                    child: Text(
-                      centerServicesTransactionDetailModel
-                          .centerServiceModel.name,
-                      textAlign: TextAlign.start,
-                      style: GoogleFonts.quicksand(
-                        textStyle: const TextStyle(
-                          color: Color.fromARGB(255, 77, 82, 105),
-                        ),
-                        fontWeight: FontWeight.w500,
-                        fontSize: 15,
-                        height: 1,
-                        letterSpacing: 0.5,
-                      ),
-                    ),
-                  ),
-                  Text(
-                    FORMAT_MONEY(
-                        price: centerServicesTransactionDetailModel.price),
-                    textAlign: TextAlign.center,
-                    style: GoogleFonts.quicksand(
-                      textStyle: const TextStyle(
-                        color: Color.fromARGB(255, 77, 82, 105),
-                      ),
-                      fontWeight: FontWeight.w600,
-                      fontSize: 16,
-                      height: 1,
-                      letterSpacing: 0.5,
-                    ),
-                  ),
-                ],
-              ),
-            ),
+            // Expanded(
+            //   child: Row(
+            //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            //     children: [
+            //       Expanded(
+            //         child: Text(
+            //           centerServicesTransactionDetailModel
+            //               .centerServiceModel!.name,
+            //           textAlign: TextAlign.start,
+            //           style: GoogleFonts.quicksand(
+            //             textStyle: const TextStyle(
+            //               color: Color.fromARGB(255, 77, 82, 105),
+            //             ),
+            //             fontWeight: FontWeight.w500,
+            //             fontSize: 15,
+            //             height: 1,
+            //             letterSpacing: 0.5,
+            //           ),
+            //         ),
+            //       ),
+            //       Text(
+            //         FORMAT_MONEY(
+            //             price: centerServicesTransactionDetailModel.price),
+            //         textAlign: TextAlign.center,
+            //         style: GoogleFonts.quicksand(
+            //           textStyle: const TextStyle(
+            //             color: Color.fromARGB(255, 77, 82, 105),
+            //           ),
+            //           fontWeight: FontWeight.w600,
+            //           fontSize: 16,
+            //           height: 1,
+            //           letterSpacing: 0.5,
+            //         ),
+            //       ),
+            //     ],
+            //   ),
+            // ),
           ],
         ),
       );
