@@ -29,7 +29,15 @@ class PostDetailGeneralInformationWidget
                   letterSpacing: 1,
                   textOverflow: TextOverflow.clip,
                 ),
-                priceWidget(),
+                Row(
+                  children: [
+                    priceWidget(),
+                    const SizedBox(
+                      width: 20,
+                    ),
+                    idWidget(),
+                  ],
+                ),
                 Visibility(
                     visible: controller.accountModel.customerModel.id ==
                         controller.postModel.customerId,
@@ -114,6 +122,31 @@ class PostDetailGeneralInformationWidget
           CUSTOM_TEXT(
             ' (${controller.postModel.petModel!.breedModel!.speciesModel!.name})',
             color: DARK_GREY_TEXT_COLOR.withOpacity(0.85),
+          ),
+        ],
+      );
+
+  Widget idWidget() => Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              CUSTOM_TEXT(
+                'Id: ',
+                fontSize: 18,
+                color: DARK_GREY_TEXT_COLOR.withOpacity(0.8),
+              ),
+              CUSTOM_TEXT(
+                (controller.postModel.id > 9 ? '#' : '#0') +
+                    controller.postModel.id.toString(),
+                color: DARK_GREY_TEXT_COLOR.withOpacity(0.8),
+                fontSize: 18,
+                letterSpacing: 1.5,
+              )
+            ],
           ),
         ],
       );

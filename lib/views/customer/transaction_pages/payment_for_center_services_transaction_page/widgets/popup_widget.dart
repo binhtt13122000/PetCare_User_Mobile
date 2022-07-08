@@ -27,13 +27,12 @@ class PaymentForCenterServicesTransactionPopupWidget
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               Text(
-                controller.centerServicesTransactionModel.status == 'SUCCESS'
+                controller.orderModel.status == 'SUCCESS'
                     ? 'Payment Successfully'
                     : 'Payment Failed',
                 style: GoogleFonts.quicksand(
                   textStyle: TextStyle(
-                    color: controller.centerServicesTransactionModel.status ==
-                            'SUCCESS'
+                    color: controller.orderModel.status == 'SUCCESS'
                         ? DARK_GREY_TEXT_COLOR
                         : RED_COLOR,
                   ),
@@ -44,34 +43,30 @@ class PaymentForCenterServicesTransactionPopupWidget
                 ),
               ),
               Icon(
-                controller.centerServicesTransactionModel.status == 'SUCCESS'
+                controller.orderModel.status == 'SUCCESS'
                     ? Icons.verified_outlined
                     : Icons.error,
                 size: 70,
-                color: controller.centerServicesTransactionModel.status ==
-                        'SUCCESS'
+                color: controller.orderModel.status == 'SUCCESS'
                     ? PRIMARY_COLOR
                     : RED_COLOR,
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 12),
                 child: InkWell(
-                  onTap: () =>
-                      controller.centerServicesTransactionModel.status ==
-                              'SUCCESS'
-                          ? () {
-                              Get.back();
-                              Get.put(CenterServicesTransactionDetailPageController())
-                                  .update();
-                            }.call()
-                          : controller.isShowPopup.value = false,
+                  onTap: () => controller.orderModel.status == 'SUCCESS'
+                      ? () {
+                          Get.back();
+                          Get.put(CenterServicesTransactionDetailPageController())
+                              .update();
+                        }.call()
+                      : controller.isShowPopup.value = false,
                   child: Container(
                     alignment: Alignment.center,
                     padding: const EdgeInsets.symmetric(vertical: 5),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(5),
-                      color: controller.centerServicesTransactionModel.status ==
-                              'SUCCESS'
+                      color: controller.orderModel.status == 'SUCCESS'
                           ? PRIMARY_COLOR
                           : RED_COLOR,
                     ),

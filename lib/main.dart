@@ -40,7 +40,7 @@ import 'package:petapp_mobile/bindings/transaction_page_bindings/center_services
 import 'package:petapp_mobile/bindings/transaction_page_bindings/ticket_detail_page_binding.dart';
 import 'package:petapp_mobile/bindings/transaction_page_bindings/transaction_list_page_binding.dart';
 import 'package:petapp_mobile/bindings/pet_page_bindings/update_pet_page_binding.dart';
-import 'package:petapp_mobile/bindings/post_page_bindings/update_sale_post_page_binding.dart';
+import 'package:petapp_mobile/bindings/post_page_bindings/update_post_page_binding.dart';
 import 'package:petapp_mobile/configs/route.dart';
 import 'package:petapp_mobile/controllers/other_controllers/auth_controller.dart';
 import 'package:petapp_mobile/controllers/guest_page_controllers/sign_in_page_controller.dart';
@@ -73,7 +73,7 @@ import 'package:petapp_mobile/views/customer/post_pages/create_post_page/create_
 import 'package:petapp_mobile/views/customer/post_pages/post_detail_page/post_detail_page.dart';
 import 'package:petapp_mobile/views/customer/post_pages/post_list_page/post_list_page.dart';
 import 'package:petapp_mobile/views/customer/post_pages/post_management_page/post_management_page.dart';
-import 'package:petapp_mobile/views/customer/post_pages/update_sale_post_page/update_sale_post_page.dart';
+import 'package:petapp_mobile/views/customer/post_pages/update_post_page/update_post_page.dart';
 import 'package:petapp_mobile/views/customer/transaction_pages/booking_breeding_service_page/booking_breeding_services_page.dart';
 import 'package:petapp_mobile/views/customer/transaction_pages/breeding_transaction_detail_page/breeding_transaction_detail_page.dart';
 import 'package:petapp_mobile/views/customer/transaction_pages/buy_breeding_services_combo_page/buy_breeding_services_combo_page.dart';
@@ -401,9 +401,9 @@ class _MainAppState extends State<MainApp> {
             page: () => const PostDetailPage(),
             binding: PostDetailPageBinding()),
         GetPage(
-            name: '$UPDATE_SALE_POST_PAGE_ROUTE/:salePostId',
-            page: () => const UpdateSalePostPage(),
-            binding: UpdateSalePostPageBinding()),
+            name: '$UPDATE_SALE_POST_PAGE_ROUTE/:postId',
+            page: () => const UpdatePostPage(),
+            binding: UpdatePostPageBinding()),
         //*Action
         GetPage(
           name: ACTION_PAGE_ROUTE,

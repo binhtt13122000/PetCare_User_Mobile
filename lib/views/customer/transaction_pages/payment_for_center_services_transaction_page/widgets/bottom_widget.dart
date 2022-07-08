@@ -35,7 +35,7 @@ class PaymentForCenterServicesTransactionBottomWidget
               ),
             ),
             Container(
-              height: 45,
+              height: 40,
               margin: const EdgeInsets.symmetric(
                 horizontal: 20,
                 vertical: 10,
@@ -123,7 +123,7 @@ class PaymentForCenterServicesTransactionBottomWidget
 
   Widget paymentMoneyWidget() => Container(
         padding: const EdgeInsets.only(right: 12),
-        width: 90,
+        width: 100,
         child: Obx(
           () => Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -132,21 +132,23 @@ class PaymentForCenterServicesTransactionBottomWidget
               Visibility(
                 visible: controller.discountAmount.value > 0,
                 child: Padding(
-                  padding: const EdgeInsets.only(bottom: 5),
-                  child: Text(
-                    FORMAT_MONEY(
-                        price: controller
-                            .centerServicesTransactionModel.provisionalTotal),
-                    textAlign: TextAlign.start,
-                    style: GoogleFonts.quicksand(
-                      textStyle: const TextStyle(
-                        color: Color.fromARGB(255, 115, 121, 151),
-                        decoration: TextDecoration.lineThrough,
+                  padding: const EdgeInsets.only(bottom: 5, left: 5),
+                  child: FittedBox(
+                    fit: BoxFit.scaleDown,
+                    child: Text(
+                      FORMAT_MONEY(
+                          price: controller.orderModel.provisionalTotal),
+                      textAlign: TextAlign.end,
+                      style: GoogleFonts.quicksand(
+                        textStyle: const TextStyle(
+                          color: Color.fromARGB(255, 115, 121, 151),
+                          decoration: TextDecoration.lineThrough,
+                        ),
+                        fontWeight: FontWeight.w500,
+                        fontSize: 14,
+                        height: 1,
+                        letterSpacing: 0.5,
                       ),
-                      fontWeight: FontWeight.w500,
-                      fontSize: 16,
-                      height: 1,
-                      letterSpacing: 0.5,
                     ),
                   ),
                 ),
@@ -155,8 +157,7 @@ class PaymentForCenterServicesTransactionBottomWidget
                 fit: BoxFit.scaleDown,
                 child: Text(
                   FORMAT_MONEY(
-                      price: controller
-                              .centerServicesTransactionModel.provisionalTotal -
+                      price: controller.orderModel.provisionalTotal -
                           controller.discountAmount.value),
                   textAlign: TextAlign.start,
                   style: GoogleFonts.quicksand(
@@ -181,13 +182,12 @@ class PaymentForCenterServicesTransactionBottomWidget
             controller.paymentUrl.value =
                 await CenterServicesTransactionServices.payment(
               message: controller.accountModel.customerModel.lastName +
-                  'payment ${controller.centerServicesTransactionModel.provisionalTotal - controller.discountAmount.value}',
+                  'payment ${controller.orderModel.provisionalTotal - controller.discountAmount.value}',
               locale: 'vi',
               paymentMethod: 'VNPAY',
-              transactionId: controller.centerServicesTransactionModel.id,
-              orderTotal:
-                  controller.centerServicesTransactionModel.provisionalTotal -
-                      controller.discountAmount.value,
+              transactionId: controller.orderModel.id,
+              orderTotal: controller.orderModel.provisionalTotal -
+                  controller.discountAmount.value,
               paymentTime: DateTime.now(),
               paymentPoint: controller.usedPoint.value,
               promotionId: controller.selectedPromotionIndex.value != -1
@@ -195,10 +195,9 @@ class PaymentForCenterServicesTransactionBottomWidget
                       .promotionModels[controller.selectedPromotionIndex.value]
                       .id
                   : null,
-              customerId: controller.centerServicesTransactionModel.customerId,
-              branchId: controller.centerServicesTransactionModel.branchId,
-              provisionalTotal:
-                  controller.centerServicesTransactionModel.provisionalTotal,
+              customerId: controller.orderModel.customerId,
+              branchId: controller.orderModel.branchId,
+              provisionalTotal: controller.orderModel.provisionalTotal,
             );
           },
           child: Container(

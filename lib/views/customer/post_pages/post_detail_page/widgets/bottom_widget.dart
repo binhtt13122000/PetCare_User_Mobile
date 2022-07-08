@@ -84,7 +84,7 @@ class PostDetailBottomWidget extends GetView<PostDetailPageController> {
                           style: GoogleFonts.quicksand(
                             fontSize: 14,
                             color: WHITE_COLOR,
-                            fontWeight: FontWeight.w500,
+                            fontWeight: FontWeight.w700,
                             letterSpacing: 1,
                           ),
                         ),

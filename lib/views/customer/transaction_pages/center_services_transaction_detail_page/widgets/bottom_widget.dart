@@ -23,31 +23,30 @@ class CenterServicesTransactionDetailBottomWidget
               padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
               child: InkWell(
                 onTap: () {
-                  if (controller.centerServicesTransactionModel.status ==
-                      'WAITING') {
+                  if (controller.orderModel.status == 'WAITING') {
                     Get.toNamed(
-                        '$PAYMENT_FOR_CENTER_SERVICES_TRANSACTION_PAGE_ROUTE/${controller.centerServicesTransactionModel.id}');
+                        '$PAYMENT_FOR_CENTER_SERVICES_TRANSACTION_PAGE_ROUTE/${controller.orderModel.id}');
                   } else {
                     controller.isShowReviewPopup.value = true;
                   }
                 },
                 child: Container(
-                  height: 45,
+                  height: 40,
                   alignment: Alignment.center,
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(5),
+                    borderRadius: BorderRadius.circular(10),
                     color: PRIMARY_COLOR,
                   ),
                   child: Text(
-                    controller.centerServicesTransactionModel.status ==
-                            'WAITING'
-                        ? 'Go to the Payment page'
-                        : 'Rate Your Services Experience',
+                    controller.orderModel.status == 'WAITING'
+                        ? 'Go to payment page'
+                        : 'Rate your services experience',
                     textAlign: TextAlign.center,
                     style: GoogleFonts.quicksand(
                       textStyle: const TextStyle(color: WHITE_COLOR),
                       fontWeight: FontWeight.w600,
-                      fontSize: 18,
+                      fontSize:
+                          controller.orderModel.status == 'WAITING' ? 18 : 16,
                       height: 1,
                       letterSpacing: 1,
                     ),

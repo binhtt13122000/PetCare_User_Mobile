@@ -7,7 +7,6 @@ import 'package:petapp_mobile/views/customer/transaction_pages/buy_services_comb
 import 'package:petapp_mobile/views/customer/transaction_pages/buy_services_combo_page/widgets/list_combo_widget.dart';
 import 'package:petapp_mobile/views/customer/transaction_pages/buy_services_combo_page/widgets/select_branch_widget.dart';
 import 'package:petapp_mobile/views/customer/transaction_pages/buy_services_combo_page/widgets/select_pet_widget.dart';
-import 'package:petapp_mobile/views/customer/transaction_pages/buy_services_combo_page/widgets/select_species_widget.dart';
 import 'package:petapp_mobile/views/widgets/customize_widget.dart';
 
 class BuyServicesComboBodyWidget
@@ -25,42 +24,34 @@ class BuyServicesComboBodyWidget
                   child: Column(
                     children: [
                       const SizedBox(
-                        height: 10,
+                        height: 16,
                       ),
                       GetBuilder<BuyServicesComboPageController>(builder: (_) {
-                        String? petId = Get.parameters['petId'];
-                        petId != null
-                            ? controller.selectedPetId.value = int.parse(petId)
-                            : null;
                         if (controller.isLoadingPet) {
                           controller.isWaitLoadingPet.value = true;
                           WidgetsBinding.instance!
                               .addPostFrameCallback((timeStamp) async {
+                            controller.petModelList =
+                                await PetService.fetchPetListByCustomerId(
+                              controller.accountModel.customerModel.id,
+                            );
+                            if (controller.petModelList.isNotEmpty) {
+                              int index = 0;
+                              do {
+                                if (controller.initSelectedPetId ==
+                                    controller.petModelList[index].id) {
+                                  controller.selectedPetIndex.value = index;
+                                  break;
+                                } else if (controller.petModelList.length ==
+                                    index) {
+                                  controller.selectedPetIndex.value = -1;
+                                  break;
+                                }
+                                index++;
+                              } while (index < controller.petModelList.length);
+                            }
                             controller
-                              // ..petModelList =
-                              //     await PetService.fetchPetListToCreatePost(
-                              //         customerId: controller
-                              //             .accountModel.customerModel.id,
-                              //         speciesId: controller
-                              //                 .isShowPetFilter.value
-                              //             ? controller.selectedSpeciesId.value
-                              //             : null)
-                              ..petModelList =
-                                  await PetService.fetchPetListByCustomerId(
-                                controller.accountModel.customerModel.id,
-                              )
-                              ..selectedPetId.value =
-                                  controller.selectedPetId.value == -1 &&
-                                          controller.petModelList.isNotEmpty
-                                      ? controller.petModelList[0].id
-                                      : controller.selectedPetId.value
                               ..isWaitLoadingPet.value = false
-                              ..selectedPetGender.value = controller
-                                  .petModelList
-                                  .firstWhere((element) =>
-                                      element.id ==
-                                      controller.selectedPetId.value)
-                                  .gender
                               ..isLoadingPet = false;
                           });
                         }
@@ -76,8 +67,24 @@ class BuyServicesComboBodyWidget
                           ],
                         );
                       }),
-                      const BuyServicesComboSelectSpeciesWidget(),
+                      Container(
+                        height: 1,
+                        color: LIGHT_GREY_COLOR.withAlpha(30),
+                      ),
+                      Container(
+                        height: 10,
+                        color: SUPPER_LIGHT_BLUE,
+                      ),
+                      //const BuyServicesComboSelectSpeciesWidget(),
                       const BuyServicesComboListComboWidget(),
+                      Container(
+                        height: 1,
+                        color: LIGHT_GREY_COLOR.withAlpha(30),
+                      ),
+                      Container(
+                        height: 10,
+                        color: SUPPER_LIGHT_BLUE,
+                      ),
                       Container(
                         color: WHITE_COLOR,
                         padding: const EdgeInsets.symmetric(
@@ -87,6 +94,15 @@ class BuyServicesComboBodyWidget
                             registerDateTitleWidget(),
                             bookingDateWidget(),
                           ],
+                        ),
+                      ),
+                      Container(
+                        color: WHITE_COLOR,
+                        padding: const EdgeInsets.symmetric(horizontal: 30),
+                        child: Container(
+                          height: 1,
+                          color: LIGHT_GREY_COLOR.withAlpha(30),
+                          margin: const EdgeInsets.symmetric(vertical: 10),
                         ),
                       ),
                       const BuyPetServicesComboSelectBranchWidget(),
@@ -122,7 +138,7 @@ class BuyServicesComboBodyWidget
 
   Widget bookingDateWidget() => Expanded(
         child: Padding(
-          padding: const EdgeInsets.only(left: 20, right: 30),
+          padding: const EdgeInsets.only(left: 20),
           child: InkWell(
             onTap: () => controller.isDisplayCalender.value = true,
             child: Container(
@@ -146,6 +162,7 @@ class BuyServicesComboBodyWidget
                               ? controller.registerDateText.value
                               : 'dd/MM/yyyy',
                           textAlign: TextAlign.left,
+                          color: DARK_GREY_TEXT_COLOR.withOpacity(0.8),
                         ),
                       ),
                     ),

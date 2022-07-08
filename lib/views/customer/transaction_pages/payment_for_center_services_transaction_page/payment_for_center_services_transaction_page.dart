@@ -14,6 +14,10 @@ class PaymentForCenterServicesTransactionPage
 
   @override
   Widget build(BuildContext context) {
+    String? transactionId = Get.parameters['transactionId'];
+    if (transactionId != null) {
+      controller.transactionId = int.parse(transactionId);
+    }
     return Scaffold(
       backgroundColor: WHITE_COLOR,
       body: Padding(

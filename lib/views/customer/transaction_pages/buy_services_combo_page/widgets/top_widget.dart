@@ -17,10 +17,6 @@ class BuyServicesComboTopWidget
             height: 1,
             color: DARK_GREY_COLOR.withAlpha(30),
           ),
-          Container(
-            height: 16,
-            color: SUPPER_LIGHT_BLUE,
-          ),
         ],
       );
 

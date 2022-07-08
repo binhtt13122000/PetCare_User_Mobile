@@ -1,22 +1,68 @@
 import 'dart:convert';
 
 import 'package:petapp_mobile/configs/path.dart';
-import 'package:petapp_mobile/models/center_services_transaction_model/center_services_transaction_model.dart';
 import 'package:http/http.dart' as http;
+import 'package:petapp_mobile/models/order_detail_model/order_detail_model.dart';
+import 'package:petapp_mobile/models/order_model/order_model.dart';
 
 class CenterServicesTransactionServices {
-  static List<CenterServicesTransactionModel> getCenterServicesTransactionList(
+  static List<OrderModel> getCenterServicesTransactionList(
       List<dynamic> jsonData) {
-    final List<CenterServicesTransactionModel>
-        centerServicesTransactionModelList = List.empty(growable: true);
+    final List<OrderModel> centerServicesTransactionModelList =
+        List.empty(growable: true);
     for (var element in jsonData) {
-      centerServicesTransactionModelList
-          .add(CenterServicesTransactionModel.fromJson(element));
+      centerServicesTransactionModelList.add(OrderModel.fromJson(element));
     }
     return centerServicesTransactionModelList;
   }
 
-  static Future<List<CenterServicesTransactionModel>>
+  static Future<int> createCenterServicesTransaction({
+    required int provisionalTotal,
+    required int orderTotal,
+    required int customerId,
+    required int branchId,
+    required String? description,
+    required DateTime registerTime,
+    String status = 'WAITING',
+    required List<OrderDetailModel> orderDetails,
+  }) async {
+    List<Map<String, dynamic>> orderDetailsJsonMapList = [];
+    for (var element in orderDetails) {
+      orderDetailsJsonMapList.add(element.toJson());
+    }
+
+    Map<String, dynamic> jsonBodyMap = {
+      'provisionalTotal': provisionalTotal,
+      'orderTotal': orderTotal,
+      'customerId': customerId,
+      'branchId': branchId,
+      'description': description ?? '',
+      'registerTime': registerTime.toIso8601String(),
+      'status': status,
+      'orderDetails': orderDetailsJsonMapList,
+    };
+    final response = await http.post(
+      Uri.http(
+        API_SERVER_PATH,
+        CENTER_SERVICES_TRANSACTION_API_PATH,
+      ),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(jsonBodyMap),
+    );
+    switch (response.statusCode) {
+      case 200:
+      case 201:
+      case 202:
+        return jsonDecode(response.body)['data']['id'];
+      default:
+        print(response.body);
+        return -1;
+    }
+  }
+
+  static Future<List<OrderModel>>
       fetchListCenterServicesTransactionByCustomerId({
     required int page,
     required int limit,
@@ -46,8 +92,7 @@ class CenterServicesTransactionServices {
     }
   }
 
-  static Future<CenterServicesTransactionModel>
-      fetchCenterServicesTransactionByTransactionId({
+  static Future<OrderModel> fetchCenterServicesTransactionByTransactionId({
     required int transactionId,
   }) async {
     final response = await http.get(
@@ -61,8 +106,7 @@ class CenterServicesTransactionServices {
       case 200:
       case 201:
       case 202:
-        return CenterServicesTransactionModel.fromJson(
-            jsonDecode(response.body)['data']);
+        return OrderModel.fromJson(jsonDecode(response.body)['data']);
       default:
         throw Exception('Error ${response.statusCode}, cannot get transaction');
     }

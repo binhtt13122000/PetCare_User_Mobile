@@ -1,14 +1,12 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'center_services_transaction_model.dart';
+part of 'order_model.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-CenterServicesTransactionModel _$CenterServicesTransactionModelFromJson(
-        Map<String, dynamic> json) =>
-    CenterServicesTransactionModel(
+OrderModel _$OrderModelFromJson(Map<String, dynamic> json) => OrderModel(
       id: json['id'] as int,
       description: json['description'] as String?,
       orderTotal: json['orderTotal'] as int,
@@ -25,11 +23,9 @@ CenterServicesTransactionModel _$CenterServicesTransactionModelFromJson(
       branchModel: json['branch'] == null
           ? null
           : BranchModel.fromJson(json['branch'] as Map<String, dynamic>),
-      centerServicesTransactionDetailModelList:
-          (json['orderDetails'] as List<dynamic>?)
-              ?.map((e) => CenterServicesTransactionDetailModel.fromJson(
-                  e as Map<String, dynamic>))
-              .toList(),
+      orderDetailModelList: (json['orderDetails'] as List<dynamic>?)
+          ?.map((e) => OrderDetailModel.fromJson(e as Map<String, dynamic>))
+          .toList(),
       branchId: json['branchId'] as int,
       promotionId: json['promotionId'] as int?,
       customerId: json['customerId'] as int,
@@ -39,8 +35,7 @@ CenterServicesTransactionModel _$CenterServicesTransactionModelFromJson(
           : PromotionModel.fromJson(json['promotion'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$CenterServicesTransactionModelToJson(
-        CenterServicesTransactionModel instance) =>
+Map<String, dynamic> _$OrderModelToJson(OrderModel instance) =>
     <String, dynamic>{
       'id': instance.id,
       'description': instance.description,
@@ -58,8 +53,7 @@ Map<String, dynamic> _$CenterServicesTransactionModelToJson(
       'customerId': instance.customerId,
       'registerTime': instance.registerTime.toIso8601String(),
       'branch': instance.branchModel?.toJson(),
-      'orderDetails': instance.centerServicesTransactionDetailModelList
-          ?.map((e) => e.toJson())
-          .toList(),
+      'orderDetails':
+          instance.orderDetailModelList?.map((e) => e.toJson()).toList(),
       'promotion': instance.promotionModel?.toJson(),
     };

@@ -4,7 +4,7 @@ import 'package:petapp_mobile/configs/route.dart';
 import 'package:petapp_mobile/configs/theme.dart';
 import 'package:petapp_mobile/controllers/other_controllers/auth_controller.dart';
 import 'package:petapp_mobile/controllers/transaction_page_controllers/transaction_list_page_controller.dart';
-import 'package:petapp_mobile/models/center_services_transaction_model/center_services_transaction_model.dart';
+import 'package:petapp_mobile/models/order_model/order_model.dart';
 import 'package:petapp_mobile/services/transaction_services/center_services_transaction_services.dart';
 import 'package:petapp_mobile/services/other_services/customer_services.dart';
 import 'package:petapp_mobile/utilities/utilities.dart';
@@ -20,9 +20,8 @@ class CenterServicesTransactionListWidget
       controller.isLoadingCenterServicesTransaction.value = true;
       WidgetsBinding.instance!.addPostFrameCallback((_) async {
         controller
-          ..centerServicesTransactionList =
-              await CenterServicesTransactionServices
-                  .fetchListCenterServicesTransactionByCustomerId(
+          ..orderModelList = await CenterServicesTransactionServices
+              .fetchListCenterServicesTransactionByCustomerId(
             page: controller.page,
             limit: controller.limit,
             customerId: controller.accountModel.customerModel.id,
@@ -39,7 +38,7 @@ class CenterServicesTransactionListWidget
           child: Obx(
         () => controller.isLoadingCenterServicesTransaction.value
             ? LOADING_WIDGET()
-            : controller.centerServicesTransactionList.isEmpty
+            : controller.orderModelList.isEmpty
                 ? NO_DATA_WIDGET(
                     content:
                         'Sorry, no center services transaction data found.')
@@ -47,7 +46,7 @@ class CenterServicesTransactionListWidget
                     child: Padding(
                       padding: const EdgeInsets.only(top: 10),
                       child: Column(
-                        children: controller.centerServicesTransactionList
+                        children: controller.orderModelList
                             .asMap()
                             .entries
                             .map((e) => centerServicesItemWidget(
@@ -61,8 +60,7 @@ class CenterServicesTransactionListWidget
   }
 
   Widget centerServicesItemWidget(
-      {required CenterServicesTransactionModel
-          centerServicesTransactionModel}) {
+      {required OrderModel centerServicesTransactionModel}) {
     late String timeText;
     late DateTime timeValue;
     switch (centerServicesTransactionModel.status) {

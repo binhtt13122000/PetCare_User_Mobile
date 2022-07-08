@@ -7,9 +7,7 @@ import 'package:petapp_mobile/services/transaction_services/services_combo_servi
 import 'package:petapp_mobile/services/pet_services/species_services.dart';
 import 'package:petapp_mobile/views/customer/transaction_pages/buy_services_combo_page/widgets/body_widget.dart';
 import 'package:petapp_mobile/views/customer/transaction_pages/buy_services_combo_page/widgets/calendar_widget.dart';
-import 'package:petapp_mobile/views/customer/transaction_pages/buy_services_combo_page/widgets/popup_widget.dart';
 import 'package:petapp_mobile/views/customer/transaction_pages/buy_services_combo_page/widgets/top_widget.dart';
-import 'package:petapp_mobile/views/customer/transaction_pages/buy_services_combo_page/widgets/web_view_widget.dart';
 import 'package:petapp_mobile/views/widgets/customize_widget.dart';
 
 class BuyServicesComboPage extends GetView<BuyServicesComboPageController> {
@@ -17,18 +15,17 @@ class BuyServicesComboPage extends GetView<BuyServicesComboPageController> {
 
   @override
   Widget build(BuildContext context) {
+    if (Get.parameters['petId'] != null) {
+      controller.initSelectedPetId = int.parse(Get.parameters['petId']!);
+    }
+
     controller.isWaitLoadingData.value = true;
     WidgetsBinding.instance!.addPostFrameCallback((timeStamp) async {
       controller
         ..speciesModelList = await SpeciesService.fetchSpeciesList()
-        ..selectedSpeciesId.value = controller.selectedSpeciesId.value == -1
-            ? controller.speciesModelList[0].id
-            : controller.selectedSpeciesId.value
         ..branchModelList = await BranchServices.fetchBranchList()
-        ..selectBranchIndex.value = 0
         ..petServicesComboModelList =
             await ServicesComboModelServices.fetchServicesComboList()
-        ..selectPetServicesComboIndex.value = 0
         ..totalPrice.value = controller.petServicesComboModelList[0].price
         ..isWaitLoadingData.value = false;
     });
@@ -47,8 +44,15 @@ class BuyServicesComboPage extends GetView<BuyServicesComboPageController> {
             ],
           ),
           const BuyServicesComboCalendarWidget(),
-          const BuyServicesComboWebViewWidget(),
-          const BuyServicesComboPopupWidget(),
+          Obx(
+            () => Visibility(
+              visible: controller.isWaitingLoadingDataForeground.value,
+              child: Container(
+                color: DARK_GREY_TRANSPARENT,
+                child: LOADING_WIDGET(),
+              ),
+            ),
+          ),
         ],
       ),
     );
