@@ -81,8 +81,8 @@ class PaymentForCenterServicesTransactionTopWidget
               color: DARK_GREY_TEXT_COLOR.withOpacity(0.7),
             ),
             CUSTOM_TEXT(
-              (controller.centerServicesTransactionModel.id < 10 ? '#0' : '#') +
-                  controller.centerServicesTransactionModel.id.toString(),
+              (controller.transactionId < 10 ? '#0' : '#') +
+                  controller.transactionId.toString(),
               fontSize: 13,
               color: DARK_GREY_TEXT_COLOR.withOpacity(0.7),
             ),

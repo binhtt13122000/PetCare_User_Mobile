@@ -5,7 +5,7 @@ import 'package:petapp_mobile/configs/path.dart';
 import 'package:petapp_mobile/configs/route.dart';
 import 'package:petapp_mobile/configs/theme.dart';
 import 'package:petapp_mobile/controllers/transaction_page_controllers/buy_services_combo_page_controller.dart';
-import 'package:petapp_mobile/models/center_services_transaction_detail_model/center_services_transaction_detail_model.dart';
+import 'package:petapp_mobile/models/order_detail_model/order_detail_model.dart';
 import 'package:petapp_mobile/services/transaction_services/center_services_transaction_services.dart';
 import 'package:petapp_mobile/views/widgets/customize_widget.dart';
 
@@ -36,9 +36,9 @@ class BuyServicesComboBottomWidget
                 controller.selectBranchIndex.value != -1 &&
                 controller.selectPetServicesComboIndex.value != -1) {
               controller.isWaitingLoadingDataForeground.value = true;
-              List<CenterServicesTransactionDetailModel>
-                  centerServicesTransactionDetailModelList = [
-                CenterServicesTransactionDetailModel(
+              List<OrderDetailModel> centerServicesTransactionDetailModelList =
+                  [
+                OrderDetailModel(
                   petId: controller
                       .petModelList[controller.selectedPetIndex.value].id,
                   petComboId: controller.petServicesComboModel.id,
@@ -72,10 +72,10 @@ class BuyServicesComboBottomWidget
           },
           child: Obx(
             () => Container(
-              height: 45,
+              height: 40,
               alignment: Alignment.center,
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(5),
+                borderRadius: BorderRadius.circular(10),
                 color: controller.registerDateText.value.isNotEmpty &&
                         controller.selectedPetIndex.value != -1 &&
                         controller.selectBranchIndex.value != -1 &&

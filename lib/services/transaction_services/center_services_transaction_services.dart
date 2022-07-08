@@ -1,18 +1,17 @@
 import 'dart:convert';
 
 import 'package:petapp_mobile/configs/path.dart';
-import 'package:petapp_mobile/models/center_services_transaction_detail_model/center_services_transaction_detail_model.dart';
-import 'package:petapp_mobile/models/center_services_transaction_model/center_services_transaction_model.dart';
 import 'package:http/http.dart' as http;
+import 'package:petapp_mobile/models/order_detail_model/order_detail_model.dart';
+import 'package:petapp_mobile/models/order_model/order_model.dart';
 
 class CenterServicesTransactionServices {
-  static List<CenterServicesTransactionModel> getCenterServicesTransactionList(
+  static List<OrderModel> getCenterServicesTransactionList(
       List<dynamic> jsonData) {
-    final List<CenterServicesTransactionModel>
-        centerServicesTransactionModelList = List.empty(growable: true);
+    final List<OrderModel> centerServicesTransactionModelList =
+        List.empty(growable: true);
     for (var element in jsonData) {
-      centerServicesTransactionModelList
-          .add(CenterServicesTransactionModel.fromJson(element));
+      centerServicesTransactionModelList.add(OrderModel.fromJson(element));
     }
     return centerServicesTransactionModelList;
   }
@@ -25,7 +24,7 @@ class CenterServicesTransactionServices {
     required String? description,
     required DateTime registerTime,
     String status = 'WAITING',
-    required List<CenterServicesTransactionDetailModel> orderDetails,
+    required List<OrderDetailModel> orderDetails,
   }) async {
     List<Map<String, dynamic>> orderDetailsJsonMapList = [];
     for (var element in orderDetails) {
@@ -63,7 +62,7 @@ class CenterServicesTransactionServices {
     }
   }
 
-  static Future<List<CenterServicesTransactionModel>>
+  static Future<List<OrderModel>>
       fetchListCenterServicesTransactionByCustomerId({
     required int page,
     required int limit,
@@ -93,8 +92,7 @@ class CenterServicesTransactionServices {
     }
   }
 
-  static Future<CenterServicesTransactionModel>
-      fetchCenterServicesTransactionByTransactionId({
+  static Future<OrderModel> fetchCenterServicesTransactionByTransactionId({
     required int transactionId,
   }) async {
     final response = await http.get(
@@ -108,8 +106,7 @@ class CenterServicesTransactionServices {
       case 200:
       case 201:
       case 202:
-        return CenterServicesTransactionModel.fromJson(
-            jsonDecode(response.body)['data']);
+        return OrderModel.fromJson(jsonDecode(response.body)['data']);
       default:
         throw Exception('Error ${response.statusCode}, cannot get transaction');
     }

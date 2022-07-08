@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:petapp_mobile/configs/theme.dart';
 import 'package:petapp_mobile/controllers/transaction_page_controllers/center_services_transaction_detail_page_controller.dart';
 import 'package:petapp_mobile/controllers/transaction_page_controllers/transaction_list_page_controller.dart';
+import 'package:petapp_mobile/views/widgets/customize_widget.dart';
 
 class CenterServicesTransactionDetailTopWidget
     extends GetView<CenterServicesTransactionDetailPageController> {
@@ -56,16 +56,12 @@ class CenterServicesTransactionDetailTopWidget
             ),
             //*app logo
             Expanded(
-              child: Text(
-                'Transaction Detail',
-                textAlign: TextAlign.center,
-                style: GoogleFonts.quicksand(
-                  color: const Color.fromARGB(255, 62, 68, 87),
+              child: CUSTOM_TEXT('Transaction Detail',
+                  textAlign: TextAlign.center,
                   fontSize: 18,
                   fontWeight: FontWeight.w700,
                   letterSpacing: 1,
-                ),
-              ),
+                  padding: const EdgeInsets.only(right: 30)),
             ),
           ],
         ),

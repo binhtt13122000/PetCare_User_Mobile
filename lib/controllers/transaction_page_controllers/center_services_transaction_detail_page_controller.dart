@@ -1,5 +1,5 @@
 import 'package:get/get.dart';
-import 'package:petapp_mobile/models/center_services_transaction_model/center_services_transaction_model.dart';
+import 'package:petapp_mobile/models/order_model/order_model.dart';
 
 class CenterServicesTransactionDetailPageController extends GetxController {
   RxBool isLoadingData = false.obs;
@@ -9,8 +9,11 @@ class CenterServicesTransactionDetailPageController extends GetxController {
   RxList<String> quickFeedBackList = <String>[].obs;
   RxBool isShowReviewPopup = false.obs;
   String reviewContent = '';
-  late CenterServicesTransactionModel centerServicesTransactionModel;
+  late OrderModel orderModel;
   RxBool isWaitingUpdate = false.obs;
+  RxBool isViewBranchDetail = false.obs;
+  late int transactionId;
+  RxBool isViewTransactionDetail = false.obs;
 
   updateRatingText() {
     switch (selectedStar.value) {

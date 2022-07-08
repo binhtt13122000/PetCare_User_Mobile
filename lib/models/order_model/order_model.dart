@@ -1,13 +1,13 @@
 import 'package:json_annotation/json_annotation.dart';
 
 import 'package:petapp_mobile/models/branch_model/branch_model.dart';
-import 'package:petapp_mobile/models/center_services_transaction_detail_model/center_services_transaction_detail_model.dart';
+import 'package:petapp_mobile/models/order_detail_model/order_detail_model.dart';
 import 'package:petapp_mobile/models/promotion_model.dart/promotion_model.dart';
 
-part 'center_services_transaction_model.g.dart';
+part 'order_model.g.dart';
 
 @JsonSerializable(explicitToJson: true)
-class CenterServicesTransactionModel {
+class OrderModel {
   final int id;
   final String? description;
   final int orderTotal;
@@ -26,12 +26,11 @@ class CenterServicesTransactionModel {
   @JsonKey(name: 'branch')
   final BranchModel? branchModel;
   @JsonKey(name: 'orderDetails')
-  final List<CenterServicesTransactionDetailModel>?
-      centerServicesTransactionDetailModelList;
+  final List<OrderDetailModel>? orderDetailModelList;
   @JsonKey(name: 'promotion')
   final PromotionModel? promotionModel;
 
-  CenterServicesTransactionModel({
+  OrderModel({
     required this.id,
     this.description,
     required this.orderTotal,
@@ -44,7 +43,7 @@ class CenterServicesTransactionModel {
     required this.star,
     this.review,
     required this.branchModel,
-    this.centerServicesTransactionDetailModelList,
+    this.orderDetailModelList,
     required this.branchId,
     this.promotionId,
     required this.customerId,
@@ -52,8 +51,8 @@ class CenterServicesTransactionModel {
     this.promotionModel,
   });
 
-  factory CenterServicesTransactionModel.fromJson(Map<String, dynamic> json) =>
-      _$CenterServicesTransactionModelFromJson(json);
+  factory OrderModel.fromJson(Map<String, dynamic> json) =>
+      _$OrderModelFromJson(json);
 
-  Map<String, dynamic> toJson() => _$CenterServicesTransactionModelToJson(this);
+  Map<String, dynamic> toJson() => _$OrderModelToJson(this);
 }

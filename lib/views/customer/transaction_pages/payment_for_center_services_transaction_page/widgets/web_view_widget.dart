@@ -37,11 +37,10 @@ class PaymentForCenterServicesTransactionWebViewWidget
                     paymentForCenterServicesTransactionPageController
                       ..paymentUrl.value = ''
                       ..isWaitingPayment.value = true
-                      ..centerServicesTransactionModel =
-                          await CenterServicesTransactionServices
-                              .fetchCenterServicesTransactionByTransactionId(
-                                  transactionId: int.parse(
-                                      Get.parameters['transactionId']!))
+                      ..orderModel = await CenterServicesTransactionServices
+                          .fetchCenterServicesTransactionByTransactionId(
+                              transactionId:
+                                  int.parse(Get.parameters['transactionId']!))
                       ..isWaitingPayment.value = false
                       ..isShowPopup.value = true;
                   }

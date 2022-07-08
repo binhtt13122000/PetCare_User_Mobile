@@ -3,7 +3,6 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:petapp_mobile/configs/theme.dart';
 import 'package:petapp_mobile/controllers/transaction_page_controllers/payment_for_center_services_transaction_page_controller.dart';
-import 'package:petapp_mobile/models/center_services_transaction_detail_model/center_services_transaction_detail_model.dart';
 import 'package:petapp_mobile/models/promotion_model.dart/promotion_model.dart';
 import 'package:petapp_mobile/services/transaction_services/center_services_transaction_services.dart';
 import 'package:petapp_mobile/services/transaction_services/promotion_services.dart';
@@ -25,15 +24,13 @@ class PaymentForCenterServicesTransactionBodyWidget
           controller.isLoadingData.value = true;
           WidgetsBinding.instance!.addPostFrameCallback((_) async {
             controller
-              ..centerServicesTransactionModel =
-                  await CenterServicesTransactionServices
-                      .fetchCenterServicesTransactionByTransactionId(
-                          transactionId:
-                              int.parse(Get.parameters['transactionId']!))
+              ..orderModel = await CenterServicesTransactionServices
+                  .fetchCenterServicesTransactionByTransactionId(
+                      transactionId:
+                          int.parse(Get.parameters['transactionId']!))
               ..promotionModels =
                   await PromotionServices.fetchPromotionByBranchId(
-                      branchId:
-                          controller.centerServicesTransactionModel.branchId)
+                      branchId: controller.orderModel.branchId)
               ..isLoadingData.value = false;
           });
           return Obx(
@@ -48,9 +45,16 @@ class PaymentForCenterServicesTransactionBodyWidget
                             child: Column(
                               children: [
                                 listServices(),
+                                Container(
+                                  height: 1,
+                                  color: LIGHT_GREY_COLOR.withAlpha(30),
+                                ),
                                 pointWidget(),
                                 listPromotionWidget(),
                                 priceWidget(width: width),
+                                const SizedBox(
+                                  height: 30,
+                                )
                               ],
                             ),
                           ),
@@ -67,18 +71,10 @@ class PaymentForCenterServicesTransactionBodyWidget
 
   Widget pointWidget() => Container(
         color: WHITE_COLOR,
-        margin: const EdgeInsets.only(top: 20),
-        padding: const EdgeInsets.only(
-          bottom: 10,
-        ),
+        margin: const EdgeInsets.only(top: 10),
         child: Obx(
           () => Column(
             children: [
-              Container(
-                height: 1,
-                color: LIGHT_GREY_COLOR.withAlpha(30),
-                margin: const EdgeInsets.only(bottom: 10),
-              ),
               Padding(
                 padding:
                     const EdgeInsets.symmetric(horizontal: 20, vertical: 3),
@@ -123,6 +119,11 @@ class PaymentForCenterServicesTransactionBodyWidget
                   ],
                 ),
               ),
+              Container(
+                height: 1,
+                color: LIGHT_GREY_COLOR.withAlpha(30),
+                margin: const EdgeInsets.only(top: 10),
+              ),
             ],
           ),
         ),
@@ -152,46 +153,39 @@ class PaymentForCenterServicesTransactionBodyWidget
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Row(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(right: 7),
-                        child: Text(
-                          'No.',
-                          textAlign: TextAlign.start,
-                          style: GoogleFonts.quicksand(
-                            color: const Color.fromARGB(255, 85, 91, 110),
-                            fontWeight: FontWeight.w500,
-                            fontSize: 15,
-                            height: 1,
-                            letterSpacing: 0.5,
-                          ),
-                        ),
-                      ),
-                      const SizedBox(width: 10),
-                      Text(
-                        'Services Used',
-                        textAlign: TextAlign.start,
-                        style: GoogleFonts.quicksand(
-                          color: const Color.fromARGB(255, 85, 91, 110),
-                          fontWeight: FontWeight.w500,
-                          fontSize: 15,
-                          height: 1,
-                          letterSpacing: 0.5,
-                        ),
-                      ),
-                    ],
+                  SizedBox(
+                    width: 32,
+                    child: CUSTOM_TEXT(
+                      'No.',
+                      textAlign: TextAlign.start,
+                      color: DARK_GREY_TEXT_COLOR.withOpacity(0.9),
+                      fontSize: 15,
+                    ),
                   ),
-                  Text(
+                  const SizedBox(
+                    width: 10,
+                  ),
+                  SizedBox(
+                    width: 70,
+                    child: CUSTOM_TEXT(
+                      'Type',
+                      textAlign: TextAlign.start,
+                      color: DARK_GREY_TEXT_COLOR.withOpacity(0.9),
+                      fontSize: 15,
+                    ),
+                  ),
+                  Expanded(
+                    child: CUSTOM_TEXT('Item name',
+                        textAlign: TextAlign.start,
+                        color: DARK_GREY_TEXT_COLOR.withOpacity(0.9),
+                        fontSize: 15,
+                        padding: const EdgeInsets.only(left: 10)),
+                  ),
+                  CUSTOM_TEXT(
                     'Price',
                     textAlign: TextAlign.center,
-                    style: GoogleFonts.quicksand(
-                      color: const Color.fromARGB(255, 85, 91, 110),
-                      fontWeight: FontWeight.w500,
-                      fontSize: 15,
-                      height: 1,
-                      letterSpacing: 0.5,
-                    ),
+                    color: DARK_GREY_TEXT_COLOR.withOpacity(0.9),
+                    fontSize: 15,
                   ),
                 ],
               ),
@@ -202,16 +196,11 @@ class PaymentForCenterServicesTransactionBodyWidget
               color: DARK_GREY_COLOR.withAlpha(30),
             ),
             Column(
-              children: controller.centerServicesTransactionModel
-                  .centerServicesTransactionDetailModelList!
+              children: controller.orderModel.orderDetailModelList!
                   .asMap()
                   .entries
                   .map(
-                    (e) => serviceItemWidget(
-                      index: e.key,
-                      isDarkBackground: e.key.isOdd,
-                      centerServicesTransactionDetailModel: e.value,
-                    ),
+                    (e) => serviceItemWidget(index: e.key),
                   )
                   .toList(),
             ),
@@ -255,9 +244,8 @@ class PaymentForCenterServicesTransactionBodyWidget
                               ),
                               Text(
                                 FORMAT_MONEY(
-                                    price: controller
-                                        .centerServicesTransactionModel
-                                        .provisionalTotal),
+                                    price:
+                                        controller.orderModel.provisionalTotal),
                                 textAlign: TextAlign.center,
                                 style: GoogleFonts.quicksand(
                                   color: const Color.fromARGB(255, 77, 82, 105),
@@ -329,8 +317,7 @@ class PaymentForCenterServicesTransactionBodyWidget
                                   () => Text(
                                     FORMAT_MONEY(
                                         price: controller
-                                                .centerServicesTransactionModel
-                                                .provisionalTotal -
+                                                .orderModel.provisionalTotal -
                                             controller.discountAmount.value),
                                     textAlign: TextAlign.center,
                                     style: GoogleFonts.quicksand(
@@ -364,83 +351,112 @@ class PaymentForCenterServicesTransactionBodyWidget
         ],
       );
 
-  Widget serviceItemWidget(
-          {required bool isDarkBackground,
-          required int index,
-          required CenterServicesTransactionDetailModel
-              centerServicesTransactionDetailModel}) =>
-      Container(
-        padding: const EdgeInsets.symmetric(vertical: 7, horizontal: 12),
-        color: isDarkBackground ? LIGHT_GREY_COLOR.withAlpha(5) : WHITE_COLOR,
-        child: Row(
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(right: 10),
+  Widget serviceItemWidget({
+    required int index,
+  }) {
+    late String type;
+    late String itemName;
+
+    if (controller.orderModel.orderDetailModelList![index].petComboId != null) {
+      type = 'Combo';
+      itemName = controller.orderModel.orderDetailModelList![index]
+          .petComboModel!.servicesComboModel!.name;
+    } else if (controller.orderModel.orderDetailModelList![index].serviceId !=
+        null) {
+      type = 'Services';
+      itemName = controller
+          .orderModel.orderDetailModelList![index].centerServiceModel!.name;
+    } else {
+      type = 'Breeding';
+      itemName = 'Breeding transaction #' +
+          controller.orderModel.orderDetailModelList![index].breedTransactionId
+              .toString();
+    }
+    return Container(
+      padding: const EdgeInsets.symmetric(vertical: 7, horizontal: 12),
+      color: index.isOdd ? PRIMARY_COLOR.withAlpha(5) : WHITE_COLOR,
+      child: Row(
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(right: 10),
+            child: CircleAvatar(
+              maxRadius: 11,
+              backgroundColor: const Color.fromARGB(255, 159, 164, 187),
               child: CircleAvatar(
-                maxRadius: 11,
-                backgroundColor: const Color.fromARGB(255, 159, 164, 187),
-                child: CircleAvatar(
-                  maxRadius: 10,
-                  backgroundColor: isDarkBackground
-                      ? WHITE_COLOR.withOpacity(0.9)
-                      : WHITE_COLOR,
-                  child: Text(
-                    index <= 9 ? '0${index + 1}' : '${index + 1}',
-                    textAlign: TextAlign.center,
-                    style: GoogleFonts.quicksand(
-                      textStyle: const TextStyle(
-                        color: Color.fromARGB(255, 77, 82, 105),
-                      ),
-                      fontWeight: FontWeight.w700,
-                      fontSize: 12,
-                      height: 1,
-                      letterSpacing: 0.5,
+                maxRadius: 10,
+                backgroundColor: index.isOdd
+                    ? const Color.fromARGB(255, 242, 244, 247)
+                    : WHITE_COLOR,
+                child: Text(
+                  index <= 9 ? '0${index + 1}' : '${index + 1}',
+                  textAlign: TextAlign.center,
+                  style: GoogleFonts.quicksand(
+                    textStyle: const TextStyle(
+                      color: Color.fromARGB(255, 77, 82, 105),
                     ),
+                    fontWeight: FontWeight.w700,
+                    fontSize: 12,
+                    height: 1,
+                    letterSpacing: 0.5,
                   ),
                 ),
               ),
             ),
-            const SizedBox(width: 10),
-            // Expanded(
-            //   child: Row(
-            //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            //     children: [
-            //       Expanded(
-            //         child: Text(
-            //           centerServicesTransactionDetailModel
-            //               .centerServiceModel!.name,
-            //           textAlign: TextAlign.start,
-            //           style: GoogleFonts.quicksand(
-            //             textStyle: const TextStyle(
-            //               color: Color.fromARGB(255, 77, 82, 105),
-            //             ),
-            //             fontWeight: FontWeight.w500,
-            //             fontSize: 15,
-            //             height: 1,
-            //             letterSpacing: 0.5,
-            //           ),
-            //         ),
-            //       ),
-            //       Text(
-            //         FORMAT_MONEY(
-            //             price: centerServicesTransactionDetailModel.price),
-            //         textAlign: TextAlign.center,
-            //         style: GoogleFonts.quicksand(
-            //           textStyle: const TextStyle(
-            //             color: Color.fromARGB(255, 77, 82, 105),
-            //           ),
-            //           fontWeight: FontWeight.w600,
-            //           fontSize: 16,
-            //           height: 1,
-            //           letterSpacing: 0.5,
-            //         ),
-            //       ),
-            //     ],
-            //   ),
-            // ),
-          ],
-        ),
-      );
+          ),
+          const SizedBox(
+            width: 5,
+          ),
+          SizedBox(
+            width: 70,
+            child: CUSTOM_TEXT(
+              type,
+              textAlign: TextAlign.start,
+              color: DARK_GREY_TEXT_COLOR.withOpacity(0.9),
+              fontSize: 15,
+            ),
+          ),
+          const SizedBox(
+            width: 5,
+          ),
+          Expanded(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Expanded(
+                  child: CUSTOM_TEXT(
+                    itemName,
+                    textOverflow: TextOverflow.clip,
+                    textAlign: TextAlign.start,
+                    fontSize: 15,
+                    color: DARK_GREY_TEXT_COLOR.withOpacity(0.9),
+                  ),
+                ),
+                const SizedBox(
+                  width: 5,
+                ),
+                SizedBox(
+                  width: 70,
+                  child: FittedBox(
+                    fit: BoxFit.scaleDown,
+                    alignment: Alignment.centerRight,
+                    child: CUSTOM_TEXT(
+                      FORMAT_MONEY(
+                          price: controller.orderModel
+                              .orderDetailModelList![index].totalPrice),
+                      textAlign: TextAlign.end,
+                      fontSize: 15,
+                      color: DARK_GREY_TEXT_COLOR.withOpacity(0.9),
+                      //       fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
 
   Widget promotionItemWidget(
           {required PromotionModel promotionModel, required int index}) =>
@@ -453,7 +469,7 @@ class PaymentForCenterServicesTransactionBodyWidget
               children: [
                 Padding(
                   padding:
-                      const EdgeInsets.symmetric(vertical: 30, horizontal: 10),
+                      const EdgeInsets.symmetric(vertical: 25, horizontal: 10),
                   child: Obx(
                     () => Row(
                       mainAxisAlignment: MainAxisAlignment.start,
@@ -568,16 +584,14 @@ class PaymentForCenterServicesTransactionBodyWidget
                             if (controller.selectedPromotionIndex.value !=
                                     index &&
                                 promotionModel.applyMoney <=
-                                    controller.centerServicesTransactionModel
-                                        .provisionalTotal &&
+                                    controller.orderModel.provisionalTotal &&
                                 controller.accountModel.customerModel.point >=
                                     promotionModel.point) {
-                              int discountMoney = (controller
-                                          .centerServicesTransactionModel
-                                          .provisionalTotal /
-                                      100 *
-                                      promotionModel.promo)
-                                  .toInt();
+                              int discountMoney =
+                                  (controller.orderModel.provisionalTotal /
+                                          100 *
+                                          promotionModel.promo)
+                                      .toInt();
 
                               controller
                                 ..selectedPromotionIndex.value = index
@@ -686,8 +700,7 @@ class PaymentForCenterServicesTransactionBodyWidget
             ),
             Visibility(
               visible: promotionModel.applyMoney >
-                      controller
-                          .centerServicesTransactionModel.provisionalTotal ||
+                      controller.orderModel.provisionalTotal ||
                   controller.accountModel.customerModel.point <
                       promotionModel.point,
               child: Row(
