@@ -104,8 +104,8 @@ const PET_WITH_CAKE_PNG = 'pet_with_cake.png';
 // const API_SERVER = '10.0.2.2:4000';
 // const GRAPHL_SERVER = 'http://10.0.2.2:8080';
 
-const API_SERVER_PATH = '50.18.34.218';
-const GRAPHL_SERVER_PATH = 'http://50.18.34.218:8080';
+const API_SERVER_PATH = '54.215.41.240';
+const GRAPHL_SERVER_PATH = 'http://54.215.41.240:8080';
 
 //*sale transaction
 const SALE_TRANSACTION_RETURN_API_PATH =
@@ -141,10 +141,11 @@ const CUSTOMER_API_PATH = '/v1/api/customers';
 const TRANSACTION_FEES_API_PATH = '/v1/api/transaction-fees';
 
 //*
-const CENTER_SERVICES_TRANSACTION_API_PATH = '/v1/api/orders';
-const CENTER_SERVICES_TRANSACTION_RETURN_API_PATH =
-    '/v1/api/orders/vnpay/vnpay_return';
-const CENTER_SERVICES_TRANSACTION_PAYMENT_API_PATH = '/v1/api/orders/payment';
+const ORDER_API_PATH = '/v1/api/orders';
+const ORDER_RETURN_API_PATH = '/v1/api/orders/vnpay/vnpay_return';
+const ORDER_PAYMENT_API_PATH = '/v1/api/orders/payment';
+const ORDER_CANCEL_API_PATH = '/v1/api/orders/cancel';
+const ORDER_BREEDING_TRANSACTION_API_PATH = '/v1/api/orders/breed-transaction';
 
 //*ticket
 const TICKET_API_PATH = '/v1/api/tickets';

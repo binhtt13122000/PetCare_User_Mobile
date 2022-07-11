@@ -20,10 +20,10 @@ class PostDetailSellerInformationWidget
         child: Column(
           children: [
             topInformationWidget(),
-            bottomInformationWidget(),
+            // bottomInformationWidget(),
             Container(
               height: 1,
-              margin: const EdgeInsets.only(top: 10),
+              //  margin: const EdgeInsets.only(top: 10),
               color: LIGHT_GREY_COLOR.withOpacity(0.1),
             ),
             Container(

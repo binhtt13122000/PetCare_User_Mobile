@@ -5,6 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:petapp_mobile/configs/theme.dart';
 import 'package:petapp_mobile/controllers/transaction_page_controllers/breeding_transaction_detail_page_controller.dart';
 import 'package:petapp_mobile/services/transaction_services/breeding_transaction_services.dart';
+import 'package:petapp_mobile/services/transaction_services/order_services.dart';
 import 'package:petapp_mobile/utilities/utilities.dart';
 import 'package:petapp_mobile/views/widgets/customize_widget.dart';
 
@@ -20,6 +21,13 @@ class BreedingTransactionDetailWidget
       controller.isWaitingLoadingTransactionDetailTab.value = true;
 
       WidgetsBinding.instance!.addPostFrameCallback((_) async {
+        controller.orderId ??=
+            await OrderServices.fetchOrderByBreedingTransactionId(
+                breedingTransactionId: controller.breedingTransactionId);
+        if (controller.orderId != null) {
+          controller.orderModel = await OrderServices.fetchOrderIdByOrderId(
+              orderId: controller.orderId!);
+        }
         controller
           ..breedingTransactionModel =
               await BreedingTransactionService.fetchBreedingTransactionById(
@@ -431,44 +439,44 @@ class BreedingTransactionDetailWidget
                   color: DARK_GREY_COLOR.withAlpha(50),
                 ),
               ),
-              Visibility(
-                visible: ['BREEDING_CANCELED', 'CANCELED']
-                    .contains(controller.breedingTransactionModel.status),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(right: 10),
-                      child: Text(
-                        controller.breedingTransactionModel.ownerPetFemaleId ==
-                                controller.accountModel.customerModel.id
-                            ? 'Cancel time'
-                            : 'Buyer cancel time',
-                        style: GoogleFonts.quicksand(
-                          fontSize: 15,
-                          fontWeight: FontWeight.w500,
-                          color: const Color.fromARGB(255, 77, 82, 105),
-                          letterSpacing: 0.5,
+              ['BREEDING_CANCELED', 'CANCELED']
+                      .contains(controller.breedingTransactionModel.status)
+                  ? Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(right: 10),
+                          child: Text(
+                            controller.breedingTransactionModel
+                                        .ownerPetFemaleId ==
+                                    controller.accountModel.customerModel.id
+                                ? 'Cancel time'
+                                : 'Buyer cancel time',
+                            style: GoogleFonts.quicksand(
+                              fontSize: 15,
+                              fontWeight: FontWeight.w500,
+                              color: const Color.fromARGB(255, 77, 82, 105),
+                              letterSpacing: 0.5,
+                            ),
+                          ),
                         ),
-                      ),
-                    ),
-                    Text(
-                      FORMAT_DATE_TIME(
-                          dateTime:
-                              controller.breedingTransactionModel.cancelTime!,
-                          pattern: DATE_TIME_PATTERN),
-                      overflow: TextOverflow.clip,
-                      style: GoogleFonts.quicksand(
-                        fontSize: 15,
-                        fontWeight: FontWeight.w500,
-                        color: RED_COLOR.withOpacity(0.8),
-                        letterSpacing: 0.5,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
+                        Text(
+                          FORMAT_DATE_TIME(
+                              dateTime: controller
+                                  .breedingTransactionModel.cancelTime!,
+                              pattern: DATE_TIME_PATTERN),
+                          overflow: TextOverflow.clip,
+                          style: GoogleFonts.quicksand(
+                            fontSize: 15,
+                            fontWeight: FontWeight.w500,
+                            color: RED_COLOR.withOpacity(0.8),
+                            letterSpacing: 0.5,
+                          ),
+                        ),
+                      ],
+                    )
+                  : const SizedBox.shrink(),
               Visibility(
                 visible: ['BREEDING_CANCELED', 'CANCELED']
                     .contains(controller.breedingTransactionModel.status),
@@ -553,82 +561,81 @@ class BreedingTransactionDetailWidget
                   ),
                 ],
               ),
-              Visibility(
-                visible:
-                    controller.breedingTransactionModel.paymentTime != null,
-                child: Column(
-                  children: [
-                    Container(
-                      margin: const EdgeInsets.symmetric(
-                        vertical: 5,
-                        horizontal: 15,
-                      ),
-                      height: 1,
-                      color: DARK_GREY_COLOR.withAlpha(50),
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              controller.breedingTransactionModel.paymentTime != null ||
+                      (controller.orderModel != null &&
+                          controller.orderModel!.paymentTime != null)
+                  ? Column(
                       children: [
-                        Text(
-                          controller.breedingTransactionModel
-                                      .ownerPetFemaleId ==
-                                  controller.accountModel.customerModel.id
-                              ? 'Payment time'
-                              : 'Buyer payment time',
-                          style: GoogleFonts.quicksand(
-                            fontSize: 15,
-                            fontWeight: FontWeight.w500,
-                            color: const Color.fromARGB(255, 77, 82, 105),
-                            letterSpacing: 0.5,
+                        Container(
+                          margin: const EdgeInsets.symmetric(
+                            vertical: 5,
+                            horizontal: 15,
                           ),
+                          height: 1,
+                          color: DARK_GREY_COLOR.withAlpha(50),
                         ),
-                        Text(
-                          controller.breedingTransactionModel.paymentTime !=
-                                  null
-                              ? FORMAT_DATE_TIME(
-                                  dateTime: controller
-                                      .breedingTransactionModel.paymentTime!,
-                                  pattern: DATE_PATTERN_2)
-                              : 'N/A',
-                          style: GoogleFonts.quicksand(
-                            fontSize: 15,
-                            fontWeight: FontWeight.w500,
-                            color: const Color.fromARGB(255, 77, 82, 105),
-                            letterSpacing: 0.5,
-                          ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              controller.breedingTransactionModel
+                                          .ownerPetFemaleId ==
+                                      controller.accountModel.customerModel.id
+                                  ? 'Payment time'
+                                  : 'Buyer payment time',
+                              style: GoogleFonts.quicksand(
+                                fontSize: 15,
+                                fontWeight: FontWeight.w500,
+                                color: const Color.fromARGB(255, 77, 82, 105),
+                                letterSpacing: 0.5,
+                              ),
+                            ),
+                            Text(
+                              FORMAT_DATE_TIME(
+                                  dateTime: controller.breedingTransactionModel
+                                          .paymentTime ??
+                                      controller.orderModel!.paymentTime!,
+                                  pattern: DATE_PATTERN_2),
+                              style: GoogleFonts.quicksand(
+                                fontSize: 15,
+                                fontWeight: FontWeight.w500,
+                                color: const Color.fromARGB(255, 77, 82, 105),
+                                letterSpacing: 0.5,
+                              ),
+                            ),
+                          ],
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              controller.breedingTransactionModel
+                                          .ownerPetFemaleId ==
+                                      controller.accountModel.customerModel.id
+                                  ? 'Payment method'
+                                  : 'Buyer payment method',
+                              style: GoogleFonts.quicksand(
+                                fontSize: 15,
+                                fontWeight: FontWeight.w500,
+                                color: const Color.fromARGB(255, 77, 82, 105),
+                                letterSpacing: 0.5,
+                              ),
+                            ),
+                            Text(
+                              controller
+                                      .breedingTransactionModel.paymentMethod ??
+                                  controller.orderModel!.paymentMethod!,
+                              style: GoogleFonts.quicksand(
+                                fontSize: 15,
+                                fontWeight: FontWeight.w500,
+                                color: const Color.fromARGB(255, 77, 82, 105),
+                              ),
+                            ),
+                          ],
                         ),
                       ],
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          controller.breedingTransactionModel
-                                      .ownerPetFemaleId ==
-                                  controller.accountModel.customerModel.id
-                              ? 'Payment method'
-                              : 'Buyer payment method',
-                          style: GoogleFonts.quicksand(
-                            fontSize: 15,
-                            fontWeight: FontWeight.w500,
-                            color: const Color.fromARGB(255, 77, 82, 105),
-                            letterSpacing: 0.5,
-                          ),
-                        ),
-                        Text(
-                          controller.breedingTransactionModel.paymentMethod ??
-                              'N/A',
-                          style: GoogleFonts.quicksand(
-                            fontSize: 15,
-                            fontWeight: FontWeight.w500,
-                            color: const Color.fromARGB(255, 77, 82, 105),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
+                    )
+                  : const SizedBox.shrink(),
               controller.breedingTransactionModel.star != null &&
                       controller.breedingTransactionModel.star != 0 &&
                       controller.accountModel.customerModel.id !=

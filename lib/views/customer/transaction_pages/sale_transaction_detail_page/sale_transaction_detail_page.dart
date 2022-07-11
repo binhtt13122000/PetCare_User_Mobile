@@ -18,6 +18,10 @@ class SaleTransactionDetailPage
 
   @override
   Widget build(BuildContext context) {
+    if (Get.parameters['saleTransactionId'] != null) {
+      controller.transactionId =
+          int.parse(Get.parameters['saleTransactionId']!);
+    }
     return Scaffold(
       backgroundColor: WHITE_COLOR,
       body: GetBuilder<SaleTransactionDetailPageController>(builder: (_) {
@@ -26,8 +30,7 @@ class SaleTransactionDetailPage
         WidgetsBinding.instance!.addPostFrameCallback((_) async {
           controller.saleTransactionModel =
               await SaleTransactionService.fetchSaleTransactionById(
-                  saleTransactionId:
-                      int.parse(Get.parameters['saleTransactionId']!));
+                  saleTransactionId: controller.transactionId);
 
           controller.isLoading.value = false;
         });

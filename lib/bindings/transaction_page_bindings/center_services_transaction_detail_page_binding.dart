@@ -4,7 +4,6 @@ import 'package:petapp_mobile/controllers/transaction_page_controllers/center_se
 class CenterServicesTransactionDetailPageBinding implements Bindings {
   @override
   void dependencies() {
-    Get.lazyPut<CenterServicesTransactionDetailPageController>(
-        () => CenterServicesTransactionDetailPageController());
+    Get.lazyPut<OrderDetailPageController>(() => OrderDetailPageController());
   }
 }

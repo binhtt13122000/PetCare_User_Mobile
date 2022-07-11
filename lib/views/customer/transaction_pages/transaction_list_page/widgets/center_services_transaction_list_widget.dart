@@ -5,7 +5,7 @@ import 'package:petapp_mobile/configs/theme.dart';
 import 'package:petapp_mobile/controllers/other_controllers/auth_controller.dart';
 import 'package:petapp_mobile/controllers/transaction_page_controllers/transaction_list_page_controller.dart';
 import 'package:petapp_mobile/models/order_model/order_model.dart';
-import 'package:petapp_mobile/services/transaction_services/center_services_transaction_services.dart';
+import 'package:petapp_mobile/services/transaction_services/order_services.dart';
 import 'package:petapp_mobile/services/other_services/customer_services.dart';
 import 'package:petapp_mobile/utilities/utilities.dart';
 import 'package:petapp_mobile/views/widgets/customize_widget.dart';
@@ -20,7 +20,7 @@ class CenterServicesTransactionListWidget
       controller.isLoadingCenterServicesTransaction.value = true;
       WidgetsBinding.instance!.addPostFrameCallback((_) async {
         controller
-          ..orderModelList = await CenterServicesTransactionServices
+          ..orderModelList = await OrderServices
               .fetchListCenterServicesTransactionByCustomerId(
             page: controller.page,
             limit: controller.limit,
@@ -63,14 +63,34 @@ class CenterServicesTransactionListWidget
       {required OrderModel centerServicesTransactionModel}) {
     late String timeText;
     late DateTime timeValue;
+    late String statusText;
+    late Color statusColor;
     switch (centerServicesTransactionModel.status) {
       case 'SUCCESS':
         timeText = 'Payment time';
         timeValue = centerServicesTransactionModel.paymentTime!;
+        statusText = 'Transaction is completed';
+        statusColor = GREEN_COLOR;
+        break;
+      case 'CANCELED':
+        timeText = 'Create time';
+        timeValue = centerServicesTransactionModel.registerTime;
+        statusText = 'Transaction is canceled';
+        statusColor = RED_COLOR;
+
+        break;
+      case 'EXPIRED':
+        timeText = 'Create time';
+        timeValue = centerServicesTransactionModel.registerTime;
+        statusText = 'Transaction is expired';
+        statusColor = YELLOW_COLOR;
         break;
       default:
         timeText = 'Create time';
         timeValue = centerServicesTransactionModel.registerTime;
+        statusText = centerServicesTransactionModel.status;
+        statusColor = YELLOW_COLOR;
+
         break;
     }
     return Padding(
@@ -115,7 +135,7 @@ class CenterServicesTransactionListWidget
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   CUSTOM_TEXT(
-                    'Branch name',
+                    'Perform branch',
                     color: DARK_GREY_TEXT_COLOR.withOpacity(0.8),
                     fontSize: 12,
                   ),
@@ -132,7 +152,7 @@ class CenterServicesTransactionListWidget
                   CUSTOM_TEXT(
                     centerServicesTransactionModel.status == 'WAITING'
                         ? 'Provisional total'
-                        : 'Transaction total',
+                        : 'Total price',
                     color: DARK_GREY_TEXT_COLOR.withOpacity(0.8),
                     fontSize: 15,
                   ),
@@ -157,12 +177,8 @@ class CenterServicesTransactionListWidget
                     fontSize: 15,
                   ),
                   CUSTOM_TEXT(
-                    centerServicesTransactionModel.status == 'WAITING'
-                        ? 'Waiting for payment'
-                        : 'Transaction is completed',
-                    color: centerServicesTransactionModel.status == 'WAITING'
-                        ? const Color.fromARGB(255, 250, 199, 30)
-                        : const Color.fromARGB(255, 25, 221, 205),
+                    statusText,
+                    color: statusColor,
                     fontSize: 15,
                   ),
                 ],

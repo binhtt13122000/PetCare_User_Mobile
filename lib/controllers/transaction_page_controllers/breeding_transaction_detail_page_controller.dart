@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:petapp_mobile/controllers/other_controllers/auth_controller.dart';
 import 'package:petapp_mobile/models/account_model/account_model.dart';
 import 'package:petapp_mobile/models/breeding_transaction_model/breeding_transaction_model.dart';
+import 'package:petapp_mobile/models/order_model/order_model.dart';
 
 class BreedingTransactionDetailPageController extends GetxController {
   //*notification popup
@@ -24,7 +25,7 @@ class BreedingTransactionDetailPageController extends GetxController {
   RxString ratingText = 'Rating'.obs;
   RxList<String> quickFeedBackList = <String>[].obs;
   RxList<String> quickCancelList = <String>[].obs;
-  String reviewContent = '';
+  RxString reviewContent = ''.obs;
   RxString cancelDescription = ''.obs;
   RxBool isShowCancelResultPopup = false.obs;
   List<String> viewTabList = ['Transaction details', 'Breeding services'];
@@ -35,7 +36,6 @@ class BreedingTransactionDetailPageController extends GetxController {
   String popupTitle = '';
   RxBool isWaitingLoadingDataInBreedingTab = false.obs;
   RxBool isWaitingLoadingTransactionDetailTab = false.obs;
-  // RxBool isShowBreedingServicesBottom = false.obs;
   RxBool isShowBottomWidget = false.obs;
   RxBool isShowConfirmPopup = false.obs;
   late String confirmPopupTitle;
@@ -46,6 +46,8 @@ class BreedingTransactionDetailPageController extends GetxController {
   String? detailPopupContent;
   String? detailPopupEvidence;
   String? detailPopupTitle;
+  int? orderId;
+  OrderModel? orderModel;
 
   updateRatingText() {
     switch (selectedStar.value) {

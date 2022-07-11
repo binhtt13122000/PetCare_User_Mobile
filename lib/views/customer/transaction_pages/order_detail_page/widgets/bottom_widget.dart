@@ -6,7 +6,7 @@ import 'package:petapp_mobile/configs/theme.dart';
 import 'package:petapp_mobile/controllers/transaction_page_controllers/center_services_transaction_detail_page_controller.dart';
 
 class CenterServicesTransactionDetailBottomWidget
-    extends GetView<CenterServicesTransactionDetailPageController> {
+    extends GetView<OrderDetailPageController> {
   const CenterServicesTransactionDetailBottomWidget({Key? key})
       : super(key: key);
 
@@ -25,7 +25,7 @@ class CenterServicesTransactionDetailBottomWidget
                 onTap: () {
                   if (controller.orderModel.status == 'WAITING') {
                     Get.toNamed(
-                        '$PAYMENT_FOR_CENTER_SERVICES_TRANSACTION_PAGE_ROUTE/${controller.orderModel.id}');
+                        '$PAYMENT_FOR_ORDER_PAGE_ROUTE/${controller.orderModel.id}');
                   } else {
                     controller.isShowReviewPopup.value = true;
                   }

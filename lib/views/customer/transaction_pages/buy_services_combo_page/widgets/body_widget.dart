@@ -51,8 +51,8 @@ class BuyServicesComboBodyWidget
                               } while (index < controller.petModelList.length);
                             }
                             controller
-                              ..isWaitLoadingPet.value = false
-                              ..isLoadingPet = false;
+                              ..isLoadingPet = false
+                              ..isWaitLoadingPet.value = false;
                           });
                         }
                         return Column(

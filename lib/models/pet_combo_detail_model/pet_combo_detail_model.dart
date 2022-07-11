@@ -15,6 +15,7 @@ class PetComboDetailModel {
   final int? priority;
   final int? star;
   final String? review;
+  final String? evidence;
   @JsonKey(name: 'service')
   final CenterServiceModel centerServiceModel;
   PetComboDetailModel({
@@ -28,6 +29,7 @@ class PetComboDetailModel {
     this.star,
     this.review,
     required this.centerServiceModel,
+    this.evidence,
   });
 
   factory PetComboDetailModel.fromJson(Map<String, dynamic> json) =>

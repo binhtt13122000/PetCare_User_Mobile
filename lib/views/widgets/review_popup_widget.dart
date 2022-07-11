@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -6,8 +7,8 @@ import 'package:petapp_mobile/configs/path.dart';
 import 'package:petapp_mobile/configs/theme.dart';
 import 'package:petapp_mobile/views/widgets/customize_widget.dart';
 
-class CancelPopupWidget extends StatelessWidget {
-  const CancelPopupWidget({
+class ReviewPopupWidget extends StatelessWidget {
+  const ReviewPopupWidget({
     Key? key,
     required this.onTapBackground,
     required this.title,
@@ -22,6 +23,8 @@ class CancelPopupWidget extends StatelessWidget {
     required this.counterDescriptionText,
     required this.onDeleteDescription,
     required this.checkEmptyDescription,
+    required this.onTapRatingBar,
+    required this.ratingText,
   }) : super(key: key);
 
   final Function() onTapBackground;
@@ -37,6 +40,8 @@ class CancelPopupWidget extends StatelessWidget {
   final Function<String>() counterDescriptionText;
   final Function() onDeleteDescription;
   final Function<bool>() checkEmptyDescription;
+  final Function(double index) onTapRatingBar;
+  final Function<String>() ratingText;
 
   @override
   Widget build(BuildContext context) => InkWell(
@@ -48,7 +53,7 @@ class CancelPopupWidget extends StatelessWidget {
             onTap: () {},
             child: Container(
               width: 320,
-              height: 345,
+              height: 400,
               decoration: BoxDecoration(
                 color: WHITE_COLOR,
                 borderRadius: BorderRadius.circular(10),
@@ -74,6 +79,7 @@ class CancelPopupWidget extends StatelessWidget {
                           letterSpacing: 2,
                           color: PRIMARY_COLOR,
                         ),
+                        ratingBarWidget(),
                         quickRateWidget(
                             content: content, quickRateText: quickRateText),
                         descriptionWidget(
@@ -91,6 +97,46 @@ class CancelPopupWidget extends StatelessWidget {
                 ],
               ),
             ),
+          ),
+        ),
+      );
+
+  Widget ratingBarWidget() => Padding(
+        padding: const EdgeInsets.only(top: 10),
+        child: Obx(
+          () => Row(
+            children: [
+              SizedBox(
+                width: 90,
+                child: FittedBox(
+                  fit: BoxFit.scaleDown,
+                  child: Text(
+                    ratingText.call(),
+                    textAlign: TextAlign.center,
+                    style: GoogleFonts.quicksand(
+                      color: const Color.fromARGB(255, 85, 91, 110),
+                      fontWeight: FontWeight.w700,
+                      fontSize: 18,
+                      height: 1,
+                      letterSpacing: 0.5,
+                    ),
+                  ),
+                ),
+              ),
+              Expanded(
+                child: RatingBar.builder(
+                  itemCount: 5,
+                  itemSize: 40,
+                  allowHalfRating: false,
+                  unratedColor: Colors.amber.withOpacity(0.2),
+                  itemBuilder: (context, index) => const Icon(
+                    Icons.star_rate_rounded,
+                    color: Color.fromARGB(255, 255, 211, 78),
+                  ),
+                  onRatingUpdate: onTapRatingBar,
+                ),
+              ),
+            ],
           ),
         ),
       );

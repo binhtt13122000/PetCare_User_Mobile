@@ -32,7 +32,7 @@ class PaymentForCenterServicesTransactionTopWidget
             InkWell(
               onTap: () => Get
                 ..back()
-                ..put(CenterServicesTransactionDetailPageController()).update(),
+                ..put(OrderDetailPageController()).update(),
               child: Container(
                 height: 35,
                 width: 35,

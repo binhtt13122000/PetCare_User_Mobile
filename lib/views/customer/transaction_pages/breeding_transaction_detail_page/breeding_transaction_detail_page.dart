@@ -8,7 +8,6 @@ import 'package:petapp_mobile/views/customer/transaction_pages/breeding_transact
 import 'package:petapp_mobile/views/customer/transaction_pages/breeding_transaction_detail_page/widgets/confirm_pop_up_widget.dart';
 import 'package:petapp_mobile/views/customer/transaction_pages/breeding_transaction_detail_page/widgets/more_options_widget.dart';
 import 'package:petapp_mobile/views/customer/transaction_pages/breeding_transaction_detail_page/widgets/popup_widget.dart';
-import 'package:petapp_mobile/views/customer/transaction_pages/breeding_transaction_detail_page/widgets/review_popup_widget.dart';
 import 'package:petapp_mobile/views/customer/transaction_pages/breeding_transaction_detail_page/widgets/top_widget.dart';
 import 'package:petapp_mobile/views/customer/transaction_pages/breeding_transaction_detail_page/widgets/view_detail_popup_widget.dart';
 import 'package:petapp_mobile/views/customer/transaction_pages/breeding_transaction_detail_page/widgets/view_tab_widget.dart';
@@ -16,6 +15,7 @@ import 'package:petapp_mobile/views/customer/transaction_pages/breeding_transact
 import 'package:petapp_mobile/views/widgets/customize_widget.dart';
 import 'package:petapp_mobile/views/widgets/notification_popup_widget.dart';
 import 'package:petapp_mobile/views/widgets/cancel_popup_widget.dart';
+import 'package:petapp_mobile/views/widgets/review_popup_widget.dart';
 
 class BreedingTransactionDetailPage
     extends GetView<BreedingTransactionDetailPageController> {
@@ -54,6 +54,7 @@ class BreedingTransactionDetailPage
               ),
             ],
           ),
+          const BreedingTransactionDetailViewTypeTabWidget(),
           Obx(
             () => controller.isShowCancelPopup.value
                 ? CancelPopupWidget(
@@ -121,6 +122,75 @@ class BreedingTransactionDetailPage
                 : const SizedBox.shrink(),
           ),
           Obx(
+            () => controller.isShowReviewPopup.value
+                ? ReviewPopupWidget(
+                    onTapRatingBar: (double index) {
+                      controller
+                        ..selectedStar.value = index.toInt()
+                        ..updateRatingText();
+                    },
+                    ratingText: <String>() => controller.ratingText.value,
+                    onTapBackground: () =>
+                        controller.isShowReviewPopup.value = false,
+                    title: 'Rate Your Experience',
+                    content: 'Tell us your services experience?',
+                    quickRateText: const [
+                      'The seller did not come',
+                      'I\'m busy',
+                      'Sick pet',
+                      'Pet is not correct',
+                    ],
+                    onChangeDescription: (String? text) {
+                      controller.reviewContent.value = text ?? '';
+                    },
+                    descriptionHintText: 'Type more about the experience...',
+                    isAllowSubmit: <bool>() =>
+                        controller.selectedStar.value > 0,
+                    onTapSubmit: () async {
+                      controller.isWaitingLoading.value = true;
+                      String reviewText = GET_REVIEW_CONTENT(
+                        description: controller.reviewContent.value,
+                        quickRateList: controller.quickFeedBackList,
+                      );
+                      await BreedingTransactionService.reviewForTransaction(
+                        id: controller.breedingTransactionModel.id,
+                        star: controller.selectedStar.value,
+                        review: reviewText,
+                      );
+
+                      controller
+                        ..isWaitingLoading.value = false
+                        ..isShowReviewPopup.value = false
+                        ..onTapNotification = () {
+                          controller
+                            ..isShowNotificationPopup.value = false
+                            ..isShowBottomWidget.value = false
+                            ..update();
+                        }
+                        ..isSuccessNotification = true
+                        ..notificationContent =
+                            'Review transaction successfully.'
+                        ..isShowNotificationPopup.value = true;
+                    },
+                    onTapQuickRateText: ({required String content}) {
+                      controller.quickFeedBackList.contains(content)
+                          ? controller.quickFeedBackList.remove(content)
+                          : controller.quickFeedBackList.add(content);
+                    },
+                    isSelected: <bool>({required String content}) =>
+                        controller.quickFeedBackList.contains(content),
+                    checkEmptyDescription: <bool>() =>
+                        controller.reviewContent.value.isEmpty,
+                    counterDescriptionText: <String>() =>
+                        controller.reviewContent.value.length.toString() +
+                        '/200',
+                    onDeleteDescription: () {
+                      controller.reviewContent.value = '';
+                    },
+                  )
+                : const SizedBox.shrink(),
+          ),
+          Obx(
             () => controller.isShowNotificationPopup.value
                 ? NotificationPopupWidget(
                     onTapBackground: () {},
@@ -132,9 +202,8 @@ class BreedingTransactionDetailPage
           ),
           const BreedingTransactionDetailWebViewWidget(),
           const BreedingTransactionDetailPopupWidget(),
-          const BreedingTransactionDetailReviewPopupWidget(),
+          //const BreedingTransactionDetailReviewPopupWidget(),
           const BreedingTransactionDetailMoreOptionWidget(),
-          const BreedingTransactionDetailViewTypeTabWidget(),
           const BreedingTransactionDetailConfirmPopupWidget(),
           const BreedingTransactionViewDetailPopupWidget(),
           Obx(

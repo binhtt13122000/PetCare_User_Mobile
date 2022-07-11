@@ -208,13 +208,11 @@ class ProfilePageTopWidget extends GetView<ProfilePageController> {
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               generalInfoItemWidget(keyText: '0', valueText: 'Posts'),
-              ratingBarWidget(
-                  valueText: 'Stars',
-                  star: controller.accountModel.customerModel.star),
-              generalInfoItemWidget(
-                  keyText: controller.accountModel.customerModel.numberReviewers
-                      .toString(),
-                  valueText: 'Reviews'),
+              // ratingBarWidget(
+              //     valueText: 'Stars',
+              //     star: controller.accountModel.customerModel.star),
+              generalInfoItemWidget(keyText: '0', valueText: 'Pets'),
+              generalInfoItemWidget(keyText: '0', valueText: 'Orders'),
             ],
           ),
         ],

@@ -4,7 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:petapp_mobile/configs/theme.dart';
 import 'package:petapp_mobile/controllers/transaction_page_controllers/payment_for_center_services_transaction_page_controller.dart';
 import 'package:petapp_mobile/models/promotion_model.dart/promotion_model.dart';
-import 'package:petapp_mobile/services/transaction_services/center_services_transaction_services.dart';
+import 'package:petapp_mobile/services/transaction_services/order_services.dart';
 import 'package:petapp_mobile/services/transaction_services/promotion_services.dart';
 import 'package:petapp_mobile/utilities/utilities.dart';
 import 'package:petapp_mobile/views/customer/transaction_pages/payment_for_center_services_transaction_page/widgets/bottom_widget.dart';
@@ -24,10 +24,8 @@ class PaymentForCenterServicesTransactionBodyWidget
           controller.isLoadingData.value = true;
           WidgetsBinding.instance!.addPostFrameCallback((_) async {
             controller
-              ..orderModel = await CenterServicesTransactionServices
-                  .fetchCenterServicesTransactionByTransactionId(
-                      transactionId:
-                          int.parse(Get.parameters['transactionId']!))
+              ..orderModel = await OrderServices.fetchOrderIdByOrderId(
+                  orderId: int.parse(Get.parameters['transactionId']!))
               ..promotionModels =
                   await PromotionServices.fetchPromotionByBranchId(
                       branchId: controller.orderModel.branchId)

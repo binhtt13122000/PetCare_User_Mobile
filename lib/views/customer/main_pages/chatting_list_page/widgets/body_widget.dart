@@ -270,14 +270,14 @@ class ChattingListBodyWidget extends GetView<ChattingListPageController> {
                   ),
                 ),
               ),
-              const Padding(
-                padding: EdgeInsets.only(left: 10),
-                child: Icon(
-                  Icons.check_circle_outline,
-                  size: 22,
-                  color: Color.fromARGB(255, 154, 163, 192),
-                ),
-              ),
+              // const Padding(
+              //   padding: EdgeInsets.only(left: 10),
+              //   child: Icon(
+              //     Icons.check_circle_outline,
+              //     size: 22,
+              //     color: Color.fromARGB(255, 154, 163, 192),
+              //   ),
+              // ),
             ],
           ),
         ),

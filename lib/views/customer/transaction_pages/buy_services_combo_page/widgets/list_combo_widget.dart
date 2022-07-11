@@ -250,47 +250,58 @@ class BuyServicesComboListComboWidget
         ],
       );
 
-  Widget servicesComboItemList() => Obx(
-        () => DropdownButton<int>(
-          value: controller.selectPetServicesComboIndex.value,
-          items: [
-            ...[
-              DropdownMenuItem(
-                value: -1,
-                child: Text(
-                  '- Select pet services combo -',
-                  style: GoogleFonts.quicksand(
-                    fontWeight: FontWeight.w500,
-                    color: DARK_GREY_TEXT_COLOR.withOpacity(0.8),
-                    fontSize: 16,
-                  ),
+  Widget servicesComboItemList() {
+    List<DropdownMenuItem<int>> petServicesComboModelListDropDownItem = [];
+
+    if (controller.petServicesComboModelList.isNotEmpty) {
+      int index = 0;
+      do {
+        if (controller.petServicesComboModelList[index].type != 'BREED') {
+          petServicesComboModelListDropDownItem.add(
+            DropdownMenuItem(
+              value: index,
+              child: Text(
+                controller.petServicesComboModelList[index].name,
+                style: GoogleFonts.quicksand(
+                  fontWeight: FontWeight.w500,
+                  color: const Color.fromARGB(255, 78, 98, 124),
+                  fontSize: 16,
                 ),
-              )
-            ],
-            ...controller.petServicesComboModelList
-                .asMap()
-                .entries
-                .map(
-                  (e) => DropdownMenuItem(
-                    value: e.key,
-                    child: Text(
-                      e.value.name,
-                      style: GoogleFonts.quicksand(
-                        fontWeight: FontWeight.w500,
-                        color: const Color.fromARGB(255, 78, 98, 124),
-                        fontSize: 16,
-                      ),
-                    ),
-                  ),
-                )
-                .toList()
+              ),
+            ),
+          );
+        }
+        index++;
+      } while (index < controller.petServicesComboModelList.length);
+    }
+
+    return Obx(
+      () => DropdownButton<int>(
+        value: controller.selectPetServicesComboIndex.value,
+        items: [
+          ...[
+            DropdownMenuItem(
+              value: -1,
+              child: Text(
+                '- Select pet services combo -',
+                style: GoogleFonts.quicksand(
+                  fontWeight: FontWeight.w500,
+                  color: DARK_GREY_TEXT_COLOR.withOpacity(0.8),
+                  fontSize: 16,
+                ),
+              ),
+            )
           ],
-          onChanged: (int? value) => controller
-            ..selectPetServicesComboIndex.value = value!
-            ..isLoadingPetServicesComboDetail = true
-            ..update(),
-        ),
-      );
+          ...petServicesComboModelListDropDownItem
+        ],
+        onChanged: (int? value) => controller
+          ..selectPetServicesComboIndex.value = value!
+          ..isLoadingPetServicesComboDetail = true
+          ..isLoadingPet = false
+          ..update(),
+      ),
+    );
+  }
 
   Widget servicesComboItemListTitle() => Row(
         crossAxisAlignment: CrossAxisAlignment.center,

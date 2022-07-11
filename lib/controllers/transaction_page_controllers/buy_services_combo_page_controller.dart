@@ -32,6 +32,6 @@ class BuyServicesComboPageController extends GetxController {
   late ServicesComboModel petServicesComboModel;
   RxBool isViewServicesComboDescriptionWidget = false.obs;
   RxBool isShowBranchDetail = false.obs;
-  late int centerServicesTransactionId;
+  late int? centerServicesTransactionId;
   RxBool isWaitingLoadingDataForeground = false.obs;
 }
