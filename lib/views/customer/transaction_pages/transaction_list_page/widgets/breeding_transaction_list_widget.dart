@@ -168,6 +168,7 @@ class BreedingTransactionListWidget
           timeValue = breedingTransactionModel.meetingTime;
           break;
         case 'CANCELED':
+        case 'BREEDING_CANCELED':
           displayStatus = 'Transaction has been canceled';
           statusColor = RED_COLOR;
           timeTitle = 'Cancel time';

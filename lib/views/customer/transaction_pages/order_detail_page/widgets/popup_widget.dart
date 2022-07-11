@@ -4,10 +4,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:petapp_mobile/configs/theme.dart';
 import 'package:petapp_mobile/controllers/transaction_page_controllers/center_services_transaction_detail_page_controller.dart';
 
-class CenterServicesTransactionDetailPopupWidget
-    extends GetView<CenterServicesTransactionDetailPageController> {
-  const CenterServicesTransactionDetailPopupWidget({Key? key})
-      : super(key: key);
+class OrderDetailPopupWidget extends GetView<OrderDetailPageController> {
+  const OrderDetailPopupWidget({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) => Obx(

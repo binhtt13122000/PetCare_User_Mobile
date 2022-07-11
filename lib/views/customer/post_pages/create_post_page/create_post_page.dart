@@ -27,8 +27,7 @@ class CreatePostPage extends GetView<CreatePostPageController> {
         ..listPurchaseTransactionFees =
             await TransactionFeesServices.fetchTransactionFreesList(
                 transactionType: controller.selectedPostType.value)
-        ..branchList = await BranchServices.fetchBranchList()
-        ..selectedBranchIndex.value = 0
+        ..branchModelList = await BranchServices.fetchBranchList()
         ..isShowMainLoading.value = false;
     });
 
@@ -51,12 +50,23 @@ class CreatePostPage extends GetView<CreatePostPageController> {
                           child: SingleChildScrollView(
                             controller: controller.mainScrollController,
                             child: Column(
-                              children: const [
+                              children: [
                                 //VideoApp(),
-                                CreatePostBodyWidget(),
-                                SelectPetWidget(),
-                                MediaPickerWidget(),
-                                SelectBranchWidget(),
+                                const CreatePostBodyWidget(),
+                                const SelectPetWidget(),
+                                const MediaPickerWidget(),
+                                Container(
+                                  color: WHITE_COLOR,
+                                  padding: const EdgeInsets.symmetric(
+                                      vertical: 15, horizontal: 12),
+                                  child: Row(
+                                    children: [
+                                      registerDateTitleWidget(),
+                                      bookingDateWidget(),
+                                    ],
+                                  ),
+                                ),
+                                const SelectBranchWidget(),
                                 // DescriptionWidget(),
                               ],
                             ),
@@ -75,4 +85,61 @@ class CreatePostPage extends GetView<CreatePostPageController> {
       ),
     );
   }
+
+  Widget registerDateTitleWidget() => Row(
+        children: [
+          CUSTOM_TEXT('Meeting date'),
+          CUSTOM_TEXT(
+            '*',
+            color: RED_COLOR,
+            fontSize: 18,
+            fontWeight: FontWeight.w700,
+          ),
+        ],
+      );
+
+  Widget bookingDateWidget() => Expanded(
+        child: Padding(
+          padding: const EdgeInsets.only(left: 20),
+          child: InkWell(
+            onTap: () => controller.isShowCalendar.value = true,
+            child: Container(
+              height: 40,
+              decoration: BoxDecoration(
+                border: Border.all(
+                  color: const Color.fromARGB(255, 167, 181, 201),
+                  width: 1.2,
+                ),
+                borderRadius: BorderRadius.circular(5),
+                color: WHITE_COLOR,
+              ),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 20),
+                      child: Obx(
+                        () => CUSTOM_TEXT(
+                          controller.meetingTimeText.value.isNotEmpty
+                              ? controller.meetingTimeText.value
+                              : 'dd/MM/yyyy',
+                          textAlign: TextAlign.left,
+                          color: DARK_GREY_TEXT_COLOR.withOpacity(0.8),
+                        ),
+                      ),
+                    ),
+                  ),
+                  const Padding(
+                    padding: EdgeInsets.only(right: 10),
+                    child: Icon(
+                      Icons.calendar_month_rounded,
+                      color: PRIMARY_COLOR,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+      );
 }

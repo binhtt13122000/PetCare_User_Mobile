@@ -161,13 +161,13 @@ class SaleTransactionListWidget extends GetView<TransactionListPageController> {
           timeValue = saleTransactionModel.meetingTime;
           break;
         case 'CANCELED':
-          displayStatus = 'The transaction has been canceled';
+          displayStatus = 'Transaction has been canceled';
           statusColor = RED_COLOR;
           timeTitle = 'Cancel time';
           timeValue = DateTime.now();
           break;
         case 'SUCCESS':
-          displayStatus = 'The transaction is completed';
+          displayStatus = 'Transaction is completed';
           statusColor = GREEN_COLOR;
           timeTitle = 'Payment time';
           timeValue = saleTransactionModel.transactionTime!;
@@ -188,14 +188,14 @@ class SaleTransactionListWidget extends GetView<TransactionListPageController> {
           timeValue = saleTransactionModel.meetingTime;
           break;
         case 'CANCELED':
-          displayStatus = 'The transaction has been canceled';
+          displayStatus = 'Transaction has been canceled';
 
           statusColor = RED_COLOR;
           timeTitle = 'Cancel time';
           timeValue = DateTime.now();
           break;
         case 'SUCCESS':
-          displayStatus = 'The transaction is completed';
+          displayStatus = 'Transaction is completed';
           statusColor = GREEN_COLOR;
           timeTitle = 'Payment time';
           timeValue = saleTransactionModel.transactionTime!;

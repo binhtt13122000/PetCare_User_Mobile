@@ -35,8 +35,9 @@ class CreatePostPageController extends GetxController {
   RxBool isShowLoadingWidget = false.obs;
   RxBool isShowSuccessfullyPopup = false.obs;
 
-  late List<BranchModel> branchList;
-  RxInt selectedBranchIndex = (-1).obs;
+  late List<BranchModel> branchModelList;
+  RxInt selectBranchIndex = (-1).obs;
+  RxBool isShowBranchDetail = false.obs;
 
   quill.QuillController quillController = quill.QuillController.basic();
 

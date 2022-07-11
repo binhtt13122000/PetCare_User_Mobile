@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:petapp_mobile/configs/theme.dart';
 import 'package:petapp_mobile/controllers/transaction_page_controllers/breeding_transaction_detail_page_controller.dart';
 import 'package:petapp_mobile/services/transaction_services/breeding_transaction_services.dart';
+import 'package:petapp_mobile/services/transaction_services/order_services.dart';
 import 'package:petapp_mobile/utilities/utilities.dart';
 import 'package:petapp_mobile/views/widgets/customize_widget.dart';
 
@@ -18,12 +19,19 @@ class BreedingTransactionDetailBreedingServicesForMalePetWidget
         controller.isWaitingLoadingDataInBreedingTab.value = true;
 
         WidgetsBinding.instance!.addPostFrameCallback((_) async {
+          controller.orderId ??=
+              await OrderServices.fetchOrderByBreedingTransactionId(
+                  breedingTransactionId: controller.breedingTransactionId);
+          if (controller.orderId != null) {
+            controller.orderModel = await OrderServices.fetchOrderIdByOrderId(
+                orderId: controller.orderId!);
+          }
           controller
             ..breedingTransactionModel =
                 await BreedingTransactionService.fetchBreedingTransactionById(
                     breedingTransactionId: controller.breedingTransactionId)
-            ..isWaitingLoadingDataInBreedingTab.value = false
             ..sortComboList()
+            ..isWaitingLoadingDataInBreedingTab.value = false
             ..isShowBottomWidget.value = true;
         });
         return Obx(
@@ -83,6 +91,27 @@ class BreedingTransactionDetailBreedingServicesForMalePetWidget
         ],
       );
 
+  // Widget branchWidget() => Container(
+  //       color: WHITE_COLOR,
+  //       padding: const EdgeInsets.symmetric(vertical: 20),
+  //       child: Column(
+  //         children: [
+  //           CUSTOM_TEXT(
+  //             'Branch perform services',
+  //             padding: const EdgeInsets.only(bottom: 10),
+  //             fontWeight: FontWeight.w700,
+  //             fontSize: 15,
+  //           ),
+  //           textCardWidget(keyText: 'Name', valueText: 'HCM CS1'),
+  //           textCardWidget(keyText: 'Phone number', valueText: '+84901905999'),
+  //           textCardWidget(
+  //               keyText: 'Address',
+  //               valueText:
+  //                   ' Lô E2a-7, Đường D1, Đ. D1, Long Thạnh Mỹ, Thành Phố Thủ Đức, Thành phố Hồ Chí Minh'),
+  //         ],
+  //       ),
+  //     );
+
   Widget branchWidget() => Container(
         color: WHITE_COLOR,
         padding: const EdgeInsets.symmetric(vertical: 20),
@@ -94,12 +123,19 @@ class BreedingTransactionDetailBreedingServicesForMalePetWidget
               fontWeight: FontWeight.w700,
               fontSize: 15,
             ),
-            textCardWidget(keyText: 'Name', valueText: 'HCM CS1'),
-            textCardWidget(keyText: 'Phone number', valueText: '+84901905999'),
+            textCardWidget(
+                keyText: 'Name',
+                valueText: controller
+                    .breedingTransactionModel.breedingBranchModel!.name),
+            textCardWidget(
+                keyText: 'Phone number',
+                valueText: controller
+                    .breedingTransactionModel.breedingBranchModel!.phoneNumber),
             textCardWidget(
                 keyText: 'Address',
-                valueText:
-                    ' Lô E2a-7, Đường D1, Đ. D1, Long Thạnh Mỹ, Thành Phố Thủ Đức, Thành phố Hồ Chí Minh'),
+                valueText: controller.breedingTransactionModel
+                        .breedingBranchModel!.address ??
+                    'N/A'),
           ],
         ),
       );

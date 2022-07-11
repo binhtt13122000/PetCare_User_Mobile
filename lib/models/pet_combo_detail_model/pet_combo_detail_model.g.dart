@@ -21,6 +21,7 @@ PetComboDetailModel _$PetComboDetailModelFromJson(Map<String, dynamic> json) =>
       review: json['review'] as String?,
       centerServiceModel:
           CenterServiceModel.fromJson(json['service'] as Map<String, dynamic>),
+      evidence: json['evidence'] as String?,
     );
 
 Map<String, dynamic> _$PetComboDetailModelToJson(
@@ -35,5 +36,6 @@ Map<String, dynamic> _$PetComboDetailModelToJson(
       'priority': instance.priority,
       'star': instance.star,
       'review': instance.review,
+      'evidence': instance.evidence,
       'service': instance.centerServiceModel.toJson(),
     };

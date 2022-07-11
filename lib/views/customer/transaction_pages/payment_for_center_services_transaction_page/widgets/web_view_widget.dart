@@ -5,7 +5,7 @@ import 'package:get/get.dart';
 import 'package:petapp_mobile/configs/path.dart';
 import 'package:petapp_mobile/configs/theme.dart';
 import 'package:petapp_mobile/controllers/transaction_page_controllers/payment_for_center_services_transaction_page_controller.dart';
-import 'package:petapp_mobile/services/transaction_services/center_services_transaction_services.dart';
+import 'package:petapp_mobile/services/transaction_services/order_services.dart';
 
 class PaymentForCenterServicesTransactionWebViewWidget
     extends GetView<PaymentForCenterServicesTransactionPageController> {
@@ -32,15 +32,12 @@ class PaymentForCenterServicesTransactionWebViewWidget
                       paymentForCenterServicesTransactionPageController =
                       Get.find<
                           PaymentForCenterServicesTransactionPageController>();
-                  if (uri!.path ==
-                      CENTER_SERVICES_TRANSACTION_RETURN_API_PATH) {
+                  if (uri!.path == ORDER_RETURN_API_PATH) {
                     paymentForCenterServicesTransactionPageController
                       ..paymentUrl.value = ''
                       ..isWaitingPayment.value = true
-                      ..orderModel = await CenterServicesTransactionServices
-                          .fetchCenterServicesTransactionByTransactionId(
-                              transactionId:
-                                  int.parse(Get.parameters['transactionId']!))
+                      ..orderModel = await OrderServices.fetchOrderIdByOrderId(
+                          orderId: int.parse(Get.parameters['transactionId']!))
                       ..isWaitingPayment.value = false
                       ..isShowPopup.value = true;
                   }

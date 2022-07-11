@@ -17,9 +17,11 @@ class OrderModel {
   final int? point;
   final String status;
   final int provisionalTotal;
-  final int star;
+  final int? star;
   final String? review;
   final int branchId;
+  final String? reasonCancel;
+  final DateTime? cancelTime;
   final int? promotionId;
   final int customerId;
   final DateTime registerTime;
@@ -49,6 +51,8 @@ class OrderModel {
     required this.customerId,
     required this.registerTime,
     this.promotionModel,
+    this.cancelTime,
+    this.reasonCancel,
   });
 
   factory OrderModel.fromJson(Map<String, dynamic> json) =>

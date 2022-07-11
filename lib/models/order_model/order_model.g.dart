@@ -18,7 +18,7 @@ OrderModel _$OrderModelFromJson(Map<String, dynamic> json) => OrderModel(
       point: json['point'] as int?,
       status: json['status'] as String,
       provisionalTotal: json['provisionalTotal'] as int,
-      star: json['star'] as int,
+      star: json['star'] as int?,
       review: json['review'] as String?,
       branchModel: json['branch'] == null
           ? null
@@ -33,6 +33,10 @@ OrderModel _$OrderModelFromJson(Map<String, dynamic> json) => OrderModel(
       promotionModel: json['promotion'] == null
           ? null
           : PromotionModel.fromJson(json['promotion'] as Map<String, dynamic>),
+      cancelTime: json['cancelTime'] == null
+          ? null
+          : DateTime.parse(json['cancelTime'] as String),
+      reasonCancel: json['reasonCancel'] as String?,
     );
 
 Map<String, dynamic> _$OrderModelToJson(OrderModel instance) =>
@@ -49,6 +53,8 @@ Map<String, dynamic> _$OrderModelToJson(OrderModel instance) =>
       'star': instance.star,
       'review': instance.review,
       'branchId': instance.branchId,
+      'reasonCancel': instance.reasonCancel,
+      'cancelTime': instance.cancelTime?.toIso8601String(),
       'promotionId': instance.promotionId,
       'customerId': instance.customerId,
       'registerTime': instance.registerTime.toIso8601String(),

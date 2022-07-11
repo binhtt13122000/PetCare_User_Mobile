@@ -6,12 +6,10 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:petapp_mobile/configs/path.dart';
 import 'package:petapp_mobile/configs/theme.dart';
 import 'package:petapp_mobile/controllers/transaction_page_controllers/center_services_transaction_detail_page_controller.dart';
-import 'package:petapp_mobile/services/transaction_services/center_services_transaction_services.dart';
+import 'package:petapp_mobile/services/transaction_services/order_services.dart';
 
-class CenterSerVicesTransactionDetailReviewPopupWidget
-    extends GetView<CenterServicesTransactionDetailPageController> {
-  const CenterSerVicesTransactionDetailReviewPopupWidget({Key? key})
-      : super(key: key);
+class OrderDetailReviewPopupWidget extends GetView<OrderDetailPageController> {
+  const OrderDetailReviewPopupWidget({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -203,7 +201,7 @@ class CenterSerVicesTransactionDetailReviewPopupWidget
                   ? reviewContent + ' ' + controller.reviewContent
                   : controller.reviewContent;
 
-              await CenterServicesTransactionServices.update(
+              await OrderServices.update(
                   transactionId: controller.orderModel.id,
                   star: controller.selectedStar.value,
                   review: reviewContent);

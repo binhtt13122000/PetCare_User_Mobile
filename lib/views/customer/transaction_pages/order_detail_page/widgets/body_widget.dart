@@ -3,28 +3,25 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:petapp_mobile/configs/theme.dart';
 import 'package:petapp_mobile/controllers/transaction_page_controllers/center_services_transaction_detail_page_controller.dart';
-import 'package:petapp_mobile/services/transaction_services/center_services_transaction_services.dart';
+import 'package:petapp_mobile/services/transaction_services/order_services.dart';
 import 'package:petapp_mobile/utilities/utilities.dart';
-import 'package:petapp_mobile/views/customer/transaction_pages/center_services_transaction_detail_page/widgets/bottom_widget.dart';
+import 'package:petapp_mobile/views/customer/transaction_pages/order_detail_page/widgets/bottom_widget.dart';
 import 'package:petapp_mobile/views/widgets/customize_widget.dart';
 
-class CenterServicesTransactionDetailBodyWidget
-    extends GetView<CenterServicesTransactionDetailPageController> {
-  const CenterServicesTransactionDetailBodyWidget({Key? key}) : super(key: key);
+class OrderDetailBodyWidget extends GetView<OrderDetailPageController> {
+  const OrderDetailBodyWidget({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
 
     return Expanded(
-      child: GetBuilder<CenterServicesTransactionDetailPageController>(
-          builder: (_) {
+      child: GetBuilder<OrderDetailPageController>(builder: (_) {
         controller.isLoadingData.value = true;
         WidgetsBinding.instance!.addPostFrameCallback((_) async {
           controller
-            ..orderModel = await CenterServicesTransactionServices
-                .fetchCenterServicesTransactionByTransactionId(
-                    transactionId: controller.transactionId)
+            ..orderModel = await OrderServices.fetchOrderIdByOrderId(
+                orderId: controller.orderId)
             ..isLoadingData.value = false;
         });
         return Obx(
@@ -34,7 +31,6 @@ class CenterServicesTransactionDetailBodyWidget
                   color: SUPPER_LIGHT_BLUE,
                   child: Column(
                     children: [
-                      transactionIdWidget(),
                       Expanded(
                         child: SingleChildScrollView(
                           child: Column(
@@ -49,11 +45,14 @@ class CenterServicesTransactionDetailBodyWidget
                       ),
                       Visibility(
                           visible: controller.orderModel.status == 'WAITING' ||
-                              (controller.orderModel.star == 0),
+                              (controller.orderModel.status == 'SUCCESS' &&
+                                  (controller.orderModel.star == null ||
+                                      controller.orderModel.star! == 0)),
                           child:
                               const CenterServicesTransactionDetailBottomWidget()),
                       Visibility(
-                        visible: controller.orderModel.star > 0,
+                        visible: controller.orderModel.star != null &&
+                            controller.orderModel.star! > 0,
                         child: CUSTOM_TEXT(
                           'You have submitted a review for this transaction',
                           fontSize: 12,
@@ -67,26 +66,6 @@ class CenterServicesTransactionDetailBodyWidget
       }),
     );
   }
-
-  Widget transactionIdWidget() => Padding(
-        padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 20),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            CUSTOM_TEXT(
-              'Transaction ID',
-              fontSize: 13,
-              color: DARK_GREY_TEXT_COLOR.withOpacity(0.7),
-            ),
-            CUSTOM_TEXT(
-              (controller.orderModel.id < 10 ? '#0' : '#') +
-                  controller.orderModel.id.toString(),
-              fontSize: 13,
-              color: DARK_GREY_TEXT_COLOR.withOpacity(0.7),
-            ),
-          ],
-        ),
-      );
 
   Widget viewTransactionDetailWidget() =>
       controller.orderModel.status == 'SUCCESS'
@@ -259,8 +238,8 @@ class CenterServicesTransactionDetailBodyWidget
                     alignment: Alignment.centerRight,
                     child: CUSTOM_TEXT(
                       FORMAT_MONEY(
-                          price: controller
-                              .orderModel.orderDetailModelList![index].price),
+                          price: controller.orderModel
+                              .orderDetailModelList![index].totalPrice),
                       textAlign: TextAlign.end,
                       fontSize: 15,
                       color: DARK_GREY_TEXT_COLOR.withOpacity(0.9),
@@ -456,79 +435,119 @@ class CenterServicesTransactionDetailBodyWidget
           ),
         );
 
-  Widget transactionInformationWidget() => Container(
-        color: WHITE_COLOR,
-        child: Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 15),
-              child: Column(
-                children: [
-                  Visibility(
-                    visible: controller.isViewTransactionDetail.value ||
-                        controller.orderModel.status != 'SUCCESS',
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          CUSTOM_TEXT(
-                            'Created time',
-                            color: DARK_GREY_TEXT_COLOR.withOpacity(0.9),
-                            fontSize: 15,
-                          ),
-                          Text(
-                            FORMAT_DATE_TIME(
-                                dateTime: DateTime.now(),
-                                pattern: DATE_TIME_PATTERN),
-                            textAlign: TextAlign.center,
-                            style: GoogleFonts.quicksand(
-                              color: const Color.fromARGB(255, 77, 82, 105),
-                              fontWeight: FontWeight.w500,
-                              fontSize: 15,
-                              letterSpacing: 0.5,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 3),
+  Widget transactionInformationWidget() {
+    late String statusText;
+    late Color statusTextColor;
+    switch (controller.orderModel.status) {
+      case 'WAITING':
+        statusText = 'Waiting for payment';
+        statusTextColor = YELLOW_COLOR;
+        break;
+      case 'SUCCESS':
+        statusText = 'Transaction completed';
+        statusTextColor = GREEN_COLOR;
+        break;
+      case 'CANCELED':
+        statusText = 'Transaction canceled';
+        statusTextColor = RED_COLOR;
+        break;
+      default:
+        statusText = controller.orderModel.status;
+        statusTextColor = YELLOW_COLOR;
+    }
+    return Container(
+      color: WHITE_COLOR,
+      child: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 15),
+            child: Column(
+              children: [
+                Visibility(
+                  visible: controller.isViewTransactionDetail.value ||
+                      controller.orderModel.status != 'SUCCESS',
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 0),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         CUSTOM_TEXT(
-                          'Transaction status',
+                          'Created time',
                           color: DARK_GREY_TEXT_COLOR.withOpacity(0.9),
                           fontSize: 15,
                         ),
-                        CUSTOM_TEXT(
-                          controller.orderModel.status == 'WAITING'
-                              ? 'Waiting for payment'
-                              : 'Transaction finished',
-                          color: controller.orderModel.status == 'WAITING'
-                              ? YELLOW_COLOR
-                              : GREEN_COLOR,
-                          fontSize: 15,
-                          fontWeight: FontWeight.w700,
+                        Text(
+                          FORMAT_DATE_TIME(
+                              dateTime: DateTime.now(),
+                              pattern: DATE_TIME_PATTERN),
+                          textAlign: TextAlign.center,
+                          style: GoogleFonts.quicksand(
+                            color: const Color.fromARGB(255, 77, 82, 105),
+                            fontWeight: FontWeight.w500,
+                            fontSize: 15,
+                            letterSpacing: 0.5,
+                          ),
                         ),
                       ],
                     ),
                   ),
-                  paymentInformationWidget(),
-                  applyPromotionWidget(),
-                  viewTransactionDetailWidget(),
-                ],
-              ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 3),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      CUSTOM_TEXT(
+                        'Transaction status',
+                        color: DARK_GREY_TEXT_COLOR.withOpacity(0.9),
+                        fontSize: 15,
+                      ),
+                      CUSTOM_TEXT(
+                        statusText,
+                        color: statusTextColor,
+                        fontSize: 15,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ],
+                  ),
+                ),
+                controller.orderModel.status == 'CANCELED'
+                    ? Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 3),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            CUSTOM_TEXT(
+                              'Cancel time',
+                              color: DARK_GREY_TEXT_COLOR.withOpacity(0.9),
+                              fontSize: 15,
+                            ),
+                            CUSTOM_TEXT(
+                              FORMAT_DATE_TIME(
+                                dateTime: controller.orderModel.cancelTime!,
+                                pattern: DATE_TIME_PATTERN,
+                              ),
+                              color: statusTextColor,
+                              fontSize: 15,
+                            ),
+                          ],
+                        ),
+                      )
+                    : const SizedBox.shrink(),
+                paymentInformationWidget(),
+                applyPromotionWidget(),
+                viewTransactionDetailWidget(),
+              ],
             ),
-            Container(
-              height: 1,
-              color: DARK_GREY_COLOR.withAlpha(30),
-            ),
-          ],
-        ),
-      );
+          ),
+          Container(
+            height: 1,
+            color: DARK_GREY_COLOR.withAlpha(30),
+          ),
+        ],
+      ),
+    );
+  }
 
   Widget branchInformationWidget() => Column(
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -857,17 +876,17 @@ class CenterServicesTransactionDetailBodyWidget
                             letterSpacing: 0.5,
                           ),
                         ),
-                        Text(
+                        CUSTOM_TEXT(
                           FORMAT_MONEY(
                               price: controller.orderModel.provisionalTotal),
                           textAlign: TextAlign.center,
-                          style: GoogleFonts.quicksand(
-                            textStyle: const TextStyle(color: PRIMARY_COLOR),
-                            fontWeight: FontWeight.w700,
-                            fontSize: 18,
-                            height: 1,
-                            letterSpacing: 0.5,
-                          ),
+                          color: PRIMARY_COLOR,
+                          fontWeight: FontWeight.w700,
+                          fontSize: 18,
+                          textDecoration:
+                              controller.orderModel.status == 'CANCELED'
+                                  ? TextDecoration.lineThrough
+                                  : TextDecoration.none,
                         ),
                       ],
                     ),

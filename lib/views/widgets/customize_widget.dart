@@ -234,6 +234,7 @@ Widget CUSTOM_TEXT(
   Color backGroundColor = Colors.transparent,
   TextOverflow textOverflow = TextOverflow.ellipsis,
   EdgeInsets padding = EdgeInsets.zero,
+  TextDecoration textDecoration = TextDecoration.none,
 }) =>
     Padding(
       padding: padding,
@@ -242,12 +243,14 @@ Widget CUSTOM_TEXT(
         textAlign: textAlign,
         overflow: textOverflow,
         style: GoogleFonts.quicksand(
-            fontWeight: fontWeight,
-            color: color,
-            fontSize: fontSize,
-            letterSpacing: letterSpacing,
-            fontStyle: fontStyle,
-            backgroundColor: backGroundColor),
+          fontWeight: fontWeight,
+          color: color,
+          fontSize: fontSize,
+          letterSpacing: letterSpacing,
+          fontStyle: fontStyle,
+          backgroundColor: backGroundColor,
+          decoration: textDecoration,
+        ),
       ),
     );
 

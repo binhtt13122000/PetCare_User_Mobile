@@ -29,11 +29,6 @@ class BreedingTransactionDetailBodyWidget
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       petInformation(),
-
-                      // Container(
-                      //   color: SUPPER_LIGHT_BLUE,
-                      //   height: 16,
-                      // ),
                       viewTypeWidget(),
                       Obx(
                         () => controller.selectedViewTab.value ==

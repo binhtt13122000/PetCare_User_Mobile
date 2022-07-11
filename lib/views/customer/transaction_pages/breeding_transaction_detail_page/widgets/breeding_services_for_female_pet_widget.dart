@@ -5,6 +5,7 @@ import 'package:petapp_mobile/configs/route.dart';
 import 'package:petapp_mobile/configs/theme.dart';
 import 'package:petapp_mobile/controllers/transaction_page_controllers/breeding_transaction_detail_page_controller.dart';
 import 'package:petapp_mobile/services/transaction_services/breeding_transaction_services.dart';
+import 'package:petapp_mobile/services/transaction_services/order_services.dart';
 import 'package:petapp_mobile/utilities/utilities.dart';
 import 'package:petapp_mobile/views/widgets/customize_widget.dart';
 
@@ -19,6 +20,13 @@ class BreedingTransactionDetailBreedingServicesForFemalePetWidget
         controller.isWaitingLoadingDataInBreedingTab.value = true;
 
         WidgetsBinding.instance!.addPostFrameCallback((_) async {
+          controller.orderId ??=
+              await OrderServices.fetchOrderByBreedingTransactionId(
+                  breedingTransactionId: controller.breedingTransactionId);
+          if (controller.orderId != null) {
+            controller.orderModel = await OrderServices.fetchOrderIdByOrderId(
+                orderId: controller.orderId!);
+          }
           controller
             ..breedingTransactionModel =
                 await BreedingTransactionService.fetchBreedingTransactionById(
@@ -37,7 +45,12 @@ class BreedingTransactionDetailBreedingServicesForFemalePetWidget
                   children: [
                     controller.breedingTransactionModel.dateOfBreeding ==
                                 null ||
-                            ['CANCELED', 'EXPIRED', 'CREATED'].contains(
+                            [
+                              'CANCELED',
+                              'BREEDING_CANCELED',
+                              'EXPIRED',
+                              'CREATED'
+                            ].contains(
                                 controller.breedingTransactionModel.status)
                         ? noHaveDataWidget()
                         : breedingServicesWidget(),
@@ -281,7 +294,7 @@ class BreedingTransactionDetailBreedingServicesForFemalePetWidget
     }
   }
 
-  Widget comboServicesTimelineWidget() {
+  Widget comboServicesTimelineWidget({bool isUltrasound = true}) {
     DateTime currentTime = DateTime.now();
 
     return Column(
@@ -290,63 +303,90 @@ class BreedingTransactionDetailBreedingServicesForFemalePetWidget
           .asMap()
           .entries
           .map((e) {
-        bool isNext = false;
-        if (e.key == 0) {
-          isNext = !e.value.isCompleted;
-        } else {
-          isNext = !e.value.isCompleted &&
-              controller.breedingTransactionModel.petComboModelList![0]
-                  .petComboDetailModelList![e.key - 1].isCompleted;
-        }
+        if (isUltrasound) {
+          bool isNext = false;
+          if (e.key == 0) {
+            isNext = !e.value.isCompleted;
+          } else {
+            isNext = !e.value.isCompleted &&
+                controller.breedingTransactionModel.petComboModelList![0]
+                    .petComboDetailModelList![e.key - 1].isCompleted;
+          }
 
-        return timeLineItemWidget(
-          currentTime: currentTime,
-          title: e.value.centerServiceModel.name,
-          performDate: e.value.realTime,
-          estimateDate: e.value.workingTime,
-          isSuccess: e.value.realTime != null,
-          isShowViewDetail: e.value.isCompleted,
-          isLastIndex: e.key + 1 ==
-              controller.breedingTransactionModel.petComboModelList![0]
-                  .petComboDetailModelList!.length,
-          isNext: isNext,
-        );
+          return timeLineItemWidget(
+            currentTime: currentTime,
+            title: e.value.centerServiceModel.name,
+            performDate: e.value.realTime,
+            estimateDate: e.value.workingTime,
+            isSuccess: e.value.realTime != null,
+            isShowViewDetail: e.value.isCompleted,
+            onTap: e.value.isCompleted
+                ? () {
+                    controller
+                      ..detailPopupEvidence = e.value.evidence!
+                      ..detailPopupTitle = e.value.centerServiceModel.name
+                      ..isShowDetailPopup.value = true;
+                  }
+                : null,
+            isLastIndex: e.key + 1 ==
+                controller.breedingTransactionModel.petComboModelList![0]
+                    .petComboDetailModelList!.length,
+            isNext: isNext,
+          );
+        } else {
+          return timeLineItemWidget(
+            currentTime: currentTime,
+            title: e.value.centerServiceModel.name,
+            performDate: e.value.realTime,
+            estimateDate: e.value.workingTime,
+            isSuccess: false,
+            isShowViewDetail: false,
+            isLastIndex: e.key ==
+                controller.breedingTransactionModel.petComboModelList![0]
+                    .petComboDetailModelList!.length,
+            isNext: false,
+          );
+        }
       }).toList(),
     );
   }
 
-  Widget comboServicesLineWidget() {
+  Widget comboServicesLineWidget({bool isUltrasound = true}) {
     return Column(
       children: controller.breedingTransactionModel.petComboModelList![0]
           .petComboDetailModelList!
           .asMap()
           .entries
           .map((e) {
-        late String status;
-        bool isBeforeItemNext = false;
-        if (e.key == 0) {
-          status = e.value.isCompleted ? 'SUCCESS' : 'NEXT';
-        } else {
-          if (e.value.isCompleted) {
-            status = 'SUCCESS';
+        if (isUltrasound) {
+          late String status;
+          bool isBeforeItemNext = false;
+          if (e.key == 0) {
+            status = e.value.isCompleted ? 'SUCCESS' : 'NEXT';
           } else {
-            if (controller.breedingTransactionModel.petComboModelList![0]
-                .petComboDetailModelList![e.key - 1].isCompleted) {
-              status = 'NEXT';
+            if (e.value.isCompleted) {
+              status = 'SUCCESS';
             } else {
-              status = 'WAITING';
-              if (e.key == 1) {
-                isBeforeItemNext = true;
+              if (controller.breedingTransactionModel.petComboModelList![0]
+                  .petComboDetailModelList![e.key - 1].isCompleted) {
+                status = 'NEXT';
               } else {
-                if (controller.breedingTransactionModel.petComboModelList![0]
-                    .petComboDetailModelList![e.key - 2].isCompleted) {
+                status = 'WAITING';
+                if (e.key == 1) {
                   isBeforeItemNext = true;
+                } else {
+                  if (controller.breedingTransactionModel.petComboModelList![0]
+                      .petComboDetailModelList![e.key - 2].isCompleted) {
+                    isBeforeItemNext = true;
+                  }
                 }
               }
             }
           }
+          return lineWidget(status: status, isBeforeItemNext: isBeforeItemNext);
+        } else {
+          return lineWidget(status: 'WAITING', isBeforeItemNext: e.key == 0);
         }
-        return lineWidget(status: status, isBeforeItemNext: isBeforeItemNext);
       }).toList(),
     );
   }
@@ -376,7 +416,7 @@ class BreedingTransactionDetailBreedingServicesForFemalePetWidget
               currentTime: currentTime,
               title: 'Pickup pet and payment',
               dateTitle: 'Payment on ',
-              performDate: controller.breedingTransactionModel.paymentTime,
+              performDate: controller.orderModel!.paymentTime,
               isSuccess: true,
               isShowViewDetail: true,
             ),
@@ -455,7 +495,7 @@ class BreedingTransactionDetailBreedingServicesForFemalePetWidget
               currentTime: currentTime,
               title: 'Pickup pet and payment',
               dateTitle: 'Payment on ',
-              performDate: controller.breedingTransactionModel.paymentTime,
+              performDate: controller.orderModel!.paymentTime,
               isSuccess: true,
             ),
             timeLineItemWidget(
@@ -466,6 +506,18 @@ class BreedingTransactionDetailBreedingServicesForFemalePetWidget
               isNext: true,
               isLastIndex: true,
             ),
+            controller.breedingTransactionModel.petComboModelList != null &&
+                    controller
+                        .breedingTransactionModel.petComboModelList!.isNotEmpty
+                ? Column(
+                    children: [
+                      const SizedBox(
+                        height: 31,
+                      ),
+                      comboServicesTimelineWidget(isUltrasound: false),
+                    ],
+                  )
+                : const SizedBox.shrink(),
           ],
         ),
         Padding(
@@ -475,6 +527,11 @@ class BreedingTransactionDetailBreedingServicesForFemalePetWidget
               lineWidget(status: 'SUCCESS'),
               lineWidget(status: 'SUCCESS'),
               lineWidget(status: 'NEXT'),
+              controller.breedingTransactionModel.petComboModelList != null &&
+                      controller.breedingTransactionModel.petComboModelList!
+                          .isNotEmpty
+                  ? comboServicesLineWidget(isUltrasound: false)
+                  : const SizedBox.shrink(),
             ],
           ),
         ),

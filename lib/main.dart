@@ -78,9 +78,9 @@ import 'package:petapp_mobile/views/customer/transaction_pages/booking_breeding_
 import 'package:petapp_mobile/views/customer/transaction_pages/breeding_transaction_detail_page/breeding_transaction_detail_page.dart';
 import 'package:petapp_mobile/views/customer/transaction_pages/buy_breeding_services_combo_page/buy_breeding_services_combo_page.dart';
 import 'package:petapp_mobile/views/customer/transaction_pages/buy_services_combo_page/buy_services_combo_page.dart';
-import 'package:petapp_mobile/views/customer/transaction_pages/center_services_transaction_detail_page/center_services_transaction_detail_page.dart';
 import 'package:petapp_mobile/views/customer/transaction_pages/center_services_transaction_payment_method_page/center_services_transaction_payment_method_page.dart';
 import 'package:petapp_mobile/views/customer/transaction_pages/create_ticket_page/create_ticket_page.dart';
+import 'package:petapp_mobile/views/customer/transaction_pages/order_detail_page/order_detail_page.dart';
 import 'package:petapp_mobile/views/customer/transaction_pages/payment_for_center_services_transaction_page/payment_for_center_services_transaction_page.dart';
 import 'package:petapp_mobile/views/customer/transaction_pages/sale_transaction_detail_page/sale_transaction_detail_page.dart';
 import 'package:petapp_mobile/views/customer/transaction_pages/ticket_detail_page/ticket_detail_page.dart';
@@ -426,8 +426,7 @@ class _MainAppState extends State<MainApp> {
           binding: TransactionListPageBinding(),
         ),
         GetPage(
-          name:
-              '$PAYMENT_FOR_CENTER_SERVICES_TRANSACTION_PAGE_ROUTE/:transactionId',
+          name: '$PAYMENT_FOR_ORDER_PAGE_ROUTE/:transactionId',
           page: () => const PaymentForCenterServicesTransactionPage(),
           binding: PaymentForCenterServicesTransactionPageBinding(),
         ),
@@ -437,7 +436,7 @@ class _MainAppState extends State<MainApp> {
         ),
         GetPage(
           name: '$CENTER_SERVICES_TRANSACTION_DETAIL_PAGE_ROUTE/:transactionId',
-          page: () => const CenterServicesTransactionDetailPage(),
+          page: () => const OrderDetailPage(),
           binding: CenterServicesTransactionDetailPageBinding(),
         ),
         GetPage(

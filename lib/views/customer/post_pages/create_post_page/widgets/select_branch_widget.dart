@@ -10,195 +10,211 @@ class SelectBranchWidget extends GetView<CreatePostPageController> {
 
   @override
   Widget build(BuildContext context) {
-    controller.isLoadingBranch.value = true;
-    // WidgetsBinding.instance!.addPostFrameCallback((_) async {
-    //   controller
-    //     ..branchList = await BranchServices.fetchBranchList()
-    //     ..selectedBranchIndex.value = 0
-    //     ..isLoadingBranch.value = false;
-    // });
-
-    return Column(
-      children: [
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 12),
-          child: Column(
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 12),
+      color: WHITE_COLOR,
+      child: Column(
+        children: [
+          Column(
             children: [
-              meetingTimeWidget(),
               Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Row(
-                    children: [
-                      Text(
-                        'Select branch',
-                        style: GoogleFonts.quicksand(
-                          fontWeight: FontWeight.w500,
-                          color: DARK_GREY_TEXT_COLOR.withOpacity(0.95),
-                          fontSize: 15,
-                        ),
-                      ),
-                      Text(
-                        '*',
-                        style: GoogleFonts.quicksand(
-                          fontWeight: FontWeight.w800,
-                          color: const Color.fromARGB(255, 241, 99, 88),
-                          fontSize: 20,
-                        ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(width: 20),
-                  Obx(
-                    () => DropdownButton<int>(
-                      value: controller.selectedBranchIndex.value,
-                      items: controller.branchList
-                          .asMap()
-                          .entries
-                          .map((e) => DropdownMenuItem(
-                              value: e.key,
-                              child: Text(
-                                e.value.name,
-                                style: GoogleFonts.quicksand(
-                                  fontWeight: FontWeight.w500,
-                                  color: const Color.fromARGB(255, 78, 98, 124),
-                                  fontSize: 16,
-                                ),
-                              )))
-                          .toList(),
-                      onChanged: (int? value) {
-                        controller.selectedBranchIndex.value = value!;
-                      },
-                    ),
-                  ),
+                  CUSTOM_TEXT('Register branch'),
+                  CUSTOM_TEXT('*',
+                      color: RED_COLOR,
+                      fontSize: 18,
+                      fontWeight: FontWeight.w700,
+                      padding: const EdgeInsets.only(right: 20)),
                 ],
               ),
               Obx(
-                () => Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    CUSTOM_TEXT(
-                      'Branch address',
-                      color: DARK_GREY_TEXT_COLOR.withOpacity(0.95),
-                      padding: const EdgeInsets.only(right: 10),
-                      fontSize: 15,
-                    ),
-                    Expanded(
-                      child: CUSTOM_TEXT(
-                        controller
-                                .branchList[
-                                    controller.selectedBranchIndex.value]
-                                .address ??
-                            'N/A',
-                        textOverflow: TextOverflow.clip,
-                        color: DARK_GREY_TEXT_COLOR.withOpacity(0.95),
-                        fontSize: 15,
+                () => DropdownButton<int>(
+                  value: controller.selectBranchIndex.value,
+                  items: [
+                    ...[
+                      DropdownMenuItem(
+                        value: -1,
+                        child: Text(
+                          '- Select register branch -',
+                          style: GoogleFonts.quicksand(
+                            fontWeight: FontWeight.w500,
+                            color: DARK_GREY_TEXT_COLOR.withOpacity(0.8),
+                            fontSize: 16,
+                          ),
+                        ),
                       ),
-                    ),
+                    ],
+                    ...controller.branchModelList
+                        .asMap()
+                        .entries
+                        .map(
+                          (e) => DropdownMenuItem(
+                            value: e.key,
+                            child: Text(
+                              e.value.name,
+                              style: GoogleFonts.quicksand(
+                                fontWeight: FontWeight.w500,
+                                color: const Color.fromARGB(255, 78, 98, 124),
+                                fontSize: 16,
+                              ),
+                            ),
+                          ),
+                        )
+                        .toList()
                   ],
+                  onChanged: (int? value) {
+                    controller.selectBranchIndex.value = value!;
+                  },
                 ),
               ),
             ],
           ),
-        ),
-        Container(
-          height: 1,
-          margin: const EdgeInsets.only(top: 20),
-          color: LIGHT_GREY_COLOR.withAlpha(30),
-        ),
-        Container(
-          height: 30,
-          color: SUPPER_LIGHT_BLUE,
-        ),
-      ],
-    );
-  }
-
-  Widget meetingTimeWidget() => Padding(
-        padding: const EdgeInsets.only(top: 10),
-        child: Row(
-          children: [
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.end,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    Text(
-                      'Meeting time',
-                      style: GoogleFonts.quicksand(
-                        fontWeight: FontWeight.w500,
-                        color: DARK_GREY_TEXT_COLOR.withOpacity(0.95),
-                        fontSize: 15,
-                        letterSpacing: 0.5,
-                      ),
-                    ),
-                    Text(
-                      '*',
-                      style: GoogleFonts.quicksand(
-                        fontWeight: FontWeight.w800,
-                        color: const Color.fromARGB(255, 241, 99, 88),
-                        fontSize: 20,
-                        height: 0.8,
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-            Expanded(
-              child: InkWell(
-                onTap: () => controller.isShowCalendar.value = true,
-                child: Container(
-                  height: 40,
-                  alignment: Alignment.topLeft,
-                  margin: const EdgeInsets.only(left: 20),
-                  padding: const EdgeInsets.all(10),
-                  decoration: BoxDecoration(
-                    border: Border.all(
-                      color: const Color.fromARGB(255, 167, 181, 201),
-                      width: 1.2,
-                    ),
-                    borderRadius: BorderRadius.circular(5),
-                  ),
-                  child: Row(
+          Obx(
+            () => Visibility(
+              visible: controller.selectBranchIndex.value != -1,
+              child: Column(
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Expanded(
-                        child: Obx(
-                          () => controller.meetingTimeText.value.isEmpty
-                              ? Text(
-                                  'dd/MM/yyyy',
-                                  style: GoogleFonts.quicksand(
-                                    fontWeight: FontWeight.w500,
-                                    color: const Color.fromARGB(
-                                        255, 162, 176, 194),
-                                    fontSize: 13,
-                                    letterSpacing: 1,
-                                  ),
-                                )
-                              : Text(
-                                  controller.meetingTimeText.value,
-                                  style: GoogleFonts.quicksand(
-                                    fontWeight: FontWeight.w500,
-                                    color: const Color.fromARGB(
-                                        255, 113, 135, 168),
-                                    fontSize: 15,
-                                    letterSpacing: 1,
-                                  ),
-                                ),
-                        ),
+                      CUSTOM_TEXT(
+                        'Branch address',
+                        padding: const EdgeInsets.only(right: 15),
+                        color: DARK_GREY_TEXT_COLOR.withOpacity(0.95),
                       ),
-                      const Icon(
-                        Icons.calendar_month_rounded,
-                        color: PRIMARY_COLOR,
+                      Expanded(
+                        child: CUSTOM_TEXT(
+                          controller.selectBranchIndex.value != -1
+                              ? (controller
+                                      .branchModelList[
+                                          controller.selectBranchIndex.value]
+                                      .address ??
+                                  'N/A')
+                              : 'N/A',
+                          textAlign: TextAlign.end,
+                          color: DARK_GREY_TEXT_COLOR.withOpacity(0.95),
+                          textOverflow: controller.isShowBranchDetail.value
+                              ? TextOverflow.clip
+                              : TextOverflow.ellipsis,
+                        ),
                       ),
                     ],
                   ),
-                ),
+                  Visibility(
+                    visible: controller.isShowBranchDetail.value,
+                    child: Column(
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            CUSTOM_TEXT(
+                              'Phone number',
+                              padding: const EdgeInsets.only(right: 15),
+                              color: DARK_GREY_TEXT_COLOR.withOpacity(0.95),
+                            ),
+                            Expanded(
+                              child: CUSTOM_TEXT(
+                                controller.selectBranchIndex.value != -1
+                                    ? (controller
+                                        .branchModelList[
+                                            controller.selectBranchIndex.value]
+                                        .phoneNumber)
+                                    : 'N/A',
+                                textAlign: TextAlign.end,
+                                color: DARK_GREY_TEXT_COLOR.withOpacity(0.95),
+                                textOverflow:
+                                    controller.isShowBranchDetail.value
+                                        ? TextOverflow.clip
+                                        : TextOverflow.ellipsis,
+                              ),
+                            ),
+                          ],
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            CUSTOM_TEXT(
+                              'Email',
+                              padding: const EdgeInsets.only(right: 15),
+                              color: DARK_GREY_TEXT_COLOR.withOpacity(0.95),
+                            ),
+                            Expanded(
+                              child: CUSTOM_TEXT(
+                                controller.selectBranchIndex.value != -1
+                                    ? (controller
+                                            .branchModelList[controller
+                                                .selectBranchIndex.value]
+                                            .email ??
+                                        'N/A')
+                                    : 'N/A',
+                                textAlign: TextAlign.end,
+                                color: DARK_GREY_TEXT_COLOR.withOpacity(0.95),
+                                textOverflow:
+                                    controller.isShowBranchDetail.value
+                                        ? TextOverflow.clip
+                                        : TextOverflow.ellipsis,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 5,
+                  ),
+                  Row(
+                    children: [
+                      const Spacer(),
+                      InkWell(
+                        onTap: () => controller.isShowBranchDetail.value =
+                            !controller.isShowBranchDetail.value,
+                        child: Column(children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              CUSTOM_TEXT(
+                                controller.isShowBranchDetail.value
+                                    ? 'Hide branch details'
+                                    : 'View branch details',
+                                color: PRIMARY_COLOR,
+                                fontSize: 13,
+                                letterSpacing: 2,
+                              ),
+                              const SizedBox(width: 5),
+                              Icon(
+                                controller.isShowBranchDetail.value
+                                    ? Icons.keyboard_double_arrow_up_outlined
+                                    : Icons.keyboard_double_arrow_down_outlined,
+                                size: 18,
+                                color: PRIMARY_COLOR,
+                              ),
+                            ],
+                          ),
+                          Container(
+                            height: 1,
+                            width: 180,
+                            color: PRIMARY_COLOR,
+                            margin: const EdgeInsets.only(top: 2),
+                          ),
+                        ]),
+                      ),
+                      const Spacer(),
+                    ],
+                  ),
+                ],
               ),
             ),
-          ],
-        ),
-      );
+          ),
+          const SizedBox(
+            height: 20,
+          )
+        ],
+      ),
+    );
+  }
 }

@@ -6,7 +6,7 @@ import 'package:petapp_mobile/configs/route.dart';
 import 'package:petapp_mobile/configs/theme.dart';
 import 'package:petapp_mobile/controllers/transaction_page_controllers/buy_services_combo_page_controller.dart';
 import 'package:petapp_mobile/models/order_detail_model/order_detail_model.dart';
-import 'package:petapp_mobile/services/transaction_services/center_services_transaction_services.dart';
+import 'package:petapp_mobile/services/transaction_services/order_services.dart';
 import 'package:petapp_mobile/views/widgets/customize_widget.dart';
 
 class BuyServicesComboBottomWidget
@@ -51,23 +51,21 @@ class BuyServicesComboBottomWidget
               ];
 
               controller.centerServicesTransactionId =
-                  await CenterServicesTransactionServices
-                      .createCenterServicesTransaction(
-                          provisionalTotal:
-                              controller.petServicesComboModel.price,
-                          orderTotal: controller.petServicesComboModel.price,
-                          customerId: controller.accountModel.customerModel.id,
-                          branchId: controller
-                              .branchModelList[
-                                  controller.selectBranchIndex.value]
-                              .id,
-                          description: '',
-                          registerTime: DateTime.now(),
-                          orderDetails:
-                              centerServicesTransactionDetailModelList);
+                  await OrderServices.createCenterServicesTransaction(
+                      provisionalTotal: controller.petServicesComboModel.price,
+                      orderTotal: controller.petServicesComboModel.price,
+                      customerId: controller.accountModel.customerModel.id,
+                      branchId: controller
+                          .branchModelList[controller.selectBranchIndex.value]
+                          .id,
+                      description: '',
+                      registerTime: DateTime.now(),
+                      orderDetails: centerServicesTransactionDetailModelList);
               controller.isWaitingLoadingDataForeground.value = false;
-              Get.offNamed(
-                  '$PAYMENT_FOR_CENTER_SERVICES_TRANSACTION_PAGE_ROUTE/${controller.centerServicesTransactionId}');
+              if (controller.centerServicesTransactionId != null) {
+                Get.offNamed(
+                    '$PAYMENT_FOR_ORDER_PAGE_ROUTE/${controller.centerServicesTransactionId}');
+              }
             }
           },
           child: Obx(

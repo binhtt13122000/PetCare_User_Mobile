@@ -6,6 +6,7 @@ import 'package:petapp_mobile/configs/path.dart';
 import 'package:petapp_mobile/configs/theme.dart';
 import 'package:petapp_mobile/controllers/transaction_page_controllers/sale_transaction_detail_page_controller.dart';
 import 'package:petapp_mobile/controllers/transaction_page_controllers/transaction_list_page_controller.dart';
+import 'package:petapp_mobile/views/widgets/customize_widget.dart';
 
 class SaleTransactionDetailTopWidget
     extends GetView<SaleTransactionDetailPageController> {
@@ -21,6 +22,28 @@ class SaleTransactionDetailTopWidget
               height: 1,
               margin: const EdgeInsets.only(top: 20),
               color: LIGHT_GREY_COLOR.withOpacity(0.1),
+            ),
+            transactionIdWidget(),
+          ],
+        ),
+      );
+
+  Widget transactionIdWidget() => Container(
+        color: SUPPER_LIGHT_BLUE,
+        padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 20),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            CUSTOM_TEXT(
+              'Transaction ID',
+              fontSize: 13,
+              color: DARK_GREY_TEXT_COLOR.withOpacity(0.7),
+            ),
+            CUSTOM_TEXT(
+              (controller.transactionId < 10 ? '#0' : '#') +
+                  controller.transactionId.toString(),
+              fontSize: 13,
+              color: DARK_GREY_TEXT_COLOR.withOpacity(0.7),
             ),
           ],
         ),

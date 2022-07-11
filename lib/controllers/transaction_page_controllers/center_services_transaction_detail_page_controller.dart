@@ -1,7 +1,11 @@
 import 'package:get/get.dart';
 import 'package:petapp_mobile/models/order_model/order_model.dart';
 
-class CenterServicesTransactionDetailPageController extends GetxController {
+class OrderDetailPageController extends GetxController {
+  RxBool isShowNotificationPopup = false.obs;
+  bool isSuccessNotification = true;
+  String notificationContent = '';
+  Function()? onTapNotification;
   RxBool isLoadingData = false.obs;
   RxBool isShowThankPopup = false.obs;
   RxInt selectedStar = 0.obs;
@@ -12,8 +16,12 @@ class CenterServicesTransactionDetailPageController extends GetxController {
   late OrderModel orderModel;
   RxBool isWaitingUpdate = false.obs;
   RxBool isViewBranchDetail = false.obs;
-  late int transactionId;
+  late int orderId;
   RxBool isViewTransactionDetail = false.obs;
+  RxBool isShowMoreOptions = false.obs;
+  RxBool isShowCancelPopup = false.obs;
+  RxString cancelDescription = ''.obs;
+  RxList<String> quickCancelList = <String>[].obs;
 
   updateRatingText() {
     switch (selectedStar.value) {

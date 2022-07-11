@@ -93,7 +93,7 @@ class BreedingTransactionService {
       case 202:
         return json.decode(response.body)['success'];
       default:
-        throw Exception('Error ${response.statusCode}, cannot send request');
+        return false;
     }
   }
 

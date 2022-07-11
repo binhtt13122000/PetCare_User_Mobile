@@ -20,6 +20,7 @@ class SaleTransactionDetailPageController extends GetxController {
   RxBool isShowThankPopup = false.obs;
   RxString cancelDescription = ''.obs;
   RxBool isShowCancelResultPopup = false.obs;
+  late int transactionId;
   updateRatingText() {
     switch (selectedStar.value) {
       case 0:

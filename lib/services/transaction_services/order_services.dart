@@ -5,7 +5,7 @@ import 'package:http/http.dart' as http;
 import 'package:petapp_mobile/models/order_detail_model/order_detail_model.dart';
 import 'package:petapp_mobile/models/order_model/order_model.dart';
 
-class CenterServicesTransactionServices {
+class OrderServices {
   static List<OrderModel> getCenterServicesTransactionList(
       List<dynamic> jsonData) {
     final List<OrderModel> centerServicesTransactionModelList =
@@ -16,7 +16,55 @@ class CenterServicesTransactionServices {
     return centerServicesTransactionModelList;
   }
 
-  static Future<int> createCenterServicesTransaction({
+  static Future<int?> fetchOrderByBreedingTransactionId({
+    required int breedingTransactionId,
+  }) async {
+    final response = await http.get(
+      Uri.http(
+        API_SERVER_PATH,
+        '$ORDER_BREEDING_TRANSACTION_API_PATH/$breedingTransactionId',
+      ),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+    );
+    switch (response.statusCode) {
+      case 200:
+      case 201:
+      case 202:
+        return jsonDecode(response.body)['data']['id'];
+      default:
+        return null;
+    }
+  }
+
+  static Future<bool> cancelOrder({
+    required int orderId,
+    required String reasonCancel,
+    required DateTime cancelTime,
+  }) async {
+    final response = await http.put(
+      Uri.http(API_SERVER_PATH, ORDER_CANCEL_API_PATH),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode({
+        'id': orderId,
+        'reasonCancel': reasonCancel,
+        'cancelTime': cancelTime.toIso8601String(),
+      }),
+    );
+    switch (response.statusCode) {
+      case 200:
+      case 201:
+      case 202:
+        return true;
+      default:
+        return false;
+    }
+  }
+
+  static Future<int?> createCenterServicesTransaction({
     required int provisionalTotal,
     required int orderTotal,
     required int customerId,
@@ -44,7 +92,7 @@ class CenterServicesTransactionServices {
     final response = await http.post(
       Uri.http(
         API_SERVER_PATH,
-        CENTER_SERVICES_TRANSACTION_API_PATH,
+        ORDER_API_PATH,
       ),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
@@ -57,8 +105,7 @@ class CenterServicesTransactionServices {
       case 202:
         return jsonDecode(response.body)['data']['id'];
       default:
-        print(response.body);
-        return -1;
+        return null;
     }
   }
 
@@ -74,8 +121,7 @@ class CenterServicesTransactionServices {
       'customerId': customerId.toString(),
     };
     final response = await http.get(
-      Uri.http(
-          API_SERVER_PATH, CENTER_SERVICES_TRANSACTION_API_PATH, parameters),
+      Uri.http(API_SERVER_PATH, ORDER_API_PATH, parameters),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -92,12 +138,11 @@ class CenterServicesTransactionServices {
     }
   }
 
-  static Future<OrderModel> fetchCenterServicesTransactionByTransactionId({
-    required int transactionId,
+  static Future<OrderModel> fetchOrderIdByOrderId({
+    required int orderId,
   }) async {
     final response = await http.get(
-      Uri.http(API_SERVER_PATH,
-          '$CENTER_SERVICES_TRANSACTION_API_PATH/$transactionId'),
+      Uri.http(API_SERVER_PATH, '$ORDER_API_PATH/$orderId'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -128,13 +173,11 @@ class CenterServicesTransactionServices {
     final queryParameters = {
       'message': message,
       'locale': locale,
-      'returnUrl':
-          'http://$API_SERVER_PATH$CENTER_SERVICES_TRANSACTION_RETURN_API_PATH'
+      'returnUrl': 'http://$API_SERVER_PATH$ORDER_RETURN_API_PATH'
     };
 
     final response = await http.post(
-      Uri.http(API_SERVER_PATH, CENTER_SERVICES_TRANSACTION_PAYMENT_API_PATH,
-          queryParameters),
+      Uri.http(API_SERVER_PATH, ORDER_PAYMENT_API_PATH, queryParameters),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -168,7 +211,7 @@ class CenterServicesTransactionServices {
     required String review,
   }) async {
     final response = await http.post(
-      Uri.http(API_SERVER_PATH, CENTER_SERVICES_TRANSACTION_API_PATH),
+      Uri.http(API_SERVER_PATH, ORDER_API_PATH),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },

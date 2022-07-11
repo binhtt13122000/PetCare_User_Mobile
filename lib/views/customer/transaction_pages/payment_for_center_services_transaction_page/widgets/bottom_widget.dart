@@ -6,7 +6,7 @@ import 'package:petapp_mobile/configs/path.dart';
 import 'package:petapp_mobile/configs/route.dart';
 import 'package:petapp_mobile/configs/theme.dart';
 import 'package:petapp_mobile/controllers/transaction_page_controllers/payment_for_center_services_transaction_page_controller.dart';
-import 'package:petapp_mobile/services/transaction_services/center_services_transaction_services.dart';
+import 'package:petapp_mobile/services/transaction_services/order_services.dart';
 import 'package:petapp_mobile/utilities/utilities.dart';
 
 class PaymentForCenterServicesTransactionBottomWidget
@@ -140,10 +140,8 @@ class PaymentForCenterServicesTransactionBottomWidget
                           price: controller.orderModel.provisionalTotal),
                       textAlign: TextAlign.end,
                       style: GoogleFonts.quicksand(
-                        textStyle: const TextStyle(
-                          color: Color.fromARGB(255, 115, 121, 151),
-                          decoration: TextDecoration.lineThrough,
-                        ),
+                        color: const Color.fromARGB(255, 115, 121, 151),
+                        decoration: TextDecoration.lineThrough,
                         fontWeight: FontWeight.w500,
                         fontSize: 14,
                         height: 1,
@@ -179,8 +177,7 @@ class PaymentForCenterServicesTransactionBottomWidget
   Widget paymentWidget() => Expanded(
         child: InkWell(
           onTap: () async {
-            controller.paymentUrl.value =
-                await CenterServicesTransactionServices.payment(
+            controller.paymentUrl.value = await OrderServices.payment(
               message: controller.accountModel.customerModel.lastName +
                   'payment ${controller.orderModel.provisionalTotal - controller.discountAmount.value}',
               locale: 'vi',
