@@ -87,8 +87,8 @@ class BreedingTransactionDetailBreedingServicesBottomWidget
               ? paymentWidget()
               : const SizedBox.shrink(),
           controller.breedingTransactionModel.paymentTime != null &&
-                  (controller.breedingTransactionModel.starBranch == null ||
-                      controller.breedingTransactionModel.starBranch == 0)
+                  (controller.breedingTransactionModel.review == null ||
+                      controller.breedingTransactionModel.star == 0)
               ? ratingWidget()
               : const SizedBox.shrink(),
         ],
@@ -213,8 +213,11 @@ class BreedingTransactionDetailBreedingServicesBottomWidget
                       children: [
                         Text(
                           FORMAT_MONEY(
-                              price: controller
-                                  .breedingTransactionModel.transactionTotal),
+                              price: (controller.breedingTransactionModel
+                                          .serviceFee ??
+                                      0) +
+                                  controller.breedingTransactionModel.postModel!
+                                      .transactionTotal),
                           textAlign: TextAlign.start,
                           style: GoogleFonts.quicksand(
                             textStyle: const TextStyle(

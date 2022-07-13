@@ -84,7 +84,7 @@ class BuyBreedingServicesComboListComboWidget
                                       CUSTOM_TEXT(FORMAT_DATE_TIME(
                                         dateTime: controller
                                             .breedingTransactionModel
-                                            .realTimeToCheckBreeding!,
+                                            .timeToCheckBreeding!,
                                         pattern: DATE_PATTERN_2,
                                       )),
                                     ],
@@ -257,7 +257,7 @@ class BuyBreedingServicesComboListComboWidget
                 CUSTOM_TEXT(
                   FORMAT_DATE_TIME(
                     dateTime: controller
-                        .breedingTransactionModel.realTimeToCheckBreeding!
+                        .breedingTransactionModel.timeToCheckBreeding!
                         .add(Duration(
                             days: petServicesComboDetailModel.nextEvent)),
                     pattern: DATE_PATTERN_2,

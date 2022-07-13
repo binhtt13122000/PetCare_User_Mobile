@@ -49,7 +49,6 @@ class CreatePetBodyWidget extends GetView<CreatePetPageController> {
                       height: 20,
                     ),
                     colorWidget(),
-                    vaccinationInformationWidget(),
                     descriptionWidget(),
                     const SizedBox(
                       height: 25,
@@ -885,63 +884,63 @@ class CreatePetBodyWidget extends GetView<CreatePetPageController> {
     );
   }
 
-  Widget vaccinationInformationWidget() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 12),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Padding(
-            padding: const EdgeInsets.only(top: 0),
-            child: Row(
-              children: [
-                Text(
-                  'Vaccination information',
-                  style: GoogleFonts.quicksand(
-                    fontWeight: FontWeight.w500,
-                    color: const Color.fromARGB(255, 61, 78, 100),
-                    fontSize: 16,
-                    letterSpacing: 0.5,
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 5),
-                  child: Icon(
-                    Icons.info_outline_rounded,
-                    size: 15,
-                    color: DARK_GREY_COLOR.withAlpha(100),
-                  ),
-                ),
-              ],
-            ),
-          ),
-          CUSTOM_REQUIRED_TEXT_FIELD(
-              hintText: 'Type your pet vaccination information here...',
-              maxLength: 200,
-              height: 80,
-              maxLines: 3,
-              onChange: (String? text) {
-                controller.vaccineDescription.value = text ?? '';
-              },
-              checkEmptyString: <bool>() {
-                return controller.vaccineDescription.value.isEmpty;
-              },
-              checkErrorText: <bool>() {
-                return false;
-              },
-              onDelete: () {
-                controller.vaccineDescription.value = '';
-              },
-              errorText: '',
-              countText: <String>() {
-                return controller.vaccineDescription.value.length.toString() +
-                    '/200';
-              },
-              padding: const EdgeInsets.only(top: 5)),
-        ],
-      ),
-    );
-  }
+  // Widget vaccinationInformationWidget() {
+  //   return Padding(
+  //     padding: const EdgeInsets.symmetric(horizontal: 12),
+  //     child: Column(
+  //       crossAxisAlignment: CrossAxisAlignment.start,
+  //       children: [
+  //         Padding(
+  //           padding: const EdgeInsets.only(top: 0),
+  //           child: Row(
+  //             children: [
+  //               Text(
+  //                 'Vaccination information',
+  //                 style: GoogleFonts.quicksand(
+  //                   fontWeight: FontWeight.w500,
+  //                   color: const Color.fromARGB(255, 61, 78, 100),
+  //                   fontSize: 16,
+  //                   letterSpacing: 0.5,
+  //                 ),
+  //               ),
+  //               Padding(
+  //                 padding: const EdgeInsets.only(left: 5),
+  //                 child: Icon(
+  //                   Icons.info_outline_rounded,
+  //                   size: 15,
+  //                   color: DARK_GREY_COLOR.withAlpha(100),
+  //                 ),
+  //               ),
+  //             ],
+  //           ),
+  //         ),
+  //         CUSTOM_REQUIRED_TEXT_FIELD(
+  //             hintText: 'Type your pet vaccination information here...',
+  //             maxLength: 200,
+  //             height: 80,
+  //             maxLines: 3,
+  //             onChange: (String? text) {
+  //               controller.vaccineDescription.value = text ?? '';
+  //             },
+  //             checkEmptyString: <bool>() {
+  //               return controller.vaccineDescription.value.isEmpty;
+  //             },
+  //             checkErrorText: <bool>() {
+  //               return false;
+  //             },
+  //             onDelete: () {
+  //               controller.vaccineDescription.value = '';
+  //             },
+  //             errorText: '',
+  //             countText: <String>() {
+  //               return controller.vaccineDescription.value.length.toString() +
+  //                   '/200';
+  //             },
+  //             padding: const EdgeInsets.only(top: 5)),
+  //       ],
+  //     ),
+  //   );
+  // }
 
   Widget descriptionWidget() {
     return Padding(

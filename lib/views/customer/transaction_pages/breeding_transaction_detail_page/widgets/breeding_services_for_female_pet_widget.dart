@@ -402,15 +402,14 @@ class BreedingTransactionDetailBreedingServicesForFemalePetWidget
               isSuccess: true,
               title: 'Branch receive pets and conduct breeding',
               dateTitle: 'Start breeding on ',
-              performDate:
-                  controller.breedingTransactionModel.realDateOfBreeding,
+              performDate: controller.breedingTransactionModel.dateOfBreeding,
             ),
             timeLineItemWidget(
               currentTime: currentTime,
               title: 'Breeding finished',
               isSuccess: true,
               dateTitle: 'Breeding finished on ',
-              performDate: controller.breedingTransactionModel.realDateOfFinish,
+              performDate: controller.breedingTransactionModel.dateOfFinish,
             ),
             timeLineItemWidget(
               currentTime: currentTime,
@@ -424,7 +423,7 @@ class BreedingTransactionDetailBreedingServicesForFemalePetWidget
               currentTime: currentTime,
               title: '1st ultrasound',
               performDate:
-                  controller.breedingTransactionModel.realTimeToCheckBreeding!,
+                  controller.breedingTransactionModel.timeToCheckBreeding!,
               isSuccess: true,
               hintText: controller.breedingTransactionModel.isSuccess!
                   ? 'Your pet is pregnant'
@@ -481,15 +480,14 @@ class BreedingTransactionDetailBreedingServicesForFemalePetWidget
               isSuccess: true,
               title: 'Branch receive pets and conduct breeding',
               dateTitle: 'Start breeding on ',
-              performDate:
-                  controller.breedingTransactionModel.realDateOfBreeding,
+              performDate: controller.breedingTransactionModel.dateOfBreeding,
             ),
             timeLineItemWidget(
               currentTime: currentTime,
               title: 'Breeding finished',
               isSuccess: true,
               dateTitle: 'Breeding finished on ',
-              performDate: controller.breedingTransactionModel.realDateOfFinish,
+              performDate: controller.breedingTransactionModel.dateOfFinish,
             ),
             timeLineItemWidget(
               currentTime: currentTime,
@@ -550,15 +548,14 @@ class BreedingTransactionDetailBreedingServicesForFemalePetWidget
               isSuccess: true,
               title: 'Branch receive pets and conduct breeding',
               dateTitle: 'Start breeding on ',
-              performDate:
-                  controller.breedingTransactionModel.realDateOfBreeding,
+              performDate: controller.breedingTransactionModel.dateOfBreeding,
             ),
             timeLineItemWidget(
               currentTime: currentTime,
               title: 'Breeding finished',
               isSuccess: true,
               dateTitle: 'Breeding finished on ',
-              performDate: controller.breedingTransactionModel.realDateOfFinish,
+              performDate: controller.breedingTransactionModel.dateOfFinish,
             ),
             timeLineItemWidget(
               currentTime: currentTime,
@@ -652,14 +649,13 @@ class BreedingTransactionDetailBreedingServicesForFemalePetWidget
               isSuccess: true,
               title: 'Branch receive pets and conduct breeding',
               dateTitle: 'Start breeding on ',
-              performDate:
-                  controller.breedingTransactionModel.realDateOfBreeding,
+              performDate: controller.breedingTransactionModel.dateOfBreeding,
             ),
             timeLineItemWidget(
               currentTime: currentTime,
               title: 'Breeding finished',
               estimateDate:
-                  controller.breedingTransactionModel.realDateOfBreeding!.add(
+                  controller.breedingTransactionModel.dateOfBreeding!.add(
                 const Duration(
                   days: 3,
                 ),
@@ -678,7 +674,7 @@ class BreedingTransactionDetailBreedingServicesForFemalePetWidget
               currentTime: currentTime,
               title: '1st ultrasound',
               estimateDate:
-                  controller.breedingTransactionModel.realDateOfBreeding!.add(
+                  controller.breedingTransactionModel.dateOfBreeding!.add(
                 const Duration(days: 30),
               ),
               isLastIndex: true,

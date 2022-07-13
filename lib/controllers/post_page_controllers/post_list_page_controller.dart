@@ -1,6 +1,7 @@
 // ignore_for_file: constant_identifier_names
 
 import 'package:get/get.dart';
+import 'package:petapp_mobile/configs/enum_config.dart';
 import 'package:petapp_mobile/controllers/other_controllers/auth_controller.dart';
 import 'package:petapp_mobile/models/account_model/account_model.dart';
 import 'package:petapp_mobile/models/breed_model/breed_model.dart';
@@ -11,14 +12,12 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class PostListPageController extends GetxController {
   RxBool isLoadingData = false.obs;
-  //RxString statusLoadData = "NORMAL".obs;
   String loadingType = LoadingType.INIT.name;
-  int offset = 0;
-  //RxInt totalPage = 0.obs;
-  final int limit = 8;
-  //RxString typeLazyLoad = "REFRESH".obs;
   RefreshController refreshController =
       RefreshController(initialRefresh: false);
+  int offset = 0;
+  final int limit = 8;
+
   RxList<PostModel> postList = <PostModel>[].obs;
   RxList<PostModelHasura> postHasuraList = <PostModelHasura>[].obs;
   RxString searchText = ''.obs;
@@ -73,5 +72,3 @@ class PostListPageController extends GetxController {
     selectedSort = sorts[0].obs;
   }
 }
-
-enum LoadingType { INIT, REFRESH, LOAD_MORE }

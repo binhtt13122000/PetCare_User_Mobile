@@ -207,15 +207,14 @@ class BreedingTransactionDetailBreedingServicesForMalePetWidget
               isSuccess: true,
               title: 'Branch receive pets and conduct breeding',
               dateTitle: 'Start breeding on ',
-              performDate:
-                  controller.breedingTransactionModel.realDateOfBreeding,
+              performDate: controller.breedingTransactionModel.dateOfBreeding,
             ),
             timeLineItemWidget(
               currentTime: currentTime,
               title: 'Breeding finished',
               isSuccess: true,
               dateTitle: 'Breeding finished on ',
-              performDate: controller.breedingTransactionModel.realDateOfFinish,
+              performDate: controller.breedingTransactionModel.dateOfFinish,
             ),
             timeLineItemWidget(
               currentTime: currentTime,
@@ -252,15 +251,14 @@ class BreedingTransactionDetailBreedingServicesForMalePetWidget
               isSuccess: true,
               title: 'Branch receive pets and conduct breeding',
               dateTitle: 'Start breeding on ',
-              performDate:
-                  controller.breedingTransactionModel.realDateOfBreeding,
+              performDate: controller.breedingTransactionModel.dateOfBreeding,
             ),
             timeLineItemWidget(
               currentTime: currentTime,
               title: 'Breeding finished',
               isSuccess: true,
               dateTitle: 'Breeding finished on ',
-              performDate: controller.breedingTransactionModel.realDateOfFinish,
+              performDate: controller.breedingTransactionModel.dateOfFinish,
             ),
             timeLineItemWidget(
               currentTime: currentTime,
@@ -347,14 +345,13 @@ class BreedingTransactionDetailBreedingServicesForMalePetWidget
               isSuccess: true,
               title: 'Branch receive pets and conduct breeding',
               dateTitle: 'Start breeding on ',
-              performDate:
-                  controller.breedingTransactionModel.realDateOfBreeding,
+              performDate: controller.breedingTransactionModel.dateOfBreeding,
             ),
             timeLineItemWidget(
               currentTime: currentTime,
               title: 'Breeding finished',
               estimateDate:
-                  controller.breedingTransactionModel.realDateOfBreeding!.add(
+                  controller.breedingTransactionModel.dateOfBreeding!.add(
                 const Duration(
                   days: 3,
                 ),

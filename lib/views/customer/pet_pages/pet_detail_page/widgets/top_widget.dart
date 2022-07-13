@@ -18,7 +18,31 @@ class PetDetailTopWidget extends GetView<PetDetailPageController> {
             height: 1,
             color: DARK_GREY_COLOR.withAlpha(30),
           ),
+          petIdWidget(),
         ],
+      );
+
+  Widget petIdWidget() => Container(
+        color: SUPPER_LIGHT_BLUE,
+        padding: const EdgeInsets.symmetric(
+          vertical: 8,
+          horizontal: 20,
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            CUSTOM_TEXT(
+              'Pet ID',
+              fontSize: 13,
+              color: DARK_GREY_TEXT_COLOR.withOpacity(0.6),
+            ),
+            CUSTOM_TEXT(
+              '#0' + controller.petId.toString(),
+              fontSize: 13,
+              color: DARK_GREY_TEXT_COLOR.withOpacity(0.6),
+            ),
+          ],
+        ),
       );
 
   Widget topWidget() => Padding(

@@ -38,9 +38,7 @@ class PostService {
   }
 
   static Future<int?> updatePostStatusByPostId(
-      {required int postId,
-      required bool isVaccineInject,
-      required String postStatus}) async {
+      {required int postId, required String postStatus}) async {
     final response = await http.patch(
       Uri.http(API_SERVER_PATH, POST_API_PATH),
       headers: <String, String>{
@@ -52,7 +50,6 @@ class PostService {
           'status': postStatus,
           'reasonReject': null,
           'rejectTime': null,
-          'isVaccineInject': isVaccineInject
         },
       ),
     );
@@ -130,7 +127,7 @@ class PostService {
     required String title,
     required int sellerReceive,
     required int shopFee,
-    required int provisionalTotal,
+    required int transactionTotal,
     required int deposits,
     String? description,
     required DateTime createTime,
@@ -148,7 +145,7 @@ class PostService {
         'title': title,
         'sellerReceive': sellerReceive,
         'shopFee': shopFee,
-        'provisionalTotal': provisionalTotal,
+        'transactionTotal': transactionTotal,
         'createTime': createTime,
         'meetingTime': meetingTime,
         'type': type,
@@ -167,7 +164,7 @@ class PostService {
         );
       }
       Response response =
-          await Dio().post('http://$API_SERVER_PATH/v1/api/posts',
+          await Dio().post('http://$API_SERVER_PATH$POST_API_PATH',
               data: formData,
               options: Options(headers: <String, String>{
                 HttpHeaders.contentTypeHeader: 'multipart/form-data',
@@ -255,6 +252,7 @@ class PostService {
         return getPostListByCustom(
             json.decode(response.body)['data']['content']);
       default:
+        print(response.body);
         throw Exception('Error ${response.statusCode}, cannot get species');
     }
   }

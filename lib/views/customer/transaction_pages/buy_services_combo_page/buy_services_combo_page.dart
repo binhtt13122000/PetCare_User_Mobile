@@ -19,28 +19,14 @@ class BuyServicesComboPage extends GetView<BuyServicesComboPageController> {
       controller.initSelectedPetId = int.parse(Get.parameters['petId']!);
     }
 
-    controller.isWaitLoadingData.value = true;
-    WidgetsBinding.instance!.addPostFrameCallback((timeStamp) async {
-      controller
-        ..speciesModelList = await SpeciesService.fetchSpeciesList()
-        ..branchModelList = await BranchServices.fetchBranchList()
-        ..petServicesComboModelList =
-            await ServicesComboModelServices.fetchServicesComboList()
-        ..totalPrice.value = controller.petServicesComboModelList[0].price
-        ..isWaitLoadingData.value = false;
-    });
     return Scaffold(
       backgroundColor: WHITE_COLOR,
       body: Stack(
         children: [
           Column(
-            children: [
-              const BuyServicesComboTopWidget(),
-              Obx(() => controller.isWaitLoadingData.value
-                  ? Expanded(
-                      child: Container(
-                          color: SUPPER_LIGHT_BLUE, child: LOADING_WIDGET()))
-                  : const BuyServicesComboBodyWidget()),
+            children: const [
+              BuyServicesComboTopWidget(),
+              BuyServicesComboBodyWidget(),
             ],
           ),
           const BuyServicesComboCalendarWidget(),

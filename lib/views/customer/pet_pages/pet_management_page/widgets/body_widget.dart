@@ -8,6 +8,7 @@ import 'package:petapp_mobile/controllers/pet_page_controllers/pet_management_pa
 import 'package:petapp_mobile/models/pet_model/pet_model.dart';
 import 'package:petapp_mobile/services/pet_services/pet_services.dart';
 import 'package:petapp_mobile/views/widgets/customize_widget.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class PetsManagementBodyWidget extends GetView<PetManagementPageController> {
   const PetsManagementBodyWidget({Key? key}) : super(key: key);
@@ -39,25 +40,30 @@ class PetsManagementBodyWidget extends GetView<PetManagementPageController> {
               return Obx(
                 () => controller.isLoadingPetList.value
                     ? LOADING_WIDGET()
-                    : controller.petList.isEmpty
-                        ? NO_DATA_WIDGET(content: 'Sorry, no pet data found.')
-                        : SingleChildScrollView(
-                            child: Column(
-                              children: controller.petList
-                                  .asMap()
-                                  .entries
-                                  .map(
-                                    (e) => e.key.isEven
-                                        ? petCardDarkThemeWidget(
-                                            petModel: e.value,
-                                            screenWidth: screenWidth)
-                                        : petCardWidget(
-                                            petModel: e.value,
-                                            screenWidth: screenWidth),
-                                  )
-                                  .toList(),
-                            ),
-                          ),
+                    : SmartRefresher(
+                        controller: RefreshController(),
+                        onRefresh: () => controller.update(),
+                        child: SingleChildScrollView(
+                          child: controller.petList.isEmpty
+                              ? NO_DATA_WIDGET(
+                                  content: 'Sorry, no pet data found.')
+                              : Column(
+                                  children: controller.petList
+                                      .asMap()
+                                      .entries
+                                      .map(
+                                        (e) => e.key.isEven
+                                            ? petCardDarkThemeWidget(
+                                                petModel: e.value,
+                                                screenWidth: screenWidth)
+                                            : petCardWidget(
+                                                petModel: e.value,
+                                                screenWidth: screenWidth),
+                                      )
+                                      .toList(),
+                                ),
+                        ),
+                      ),
               );
             }),
           ),

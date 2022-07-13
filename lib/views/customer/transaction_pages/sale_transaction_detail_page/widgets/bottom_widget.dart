@@ -150,8 +150,8 @@ class SaleTransactionDetailBottomWidget
                     children: [
                       Text(
                         FORMAT_MONEY(
-                            price: controller
-                                .saleTransactionModel.transactionTotal),
+                            price: controller.saleTransactionModel.postModel!
+                                .transactionTotal),
                         textAlign: TextAlign.start,
                         style: GoogleFonts.quicksand(
                           textStyle: const TextStyle(
@@ -176,8 +176,8 @@ class SaleTransactionDetailBottomWidget
                 controller.paymentUrl.value = await SaleTransactionService.payment(
                     id: controller.saleTransactionModel.id,
                     transactionTime: DateTime.now(),
-                    transactionTotal:
-                        controller.saleTransactionModel.transactionTotal,
+                    transactionTotal: controller
+                        .saleTransactionModel.postModel!.transactionTotal,
                     locale: 'vi',
                     paymentMethod: 'VNPAY',
                     message:

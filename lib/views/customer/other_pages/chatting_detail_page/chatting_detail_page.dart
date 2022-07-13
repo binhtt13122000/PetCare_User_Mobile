@@ -37,6 +37,7 @@ class ChattingDetailPage extends GetView<ChattingDetailPageController> {
       if (controller.chatRoomId != null) {
         controller.chatRoomModel = await ChatServices.fetchChatRoomById(
             chatRoomId: controller.chatRoomId!);
+
         //*location
         controller.transactionLocationTextEditingController.text =
             controller.chatRoomModel!.transactionPlace ?? '';
@@ -56,7 +57,7 @@ class ChattingDetailPage extends GetView<ChattingDetailPageController> {
             controller.chatRoomModel!.description ?? '';
         controller.messageModelList
             .addAll(await ChatServices.fetchMessageListByChatRoomId(
-          chatRoomId: Get.parameters['chatRoomId']!,
+          chatRoomId: controller.chatRoomId!,
           limit: controller.limitMessageRange,
           skip: controller.messageModelList.length,
         ));

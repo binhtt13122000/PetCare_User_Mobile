@@ -7,6 +7,7 @@ import 'package:petapp_mobile/services/transaction_services/order_services.dart'
 import 'package:petapp_mobile/utilities/utilities.dart';
 import 'package:petapp_mobile/views/customer/transaction_pages/order_detail_page/widgets/bottom_widget.dart';
 import 'package:petapp_mobile/views/widgets/customize_widget.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class OrderDetailBodyWidget extends GetView<OrderDetailPageController> {
   const OrderDetailBodyWidget({Key? key}) : super(key: key);
@@ -32,14 +33,18 @@ class OrderDetailBodyWidget extends GetView<OrderDetailPageController> {
                   child: Column(
                     children: [
                       Expanded(
-                        child: SingleChildScrollView(
-                          child: Column(
-                            children: [
-                              transactionInformationWidget(),
-                              branchInformationWidget(),
-                              listServices(),
-                              priceWidget(width: width),
-                            ],
+                        child: SmartRefresher(
+                          controller: RefreshController(),
+                          onRefresh: () => controller.update(),
+                          child: SingleChildScrollView(
+                            child: Column(
+                              children: [
+                                transactionInformationWidget(),
+                                branchInformationWidget(),
+                                listServices(),
+                                priceWidget(width: width),
+                              ],
+                            ),
                           ),
                         ),
                       ),

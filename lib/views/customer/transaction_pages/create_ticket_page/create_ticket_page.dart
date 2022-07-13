@@ -17,30 +17,12 @@ class CreateTicketPage extends GetView<CreateTicketPageController> {
 
   @override
   Widget build(BuildContext context) {
-    controller.isLoadingData.value = true;
-
-    WidgetsBinding.instance!.addPostFrameCallback((_) async {
-      controller
-        ..centerServicesModelList =
-            await CenterServicesServices.fetchCenterServicesList()
-        ..branchModelList = await BranchServices.fetchBranchList()
-        ..selectBranchId.value = controller.branchModelList[0].id
-        ..isLoadingData.value = false;
-    });
-
     return Scaffold(
       backgroundColor: WHITE_COLOR,
       body: Stack(
         children: [
           Column(
-            children: [
-              const CreateTicketTopWidget(),
-              Obx(
-                () => controller.isLoadingData.value
-                    ? Expanded(child: LOADING_WIDGET())
-                    : const CreateTicketBodyWidget(),
-              ),
-            ],
+            children: const [CreateTicketTopWidget(), CreateTicketBodyWidget()],
           ),
           const PickTimeWidget(),
           const AddServicesWidget(),

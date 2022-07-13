@@ -3,40 +3,59 @@ import 'package:get/get.dart';
 import 'package:petapp_mobile/configs/theme.dart';
 import 'package:petapp_mobile/controllers/transaction_page_controllers/ticket_detail_page_controller.dart';
 import 'package:petapp_mobile/models/service_ticket_model/service_ticket_model.dart';
+import 'package:petapp_mobile/services/transaction_services/ticket_services.dart';
 import 'package:petapp_mobile/utilities/utilities.dart';
 import 'package:petapp_mobile/views/customer/transaction_pages/ticket_detail_page/widgets/bottom_widget.dart';
 import 'package:petapp_mobile/views/widgets/customize_widget.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class TicketDetailBodyWidget extends GetView<TicketDetailPageController> {
   const TicketDetailBodyWidget({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: Container(
-        color: SUPPER_LIGHT_BLUE,
-        child: Column(
-          children: [
-            Expanded(
-              child: Column(
-                children: [
-                  ticketIdWidget(),
-                  ticketTimeWidget(),
-                  servicesBookingWidget(),
-                  estimateTimeWidget(),
-                  Container(
-                    height: 1,
-                    color: LIGHT_GREY_COLOR.withAlpha(30),
+    return GetBuilder<TicketDetailPageController>(builder: (_) {
+      controller.isLoadingData.value = true;
+      WidgetsBinding.instance!.addPostFrameCallback((_) async {
+        controller.ticketModel =
+            await TicketServices.fetchTicketById(ticketId: controller.ticketId);
+        controller.isLoadingData.value = false;
+      });
+      return Obx(
+        () => controller.isLoadingData.value
+            ? Expanded(child: LOADING_WIDGET())
+            : Expanded(
+                child: Container(
+                  color: SUPPER_LIGHT_BLUE,
+                  child: Column(
+                    children: [
+                      Expanded(
+                        child: SmartRefresher(
+                          controller: RefreshController(),
+                          onRefresh: () => controller.update(),
+                          child: SingleChildScrollView(
+                            child: Column(
+                              children: [
+                                ticketTimeWidget(),
+                                servicesBookingWidget(),
+                                estimateTimeWidget(),
+                                Container(
+                                  height: 1,
+                                  color: LIGHT_GREY_COLOR.withAlpha(30),
+                                ),
+                                branchPerformServicesWidget(),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                      const TicketDetailBottomWidget(),
+                    ],
                   ),
-                  branchPerformServicesWidget(),
-                ],
+                ),
               ),
-            ),
-            const TicketDetailBottomWidget(),
-          ],
-        ),
-      ),
-    );
+      );
+    });
   }
 
   Widget ticketTimeWidget() => Container(
@@ -96,32 +115,108 @@ class TicketDetailBodyWidget extends GetView<TicketDetailPageController> {
         ),
       );
 
-  Widget branchPerformServicesWidget() => Column(
-        children: [
-          Container(
-            margin: const EdgeInsets.only(top: 10),
-            padding: const EdgeInsets.symmetric(vertical: 20),
-            color: WHITE_COLOR,
-            child: Column(
-              children: [
-                CUSTOM_TEXT('Branch perform services'),
-                textCardWidget(
-                    keyText: 'Branch name',
-                    valueText: controller.ticketModel.branchModel!.name),
-                textCardWidget(
-                    keyText: 'Branch address',
-                    valueText: controller.ticketModel.branchModel!.address!),
-                textCardWidget(
-                    keyText: 'Branch phone number',
-                    valueText: controller.ticketModel.branchModel!.phoneNumber),
-              ],
+  Widget branchPerformServicesWidget() => Obx(
+        () => Column(
+          children: [
+            Container(
+              margin: const EdgeInsets.only(top: 10),
+              padding: const EdgeInsets.symmetric(vertical: 20),
+              color: WHITE_COLOR,
+              child: Column(
+                children: [
+                  CUSTOM_TEXT('Branch perform services'),
+                  textCardWidget(
+                      keyText: 'Branch name',
+                      valueText: controller.ticketModel.branchModel!.name),
+                  Padding(
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 12, vertical: 5),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        CUSTOM_TEXT(
+                          'Branch address',
+                          padding: const EdgeInsets.only(right: 15),
+                        ),
+                        Expanded(
+                          child: CUSTOM_TEXT(
+                            controller.ticketModel.branchModel!.address ??
+                                'N/A',
+                            textAlign: TextAlign.end,
+                            textOverflow: controller.isShowBranchDetail.value
+                                ? TextOverflow.clip
+                                : TextOverflow.ellipsis,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Visibility(
+                    visible: controller.isShowBranchDetail.value,
+                    child: textCardWidget(
+                        keyText: 'Phone number',
+                        valueText:
+                            controller.ticketModel.branchModel!.phoneNumber),
+                  ),
+                  Visibility(
+                    visible: controller.isShowBranchDetail.value,
+                    child: textCardWidget(
+                        keyText: 'Email',
+                        valueText:
+                            controller.ticketModel.branchModel!.email ?? 'N/A'),
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  Row(
+                    children: [
+                      const Spacer(),
+                      InkWell(
+                        onTap: () => controller.isShowBranchDetail.value =
+                            !controller.isShowBranchDetail.value,
+                        child: Column(children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              CUSTOM_TEXT(
+                                controller.isShowBranchDetail.value
+                                    ? 'Hide branch details'
+                                    : 'View branch details',
+                                color: PRIMARY_COLOR,
+                                fontSize: 13,
+                                letterSpacing: 2,
+                              ),
+                              const SizedBox(width: 5),
+                              Icon(
+                                controller.isShowBranchDetail.value
+                                    ? Icons.keyboard_double_arrow_up_outlined
+                                    : Icons.keyboard_double_arrow_down_outlined,
+                                size: 18,
+                                color: PRIMARY_COLOR,
+                              ),
+                            ],
+                          ),
+                          Container(
+                            height: 1,
+                            width: 180,
+                            color: PRIMARY_COLOR,
+                            margin: const EdgeInsets.only(top: 2),
+                          ),
+                        ]),
+                      ),
+                      const Spacer(),
+                    ],
+                  ),
+                ],
+              ),
             ),
-          ),
-          Container(
-            height: 1,
-            color: LIGHT_GREY_COLOR.withAlpha(30),
-          ),
-        ],
+            Container(
+              height: 1,
+              color: LIGHT_GREY_COLOR.withAlpha(30),
+            ),
+          ],
+        ),
       );
 
   Widget textCardWidget({required String keyText, required String valueText}) =>
@@ -160,44 +255,25 @@ class TicketDetailBodyWidget extends GetView<TicketDetailPageController> {
         children: [
           CUSTOM_TEXT('Estimate time to\nperform services',
               fontSize: 15, padding: const EdgeInsets.only(right: 10)),
-          Container(
-            padding: const EdgeInsets.all(8.0),
-            width: 200,
-            alignment: Alignment.center,
-            decoration: BoxDecoration(
-              border: Border.all(
-                color: LIGHT_GREY_COLOR.withOpacity(0.3),
+          Expanded(
+            child: Container(
+              padding: const EdgeInsets.all(8.0),
+              alignment: Alignment.center,
+              decoration: BoxDecoration(
+                border: Border.all(
+                  color: LIGHT_GREY_COLOR.withOpacity(0.3),
+                ),
+                borderRadius: BorderRadius.circular(5),
               ),
-              borderRadius: BorderRadius.circular(5),
-            ),
-            child: CUSTOM_TEXT(
-              timeText,
+              child: CUSTOM_TEXT(
+                timeText,
+              ),
             ),
           ),
         ],
       ),
     );
   }
-
-  Widget ticketIdWidget() => Padding(
-        padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 20),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            CUSTOM_TEXT(
-              'Ticket ID',
-              fontSize: 13,
-              color: DARK_GREY_TEXT_COLOR.withOpacity(0.7),
-            ),
-            CUSTOM_TEXT(
-              (controller.ticketModel.id < 10 ? '#0' : '#') +
-                  controller.ticketModel.id.toString(),
-              fontSize: 13,
-              color: DARK_GREY_TEXT_COLOR.withOpacity(0.7),
-            ),
-          ],
-        ),
-      );
 
   Widget servicesBookingWidget() => Container(
         padding: const EdgeInsets.only(left: 12),

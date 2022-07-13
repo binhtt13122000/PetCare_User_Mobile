@@ -15,76 +15,91 @@ import 'package:petapp_mobile/views/customer/post_pages/create_post_page/widgets
 import 'package:petapp_mobile/views/customer/post_pages/create_post_page/widgets/select_branch_widget.dart';
 import 'package:petapp_mobile/views/customer/post_pages/create_post_page/widgets/top_widget.dart';
 import 'package:petapp_mobile/views/widgets/customize_widget.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class CreatePostPage extends GetView<CreatePostPageController> {
   const CreatePostPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    controller.isShowMainLoading.value = true;
-    WidgetsBinding.instance!.addPostFrameCallback((_) async {
-      controller
-        ..listPurchaseTransactionFees =
-            await TransactionFeesServices.fetchTransactionFreesList(
-                transactionType: controller.selectedPostType.value)
-        ..branchModelList = await BranchServices.fetchBranchList()
-        ..isShowMainLoading.value = false;
-    });
-
     return Scaffold(
       backgroundColor: WHITE_COLOR,
-      body: Obx(
-        () => controller.isShowMainLoading.value
-            ? LOADING_WIDGET()
-            : Stack(
-                children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      const CreatePostTopWidget(),
-                      Expanded(
-                        child: Scrollbar(
-                          controller: controller.mainScrollController,
-                          isAlwaysShown: true,
-                          child: SingleChildScrollView(
-                            controller: controller.mainScrollController,
-                            child: Column(
-                              children: [
-                                //VideoApp(),
-                                const CreatePostBodyWidget(),
-                                const SelectPetWidget(),
-                                const MediaPickerWidget(),
-                                Container(
-                                  color: WHITE_COLOR,
-                                  padding: const EdgeInsets.symmetric(
-                                      vertical: 15, horizontal: 12),
-                                  child: Row(
-                                    children: [
-                                      registerDateTitleWidget(),
-                                      bookingDateWidget(),
-                                    ],
-                                  ),
-                                ),
-                                const SelectBranchWidget(),
-                                // DescriptionWidget(),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
-                      const CreatePostBottomWidget(),
-                    ],
-                  ),
-                  const CreatePostLoadingWidget(),
-                  const CreatePostPopupWidget(),
-                  const CreatePostSaleTransactionFeesWidget(),
-                  const CreatePostCalendarWidget(),
-                ],
-              ),
+      body: Stack(
+        children: [
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              const CreatePostTopWidget(),
+              GetBuilder<CreatePostPageController>(builder: (_) {
+                controller.isShowMainLoading.value = true;
+                WidgetsBinding.instance!.addPostFrameCallback((_) async {
+                  controller
+                    ..listPurchaseTransactionFees =
+                        await TransactionFeesServices.fetchTransactionFreesList(
+                            transactionType: controller.selectedPostType.value)
+                    ..branchModelList = await BranchServices.fetchBranchList()
+                    ..isShowMainLoading.value = false;
+                });
+
+                return Obx(
+                  () => controller.isShowMainLoading.value
+                      ? Expanded(
+                          child: Container(
+                              color: SUPPER_LIGHT_BLUE,
+                              child: LOADING_WIDGET()),
+                        )
+                      : bodyWidget(),
+                );
+              }),
+            ],
+          ),
+          const CreatePostLoadingWidget(),
+          const CreatePostPopupWidget(),
+          const CreatePostSaleTransactionFeesWidget(),
+          const CreatePostCalendarWidget(),
+        ],
       ),
     );
   }
+
+  Widget bodyWidget() => Expanded(
+        child: Column(
+          children: [
+            Expanded(
+              child: SmartRefresher(
+                controller: RefreshController(),
+                onRefresh: () => controller.update(),
+                child: SingleChildScrollView(
+                  controller: controller.mainScrollController,
+                  child: Column(
+                    children: [
+                      //VideoApp(),
+                      const CreatePostBodyWidget(),
+                      const SelectPetWidget(),
+                      const MediaPickerWidget(),
+                      Container(
+                        color: WHITE_COLOR,
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 15, horizontal: 12),
+                        child: Row(
+                          children: [
+                            registerDateTitleWidget(),
+                            bookingDateWidget(),
+                          ],
+                        ),
+                      ),
+                      const SelectBranchWidget(),
+                      // DescriptionWidget(),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+            const CreatePostBottomWidget(),
+          ],
+        ),
+      );
 
   Widget registerDateTitleWidget() => Row(
         children: [

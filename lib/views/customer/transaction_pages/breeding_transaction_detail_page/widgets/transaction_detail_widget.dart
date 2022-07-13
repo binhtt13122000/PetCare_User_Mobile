@@ -80,10 +80,8 @@ class BreedingTransactionDetailWidget
                         ),
                         Text(
                           FORMAT_MONEY(
-                            price: controller
-                                    .breedingTransactionModel.sellerReceive +
-                                controller
-                                    .breedingTransactionModel.transactionFee,
+                            price: controller.breedingTransactionModel
+                                .postModel!.transactionTotal,
                           ),
                           style: GoogleFonts.quicksand(
                             fontSize: 15,
@@ -160,7 +158,7 @@ class BreedingTransactionDetailWidget
                           Text(
                             FORMAT_MONEY(
                               price: controller
-                                  .breedingTransactionModel.transactionFee,
+                                  .breedingTransactionModel.postModel!.shopFee,
                             ),
                             style: GoogleFonts.quicksand(
                               fontSize: 15,
@@ -194,8 +192,11 @@ class BreedingTransactionDetailWidget
                           ),
                           Text(
                             FORMAT_MONEY(
-                                price: controller
-                                    .breedingTransactionModel.transactionTotal),
+                                price: (controller.breedingTransactionModel
+                                            .serviceFee ??
+                                        0) +
+                                    controller.breedingTransactionModel
+                                        .postModel!.transactionTotal),
                             style: GoogleFonts.quicksand(
                               fontSize: 20,
                               fontWeight: FontWeight.w700,
@@ -232,8 +233,8 @@ class BreedingTransactionDetailWidget
                           ),
                           Text(
                             FORMAT_MONEY(
-                                price: controller
-                                    .breedingTransactionModel.sellerReceive),
+                                price: controller.breedingTransactionModel
+                                    .postModel!.sellerReceive),
                             style: GoogleFonts.quicksand(
                               fontSize: 20,
                               fontWeight: FontWeight.w700,
@@ -595,7 +596,7 @@ class BreedingTransactionDetailWidget
                                   dateTime: controller.breedingTransactionModel
                                           .paymentTime ??
                                       controller.orderModel!.paymentTime!,
-                                  pattern: DATE_PATTERN_2),
+                                  pattern: DATE_TIME_PATTERN),
                               style: GoogleFonts.quicksand(
                                 fontSize: 15,
                                 fontWeight: FontWeight.w500,
@@ -622,9 +623,10 @@ class BreedingTransactionDetailWidget
                               ),
                             ),
                             Text(
-                              controller
-                                      .breedingTransactionModel.paymentMethod ??
-                                  controller.orderModel!.paymentMethod!,
+                              controller.orderModel != null
+                                  ? controller.orderModel!.paymentMethod ??
+                                      'VNPAY'
+                                  : 'VNPAY',
                               style: GoogleFonts.quicksand(
                                 fontSize: 15,
                                 fontWeight: FontWeight.w500,

@@ -13,9 +13,7 @@ class BranchModel {
   final int? lat;
   final int? lng;
   final String phoneNumber;
-  final int star;
   final String representativeName;
-  final int numberReviewers;
   final String name;
 
   BranchModel({
@@ -28,9 +26,7 @@ class BranchModel {
     this.lat,
     this.lng,
     required this.phoneNumber,
-    required this.star,
     required this.representativeName,
-    required this.numberReviewers,
     required this.name,
   });
 

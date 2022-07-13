@@ -48,6 +48,7 @@ class BreedingTransactionDetailPageController extends GetxController {
   String? detailPopupTitle;
   int? orderId;
   OrderModel? orderModel;
+  bool isReloadAll = true;
 
   updateRatingText() {
     switch (selectedStar.value) {

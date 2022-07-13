@@ -5,96 +5,124 @@ import 'package:get/get.dart';
 import 'package:petapp_mobile/configs/path.dart';
 import 'package:petapp_mobile/configs/theme.dart';
 import 'package:petapp_mobile/controllers/transaction_page_controllers/create_ticket_page_controller.dart';
+import 'package:petapp_mobile/services/other_services/branch_services.dart';
+import 'package:petapp_mobile/services/transaction_services/center_services_services.dart';
 import 'package:petapp_mobile/services/transaction_services/ticket_services.dart';
 import 'package:petapp_mobile/utilities/utilities.dart';
 import 'package:petapp_mobile/views/customer/transaction_pages/create_ticket_page/widgets/bottom_widget.dart';
 import 'package:petapp_mobile/views/customer/transaction_pages/create_ticket_page/widgets/select_branch_widget.dart';
 import 'package:petapp_mobile/views/widgets/customize_widget.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class CreateTicketBodyWidget extends GetView<CreateTicketPageController> {
   const CreateTicketBodyWidget({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: Container(
-        color: SUPPER_LIGHT_BLUE,
-        child: Column(
-          children: [
-            Expanded(
-              child: SingleChildScrollView(
-                child: Column(
-                  children: [
-                    addServicesWidget(),
-                    estimateTimeWidget(),
-                    Container(
-                      height: 1,
-                      color: LIGHT_GREY_COLOR.withAlpha(30),
-                    ),
-                    const SelectBranchWidget(),
-                    Container(
-                      color: WHITE_COLOR,
-                      padding:
-                          const EdgeInsets.only(top: 10, left: 12, right: 12),
-                      child: Row(
-                        children: [
-                          bookingDateTitleWidget(),
-                          bookingDateWidget(),
-                        ],
-                      ),
-                    ),
-                    Container(
-                      padding: const EdgeInsets.only(top: 20, left: 12),
-                      color: WHITE_COLOR,
-                      child: Row(
-                        children: [
-                          CUSTOM_TEXT('Time booking services'),
-                          CUSTOM_TEXT(
-                            '*',
-                            color: RED_COLOR,
-                            fontSize: 18,
-                            fontWeight: FontWeight.w700,
-                          ),
-                        ],
-                      ),
-                    ),
-                    GetBuilder<CreateTicketPageController>(builder: (_) {
-                      if (controller.totalEstimateTime.value > 0) {
-                        controller.isLoadingTicketList.value = true;
+    return GetBuilder<CreateTicketPageController>(builder: (_) {
+      controller.isLoadingData.value = true;
 
-                        WidgetsBinding.instance!
-                            .addPostFrameCallback((_) async {
-                          controller
-                            ..ticketModelList =
-                                await TicketServices.fetchTicketListByBranch(
-                              branchId: controller.selectBranchId.value,
-                              bookingTime: controller.bookingServicesDate,
-                            )
-                            ..setTicketTimeModelList()
-                            ..isLoadingTicketList.value = false;
-                        });
-                      }
-                      return Obx(() => controller.isLoadingTicketList.value
-                          ? Container(
-                              color: WHITE_COLOR,
-                              height: 74,
-                              child: LOADING_WIDGET(size: 40))
-                          : timeItemWidget());
-                    }),
-                    Container(
-                      height: 1,
-                      color: LIGHT_GREY_COLOR.withAlpha(30),
+      WidgetsBinding.instance!.addPostFrameCallback((_) async {
+        controller
+          ..centerServicesModelList =
+              await CenterServicesServices.fetchCenterServicesList()
+          ..branchModelList = await BranchServices.fetchBranchList()
+          ..selectBranchId.value = controller.branchModelList[0].id
+          ..isLoadingData.value = false;
+      });
+      return Obx(() => controller.isLoadingData.value
+          ? Expanded(
+              child: Container(
+                color: SUPPER_LIGHT_BLUE,
+                child: LOADING_WIDGET(),
+              ),
+            )
+          : bodyWidget());
+    });
+  }
+
+  Widget bodyWidget() => Expanded(
+        child: Container(
+          color: SUPPER_LIGHT_BLUE,
+          child: Column(
+            children: [
+              Expanded(
+                child: SmartRefresher(
+                  controller: RefreshController(),
+                  onRefresh: () => controller.update(),
+                  child: SingleChildScrollView(
+                    child: Column(
+                      children: [
+                        addServicesWidget(),
+                        estimateTimeWidget(),
+                        Container(
+                          height: 1,
+                          color: LIGHT_GREY_COLOR.withAlpha(30),
+                        ),
+                        const SelectBranchWidget(),
+                        Container(
+                          color: WHITE_COLOR,
+                          padding: const EdgeInsets.only(
+                              top: 10, left: 12, right: 12),
+                          child: Row(
+                            children: [
+                              bookingDateTitleWidget(),
+                              bookingDateWidget(),
+                            ],
+                          ),
+                        ),
+                        Container(
+                          padding: const EdgeInsets.only(top: 20, left: 12),
+                          color: WHITE_COLOR,
+                          child: Row(
+                            children: [
+                              CUSTOM_TEXT('Time booking services'),
+                              CUSTOM_TEXT(
+                                '*',
+                                color: RED_COLOR,
+                                fontSize: 18,
+                                fontWeight: FontWeight.w700,
+                              ),
+                            ],
+                          ),
+                        ),
+                        GetBuilder<CreateTicketPageController>(builder: (_) {
+                          if (controller.totalEstimateTime.value > 0) {
+                            controller.isLoadingTicketList.value = true;
+
+                            WidgetsBinding.instance!
+                                .addPostFrameCallback((_) async {
+                              controller
+                                ..ticketModelList = await TicketServices
+                                    .fetchTicketListByBranch(
+                                  branchId: controller.selectBranchId.value,
+                                  bookingTime: controller.bookingServicesDate,
+                                )
+                                ..setTicketTimeModelList()
+                                ..isLoadingTicketList.value = false;
+                            });
+                          }
+                          return Obx(() => controller.isLoadingTicketList.value
+                              ? Container(
+                                  color: WHITE_COLOR,
+                                  height: 74,
+                                  child: LOADING_WIDGET(size: 40))
+                              : timeItemWidget());
+                        }),
+                        Container(
+                          height: 1,
+                          color: LIGHT_GREY_COLOR.withAlpha(30),
+                        ),
+                      ],
                     ),
-                  ],
+                  ),
                 ),
               ),
-            ),
-            const CreateTicketBottomWidget(),
-          ],
+              const CreateTicketBottomWidget(),
+            ],
+          ),
         ),
-      ),
-    );
-  }
+      );
 
   Widget bookingDateWidget() => Expanded(
         child: Padding(

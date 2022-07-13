@@ -55,18 +55,10 @@ class SaleTransactionDetailPage
                 ),
               ],
             ),
-            Obx(
-              () => controller.isLoading.value
-                  ? const SizedBox.shrink()
-                  : Stack(
-                      children: const [
-                        SaleTransactionDetailWebViewWidget(),
-                        SaleTransactionPopupWidget(),
-                        SaleTransactionReviewPopupWidget(),
-                        SaleTransactionMoreOptionWidget(),
-                      ],
-                    ),
-            ),
+            const SaleTransactionDetailWebViewWidget(),
+            const SaleTransactionPopupWidget(),
+            const SaleTransactionReviewPopupWidget(),
+            const SaleTransactionMoreOptionWidget(),
           ],
         );
       }),

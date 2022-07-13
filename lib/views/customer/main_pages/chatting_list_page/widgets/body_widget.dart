@@ -8,6 +8,7 @@ import 'package:petapp_mobile/models/chat_room_model/chat_room_model.dart';
 import 'package:petapp_mobile/services/other_services/chat_services.dart';
 import 'package:petapp_mobile/utilities/utilities.dart';
 import 'package:petapp_mobile/views/widgets/customize_widget.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class ChattingListBodyWidget extends GetView<ChattingListPageController> {
   const ChattingListBodyWidget({Key? key}) : super(key: key);
@@ -33,15 +34,21 @@ class ChattingListBodyWidget extends GetView<ChattingListPageController> {
             return Obx(
               () => controller.isLoadingRoom.value
                   ? Expanded(child: LOADING_WIDGET(size: 100))
-                  : controller.chatRoomList.isEmpty
-                      ? Expanded(
-                          child: Padding(
-                            child: NO_DATA_WIDGET(
-                                content: 'Sorry, no chat room found.'),
-                            padding: const EdgeInsets.only(bottom: 40),
-                          ),
-                        )
-                      : listMessageRoom(),
+                  : Expanded(
+                      child: SmartRefresher(
+                        controller: RefreshController(),
+                        onRefresh: () => controller.update(),
+                        child: SingleChildScrollView(
+                          child: controller.chatRoomList.isEmpty
+                              ? Padding(
+                                  child: NO_DATA_WIDGET(
+                                      content: 'Sorry, no chat room found.'),
+                                  padding: const EdgeInsets.only(top: 150),
+                                )
+                              : listMessageRoom(),
+                        ),
+                      ),
+                    ),
             );
           }),
         ],
@@ -117,20 +124,16 @@ class ChattingListBodyWidget extends GetView<ChattingListPageController> {
       );
 
   Widget listMessageRoom() => GetBuilder<ChattingListPageController>(
-        builder: (_) => Expanded(
-          child: SingleChildScrollView(
-            child: Padding(
-              padding: const EdgeInsets.only(left: 12, right: 12, bottom: 50),
-              child: Column(
-                children: controller.chatRoomList
-                    .asMap()
-                    .entries
-                    .map(
-                      (e) => chatCardWidget(chatRoomModel: e.value),
-                    )
-                    .toList(),
-              ),
-            ),
+        builder: (_) => Padding(
+          padding: const EdgeInsets.only(left: 12, right: 12, bottom: 50),
+          child: Column(
+            children: controller.chatRoomList
+                .asMap()
+                .entries
+                .map(
+                  (e) => chatCardWidget(chatRoomModel: e.value),
+                )
+                .toList(),
           ),
         ),
       );
@@ -146,7 +149,7 @@ class ChattingListBodyWidget extends GetView<ChattingListPageController> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Padding(
-                padding: const EdgeInsets.only(left: 10),
+                padding: const EdgeInsets.only(left: 0),
                 child: Stack(
                   children: [
                     GRADIENT_WIDGET(
@@ -184,48 +187,28 @@ class ChattingListBodyWidget extends GetView<ChattingListPageController> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
+                          CUSTOM_TEXT('[${chatRoomModel.type}]',
+                              padding: const EdgeInsets.only(right: 5),
+                              color: chatRoomModel.type == 'SALE'
+                                  ? BLUE_COLOR
+                                  : PINK_COLOR),
                           Expanded(
                             child: FittedBox(
                               fit: BoxFit.scaleDown,
-                              child: Row(
-                                children: [
-                                  CUSTOM_TEXT('[${chatRoomModel.type}]',
-                                      padding: const EdgeInsets.only(right: 5),
-                                      color: chatRoomModel.type == 'SALE'
-                                          ? BLUE_COLOR
-                                          : PINK_COLOR),
-                                  Text(
-                                    'Chatroom #0${chatRoomModel.postId}',
-                                    textAlign: TextAlign.start,
-                                    maxLines: 1,
-                                    style: GoogleFonts.quicksand(
-                                      color:
-                                          const Color.fromARGB(255, 62, 68, 87),
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w700,
-                                      letterSpacing: 2,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(left: 10),
-                            child: Text(
-                              FORMAT_DATE_TIME(
-                                dateTime: chatRoomModel.newestMessageTime,
-                                pattern: TIME_PATTERN,
-                              ),
-                              textAlign: TextAlign.start,
-                              style: GoogleFonts.quicksand(
-                                color: const Color.fromARGB(255, 99, 108, 136),
-                                fontSize: 11,
-                                fontWeight: FontWeight.w600,
-                                letterSpacing: 1,
+                              alignment: Alignment.centerLeft,
+                              child: Text(
+                                '#0${chatRoomModel.postId} - ${chatRoomModel.customerModel!.firstName} ${chatRoomModel.customerModel!.lastName}',
+                                textAlign: TextAlign.start,
+                                maxLines: 1,
+                                style: GoogleFonts.quicksand(
+                                  color: DARK_GREY_TEXT_COLOR.withOpacity(0.9),
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w700,
+                                  letterSpacing: 2,
+                                ),
                               ),
                             ),
                           ),
@@ -239,7 +222,7 @@ class ChattingListBodyWidget extends GetView<ChattingListPageController> {
                                         controller
                                             .accountModel.customerModel.id)
                                 ? 'You: '
-                                : 'Other: ',
+                                : '${chatRoomModel.customerModel!.lastName}: ',
                             textAlign: TextAlign.start,
                             overflow: TextOverflow.ellipsis,
                             maxLines: 1,
@@ -259,6 +242,22 @@ class ChattingListBodyWidget extends GetView<ChattingListPageController> {
                               style: GoogleFonts.quicksand(
                                 color: const Color.fromARGB(255, 135, 145, 175),
                                 fontSize: 13,
+                                fontWeight: FontWeight.w600,
+                                letterSpacing: 1,
+                              ),
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(left: 10),
+                            child: Text(
+                              FORMAT_DATE_TIME(
+                                dateTime: chatRoomModel.newestMessageTime,
+                                pattern: TIME_PATTERN,
+                              ),
+                              textAlign: TextAlign.start,
+                              style: GoogleFonts.quicksand(
+                                color: const Color.fromARGB(255, 99, 108, 136),
+                                fontSize: 11,
                                 fontWeight: FontWeight.w600,
                                 letterSpacing: 1,
                               ),

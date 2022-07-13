@@ -209,14 +209,16 @@ class PetDetailServicesComboWidget extends GetView<PetDetailPageController> {
         child: Column(
           children: [
             CUSTOM_TEXT(
-                'Your pet doesn\'t have any services combo yet! Buy a services combo for your pet now.',
-                textAlign: TextAlign.center,
-                textOverflow: TextOverflow.clip,
-                letterSpacing: 2,
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 30,
-                ),
-                color: DARK_GREY_TEXT_COLOR.withOpacity(0.7)),
+              'Your pet doesn\'t have any services combo yet! Buy one now.',
+              textAlign: TextAlign.center,
+              textOverflow: TextOverflow.clip,
+              letterSpacing: 2,
+              padding: const EdgeInsets.symmetric(
+                horizontal: 30,
+              ),
+              color: DARK_GREY_TEXT_COLOR.withOpacity(0.7),
+              fontSize: 14,
+            ),
             Padding(
               padding: const EdgeInsets.only(top: 20),
               child: InkWell(
@@ -226,12 +228,14 @@ class PetDetailServicesComboWidget extends GetView<PetDetailPageController> {
                   padding: const EdgeInsets.all(10),
                   decoration: BoxDecoration(
                     color: PRIMARY_COLOR,
-                    borderRadius: BorderRadius.circular(5),
+                    borderRadius: BorderRadius.circular(10),
                   ),
                   child: CUSTOM_TEXT(
                     'BUY A PET SERVICES COMBO',
                     color: WHITE_COLOR,
-                    letterSpacing: 2,
+                    letterSpacing: 1,
+                    fontWeight: FontWeight.w700,
+                    fontSize: 14,
                   ),
                 ),
               ),

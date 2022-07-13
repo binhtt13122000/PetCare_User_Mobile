@@ -17,80 +17,85 @@ class SaleTransactionMoreOptionWidget
     return Stack(
       children: [
         Obx(
-          () => Visibility(
-            visible: controller.isShowMoreOptions.value,
-            child: InkWell(
-              onTap: () => controller.isShowMoreOptions.value = false,
-              child: Container(
-                color: DARK_GREY_TRANSPARENT,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Column(
+          () => controller.isShowMoreOptions.value
+              ? InkWell(
+                  onTap: () => controller.isShowMoreOptions.value = false,
+                  child: Container(
+                    color: DARK_GREY_TRANSPARENT,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
                       children: [
-                        Padding(
-                          padding: const EdgeInsets.only(top: 30, right: 12),
-                          child: InkWell(
-                            onTap: () {},
-                            child: Container(
-                              width: 200,
-                              height: controller.saleTransactionModel.status ==
-                                      'CREATED'
-                                  ? 240
-                                  : 160,
-                              decoration: BoxDecoration(
-                                color: WHITE_COLOR,
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                              child: Column(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
-                                children: [
-                                  buttonWidget(
-                                      content: 'View post detail',
-                                      onTap: () {}),
-                                  buttonWidget(
-                                      content: controller.saleTransactionModel
-                                                  .buyerId ==
-                                              controller
-                                                  .accountModel.customerModel.id
-                                          ? 'View seller profile'
-                                          : 'View buyer profile',
-                                      onTap: () {}),
-                                  buttonWidget(
-                                      content: controller.saleTransactionModel
-                                                  .buyerId ==
-                                              controller
-                                                  .accountModel.customerModel.id
-                                          ? 'Report seller'
-                                          : 'Report buyer',
-                                      onTap: () {}),
-                                  controller.saleTransactionModel.status ==
-                                              'CREATED' &&
-                                          controller.saleTransactionModel
-                                                  .buyerId ==
-                                              controller
-                                                  .accountModel.customerModel.id
-                                      ? buttonWidget(
-                                          content: 'Cancel transaction',
-                                          isImportant: true,
-                                          onTap: () => controller
-                                            ..isShowMoreOptions.value = false
-                                            ..isShowCancelPopup.value = true)
-                                      : const SizedBox.shrink(),
-                                ],
+                        Column(
+                          children: [
+                            Padding(
+                              padding:
+                                  const EdgeInsets.only(top: 30, right: 12),
+                              child: InkWell(
+                                onTap: () {},
+                                child: Container(
+                                  width: 200,
+                                  height:
+                                      controller.saleTransactionModel.status ==
+                                              'CREATED'
+                                          ? 240
+                                          : 160,
+                                  decoration: BoxDecoration(
+                                    color: WHITE_COLOR,
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                  child: Column(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceEvenly,
+                                    children: [
+                                      buttonWidget(
+                                          content: 'View post detail',
+                                          onTap: () {}),
+                                      buttonWidget(
+                                          content: controller
+                                                      .saleTransactionModel
+                                                      .buyerId ==
+                                                  controller.accountModel
+                                                      .customerModel.id
+                                              ? 'View seller profile'
+                                              : 'View buyer profile',
+                                          onTap: () {}),
+                                      buttonWidget(
+                                          content: controller
+                                                      .saleTransactionModel
+                                                      .buyerId ==
+                                                  controller.accountModel
+                                                      .customerModel.id
+                                              ? 'Report seller'
+                                              : 'Report buyer',
+                                          onTap: () {}),
+                                      controller.saleTransactionModel.status ==
+                                                  'CREATED' &&
+                                              controller.saleTransactionModel
+                                                      .buyerId ==
+                                                  controller.accountModel
+                                                      .customerModel.id
+                                          ? buttonWidget(
+                                              content: 'Cancel transaction',
+                                              isImportant: true,
+                                              onTap: () => controller
+                                                ..isShowMoreOptions.value =
+                                                    false
+                                                ..isShowCancelPopup.value =
+                                                    true)
+                                          : const SizedBox.shrink(),
+                                    ],
+                                  ),
+                                ),
                               ),
                             ),
-                          ),
+                            const Spacer(flex: 1),
+                          ],
                         ),
-                        const Spacer(flex: 1),
                       ],
                     ),
-                  ],
-                ),
-              ),
-            ),
-          ),
+                  ),
+                )
+              : const SizedBox.shrink(),
         ),
         cancelWidget(),
       ],
@@ -269,8 +274,6 @@ class SaleTransactionMoreOptionWidget
                   id: controller.saleTransactionModel.id,
                   meetingTime: controller.saleTransactionModel.meetingTime,
                   placeMeeting: controller.saleTransactionModel.placeMeeting,
-                  transactionTotal:
-                      controller.saleTransactionModel.transactionTotal,
                   status: 'CANCELED',
                   reasonCancel: cancelContent,
                   cancelTime: DateTime.now(),

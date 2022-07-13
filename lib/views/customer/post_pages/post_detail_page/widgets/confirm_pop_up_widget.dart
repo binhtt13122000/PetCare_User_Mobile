@@ -96,16 +96,13 @@ class PostDetailConfirmPopupWidget extends GetView<PostDetailPageController> {
                                                 .value = true;
                                           await PostService
                                               .updatePostStatusByPostId(
-                                                  postStatus:
-                                                      controller.confirmType ==
-                                                              'REOPEN'
-                                                          ? 'REQUESTED'
-                                                          : 'CANCELED',
-                                                  postId:
-                                                      controller.postModel.id,
-                                                  isVaccineInject: controller
-                                                      .postModel
-                                                      .isVaccineInject);
+                                            postStatus:
+                                                controller.confirmType ==
+                                                        'REOPEN'
+                                                    ? 'REQUESTED'
+                                                    : 'CANCELED',
+                                            postId: controller.postModel.id,
+                                          );
                                           controller
                                             ..notificationPopupTitle = controller
                                                         .confirmType ==

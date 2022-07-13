@@ -14,14 +14,12 @@ CustomerModel _$CustomerModelFromJson(Map<String, dynamic> json) =>
       address: json['address'] as String?,
       gender: json['gender'] as String,
       avatar: json['avatar'] as String?,
-      star: (json['star'] as num).toDouble(),
-      point: json['point'] as int,
-      numberReviewers: json['numberReviewers'] as int,
       email: json['email'] as String,
       bankName: json['bankName'] as String?,
       bankCode: json['bankCode'] as String?,
       bankBranch: json['bankBranch'] as String?,
       phoneNumber: json['phoneNumber'] as String?,
+      point: json['point'] as int,
     );
 
 Map<String, dynamic> _$CustomerModelToJson(CustomerModel instance) =>
@@ -32,11 +30,9 @@ Map<String, dynamic> _$CustomerModelToJson(CustomerModel instance) =>
       'address': instance.address,
       'gender': instance.gender,
       'avatar': instance.avatar,
-      'star': instance.star,
       'point': instance.point,
       'email': instance.email,
       'phoneNumber': instance.phoneNumber,
-      'numberReviewers': instance.numberReviewers,
       'bankName': instance.bankName,
       'bankCode': instance.bankCode,
       'bankBranch': instance.bankBranch,

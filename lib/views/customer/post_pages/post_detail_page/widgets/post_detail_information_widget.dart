@@ -78,17 +78,7 @@ class PostDetailInformationWidget extends GetView<PostDetailPageController> {
                 valueText:
                     controller.postModel.petModel!.isFertility ? 'YES' : 'NO',
               ),
-              Visibility(
-                visible:
-                    controller.postModel.petModel!.vaccineDescription != null &&
-                        controller
-                            .postModel.petModel!.vaccineDescription!.isNotEmpty,
-                child: textCardWidget(
-                  keyText: 'Vaccinations',
-                  valueText:
-                      controller.postModel.petModel!.vaccineDescription ?? '',
-                ),
-              ),
+
               Visibility(
                 visible: controller.postModel.petModel!.specialMarkings !=
                         null &&

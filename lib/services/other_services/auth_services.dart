@@ -46,7 +46,7 @@ class AuthService {
     required String userDeviceToken,
   }) async {
     final response = await http.post(
-      Uri.http(API_SERVER_PATH, '/v1/api/auth/login/phone-number'),
+      Uri.http(API_SERVER_PATH, AUTH_SIGN_IN_API_PATH),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -55,6 +55,8 @@ class AuthService {
         'fcmToken': userDeviceToken,
       }),
     );
+    print(idToken);
+    print(userDeviceToken);
     switch (response.statusCode) {
       case 200:
       case 201:
@@ -65,6 +67,7 @@ class AuthService {
           return null;
         }
       default:
+        print(response.body);
         return null;
     }
   }

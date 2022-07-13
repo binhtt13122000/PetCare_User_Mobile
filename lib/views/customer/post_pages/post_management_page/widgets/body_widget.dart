@@ -9,6 +9,7 @@ import 'package:petapp_mobile/models/post_model/post_model.dart';
 import 'package:petapp_mobile/services/post_services/post_services.dart';
 import 'package:petapp_mobile/utilities/utilities.dart';
 import 'package:petapp_mobile/views/widgets/customize_widget.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class PostsManagementBodyWidget extends GetView<PostManagementPageController> {
   const PostsManagementBodyWidget({Key? key}) : super(key: key);
@@ -42,19 +43,25 @@ class PostsManagementBodyWidget extends GetView<PostManagementPageController> {
               return Obx(
                 () => controller.isLoadingPostList.value
                     ? LOADING_WIDGET()
-                    : controller.postList.isEmpty
-                        ? NO_DATA_WIDGET(content: 'Sorry, no post data found.')
-                        : SingleChildScrollView(
-                            child: Column(
-                            children: controller.postList
-                                .asMap()
-                                .entries
-                                .map((e) => e.key.isEven
-                                    ? postCardWidget(postModel: e.value)
-                                    : postCardDarkThemeWidget(
-                                        postModel: e.value))
-                                .toList(),
-                          )),
+                    : SmartRefresher(
+                        controller: RefreshController(),
+                        onRefresh: () => controller.update(),
+                        child: controller.postList.isEmpty
+                            ? NO_DATA_WIDGET(
+                                content: 'Sorry, no post data found.')
+                            : SingleChildScrollView(
+                                child: Column(
+                                  children: controller.postList
+                                      .asMap()
+                                      .entries
+                                      .map((e) => e.key.isEven
+                                          ? postCardWidget(postModel: e.value)
+                                          : postCardDarkThemeWidget(
+                                              postModel: e.value))
+                                      .toList(),
+                                ),
+                              ),
+                      ),
               );
             },
           ),

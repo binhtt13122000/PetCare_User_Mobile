@@ -88,41 +88,7 @@ class PetBlockChainDetailInformationWidget
                         ? GREEN_COLOR
                         : RED_COLOR,
                   ),
-                  textCardWidget(
-                    keyText: 'Vaccinations',
-                    valueText: controller
-                                    .petChainValueModel
-                                    .petChainValueContentModel
-                                    .petModel
-                                    .vaccineDescription !=
-                                null &&
-                            controller
-                                .petChainValueModel
-                                .petChainValueContentModel
-                                .petModel
-                                .vaccineDescription!
-                                .isNotEmpty
-                        ? controller
-                            .petChainValueModel
-                            .petChainValueContentModel
-                            .petModel
-                            .vaccineDescription!
-                        : 'N/A',
-                    valueColor: controller
-                                    .petChainValueModel
-                                    .petChainValueContentModel
-                                    .petModel
-                                    .vaccineDescription !=
-                                null &&
-                            controller
-                                .petChainValueModel
-                                .petChainValueContentModel
-                                .petModel
-                                .vaccineDescription!
-                                .isNotEmpty
-                        ? DARK_GREY_TEXT_COLOR
-                        : DARK_GREY_COLOR.withOpacity(0.5),
-                  ),
+
                   textCardWidget(
                     keyText: 'Microchip ID',
                     valueText: controller

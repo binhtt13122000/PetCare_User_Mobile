@@ -18,7 +18,6 @@ class PetModel {
   final String status;
   final DateTime dob;
   final String? specialMarkings;
-  final String? vaccineDescription;
   final int? breedId;
   @JsonKey(name: 'isSeed')
   final bool isFertility;
@@ -42,7 +41,6 @@ class PetModel {
     required this.dob,
     required this.gender,
     this.specialMarkings,
-    this.vaccineDescription,
     this.breedId,
     required this.isFertility,
     this.petHealthRecordModelList,

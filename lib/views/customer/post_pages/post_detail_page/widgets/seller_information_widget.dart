@@ -7,7 +7,6 @@ import 'package:petapp_mobile/configs/theme.dart';
 import 'package:petapp_mobile/controllers/post_page_controllers/post_detail_page_controller.dart';
 import 'package:petapp_mobile/utilities/utilities.dart';
 import 'package:petapp_mobile/views/widgets/customize_widget.dart';
-import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
 class PostDetailSellerInformationWidget
     extends GetView<PostDetailPageController> {
@@ -159,94 +158,94 @@ class PostDetailSellerInformationWidget
         ),
       );
 
-  Widget bottomInformationWidget() => Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 40),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Column(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Text(
-                  controller.postModel.customerModel!.numberReviewers
-                      .toString(),
-                  style: GoogleFonts.quicksand(
-                    fontSize: 15,
-                    fontWeight: FontWeight.w600,
-                    color: const Color.fromARGB(255, 86, 104, 126),
-                  ),
-                ),
-                Text(
-                  'Reviews',
-                  style: GoogleFonts.quicksand(
-                    fontSize: 15,
-                    fontWeight: FontWeight.w600,
-                    color: const Color.fromARGB(255, 86, 104, 126),
-                  ),
-                ),
-              ],
-            ),
-            Container(
-              height: 40,
-              width: 1,
-              color: const Color.fromARGB(255, 141, 157, 177),
-            ),
-            Column(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                RatingBar.builder(
-                  initialRating: controller.postModel.customerModel!.star,
-                  itemCount: 5,
-                  itemSize: 17,
-                  allowHalfRating: true,
-                  ignoreGestures: true,
-                  unratedColor: Colors.amber.withOpacity(0.4),
-                  itemBuilder: (context, _) => const Icon(
-                    Icons.star_rate_rounded,
-                    color: Colors.amber,
-                  ),
-                  onRatingUpdate: (_) {},
-                ),
-                Text(
-                  'Stars',
-                  style: GoogleFonts.quicksand(
-                    fontSize: 15,
-                    fontWeight: FontWeight.w600,
-                    color: const Color.fromARGB(255, 86, 104, 126),
-                  ),
-                ),
-              ],
-            ),
-            Container(
-              height: 40,
-              width: 1,
-              color: const Color.fromARGB(255, 141, 157, 177),
-            ),
-            Column(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Text(
-                  '10',
-                  style: GoogleFonts.quicksand(
-                    fontSize: 15,
-                    fontWeight: FontWeight.w600,
-                    color: const Color.fromARGB(255, 86, 104, 126),
-                  ),
-                ),
-                Text(
-                  'Posts',
-                  style: GoogleFonts.quicksand(
-                    fontSize: 15,
-                    fontWeight: FontWeight.w600,
-                    color: const Color.fromARGB(255, 86, 104, 126),
-                  ),
-                ),
-              ],
-            ),
-          ],
-        ),
-      );
+  // Widget bottomInformationWidget() => Padding(
+  //       padding: const EdgeInsets.symmetric(horizontal: 40),
+  //       child: Row(
+  //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  //         children: [
+  //           Column(
+  //             mainAxisAlignment: MainAxisAlignment.spaceAround,
+  //             crossAxisAlignment: CrossAxisAlignment.center,
+  //             children: [
+  //               Text(
+  //                 controller.postModel.customerModel!.numberReviewers
+  //                     .toString(),
+  //                 style: GoogleFonts.quicksand(
+  //                   fontSize: 15,
+  //                   fontWeight: FontWeight.w600,
+  //                   color: const Color.fromARGB(255, 86, 104, 126),
+  //                 ),
+  //               ),
+  //               Text(
+  //                 'Reviews',
+  //                 style: GoogleFonts.quicksand(
+  //                   fontSize: 15,
+  //                   fontWeight: FontWeight.w600,
+  //                   color: const Color.fromARGB(255, 86, 104, 126),
+  //                 ),
+  //               ),
+  //             ],
+  //           ),
+  //           Container(
+  //             height: 40,
+  //             width: 1,
+  //             color: const Color.fromARGB(255, 141, 157, 177),
+  //           ),
+  //           Column(
+  //             mainAxisAlignment: MainAxisAlignment.spaceAround,
+  //             crossAxisAlignment: CrossAxisAlignment.center,
+  //             children: [
+  //               RatingBar.builder(
+  //                 initialRating: controller.postModel.customerModel!.star,
+  //                 itemCount: 5,
+  //                 itemSize: 17,
+  //                 allowHalfRating: true,
+  //                 ignoreGestures: true,
+  //                 unratedColor: Colors.amber.withOpacity(0.4),
+  //                 itemBuilder: (context, _) => const Icon(
+  //                   Icons.star_rate_rounded,
+  //                   color: Colors.amber,
+  //                 ),
+  //                 onRatingUpdate: (_) {},
+  //               ),
+  //               Text(
+  //                 'Stars',
+  //                 style: GoogleFonts.quicksand(
+  //                   fontSize: 15,
+  //                   fontWeight: FontWeight.w600,
+  //                   color: const Color.fromARGB(255, 86, 104, 126),
+  //                 ),
+  //               ),
+  //             ],
+  //           ),
+  //           Container(
+  //             height: 40,
+  //             width: 1,
+  //             color: const Color.fromARGB(255, 141, 157, 177),
+  //           ),
+  //           Column(
+  //             mainAxisAlignment: MainAxisAlignment.spaceAround,
+  //             crossAxisAlignment: CrossAxisAlignment.center,
+  //             children: [
+  //               Text(
+  //                 '10',
+  //                 style: GoogleFonts.quicksand(
+  //                   fontSize: 15,
+  //                   fontWeight: FontWeight.w600,
+  //                   color: const Color.fromARGB(255, 86, 104, 126),
+  //                 ),
+  //               ),
+  //               Text(
+  //                 'Posts',
+  //                 style: GoogleFonts.quicksand(
+  //                   fontSize: 15,
+  //                   fontWeight: FontWeight.w600,
+  //                   color: const Color.fromARGB(255, 86, 104, 126),
+  //                 ),
+  //               ),
+  //             ],
+  //           ),
+  //         ],
+  //       ),
+  //     );
 }

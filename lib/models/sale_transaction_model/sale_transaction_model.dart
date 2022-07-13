@@ -19,12 +19,9 @@ class SaleTransactionModel {
   final String? review;
   final String? reasonCancel;
   final int sellerId;
-  final int sellerReceive;
   final int? star;
   final String status;
-  final int transactionFee;
   final DateTime? transactionTime;
-  final int transactionTotal;
   final int buyerId;
   final int? point;
   final DateTime? cancelTime;
@@ -49,12 +46,9 @@ class SaleTransactionModel {
       this.review,
       this.reasonCancel,
       required this.sellerId,
-      required this.sellerReceive,
       this.star,
       required this.status,
-      required this.transactionFee,
       this.transactionTime,
-      required this.transactionTotal,
       required this.postModel,
       required this.petModel,
       required this.buyerCustomerModel,
