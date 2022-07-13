@@ -27,31 +27,15 @@ class BreedingTransactionDetailPage
       controller.breedingTransactionId =
           int.parse(Get.parameters['breedingTransactionId']!);
     }
-    controller.isWaitingLoadingInitData.value = true;
-
-    WidgetsBinding.instance!.addPostFrameCallback((_) async {
-      controller
-        ..breedingTransactionModel =
-            await BreedingTransactionService.fetchBreedingTransactionById(
-                breedingTransactionId: controller.breedingTransactionId)
-        ..sortComboList()
-        ..isWaitingLoadingInitData.value = false;
-    });
 
     return Scaffold(
       backgroundColor: WHITE_COLOR,
       body: Stack(
         children: [
           Column(
-            children: [
-              const BreedingTransactionDetailTopWidget(),
-              Obx(
-                () => controller.isWaitingLoadingInitData.value
-                    ? Expanded(
-                        child: LOADING_WIDGET(),
-                      )
-                    : const BreedingTransactionDetailBodyWidget(),
-              ),
+            children: const [
+              BreedingTransactionDetailTopWidget(),
+              BreedingTransactionDetailBodyWidget(),
             ],
           ),
           const BreedingTransactionDetailViewTypeTabWidget(),

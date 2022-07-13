@@ -51,11 +51,6 @@ class UpdatePetPage extends GetView<UpdatePetPageController> {
             controller.textEditingSpecialMarkingsController.text =
                 controller.petModel.specialMarkings ?? "";
 
-            controller.vaccineDescription.value =
-                controller.petModel.vaccineDescription ?? "";
-            controller.textEditingVaccineInformationController.text =
-                controller.petModel.vaccineDescription ?? "";
-
             controller.description.value =
                 controller.petModel.description ?? "";
             controller.textEditingDescriptionController.text =

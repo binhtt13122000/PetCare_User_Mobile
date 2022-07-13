@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:petapp_mobile/configs/enum_config.dart';
 import 'package:petapp_mobile/configs/path.dart';
 import 'package:petapp_mobile/controllers/other_controllers/auth_controller.dart';
 import 'package:petapp_mobile/models/account_model/account_model.dart';
@@ -6,8 +7,13 @@ import 'package:petapp_mobile/models/branch_model/branch_model.dart';
 import 'package:petapp_mobile/models/center_service_model/center_service_model.dart';
 import 'package:petapp_mobile/models/post_model/post_model.dart';
 import 'package:petapp_mobile/models/services_model/services_model.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class HomePageController extends GetxController {
+  RxBool isLoadingData = false.obs;
+  String loadingType = LoadingType.INIT.name;
+  RefreshController refreshController =
+      RefreshController(initialRefresh: false);
   RxBool isWaitingLoadingBranchList = false.obs;
   late List<BranchModel> branchModelList;
   RxList<String> selectedBranchList = <String>[].obs;

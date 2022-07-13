@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:io';
 import 'package:get/get.dart';
 import 'package:petapp_mobile/controllers/other_controllers/auth_controller.dart';
 import 'package:petapp_mobile/models/account_model/account_model.dart';
@@ -25,9 +24,9 @@ class GenerateQrCodeController extends GetxController {
     timerUpdate = Timer.periodic(
       const Duration(seconds: 1),
       (timer) {
-        if(countDownTime > 0) {
+        if (countDownTime > 0) {
           countDownTime.value--;
-        }else {
+        } else {
           timer.cancel();
           update();
         }

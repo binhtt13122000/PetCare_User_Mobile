@@ -53,6 +53,7 @@ class ChatServices {
       case 201:
       case 202:
         return getChatRoomModel(jsonDecode(response.body)['data']);
+
       //return json.decode(response.body)['data'];
       default:
         throw Exception('Error ${response.statusCode}, cannot fetch');

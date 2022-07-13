@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:petapp_mobile/configs/theme.dart';
 import 'package:petapp_mobile/controllers/main_page_controllers/action_page_controller.dart';
 import 'package:petapp_mobile/controllers/transaction_page_controllers/ticket_detail_page_controller.dart';
+import 'package:petapp_mobile/views/widgets/customize_widget.dart';
 
 class TicketDetailTopWidget extends GetView<TicketDetailPageController> {
   const TicketDetailTopWidget({Key? key}) : super(key: key);
@@ -19,6 +20,7 @@ class TicketDetailTopWidget extends GetView<TicketDetailPageController> {
               margin: const EdgeInsets.only(top: 20),
               color: LIGHT_GREY_COLOR.withOpacity(0.1),
             ),
+            ticketIdWidget(),
           ],
         ),
       );
@@ -68,6 +70,27 @@ class TicketDetailTopWidget extends GetView<TicketDetailPageController> {
             const SizedBox(
               width: 35,
             )
+          ],
+        ),
+      );
+
+  Widget ticketIdWidget() => Container(
+        color: SUPPER_LIGHT_BLUE,
+        padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 20),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            CUSTOM_TEXT(
+              'Ticket ID',
+              fontSize: 13,
+              color: DARK_GREY_TEXT_COLOR.withOpacity(0.7),
+            ),
+            CUSTOM_TEXT(
+              (controller.ticketId < 10 ? '#0' : '#') +
+                  controller.ticketId.toString(),
+              fontSize: 13,
+              color: DARK_GREY_TEXT_COLOR.withOpacity(0.7),
+            ),
           ],
         ),
       );

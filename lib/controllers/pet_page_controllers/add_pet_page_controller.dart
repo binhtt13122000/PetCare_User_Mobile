@@ -34,7 +34,7 @@ class CreatePetPageController extends GetxController {
   RxBool isDisplayCalender = false.obs;
 
   RxString color = ''.obs;
-  RxString specialMarkings = ''.obs;
-  RxString vaccineDescription = ''.obs;
+  // RxString specialMarkings = ''.obs;
+  // RxString vaccineDescription = ''.obs;
   RxString description = ''.obs;
 }

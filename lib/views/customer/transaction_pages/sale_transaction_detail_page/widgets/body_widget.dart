@@ -7,6 +7,7 @@ import 'package:petapp_mobile/configs/path.dart';
 import 'package:petapp_mobile/configs/theme.dart';
 import 'package:petapp_mobile/controllers/transaction_page_controllers/sale_transaction_detail_page_controller.dart';
 import 'package:petapp_mobile/utilities/utilities.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class SaleTransactionDetailBodyWidget
     extends GetView<SaleTransactionDetailPageController> {
@@ -18,24 +19,28 @@ class SaleTransactionDetailBodyWidget
 
     return Expanded(
       child: Container(
-        color: const Color.fromARGB(255, 245, 248, 253),
-        child: SingleChildScrollView(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              saleTransactionInformationWidget(),
-              //saleTransactionStatusWidget(),
-              petInformationWidget(),
-              Container(
-                height: 1,
-                color: LIGHT_GREY_COLOR.withOpacity(0.1),
-              ),
-              Container(
-                color: const Color.fromARGB(255, 245, 248, 253),
-                height: 16,
-              ),
-              saleTransactionPriceWidget(width: width),
-            ],
+        color: SUPPER_LIGHT_BLUE,
+        child: SmartRefresher(
+          controller: RefreshController(),
+          onRefresh: () => controller.update(),
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                saleTransactionInformationWidget(),
+                //saleTransactionStatusWidget(),
+                petInformationWidget(),
+                Container(
+                  height: 1,
+                  color: LIGHT_GREY_COLOR.withOpacity(0.1),
+                ),
+                Container(
+                  color: const Color.fromARGB(255, 245, 248, 253),
+                  height: 16,
+                ),
+                saleTransactionPriceWidget(width: width),
+              ],
+            ),
           ),
         ),
       ),
@@ -71,8 +76,8 @@ class SaleTransactionDetailBodyWidget
                         ),
                         Text(
                           FORMAT_MONEY(
-                              price: controller
-                                  .saleTransactionModel.transactionTotal),
+                              price: controller.saleTransactionModel.postModel!
+                                  .transactionTotal),
                           style: GoogleFonts.quicksand(
                             fontSize: 15,
                             fontWeight: FontWeight.w500,
@@ -143,7 +148,7 @@ class SaleTransactionDetailBodyWidget
                           Text(
                             FORMAT_MONEY(
                                 price: controller
-                                    .saleTransactionModel.transactionFee),
+                                    .saleTransactionModel.postModel!.shopFee),
                             style: GoogleFonts.quicksand(
                               fontSize: 15,
                               fontWeight: FontWeight.w500,
@@ -175,8 +180,8 @@ class SaleTransactionDetailBodyWidget
                           ),
                           Text(
                             FORMAT_MONEY(
-                                price: controller
-                                    .saleTransactionModel.transactionTotal),
+                                price: controller.saleTransactionModel
+                                    .postModel!.transactionTotal),
                             style: GoogleFonts.quicksand(
                               fontSize: 20,
                               fontWeight: FontWeight.w700,
@@ -211,10 +216,10 @@ class SaleTransactionDetailBodyWidget
                           ),
                           Text(
                             FORMAT_MONEY(
-                                price: controller
-                                        .saleTransactionModel.transactionTotal -
-                                    controller
-                                        .saleTransactionModel.transactionFee),
+                                price: controller.saleTransactionModel
+                                        .postModel!.transactionTotal -
+                                    controller.saleTransactionModel.postModel!
+                                        .shopFee),
                             style: GoogleFonts.quicksand(
                               fontSize: 20,
                               fontWeight: FontWeight.w700,
@@ -465,7 +470,7 @@ class SaleTransactionDetailBodyWidget
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    'Meeting time',
+                    'Meeting date',
                     style: GoogleFonts.quicksand(
                       fontSize: 15,
                       fontWeight: FontWeight.w500,
@@ -476,7 +481,7 @@ class SaleTransactionDetailBodyWidget
                   Text(
                     FORMAT_DATE_TIME(
                         dateTime: controller.saleTransactionModel.meetingTime,
-                        pattern: DATE_TIME_PATTERN),
+                        pattern: DATE_PATTERN_2),
                     style: GoogleFonts.quicksand(
                       fontSize: 15,
                       fontWeight: FontWeight.w500,
@@ -564,7 +569,7 @@ class SaleTransactionDetailBodyWidget
                     ),
                   ),
                   Text(
-                    controller.saleTransactionModel.paymentMethod ?? 'N/A',
+                    controller.saleTransactionModel.paymentMethod ?? 'VNPAY',
                     style: GoogleFonts.quicksand(
                       fontSize: 15,
                       fontWeight: FontWeight.w500,

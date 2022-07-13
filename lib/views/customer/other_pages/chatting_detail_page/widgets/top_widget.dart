@@ -95,7 +95,7 @@ class ChattingDetailTopWidget extends GetView<ChattingDetailPageController> {
                       ),
                       const SizedBox(width: 10),
                       Text(
-                        'Price: ${FORMAT_MONEY(price: controller.postModel.provisionalTotal)}',
+                        'Price: ${FORMAT_MONEY(price: controller.postModel.transactionTotal)}',
                         textAlign: TextAlign.start,
                         overflow: TextOverflow.clip,
                         style: GoogleFonts.quicksand(
@@ -127,6 +127,7 @@ class ChattingDetailTopWidget extends GetView<ChattingDetailPageController> {
   Widget chatRoomStatusWidget() {
     //*Check exist room
     if (controller.chatRoomModel != null) {
+      print(controller.chatRoomModel!.status);
       //*Check customer role is buyer or not
       if (controller.accountModel.customerModel.id ==
           controller.chatRoomModel!.buyerId) {
@@ -615,16 +616,31 @@ class ChattingDetailTopWidget extends GetView<ChattingDetailPageController> {
                 padding: const EdgeInsets.symmetric(horizontal: 5),
                 child: FittedBox(
                   fit: BoxFit.scaleDown,
-                  child: Text(
-                    'Post room #${controller.postModel.id}',
-                    maxLines: 1,
-                    textAlign: TextAlign.center,
-                    style: GoogleFonts.quicksand(
-                      color: WHITE_COLOR,
-                      fontSize: 17,
-                      fontWeight: FontWeight.w700,
-                      letterSpacing: 2,
-                    ),
+                  child: Column(
+                    children: [
+                      Text(
+                        '[${controller.postModel.type}] Chat room #${controller.postModel.id}',
+                        maxLines: 1,
+                        textAlign: TextAlign.center,
+                        style: GoogleFonts.quicksand(
+                          color: WHITE_COLOR,
+                          fontSize: 17,
+                          fontWeight: FontWeight.w700,
+                          letterSpacing: 2,
+                        ),
+                      ),
+                      // Text(
+                      //   '${controller.anotherChatRoomMember.firstName} ${controller.anotherChatRoomMember.lastName}',
+                      //   maxLines: 1,
+                      //   textAlign: TextAlign.center,
+                      //   style: GoogleFonts.quicksand(
+                      //     color: WHITE_COLOR,
+                      //     fontSize: 17,
+                      //     fontWeight: FontWeight.w700,
+                      //     letterSpacing: 2,
+                      //   ),
+                      // ),
+                    ],
                   ),
                 ),
               ),

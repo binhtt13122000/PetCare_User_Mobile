@@ -235,8 +235,11 @@ class BreedingTransactionDetailBottomWidget
                     fit: BoxFit.scaleDown,
                     child: Text(
                       FORMAT_MONEY(
-                          price: controller
-                              .breedingTransactionModel.transactionTotal),
+                          price:
+                              (controller.breedingTransactionModel.serviceFee ??
+                                      0) +
+                                  controller.breedingTransactionModel.postModel!
+                                      .transactionTotal),
                       textAlign: TextAlign.start,
                       style: GoogleFonts.quicksand(
                         textStyle: const TextStyle(

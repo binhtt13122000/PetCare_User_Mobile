@@ -4,60 +4,86 @@ import 'package:petapp_mobile/configs/path.dart';
 import 'package:petapp_mobile/configs/route.dart';
 import 'package:petapp_mobile/configs/theme.dart';
 import 'package:petapp_mobile/controllers/main_page_controllers/action_page_controller.dart';
+import 'package:petapp_mobile/models/ticket_model/ticket_model.dart';
+import 'package:petapp_mobile/services/transaction_services/ticket_services.dart';
 import 'package:petapp_mobile/views/widgets/customize_widget.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class ActionPageBodyWidget extends GetView<ActionPageController> {
   const ActionPageBodyWidget({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(
-            horizontal: 40,
-          ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const SizedBox(
-                height: 40,
-              ),
-              imageCardWidget(),
-              const SizedBox(
-                height: 20,
-              ),
-              buttonWidget(
-                name: 'Pet Management',
-                onTap: () => Get.toNamed(PET_MANAGEMENT_PAGE_ROUTE),
-                iconData: Icons.pets,
-              ),
-              buttonWidget(
-                name: 'Post Management',
-                onTap: () => Get.toNamed(POST_MANAGEMENT_PAGE_ROUTE),
-                iconData: Icons.photo_album_sharp,
-              ),
-              Obx(
-                () => buttonWidget(
-                  name: controller.ticketId.value != -1
-                      ? 'View Current Ticket'
-                      : 'Create Ticket',
-                  onTap: () => Get.toNamed(controller.ticketId.value != -1
-                      ? '$TICKET_DETAIL_PAGE_ROUTE/${controller.ticketId.value}'
-                      : CREATE_TICKET_PAGE_ROUTE),
-                  iconData: Icons.airplane_ticket,
+    return GetBuilder<ActionPageController>(builder: (_) {
+      controller.isLoadingData.value = true;
+
+      WidgetsBinding.instance!.addPostFrameCallback((_) async {
+        TicketModel? ticketModel = await TicketServices.fetchTicketByCustomerId(
+            customerId: controller.accountModel.customerModel.id);
+        controller
+          ..ticketModel = ticketModel
+          ..ticketId.value = ticketModel != null ? ticketModel.id : -1
+          ..isLoadingData.value = false;
+      });
+      return Obx(
+        () => controller.isLoadingData.value
+            ? Expanded(child: LOADING_WIDGET())
+            : Expanded(
+                child: SmartRefresher(
+                  controller: RefreshController(),
+                  onRefresh: () => controller.update(),
+                  child: SingleChildScrollView(
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 40,
+                      ),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const SizedBox(
+                            height: 40,
+                          ),
+                          imageCardWidget(),
+                          const SizedBox(
+                            height: 20,
+                          ),
+                          buttonWidget(
+                            name: 'Pet Management',
+                            onTap: () => Get.toNamed(PET_MANAGEMENT_PAGE_ROUTE),
+                            iconData: Icons.pets,
+                          ),
+                          buttonWidget(
+                            name: 'Post Management',
+                            onTap: () =>
+                                Get.toNamed(POST_MANAGEMENT_PAGE_ROUTE),
+                            iconData: Icons.photo_album_sharp,
+                          ),
+                          Obx(
+                            () => buttonWidget(
+                              name: controller.ticketId.value != -1
+                                  ? 'View Current Ticket'
+                                  : 'Create Ticket',
+                              onTap: () => Get.toNamed(controller
+                                          .ticketId.value !=
+                                      -1
+                                  ? '$TICKET_DETAIL_PAGE_ROUTE/${controller.ticketId.value}'
+                                  : CREATE_TICKET_PAGE_ROUTE),
+                              iconData: Icons.airplane_ticket,
+                            ),
+                          ),
+                          buttonWidget(
+                            name: 'Transaction History',
+                            onTap: () => Get.toNamed(TRANSACTION_PAGE_ROUTE),
+                            iconData: Icons.history,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
                 ),
               ),
-              buttonWidget(
-                name: 'Transaction History',
-                onTap: () => Get.toNamed(TRANSACTION_PAGE_ROUTE),
-                iconData: Icons.history,
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
+      );
+    });
   }
 
   Widget imageCardWidget() => Obx(

@@ -178,11 +178,10 @@ class BuyBreedingServicesComboBottomWidget
                 controller.isWaitLoadingDataForeground.value = true;
                 await PetComboServices.quickPayment(
                     registerTime: controller
-                        .breedingTransactionModel.realTimeToCheckBreeding!
+                        .breedingTransactionModel.timeToCheckBreeding!
                         .add(const Duration(days: 10)),
                     orderTotal: controller.totalPrice.value,
-                    branchId:
-                        controller.breedingTransactionModel.breedingBranchId!,
+                    branchId: controller.breedingTransactionModel.branchId!,
                     comboId: controller
                         .petServicesComboModelList[
                             controller.selectPetServicesComboIndex.value]
@@ -190,8 +189,8 @@ class BuyBreedingServicesComboBottomWidget
                     petId: controller.breedingTransactionModel.petFemaleId,
                     breedingTransactionId: controller.breedingTransactionId,
                     point: controller.totalPrice ~/ 1000,
-                    dateOfBreeding: controller
-                        .breedingTransactionModel.realDateOfBreeding!);
+                    dateOfBreeding:
+                        controller.breedingTransactionModel.dateOfBreeding!);
                 controller.isWaitLoadingData.value = false;
                 controller
                   ..isWaitLoadingDataForeground.value = false

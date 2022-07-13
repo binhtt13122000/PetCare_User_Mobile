@@ -10,6 +10,7 @@ import 'package:petapp_mobile/views/customer/main_pages/profile_page/widgets/tab
 import 'package:petapp_mobile/views/customer/main_pages/profile_page/widgets/top_widget.dart';
 import 'package:petapp_mobile/views/customer/other_pages/custom_bottom_navigation_bar/custom_bottom_navigator_bar.dart';
 import 'package:petapp_mobile/views/widgets/customize_widget.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class ProfilePage extends GetView<ProfilePageController> {
   const ProfilePage({Key? key}) : super(key: key);
@@ -37,11 +38,15 @@ class ProfilePage extends GetView<ProfilePageController> {
                   : Padding(
                       padding: const EdgeInsets.only(top: 25),
                       child: Column(
-                        children: const [
-                          ProfilePageTopWidget(),
+                        children: [
+                          const ProfilePageTopWidget(),
                           Expanded(
-                            child: SingleChildScrollView(
-                              child: ProfilePageBodyWidget(),
+                            child: SmartRefresher(
+                              controller: RefreshController(),
+                              onRefresh: () => controller.update(),
+                              child: const SingleChildScrollView(
+                                child: ProfilePageBodyWidget(),
+                              ),
                             ),
                           ),
                         ],

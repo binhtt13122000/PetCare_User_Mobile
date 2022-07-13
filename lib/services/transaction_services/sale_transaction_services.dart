@@ -75,9 +75,6 @@ class SaleTransactionService {
     required DateTime meetingTime,
     required String placeMeeting,
     DateTime? transactionTime,
-    required int transactionTotal,
-    String? description,
-    String? paymentMethod,
     int star = 0,
     String? review,
     String? reasonCancel,
@@ -96,9 +93,6 @@ class SaleTransactionService {
         'meetingTime': meetingTime.toIso8601String(),
         'placeMeeting': placeMeeting,
         'transactionTime': transactionTime?.toIso8601String(),
-        'transactionTotal': transactionTotal,
-        'description': description ?? '',
-        'paymentMethod': paymentMethod ?? '',
         'review': review ?? '',
         'reasonCancel': reasonCancel ?? '',
         'status': status,
@@ -114,8 +108,9 @@ class SaleTransactionService {
       case 202:
         return json.decode(response.body)['data']['id'];
       default:
+        print(response.body);
         throw Exception(
-            'Error ${response.statusCode}, cannot create transaction');
+            'Error ${response.statusCode}, cannot update transaction');
     }
   }
 

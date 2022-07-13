@@ -38,8 +38,6 @@ class CreatePetBottomWidget extends GetView<CreatePetPageController> {
                       status: 'NORMAL',
                       description: controller.description.value,
                       color: controller.color.value,
-                      specialMarkings: controller.specialMarkings.value,
-                      vaccineDescription: controller.vaccineDescription.value,
                     );
 
                     controller.isWaitingCreatePet.value = false;

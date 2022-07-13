@@ -13,73 +13,73 @@ class CreatePostSaleTransactionFeesWidget
   @override
   Widget build(BuildContext context) {
     return Obx(
-      () => Visibility(
-        visible: controller.isShowPurchaseTransactionFees.value,
-        child: InkWell(
-          onTap: () => controller.isShowPurchaseTransactionFees.value = false,
-          child: Container(
-            color: DARK_GREY_TRANSPARENT,
-            alignment: Alignment.center,
-            child: InkWell(
-              onTap: () {},
+      () => controller.isShowPurchaseTransactionFees.value
+          ? InkWell(
+              onTap: () =>
+                  controller.isShowPurchaseTransactionFees.value = false,
               child: Container(
-                height: 220,
-                width: 330,
-                decoration: BoxDecoration(
-                  color: WHITE_COLOR,
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                padding: const EdgeInsets.symmetric(vertical: 10),
-                child: Column(
-                  children: [
-                    CUSTOM_TEXT('Sale Transaction Fees',
-                        fontWeight: FontWeight.w700),
-                    const SizedBox(height: 20),
-                    // CUSTOM_TEXT(
-                    //     'Money received: ${FORMAT_MONEY(price: int.parse(controller.receivedMoney.value.isNotEmpty ? controller.receivedMoney.value : '0'))}'),
-                    //   CUSTOM_TEXT(
-                    //     'Money received: ${FORMAT_MONEY(price: int.parse(controller.receivedMoney.value.isNotEmpty ? controller.receivedMoney.value : '0'))}'),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 5),
-                      child: Row(
-                        children: [
-                          Expanded(
-                              child: CUSTOM_TEXT('Minimum',
-                                  textAlign: TextAlign.center)),
-                          Expanded(
-                              child: CUSTOM_TEXT('Maximum',
-                                  textAlign: TextAlign.center)),
-                          Expanded(
-                              child: CUSTOM_TEXT('Fees',
-                                  textAlign: TextAlign.center)),
-                          SizedBox(
-                              width: 65,
-                              child: CUSTOM_TEXT(
-                                'Applied',
-                                textAlign: TextAlign.center,
-                              )),
-                        ],
-                      ),
+                color: DARK_GREY_TRANSPARENT,
+                alignment: Alignment.center,
+                child: InkWell(
+                  onTap: () {},
+                  child: Container(
+                    height: 220,
+                    width: 330,
+                    decoration: BoxDecoration(
+                      color: WHITE_COLOR,
+                      borderRadius: BorderRadius.circular(10),
                     ),
+                    padding: const EdgeInsets.symmetric(vertical: 10),
+                    child: Column(
+                      children: [
+                        CUSTOM_TEXT('Sale Transaction Fees',
+                            fontWeight: FontWeight.w700),
+                        const SizedBox(height: 20),
+                        // CUSTOM_TEXT(
+                        //     'Money received: ${FORMAT_MONEY(price: int.parse(controller.receivedMoney.value.isNotEmpty ? controller.receivedMoney.value : '0'))}'),
+                        //   CUSTOM_TEXT(
+                        //     'Money received: ${FORMAT_MONEY(price: int.parse(controller.receivedMoney.value.isNotEmpty ? controller.receivedMoney.value : '0'))}'),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 5),
+                          child: Row(
+                            children: [
+                              Expanded(
+                                  child: CUSTOM_TEXT('Minimum',
+                                      textAlign: TextAlign.center)),
+                              Expanded(
+                                  child: CUSTOM_TEXT('Maximum',
+                                      textAlign: TextAlign.center)),
+                              Expanded(
+                                  child: CUSTOM_TEXT('Fees',
+                                      textAlign: TextAlign.center)),
+                              SizedBox(
+                                  width: 65,
+                                  child: CUSTOM_TEXT(
+                                    'Applied',
+                                    textAlign: TextAlign.center,
+                                  )),
+                            ],
+                          ),
+                        ),
 
-                    Expanded(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: controller.listPurchaseTransactionFees
-                            .asMap()
-                            .entries
-                            .map((e) => transactionFeesItemWidget(
-                                transactionFeesModel: e.value))
-                            .toList(),
-                      ),
+                        Expanded(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: controller.listPurchaseTransactionFees
+                                .asMap()
+                                .entries
+                                .map((e) => transactionFeesItemWidget(
+                                    transactionFeesModel: e.value))
+                                .toList(),
+                          ),
+                        ),
+                      ],
                     ),
-                  ],
+                  ),
                 ),
               ),
-            ),
-          ),
-        ),
-      ),
+            )
+          : const SizedBox.shrink(),
     );
   }
 

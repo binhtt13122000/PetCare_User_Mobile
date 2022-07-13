@@ -126,8 +126,7 @@ class CreatePostCalendarWidget extends GetView<CreatePostPageController> {
                                     ..meetingTimeText.value = FORMAT_DATE_TIME(
                                         dateTime: controller.meetingTime!,
                                         pattern: DATE_PATTERN_2)
-                                    ..isShowCalendar.value = false
-                                    ..update();
+                                    ..isShowCalendar.value = false;
                                 },
                                 color: PRIMARY_COLOR,
                                 child: Text(

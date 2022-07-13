@@ -30,10 +30,10 @@ class UpdatePostPage extends GetView<UpdatePostPageController> {
           controller.title.value = controller.postModel.title;
           controller.description.value = controller.postModel.description ?? "";
           controller.selectedPostType.value = controller.postModel.type;
-          controller.deposit.value = controller.postModel.deposit ?? 0;
+
           controller.receivedMoney.value =
               controller.postModel.sellerReceive.toString();
-          controller.price.value = controller.postModel.provisionalTotal;
+          controller.price.value = controller.postModel.transactionTotal;
           controller.selectedBranchId.value = controller.postModel.branchId;
           controller.selectedPetId.value = controller.postModel.petId;
 

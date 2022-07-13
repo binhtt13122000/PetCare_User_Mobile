@@ -53,9 +53,4 @@ class CreatePostPageController extends GetxController {
   DateTime? tmpMeetingTime;
   RxString meetingTimeText = ''.obs;
   RxBool isShowCalendar = false.obs;
-  RxBool isUsePetOwnerVaccinationDescription = true.obs;
-  TextEditingController vaccinationDescriptionTextEditingController =
-      TextEditingController();
-  String vaccinationDescription = '';
-  String petOwnerVaccinationDescription = '';
 }

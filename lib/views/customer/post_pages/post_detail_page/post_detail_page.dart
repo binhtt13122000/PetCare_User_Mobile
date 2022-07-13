@@ -13,6 +13,7 @@ import 'package:petapp_mobile/views/customer/post_pages/post_detail_page/widgets
 import 'package:petapp_mobile/views/customer/post_pages/post_detail_page/widgets/post_main_image_widget.dart';
 import 'package:petapp_mobile/views/customer/post_pages/post_detail_page/widgets/seller_information_widget.dart';
 import 'package:petapp_mobile/views/widgets/customize_widget.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class PostDetailPage extends GetView<PostDetailPageController> {
   const PostDetailPage({Key? key}) : super(key: key);
@@ -41,8 +42,9 @@ class PostDetailPage extends GetView<PostDetailPageController> {
                           children: [
                             const PostDetailMainImageWidget(),
                             Expanded(
-                              child: Scrollbar(
-                                controller: controller.mainScrollController,
+                              child: SmartRefresher(
+                                controller: controller.refreshController,
+                                onRefresh: () => controller.update(),
                                 child: SingleChildScrollView(
                                   controller: controller.mainScrollController,
                                   child: Column(

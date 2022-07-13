@@ -9,6 +9,7 @@ import 'package:petapp_mobile/services/transaction_services/order_services.dart'
 import 'package:petapp_mobile/services/other_services/customer_services.dart';
 import 'package:petapp_mobile/utilities/utilities.dart';
 import 'package:petapp_mobile/views/widgets/customize_widget.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class CenterServicesTransactionListWidget
     extends GetView<TransactionListPageController> {
@@ -38,23 +39,27 @@ class CenterServicesTransactionListWidget
           child: Obx(
         () => controller.isLoadingCenterServicesTransaction.value
             ? LOADING_WIDGET()
-            : controller.orderModelList.isEmpty
-                ? NO_DATA_WIDGET(
-                    content:
-                        'Sorry, no center services transaction data found.')
-                : SingleChildScrollView(
-                    child: Padding(
-                      padding: const EdgeInsets.only(top: 10),
-                      child: Column(
-                        children: controller.orderModelList
-                            .asMap()
-                            .entries
-                            .map((e) => centerServicesItemWidget(
-                                centerServicesTransactionModel: e.value))
-                            .toList(),
+            : SmartRefresher(
+                controller: RefreshController(),
+                onRefresh: () => controller.update(),
+                child: controller.orderModelList.isEmpty
+                    ? NO_DATA_WIDGET(
+                        content:
+                            'Sorry, no center services \ntransaction data found.')
+                    : SingleChildScrollView(
+                        child: Padding(
+                          padding: const EdgeInsets.only(top: 10),
+                          child: Column(
+                            children: controller.orderModelList
+                                .asMap()
+                                .entries
+                                .map((e) => centerServicesItemWidget(
+                                    centerServicesTransactionModel: e.value))
+                                .toList(),
+                          ),
+                        ),
                       ),
-                    ),
-                  ),
+              ),
       ));
     });
   }

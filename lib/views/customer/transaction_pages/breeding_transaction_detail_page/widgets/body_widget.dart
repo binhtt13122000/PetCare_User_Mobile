@@ -5,55 +5,88 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:petapp_mobile/configs/path.dart';
 import 'package:petapp_mobile/configs/theme.dart';
 import 'package:petapp_mobile/controllers/transaction_page_controllers/breeding_transaction_detail_page_controller.dart';
+import 'package:petapp_mobile/services/transaction_services/breeding_transaction_services.dart';
 import 'package:petapp_mobile/utilities/utilities.dart';
 import 'package:petapp_mobile/views/customer/transaction_pages/breeding_transaction_detail_page/widgets/bottom_widget.dart';
 import 'package:petapp_mobile/views/customer/transaction_pages/breeding_transaction_detail_page/widgets/breeding_services_for_female_pet_widget.dart';
 import 'package:petapp_mobile/views/customer/transaction_pages/breeding_transaction_detail_page/widgets/breeding_services_for_male_pet_widget.dart';
 import 'package:petapp_mobile/views/customer/transaction_pages/breeding_transaction_detail_page/widgets/transaction_detail_widget.dart';
 import 'package:petapp_mobile/views/widgets/customize_widget.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class BreedingTransactionDetailBodyWidget
     extends GetView<BreedingTransactionDetailPageController> {
   const BreedingTransactionDetailBodyWidget({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) => Expanded(
-        child: Container(
-          color: SUPPER_LIGHT_BLUE,
-          child: Column(
-            children: [
-              Expanded(
-                child: SingleChildScrollView(
-                  controller: controller.scrollController,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      petInformation(),
-                      viewTypeWidget(),
-                      Obx(
-                        () => controller.selectedViewTab.value ==
-                                'Transaction details'
-                            ? const BreedingTransactionDetailWidget()
-                            : controller.breedingTransactionModel
-                                        .ownerPetFemaleId ==
-                                    controller.accountModel.customerModel.id
-                                ? const BreedingTransactionDetailBreedingServicesForFemalePetWidget()
-                                : const BreedingTransactionDetailBreedingServicesForMalePetWidget(),
-                      ),
-                    ],
+  Widget build(BuildContext context) {
+    return GetBuilder<BreedingTransactionDetailPageController>(
+      builder: (_) {
+        if (controller.isReloadAll) {
+          controller.isWaitingLoadingInitData.value = true;
+        }
+
+        WidgetsBinding.instance!.addPostFrameCallback((_) async {
+          controller
+            ..breedingTransactionModel =
+                await BreedingTransactionService.fetchBreedingTransactionById(
+                    breedingTransactionId: controller.breedingTransactionId)
+            ..sortComboList()
+            ..isReloadAll = false
+            ..isWaitingLoadingInitData.value = false;
+        });
+
+        return Obx(
+          () => controller.isWaitingLoadingInitData.value
+              ? Expanded(child: LOADING_WIDGET())
+              : Expanded(
+                  child: Container(
+                    color: SUPPER_LIGHT_BLUE,
+                    child: Column(
+                      children: [
+                        Expanded(
+                          child: SmartRefresher(
+                            controller: RefreshController(),
+                            onRefresh: () => controller
+                              ..isReloadAll = true
+                              ..update(),
+                            child: SingleChildScrollView(
+                              controller: controller.scrollController,
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  petInformation(),
+                                  viewTypeWidget(),
+                                  Obx(
+                                    () => controller.selectedViewTab.value ==
+                                            'Transaction details'
+                                        ? const BreedingTransactionDetailWidget()
+                                        : controller.breedingTransactionModel
+                                                    .ownerPetFemaleId ==
+                                                controller.accountModel
+                                                    .customerModel.id
+                                            ? const BreedingTransactionDetailBreedingServicesForFemalePetWidget()
+                                            : const BreedingTransactionDetailBreedingServicesForMalePetWidget(),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                        // Obx(() => controller.isShowBreedingServicesBottom.value
+                        //     ? const BreedingTransactionDetailBreedingServicesBottomWidget()
+                        //     : const SizedBox.shrink()),
+                        Obx(() => controller.isShowBottomWidget.value
+                            ? const BreedingTransactionDetailBottomWidget()
+                            : const SizedBox.shrink()),
+                      ],
+                    ),
                   ),
                 ),
-              ),
-              // Obx(() => controller.isShowBreedingServicesBottom.value
-              //     ? const BreedingTransactionDetailBreedingServicesBottomWidget()
-              //     : const SizedBox.shrink()),
-              Obx(() => controller.isShowBottomWidget.value
-                  ? const BreedingTransactionDetailBottomWidget()
-                  : const SizedBox.shrink()),
-            ],
-          ),
-        ),
-      );
+        );
+      },
+    );
+  }
 
   Widget viewTypeWidget() => Container(
         color: WHITE_COLOR,

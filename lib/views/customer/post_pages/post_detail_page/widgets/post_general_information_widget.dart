@@ -165,7 +165,7 @@ class PostDetailGeneralInformationWidget
                 color: DARK_GREY_TEXT_COLOR.withOpacity(0.8),
               ),
               CUSTOM_TEXT(
-                FORMAT_MONEY(price: controller.postModel.provisionalTotal),
+                FORMAT_MONEY(price: controller.postModel.transactionTotal),
                 color: PRIMARY_COLOR,
                 fontWeight: FontWeight.w500,
                 fontSize: 25,

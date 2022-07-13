@@ -157,9 +157,12 @@ class BreedingTransactionListWidget
     late Color statusColor;
     late String timeTitle;
     late DateTime timeValue;
+    late int totalPrice;
 
     if (controller.accountModel.customerModel.id ==
         breedingTransactionModel.ownerPetFemaleId) {
+      totalPrice = (breedingTransactionModel.serviceFee ?? 0) +
+          breedingTransactionModel.postModel!.transactionTotal;
       switch (breedingTransactionModel.status) {
         case 'CREATED':
           displayStatus = 'Waiting to pick up pet and pay';
@@ -190,21 +193,22 @@ class BreedingTransactionListWidget
           displayStatus = 'Waiting for breeding';
           statusColor = YELLOW_COLOR;
           timeTitle = 'Start breeding time';
-          timeValue = breedingTransactionModel.realDateOfBreeding!;
+          timeValue = breedingTransactionModel.dateOfBreeding!;
           break;
         case 'BREEDING_FINISHED':
           displayStatus = 'Waiting for pickup pet';
           statusColor = GREEN_COLOR;
           timeTitle = 'Finished breeding time';
-          timeValue = breedingTransactionModel.realDateOfBreeding!;
+          timeValue = breedingTransactionModel.dateOfBreeding!;
           break;
         default:
           displayStatus = 'Transaction is completed';
           statusColor = GREEN_COLOR;
           timeTitle = 'Finished breeding time';
-          timeValue = breedingTransactionModel.realDateOfBreeding!;
+          timeValue = breedingTransactionModel.dateOfBreeding!;
       }
     } else {
+      totalPrice = breedingTransactionModel.postModel!.transactionTotal;
       switch (breedingTransactionModel.status) {
         case 'CREATED':
           displayStatus = 'Waiting for meeting with buyer';
@@ -235,19 +239,19 @@ class BreedingTransactionListWidget
           displayStatus = 'Waiting for breeding';
           statusColor = YELLOW_COLOR;
           timeTitle = 'Start breeding time';
-          timeValue = breedingTransactionModel.realDateOfBreeding!;
+          timeValue = breedingTransactionModel.dateOfBreeding!;
           break;
         case 'BREEDING_FINISHED':
           displayStatus = 'Waiting for pickup pet';
           statusColor = GREEN_COLOR;
           timeTitle = 'Finished breeding time';
-          timeValue = breedingTransactionModel.realDateOfBreeding!;
+          timeValue = breedingTransactionModel.dateOfBreeding!;
           break;
         default:
           displayStatus = 'Transaction is completed';
           statusColor = GREEN_COLOR;
           timeTitle = 'Finished breeding time';
-          timeValue = breedingTransactionModel.realDateOfBreeding!;
+          timeValue = breedingTransactionModel.dateOfBreeding!;
       }
     }
     return Padding(
@@ -315,8 +319,7 @@ class BreedingTransactionListWidget
                     ),
                   ),
                   Text(
-                    FORMAT_MONEY(
-                        price: breedingTransactionModel.transactionTotal),
+                    FORMAT_MONEY(price: totalPrice),
                     textAlign: TextAlign.end,
                     style: GoogleFonts.quicksand(
                       color: PRIMARY_COLOR,

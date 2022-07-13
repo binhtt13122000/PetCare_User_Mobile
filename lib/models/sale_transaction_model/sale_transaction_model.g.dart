@@ -20,14 +20,11 @@ SaleTransactionModel _$SaleTransactionModelFromJson(
       review: json['review'] as String?,
       reasonCancel: json['reasonCancel'] as String?,
       sellerId: json['sellerId'] as int,
-      sellerReceive: json['sellerReceive'] as int,
       star: json['star'] as int?,
       status: json['status'] as String,
-      transactionFee: json['transactionFee'] as int,
       transactionTime: json['transactionTime'] == null
           ? null
           : DateTime.parse(json['transactionTime'] as String),
-      transactionTotal: json['transactionTotal'] as int,
       postModel: json['post'] == null
           ? null
           : PostModel.fromJson(json['post'] as Map<String, dynamic>),
@@ -59,12 +56,9 @@ Map<String, dynamic> _$SaleTransactionModelToJson(
       'review': instance.review,
       'reasonCancel': instance.reasonCancel,
       'sellerId': instance.sellerId,
-      'sellerReceive': instance.sellerReceive,
       'star': instance.star,
       'status': instance.status,
-      'transactionFee': instance.transactionFee,
       'transactionTime': instance.transactionTime?.toIso8601String(),
-      'transactionTotal': instance.transactionTotal,
       'buyerId': instance.buyerId,
       'point': instance.point,
       'cancelTime': instance.cancelTime?.toIso8601String(),

@@ -9,11 +9,9 @@ class CustomerModel {
   final String? address;
   final String gender;
   final String? avatar;
-  final double star;
   final int point;
   final String email;
   final String? phoneNumber;
-  final int numberReviewers;
   final String? bankName;
   final String? bankCode;
   final String? bankBranch;
@@ -27,14 +25,12 @@ class CustomerModel {
     this.address,
     required this.gender,
     this.avatar,
-    required this.star,
-    required this.point,
-    required this.numberReviewers,
     required this.email,
     this.bankName,
     this.bankCode,
     this.bankBranch,
     this.phoneNumber,
+    required this.point,
   }) {
     List<String> words = lastName.split(' ');
     avatarCharacter = words[words.length - 1][0].toUpperCase();

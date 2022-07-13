@@ -85,13 +85,7 @@ class PetDetailInformationWidget extends GetView<PetDetailPageController> {
                     keyText: 'Fertility',
                     valueText: controller.petModel.isFertility ? 'YES' : 'NO',
                   ),
-                  textCardWidget(
-                    keyText: 'Vaccinations',
-                    valueText: controller.petModel.vaccineDescription != null &&
-                            controller.petModel.vaccineDescription!.isNotEmpty
-                        ? controller.petModel.vaccineDescription!
-                        : 'N/A',
-                  ),
+
                   textCardWidget(
                     keyText: 'Microchip ID',
                     valueText: controller.petModel.specialMarkings != null &&

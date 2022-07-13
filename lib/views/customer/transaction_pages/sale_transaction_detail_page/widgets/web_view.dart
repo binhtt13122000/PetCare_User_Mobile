@@ -12,66 +12,66 @@ class SaleTransactionDetailWebViewWidget
 
   @override
   Widget build(BuildContext context) => Obx(
-        () => Visibility(
-          visible: controller.paymentUrl.value.isNotEmpty,
-          child: Stack(
-            children: [
-              Container(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 20, vertical: 40),
-                decoration: const BoxDecoration(
-                  color: Color.fromARGB(106, 198, 188, 201),
-                ),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(20),
-                  child: InAppWebView(
-                    initialUrlRequest: URLRequest(
-                      url: Uri.parse(controller.paymentUrl.value),
+        () => controller.paymentUrl.value.isNotEmpty
+            ? Stack(
+                children: [
+                  Container(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 20, vertical: 40),
+                    decoration: const BoxDecoration(
+                      color: Color.fromARGB(106, 198, 188, 201),
                     ),
-                    onLoadStart: (InAppWebViewController controller, Uri? uri) {
-                      if (uri!.path == SALE_TRANSACTION_RETURN_API_PATH) {
-                        Get.find<SaleTransactionDetailPageController>()
-                          ..update()
-                          ..paymentUrl.value = ''
-                          ..isShowPopup.value = true;
-                      }
-                    },
-                  ),
-                ),
-              ),
-              Positioned(
-                top: 50,
-                left: 30,
-                child: InkWell(
-                  onTap: () => controller.paymentUrl.value = '',
-                  child: Container(
-                    height: 35,
-                    width: 35,
-                    decoration: BoxDecoration(
-                      color: WHITE_COLOR,
-                      borderRadius: BorderRadius.circular(100),
-                      border: Border.all(
-                        color: Colors.red,
-                      ),
-                      boxShadow: [
-                        BoxShadow(
-                          color: DARK_GREY_COLOR.withOpacity(0.15),
-                          blurRadius: 5,
-                          offset: const Offset(2, 2),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(20),
+                      child: InAppWebView(
+                        initialUrlRequest: URLRequest(
+                          url: Uri.parse(controller.paymentUrl.value),
                         ),
-                      ],
-                    ),
-                    alignment: Alignment.center,
-                    child: SvgPicture.asset(
-                      ICON_PATH + CLOSE_SVG,
-                      height: 15,
-                      color: Colors.red,
+                        onLoadStart:
+                            (InAppWebViewController controller, Uri? uri) {
+                          if (uri!.path == SALE_TRANSACTION_RETURN_API_PATH) {
+                            Get.find<SaleTransactionDetailPageController>()
+                              ..update()
+                              ..paymentUrl.value = ''
+                              ..isShowPopup.value = true;
+                          }
+                        },
+                      ),
                     ),
                   ),
-                ),
-              ),
-            ],
-          ),
-        ),
+                  Positioned(
+                    top: 50,
+                    left: 30,
+                    child: InkWell(
+                      onTap: () => controller.paymentUrl.value = '',
+                      child: Container(
+                        height: 35,
+                        width: 35,
+                        decoration: BoxDecoration(
+                          color: WHITE_COLOR,
+                          borderRadius: BorderRadius.circular(100),
+                          border: Border.all(
+                            color: Colors.red,
+                          ),
+                          boxShadow: [
+                            BoxShadow(
+                              color: DARK_GREY_COLOR.withOpacity(0.15),
+                              blurRadius: 5,
+                              offset: const Offset(2, 2),
+                            ),
+                          ],
+                        ),
+                        alignment: Alignment.center,
+                        child: SvgPicture.asset(
+                          ICON_PATH + CLOSE_SVG,
+                          height: 15,
+                          color: Colors.red,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              )
+            : const SizedBox.shrink(),
       );
 }

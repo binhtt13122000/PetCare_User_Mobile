@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:petapp_mobile/configs/enum_config.dart';
 import 'package:petapp_mobile/configs/path.dart';
 import 'package:petapp_mobile/configs/route.dart';
 import 'package:petapp_mobile/configs/theme.dart';
@@ -12,6 +13,7 @@ import 'package:petapp_mobile/models/post_model/post_model.dart';
 import 'package:petapp_mobile/services/post_services/post_services.dart';
 import 'package:petapp_mobile/utilities/utilities.dart';
 import 'package:petapp_mobile/views/widgets/customize_widget.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class HomePostGirdsWidget extends GetView<HomePageController> {
   const HomePostGirdsWidget({Key? key}) : super(key: key);
@@ -39,50 +41,46 @@ class HomePostGirdsWidget extends GetView<HomePageController> {
                         ? Expanded(
                             child: LOADING_WIDGET(),
                           )
-                        : controller.postList.isEmpty
-                            ? Expanded(
-                                child: NO_DATA_WIDGET(
-                                    content: 'Sorry, no post data found.'))
-                            : Expanded(
-                                child: Column(
-                                  children: [
-                                    Expanded(
-                                      child: Container(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 14),
-                                        child: CustomScrollView(
-                                          slivers: [
-                                            SliverGrid.count(
-                                              crossAxisCount: 2,
-                                              childAspectRatio: 15,
-                                              mainAxisSpacing: 5,
-                                              crossAxisSpacing: 4,
-                                              children: const [
-                                                SizedBox.shrink()
-                                              ],
-                                            ),
-                                            SliverGrid.count(
-                                              crossAxisCount: 2,
-                                              childAspectRatio: 0.63,
-                                              mainAxisSpacing: 5,
-                                              crossAxisSpacing: 4,
-                                              children: controller.postList
-                                                  .asMap()
-                                                  .entries
-                                                  .map(
-                                                    (e) =>
-                                                        purchasePostItemWidget(
-                                                            postModel: e.value),
-                                                  )
-                                                  .toList(),
-                                            ),
-                                          ],
-                                        ),
+                        : Expanded(
+                            child: SmartRefresher(
+                              controller: controller.refreshController,
+                              enablePullUp: true,
+                              onRefresh: () async {
+                                controller
+                                  ..loadingType = LoadingType.REFRESH.name
+                                  ..update();
+                              },
+                              onLoading: () async {
+                                controller
+                                  ..loadingType = LoadingType.LOAD_MORE.name
+                                  ..update();
+                              },
+                              child: controller.postList.isEmpty
+                                  ? NO_DATA_WIDGET(
+                                      content: 'Sorry, no post data found.')
+                                  : SingleChildScrollView(
+                                      child: Column(
+                                        children: [
+                                          const SizedBox(
+                                            height: 10,
+                                          ),
+                                          Wrap(
+                                            alignment: WrapAlignment.start,
+                                            children: controller.postList
+                                                .asMap()
+                                                .entries
+                                                .map(
+                                                  (e) =>
+                                                      purchasePostItemHasuraWidget(
+                                                          postModel: e.value),
+                                                )
+                                                .toList(),
+                                          ),
+                                        ],
                                       ),
                                     ),
-                                  ],
-                                ),
-                              ),
+                            ),
+                          ),
                   ),
                 ],
               ),
@@ -135,12 +133,15 @@ class HomePostGirdsWidget extends GetView<HomePageController> {
         ],
       );
 
-  Widget purchasePostItemWidget({required PostModel postModel}) => InkWell(
+  Widget purchasePostItemHasuraWidget({required PostModel postModel}) =>
+      InkWell(
         onTap: () {
           Get.toNamed('$POST_DETAIL_PAGE_ROUTE/${postModel.id}');
         },
         child: Container(
           margin: const EdgeInsets.all(5),
+          width: 160,
+          height: 250,
           decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(7),
@@ -167,7 +168,10 @@ class HomePostGirdsWidget extends GetView<HomePageController> {
                         decoration: BoxDecoration(
                           image: DecorationImage(
                             alignment: Alignment.topCenter,
-                            image: NetworkImage(postModel.mediaModels![0].url),
+                            image: (postModel.mediaModels != null &&
+                                    postModel.mediaModels!.isNotEmpty)
+                                ? NetworkImage(postModel.mediaModels![0].url)
+                                : Image.asset(IMAGE_PATH + NO_IMAGE_PNG).image,
                             fit: BoxFit.cover,
                           ),
                         ),
@@ -181,18 +185,25 @@ class HomePostGirdsWidget extends GetView<HomePageController> {
                         child: ImageFiltered(
                           imageFilter:
                               ImageFilter.blur(sigmaX: 10, sigmaY: 0.3),
-                          child: Image.network(
-                            postModel.mediaModels![0].url,
-                            fit: BoxFit.cover,
-                            alignment: Alignment.bottomLeft,
-                            errorBuilder: (_, object, stackTrace) =>
-                                Image.asset(
-                              IMAGE_PATH + NO_IMAGE_PNG,
-                              fit: BoxFit.cover,
-                              width: 50,
-                              height: 50,
-                            ),
-                          ),
+                          child: postModel.mediaModels != null &&
+                                  postModel.mediaModels!.isNotEmpty
+                              ? Image.network(
+                                  postModel.mediaModels![0].url,
+                                  fit: BoxFit.cover,
+                                  alignment: Alignment.bottomLeft,
+                                  errorBuilder: (_, object, stackTrace) =>
+                                      Image.asset(
+                                    IMAGE_PATH + NO_IMAGE_PNG,
+                                    fit: BoxFit.cover,
+                                    width: 50,
+                                    height: 50,
+                                  ),
+                                )
+                              : Image.asset(
+                                  IMAGE_PATH + NO_IMAGE_PNG,
+                                  fit: BoxFit.cover,
+                                  alignment: Alignment.bottomLeft,
+                                ),
                         ),
                       ),
                     ),
@@ -329,7 +340,7 @@ class HomePostGirdsWidget extends GetView<HomePageController> {
                             child: FittedBox(
                               fit: BoxFit.scaleDown,
                               child: Text(
-                                FORMAT_MONEY(price: postModel.provisionalTotal),
+                                FORMAT_MONEY(price: postModel.transactionTotal),
                                 style: GoogleFonts.quicksand(
                                   fontWeight: FontWeight.w600,
                                   color: PRIMARY_COLOR,

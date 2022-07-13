@@ -17,47 +17,46 @@ class SaleTransactionReviewPopupWidget
     return Stack(
       children: [
         Obx(
-          () => Visibility(
-            visible: controller.isShowReviewPopup.value,
-            child: InkWell(
-              onTap: () => controller.isShowReviewPopup.value = false,
-              child: Container(
-                color: const Color.fromARGB(106, 198, 188, 201),
-                alignment: Alignment.center,
-                child: InkWell(
-                  onTap: () {},
+          () => controller.isShowReviewPopup.value
+              ? InkWell(
+                  onTap: () => controller.isShowReviewPopup.value = false,
                   child: Container(
-                    width: 320,
-                    height: 410,
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 12, vertical: 15),
-                    decoration: BoxDecoration(
-                      color: WHITE_COLOR,
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: Column(
-                      children: [
-                        Text(
-                          'Feedback',
-                          textAlign: TextAlign.center,
-                          style: GoogleFonts.quicksand(
-                            color: PRIMARY_COLOR,
-                            fontSize: 22,
-                            fontWeight: FontWeight.w700,
-                            letterSpacing: 2,
-                          ),
+                    color: const Color.fromARGB(106, 198, 188, 201),
+                    alignment: Alignment.center,
+                    child: InkWell(
+                      onTap: () {},
+                      child: Container(
+                        width: 320,
+                        height: 410,
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 12, vertical: 15),
+                        decoration: BoxDecoration(
+                          color: WHITE_COLOR,
+                          borderRadius: BorderRadius.circular(10),
                         ),
-                        ratingBarWidget(),
-                        quickRateWidget(),
-                        descriptionWidget(),
-                        submitButtonWidget(),
-                      ],
+                        child: Column(
+                          children: [
+                            Text(
+                              'Feedback',
+                              textAlign: TextAlign.center,
+                              style: GoogleFonts.quicksand(
+                                color: PRIMARY_COLOR,
+                                fontSize: 22,
+                                fontWeight: FontWeight.w700,
+                                letterSpacing: 2,
+                              ),
+                            ),
+                            ratingBarWidget(),
+                            quickRateWidget(),
+                            descriptionWidget(),
+                            submitButtonWidget(),
+                          ],
+                        ),
+                      ),
                     ),
                   ),
-                ),
-              ),
-            ),
-          ),
+                )
+              : const SizedBox.shrink(),
         ),
         thankPopup(),
       ],
@@ -283,14 +282,11 @@ class SaleTransactionReviewPopupWidget
                 id: controller.saleTransactionModel.id,
                 meetingTime: controller.saleTransactionModel.meetingTime,
                 placeMeeting: controller.saleTransactionModel.placeMeeting,
-                transactionTotal:
-                    controller.saleTransactionModel.transactionTotal,
                 status: controller.saleTransactionModel.status,
                 star: controller.selectedStar.value,
                 review: reviewContent,
                 transactionTime:
                     controller.saleTransactionModel.transactionTime,
-                paymentMethod: controller.saleTransactionModel.paymentMethod,
               );
               controller
                 ..selectedStar.value = 0

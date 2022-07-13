@@ -270,7 +270,9 @@ class SaleTransactionListWidget extends GetView<TransactionListPageController> {
                     ),
                   ),
                   Text(
-                    FORMAT_MONEY(price: saleTransactionModel.transactionTotal),
+                    FORMAT_MONEY(
+                        price:
+                            saleTransactionModel.postModel!.transactionTotal),
                     textAlign: TextAlign.end,
                     style: GoogleFonts.quicksand(
                       color: PRIMARY_COLOR,

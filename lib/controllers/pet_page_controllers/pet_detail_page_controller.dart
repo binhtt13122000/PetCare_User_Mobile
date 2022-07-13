@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:petapp_mobile/models/pet_combo_model/pet_combo_model.dart';
 import 'package:petapp_mobile/models/pet_health_records_model/pet_health_records_model.dart';
 import 'package:petapp_mobile/models/pet_model/pet_model.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class PetDetailPageController extends GetxController {
   late int petId;
@@ -22,6 +23,7 @@ class PetDetailPageController extends GetxController {
   late List<PetHealthRecordModel> vaccinesList;
   late List<PetHealthRecordModel> dewormingList;
   late List<PetHealthRecordModel> removeTicksList;
+  final RefreshController refreshController = RefreshController();
   sortDewormingList() {
     dewormingList
         .sort((b, a) => a.dateOfInjection.compareTo(b.dateOfInjection));

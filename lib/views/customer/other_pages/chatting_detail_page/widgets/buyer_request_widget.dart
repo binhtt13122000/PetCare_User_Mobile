@@ -171,14 +171,14 @@ class BuyerRequestWidget extends GetView<ChattingDetailPageController> {
                     placeMeeting: controller.chatRoomModel!.transactionPlace!,
                     sellerReceive: controller.postModel.sellerReceive,
                     transactionFee: controller.postModel.shopFee,
-                    transactionTotal: controller.postModel.provisionalTotal,
+                    transactionTotal: controller.postModel.transactionTotal,
                     description: controller.chatRoomModel!.description,
                     buyerId: controller.chatRoomModel!.buyerId,
                     sellerId: controller.chatRoomModel!.sellerId,
                     petId: controller.postModel.petId,
                     posId: controller.chatRoomModel!.postId,
                     branchId: controller.postModel.branchId,
-                    point: controller.postModel.provisionalTotal ~/ 1000,
+                    point: controller.postModel.transactionTotal ~/ 1000,
                   )
                 : await BreedingTransactionService.createBreedingTransaction(
                     createdTime: DateTime.now(),
@@ -186,7 +186,7 @@ class BuyerRequestWidget extends GetView<ChattingDetailPageController> {
                     placeMeeting: controller.chatRoomModel!.transactionPlace!,
                     sellerReceive: controller.postModel.sellerReceive,
                     transactionFee: controller.postModel.shopFee,
-                    transactionTotal: controller.postModel.provisionalTotal,
+                    transactionTotal: controller.postModel.transactionTotal,
                     description: controller.chatRoomModel!.description ?? '',
                     ownerPetFemaleId: controller.chatRoomModel!.buyerId,
                     ownerPetMaleId: controller.chatRoomModel!.sellerId,
@@ -194,7 +194,7 @@ class BuyerRequestWidget extends GetView<ChattingDetailPageController> {
                     petMaleId: controller.postModel.petId,
                     postId: controller.chatRoomModel!.postId,
                     branchId: controller.postModel.branchId,
-                    point: controller.postModel.provisionalTotal ~/ 1000,
+                    point: controller.postModel.transactionTotal ~/ 1000,
                   );
             if (transactionId != -1) {
               String message = 'Transaction request - status: [APPROVED].';

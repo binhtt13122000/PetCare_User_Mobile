@@ -54,15 +54,8 @@ class CreateTicketBottomWidget extends GetView<CreateTicketPageController> {
             },
             child: Obx(
               () => Container(
-                padding: const EdgeInsets.symmetric(vertical: 10),
+                height: 40,
                 decoration: BoxDecoration(
-                  border: Border.all(
-                      color: controller.selectedTicketTimeIndex.value != -1 &&
-                              controller
-                                  .selectCenterServicesIndexList.isNotEmpty
-                          ? PRIMARY_COLOR
-                          : PRIMARY_COLOR.withOpacity(0.3),
-                      width: 1),
                   color: controller.selectedTicketTimeIndex.value != -1 &&
                           controller.selectCenterServicesIndexList.isNotEmpty
                       ? PRIMARY_COLOR
@@ -76,7 +69,8 @@ class CreateTicketBottomWidget extends GetView<CreateTicketPageController> {
                       'SEND TICKET',
                       color: WHITE_COLOR,
                       textAlign: TextAlign.center,
-                      letterSpacing: 3,
+                      letterSpacing: 1,
+                      fontWeight: FontWeight.w700,
                     ),
                     const SizedBox(width: 10),
                     SvgPicture.asset(
