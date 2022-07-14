@@ -83,7 +83,9 @@ class PetDetailInformationWidget extends GetView<PetDetailPageController> {
                   ),
                   textCardWidget(
                     keyText: 'Fertility',
-                    valueText: controller.petModel.isFertility ? 'YES' : 'NO',
+                    valueText: controller.petModel.isFertility
+                        ? 'Available'
+                        : 'Not available',
                   ),
 
                   textCardWidget(
@@ -152,36 +154,57 @@ class PetDetailInformationWidget extends GetView<PetDetailPageController> {
         ),
       );
 
-  Widget petGeneralInformationWidget() => Padding(
-        padding: const EdgeInsets.symmetric(vertical: 30),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            petGeneralInformationCardWidget(
-              title: 'Status',
-              content: controller.petModel.status,
-              contentColor: controller.petModel.status == 'NORMAL'
-                  ? GREEN_COLOR
-                  : YELLOW_COLOR,
-            ),
-            petGeneralInformationCardWidget(
-              title: 'Gender',
-              content: controller.petModel.gender,
-              contentColor: controller.petModel.gender == 'MALE'
-                  ? BLUE_COLOR
-                  : PINK_COLOR,
-            ),
-            petGeneralInformationCardWidget(
-              title: 'Age',
-              content: controller.petModel.ageRange,
-            ),
-            petGeneralInformationCardWidget(
-              title: 'Fertility',
-              content: controller.petModel.isFertility ? 'YES' : 'NO',
-            ),
-          ],
-        ),
-      );
+  Widget petGeneralInformationWidget() {
+    late String petStatusText;
+    late Color petStatusColor;
+    switch (controller.petModel.status) {
+      case 'NORMAL':
+        petStatusText = 'Normal';
+        petStatusColor = GREEN_COLOR;
+        break;
+      case 'IN_POST':
+        petStatusText = 'In a post';
+        petStatusColor = YELLOW_COLOR;
+        break;
+      case 'IN_BREED':
+        petStatusText = 'Breeding';
+        petStatusColor = PINK_COLOR;
+        break;
+      default:
+        petStatusText = controller.petModel.status;
+        petStatusColor = YELLOW_COLOR;
+    }
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 30),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: [
+          petGeneralInformationCardWidget(
+            title: 'Status',
+            content: petStatusText,
+            contentColor: petStatusColor,
+          ),
+          petGeneralInformationCardWidget(
+            title: 'Gender',
+            content: controller.petModel.gender == 'MALE' ? 'Male' : 'Female',
+            contentColor:
+                controller.petModel.gender == 'MALE' ? BLUE_COLOR : PINK_COLOR,
+          ),
+          petGeneralInformationCardWidget(
+            title: 'Age',
+            content: controller.petModel.ageRange,
+          ),
+          petGeneralInformationCardWidget(
+            title: 'Fertility',
+            content:
+                controller.petModel.isFertility ? 'Available' : 'Not available',
+            contentColor:
+                controller.petModel.isFertility ? GREEN_COLOR : RED_COLOR,
+          ),
+        ],
+      ),
+    );
+  }
 
   Widget petGeneralInformationCardWidget({
     required String title,
@@ -314,7 +337,7 @@ class PetDetailInformationWidget extends GetView<PetDetailPageController> {
                 Padding(
                   padding: const EdgeInsets.only(left: 5),
                   child: Text(
-                    controller.petModel.gender,
+                    controller.petModel.gender == 'MALE' ? 'Male' : 'Female',
                     style: GoogleFonts.quicksand(
                       fontSize: 15,
                       fontWeight: FontWeight.w600,

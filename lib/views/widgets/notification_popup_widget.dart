@@ -35,7 +35,7 @@ class NotificationPopupWidget extends StatelessWidget {
                 ),
               ],
             ),
-            height: 230,
+            height: 250,
             width: 290,
             child: Column(
               children: [
@@ -61,14 +61,24 @@ class NotificationPopupWidget extends StatelessWidget {
                         color: isSuccessNotification ? GREEN_COLOR : RED_COLOR,
                         letterSpacing: 1.5,
                       ),
-                      CUSTOM_TEXT(
-                        content,
-                        textOverflow: TextOverflow.clip,
-                        textAlign: TextAlign.center,
-                        color: DARK_GREY_TEXT_COLOR.withOpacity(0.8),
-                        fontSize: 14,
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 12, vertical: 5),
+                      Expanded(
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 5),
+                          child: FittedBox(
+                            fit: BoxFit.scaleDown,
+                            child: SizedBox(
+                              child: CUSTOM_TEXT(
+                                content,
+                                textOverflow: TextOverflow.clip,
+                                textAlign: TextAlign.center,
+                                color: DARK_GREY_TEXT_COLOR.withOpacity(0.8),
+                                fontSize: 14,
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 12, vertical: 5),
+                              ),
+                            ),
+                          ),
+                        ),
                       ),
                     ],
                   ),

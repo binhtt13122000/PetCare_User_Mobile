@@ -15,6 +15,11 @@ class UpdatePostTopWidget extends GetView<UpdatePostPageController> {
         child: Column(
           children: [
             topTitleWidget(),
+            Container(
+              height: 1,
+              color: LIGHT_GREY_COLOR.withAlpha(30),
+              margin: const EdgeInsets.only(top: 10),
+            ),
             postIdWidget(),
           ],
         ),
@@ -27,7 +32,7 @@ class UpdatePostTopWidget extends GetView<UpdatePostPageController> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             CUSTOM_TEXT(
-              'Pet ID',
+              'Post ID',
               fontSize: 13,
               color: DARK_GREY_TEXT_COLOR.withOpacity(0.7),
             ),

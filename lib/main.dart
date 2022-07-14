@@ -282,9 +282,7 @@ Future<void> initDynamicLinks({String initRoute = LANDING_PAGE_ROUTE}) async {
         }
       }
     }
-  }).onError((error) {
-    print(error.message);
-  });
+  }).onError((error) {});
 }
 
 void showNotification(

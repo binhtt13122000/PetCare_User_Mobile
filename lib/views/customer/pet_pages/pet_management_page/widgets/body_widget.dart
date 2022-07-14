@@ -166,24 +166,48 @@ class PetsManagementBodyWidget extends GetView<PetManagementPageController> {
       );
 
   Widget petCardWidget(
-          {required PetModel petModel, required double screenWidth}) =>
-      InkWell(
-        onTap: () => Get.toNamed('$PET_DETAIL_PAGE_ROUTE/${petModel.id}'),
-        child: Container(
-          height: 70,
-          width: screenWidth,
-          margin: const EdgeInsets.only(left: 12),
-          decoration: const BoxDecoration(),
-          child: SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            child: Row(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(right: 10),
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(3),
-                    child: Image.network(
-                      petModel.avatar,
+      {required PetModel petModel, required double screenWidth}) {
+    late String petStatusText;
+    late Color petStatusColor;
+    switch (petModel.status) {
+      case 'NORMAL':
+        petStatusText = 'Normal';
+        petStatusColor = GREEN_COLOR;
+        break;
+      case 'IN_POST':
+        petStatusText = 'In a post';
+        petStatusColor = YELLOW_COLOR;
+        break;
+      case 'IN_BREED':
+        petStatusText = 'Breeding';
+        petStatusColor = PINK_COLOR;
+        break;
+      default:
+        petStatusText = petModel.status;
+        petStatusColor = YELLOW_COLOR;
+    }
+    return InkWell(
+      onTap: () => Get.toNamed('$PET_DETAIL_PAGE_ROUTE/${petModel.id}'),
+      child: Container(
+        height: 70,
+        width: screenWidth,
+        margin: const EdgeInsets.only(left: 12),
+        decoration: const BoxDecoration(),
+        child: SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          child: Row(
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(right: 10),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(3),
+                  child: Image.network(
+                    petModel.avatar,
+                    fit: BoxFit.cover,
+                    width: 50,
+                    height: 50,
+                    errorBuilder: (_, object, stackTrace) => Image.asset(
+                      IMAGE_PATH + NO_IMAGE_PNG,
                       fit: BoxFit.cover,
                       width: 50,
                       height: 50,
@@ -192,133 +216,150 @@ class PetsManagementBodyWidget extends GetView<PetManagementPageController> {
                         fit: BoxFit.cover,
                         width: 50,
                         height: 50,
-                        errorBuilder: (_, object, stackTrace) => Image.asset(
-                          IMAGE_PATH + NO_IMAGE_PNG,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              Container(
+                width: 70,
+                padding: const EdgeInsets.only(right: 0),
+                child: Text(
+                  petModel.name,
+                  maxLines: 3,
+                  overflow: TextOverflow.ellipsis,
+                  textAlign: TextAlign.center,
+                  style: GoogleFonts.quicksand(
+                    color: DARK_GREY_TEXT_COLOR.withOpacity(0.8),
+                    fontWeight: FontWeight.w500,
+                    fontSize: 13,
+                    letterSpacing: 0.5,
+                  ),
+                ),
+              ),
+              SizedBox(
+                width: screenWidth - 240,
+                child: Padding(
+                  padding: const EdgeInsets.only(right: 0),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        petModel.breedModel!.name,
+                        textAlign: TextAlign.center,
+                        overflow: TextOverflow.clip,
+                        style: GoogleFonts.quicksand(
+                          color: DARK_GREY_TEXT_COLOR.withOpacity(0.8),
+                          fontWeight: FontWeight.w500,
+                          fontSize: 13,
+                          letterSpacing: 0.5,
+                        ),
+                      ),
+                      Text(
+                        '(${petModel.breedModel!.speciesModel!.name} - ${petModel.gender == 'FEMALE' ? 'Female' : 'Male'})',
+                        textAlign: TextAlign.center,
+                        overflow: TextOverflow.ellipsis,
+                        style: GoogleFonts.quicksand(
+                          color: const Color.fromARGB(255, 64, 69, 87),
+                          fontWeight: FontWeight.w400,
+                          fontSize: 13,
+                          letterSpacing: 0.5,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              SizedBox(
+                width: 85,
+                child: Text(
+                  petStatusText,
+                  textAlign: TextAlign.center,
+                  style: GoogleFonts.quicksand(
+                    color: petStatusColor,
+                    fontWeight: FontWeight.w700,
+                    fontSize: 14,
+                  ),
+                ),
+              ),
+              Visibility(
+                visible: petModel.status == 'NORMAL',
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 18),
+                  child: InkWell(
+                    onTap: () => controller
+                      ..selectedPetModel = petModel
+                      ..isShowConfirmDeletePopup.value = true,
+                    child: Container(
+                      height: 70,
+                      color: RED_COLOR,
+                      alignment: Alignment.center,
+                      padding: const EdgeInsets.symmetric(horizontal: 10),
+                      child: CUSTOM_TEXT('Delete', color: WHITE_COLOR),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget petCardDarkThemeWidget(
+      {required PetModel petModel, required double screenWidth}) {
+    late String petStatusText;
+    late Color petStatusColor;
+    switch (petModel.status) {
+      case 'NORMAL':
+        petStatusText = 'Normal';
+        petStatusColor = GREEN_COLOR;
+        break;
+      case 'IN_POST':
+        petStatusText = 'In a post';
+        petStatusColor = YELLOW_COLOR;
+        break;
+      case 'IN_BREED':
+        petStatusText = 'Breeding';
+        petStatusColor = PINK_COLOR;
+        break;
+      default:
+        petStatusText = petModel.status;
+        petStatusColor = YELLOW_COLOR;
+    }
+    return Column(
+      children: [
+        Container(
+          height: 1,
+          margin: const EdgeInsets.symmetric(vertical: 3),
+          color: const Color.fromARGB(255, 240, 243, 255),
+        ),
+        SizedBox(
+          width: screenWidth,
+          child: SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: InkWell(
+              onTap: () => Get.toNamed('$PET_DETAIL_PAGE_ROUTE/${petModel.id}'),
+              child: Container(
+                height: 70,
+                padding: const EdgeInsets.only(left: 12),
+                decoration: const BoxDecoration(
+                  color: Color.fromARGB(255, 241, 243, 250),
+                ),
+                child: Row(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(right: 10),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(3),
+                        child: Image.network(
+                          petModel.avatar,
                           fit: BoxFit.cover,
                           width: 50,
                           height: 50,
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-                Container(
-                  width: 70,
-                  padding: const EdgeInsets.only(right: 0),
-                  child: Text(
-                    petModel.name,
-                    maxLines: 3,
-                    overflow: TextOverflow.ellipsis,
-                    textAlign: TextAlign.center,
-                    style: GoogleFonts.quicksand(
-                      color: DARK_GREY_TEXT_COLOR.withOpacity(0.8),
-                      fontWeight: FontWeight.w500,
-                      fontSize: 13,
-                      letterSpacing: 0.5,
-                    ),
-                  ),
-                ),
-                SizedBox(
-                  width: screenWidth - 240,
-                  child: Padding(
-                    padding: const EdgeInsets.only(right: 0),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          petModel.breedModel!.name,
-                          textAlign: TextAlign.center,
-                          overflow: TextOverflow.clip,
-                          style: GoogleFonts.quicksand(
-                            color: DARK_GREY_TEXT_COLOR.withOpacity(0.8),
-                            fontWeight: FontWeight.w500,
-                            fontSize: 13,
-                            letterSpacing: 0.5,
-                          ),
-                        ),
-                        Text(
-                          '(${petModel.breedModel!.speciesModel!.name} - ${petModel.gender == 'FEMALE' ? 'Female' : 'Male'})',
-                          textAlign: TextAlign.center,
-                          overflow: TextOverflow.ellipsis,
-                          style: GoogleFonts.quicksand(
-                            color: const Color.fromARGB(255, 64, 69, 87),
-                            fontWeight: FontWeight.w400,
-                            fontSize: 13,
-                            letterSpacing: 0.5,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                SizedBox(
-                  width: 85,
-                  child: Text(
-                    petModel.status == 'NORMAL' ? 'Normal' : 'In a post',
-                    textAlign: TextAlign.center,
-                    style: GoogleFonts.quicksand(
-                      color: petModel.status == 'NORMAL'
-                          ? GREEN_COLOR
-                          : YELLOW_COLOR,
-                      fontWeight: FontWeight.w700,
-                      fontSize: 14,
-                    ),
-                  ),
-                ),
-                Visibility(
-                  visible: petModel.status == 'NORMAL',
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 18),
-                    child: InkWell(
-                      onTap: () => controller
-                        ..selectedPetModel = petModel
-                        ..isShowConfirmDeletePopup.value = true,
-                      child: Container(
-                        height: 70,
-                        color: RED_COLOR,
-                        alignment: Alignment.center,
-                        padding: const EdgeInsets.symmetric(horizontal: 10),
-                        child: CUSTOM_TEXT('Delete', color: WHITE_COLOR),
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
-      );
-
-  Widget petCardDarkThemeWidget(
-          {required PetModel petModel, required double screenWidth}) =>
-      Column(
-        children: [
-          Container(
-            height: 1,
-            margin: const EdgeInsets.symmetric(vertical: 3),
-            color: const Color.fromARGB(255, 240, 243, 255),
-          ),
-          SizedBox(
-            width: screenWidth,
-            child: SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: InkWell(
-                onTap: () =>
-                    Get.toNamed('$PET_DETAIL_PAGE_ROUTE/${petModel.id}'),
-                child: Container(
-                  height: 70,
-                  padding: const EdgeInsets.only(left: 12),
-                  decoration: const BoxDecoration(
-                    color: Color.fromARGB(255, 241, 243, 250),
-                  ),
-                  child: Row(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(right: 10),
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(3),
-                          child: Image.network(
-                            petModel.avatar,
+                          errorBuilder: (_, object, stackTrace) => Image.asset(
+                            IMAGE_PATH + NO_IMAGE_PNG,
                             fit: BoxFit.cover,
                             width: 50,
                             height: 50,
@@ -328,110 +369,102 @@ class PetsManagementBodyWidget extends GetView<PetManagementPageController> {
                               fit: BoxFit.cover,
                               width: 50,
                               height: 50,
-                              errorBuilder: (_, object, stackTrace) =>
-                                  Image.asset(
-                                IMAGE_PATH + NO_IMAGE_PNG,
-                                fit: BoxFit.cover,
-                                width: 50,
-                                height: 50,
-                              ),
                             ),
                           ),
                         ),
                       ),
-                      Container(
-                        width: 70,
+                    ),
+                    Container(
+                      width: 70,
+                      padding: const EdgeInsets.only(right: 0),
+                      child: Text(
+                        petModel.name,
+                        maxLines: 3,
+                        overflow: TextOverflow.ellipsis,
+                        textAlign: TextAlign.center,
+                        style: GoogleFonts.quicksand(
+                          color: DARK_GREY_TEXT_COLOR.withOpacity(0.8),
+                          fontWeight: FontWeight.w500,
+                          fontSize: 13,
+                          letterSpacing: 0.5,
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      width: screenWidth - 240,
+                      child: Padding(
                         padding: const EdgeInsets.only(right: 0),
-                        child: Text(
-                          petModel.name,
-                          maxLines: 3,
-                          overflow: TextOverflow.ellipsis,
-                          textAlign: TextAlign.center,
-                          style: GoogleFonts.quicksand(
-                            color: DARK_GREY_TEXT_COLOR.withOpacity(0.8),
-                            fontWeight: FontWeight.w500,
-                            fontSize: 13,
-                            letterSpacing: 0.5,
-                          ),
-                        ),
-                      ),
-                      SizedBox(
-                        width: screenWidth - 240,
-                        child: Padding(
-                          padding: const EdgeInsets.only(right: 0),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text(
-                                petModel.breedModel!.name,
-                                textAlign: TextAlign.center,
-                                overflow: TextOverflow.clip,
-                                style: GoogleFonts.quicksand(
-                                  color: DARK_GREY_TEXT_COLOR.withOpacity(0.8),
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: 13,
-                                  letterSpacing: 0.5,
-                                ),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              petModel.breedModel!.name,
+                              textAlign: TextAlign.center,
+                              overflow: TextOverflow.clip,
+                              style: GoogleFonts.quicksand(
+                                color: DARK_GREY_TEXT_COLOR.withOpacity(0.8),
+                                fontWeight: FontWeight.w500,
+                                fontSize: 13,
+                                letterSpacing: 0.5,
                               ),
-                              Text(
-                                '(${petModel.breedModel!.speciesModel!.name} - ${petModel.gender == 'FEMALE' ? 'Female' : 'Male'})',
-                                textAlign: TextAlign.center,
-                                overflow: TextOverflow.ellipsis,
-                                style: GoogleFonts.quicksand(
-                                  color: const Color.fromARGB(255, 64, 69, 87),
-                                  fontWeight: FontWeight.w400,
-                                  fontSize: 13,
-                                  letterSpacing: 0.5,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      SizedBox(
-                        width: 85,
-                        child: Text(
-                          petModel.status == 'NORMAL' ? 'Normal' : 'In a post',
-                          textAlign: TextAlign.center,
-                          style: GoogleFonts.quicksand(
-                            color: petModel.status == 'NORMAL'
-                                ? GREEN_COLOR
-                                : YELLOW_COLOR,
-                            fontWeight: FontWeight.w700,
-                            fontSize: 14,
-                          ),
-                        ),
-                      ),
-                      Visibility(
-                        visible: petModel.status == 'NORMAL',
-                        child: Padding(
-                          padding: const EdgeInsets.only(left: 18),
-                          child: InkWell(
-                            onTap: () => controller
-                              ..selectedPetModel = petModel
-                              ..isShowConfirmDeletePopup.value = true,
-                            child: Container(
-                              height: 70,
-                              color: RED_COLOR,
-                              alignment: Alignment.center,
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 10),
-                              child: CUSTOM_TEXT('Delete', color: WHITE_COLOR),
                             ),
+                            Text(
+                              '(${petModel.breedModel!.speciesModel!.name} - ${petModel.gender == 'FEMALE' ? 'Female' : 'Male'})',
+                              textAlign: TextAlign.center,
+                              overflow: TextOverflow.ellipsis,
+                              style: GoogleFonts.quicksand(
+                                color: const Color.fromARGB(255, 64, 69, 87),
+                                fontWeight: FontWeight.w400,
+                                fontSize: 13,
+                                letterSpacing: 0.5,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      width: 85,
+                      child: Text(
+                        petStatusText,
+                        textAlign: TextAlign.center,
+                        style: GoogleFonts.quicksand(
+                          color: petStatusColor,
+                          fontWeight: FontWeight.w700,
+                          fontSize: 14,
+                        ),
+                      ),
+                    ),
+                    Visibility(
+                      visible: petModel.status == 'NORMAL',
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 18),
+                        child: InkWell(
+                          onTap: () => controller
+                            ..selectedPetModel = petModel
+                            ..isShowConfirmDeletePopup.value = true,
+                          child: Container(
+                            height: 70,
+                            color: RED_COLOR,
+                            alignment: Alignment.center,
+                            padding: const EdgeInsets.symmetric(horizontal: 10),
+                            child: CUSTOM_TEXT('Delete', color: WHITE_COLOR),
                           ),
                         ),
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               ),
             ),
           ),
-          Container(
-            height: 1,
-            margin: const EdgeInsets.symmetric(vertical: 3),
-            color: const Color.fromARGB(255, 240, 243, 255),
-          ),
-        ],
-      );
+        ),
+        Container(
+          height: 1,
+          margin: const EdgeInsets.symmetric(vertical: 3),
+          color: const Color.fromARGB(255, 240, 243, 255),
+        ),
+      ],
+    );
+  }
 }

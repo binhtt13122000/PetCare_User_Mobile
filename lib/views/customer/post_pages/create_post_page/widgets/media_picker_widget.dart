@@ -102,7 +102,7 @@ class MediaPickerWidget extends GetView<CreatePostPageController> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  'Pick medias from Galleryyy',
+                  'Pick medias from Gallery',
                   style: GoogleFonts.quicksand(
                     color: PRIMARY_COLOR,
                     fontWeight: FontWeight.w500,
@@ -230,7 +230,9 @@ class MediaPickerWidget extends GetView<CreatePostPageController> {
               top: 5,
               right: 5,
               child: InkWell(
-                onTap: () => controller.evidences.removeAt(index),
+                onTap: () => controller
+                  ..evidences.removeAt(index)
+                  ..evidencesPath.removeAt(index),
                 child: Container(
                   width: 25,
                   height: 25,

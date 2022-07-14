@@ -13,7 +13,6 @@ class UpdatePostBodyWidget extends GetView<UpdatePostPageController> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        //postTypeWidget(),
         titleWidget(),
         const SizedBox(
           height: 15,
@@ -26,121 +25,6 @@ class UpdatePostBodyWidget extends GetView<UpdatePostPageController> {
       ],
     );
   }
-
-  Widget postTypeWidget() => Padding(
-        padding: const EdgeInsets.only(top: 10, left: 12),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              children: [
-                Text(
-                  'Post type',
-                  style: GoogleFonts.quicksand(
-                    fontWeight: FontWeight.w500,
-                    color: const Color.fromARGB(255, 61, 78, 100),
-                    fontSize: 16,
-                    letterSpacing: 0.5,
-                  ),
-                ),
-                Text(
-                  '*',
-                  style: GoogleFonts.quicksand(
-                    fontWeight: FontWeight.w800,
-                    color: const Color.fromARGB(255, 241, 99, 88),
-                    fontSize: 20,
-                  ),
-                ),
-              ],
-            ),
-            selectPostTypeWidget(),
-          ],
-        ),
-      );
-
-  Widget selectPostTypeWidget() => Padding(
-        padding: const EdgeInsets.only(top: 5),
-        child: Obx(
-          () => Row(
-            children: [
-              Row(
-                children: [
-                  Container(
-                    height: 30,
-                    width: 130,
-                    alignment: Alignment.center,
-                    decoration: BoxDecoration(
-                      color: controller.selectedPostType.value == 'SALE'
-                          ? const Color.fromARGB(255, 99, 194, 238)
-                          : const Color.fromARGB(255, 237, 240, 243),
-                      borderRadius: const BorderRadius.horizontal(
-                        left: Radius.circular(7),
-                      ),
-                      border: Border.all(
-                        color: controller.selectedPostType.value == 'SALE'
-                            ? const Color.fromARGB(255, 99, 194, 238)
-                            : DARK_GREY_COLOR.withOpacity(0.2),
-                        width: 1,
-                      ),
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        Text(
-                          'SALE',
-                          style: GoogleFonts.quicksand(
-                            color: controller.selectedPostType.value == 'SALE'
-                                ? WHITE_COLOR
-                                : DARK_GREY_COLOR.withOpacity(0.3),
-                            fontSize: 15,
-                            fontWeight: FontWeight.w500,
-                            letterSpacing: 2,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Container(
-                    height: 30,
-                    width: 130,
-                    alignment: Alignment.center,
-                    decoration: BoxDecoration(
-                      color: controller.selectedPostType.value == 'BREED'
-                          ? const Color.fromARGB(255, 240, 128, 171)
-                          : const Color.fromARGB(255, 237, 240, 243),
-                      borderRadius: const BorderRadius.horizontal(
-                          right: Radius.circular(7)),
-                      border: Border.all(
-                        color: controller.selectedPostType.value == 'BREED'
-                            ? const Color.fromARGB(255, 240, 128, 171)
-                            : DARK_GREY_COLOR.withOpacity(0.2),
-                        width: 1,
-                      ),
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        Text(
-                          'BREED',
-                          style: GoogleFonts.quicksand(
-                            color: controller.selectedPostType.value == 'BREED'
-                                ? WHITE_COLOR
-                                : DARK_GREY_COLOR.withOpacity(0.3),
-                            fontSize: 15,
-                            fontWeight: FontWeight.w500,
-                            letterSpacing: 2,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-              const Spacer(flex: 1),
-            ],
-          ),
-        ),
-      );
 
   Widget titleWidget() {
     return Padding(

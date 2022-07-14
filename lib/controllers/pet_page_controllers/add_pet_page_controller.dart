@@ -31,7 +31,9 @@ class CreatePetPageController extends GetxController {
   DateTime? dateOfBirthTime;
   DateTime? tmpDateOfBirthTime;
   RxString dayOfBirthText = ''.obs;
-  RxBool isDisplayCalender = false.obs;
+  RxString tmpDayOfBirthText = ''.obs;
+
+  RxBool isShowCalendar = false.obs;
 
   RxString color = ''.obs;
   // RxString specialMarkings = ''.obs;

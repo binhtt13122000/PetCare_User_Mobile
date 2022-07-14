@@ -22,9 +22,9 @@ class BuyServicesComboPageController extends GetxController {
   bool isLoadingPet = true;
   late List<BranchModel> branchModelList;
   RxInt selectBranchIndex = (-1).obs;
-  RxBool isDisplayCalender = false.obs;
-  DateTime? bookingServicesDate;
-  DateTime? tmpBookingServicesDate;
+  RxBool isShowCalendar = false.obs;
+  DateTime? registerDate;
+  DateTime? tmpRegisterDate;
   RxString registerDateText = ''.obs;
   RxInt totalPrice = 0.obs;
   RxBool isWaitLoadingPetServicesComboDetail = false.obs;
@@ -34,4 +34,5 @@ class BuyServicesComboPageController extends GetxController {
   RxBool isShowBranchDetail = false.obs;
   late int? centerServicesTransactionId;
   RxBool isWaitingLoadingDataForeground = false.obs;
+  RxString tmpRegisterDateText = ''.obs;
 }

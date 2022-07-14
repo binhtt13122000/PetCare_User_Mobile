@@ -10,7 +10,6 @@ import 'package:petapp_mobile/utilities/utilities.dart';
 import 'package:petapp_mobile/views/customer/other_pages/chatting_detail_page/widgets/pet_drop_down_list_widget.dart';
 import 'package:petapp_mobile/views/customer/other_pages/chatting_detail_page/widgets/select_pet_widget.dart';
 import 'package:petapp_mobile/views/widgets/customize_widget.dart';
-import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
 class CreateRequestWidget extends GetView<ChattingDetailPageController> {
   const CreateRequestWidget({Key? key}) : super(key: key);
@@ -112,7 +111,6 @@ class CreateRequestWidget extends GetView<ChattingDetailPageController> {
                                 ),
                               ),
                             ),
-                            calendarWidget(),
                             const ChattingDetailPetDropdownListWidget(),
                           ],
                         ),
@@ -174,12 +172,8 @@ class CreateRequestWidget extends GetView<ChattingDetailPageController> {
                             ? controller.selectedPetIndex.value != -1
                             : true)
                     ? PRIMARY_COLOR.withOpacity(0.9)
-                    : PRIMARY_COLOR.withOpacity(0.5),
+                    : PRIMARY_COLOR.withOpacity(0.3),
                 borderRadius: BorderRadius.circular(100),
-                border: Border.all(
-                  color: PRIMARY_COLOR,
-                  width: 1,
-                ),
                 boxShadow: [
                   BoxShadow(
                     color: DARK_GREY_COLOR.withOpacity(0.1),
@@ -534,7 +528,7 @@ class CreateRequestWidget extends GetView<ChattingDetailPageController> {
             ),
           ),
           InkWell(
-            onTap: () => controller.isDisplayCalender.value = true,
+            onTap: () => controller.isShowCalendar.value = true,
             child: Container(
               height: 40,
               alignment: Alignment.topLeft,
@@ -582,103 +576,5 @@ class CreateRequestWidget extends GetView<ChattingDetailPageController> {
             ),
           ),
         ],
-      );
-
-  Widget calendarWidget() => Obx(
-        () => Visibility(
-          visible: controller.isDisplayCalender.value,
-          child: InkWell(
-            onTap: () {
-              controller.isDisplayCalender.value = false;
-            },
-            child: Container(
-              color: const Color.fromARGB(106, 198, 188, 201),
-              padding: const EdgeInsets.symmetric(horizontal: 40),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  SizedBox(
-                    height: 250,
-                    child: ClipRRect(
-                      borderRadius: const BorderRadius.vertical(
-                        top: Radius.circular(10),
-                      ),
-                      child: SfDateRangePicker(
-                        onSelectionChanged: (DateRangePickerSelectionChangedArgs
-                            dateRangePickerSelectionChangedArgs) {
-                          controller.tmpTransactionTime = DateTime.parse(
-                              dateRangePickerSelectionChangedArgs.value
-                                  .toString());
-                        },
-                        selectionMode: DateRangePickerSelectionMode.single,
-                        backgroundColor: WHITE_COLOR,
-                        initialSelectedDate: controller.transactionTime,
-                        initialDisplayDate: controller.transactionTime,
-                        minDate: DateTime.now(),
-                      ),
-                    ),
-                  ),
-                  InkWell(
-                    onTap: () {},
-                    child: Container(
-                      padding: const EdgeInsets.only(
-                        bottom: 10,
-                      ),
-                      decoration: const BoxDecoration(
-                        color: WHITE_COLOR,
-                        borderRadius: BorderRadius.vertical(
-                          bottom: Radius.circular(10),
-                        ),
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          MaterialButton(
-                            onPressed: () {
-                              controller.tmpTransactionTime =
-                                  controller.transactionTime;
-                              controller.isDisplayCalender.value = false;
-                            },
-                            color: PRIMARY_LIGHT_COLOR,
-                            child: Text(
-                              'Cancel',
-                              style: GoogleFonts.quicksand(
-                                color: PRIMARY_COLOR,
-                                fontSize: 18,
-                                fontWeight: FontWeight.w500,
-                                letterSpacing: 1,
-                              ),
-                            ),
-                          ),
-                          MaterialButton(
-                            onPressed: () {
-                              controller.transactionTime =
-                                  controller.tmpTransactionTime;
-                              controller.transactionTimeText.value =
-                                  FORMAT_DATE_TIME(
-                                      dateTime: controller.transactionTime!,
-                                      pattern: DATE_PATTERN_2);
-                              controller.isDisplayCalender.value = false;
-                            },
-                            color: PRIMARY_COLOR,
-                            child: Text(
-                              'OK',
-                              style: GoogleFonts.quicksand(
-                                color: WHITE_COLOR,
-                                fontSize: 18,
-                                fontWeight: FontWeight.w500,
-                                letterSpacing: 1,
-                              ),
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
-                  )
-                ],
-              ),
-            ),
-          ),
-        ),
       );
 }

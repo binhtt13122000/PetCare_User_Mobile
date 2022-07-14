@@ -23,4 +23,5 @@ class PostDetailPageController extends GetxController {
   String loadingType = LoadingType.INIT.name;
   RefreshController refreshController =
       RefreshController(initialRefresh: false);
+  late int postId;
 }

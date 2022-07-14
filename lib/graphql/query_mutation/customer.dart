@@ -11,13 +11,11 @@ query MyQuery($_customerId: Int) {
     email
     firstName
     gender
-    numberReviewers
     lastName
     isActive
     id
     phoneNumber
     point
-    star
   }
 }
 ''';

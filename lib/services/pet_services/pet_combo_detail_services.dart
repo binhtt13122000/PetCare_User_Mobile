@@ -38,8 +38,7 @@ class PetComboDetailServices {
         default:
           return false;
       }
-    } on DioError catch (e) {
-      print(e);
+    } on DioError catch (_) {
       return false;
     }
   }

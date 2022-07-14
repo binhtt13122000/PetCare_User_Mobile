@@ -11,8 +11,10 @@ import 'package:petapp_mobile/views/customer/other_pages/chatting_detail_page/wi
 import 'package:petapp_mobile/views/customer/other_pages/chatting_detail_page/widgets/buyer_request_widget.dart';
 import 'package:petapp_mobile/views/customer/other_pages/chatting_detail_page/widgets/create_request_widget.dart';
 import 'package:petapp_mobile/views/customer/other_pages/chatting_detail_page/widgets/top_widget.dart';
+import 'package:petapp_mobile/views/widgets/calendar_widget.dart';
 import 'package:petapp_mobile/views/widgets/customize_widget.dart';
 import 'package:petapp_mobile/views/widgets/notification_popup_widget.dart';
+import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
 class ChattingDetailPage extends GetView<ChattingDetailPageController> {
   const ChattingDetailPage({Key? key}) : super(key: key);
@@ -114,6 +116,52 @@ class ChattingDetailPage extends GetView<ChattingDetailPageController> {
                             isSuccessNotification: false,
                           )
                         : const SizedBox.shrink(),
+                  ),
+                  Obx(
+                    () => Visibility(
+                      visible: controller.isShowCalendar.value,
+                      child: CalendarWidget(
+                        title: 'Transaction date',
+                        onTapBackGround: () {
+                          controller
+                            ..tmpTransactionTimeText.value =
+                                controller.transactionTimeText.value
+                            ..tmpTransactionTime = controller.transactionTime
+                            ..isShowCalendar.value = false;
+                        },
+                        onSelectionChanged: (DateRangePickerSelectionChangedArgs
+                            dateRangePickerSelectionChangedArgs) {
+                          controller
+                            ..tmpTransactionTime = DateTime.parse(
+                                dateRangePickerSelectionChangedArgs.value
+                                    .toString())
+                            ..tmpTransactionTimeText.value = FORMAT_DATE_TIME(
+                                dateTime: controller.tmpTransactionTime!,
+                                pattern: DATE_PATTERN_2);
+                        },
+                        initialDisplayDate: <DateTime>() =>
+                            controller.transactionTime,
+                        initialSelectedDate: <DateTime>() =>
+                            controller.transactionTime,
+                        onTapCancel: () {
+                          controller
+                            ..tmpTransactionTimeText.value =
+                                controller.transactionTimeText.value
+                            ..tmpTransactionTime = controller.transactionTime
+                            ..isShowCalendar.value = false;
+                        },
+                        onTapOk: () {
+                          controller
+                            ..transactionTime = controller.tmpTransactionTime
+                            ..transactionTimeText.value =
+                                controller.tmpTransactionTimeText.value
+                            ..isShowCalendar.value = false;
+                        },
+                        isAvailableOkButton: <bool>() =>
+                            controller.tmpTransactionTimeText.value.isNotEmpty,
+                        minDate: DateTime.now(),
+                      ),
+                    ),
                   ),
                   Obx(() => controller.isWaitLoadingData.value
                       ? Container(

@@ -12,6 +12,7 @@ import 'package:petapp_mobile/models/pet_model/pet_model.dart';
 import 'package:petapp_mobile/models/post_model/post_model.dart';
 import 'package:petapp_mobile/services/other_services/chat_services.dart';
 import 'package:petapp_mobile/utilities/utilities.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:socket_io_client/socket_io_client.dart' as io;
 
 class ChattingDetailPageController extends GetxController {
@@ -26,17 +27,17 @@ class ChattingDetailPageController extends GetxController {
   ScrollController scrollController = ScrollController();
   late CustomerModel anotherChatRoomMember;
   RxBool showPost = true.obs;
-  RxBool isDisplayCalender = false.obs;
+  RxBool isShowCalendar = false.obs;
   RxString transactionTimeText = ''.obs;
+  RxString tmpTransactionTimeText = ''.obs;
   DateTime? transactionTime;
   RxString transactionLocation = ''.obs;
   RxString description = ''.obs;
   DateTime? tmpTransactionTime;
-  final List<MessageModel> messageModelList = [];
+  RxList<MessageModel> messageModelList = <MessageModel>[].obs;
   final RxBool isLoadingChat = false.obs;
-  final RxBool isLoadingMoreChat = false.obs;
-  final limitMessageRange = 10;
-  double currentMaxScrollPosition = -1;
+  bool isLoadingMoreChat = false;
+  final limitMessageRange = 15;
   final RxBool isShowBuyerRequest = false.obs;
   bool isJoinedRoom = false;
   RxBool isShowLoadingPet = false.obs;
@@ -50,6 +51,8 @@ class ChattingDetailPageController extends GetxController {
   String? chatRoomId;
   String? sellerId;
   String? postId;
+  RefreshController refreshController =
+      RefreshController(initialRefresh: false);
 
   TextEditingController transactionLocationTextEditingController =
       TextEditingController();
@@ -111,23 +114,23 @@ class ChattingDetailPageController extends GetxController {
       }
       update();
     });
-    scrollController.addListener(() async {
-      if (scrollController.position.pixels ==
-              scrollController.position.minScrollExtent &&
-          isLoadingMoreChat.value == false &&
-          chatRoomModel != null) {
-        isLoadingMoreChat.value = true;
-        messageModelList.addAll(
-          await ChatServices.fetchMessageListByChatRoomId(
-            chatRoomId: chatRoomModel!.id,
-            limit: limitMessageRange,
-            skip: messageModelList.length,
-          ),
-        );
-        sortListMessage();
-        update();
-      }
-    });
+    // scrollController.addListener(() async {
+    //   if (scrollController.position.pixels ==
+    //           scrollController.position.minScrollExtent &&
+    //       isLoadingMoreChat.value == false &&
+    //       chatRoomModel != null) {
+    //     isLoadingMoreChat.value = true;
+    //     messageModelList.addAll(
+    //       await ChatServices.fetchMessageListByChatRoomId(
+    //         chatRoomId: chatRoomModel!.id,
+    //         limit: limitMessageRange,
+    //         skip: messageModelList.length,
+    //       ),
+    //     );
+    //     sortListMessage();
+    //     update();
+    //   }
+    // });
     super.onInit();
   }
 

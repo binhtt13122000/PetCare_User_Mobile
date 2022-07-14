@@ -52,13 +52,15 @@ class BookingBreedingServicesPage
             ],
           ),
           const BookingBreedingServicesCalendarWidget(),
-          Obx(() => Visibility(
-                visible: controller.isWaitingSendRequest.value,
-                child: Container(
-                  color: DARK_GREY_TRANSPARENT,
-                  child: LOADING_WIDGET(),
-                ),
-              )),
+          Obx(
+            () => Visibility(
+              visible: controller.isWaitingSendRequest.value,
+              child: Container(
+                color: DARK_GREY_TRANSPARENT,
+                child: LOADING_WIDGET(),
+              ),
+            ),
+          ),
           Obx(
             () => controller.isShowPopup.value
                 ? NotificationPopupWidget(

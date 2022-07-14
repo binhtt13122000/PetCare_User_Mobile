@@ -9,21 +9,17 @@ part 'post_model_hasura.g.dart';
 
 @JsonSerializable(explicitToJson: true)
 class PostModelHasura {
-  final DateTime? approveTime;
   final int branchId;
   final DateTime? cancelTime;
   final DateTime createTime;
   final int customerId;
   final String? description;
   final int id;
-  final bool isVaccineInject;
   final DateTime? meetingTime;
   final int petId;
-  final int provisionalTotal;
-  final int? deposit;
+  final int transactionTotal;
   final String? reasonCancel;
   final String? reasonReject;
-  final DateTime? rejectTime;
   final int sellerReceive;
   final int shopFee;
   final String status;
@@ -39,21 +35,17 @@ class PostModelHasura {
   final List<MediaModel>? mediaModels;
 
   PostModelHasura({
-    this.approveTime,
     required this.branchId,
     this.cancelTime,
     required this.createTime,
     required this.customerId,
     this.description,
     required this.id,
-    required this.isVaccineInject,
     this.meetingTime,
     required this.petId,
-    required this.provisionalTotal,
-    this.deposit,
+    required this.transactionTotal,
     this.reasonCancel,
     this.reasonReject,
-    this.rejectTime,
     required this.sellerReceive,
     required this.shopFee,
     required this.status,
@@ -65,7 +57,7 @@ class PostModelHasura {
     this.branchModel,
   });
 
-factory PostModelHasura.fromJson(Map<String, dynamic> json) =>
+  factory PostModelHasura.fromJson(Map<String, dynamic> json) =>
       _$PostModelHasuraFromJson(json);
 
   Map<String, dynamic> toJson() => _$PostModelHasuraToJson(this);

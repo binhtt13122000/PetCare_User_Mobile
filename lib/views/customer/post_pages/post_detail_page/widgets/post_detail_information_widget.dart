@@ -75,8 +75,9 @@ class PostDetailInformationWidget extends GetView<PostDetailPageController> {
               ),
               textCardWidget(
                 keyText: 'Fertility',
-                valueText:
-                    controller.postModel.petModel!.isFertility ? 'YES' : 'NO',
+                valueText: controller.postModel.petModel!.isFertility
+                    ? 'Available'
+                    : 'Not available',
               ),
 
               Visibility(
@@ -165,22 +166,11 @@ class PostDetailInformationWidget extends GetView<PostDetailPageController> {
                   ),
                 ),
               ),
-              //     controller.isShowDescription.value
-              //         ? Html(
-              //             padding: const EdgeInsets.symmetric(horizontal: 12),
-              //             data: r"""<div>
-              // <h1>Demo Page</h1>
-              // <p>This is a fantastic product that you should buy!</p>
-              // <h3>Features</h3>
-              // <ul>
-              //   <li>It actually works</li>
-              //   <li>It exists</li>
-              //   <li>It doesn't cost much!</li>
-              // </ul>
-              // <!--You can pretty much put any html in here!-->
-              //     </div>""",
-              //           )
-              //         : const SizedBox.shrink(),
+              controller.isShowDescription.value
+                  ? Html(
+                      data: controller.postModel.description ?? 'N/A',
+                    )
+                  : const SizedBox.shrink(),
             ],
           ),
         ),

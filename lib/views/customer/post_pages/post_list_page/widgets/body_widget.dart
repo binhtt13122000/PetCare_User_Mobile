@@ -398,7 +398,7 @@ class PostListBodyWidget extends GetView<PostListPageController> {
                             child: FittedBox(
                               fit: BoxFit.scaleDown,
                               child: Text(
-                                FORMAT_MONEY(price: postModel.provisionalTotal),
+                                FORMAT_MONEY(price: postModel.transactionTotal),
                                 style: GoogleFonts.quicksand(
                                   fontWeight: FontWeight.w600,
                                   color: PRIMARY_COLOR,
