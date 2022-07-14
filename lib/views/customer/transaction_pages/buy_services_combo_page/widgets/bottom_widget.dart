@@ -46,7 +46,7 @@ class BuyServicesComboBottomWidget
                   price: controller.petServicesComboModel.price,
                   quantity: 1,
                   totalPrice: controller.petServicesComboModel.price,
-                  registerTime: controller.bookingServicesDate,
+                  registerTime: controller.registerDate,
                 ),
               ];
 

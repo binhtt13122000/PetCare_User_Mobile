@@ -42,6 +42,26 @@ class PostDetailGeneralInformationWidget
                     visible: controller.accountModel.customerModel.id ==
                         controller.postModel.customerId,
                     child: statusWidget()),
+                Visibility(
+                  visible: controller.postModel.status == 'REJECTED',
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      CUSTOM_TEXT(
+                        'Reason rejected: ',
+                        color: DARK_GREY_TEXT_COLOR.withOpacity(0.8),
+                      ),
+                      Expanded(
+                        child: CUSTOM_TEXT(
+                          controller.postModel.reasonReject ?? 'N/A',
+                          color: RED_COLOR.withOpacity(0.95),
+                          textOverflow: TextOverflow.clip,
+                          fontStyle: FontStyle.italic,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
                 informationCartList(),
               ],
             ),
@@ -69,7 +89,7 @@ class PostDetailGeneralInformationWidget
         break;
       case 'REJECTED':
         color = RED_COLOR;
-        statusText = 'Rejected';
+        statusText = 'Branch rejected post';
         break;
       case 'PUBLISHED':
         color = GREEN_COLOR;
@@ -112,17 +132,23 @@ class PostDetailGeneralInformationWidget
               color: controller.postModel.type == 'SALE'
                   ? BLUE_COLOR
                   : PINK_COLOR),
-          CUSTOM_TEXT(
-            controller.postModel.petModel!.breedModel!.name,
-            fontSize: 20,
-            fontWeight: FontWeight.w700,
-            letterSpacing: 1,
-            color: DARK_GREY_TEXT_COLOR.withOpacity(0.85),
+          Expanded(
+            child: FittedBox(
+              fit: BoxFit.scaleDown,
+              alignment: Alignment.centerLeft,
+              child: CUSTOM_TEXT(
+                '${controller.postModel.petModel!.breedModel!.name} - ${controller.postModel.petModel!.breedModel!.speciesModel!.name}',
+                fontSize: 20,
+                fontWeight: FontWeight.w700,
+                letterSpacing: 1,
+                color: DARK_GREY_TEXT_COLOR.withOpacity(0.85),
+              ),
+            ),
           ),
-          CUSTOM_TEXT(
-            ' (${controller.postModel.petModel!.breedModel!.speciesModel!.name})',
-            color: DARK_GREY_TEXT_COLOR.withOpacity(0.85),
-          ),
+          // CUSTOM_TEXT(
+          //   ' (${controller.postModel.petModel!.breedModel!.speciesModel!.name})',
+          //   color: DARK_GREY_TEXT_COLOR.withOpacity(0.85),
+          // ),
         ],
       );
 

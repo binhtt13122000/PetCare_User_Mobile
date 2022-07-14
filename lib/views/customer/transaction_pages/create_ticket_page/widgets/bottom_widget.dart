@@ -4,7 +4,6 @@ import 'package:get/get.dart';
 import 'package:petapp_mobile/configs/path.dart';
 import 'package:petapp_mobile/configs/theme.dart';
 import 'package:petapp_mobile/controllers/transaction_page_controllers/create_ticket_page_controller.dart';
-import 'package:petapp_mobile/services/transaction_services/ticket_services.dart';
 import 'package:petapp_mobile/views/widgets/customize_widget.dart';
 
 class CreateTicketBottomWidget extends GetView<CreateTicketPageController> {
@@ -25,31 +24,7 @@ class CreateTicketBottomWidget extends GetView<CreateTicketPageController> {
             onTap: () async {
               if (controller.selectedTicketTimeIndex.value != -1 &&
                   controller.selectCenterServicesIndexList.isNotEmpty) {
-                List<int> servicesIdList = [];
-                for (var element in controller.selectCenterServicesIndexList) {
-                  servicesIdList
-                      .add(controller.centerServicesModelList[element].id);
-                }
-                controller.isWaitingSendTicket.value = true;
-                controller.ticketId = await TicketServices.createTicket(
-                  createdTime: DateTime.now(),
-                  meetingDate: DateTime.now().add(
-                      Duration(days: controller.selectedDateIndex.value + 1)),
-                  startTime: controller
-                      .ticketTimeModelList[
-                          controller.selectedTicketTimeIndex.value]
-                      .startTime,
-                  endTime: controller
-                      .ticketTimeModelList[
-                          controller.selectedTicketTimeIndex.value]
-                      .endTime,
-                  branchId: controller.selectBranchId.value,
-                  customerId: controller.accountModel.customerModel.id,
-                  servicesIdList: servicesIdList,
-                );
-                controller
-                  ..isWaitingSendTicket.value = false
-                  ..isShowPopupWidget.value = true;
+                controller.isShowConfirmPopup.value = true;
               }
             },
             child: Obx(
@@ -66,7 +41,7 @@ class CreateTicketBottomWidget extends GetView<CreateTicketPageController> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     CUSTOM_TEXT(
-                      'SEND TICKET',
+                      'Send Ticket',
                       color: WHITE_COLOR,
                       textAlign: TextAlign.center,
                       letterSpacing: 1,

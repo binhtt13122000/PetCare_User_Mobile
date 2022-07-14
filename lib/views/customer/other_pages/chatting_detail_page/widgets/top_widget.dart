@@ -127,7 +127,6 @@ class ChattingDetailTopWidget extends GetView<ChattingDetailPageController> {
   Widget chatRoomStatusWidget() {
     //*Check exist room
     if (controller.chatRoomModel != null) {
-      print(controller.chatRoomModel!.status);
       //*Check customer role is buyer or not
       if (controller.accountModel.customerModel.id ==
           controller.chatRoomModel!.buyerId) {
@@ -172,36 +171,39 @@ class ChattingDetailTopWidget extends GetView<ChattingDetailPageController> {
     }
   }
 
-  Widget viewRequestDetailWidget() => InkWell(
-        onTap: () => controller.isShowCreateRequest.value = true,
-        child: Container(
-          height: 35,
-          padding: const EdgeInsets.symmetric(horizontal: 10),
-          decoration: BoxDecoration(
-            color: const Color.fromARGB(255, 255, 248, 183),
-            borderRadius: BorderRadius.circular(100),
-            border: Border.all(
-              color: const Color.fromARGB(255, 255, 243, 139),
-              width: 0.5,
-            ),
-            boxShadow: [
-              BoxShadow(
-                color: DARK_GREY_COLOR.withOpacity(0.1),
-                blurRadius: 5,
-                offset: const Offset(2, 2),
+  Widget viewRequestDetailWidget() => Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 12),
+        child: InkWell(
+          onTap: () => controller.isShowCreateRequest.value = true,
+          child: Container(
+            height: 35,
+            padding: const EdgeInsets.symmetric(horizontal: 10),
+            decoration: BoxDecoration(
+              color: const Color.fromARGB(255, 255, 248, 183),
+              borderRadius: BorderRadius.circular(100),
+              border: Border.all(
+                color: const Color.fromARGB(255, 255, 243, 139),
+                width: 0.5,
               ),
-            ],
-          ),
-          child: FittedBox(
-            fit: BoxFit.scaleDown,
-            child: Text(
-              'Waiting for seller accept your request - View request detail',
-              textAlign: TextAlign.start,
-              overflow: TextOverflow.clip,
-              style: GoogleFonts.quicksand(
-                color: const Color.fromARGB(255, 76, 85, 117),
-                fontSize: 12,
-                fontWeight: FontWeight.w500,
+              boxShadow: [
+                BoxShadow(
+                  color: DARK_GREY_COLOR.withOpacity(0.1),
+                  blurRadius: 5,
+                  offset: const Offset(2, 2),
+                ),
+              ],
+            ),
+            child: FittedBox(
+              fit: BoxFit.scaleDown,
+              child: Text(
+                'Waiting for seller accept your request - View request detail',
+                textAlign: TextAlign.start,
+                overflow: TextOverflow.clip,
+                style: GoogleFonts.quicksand(
+                  color: const Color.fromARGB(255, 76, 85, 117),
+                  fontSize: 12,
+                  fontWeight: FontWeight.w500,
+                ),
               ),
             ),
           ),

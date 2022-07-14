@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:petapp_mobile/configs/theme.dart';
 import 'package:petapp_mobile/controllers/main_page_controllers/action_page_controller.dart';
+import 'package:petapp_mobile/views/widgets/customize_widget.dart';
 
 class ActionTopWidget extends GetView<ActionPageController> {
   const ActionTopWidget({Key? key}) : super(key: key);
@@ -13,7 +13,7 @@ class ActionTopWidget extends GetView<ActionPageController> {
           topTitleWidget(),
           Container(
             height: 1,
-            margin: const EdgeInsets.only(top: 10),
+            margin: const EdgeInsets.only(top: 0),
             color: LIGHT_GREY_COLOR.withAlpha(30),
           ),
           Container(
@@ -25,24 +25,12 @@ class ActionTopWidget extends GetView<ActionPageController> {
 
   Widget topTitleWidget() => Padding(
         padding: const EdgeInsets.only(top: 30, bottom: 15),
-        child: Row(
-          children: [
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.only(right: 35),
-                child: Text(
-                  'Actions Page',
-                  textAlign: TextAlign.center,
-                  style: GoogleFonts.quicksand(
-                    color: const Color.fromARGB(255, 62, 68, 87),
-                    fontSize: 18,
-                    fontWeight: FontWeight.w700,
-                    letterSpacing: 2,
-                  ),
-                ),
-              ),
-            ),
-          ],
+        child: CUSTOM_TEXT(
+          'Actions Page',
+          textAlign: TextAlign.center,
+          fontSize: 18,
+          fontWeight: FontWeight.w700,
+          letterSpacing: 2,
         ),
       );
 }

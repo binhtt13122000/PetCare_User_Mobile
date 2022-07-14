@@ -1,8 +1,5 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:petapp_mobile/configs/theme.dart';
 import 'package:petapp_mobile/controllers/pet_page_controllers/generate_qr_code_page_controller.dart';
 import 'package:petapp_mobile/services/pet_services/pet_generate_qr_code_services.dart';
 import 'package:petapp_mobile/views/customer/generate_qr_code/widgets/body_widget.dart';

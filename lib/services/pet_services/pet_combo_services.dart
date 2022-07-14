@@ -89,7 +89,6 @@ class PetComboServices {
       case 202:
         return jsonDecode(response.body)['success'];
       default:
-        print(response.body);
         throw Exception('Error ${response.statusCode}, cannot payment');
     }
   }

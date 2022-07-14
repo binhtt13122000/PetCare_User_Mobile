@@ -48,8 +48,11 @@ class TicketServices {
       case 200:
       case 201:
       case 202:
+        print(response.body);
+
         return jsonDecode(response.body)['data']['id'];
       default:
+        print(response.body);
         return null;
     }
   }

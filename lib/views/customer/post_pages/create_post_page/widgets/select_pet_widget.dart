@@ -46,8 +46,7 @@ class SelectPetWidget extends GetView<CreatePostPageController> {
         }
 
         controller
-          ..selectedPetId.value =
-              controller.pets.isNotEmpty ? controller.pets[0].id : -1
+          ..selectedPetIndex.value = controller.pets.isNotEmpty ? 0 : -1
           ..isShowLoadingPet.value = false;
       });
       return Obx(() => controller.isShowLoadingPet.value
@@ -62,144 +61,6 @@ class SelectPetWidget extends GetView<CreatePostPageController> {
             ));
     });
   }
-
-  // Widget petVaccinationDescriptionWidget() {
-  //   return Obx(
-  //     () => controller.selectedPetId.value == -1
-  //         ? const SizedBox.shrink()
-  //         : Padding(
-  //             padding: const EdgeInsets.only(top: 20, right: 12, left: 12),
-  //             child: Column(
-  //               children: [
-  //                 Row(
-  //                   crossAxisAlignment: CrossAxisAlignment.end,
-  //                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-  //                   children: [
-  //                     Row(
-  //                       crossAxisAlignment: CrossAxisAlignment.end,
-  //                       children: [
-  //                         Text(
-  //                           'Vaccination description',
-  //                           style: GoogleFonts.quicksand(
-  //                             fontWeight: FontWeight.w500,
-  //                             color: const Color.fromARGB(255, 61, 78, 100),
-  //                             fontSize: 16,
-  //                             letterSpacing: 0.5,
-  //                           ),
-  //                         ),
-  //                         Padding(
-  //                           padding: const EdgeInsets.only(left: 5),
-  //                           child: Icon(
-  //                             Icons.info_outline_rounded,
-  //                             size: 15,
-  //                             color: DARK_GREY_COLOR.withAlpha(100),
-  //                           ),
-  //                         ),
-  //                       ],
-  //                     ),
-  //                   ],
-  //                 ),
-  //                 Container(
-  //                   height: 100,
-  //                   alignment: Alignment.topLeft,
-  //                   margin: const EdgeInsets.only(top: 8),
-  //                   padding: const EdgeInsets.all(10),
-  //                   decoration: BoxDecoration(
-  //                     border: Border.all(
-  //                       color: const Color.fromARGB(255, 167, 181, 201),
-  //                       width: 1.2,
-  //                     ),
-  //                     borderRadius: BorderRadius.circular(5),
-  //                   ),
-  //                   child: Column(
-  //                     children: [
-  //                       Row(
-  //                         children: [
-  //                           Obx(
-  //                             () => Container(
-  //                               width: 20,
-  //                               height: 20,
-  //                               margin: const EdgeInsets.only(right: 5),
-  //                               child: Checkbox(
-  //                                 value: controller
-  //                                     .isUsePetOwnerVaccinationDescription
-  //                                     .value,
-  //                                 onChanged: (isCheck) {
-  //                                   controller
-  //                                       .isUsePetOwnerVaccinationDescription
-  //                                       .value = isCheck!;
-  //                                   if (isCheck) {
-  //                                     controller
-  //                                       ..vaccinationDescription = controller
-  //                                           .petOwnerVaccinationDescription
-  //                                       ..vaccinationDescriptionTextEditingController
-  //                                               .text =
-  //                                           controller.vaccinationDescription;
-  //                                   }
-  //                                 },
-  //                                 activeColor: PRIMARY_COLOR,
-  //                               ),
-  //                             ),
-  //                           ),
-  //                           Text(
-  //                             'Use pet owner vaccination description',
-  //                             style: GoogleFonts.quicksand(
-  //                               fontWeight: FontWeight.w500,
-  //                               color: const Color.fromARGB(255, 85, 103, 128),
-  //                               fontSize: 13,
-  //                               letterSpacing: 1,
-  //                             ),
-  //                           ),
-  //                         ],
-  //                       ),
-  //                       Row(
-  //                         crossAxisAlignment: CrossAxisAlignment.start,
-  //                         children: [
-  //                           Expanded(
-  //                             child: TextFormField(
-  //                               minLines: 3,
-  //                               maxLines: 3,
-  //                               maxLength: 40,
-  //                               controller: controller
-  //                                   .vaccinationDescriptionTextEditingController,
-  //                               onChanged: (String text) {
-  //                                 controller.vaccinationDescription = text;
-  //                               },
-  //                               keyboardType: TextInputType.multiline,
-  //                               cursorColor: PRIMARY_COLOR,
-  //                               style: GoogleFonts.quicksand(
-  //                                 fontWeight: FontWeight.w500,
-  //                                 color:
-  //                                     const Color.fromARGB(255, 113, 135, 168),
-  //                                 fontSize: 15,
-  //                                 letterSpacing: 1,
-  //                               ),
-  //                               decoration: InputDecoration(
-  //                                 hintText:
-  //                                     'Type pet vaccination description here...',
-  //                                 hintStyle: GoogleFonts.quicksand(
-  //                                   fontWeight: FontWeight.w500,
-  //                                   color: const Color.fromARGB(
-  //                                       255, 162, 176, 194),
-  //                                   fontSize: 13,
-  //                                   letterSpacing: 1,
-  //                                 ),
-  //                                 border: InputBorder.none,
-  //                                 counterText: '',
-  //                                 isCollapsed: true,
-  //                               ),
-  //                             ),
-  //                           ),
-  //                         ],
-  //                       ),
-  //                     ],
-  //                   ),
-  //                 ),
-  //               ],
-  //             ),
-  //           ),
-  //   );
-  // }
 
   Widget petFilterWidget() => Column(
         children: [
@@ -350,10 +211,8 @@ class SelectPetWidget extends GetView<CreatePostPageController> {
                           children: [
                             controller.pets.isNotEmpty
                                 ? petItemWidget(
-                                    petModel: controller.pets.firstWhere(
-                                        (element) =>
-                                            element.id ==
-                                            controller.selectedPetId.value),
+                                    petModel: controller.pets[
+                                        controller.selectedPetIndex.value],
                                   )
                                 : Text(
                                     'No suitable pet!',
@@ -467,8 +326,8 @@ class SelectPetWidget extends GetView<CreatePostPageController> {
                         .entries
                         .map(
                           (e) => petItemInDropdownListWidget(
-                              petModel: e.value,
-                              isLastIndex: e.key == controller.pets.length - 1),
+                            index: e.key,
+                          ),
                         )
                         .toList()),
               ),
@@ -538,22 +397,12 @@ class SelectPetWidget extends GetView<CreatePostPageController> {
         ),
       );
 
-  Widget petItemInDropdownListWidget(
-          {required PetModel petModel, required bool isLastIndex}) =>
-      Column(
+  Widget petItemInDropdownListWidget({required int index}) => Column(
         children: [
           InkWell(
             onTap: () => controller
               ..isShowPetDropdownList.value = false
-              ..selectedPetId.value = petModel.id,
-            // ..petOwnerVaccinationDescription =
-            //     petModel.vaccineDescription ?? ''
-            // ..vaccinationDescription =
-            //     controller.isUsePetOwnerVaccinationDescription.value
-            //         ? controller.petOwnerVaccinationDescription
-            //         : ''
-            // ..vaccinationDescriptionTextEditingController.text =
-            //     controller.vaccinationDescription,
+              ..selectedPetIndex.value = index,
             child: Container(
               height: 50,
               width: 280,
@@ -570,7 +419,7 @@ class SelectPetWidget extends GetView<CreatePostPageController> {
                         width: 20,
                         height: 45,
                         decoration: BoxDecoration(
-                            color: controller.selectedPetId.value == petModel.id
+                            color: controller.selectBranchIndex.value == index
                                 ? PRIMARY_COLOR
                                 : Colors.transparent,
                             borderRadius: BorderRadius.circular(4)),
@@ -580,7 +429,7 @@ class SelectPetWidget extends GetView<CreatePostPageController> {
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(8),
                           child: Image.network(
-                            petModel.avatar,
+                            controller.pets[index].avatar,
                             height: 45,
                             width: 77.5,
                             fit: BoxFit.cover,
@@ -602,11 +451,11 @@ class SelectPetWidget extends GetView<CreatePostPageController> {
                       child: FittedBox(
                         fit: BoxFit.scaleDown,
                         child: Text(
-                          petModel.name,
+                          controller.pets[index].name,
                           textAlign: TextAlign.center,
                           style: GoogleFonts.quicksand(
                             fontWeight: FontWeight.w500,
-                            color: controller.selectedPetId.value == petModel.id
+                            color: controller.selectBranchIndex.value == index
                                 ? PRIMARY_COLOR
                                 : const Color.fromARGB(255, 121, 128, 141),
                             fontSize: 16,
@@ -619,7 +468,7 @@ class SelectPetWidget extends GetView<CreatePostPageController> {
               ),
             ),
           ),
-          !isLastIndex
+          index != controller.pets.length
               ? Container(
                   height: 4,
                   width: 200,

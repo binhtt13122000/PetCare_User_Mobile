@@ -179,7 +179,7 @@ class BuyServicesComboBodyWidget
         child: Padding(
           padding: const EdgeInsets.only(left: 20),
           child: InkWell(
-            onTap: () => controller.isDisplayCalender.value = true,
+            onTap: () => controller.isShowCalendar.value = true,
             child: Container(
               height: 40,
               decoration: BoxDecoration(

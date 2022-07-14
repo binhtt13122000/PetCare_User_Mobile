@@ -55,8 +55,7 @@ class AuthService {
         'fcmToken': userDeviceToken,
       }),
     );
-    print(idToken);
-    print(userDeviceToken);
+
     switch (response.statusCode) {
       case 200:
       case 201:
@@ -67,7 +66,6 @@ class AuthService {
           return null;
         }
       default:
-        print(response.body);
         return null;
     }
   }
@@ -141,8 +139,7 @@ class AuthService {
         default:
           return null;
       }
-    } on DioError catch (e) {
-      print(e);
+    } on DioError catch (_) {
       return null;
     }
   }

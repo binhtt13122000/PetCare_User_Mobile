@@ -5,8 +5,10 @@ import 'package:petapp_mobile/configs/path.dart';
 import 'package:petapp_mobile/configs/theme.dart';
 import 'package:petapp_mobile/controllers/other_controllers/chatting_detail_page_controller.dart';
 import 'package:petapp_mobile/models/message_model/message_model.dart';
+import 'package:petapp_mobile/services/other_services/chat_services.dart';
 import 'package:petapp_mobile/utilities/utilities.dart';
 import 'package:petapp_mobile/views/widgets/customize_widget.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class ChattingDetailBodyWidget extends GetView<ChattingDetailPageController> {
   const ChattingDetailBodyWidget({Key? key}) : super(key: key);
@@ -16,45 +18,45 @@ class ChattingDetailBodyWidget extends GetView<ChattingDetailPageController> {
     return Expanded(
       child: Column(
         children: [
-          Obx(
-            () => Visibility(
-              visible: controller.isLoadingMoreChat.value,
-              child: Container(
-                padding: const EdgeInsets.symmetric(vertical: 10),
-                child: LOADING_WIDGET(size: 40),
-              ),
-            ),
-          ),
           Expanded(
-            child: SingleChildScrollView(
-              controller: controller.scrollController,
-              child: GetBuilder<ChattingDetailPageController>(
-                builder: (controller) {
-                  controller.currentMaxScrollPosition =
-                      controller.currentMaxScrollPosition == -1
-                          ? 0
-                          : controller
-                              .scrollController.position.maxScrollExtent;
+            child: SmartRefresher(
+              controller: controller.refreshController,
+              scrollController: controller.scrollController,
+              //  enablePullUp: true,
+              onRefresh: () async {
+                controller.isLoadingMoreChat = true;
+                List<MessageModel> messageModelList =
+                    await ChatServices.fetchMessageListByChatRoomId(
+                  chatRoomId: controller.chatRoomModel!.id,
+                  limit: controller.limitMessageRange,
+                  skip: controller.messageModelList.length,
+                );
 
+                messageModelList
+                    .sort((a, b) => a.createdTime.compareTo(b.createdTime));
+                controller
+                  ..messageModelList.value = [
+                    ...messageModelList,
+                    ...controller.messageModelList
+                  ]
+                  ..refreshController.refreshCompleted();
+              },
+              // onLoading: () {
+              //   controller.update();
+              // },
+
+              child: SingleChildScrollView(
+                controller: controller.scrollController,
+                child: Obx(() {
                   WidgetsBinding.instance!.addPostFrameCallback((_) {
-                    if (controller.isLoadingMoreChat.value) {
-                      controller.isLoadingMoreChat.value = false;
-
-                      if (controller
-                              .scrollController.position.maxScrollExtent !=
-                          controller.currentMaxScrollPosition) {
-                        controller.scrollController.jumpTo(controller
-                                .scrollController.position.maxScrollExtent -
-                            controller.currentMaxScrollPosition -
-                            70);
-                      }
-                    } else {
-                      controller.scrollController.animateTo(
-                          controller.scrollController.position.maxScrollExtent,
+                    if (!controller.isLoadingMoreChat) {
+                      controller.scrollController.animateTo(99999999,
                           duration: const Duration(seconds: 1),
                           curve: Curves.ease);
                     }
+                    controller.isLoadingMoreChat = false;
                   });
+
                   return Column(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children:
@@ -96,7 +98,7 @@ class ChattingDetailBodyWidget extends GetView<ChattingDetailPageController> {
                               messageModel: e.value, isLastChat: isLastChat);
                     }).toList(),
                   );
-                },
+                }),
               ),
             ),
           ),

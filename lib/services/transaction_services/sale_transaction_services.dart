@@ -108,7 +108,6 @@ class SaleTransactionService {
       case 202:
         return json.decode(response.body)['data']['id'];
       default:
-        print(response.body);
         throw Exception(
             'Error ${response.statusCode}, cannot update transaction');
     }

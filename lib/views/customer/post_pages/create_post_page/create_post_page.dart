@@ -2,20 +2,23 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:petapp_mobile/configs/theme.dart';
 import 'package:petapp_mobile/controllers/post_page_controllers/create_post_page_controller.dart';
+import 'package:petapp_mobile/controllers/post_page_controllers/post_management_page_controller.dart';
 import 'package:petapp_mobile/services/other_services/branch_services.dart';
 import 'package:petapp_mobile/services/transaction_services/transaction_fees_services.dart';
+import 'package:petapp_mobile/utilities/utilities.dart';
 import 'package:petapp_mobile/views/customer/post_pages/create_post_page/widgets/body_widget.dart';
 import 'package:petapp_mobile/views/customer/post_pages/create_post_page/widgets/bottom_widget.dart';
-import 'package:petapp_mobile/views/customer/post_pages/create_post_page/widgets/calendar_widget.dart';
 import 'package:petapp_mobile/views/customer/post_pages/create_post_page/widgets/loading_widget.dart';
 import 'package:petapp_mobile/views/customer/post_pages/create_post_page/widgets/media_picker_widget.dart';
-import 'package:petapp_mobile/views/customer/post_pages/create_post_page/widgets/popup_widget.dart';
 import 'package:petapp_mobile/views/customer/post_pages/create_post_page/widgets/sale_transaction_fees.dart';
 import 'package:petapp_mobile/views/customer/post_pages/create_post_page/widgets/select_pet_widget.dart';
 import 'package:petapp_mobile/views/customer/post_pages/create_post_page/widgets/select_branch_widget.dart';
 import 'package:petapp_mobile/views/customer/post_pages/create_post_page/widgets/top_widget.dart';
+import 'package:petapp_mobile/views/widgets/calendar_widget.dart';
 import 'package:petapp_mobile/views/widgets/customize_widget.dart';
+import 'package:petapp_mobile/views/widgets/notification_popup_widget.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
 class CreatePostPage extends GetView<CreatePostPageController> {
   const CreatePostPage({Key? key}) : super(key: key);
@@ -55,9 +58,63 @@ class CreatePostPage extends GetView<CreatePostPageController> {
             ],
           ),
           const CreatePostLoadingWidget(),
-          const CreatePostPopupWidget(),
+          Obx(
+            () => controller.isShowSuccessfullyPopup.value
+                ? NotificationPopupWidget(
+                    onTapBackground: () {},
+                    onTapOk: () => Get
+                      ..back()
+                      ..find<PostManagementPageController>().update(),
+                    content:
+                        'Create ${controller.selectedPostType.value == 'SALE' ? 'sale' : 'breeding'} post for pet ${controller.pets[controller.selectedPetIndex.value].name} successfully.',
+                    isSuccessNotification: true,
+                  )
+                : const SizedBox.shrink(),
+          ),
           const CreatePostSaleTransactionFeesWidget(),
-          const CreatePostCalendarWidget(),
+          Obx(
+            () => Visibility(
+              visible: controller.isShowCalendar.value,
+              child: CalendarWidget(
+                title: 'Meeting date',
+                onTapBackGround: () {
+                  controller
+                    ..tmpMeetingTimeText.value =
+                        controller.meetingTimeText.value
+                    ..tmpMeetingTime = controller.meetingTime
+                    ..isShowCalendar.value = false;
+                },
+                onSelectionChanged: (DateRangePickerSelectionChangedArgs
+                    dateRangePickerSelectionChangedArgs) {
+                  controller
+                    ..tmpMeetingTime = DateTime.parse(
+                        dateRangePickerSelectionChangedArgs.value.toString())
+                    ..tmpMeetingTimeText.value = FORMAT_DATE_TIME(
+                        dateTime: controller.tmpMeetingTime!,
+                        pattern: DATE_PATTERN_2);
+                },
+                initialDisplayDate: <DateTime>() => controller.meetingTime,
+                initialSelectedDate: <DateTime>() => controller.meetingTime,
+                onTapCancel: () {
+                  controller
+                    ..tmpMeetingTimeText.value =
+                        controller.meetingTimeText.value
+                    ..tmpMeetingTime = controller.meetingTime
+                    ..isShowCalendar.value = false;
+                },
+                onTapOk: () {
+                  controller
+                    ..meetingTime = controller.tmpMeetingTime
+                    ..meetingTimeText.value =
+                        controller.tmpMeetingTimeText.value
+                    ..isShowCalendar.value = false;
+                },
+                isAvailableOkButton: <bool>() =>
+                    controller.tmpMeetingTimeText.value.isNotEmpty,
+                minDate: DateTime.now(),
+              ),
+            ),
+          ),
         ],
       ),
     );

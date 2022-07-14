@@ -419,7 +419,7 @@ class BuyerRequestWidget extends GetView<ChattingDetailPageController> {
                   child: Text(
                     FORMAT_DATE_TIME(
                         dateTime: controller.chatRoomModel!.transactionTime!,
-                        pattern: DATE_TIME_PATTERN),
+                        pattern: DATE_PATTERN_2),
                     style: GoogleFonts.quicksand(
                       fontWeight: FontWeight.w500,
                       color: const Color.fromARGB(255, 113, 135, 168),
@@ -480,7 +480,7 @@ class BuyerRequestWidget extends GetView<ChattingDetailPageController> {
                 SizedBox(
                   width: 135,
                   child: Text(
-                    'Denine request',
+                    'Deny request',
                     textAlign: TextAlign.center,
                     overflow: TextOverflow.clip,
                     style: GoogleFonts.quicksand(

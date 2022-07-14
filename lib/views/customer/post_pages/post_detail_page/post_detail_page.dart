@@ -19,66 +19,68 @@ class PostDetailPage extends GetView<PostDetailPageController> {
   const PostDetailPage({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) => Scaffold(
-        backgroundColor: WHITE_COLOR,
-        body: GetBuilder<PostDetailPageController>(
-          builder: (_) {
-            controller.isShowLoadingPost.value = true;
+  Widget build(BuildContext context) {
+    if (Get.parameters['postId'] != null) {
+      controller.postId = int.parse(Get.parameters['postId'].toString());
+    }
+    return Scaffold(
+      backgroundColor: WHITE_COLOR,
+      body: GetBuilder<PostDetailPageController>(
+        builder: (_) {
+          controller.isShowLoadingPost.value = true;
 
-            WidgetsBinding.instance!.addPostFrameCallback((_) async {
-              controller.postModel = await PostService.fetchPostById(
-                  postId: Get.parameters['postId'] != null
-                      ? int.parse(Get.parameters['postId'].toString())
-                      : controller.postModel.id);
-              controller.isShowLoadingPost.value = false;
-            });
+          WidgetsBinding.instance!.addPostFrameCallback((_) async {
+            controller.postModel =
+                await PostService.fetchPostById(postId: controller.postId);
+            controller.isShowLoadingPost.value = false;
+          });
 
-            return Obx(
-              () => controller.isShowLoadingPost.value
-                  ? LOADING_WIDGET()
-                  : Stack(
-                      children: [
-                        Column(
-                          children: [
-                            const PostDetailMainImageWidget(),
-                            Expanded(
-                              child: SmartRefresher(
-                                controller: controller.refreshController,
-                                onRefresh: () => controller.update(),
-                                child: SingleChildScrollView(
-                                  controller: controller.mainScrollController,
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: const [
-                                      PostDetailImageListWidget(),
-                                      PostDetailGeneralInformationWidget(),
-                                      PostDetailSellerInformationWidget(),
-                                      PostDetailInformationWidget(),
-                                    ],
-                                  ),
+          return Obx(
+            () => controller.isShowLoadingPost.value
+                ? LOADING_WIDGET()
+                : Stack(
+                    children: [
+                      Column(
+                        children: [
+                          const PostDetailMainImageWidget(),
+                          Expanded(
+                            child: SmartRefresher(
+                              controller: controller.refreshController,
+                              onRefresh: () => controller.update(),
+                              child: SingleChildScrollView(
+                                controller: controller.mainScrollController,
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: const [
+                                    PostDetailImageListWidget(),
+                                    PostDetailGeneralInformationWidget(),
+                                    PostDetailSellerInformationWidget(),
+                                    PostDetailInformationWidget(),
+                                  ],
                                 ),
                               ),
                             ),
-                            const PostDetailBottomWidget(),
-                          ],
-                        ),
-                        const PostDetailMoreOptionWidget(),
-                        const PostDetailConfirmPopupWidget(),
-                        Obx(
-                          () => Visibility(
-                            visible:
-                                controller.isWaitLoadingDataForeGround.value,
-                            child: Container(
-                              color: DARK_GREY_TRANSPARENT,
-                              child: LOADING_WIDGET(),
-                            ),
+                          ),
+                          const PostDetailBottomWidget(),
+                        ],
+                      ),
+                      const PostDetailMoreOptionWidget(),
+                      const PostDetailConfirmPopupWidget(),
+                      Obx(
+                        () => Visibility(
+                          visible: controller.isWaitLoadingDataForeGround.value,
+                          child: Container(
+                            color: DARK_GREY_TRANSPARENT,
+                            child: LOADING_WIDGET(),
                           ),
                         ),
-                        const PostDetailNotificationPopupWidget(),
-                      ],
-                    ),
-            );
-          },
-        ),
-      );
+                      ),
+                      const PostDetailNotificationPopupWidget(),
+                    ],
+                  ),
+          );
+        },
+      ),
+    );
+  }
 }

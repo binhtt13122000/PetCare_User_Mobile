@@ -127,7 +127,7 @@ class PetService {
     }
   }
 
-  static Future updatePet({
+  static Future<bool> updatePet({
     required int id,
     required int ownerId,
     required File? avatarFile,
@@ -145,20 +145,7 @@ class PetService {
   }) async {
     try {
       FormData formData;
-      print({
-        'id': id,
-        'name': name,
-        'dob': dob,
-        'gender': gender,
-        'description': description ?? '',
-        'isSeed': isSeed,
-        'status': status,
-        'color': color ?? '',
-        'breedId': breedId,
-        'specialMarkings': specialMarkings ?? '',
-        'vaccineDescription': vaccineDescription ?? '',
-        'avatar': avatarFilePath,
-      });
+
       formData = FormData.fromMap({
         'id': id,
         'name': name,
@@ -170,7 +157,6 @@ class PetService {
         'color': color ?? '',
         'breedId': breedId,
         'specialMarkings': specialMarkings ?? '',
-        'vaccineDescription': vaccineDescription ?? '',
         'avatar': avatarFilePath,
       });
 
@@ -183,19 +169,16 @@ class PetService {
         );
       }
 
-      Response response = await Dio().put('http://$API_SERVER_PATH/v1/api/pets',
+      await Dio().put('http://$API_SERVER_PATH/v1/api/pets',
           data: formData,
           options: Options(headers: <String, String>{
             HttpHeaders.contentTypeHeader: 'multipart/form-data',
           }));
-      print(response.toString());
 
-      return response.statusCode;
+      return true;
     } on DioError catch (e) {
-      print(e.error);
-      print(e.error.toString());
-
-      return e.response!.statusCode;
+      print(e.response);
+      return false;
     }
   }
 

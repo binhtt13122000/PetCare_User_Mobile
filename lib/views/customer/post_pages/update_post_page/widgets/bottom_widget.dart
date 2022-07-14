@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:petapp_mobile/configs/path.dart';
 import 'package:petapp_mobile/configs/theme.dart';
 import 'package:petapp_mobile/controllers/post_page_controllers/update_post_page_controller.dart';
-import 'package:petapp_mobile/services/post_services/post_services.dart';
+import 'package:petapp_mobile/views/widgets/customize_widget.dart';
 
 class UpdatePostBottomWidget extends GetView<UpdatePostPageController> {
   const UpdatePostBottomWidget({Key? key}) : super(key: key);
@@ -22,32 +19,12 @@ class UpdatePostBottomWidget extends GetView<UpdatePostPageController> {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
               child: InkWell(
-                onTap: () async {
+                onTap: () {
                   if (controller.title.value.isNotEmpty &&
                       controller.price.value > 0 &&
-                      controller.selectedPetId.value != -1 &&
-                      controller.evidences.isNotEmpty) {
-                    controller.isShowLoadingWidget.value = true;
-                    await PostService.updatePost(
-                      id: controller.postModel.id,
-                      title: controller.title.value,
-                      sellerReceive: int.parse(controller.receivedMoney.value),
-                      shopFee: controller.price.value -
-                          int.parse(controller.receivedMoney.value),
-                      provisionalTotal: controller.price.value,
-                      deposits: controller.price.value,
-                      createTime: DateTime.now(),
-                      meetingTime: DateTime.now(),
-                      type: controller.selectedPostType.value,
-                      petId: controller.selectedPetId.value,
-                      customerId: controller.accountModel.customerModel.id,
-                      mediaModels: controller.evidencesPath,
-                      status: 'REQUESTED',
-                      branchId: controller.selectedBranchId.value,
-                      deletedIds: controller.deletedIds,
-                    );
-                    controller.isShowLoadingWidget.value = false;
-                    controller.isShowSuccessfullyPopup.value = true;
+                      (controller.evidences.isNotEmpty ||
+                          controller.evidencesPath.isNotEmpty)) {
+                    controller.isShowConfirmPopup.value = true;
                   }
                 },
                 child: Obx(
@@ -58,33 +35,17 @@ class UpdatePostBottomWidget extends GetView<UpdatePostPageController> {
                       borderRadius: BorderRadius.circular(10),
                       color: controller.title.value.isNotEmpty &&
                               controller.price.value > 0 &&
-                              controller.selectedPetId.value != -1 &&
-                              controller.evidences.isNotEmpty
+                              (controller.evidences.isNotEmpty ||
+                                  controller.evidencesPath.isNotEmpty)
                           ? PRIMARY_COLOR
-                          : PRIMARY_COLOR.withOpacity(0.5),
+                          : PRIMARY_COLOR.withOpacity(0.3),
                     ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          'Update Post',
-                          textAlign: TextAlign.center,
-                          style: GoogleFonts.quicksand(
-                            textStyle: const TextStyle(color: WHITE_COLOR),
-                            fontWeight: FontWeight.w700,
-                            height: 1,
-                            letterSpacing: 2,
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(left: 10),
-                          child: SvgPicture.asset(
-                            ICON_PATH + ADD_SVG,
-                            color: WHITE_COLOR,
-                            height: 16,
-                          ),
-                        ),
-                      ],
+                    child: CUSTOM_TEXT(
+                      'Update Post',
+                      textAlign: TextAlign.center,
+                      color: WHITE_COLOR,
+                      fontWeight: FontWeight.w700,
+                      letterSpacing: 1,
                     ),
                   ),
                 ),

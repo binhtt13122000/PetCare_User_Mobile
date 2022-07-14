@@ -178,52 +178,54 @@ class CreatePetBodyWidget extends GetView<CreatePetPageController> {
               width: 20,
             ),
             Expanded(
-              child: InkWell(
-                onTap: () => controller.isDisplayCalender.value = true,
-                child: Container(
-                  height: 45,
-                  margin: const EdgeInsets.only(top: 8),
-                  padding: const EdgeInsets.all(10),
-                  decoration: BoxDecoration(
-                    border: Border.all(
-                      color: const Color.fromARGB(255, 167, 181, 201),
-                      width: 1.2,
+              child: Padding(
+                padding: const EdgeInsets.only(top: 8),
+                child: InkWell(
+                  onTap: () => controller.isShowCalendar.value = true,
+                  child: Container(
+                    height: 45,
+                    padding: const EdgeInsets.all(10),
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                        color: const Color.fromARGB(255, 167, 181, 201),
+                        width: 1.2,
+                      ),
+                      borderRadius: BorderRadius.circular(5),
                     ),
-                    borderRadius: BorderRadius.circular(5),
-                  ),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Expanded(
-                        child: Obx(
-                          () => controller.dayOfBirthText.value.isEmpty
-                              ? Text(
-                                  'dd/MM/yyyy',
-                                  style: GoogleFonts.quicksand(
-                                    fontWeight: FontWeight.w500,
-                                    color: const Color.fromARGB(
-                                        255, 162, 176, 194),
-                                    fontSize: 13,
-                                    letterSpacing: 2,
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Expanded(
+                          child: Obx(
+                            () => controller.dayOfBirthText.value.isEmpty
+                                ? Text(
+                                    'dd/MM/yyyy',
+                                    style: GoogleFonts.quicksand(
+                                      fontWeight: FontWeight.w500,
+                                      color: const Color.fromARGB(
+                                          255, 162, 176, 194),
+                                      fontSize: 13,
+                                      letterSpacing: 2,
+                                    ),
+                                  )
+                                : Text(
+                                    controller.dayOfBirthText.value,
+                                    style: GoogleFonts.quicksand(
+                                      fontWeight: FontWeight.w500,
+                                      color: const Color.fromARGB(
+                                          255, 113, 135, 168),
+                                      fontSize: 15,
+                                      letterSpacing: 2,
+                                    ),
                                   ),
-                                )
-                              : Text(
-                                  controller.dayOfBirthText.value,
-                                  style: GoogleFonts.quicksand(
-                                    fontWeight: FontWeight.w500,
-                                    color: const Color.fromARGB(
-                                        255, 113, 135, 168),
-                                    fontSize: 15,
-                                    letterSpacing: 2,
-                                  ),
-                                ),
+                          ),
                         ),
-                      ),
-                      const Icon(
-                        Icons.calendar_month_rounded,
-                        color: PRIMARY_COLOR,
-                      ),
-                    ],
+                        const Icon(
+                          Icons.calendar_month_rounded,
+                          color: PRIMARY_COLOR,
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),

@@ -315,7 +315,6 @@ class BreedingTransactionService {
         return BreedingTransactionModel.fromJson(
             json.decode(response.body)['data']);
       default:
-        print(response.body);
         throw Exception(
             'Error ${response.statusCode}, cannot get breeding transaction');
     }

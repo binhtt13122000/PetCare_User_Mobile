@@ -45,12 +45,13 @@ class CreatePostPageController extends GetxController {
   late List<SpeciesModel> species;
 
   late List<PetModel> pets;
-  RxInt selectedPetId = (-1).obs;
+  RxInt selectedPetIndex = (-1).obs;
 
   ScrollController mainScrollController = ScrollController();
   AccountModel accountModel = Get.find<AuthController>().accountModel;
   DateTime? meetingTime;
   DateTime? tmpMeetingTime;
   RxString meetingTimeText = ''.obs;
+  RxString tmpMeetingTimeText = ''.obs;
   RxBool isShowCalendar = false.obs;
 }

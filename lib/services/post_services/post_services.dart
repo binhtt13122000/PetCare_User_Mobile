@@ -73,7 +73,7 @@ class PostService {
     required List<MediaModel> mediaModels,
     required int sellerReceive,
     required int shopFee,
-    required int provisionalTotal,
+    required int transactionTotal,
     required int deposits,
     required DateTime createTime,
     required DateTime meetingTime,
@@ -89,7 +89,7 @@ class PostService {
         'title': title,
         'sellerReceive': sellerReceive,
         'shopFee': shopFee,
-        'provisionalTotal': provisionalTotal,
+        'transactionTotal': transactionTotal,
         'createTime': createTime,
         'meetingTime': meetingTime,
         'type': type,
@@ -169,11 +169,8 @@ class PostService {
               options: Options(headers: <String, String>{
                 HttpHeaders.contentTypeHeader: 'multipart/form-data',
               }));
-      print(response.data);
       return response.statusCode;
     } on DioError catch (e) {
-      print(e);
-
       return e.response!.statusCode;
     }
   }
@@ -252,7 +249,6 @@ class PostService {
         return getPostListByCustom(
             json.decode(response.body)['data']['content']);
       default:
-        print(response.body);
         throw Exception('Error ${response.statusCode}, cannot get species');
     }
   }

@@ -23,10 +23,14 @@ class CreateTicketPageController extends GetxController {
   late List<CenterServiceModel> centerServicesModelList;
   RxBool isShowAddServices = false.obs;
   RxBool isWaitingSendTicket = false.obs;
-  RxBool isShowPopupWidget = false.obs;
+  RxBool isShowSuccessfullyPopup = false.obs;
   int? ticketId;
-  RxBool isDisplayCalender = false.obs;
-
+  RxBool isShowConfirmPopup = false.obs;
+  RxBool isShowCalendar = false.obs;
+  RxString tmpMeetingTimeText = FORMAT_DATE_TIME(
+          dateTime: DateTime.now().add(const Duration(days: 1)),
+          pattern: DATE_PATTERN_2)
+      .obs;
   DateTime bookingServicesDate = DateTime.now().add(const Duration(days: 1));
   DateTime tmpBookingServicesDate = DateTime.now().add(const Duration(days: 1));
   RxString bookingServicesDateText = FORMAT_DATE_TIME(
