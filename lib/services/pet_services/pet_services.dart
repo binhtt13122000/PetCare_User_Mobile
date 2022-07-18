@@ -24,7 +24,7 @@ class PetService {
       'name': name,
     };
     final response = await http.get(
-      Uri.http(API_SERVER_PATH, '/v1/api/pets', parameters),
+      Uri.https(API_SERVER_PATH, '/v1/api/pets', parameters),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -51,7 +51,7 @@ class PetService {
       'gender': gender,
     };
     final response = await http.get(
-      Uri.http(API_SERVER_PATH, '/v1/api/pets/fetch-pet', parameters),
+      Uri.https(API_SERVER_PATH, '/v1/api/pets/fetch-pet', parameters),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -68,7 +68,7 @@ class PetService {
 
   static Future<int> deletePetByPetId({required int petId}) async {
     final response = await http.delete(
-      Uri.http(API_SERVER_PATH, '$PET_API_PATH/$petId'),
+      Uri.https(API_SERVER_PATH, '$PET_API_PATH/$petId'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -115,7 +115,7 @@ class PetService {
       });
 
       Response response =
-          await Dio().post('http://$API_SERVER_PATH/v1/api/pets',
+          await Dio().post('https://$API_SERVER_PATH/v1/api/pets',
               data: formData,
               options: Options(headers: <String, String>{
                 HttpHeaders.contentTypeHeader: 'multipart/form-data',
@@ -169,7 +169,7 @@ class PetService {
         );
       }
 
-      await Dio().put('http://$API_SERVER_PATH/v1/api/pets',
+      await Dio().put('https://$API_SERVER_PATH/v1/api/pets',
           data: formData,
           options: Options(headers: <String, String>{
             HttpHeaders.contentTypeHeader: 'multipart/form-data',
@@ -192,7 +192,7 @@ class PetService {
       'speciesId': speciesId
     };
     final response = await http.get(
-      Uri.http(API_SERVER_PATH, PET_TO_CREATE_POST_API_PATH, parameters),
+      Uri.https(API_SERVER_PATH, PET_TO_CREATE_POST_API_PATH, parameters),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -209,7 +209,7 @@ class PetService {
 
   static Future<PetModel> fetchPetById({required String petId}) async {
     final response = await http.get(
-      Uri.http(API_SERVER_PATH, '$PET_API_PATH/$petId'),
+      Uri.https(API_SERVER_PATH, '$PET_API_PATH/$petId'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },

@@ -21,6 +21,7 @@ TicketModel _$TicketModelFromJson(Map<String, dynamic> json) => TicketModel(
       branchModel: json['branch'] == null
           ? null
           : BranchModel.fromJson(json['branch'] as Map<String, dynamic>),
+      type: json['type'] as String,
     );
 
 Map<String, dynamic> _$TicketModelToJson(TicketModel instance) =>
@@ -33,6 +34,7 @@ Map<String, dynamic> _$TicketModelToJson(TicketModel instance) =>
       'branchId': instance.branchId,
       'customerId': instance.customerId,
       'status': instance.status,
+      'type': instance.type,
       'serviceTickets':
           instance.serviceTicketModelList?.map((e) => e.toJson()).toList(),
       'branch': instance.branchModel?.toJson(),

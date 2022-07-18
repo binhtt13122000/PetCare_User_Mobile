@@ -12,7 +12,8 @@ final HttpLink _httpLink = HttpLink(
     "audience": "petapp",
     "issuer": "petapp-be",
     "x-hasura-admin-secret":
-        "1a17b69d8e567b6dca0543de4635cf102258d51e1325249f4302de2a41d77b0f",
+        "IiThxTNNTLR868uS1kCi6YktSXCqFARfxBd8TMGNszlUIva92aZgUdH6m14ebq58",
+    //1a17b69d8e567b6dca0543de4635cf102258d51e1325249f4302de2a41d77b0f
   },
 );
 

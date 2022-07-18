@@ -2,9 +2,9 @@
     package="com.example.pet_app_mobile">
     <uses-permission android:name="android.permission.INTERNET"/>
     <application
-        android:label="pet_app_mobile"
+        android:label="iU PetShop"
         android:name="${applicationName}"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/launcher_icon"
         android:usesCleartextTraffic="true">
         <activity
             android:name=".MainActivity"

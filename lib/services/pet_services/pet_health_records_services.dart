@@ -25,7 +25,7 @@ class PetHealthRecordsServices {
     };
 
     final response = await http.get(
-      Uri.http(API_SERVER_PATH, PET_HEALTH_RECORD_API_PATH, parameters),
+      Uri.https(API_SERVER_PATH, PET_HEALTH_RECORD_API_PATH, parameters),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },

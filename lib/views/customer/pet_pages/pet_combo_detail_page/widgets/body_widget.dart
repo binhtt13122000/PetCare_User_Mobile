@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:petapp_mobile/configs/path.dart';
 import 'package:petapp_mobile/configs/theme.dart';
 import 'package:petapp_mobile/controllers/pet_page_controllers/pet_combo_detail_page_controller.dart';
 import 'package:petapp_mobile/models/pet_combo_detail_model/pet_combo_detail_model.dart';
@@ -214,8 +216,11 @@ class PetComboDetailBodyWidget extends GetView<PetComboDetailPageController> {
           ),
           textCardWidget(
             keyText: 'Description',
-            valueText:
-                petComboDetailModel.centerServiceModel.description ?? 'N/A',
+            valueText: (petComboDetailModel
+                        .centerServiceModel.description?.isNotEmpty ??
+                    false)
+                ? petComboDetailModel.centerServiceModel.description!
+                : 'N/A',
           ),
           Visibility(
             visible: controller.selectServicesStatus.value == 'Available' ||
@@ -242,6 +247,37 @@ class PetComboDetailBodyWidget extends GetView<PetComboDetailPageController> {
                         Icons.verified_outlined,
                         color: WHITE_COLOR,
                         size: 20,
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ),
+          Visibility(
+            visible: controller.selectServicesStatus.value == 'Waiting',
+            child: Padding(
+              padding: const EdgeInsets.only(top: 10),
+              child: InkWell(
+                onTap: () async => controller
+                  ..selectedPetComboDetailModel = petComboDetailModel
+                  ..isShowCreateTicketPopup.value = true,
+                child: Container(
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                  decoration: BoxDecoration(
+                      color: PRIMARY_COLOR,
+                      borderRadius: BorderRadius.circular(5)),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      CUSTOM_TEXT('Booking ticket for this services',
+                          color: WHITE_COLOR,
+                          padding: const EdgeInsets.only(right: 5)),
+                      SvgPicture.asset(
+                        ICON_PATH + SEND_SVG,
+                        color: WHITE_COLOR,
+                        height: 16,
                       ),
                     ],
                   ),

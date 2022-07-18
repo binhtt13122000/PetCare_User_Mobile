@@ -119,6 +119,7 @@ class CreateTicketPage extends GetView<CreateTicketPageController> {
                         branchId: controller.selectBranchId.value,
                         customerId: controller.accountModel.customerModel.id,
                         servicesIdList: servicesIdList,
+                        type: 'SERVICE',
                       );
                       controller
                         ..isWaitingSendTicket.value = false
