@@ -37,6 +37,7 @@ class TicketServices {
       'status': 'CREATED',
       'serviceTickets': servicesIdJsonList
     });
+    print('dcmm');
     final response = await http.post(
       Uri.http(API_SERVER_PATH, TICKET_API_PATH),
       headers: <String, String>{
@@ -44,15 +45,13 @@ class TicketServices {
       },
       body: jsonBody,
     );
+    print(response.body);
     switch (response.statusCode) {
       case 200:
       case 201:
       case 202:
-        print(response.body);
-
         return jsonDecode(response.body)['data']['id'];
       default:
-        print(response.body);
         return null;
     }
   }

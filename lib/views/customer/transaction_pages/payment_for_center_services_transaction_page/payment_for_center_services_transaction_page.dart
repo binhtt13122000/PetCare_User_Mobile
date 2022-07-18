@@ -3,10 +3,10 @@ import 'package:get/get.dart';
 import 'package:petapp_mobile/configs/theme.dart';
 import 'package:petapp_mobile/controllers/transaction_page_controllers/payment_for_center_services_transaction_page_controller.dart';
 import 'package:petapp_mobile/views/customer/transaction_pages/payment_for_center_services_transaction_page/widgets/body_widget.dart';
-import 'package:petapp_mobile/views/customer/transaction_pages/payment_for_center_services_transaction_page/widgets/popup_widget.dart';
 import 'package:petapp_mobile/views/customer/transaction_pages/payment_for_center_services_transaction_page/widgets/top_widget.dart';
 import 'package:petapp_mobile/views/customer/transaction_pages/payment_for_center_services_transaction_page/widgets/web_view_widget.dart';
 import 'package:petapp_mobile/views/widgets/customize_widget.dart';
+import 'package:petapp_mobile/views/widgets/notification_popup_widget.dart';
 
 class PaymentForCenterServicesTransactionPage
     extends GetView<PaymentForCenterServicesTransactionPageController> {
@@ -14,9 +14,8 @@ class PaymentForCenterServicesTransactionPage
 
   @override
   Widget build(BuildContext context) {
-    String? transactionId = Get.parameters['transactionId'];
-    if (transactionId != null) {
-      controller.transactionId = int.parse(transactionId);
+    if (Get.parameters['transactionId'] != null) {
+      controller.orderId = int.parse(Get.parameters['transactionId']!);
     }
     return Scaffold(
       backgroundColor: WHITE_COLOR,
@@ -34,10 +33,14 @@ class PaymentForCenterServicesTransactionPage
                 ? const PaymentForCenterServicesTransactionWebViewWidget()
                 : const SizedBox.shrink()),
             Obx(
-              () => Visibility(
-                visible: controller.isShowPopup.value,
-                child: const PaymentForCenterServicesTransactionPopupWidget(),
-              ),
+              () => controller.isShowNotificationPopup.value
+                  ? NotificationPopupWidget(
+                      onTapBackground: () {},
+                      onTapOk: controller.onTapNotification,
+                      content: controller.notificationContent,
+                      isSuccessNotification: controller.isSuccessNotification,
+                    )
+                  : const SizedBox.shrink(),
             ),
             Obx(
               () => Visibility(

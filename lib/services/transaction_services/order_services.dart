@@ -205,13 +205,13 @@ class OrderServices {
     }
   }
 
-  static Future<int> update({
+  static Future<int> review({
     required int transactionId,
     required int star,
     required String review,
   }) async {
-    final response = await http.post(
-      Uri.http(API_SERVER_PATH, ORDER_API_PATH),
+    final response = await http.put(
+      Uri.http(API_SERVER_PATH, '$ORDER_API_PATH/review'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -227,6 +227,7 @@ class OrderServices {
       case 202:
         return jsonDecode(response.body)['data']['id'];
       default:
+        print(response.body);
         throw Exception('Error ${response.statusCode}, cannot update');
     }
   }

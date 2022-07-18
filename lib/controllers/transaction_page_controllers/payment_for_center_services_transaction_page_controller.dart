@@ -8,7 +8,7 @@ import 'package:petapp_mobile/models/promotion_model.dart/promotion_model.dart';
 class PaymentForCenterServicesTransactionPageController extends GetxController {
   AccountModel accountModel = Get.find<AuthController>().accountModel;
   RxBool isLoadingData = false.obs;
-  RxBool isShowPopup = false.obs;
+  RxBool isShowNotificationPopup = false.obs;
   late OrderModel orderModel;
   RxInt discountAmount = 0.obs;
   RxInt usedPoint = 0.obs;
@@ -17,5 +17,8 @@ class PaymentForCenterServicesTransactionPageController extends GetxController {
   late List<PromotionModel> promotionModels;
   RxInt selectedPromotionIndex = (-1).obs;
   RxBool isWaitingPayment = false.obs;
-  late int transactionId;
+  late String notificationContent;
+  late Function() onTapNotification;
+  late int orderId;
+  late bool isSuccessNotification;
 }

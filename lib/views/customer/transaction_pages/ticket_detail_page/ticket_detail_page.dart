@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:petapp_mobile/configs/theme.dart';
+import 'package:petapp_mobile/controllers/main_page_controllers/action_page_controller.dart';
 import 'package:petapp_mobile/controllers/transaction_page_controllers/ticket_detail_page_controller.dart';
 import 'package:petapp_mobile/services/transaction_services/ticket_services.dart';
 import 'package:petapp_mobile/utilities/utilities.dart';
 import 'package:petapp_mobile/views/customer/transaction_pages/ticket_detail_page/widgets/body_widget.dart';
-import 'package:petapp_mobile/views/customer/transaction_pages/ticket_detail_page/widgets/popup_widget.dart';
 import 'package:petapp_mobile/views/customer/transaction_pages/ticket_detail_page/widgets/top_widget.dart';
 import 'package:petapp_mobile/views/widgets/cancel_popup_widget.dart';
+import 'package:petapp_mobile/views/widgets/confirm_popup_widget.dart';
 import 'package:petapp_mobile/views/widgets/customize_widget.dart';
 import 'package:petapp_mobile/views/widgets/notification_popup_widget.dart';
 
@@ -16,8 +17,9 @@ class TicketDetailPage extends GetView<TicketDetailPageController> {
 
   @override
   Widget build(BuildContext context) {
-    if (Get.parameters['ticketId'] != null) {
-      controller.ticketId = int.parse(Get.parameters['ticketId']!);
+    String? ticketId = Get.parameters['ticketId'];
+    if (ticketId != null) {
+      controller.ticketId = int.parse(ticketId);
     }
     return Scaffold(
       backgroundColor: WHITE_COLOR,
@@ -43,12 +45,47 @@ class TicketDetailPage extends GetView<TicketDetailPageController> {
                     descriptionHintText: 'Type more about the reason why...',
                     isAllowSubmit: <bool>() =>
                         controller.cancelTicketReason.value.isNotEmpty ||
-                        controller.quickReasonCancelList.isNotEmpty,
+                        controller.selectReasonCancelList.isNotEmpty,
+                    onTapSubmit: () {
+                      if (controller.cancelTicketReason.value.isNotEmpty ||
+                          controller.selectReasonCancelList.isNotEmpty) {
+                        controller.isShowConfirmPopup.value = true;
+                      }
+                    },
+                    onTapQuickRateText: ({required String content}) {
+                      controller.selectReasonCancelList.contains(content)
+                          ? controller.selectReasonCancelList.remove(content)
+                          : controller.selectReasonCancelList.add(content);
+                    },
+                    isSelected: <bool>({required String content}) =>
+                        controller.selectReasonCancelList.contains(content),
+                    checkEmptyDescription: <bool>() =>
+                        controller.cancelTicketReason.value.isEmpty,
+                    counterDescriptionText: <String>() =>
+                        controller.cancelTicketReason.value.length.toString() +
+                        '/200',
+                    onDeleteDescription: () {
+                      controller.cancelTicketReason.value = '';
+                    },
+                  )
+                : const SizedBox.shrink(),
+          ),
+          Obx(
+            () => controller.isShowConfirmPopup.value
+                ? ConfirmPopupWidget(
+                    onTapBackground: () {
+                      controller.isShowConfirmPopup.value = false;
+                    },
+                    title: 'Cancel',
+                    content:
+                        'Are you sure to cancel ticket #${controller.ticketId}?',
                     onTapSubmit: () async {
-                      controller.isWaitingUpdateTicket.value = true;
+                      controller
+                        ..isShowConfirmPopup.value = false
+                        ..isWaitingUpdateTicket.value = true;
                       String reasonText = GET_REVIEW_CONTENT(
                         description: controller.cancelTicketReason.value,
-                        quickRateList: controller.quickReasonCancelList,
+                        quickRateList: controller.selectReasonCancelList,
                       );
                       await TicketServices.updateTicket(
                           ticketId: controller.ticketModel.id,
@@ -59,31 +96,15 @@ class TicketDetailPage extends GetView<TicketDetailPageController> {
                         ..isWaitingUpdateTicket.value = false
                         ..isShowCancelPopup.value = false
                         ..onTapNotification = () {
-                          controller
-                            ..isShowNotificationPopup.value = false
-                            ..update();
+                          Get
+                            ..back()
+                            ..find<ActionPageController>().update();
                         }
                         ..isSuccessNotification = true
                         ..notificationContent =
-                            'Cancel transaction successfully.'
+                            'Cancel ticket #${controller.ticketId} successfully.'
                         ..isShowNotificationPopup.value = true;
-                    },
-                    onTapQuickRateText: ({required String content}) {
-                      controller.quickReasonCancelList.contains(content)
-                          ? controller.quickReasonCancelList.remove(content)
-                          : controller.quickReasonCancelList.add(content);
-                    },
-                    isSelected: <bool>({required String content}) =>
-                        controller.quickReasonCancelList.contains(content),
-                    checkEmptyDescription: <bool>() =>
-                        controller.cancelTicketReason.value.isEmpty,
-                    counterDescriptionText: <String>() =>
-                        controller.cancelTicketReason.value.length.toString() +
-                        '/200',
-                    onDeleteDescription: () {
-                      controller.cancelTicketReason.value = '';
-                    },
-                  )
+                    })
                 : const SizedBox.shrink(),
           ),
           Obx(
@@ -105,7 +126,6 @@ class TicketDetailPage extends GetView<TicketDetailPageController> {
               ),
             ),
           ),
-          const TicketDetailPopupWidget(),
         ],
       ),
     );

@@ -25,7 +25,7 @@ class PaymentForCenterServicesTransactionBodyWidget
           WidgetsBinding.instance!.addPostFrameCallback((_) async {
             controller
               ..orderModel = await OrderServices.fetchOrderIdByOrderId(
-                  orderId: int.parse(Get.parameters['transactionId']!))
+                  orderId: controller.orderId)
               ..promotionModels =
                   await PromotionServices.fetchPromotionByBranchId(
                       branchId: controller.orderModel.branchId)
