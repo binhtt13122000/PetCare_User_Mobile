@@ -4,6 +4,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:petapp_mobile/configs/path.dart';
 import 'package:petapp_mobile/configs/theme.dart';
+import 'package:petapp_mobile/controllers/transaction_page_controllers/breeding_transaction_detail_page_controller.dart';
+import 'package:petapp_mobile/controllers/transaction_page_controllers/center_services_transaction_detail_page_controller.dart';
 import 'package:petapp_mobile/controllers/transaction_page_controllers/payment_for_center_services_transaction_page_controller.dart';
 import 'package:petapp_mobile/services/transaction_services/order_services.dart';
 
@@ -37,9 +39,38 @@ class PaymentForCenterServicesTransactionWebViewWidget
                       ..paymentUrl.value = ''
                       ..isWaitingPayment.value = true
                       ..orderModel = await OrderServices.fetchOrderIdByOrderId(
-                          orderId: int.parse(Get.parameters['transactionId']!))
+                          orderId:
+                              paymentForCenterServicesTransactionPageController
+                                  .orderId);
+
+                    if (paymentForCenterServicesTransactionPageController
+                            .orderModel.status ==
+                        'SUCCESS') {
+                      paymentForCenterServicesTransactionPageController
+                        ..onTapNotification = () {
+                          Get
+                            ..back()
+                            ..put(OrderDetailPageController()).update()
+                            ..put(BreedingTransactionDetailPageController())
+                                .update();
+                        }
+                        ..notificationContent =
+                            'Payment for transaction #${paymentForCenterServicesTransactionPageController.orderId} successfully.'
+                        ..isSuccessNotification = true;
+                    } else {
+                      paymentForCenterServicesTransactionPageController
+                        ..onTapNotification = () {
+                          paymentForCenterServicesTransactionPageController
+                              .isShowNotificationPopup.value = false;
+                        }
+                        ..notificationContent =
+                            'Payment for transaction #${paymentForCenterServicesTransactionPageController.orderId} failed.'
+                        ..isSuccessNotification = false;
+                    }
+
+                    paymentForCenterServicesTransactionPageController
                       ..isWaitingPayment.value = false
-                      ..isShowPopup.value = true;
+                      ..isShowNotificationPopup.value = true;
                   }
                 },
               ),

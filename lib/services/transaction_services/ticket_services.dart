@@ -13,6 +13,7 @@ class TicketServices {
     required int branchId,
     required int customerId,
     required List<int> servicesIdList,
+    required String type,
   }) async {
     List<Map<String, int>> servicesIdJsonList = [];
     for (var element in servicesIdList) {
@@ -35,10 +36,11 @@ class TicketServices {
       'branchId': branchId,
       'customerId': customerId,
       'status': 'CREATED',
-      'serviceTickets': servicesIdJsonList
+      'type': type,
+      'serviceTickets': servicesIdJsonList,
     });
     final response = await http.post(
-      Uri.http(API_SERVER_PATH, TICKET_API_PATH),
+      Uri.https(API_SERVER_PATH, TICKET_API_PATH),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -48,11 +50,8 @@ class TicketServices {
       case 200:
       case 201:
       case 202:
-        print(response.body);
-
         return jsonDecode(response.body)['data']['id'];
       default:
-        print(response.body);
         return null;
     }
   }
@@ -68,7 +67,7 @@ class TicketServices {
       'status': status,
     });
     final response = await http.patch(
-      Uri.http(API_SERVER_PATH, TICKET_API_PATH),
+      Uri.https(API_SERVER_PATH, TICKET_API_PATH),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -98,7 +97,7 @@ class TicketServices {
           .toIso8601String()
     };
     final response = await http.get(
-      Uri.http(
+      Uri.https(
           API_SERVER_PATH, '$TICKET_BRANCHES_API_PATH/$branchId', parameters),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
@@ -119,7 +118,7 @@ class TicketServices {
   static Future<TicketModel?> fetchTicketByCustomerId(
       {required int customerId}) async {
     final response = await http.get(
-      Uri.http(API_SERVER_PATH, '$TICKET_CUSTOMER_API_PATH/$customerId'),
+      Uri.https(API_SERVER_PATH, '$TICKET_CUSTOMER_API_PATH/$customerId'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -137,7 +136,7 @@ class TicketServices {
 
   static Future<TicketModel> fetchTicketById({required int ticketId}) async {
     final response = await http.get(
-      Uri.http(API_SERVER_PATH, '$TICKET_API_PATH/$ticketId'),
+      Uri.https(API_SERVER_PATH, '$TICKET_API_PATH/$ticketId'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },

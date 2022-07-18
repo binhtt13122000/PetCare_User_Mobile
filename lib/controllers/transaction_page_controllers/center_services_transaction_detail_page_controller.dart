@@ -12,7 +12,7 @@ class OrderDetailPageController extends GetxController {
   RxString ratingText = 'Rating'.obs;
   RxList<String> quickFeedBackList = <String>[].obs;
   RxBool isShowReviewPopup = false.obs;
-  String reviewContent = '';
+  RxString reviewContent = ''.obs;
   late OrderModel orderModel;
   RxBool isWaitingUpdate = false.obs;
   RxBool isViewBranchDetail = false.obs;

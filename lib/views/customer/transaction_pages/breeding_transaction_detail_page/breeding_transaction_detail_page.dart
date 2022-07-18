@@ -186,7 +186,6 @@ class BreedingTransactionDetailPage
           ),
           const BreedingTransactionDetailWebViewWidget(),
           const BreedingTransactionDetailPopupWidget(),
-          //const BreedingTransactionDetailReviewPopupWidget(),
           const BreedingTransactionDetailMoreOptionWidget(),
           const BreedingTransactionDetailConfirmPopupWidget(),
           const BreedingTransactionViewDetailPopupWidget(),

@@ -14,6 +14,7 @@ class TicketModel {
   final int branchId;
   final int customerId;
   final String status;
+  final String type;
   @JsonKey(ignore: true)
   late int totalEstimateTime;
   @JsonKey(name: 'serviceTickets')
@@ -31,7 +32,8 @@ class TicketModel {
       required this.customerId,
       required this.status,
       required this.serviceTicketModelList,
-      this.branchModel}) {
+      this.branchModel,
+      required this.type}) {
     totalEstimateTime = endTime - startTime;
   }
 

@@ -19,8 +19,9 @@ class TicketDetailPageController extends GetxController {
     'Change branch',
     'Pet is good'
   ];
-  RxList selectReasonCancelList = <String>[].obs;
+  RxList<String> selectReasonCancelList = <String>[].obs;
   RxBool isWaitingUpdateTicket = false.obs;
   RxBool isShowPopupWidget = false.obs;
   late int ticketId;
+  RxBool isShowConfirmPopup = false.obs;
 }

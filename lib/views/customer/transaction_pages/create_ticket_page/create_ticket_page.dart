@@ -106,8 +106,7 @@ class CreateTicketPage extends GetView<CreateTicketPageController> {
 
                       controller.ticketId = await TicketServices.createTicket(
                         createdTime: DateTime.now(),
-                        meetingDate: DateTime.now().add(Duration(
-                            days: controller.selectedDateIndex.value + 1)),
+                        meetingDate: controller.bookingServicesDate,
                         startTime: controller
                             .ticketTimeModelList[
                                 controller.selectedTicketTimeIndex.value]
@@ -119,6 +118,7 @@ class CreateTicketPage extends GetView<CreateTicketPageController> {
                         branchId: controller.selectBranchId.value,
                         customerId: controller.accountModel.customerModel.id,
                         servicesIdList: servicesIdList,
+                        type: 'SERVICE',
                       );
                       controller
                         ..isWaitingSendTicket.value = false

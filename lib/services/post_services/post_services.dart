@@ -40,7 +40,7 @@ class PostService {
   static Future<int?> updatePostStatusByPostId(
       {required int postId, required String postStatus}) async {
     final response = await http.patch(
-      Uri.http(API_SERVER_PATH, POST_API_PATH),
+      Uri.https(API_SERVER_PATH, POST_API_PATH),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -111,7 +111,7 @@ class PostService {
         }
       }
       Response response =
-          await Dio().put('http://$API_SERVER_PATH/v1/api/posts',
+          await Dio().put('https://$API_SERVER_PATH/v1/api/posts',
               data: formData,
               options: Options(headers: <String, String>{
                 HttpHeaders.contentTypeHeader: 'multipart/form-data',
@@ -164,7 +164,7 @@ class PostService {
         );
       }
       Response response =
-          await Dio().post('http://$API_SERVER_PATH$POST_API_PATH',
+          await Dio().post('https://$API_SERVER_PATH$POST_API_PATH',
               data: formData,
               options: Options(headers: <String, String>{
                 HttpHeaders.contentTypeHeader: 'multipart/form-data',
@@ -179,7 +179,7 @@ class PostService {
     required int postId,
   }) async {
     final response = await http.get(
-      Uri.http(API_SERVER_PATH, '/v1/api/posts/$postId'),
+      Uri.https(API_SERVER_PATH, '/v1/api/posts/$postId'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -209,7 +209,7 @@ class PostService {
     };
     type != null && type.isNotEmpty ? parameters.addAll({'type': type}) : null;
     final response = await http.get(
-      Uri.http(API_SERVER_PATH, '/v1/api/posts/fetch-post', parameters),
+      Uri.https(API_SERVER_PATH, '/v1/api/posts/fetch-post', parameters),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -237,7 +237,7 @@ class PostService {
       'status': status,
     };
     final response = await http.get(
-      Uri.http(API_SERVER_PATH, '/v1/api/posts/fetch-post', parameters),
+      Uri.https(API_SERVER_PATH, '/v1/api/posts/fetch-post', parameters),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },

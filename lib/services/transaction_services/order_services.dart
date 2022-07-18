@@ -20,7 +20,7 @@ class OrderServices {
     required int breedingTransactionId,
   }) async {
     final response = await http.get(
-      Uri.http(
+      Uri.https(
         API_SERVER_PATH,
         '$ORDER_BREEDING_TRANSACTION_API_PATH/$breedingTransactionId',
       ),
@@ -44,7 +44,7 @@ class OrderServices {
     required DateTime cancelTime,
   }) async {
     final response = await http.put(
-      Uri.http(API_SERVER_PATH, ORDER_CANCEL_API_PATH),
+      Uri.https(API_SERVER_PATH, ORDER_CANCEL_API_PATH),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -90,7 +90,7 @@ class OrderServices {
       'orderDetails': orderDetailsJsonMapList,
     };
     final response = await http.post(
-      Uri.http(
+      Uri.https(
         API_SERVER_PATH,
         ORDER_API_PATH,
       ),
@@ -121,7 +121,7 @@ class OrderServices {
       'customerId': customerId.toString(),
     };
     final response = await http.get(
-      Uri.http(API_SERVER_PATH, ORDER_API_PATH, parameters),
+      Uri.https(API_SERVER_PATH, ORDER_API_PATH, parameters),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -142,7 +142,7 @@ class OrderServices {
     required int orderId,
   }) async {
     final response = await http.get(
-      Uri.http(API_SERVER_PATH, '$ORDER_API_PATH/$orderId'),
+      Uri.https(API_SERVER_PATH, '$ORDER_API_PATH/$orderId'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -177,7 +177,7 @@ class OrderServices {
     };
 
     final response = await http.post(
-      Uri.http(API_SERVER_PATH, ORDER_PAYMENT_API_PATH, queryParameters),
+      Uri.https(API_SERVER_PATH, ORDER_PAYMENT_API_PATH, queryParameters),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -205,13 +205,13 @@ class OrderServices {
     }
   }
 
-  static Future<int> update({
+  static Future<int> review({
     required int transactionId,
     required int star,
     required String review,
   }) async {
-    final response = await http.post(
-      Uri.http(API_SERVER_PATH, ORDER_API_PATH),
+    final response = await http.put(
+      Uri.https(API_SERVER_PATH, '$ORDER_API_PATH/review'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -227,6 +227,7 @@ class OrderServices {
       case 202:
         return jsonDecode(response.body)['data']['id'];
       default:
+        print(response.body);
         throw Exception('Error ${response.statusCode}, cannot update');
     }
   }
