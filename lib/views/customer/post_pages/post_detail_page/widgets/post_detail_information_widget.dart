@@ -61,10 +61,10 @@ class PostDetailInformationWidget extends GetView<PostDetailPageController> {
                   pattern: DATE_PATTERN,
                 ),
               ),
-              textCardWidget(
-                keyText: 'Weight',
-                valueText: '7.5 Kilogram',
-              ),
+              // textCardWidget(
+              //   keyText: 'Weight',
+              //   valueText: '7.5 Kilogram',
+              // ),
               Visibility(
                 visible: controller.postModel.petModel!.color != null &&
                     controller.postModel.petModel!.color!.isNotEmpty,
@@ -85,7 +85,7 @@ class PostDetailInformationWidget extends GetView<PostDetailPageController> {
                         null &&
                     controller.postModel.petModel!.specialMarkings!.isNotEmpty,
                 child: textCardWidget(
-                  keyText: 'Special markings',
+                  keyText: 'Microchip Id',
                   valueText:
                       controller.postModel.petModel!.specialMarkings ?? '',
                 ),

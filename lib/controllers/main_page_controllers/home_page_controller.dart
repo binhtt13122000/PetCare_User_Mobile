@@ -63,8 +63,8 @@ class HomePageController extends GetxController {
     services.add(
       ServiceModel(
           id: 5,
-          name: 'Training',
-          imageUrl: IMAGE_PATH + TRAINING_PNG,
+          name: 'Scan QR',
+          imageUrl: IMAGE_PATH + QR_PNG,
           description: 'description',
           status: 1),
     );

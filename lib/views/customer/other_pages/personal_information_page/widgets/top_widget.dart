@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:petapp_mobile/configs/path.dart';
 import 'package:petapp_mobile/configs/theme.dart';
 import 'package:petapp_mobile/controllers/other_controllers/personal_information_page_controller.dart';
 import 'package:petapp_mobile/controllers/other_controllers/profile_page_controller.dart';
-import 'package:petapp_mobile/utilities/utilities.dart';
-import 'package:petapp_mobile/views/widgets/customize_widget.dart';
 
 class PersonalInformationTopWidget
     extends GetView<PersonalInformationPageController> {
@@ -18,77 +15,8 @@ class PersonalInformationTopWidget
         child: Column(
           children: [
             topTitleWidget(),
-            avatarWidget(),
           ],
         ),
-      );
-
-  Widget avatarWidget() => Stack(
-        children: [
-          GRADIENT_WIDGET(
-            child: const CircleAvatar(
-              maxRadius: 50,
-              minRadius: 50,
-            ),
-          ),
-          Obx(
-            () => CircleAvatar(
-              maxRadius: 50,
-              minRadius: 50,
-              backgroundColor: Colors.transparent,
-              child: controller.avatarFilePath.value.isEmpty
-                  ? CircleAvatar(
-                      backgroundColor: PRIMARY_COLOR.withOpacity(0.7),
-                      backgroundImage:
-                          const AssetImage(IMAGE_PATH + GUEST_AVATAR_PNG),
-                      maxRadius: 46,
-                      minRadius: 46,
-                      child: Text(
-                        controller.avatarCharacter.value,
-                        style: GoogleFonts.quicksand(
-                          color: WHITE_COLOR,
-                          fontSize: 23,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                    )
-                  : controller.avatarFile == null
-                      ? CircleAvatar(
-                          maxRadius: 46,
-                          minRadius: 46,
-                          backgroundImage:
-                              NetworkImage(controller.avatarFilePath.value),
-                        )
-                      : CircleAvatar(
-                          maxRadius: 46,
-                          minRadius: 46,
-                          backgroundImage: FileImage(controller.avatarFile!),
-                        ),
-            ),
-          ),
-          Positioned(
-            bottom: 0,
-            right: 0,
-            child: InkWell(
-              onTap: () async {
-                controller.avatarFile =
-                    await PICK_IMAGE(isPickFromGalley: true);
-                controller.avatarFile != null
-                    ? controller.avatarFilePath.value =
-                        controller.avatarFile!.path
-                    : null;
-              },
-              child: const CircleAvatar(
-                backgroundColor: Color.fromARGB(210, 193, 204, 233),
-                child: Icon(
-                  Icons.camera_alt,
-                  color: Color.fromARGB(255, 127, 137, 163),
-                  size: 23,
-                ),
-              ),
-            ),
-          ),
-        ],
       );
 
   Widget topTitleWidget() => Padding(

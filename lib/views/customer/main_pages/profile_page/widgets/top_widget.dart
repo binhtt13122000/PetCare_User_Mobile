@@ -29,26 +29,50 @@ class ProfilePageTopWidget extends GetView<ProfilePageController> {
         ),
       );
 
-  Widget phoneNumberWidget() => InkWell(
-        onTap: () => controller.isShowTabProfile.value = true,
-        child: Row(
+  Widget phoneNumberWidget() => Obx(
+        () => Row(
           children: [
-            Text(
-              controller.accountModel.hiddenPhoneNumber,
-              style: GoogleFonts.quicksand(
-                color: const Color.fromARGB(255, 64, 69, 87),
-                fontSize: 18,
-                fontWeight: FontWeight.w700,
+            InkWell(
+              onTap: () => controller.isShowTabProfile.value = true,
+              child: Row(
+                children: [
+                  Text(
+                    controller.isShowPhoneNumber.value
+                        ? controller.accountModel.phoneNumber
+                        : controller.accountModel.hiddenPhoneNumber,
+                    style: GoogleFonts.quicksand(
+                      color: const Color.fromARGB(255, 64, 69, 87),
+                      fontSize: 18,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                  const Padding(
+                    padding: EdgeInsets.only(left: 5),
+                    child: Icon(
+                      Icons.keyboard_arrow_down_outlined,
+                      color: Color.fromARGB(255, 110, 115, 128),
+                      size: 23,
+                    ),
+                  )
+                ],
               ),
             ),
-            const Padding(
-              padding: EdgeInsets.only(left: 5),
-              child: Icon(
-                Icons.keyboard_arrow_down_outlined,
-                color: Color.fromARGB(255, 110, 115, 128),
-                size: 23,
+            Padding(
+              padding: const EdgeInsets.only(left: 5),
+              child: InkWell(
+                onTap: () => controller.isShowPhoneNumber.value =
+                    !controller.isShowPhoneNumber.value,
+                child: Icon(
+                  controller.isShowPhoneNumber.value
+                      ? Icons.visibility
+                      : Icons.visibility_off,
+                  color: controller.isShowPhoneNumber.value
+                      ? GREEN_COLOR.withOpacity(0.7)
+                      : RED_COLOR.withOpacity(0.7),
+                  size: 20,
+                ),
               ),
-            )
+            ),
           ],
         ),
       );
@@ -207,12 +231,21 @@ class ProfilePageTopWidget extends GetView<ProfilePageController> {
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              generalInfoItemWidget(keyText: '0', valueText: 'Posts'),
-              // ratingBarWidget(
-              //     valueText: 'Stars',
-              //     star: controller.accountModel.customerModel.star),
-              generalInfoItemWidget(keyText: '0', valueText: 'Pets'),
-              generalInfoItemWidget(keyText: '0', valueText: 'Orders'),
+              generalInfoItemWidget(
+                keyText: controller.postQuantity.toString(),
+                valueText: 'Posts',
+                onTap: () => Get.toNamed(POST_MANAGEMENT_PAGE_ROUTE),
+              ),
+              generalInfoItemWidget(
+                keyText: controller.petQuantity.toString(),
+                valueText: 'Pets',
+                onTap: () => Get.toNamed(PET_MANAGEMENT_PAGE_ROUTE),
+              ),
+              generalInfoItemWidget(
+                keyText: controller.orderQuantity.toString(),
+                valueText: 'Orders',
+                onTap: () => Get.toNamed(TRANSACTION_PAGE_ROUTE),
+              ),
             ],
           ),
         ],
@@ -249,27 +282,32 @@ class ProfilePageTopWidget extends GetView<ProfilePageController> {
       );
 
   Widget generalInfoItemWidget(
-          {required String keyText, required String valueText}) =>
+          {required String keyText,
+          required String valueText,
+          required Function() onTap}) =>
       Expanded(
-        child: Column(
-          children: [
-            Text(
-              keyText,
-              style: GoogleFonts.quicksand(
-                color: const Color.fromARGB(255, 64, 69, 87),
-                fontSize: 17,
-                fontWeight: FontWeight.w800,
+        child: InkWell(
+          onTap: onTap,
+          child: Column(
+            children: [
+              Text(
+                keyText,
+                style: GoogleFonts.quicksand(
+                  color: const Color.fromARGB(255, 64, 69, 87),
+                  fontSize: 17,
+                  fontWeight: FontWeight.w800,
+                ),
               ),
-            ),
-            Text(
-              valueText,
-              style: GoogleFonts.quicksand(
-                color: const Color.fromARGB(255, 64, 69, 87),
-                fontSize: 14,
-                fontWeight: FontWeight.w600,
+              Text(
+                valueText,
+                style: GoogleFonts.quicksand(
+                  color: const Color.fromARGB(255, 64, 69, 87),
+                  fontSize: 14,
+                  fontWeight: FontWeight.w600,
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       );
 

@@ -9,7 +9,7 @@ class TransactionListPageController extends GetxController {
   AccountModel accountModel = Get.find<AuthController>().accountModel;
   RxString selectedTransactionType = 'Center\'s services'.obs;
   int page = 1;
-  final int limit = 100;
+  final int limit = 99;
 
   //*center's services transaction
   late List<OrderModel> orderModelList;

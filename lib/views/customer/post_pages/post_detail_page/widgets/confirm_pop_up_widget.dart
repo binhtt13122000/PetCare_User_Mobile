@@ -96,6 +96,8 @@ class PostDetailConfirmPopupWidget extends GetView<PostDetailPageController> {
                                                 .value = true;
                                           await PostService
                                               .updatePostStatusByPostId(
+                                            jwt: controller
+                                                .accountModel.jwtToken,
                                             postStatus:
                                                 controller.confirmType ==
                                                         'REOPEN'

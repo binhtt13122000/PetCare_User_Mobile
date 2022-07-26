@@ -35,18 +35,12 @@ class ChattingDetailBodyWidget extends GetView<ChattingDetailPageController> {
                 messageModelList
                     .sort((a, b) => a.createdTime.compareTo(b.createdTime));
                 controller
-                  ..messageModelList.value = [
-                    ...messageModelList,
-                    ...controller.messageModelList
-                  ]
+                  ..messageModelList.addAll(messageModelList)
                   ..refreshController.refreshCompleted();
               },
-              // onLoading: () {
-              //   controller.update();
-              // },
 
               child: SingleChildScrollView(
-                controller: controller.scrollController,
+                //   controller: controller.scrollController,
                 child: Obx(() {
                   WidgetsBinding.instance!.addPostFrameCallback((_) {
                     if (!controller.isLoadingMoreChat) {

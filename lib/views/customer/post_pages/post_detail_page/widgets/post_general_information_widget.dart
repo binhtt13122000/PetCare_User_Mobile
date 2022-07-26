@@ -309,7 +309,7 @@ class PostDetailGeneralInformationWidget
                         textAlign: TextAlign.center,
                         style: GoogleFonts.quicksand(
                           fontSize: 13,
-                          color: const Color.fromARGB(255, 68, 89, 114),
+                          color: DARK_GREY_TEXT_COLOR.withOpacity(0.9),
                           fontWeight: FontWeight.w500,
                           letterSpacing: 1,
                         ),
@@ -336,17 +336,19 @@ class PostDetailGeneralInformationWidget
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    'Weight',
+                    'Microchip',
                     style: GoogleFonts.quicksand(
                       fontSize: 14,
                       color: const Color.fromARGB(255, 95, 114, 136),
                     ),
                   ),
                   Text(
-                    '3.5 kg',
+                    controller.postModel.petModel!.specialMarkings != null
+                        ? 'Available'
+                        : 'Not available',
                     style: GoogleFonts.quicksand(
-                        fontSize: 15,
-                        color: const Color.fromARGB(255, 68, 89, 114),
+                        fontSize: 13,
+                        color: DARK_GREY_TEXT_COLOR.withOpacity(0.9),
                         fontWeight: FontWeight.w500),
                   ),
                 ],

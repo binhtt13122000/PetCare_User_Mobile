@@ -8,13 +8,13 @@ import 'package:petapp_mobile/models/ticket_time_model/ticket_time_model.dart';
 import 'package:petapp_mobile/utilities/utilities.dart';
 
 class CreateTicketPageController extends GetxController {
+  RxInt selectBranchIndex = (-1).obs;
   AccountModel accountModel = Get.find<AuthController>().accountModel;
   RxBool isLoadingData = false.obs;
   RxInt selectedDateIndex = 0.obs;
   RxBool isShowPickTimeWidget = false.obs;
   late List<TicketModel> ticketModelList;
   late List<BranchModel> branchModelList;
-  RxInt selectBranchId = 7.obs;
   List<TicketTimeModel> ticketTimeModelList = [];
   RxInt selectedTicketTimeIndex = (-1).obs;
   RxInt totalEstimateTime = 0.obs;
@@ -37,6 +37,7 @@ class CreateTicketPageController extends GetxController {
           dateTime: DateTime.now().add(const Duration(days: 1)),
           pattern: DATE_PATTERN_2)
       .obs;
+  bool isInitData = true;
 
   void setTicketTimeModelList() {
     ticketTimeModelList = [];

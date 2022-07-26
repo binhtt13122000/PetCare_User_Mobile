@@ -30,8 +30,10 @@ class PostDetailPage extends GetView<PostDetailPageController> {
           controller.isShowLoadingPost.value = true;
 
           WidgetsBinding.instance!.addPostFrameCallback((_) async {
-            controller.postModel =
-                await PostService.fetchPostById(postId: controller.postId);
+            controller.postModel = await PostService.fetchPostById(
+              postId: controller.postId,
+              jwt: controller.accountModel.jwtToken,
+            );
             controller.isShowLoadingPost.value = false;
           });
 

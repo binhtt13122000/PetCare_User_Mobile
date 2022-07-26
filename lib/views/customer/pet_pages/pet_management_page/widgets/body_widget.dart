@@ -289,7 +289,7 @@ class PetsManagementBodyWidget extends GetView<PetManagementPageController> {
                   child: InkWell(
                     onTap: () => controller
                       ..selectedPetModel = petModel
-                      ..isShowConfirmDeletePopup.value = true,
+                      ..isShowConfirmPopup.value = true,
                     child: Container(
                       height: 70,
                       color: RED_COLOR,
@@ -442,7 +442,7 @@ class PetsManagementBodyWidget extends GetView<PetManagementPageController> {
                         child: InkWell(
                           onTap: () => controller
                             ..selectedPetModel = petModel
-                            ..isShowConfirmDeletePopup.value = true,
+                            ..isShowConfirmPopup.value = true,
                           child: Container(
                             height: 70,
                             color: RED_COLOR,

@@ -207,7 +207,7 @@ class ChattingListBodyWidget extends GetView<ChattingListPageController> {
                                   color: DARK_GREY_TEXT_COLOR.withOpacity(0.9),
                                   fontSize: 16,
                                   fontWeight: FontWeight.w700,
-                                  letterSpacing: 2,
+                                  letterSpacing: 1,
                                 ),
                               ),
                             ),
@@ -234,17 +234,17 @@ class ChattingListBodyWidget extends GetView<ChattingListPageController> {
                             ),
                           ),
                           Expanded(
-                            child: Text(
-                              chatRoomModel.newestMessage,
+                            child: CUSTOM_TEXT(
+                              chatRoomModel.newestMessage
+                                      .startsWith('https://firebasestorage')
+                                  ? 'was sent a media.'
+                                  : chatRoomModel.newestMessage,
                               textAlign: TextAlign.start,
-                              overflow: TextOverflow.ellipsis,
-                              maxLines: 1,
-                              style: GoogleFonts.quicksand(
-                                color: const Color.fromARGB(255, 135, 145, 175),
-                                fontSize: 13,
-                                fontWeight: FontWeight.w600,
-                                letterSpacing: 1,
-                              ),
+                              textOverflow: TextOverflow.ellipsis,
+                              color: DARK_GREY_TEXT_COLOR.withOpacity(0.7),
+                              fontSize: 13,
+                              fontWeight: FontWeight.w500,
+                              letterSpacing: 1,
                             ),
                           ),
                           Padding(

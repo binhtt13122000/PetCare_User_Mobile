@@ -72,7 +72,8 @@ class CreateTicketPage extends GetView<CreateTicketPageController> {
                             controller.tmpBookingServicesDate
                         ..bookingServicesDateText.value =
                             controller.tmpMeetingTimeText.value
-                        ..isShowCalendar.value = false;
+                        ..isShowCalendar.value = false
+                        ..update();
                     },
                     isAvailableOkButton: <bool>() =>
                         controller.tmpMeetingTimeText.value.isNotEmpty,
@@ -115,7 +116,9 @@ class CreateTicketPage extends GetView<CreateTicketPageController> {
                             .ticketTimeModelList[
                                 controller.selectedTicketTimeIndex.value]
                             .endTime,
-                        branchId: controller.selectBranchId.value,
+                        branchId: controller
+                            .branchModelList[controller.selectBranchIndex.value]
+                            .id,
                         customerId: controller.accountModel.customerModel.id,
                         servicesIdList: servicesIdList,
                         type: 'SERVICE',

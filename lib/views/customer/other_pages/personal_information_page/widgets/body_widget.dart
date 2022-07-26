@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:petapp_mobile/configs/path.dart';
 import 'package:petapp_mobile/configs/theme.dart';
-import 'package:petapp_mobile/controllers/other_controllers/auth_controller.dart';
 import 'package:petapp_mobile/controllers/other_controllers/personal_information_page_controller.dart';
-import 'package:petapp_mobile/models/customer_model/customer_model.dart';
-import 'package:petapp_mobile/services/other_services/customer_services.dart';
 import 'package:petapp_mobile/utilities/utilities.dart';
 import 'package:petapp_mobile/views/widgets/customize_widget.dart';
 
@@ -15,39 +13,111 @@ class PersonalInformationBodyWidget
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(
-        top: 20,
-      ),
-      child: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 12),
-            child: Column(
-              children: [
-                firstNameWidget(),
-                lastNameWidget(),
-                genderWidget(),
-                phoneNumberWidget(),
-                emailWidget(),
-              ],
-            ),
+    return Column(
+      children: [
+        avatarWidget(),
+        Padding(
+          padding: const EdgeInsets.only(
+            top: 20,
           ),
-          Container(
-            height: 1,
-            margin: const EdgeInsets.only(top: 10),
-            color: LIGHT_GREY_COLOR.withOpacity(0.1),
+          child: Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 12),
+                child: Column(
+                  children: [
+                    firstNameWidget(),
+                    lastNameWidget(),
+                    genderWidget(),
+                    phoneNumberWidget(),
+                    emailWidget(),
+                  ],
+                ),
+              ),
+              Container(
+                height: 1,
+                margin: const EdgeInsets.only(top: 10),
+                color: LIGHT_GREY_COLOR.withOpacity(0.1),
+              ),
+              Container(
+                height: 8,
+                color: const Color.fromARGB(255, 247, 248, 250),
+              ),
+              addressWidget(),
+            ],
           ),
-          Container(
-            height: 8,
-            color: const Color.fromARGB(255, 247, 248, 250),
-          ),
-          addressWidget(),
-          saveWidget(),
-        ],
-      ),
+        ),
+      ],
     );
   }
+
+  Widget avatarWidget() => Stack(
+        children: [
+          GRADIENT_WIDGET(
+            child: const CircleAvatar(
+              maxRadius: 50,
+              minRadius: 50,
+            ),
+          ),
+          Obx(
+            () => CircleAvatar(
+              maxRadius: 50,
+              minRadius: 50,
+              backgroundColor: Colors.transparent,
+              child: controller.avatarFilePath.value.isEmpty
+                  ? CircleAvatar(
+                      backgroundColor: PRIMARY_COLOR.withOpacity(0.7),
+                      backgroundImage:
+                          const AssetImage(IMAGE_PATH + GUEST_AVATAR_PNG),
+                      maxRadius: 46,
+                      minRadius: 46,
+                      child: Text(
+                        controller.avatarCharacter.value,
+                        style: GoogleFonts.quicksand(
+                          color: WHITE_COLOR,
+                          fontSize: 23,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    )
+                  : controller.avatarFile == null
+                      ? CircleAvatar(
+                          maxRadius: 46,
+                          minRadius: 46,
+                          backgroundImage:
+                              NetworkImage(controller.avatarFilePath.value),
+                        )
+                      : CircleAvatar(
+                          maxRadius: 46,
+                          minRadius: 46,
+                          backgroundImage: FileImage(controller.avatarFile!),
+                        ),
+            ),
+          ),
+          Positioned(
+            bottom: 0,
+            right: 0,
+            child: InkWell(
+              onTap: () async {
+                controller.avatarFile =
+                    await PICK_IMAGE(isPickFromGalley: true);
+                controller.avatarFile != null
+                    ? controller.avatarFilePath.value =
+                        controller.avatarFile!.path
+                    : null;
+              },
+              child: const CircleAvatar(
+                backgroundColor: Color.fromARGB(210, 193, 204, 233),
+                child: Icon(
+                  Icons.camera_alt,
+                  color: Color.fromARGB(255, 127, 137, 163),
+                  size: 23,
+                ),
+              ),
+            ),
+          ),
+        ],
+      );
 
   Widget emailWidget() => Padding(
         padding: const EdgeInsets.only(bottom: 12),
@@ -166,60 +236,6 @@ class PersonalInformationBodyWidget
               ),
             ),
           ],
-        ),
-      );
-
-  Widget saveWidget() => InkWell(
-        onTap: () async {
-          controller.isLoadingUpdateProfile.value = true;
-          CustomerModel? customerModel = await CustomerService.updateProfile(
-            id: controller.accountModel.customerModel.id,
-            email: controller.email.value,
-            firstName: controller.firstName.value,
-            lastName: controller.lastName.value,
-            address: controller.address.value,
-            gender: controller.selectedGender.value,
-            avatarFilePath: controller.avatarFilePath.value,
-            avatarFile: controller.avatarFile,
-          );
-
-          if (customerModel != null) {
-            Get.find<AuthController>().accountModel.customerModel =
-                customerModel;
-            controller
-              ..accountModel.customerModel = customerModel
-              ..update();
-          }
-
-          controller.isLoadingUpdateProfile.value = false;
-        },
-        child: Container(
-          alignment: Alignment.bottomCenter,
-          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 20),
-          child: Container(
-            height: 45,
-            decoration: BoxDecoration(
-                color: PRIMARY_COLOR.withOpacity(0.9),
-                borderRadius: BorderRadius.circular(10),
-                boxShadow: [
-                  BoxShadow(
-                    color: DARK_GREY_COLOR.withOpacity(0.1),
-                    blurRadius: 5,
-                    offset: const Offset(2, 2),
-                  ),
-                ],
-                border: Border.all(color: PRIMARY_COLOR)),
-            alignment: Alignment.center,
-            child: Text(
-              'SAVE',
-              style: GoogleFonts.quicksand(
-                fontWeight: FontWeight.w700,
-                color: WHITE_COLOR,
-                fontSize: 16,
-                letterSpacing: 2,
-              ),
-            ),
-          ),
         ),
       );
 

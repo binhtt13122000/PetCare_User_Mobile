@@ -15,7 +15,6 @@ class PetManagementPageController extends GetxController {
   RxString searchText = ''.obs;
   List<String> postTypeList = ['All status', 'Normal', 'In a post'];
   late RxString selectedPetStatus;
-  RxBool isShowConfirmDeletePopup = false.obs;
   late PetModel selectedPetModel;
   PetManagementPageController() {
     selectedPetStatus = postTypeList[0].obs;
@@ -23,4 +22,5 @@ class PetManagementPageController extends GetxController {
   RxBool isWaitingDeletePet = false.obs;
   RxBool isShowNotificationPopup = false.obs;
   late String notificationTitle;
+  RxBool isShowConfirmPopup = false.obs;
 }

@@ -20,16 +20,24 @@ class CreateTicketBodyWidget extends GetView<CreateTicketPageController> {
   @override
   Widget build(BuildContext context) {
     return GetBuilder<CreateTicketPageController>(builder: (_) {
-      controller.isLoadingData.value = true;
+      if (controller.isInitData) {
+        controller.isLoadingData.value = true;
 
-      WidgetsBinding.instance!.addPostFrameCallback((_) async {
-        controller
-          ..centerServicesModelList =
-              await CenterServicesServices.fetchCenterServicesList()
-          ..branchModelList = await BranchServices.fetchBranchList()
-          ..selectBranchId.value = controller.branchModelList[0].id
-          ..isLoadingData.value = false;
-      });
+        WidgetsBinding.instance!.addPostFrameCallback((_) async {
+          controller
+            ..centerServicesModelList =
+                await CenterServicesServices.fetchCenterServicesList()
+            ..branchModelList = await BranchServices.fetchBranchList()
+            ..selectBranchIndex.value = controller.selectBranchIndex.value != -1
+                ? controller.selectBranchIndex.value
+                : 0;
+
+          controller
+            ..isLoadingData.value = false
+            ..isInitData = false;
+        });
+      }
+
       return Obx(() => controller.isLoadingData.value
           ? Expanded(
               child: Container(
@@ -92,14 +100,25 @@ class CreateTicketBodyWidget extends GetView<CreateTicketPageController> {
 
                             WidgetsBinding.instance!
                                 .addPostFrameCallback((_) async {
-                              controller
-                                ..ticketModelList = await TicketServices
-                                    .fetchTicketListByBranch(
-                                  branchId: controller.selectBranchId.value,
-                                  bookingTime: controller.bookingServicesDate,
-                                )
-                                ..setTicketTimeModelList()
-                                ..isLoadingTicketList.value = false;
+                              if (controller.selectBranchIndex.value != -1 &&
+                                  controller.selectCenterServicesIndexList
+                                      .isNotEmpty) {
+                                controller
+                                  ..ticketModelList = await TicketServices
+                                      .fetchTicketListByBranch(
+                                    branchId: controller
+                                        .branchModelList[
+                                            controller.selectBranchIndex.value]
+                                        .id,
+                                    bookingTime: controller.bookingServicesDate,
+                                  )
+                                  ..setTicketTimeModelList();
+                              } else {
+                                controller
+                                  ..ticketModelList = []
+                                  ..ticketTimeModelList = [];
+                              }
+                              controller.isLoadingTicketList.value = false;
                             });
                           }
                           return Obx(() => controller.isLoadingTicketList.value

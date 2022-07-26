@@ -90,6 +90,12 @@ class CenterServicesTransactionListWidget
         statusText = 'Transaction is expired';
         statusColor = YELLOW_COLOR;
         break;
+      case 'WAITING':
+        timeText = 'Create time';
+        timeValue = centerServicesTransactionModel.registerTime;
+        statusText = 'Waiting for payment';
+        statusColor = YELLOW_COLOR;
+        break;
       default:
         timeText = 'Create time';
         timeValue = centerServicesTransactionModel.registerTime;

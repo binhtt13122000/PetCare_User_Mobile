@@ -72,7 +72,7 @@ Widget CUSTOM_REQUIRED_TEXT_FIELD(
                         ? [
                             FilteringTextInputFormatter.allow(
                               RegExp(
-                                r'[0-9 ]',
+                                r'[0-9]',
                               ),
                             ),
                           ]

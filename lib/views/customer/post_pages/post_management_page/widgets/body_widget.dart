@@ -33,7 +33,8 @@ class PostsManagementBodyWidget extends GetView<PostManagementPageController> {
                 controller
                   ..postList = await PostService.fetchPostListByCustomerId(
                       customerId: controller.accountModel.customerModel.id,
-                      limit: 100,
+                      jwt: controller.accountModel.jwtToken,
+                      limit: 99,
                       page: 1,
                       type: controller.selectPostType.value == 'All type'
                           ? null

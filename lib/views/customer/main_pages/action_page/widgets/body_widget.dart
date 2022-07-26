@@ -86,24 +86,66 @@ class ActionPageBodyWidget extends GetView<ActionPageController> {
     });
   }
 
+  Widget petComboBanner() {
+    ActionPageController actionPageController =
+        Get.find<ActionPageController>();
+    return SizedBox(
+      height: 330,
+      width: 350,
+      child: PageView(
+        controller: actionPageController.pageController,
+        children: <Widget>[
+          ClipRRect(
+            borderRadius: const BorderRadius.all(Radius.circular(10)),
+            child: Image.asset(
+              IMAGE_PATH + actionPageController.imagePathList[0],
+              height: 330,
+              width: 350,
+              fit: BoxFit.cover,
+            ),
+          ),
+          ClipRRect(
+            borderRadius: const BorderRadius.all(Radius.circular(10)),
+            child: Image.asset(
+              IMAGE_PATH + actionPageController.imagePathList[1],
+              height: 330,
+              width: 350,
+              fit: BoxFit.cover,
+            ),
+          ),
+          ClipRRect(
+            borderRadius: const BorderRadius.all(Radius.circular(10)),
+            child: Image.asset(
+              IMAGE_PATH + actionPageController.imagePathList[2],
+              height: 330,
+              width: 350,
+              fit: BoxFit.cover,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
   Widget imageCardWidget() => Obx(
         () => InkWell(
           onTap: () => Get.toNamed(BUY_SERVICES_COMBO_PAGE_ROUTE),
           child: Stack(
             children: [
-              Center(
-                child: ClipRRect(
-                  borderRadius: const BorderRadius.all(Radius.circular(10)),
-                  child: Image.asset(
-                    IMAGE_PATH +
-                        controller
-                            .imagePathList[controller.selectedImageIndex.value],
-                    height: 330,
-                    width: 350,
-                    fit: BoxFit.cover,
-                  ),
-                ),
-              ),
+              // Center(
+              //   child: ClipRRect(
+              //     borderRadius: const BorderRadius.all(Radius.circular(10)),
+              //     child: Image.asset(
+              //       IMAGE_PATH +
+              //           controller
+              //               .imagePathList[controller.selectedImageIndex.value],
+              //       height: 330,
+              //       width: 350,
+              //       fit: BoxFit.cover,
+              //     ),
+              //   ),
+              // ),
+              petComboBanner(),
               Container(
                 alignment: Alignment.bottomCenter,
                 margin: const EdgeInsets.only(top: 270),

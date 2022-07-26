@@ -255,7 +255,8 @@ class PetComboDetailBodyWidget extends GetView<PetComboDetailPageController> {
             ),
           ),
           Visibility(
-            visible: controller.selectServicesStatus.value == 'Waiting',
+            visible: controller.selectServicesStatus.value == 'Waiting' &&
+                controller.ticketId.value != -1,
             child: Padding(
               padding: const EdgeInsets.only(top: 10),
               child: InkWell(

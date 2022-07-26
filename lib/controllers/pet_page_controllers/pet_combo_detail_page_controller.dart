@@ -11,7 +11,7 @@ import 'package:petapp_mobile/utilities/utilities.dart';
 class PetComboDetailPageController extends GetxController {
   RxBool isShowSuccessfullyPopup = false.obs;
   AccountModel accountModel = Get.find<AuthController>().accountModel;
-  late int? ticketId;
+  RxInt ticketId = (-1).obs;
   RxBool isShowConfirmPopup = false.obs;
   RxBool isShowCalendar = false.obs;
   RxString tmpMeetingTimeText = FORMAT_DATE_TIME(

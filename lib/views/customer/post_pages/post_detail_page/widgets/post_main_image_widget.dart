@@ -17,8 +17,8 @@ class PostDetailMainImageWidget extends GetView<PostDetailPageController> {
         children: [
           mainImageWidget(),
           backButtonWidget(),
-          bookmarkButtonBackgroundWidget(),
-          bookmarkButtonForegroundWidget(),
+          // bookmarkButtonBackgroundWidget(),
+          // bookmarkButtonForegroundWidget(),
           moreInformationButtonBackgroundWidget(),
           moreInformationButtonForegroundWidget(),
           imageIndexWidget(),

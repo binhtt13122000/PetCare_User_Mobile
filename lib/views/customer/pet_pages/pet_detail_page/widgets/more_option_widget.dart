@@ -10,58 +10,63 @@ class PetDetailMoreOptionWidget extends GetView<PetDetailPageController> {
 
   @override
   Widget build(BuildContext context) => Obx(
-        () => Visibility(
-          visible: controller.isShowMoreOptionWidget.value,
-          child: InkWell(
-            onTap: () => controller.isShowMoreOptionWidget.value = false,
-            child: Container(
-              padding: const EdgeInsets.only(top: 30, right: 12),
-              alignment: Alignment.topRight,
-              child: InkWell(
-                onTap: () {},
+        () => controller.isShowMoreOptionWidget.value
+            ? InkWell(
+                onTap: () => controller.isShowMoreOptionWidget.value = false,
                 child: Container(
-                  width: 200,
-                  height: 170,
-                  decoration: BoxDecoration(
-                    color: WHITE_COLOR,
-                    borderRadius: BorderRadius.circular(10),
-                    boxShadow: [
-                      BoxShadow(
-                        color: DARK_GREY_COLOR.withOpacity(0.5),
-                        offset: const Offset(3, 3),
-                        blurRadius: 3,
+                  padding: const EdgeInsets.only(top: 30, right: 12),
+                  alignment: Alignment.topRight,
+                  child: InkWell(
+                    onTap: () {},
+                    child: Container(
+                      width: 200,
+                      height: ['NORMAL'].contains(controller.petModel.status)
+                          ? 170
+                          : 110,
+                      decoration: BoxDecoration(
+                        color: WHITE_COLOR,
+                        borderRadius: BorderRadius.circular(10),
+                        boxShadow: [
+                          BoxShadow(
+                            color: DARK_GREY_COLOR.withOpacity(0.5),
+                            offset: const Offset(3, 3),
+                            blurRadius: 3,
+                          ),
+                        ],
                       ),
-                    ],
-                  ),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      buttonWidget(
-                          content: 'Update information',
-                          onTap: () {
-                            controller.isShowMoreOptionWidget.value = false;
-                            Get.toNamed(
-                                '$UPDATE_PET_PAGE_ROUTE/${controller.petModel.id}');
-                          }),
-                      buttonWidget(
-                          content: 'View pet history',
-                          onTap: () {
-                            controller.isShowMoreOptionWidget.value = false;
-                            Get.toNamed(
-                                '$PET_BLOCK_CHAIN_PAGE_ROUTE/${controller.petModel.id}');
-                          }),
-                      buttonWidget(
-                        content: 'Delete pet',
-                        onTap: () {},
-                        isImportant: true,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          buttonWidget(
+                              content: 'Update information',
+                              onTap: () {
+                                controller.isShowMoreOptionWidget.value = false;
+                                Get.toNamed(
+                                    '$UPDATE_PET_PAGE_ROUTE/${controller.petModel.id}');
+                              }),
+                          buttonWidget(
+                              content: 'View pet history',
+                              onTap: () {
+                                controller.isShowMoreOptionWidget.value = false;
+                                Get.toNamed(
+                                    '$PET_BLOCK_CHAIN_PAGE_ROUTE/${controller.petModel.id}');
+                              }),
+                          ['NORMAL'].contains(controller.petModel.status)
+                              ? buttonWidget(
+                                  content: 'Delete pet',
+                                  onTap: () {
+                                    controller.isShowConfirmPopup.value = true;
+                                  },
+                                  isImportant: true,
+                                )
+                              : const SizedBox.shrink(),
+                        ],
                       ),
-                    ],
+                    ),
                   ),
                 ),
-              ),
-            ),
-          ),
-        ),
+              )
+            : const SizedBox.shrink(),
       );
 
   Widget buttonWidget(

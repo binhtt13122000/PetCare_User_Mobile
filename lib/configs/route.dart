@@ -82,3 +82,6 @@ const REMOVE_TICKS_BLOCKCHAIN_PAGE_ROUTE = '/remove-ticks-blockchain-history';
 const APP_LOGO_PAGE_ROUTE = '/app-logo';
 //*
 const BOOKING_BREEDING_SERVICE_PAGE_ROUTE = '/booking-breeding-services';
+
+//*qr
+const SCAN_QR_PAGE_ROUTE = '/scan_qr';

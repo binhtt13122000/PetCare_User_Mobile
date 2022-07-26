@@ -218,7 +218,6 @@ class BreedingTransactionListWidget
           break;
         case 'CANCELED':
           displayStatus = 'Transaction has been canceled';
-
           statusColor = RED_COLOR;
           timeTitle = 'Cancel time';
           timeValue = DateTime.now();
@@ -247,11 +246,30 @@ class BreedingTransactionListWidget
           timeTitle = 'Finished breeding time';
           timeValue = breedingTransactionModel.dateOfBreeding!;
           break;
-        default:
+
+        case 'BREEDING_CANCELED':
+          displayStatus = 'Transaction has been canceled';
+          statusColor = RED_COLOR;
+          timeTitle = 'Cancel time';
+          timeValue = breedingTransactionModel.cancelTime!;
+          break;
+        case 'BREEDING_SUCCESS':
           displayStatus = 'Transaction is completed';
           statusColor = GREEN_COLOR;
-          timeTitle = 'Finished breeding time';
-          timeValue = breedingTransactionModel.dateOfBreeding!;
+          timeTitle = 'Payment time';
+          timeValue = DateTime.now();
+          break;
+        case 'EXPIRED':
+          displayStatus = 'Transaction has been expired';
+          statusColor = RED_COLOR;
+          timeTitle = 'Created time';
+          timeValue = breedingTransactionModel.createdTime;
+          break;
+        default:
+          displayStatus = breedingTransactionModel.status;
+          statusColor = RED_COLOR;
+          timeTitle = 'N/A';
+          timeValue = DateTime.now();
       }
     }
     return Padding(
