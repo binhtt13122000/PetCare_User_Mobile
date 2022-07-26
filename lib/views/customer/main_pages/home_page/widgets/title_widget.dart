@@ -5,32 +5,36 @@ import 'package:petapp_mobile/configs/theme.dart';
 import 'package:petapp_mobile/controllers/main_page_controllers/home_page_controller.dart';
 import 'package:petapp_mobile/models/services_model/services_model.dart';
 import 'package:petapp_mobile/views/widgets/customize_widget.dart';
+import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
+import 'package:url_launcher/url_launcher.dart' as launcher;
 
 class HomeTitleWidget extends GetView<HomePageController> {
   const HomeTitleWidget({Key? key}) : super(key: key);
   @override
-  Widget build(BuildContext context) => Padding(
+  Widget build(BuildContext context) => Container(
+        width: MediaQuery.of(context).size.width,
         padding: const EdgeInsets.only(
-          left: 20,
-          right: 15,
           bottom: 20,
         ),
-        child: SingleChildScrollView(
-          scrollDirection: Axis.horizontal,
-          child: Wrap(
-            spacing: 18,
-            children: controller.services
-                .asMap()
-                .entries
-                .map(
-                  (e) => serviceItemWidget(
+        child: Wrap(
+          alignment: WrapAlignment.spaceEvenly,
+          children: controller.services
+              .asMap()
+              .entries
+              .map(
+                (e) => serviceItemWidget(
                     service: e.value,
-                    onTap: () =>
-                        controller.selectedServiceIndex.value = e.value.id,
-                  ),
-                )
-                .toList(),
-          ),
+                    onTap: () async {
+                      if (e.value.name != 'Scan QR') {
+                        controller.selectedServiceIndex.value = e.value.id;
+                      } else {
+                        String url = await FlutterBarcodeScanner.scanBarcode(
+                            "#FFA337f4", "Cancel", false, ScanMode.QR);
+                        await launcher.launchUrl(Uri.parse(url));
+                      }
+                    }),
+              )
+              .toList(),
         ),
       );
 

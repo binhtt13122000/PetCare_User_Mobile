@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:petapp_mobile/configs/path.dart';
 import 'package:petapp_mobile/controllers/other_controllers/auth_controller.dart';
@@ -13,6 +14,7 @@ class ActionPageController extends GetxController {
   RxInt ticketId = (-1).obs;
   RxInt selectedImageIndex = 0.obs;
   int nextTime = 5;
+  final PageController pageController = PageController();
 
   List<String> imagePathList = [
     PET_GROOMING_PNG,
@@ -25,9 +27,13 @@ class ActionPageController extends GetxController {
       Duration(seconds: nextTime),
       (timer) {
         if (selectedImageIndex.value < 2) {
-          selectedImageIndex.value++;
+          pageController.nextPage(
+              duration: const Duration(milliseconds: 500),
+              curve: Curves.easeIn);
         } else {
-          selectedImageIndex.value = 0;
+          pageController.animateToPage(0,
+              duration: const Duration(milliseconds: 500),
+              curve: Curves.easeIn);
         }
       },
     );
@@ -35,5 +41,8 @@ class ActionPageController extends GetxController {
 
   ActionPageController() {
     startTimer();
+    pageController.addListener(() {
+      selectedImageIndex.value = pageController.page!.toInt();
+    });
   }
 }

@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:petapp_mobile/configs/route.dart';
 import 'package:petapp_mobile/configs/theme.dart';
 import 'package:petapp_mobile/controllers/pet_page_controllers/pet_combo_detail_page_controller.dart';
+import 'package:petapp_mobile/models/ticket_model/ticket_model.dart';
 import 'package:petapp_mobile/services/transaction_services/ticket_services.dart';
 import 'package:petapp_mobile/utilities/utilities.dart';
 import 'package:petapp_mobile/views/customer/pet_pages/pet_combo_detail_page/widgets/body_widget.dart';
@@ -26,11 +27,14 @@ class PetComboDetailPage extends GetView<PetComboDetailPageController> {
   Widget build(BuildContext context) {
     controller.isWaitLoadingData.value = true;
     WidgetsBinding.instance!.addPostFrameCallback((_) async {
+      TicketModel? ticketModel = await TicketServices.fetchTicketByCustomerId(
+          customerId: controller.accountModel.customerModel.id);
       controller
         ..petComboModel = await PetComboServices.fetchPetComboById(
             petComboId: Get.parameters['petComboId']!)
         ..petComboStatus.value =
             controller.petComboModel.isCompleted ? 'Completed' : 'Not completed'
+        ..ticketId.value = ticketModel != null ? ticketModel.id : -1
         ..isWaitLoadingData.value = false;
     });
 
@@ -119,24 +123,27 @@ class PetComboDetailPage extends GetView<PetComboDetailPageController> {
                         ..isShowConfirmPopup.value = false
                         ..isWaitLoadingDataForeGround.value = true;
 
-                      controller.ticketId = await TicketServices.createTicket(
-                        createdTime: DateTime.now(),
-                        meetingDate: controller.bookingServicesDate,
-                        startTime: controller
-                            .ticketTimeModelList[
-                                controller.selectedTicketTimeIndex.value]
-                            .startTime,
-                        endTime: controller
-                            .ticketTimeModelList[
-                                controller.selectedTicketTimeIndex.value]
-                            .endTime,
-                        branchId: controller.petComboModel.branchId,
-                        customerId: controller.accountModel.customerModel.id,
-                        servicesIdList: [
-                          controller.selectedPetComboDetailModel.id
-                        ],
-                        type: 'COMBO',
-                      );
+                      controller.ticketId.value =
+                          await TicketServices.createTicket(
+                                createdTime: DateTime.now(),
+                                meetingDate: controller.bookingServicesDate,
+                                startTime: controller
+                                    .ticketTimeModelList[controller
+                                        .selectedTicketTimeIndex.value]
+                                    .startTime,
+                                endTime: controller
+                                    .ticketTimeModelList[controller
+                                        .selectedTicketTimeIndex.value]
+                                    .endTime,
+                                branchId: controller.petComboModel.branchId,
+                                customerId:
+                                    controller.accountModel.customerModel.id,
+                                servicesIdList: [
+                                  controller.selectedPetComboDetailModel.id
+                                ],
+                                type: 'COMBO',
+                              ) ??
+                              -1;
 
                       controller
                         ..isWaitLoadingDataForeGround.value = false

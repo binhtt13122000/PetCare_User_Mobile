@@ -3,7 +3,6 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:petapp_mobile/configs/path.dart';
-import 'package:petapp_mobile/configs/route.dart';
 import 'package:petapp_mobile/configs/theme.dart';
 import 'package:petapp_mobile/controllers/main_page_controllers/home_page_controller.dart';
 import 'package:petapp_mobile/views/widgets/customize_widget.dart';
@@ -58,90 +57,90 @@ class TopNavigationBar extends GetView<HomePageController> {
                   )
                 ],
               ),
-              Row(
-                children: [
-                  InkWell(
-                    onTap: () => Get.toNamed(NOTIFICATION_PAGE_ROUTE),
-                    child: Container(
-                      height: 35,
-                      width: 35,
-                      decoration: BoxDecoration(
-                        color: WHITE_COLOR,
-                        borderRadius: BorderRadius.circular(10),
-                        boxShadow: [
-                          BoxShadow(
-                            color: DARK_GREY_COLOR.withOpacity(0.1),
-                            blurRadius: 5,
-                            offset: const Offset(2, 2),
-                          )
-                        ],
-                      ),
-                      alignment: Alignment.center,
-                      child: SvgPicture.asset(
-                        ICON_PATH + SEARCH_SVG,
-                        color: const Color.fromARGB(255, 110, 117, 131),
-                        height: 23,
-                        width: 23,
-                        fit: BoxFit.cover,
-                        allowDrawingOutsideViewBox: true,
-                      ),
-                    ),
-                  ),
-                  const SizedBox(
-                    width: 10,
-                  ),
-                  InkWell(
-                    onTap: () => Get.toNamed(NOTIFICATION_PAGE_ROUTE),
-                    child: Container(
-                      height: 35,
-                      width: 35,
-                      decoration: BoxDecoration(
-                        color: WHITE_COLOR,
-                        borderRadius: BorderRadius.circular(10),
-                        boxShadow: [
-                          BoxShadow(
-                            color: DARK_GREY_COLOR.withOpacity(0.1),
-                            blurRadius: 5,
-                            offset: const Offset(2, 2),
-                          )
-                        ],
-                      ),
-                      child: Stack(
-                        children: [
-                          Positioned(
-                            bottom: 5,
-                            left: 5,
-                            child: SvgPicture.asset(
-                              ICON_PATH + BELL_SVG,
-                              color: const Color.fromARGB(255, 110, 117, 131),
-                              height: 25,
-                              width: 25,
-                              fit: BoxFit.cover,
-                              allowDrawingOutsideViewBox: true,
-                            ),
-                          ),
-                          Positioned(
-                            top: 3,
-                            right: 3,
-                            child: CircleAvatar(
-                              backgroundColor:
-                                  const Color.fromARGB(255, 240, 121, 100),
-                              radius: 7,
-                              child: Text(
-                                '1',
-                                style: GoogleFonts.itim(
-                                  fontSize: 12,
-                                  color: WHITE_COLOR,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
-              ),
+              // Row(
+              //   children: [
+              //     InkWell(
+              //       onTap: () => Get.toNamed(NOTIFICATION_PAGE_ROUTE),
+              //       child: Container(
+              //         height: 35,
+              //         width: 35,
+              //         decoration: BoxDecoration(
+              //           color: WHITE_COLOR,
+              //           borderRadius: BorderRadius.circular(10),
+              //           boxShadow: [
+              //             BoxShadow(
+              //               color: DARK_GREY_COLOR.withOpacity(0.1),
+              //               blurRadius: 5,
+              //               offset: const Offset(2, 2),
+              //             )
+              //           ],
+              //         ),
+              //         alignment: Alignment.center,
+              //         child: SvgPicture.asset(
+              //           ICON_PATH + SEARCH_SVG,
+              //           color: const Color.fromARGB(255, 110, 117, 131),
+              //           height: 23,
+              //           width: 23,
+              //           fit: BoxFit.cover,
+              //           allowDrawingOutsideViewBox: true,
+              //         ),
+              //       ),
+              //     ),
+              //     const SizedBox(
+              //       width: 10,
+              //     ),
+              //     InkWell(
+              //       onTap: () => Get.toNamed(NOTIFICATION_PAGE_ROUTE),
+              //       child: Container(
+              //         height: 35,
+              //         width: 35,
+              //         decoration: BoxDecoration(
+              //           color: WHITE_COLOR,
+              //           borderRadius: BorderRadius.circular(10),
+              //           boxShadow: [
+              //             BoxShadow(
+              //               color: DARK_GREY_COLOR.withOpacity(0.1),
+              //               blurRadius: 5,
+              //               offset: const Offset(2, 2),
+              //             )
+              //           ],
+              //         ),
+              //         child: Stack(
+              //           children: [
+              //             Positioned(
+              //               bottom: 5,
+              //               left: 5,
+              //               child: SvgPicture.asset(
+              //                 ICON_PATH + BELL_SVG,
+              //                 color: const Color.fromARGB(255, 110, 117, 131),
+              //                 height: 25,
+              //                 width: 25,
+              //                 fit: BoxFit.cover,
+              //                 allowDrawingOutsideViewBox: true,
+              //               ),
+              //             ),
+              //             Positioned(
+              //               top: 3,
+              //               right: 3,
+              //               child: CircleAvatar(
+              //                 backgroundColor:
+              //                     const Color.fromARGB(255, 240, 121, 100),
+              //                 radius: 7,
+              //                 child: Text(
+              //                   '1',
+              //                   style: GoogleFonts.itim(
+              //                     fontSize: 12,
+              //                     color: WHITE_COLOR,
+              //                   ),
+              //                 ),
+              //               ),
+              //             ),
+              //           ],
+              //         ),
+              //       ),
+              //     ),
+              //   ],
+              // ),
             ],
           ),
         ),

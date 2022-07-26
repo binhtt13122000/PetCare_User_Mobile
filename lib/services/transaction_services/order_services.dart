@@ -227,7 +227,6 @@ class OrderServices {
       case 202:
         return jsonDecode(response.body)['data']['id'];
       default:
-        print(response.body);
         throw Exception('Error ${response.statusCode}, cannot update');
     }
   }

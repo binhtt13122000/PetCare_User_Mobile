@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:petapp_mobile/configs/theme.dart';
 import 'package:petapp_mobile/controllers/other_controllers/personal_information_page_controller.dart';
 import 'package:petapp_mobile/views/customer/other_pages/personal_information_page/widgets/body_widget.dart';
+import 'package:petapp_mobile/views/customer/other_pages/personal_information_page/widgets/bottom_widget.dart';
 import 'package:petapp_mobile/views/customer/other_pages/personal_information_page/widgets/top_widget.dart';
 import 'package:petapp_mobile/views/widgets/customize_widget.dart';
 
@@ -19,13 +20,24 @@ class PersonalInformationPage
           GetBuilder<PersonalInformationPageController>(
             builder: (_) => Padding(
               padding: const EdgeInsets.only(top: 25),
-              child: SingleChildScrollView(
-                child: Column(
-                  children: const [
-                    PersonalInformationTopWidget(),
-                    PersonalInformationBodyWidget(),
-                  ],
-                ),
+              child: Column(
+                children: [
+                  const PersonalInformationTopWidget(),
+                  Expanded(
+                    child: SingleChildScrollView(
+                      child: Column(
+                        children: const [
+                          PersonalInformationBodyWidget(),
+                        ],
+                      ),
+                    ),
+                  ),
+                  Container(
+                    height: 1,
+                    color: LIGHT_GREY_COLOR.withAlpha(30),
+                  ),
+                  const PersonalInformationBottomWidget(),
+                ],
               ),
             ),
           ),

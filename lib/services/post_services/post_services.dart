@@ -37,12 +37,16 @@ class PostService {
     return postList;
   }
 
-  static Future<int?> updatePostStatusByPostId(
-      {required int postId, required String postStatus}) async {
+  static Future<int?> updatePostStatusByPostId({
+    required int postId,
+    required String postStatus,
+    required String jwt,
+  }) async {
     final response = await http.patch(
       Uri.https(API_SERVER_PATH, POST_API_PATH),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
+        HttpHeaders.authorizationHeader: 'Bearer ' + jwt,
       },
       body: jsonEncode(
         {
@@ -81,6 +85,7 @@ class PostService {
     required int customerId,
     required int branchId,
     required List<int> deletedIds,
+    required String jwt,
   }) async {
     try {
       FormData formData;
@@ -115,6 +120,7 @@ class PostService {
               data: formData,
               options: Options(headers: <String, String>{
                 HttpHeaders.contentTypeHeader: 'multipart/form-data',
+                HttpHeaders.authorizationHeader: 'Bearer ' + jwt,
               }));
 
       return response.statusCode;
@@ -138,6 +144,7 @@ class PostService {
     required int customerId,
     required List<String> filesPath,
     required int branchId,
+    required String jwt,
   }) async {
     try {
       FormData formData;
@@ -153,7 +160,7 @@ class PostService {
         'status': status,
         'petId': petId,
         'customerId': customerId,
-        'branchId': branchId
+        'branchId': branchId,
       });
       for (var element in filesPath) {
         formData.files.add(
@@ -168,6 +175,7 @@ class PostService {
               data: formData,
               options: Options(headers: <String, String>{
                 HttpHeaders.contentTypeHeader: 'multipart/form-data',
+                HttpHeaders.authorizationHeader: 'Bearer ' + jwt,
               }));
       return response.statusCode;
     } on DioError catch (e) {
@@ -177,11 +185,13 @@ class PostService {
 
   static Future<PostModel> fetchPostById({
     required int postId,
+    required String jwt,
   }) async {
     final response = await http.get(
       Uri.https(API_SERVER_PATH, '/v1/api/posts/$postId'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
+        HttpHeaders.authorizationHeader: 'Bearer ' + jwt,
       },
     );
     switch (response.statusCode) {
@@ -199,6 +209,7 @@ class PostService {
     required int page,
     required int limit,
     String? type,
+    required String jwt,
   }) async {
     Map<String, dynamic> parameters = {
       'page': page.toString(),
@@ -212,6 +223,7 @@ class PostService {
       Uri.https(API_SERVER_PATH, '/v1/api/posts/fetch-post', parameters),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
+        HttpHeaders.authorizationHeader: 'Bearer ' + jwt,
       },
     );
     switch (response.statusCode) {
@@ -225,11 +237,13 @@ class PostService {
     }
   }
 
-  static Future<List<PostModel>> fetchAllPurchasePostList(
-      {required int customerId,
-      required String status,
-      required int page,
-      required int limit}) async {
+  static Future<List<PostModel>> fetchAllPurchasePostList({
+    required int customerId,
+    required String status,
+    required int page,
+    required int limit,
+    required String jwt,
+  }) async {
     Map<String, String> parameters = {
       'page': page.toString(),
       'limit': limit.toString(),
@@ -240,6 +254,7 @@ class PostService {
       Uri.https(API_SERVER_PATH, '/v1/api/posts/fetch-post', parameters),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
+        HttpHeaders.authorizationHeader: 'Bearer ' + jwt,
       },
     );
     switch (response.statusCode) {

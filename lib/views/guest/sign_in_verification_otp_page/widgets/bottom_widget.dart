@@ -46,7 +46,7 @@ class SignInVerificationBottomWidget extends GetView<SignInPageController> {
                 color: controller.otp.value.length == 6 &&
                         controller.countDownTime.value > 0
                     ? PRIMARY_COLOR.withOpacity(0.9)
-                    : PRIMARY_COLOR.withOpacity(0.5),
+                    : PRIMARY_COLOR.withOpacity(0.3),
                 borderRadius: BorderRadius.circular(5),
                 border: Border.all(
                   color: controller.otp.value.length == 6 &&

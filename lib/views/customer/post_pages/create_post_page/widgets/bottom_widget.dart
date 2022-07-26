@@ -23,14 +23,16 @@ class CreatePostBottomWidget extends GetView<CreatePostPageController> {
               padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
               child: InkWell(
                 onTap: () async {
-                  if (controller.title.value.isNotEmpty &&
-                      controller.price.value > 0 &&
+                  if (controller.title.value.replaceAll(' ', '').isNotEmpty &&
+                      controller.price.value >= 50000 &&
                       controller.selectedPetIndex.value != -1 &&
                       controller.evidences.isNotEmpty &&
-                      controller.meetingTimeText.value.isNotEmpty) {
+                      controller.meetingTimeText.value.isNotEmpty &&
+                      controller.selectBranchIndex.value != -1) {
                     controller.isShowLoadingWidget.value = true;
                     await PostService.createPost(
-                      title: controller.title.value,
+                      title: controller.title.value.trim(),
+                      jwt: controller.accountModel.jwtToken,
                       sellerReceive: int.parse(controller.receivedMoney.value),
                       shopFee: controller.price.value -
                           int.parse(controller.receivedMoney.value),
@@ -58,12 +60,16 @@ class CreatePostBottomWidget extends GetView<CreatePostPageController> {
                     alignment: Alignment.center,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
-                      color: controller.title.value.isNotEmpty &&
-                              controller.price.value > 0 &&
+                      color: controller.title.value
+                                  .replaceAll(' ', '')
+                                  .isNotEmpty &&
+                              controller.price.value >= 50000 &&
                               controller.selectedPetIndex.value != -1 &&
-                              controller.evidences.isNotEmpty
+                              controller.evidences.isNotEmpty &&
+                              controller.meetingTimeText.value.isNotEmpty &&
+                              controller.selectBranchIndex.value != -1
                           ? PRIMARY_COLOR
-                          : PRIMARY_COLOR.withOpacity(0.5),
+                          : PRIMARY_COLOR.withOpacity(0.3),
                     ),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,

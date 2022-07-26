@@ -7,11 +7,14 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class PetDetailPageController extends GetxController {
   late int petId;
+  RxBool isShowNotificationPopup = false.obs;
+  RxBool isWaitingDeletePet = false.obs;
   RxBool isShowMoreOptionWidget = false.obs;
   RxBool isLoadingPetCombo = false.obs;
   RxBool isLoadingHealthRecord = false.obs;
   RxBool isLoadingPetDetail = false.obs;
   late List<PetComboModel> petComboModelList;
+  RxBool isShowConfirmPopup = false.obs;
   late PetModel petModel;
   RxBool isLoadingData = false.obs;
   late RxString selectedViewType;

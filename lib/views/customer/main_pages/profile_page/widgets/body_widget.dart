@@ -46,29 +46,30 @@ class ProfilePageBodyWidget extends GetView<ProfilePageController> {
               padding: const EdgeInsets.only(top: 30, left: 40),
               child: Column(
                 children: [
+                  // buttonCartWidget(
+                  //   iconData: Icons.pets,
+                  //   title: 'Pets management',
+                  //   onTap: () => Get.toNamed(PET_MANAGEMENT_PAGE_ROUTE),
+                  // ),
+                  // buttonCartWidget(
+                  //   svgUrl: ICON_PATH + POSTS_SVG,
+                  //   title: 'Posts management',
+                  //   onTap: () => Get.toNamed(POST_MANAGEMENT_PAGE_ROUTE),
+                  // ),
+                  // buttonCartWidget(
+                  //   iconData: Icons.bookmark_border_outlined,
+                  //   title: 'Posts marked',
+                  //   onTap: () {},
+                  // ),
+
                   buttonCartWidget(
-                    iconData: Icons.pets,
-                    title: 'Pets management',
-                    onTap: () => Get.toNamed(PET_MANAGEMENT_PAGE_ROUTE),
-                  ),
-                  buttonCartWidget(
-                    svgUrl: ICON_PATH + POSTS_SVG,
-                    title: 'Posts management',
-                    onTap: () => Get.toNamed(POST_MANAGEMENT_PAGE_ROUTE),
-                  ),
-                  buttonCartWidget(
-                    iconData: Icons.bookmark_border_outlined,
-                    title: 'Posts marked',
+                    iconData: Icons.settings,
+                    title: 'Application Settings',
                     onTap: () {},
                   ),
                   buttonCartWidget(
                     iconData: Icons.help_outline_outlined,
-                    title: 'Help',
-                    onTap: () {},
-                  ),
-                  buttonCartWidget(
-                    iconData: Icons.settings,
-                    title: 'Settings',
+                    title: 'About us',
                     onTap: () {},
                   ),
                 ],

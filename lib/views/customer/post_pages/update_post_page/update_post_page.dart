@@ -29,8 +29,10 @@ class UpdatePostPage extends GetView<UpdatePostPageController> {
         controller.isShowMainLoading.value = true;
         WidgetsBinding.instance!.addPostFrameCallback((_) async {
           controller
-            ..postModel =
-                await PostService.fetchPostById(postId: controller.postId)
+            ..postModel = await PostService.fetchPostById(
+              postId: controller.postId,
+              jwt: controller.accountModel.jwtToken,
+            )
             ..title.value = controller.postModel.title
             ..description.value = controller.postModel.description ?? ""
             ..receivedMoney.value =
@@ -111,6 +113,7 @@ class UpdatePostPage extends GetView<UpdatePostPageController> {
                           status: 'REQUESTED',
                           branchId: controller.selectedBranchId.value,
                           deletedIds: controller.deletedIds,
+                          jwt: controller.accountModel.jwtToken,
                         );
 
                         controller

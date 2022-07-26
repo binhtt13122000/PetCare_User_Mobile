@@ -74,7 +74,9 @@ class ChattingDetailPage extends GetView<ChattingDetailPageController> {
         );
 
         controller.postModel = await PostService.fetchPostById(
-            postId: controller.chatRoomModel!.postId);
+          postId: controller.chatRoomModel!.postId,
+          jwt: controller.accountModel.jwtToken,
+        );
 
         controller.socket.emit('joinRoom', controller.chatRoomModel!.id);
         controller.isLoadingChat.value = false;
@@ -84,6 +86,7 @@ class ChattingDetailPage extends GetView<ChattingDetailPageController> {
           int.parse(controller.sellerId!),
         );
         controller.postModel = await PostService.fetchPostById(
+            jwt: controller.accountModel.jwtToken,
             postId: int.parse(controller.postId!));
         controller.isLoadingChat.value = false;
       }

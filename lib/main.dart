@@ -266,6 +266,7 @@ Future<void> initDynamicLinks({String initRoute = LANDING_PAGE_ROUTE}) async {
     }
     //  Navigator.pushNamed(context, deepLink.path);
   }
+
   FirebaseDynamicLinks.instance.onLink
       .listen((PendingDynamicLinkData? dynamicLink) async {
     final Uri? deepLink = dynamicLink?.link;

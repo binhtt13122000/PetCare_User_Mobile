@@ -36,7 +36,7 @@ class TicketDetailPage extends GetView<TicketDetailPageController> {
                 ? CancelPopupWidget(
                     onTapBackground: () =>
                         controller.isShowCancelPopup.value = false,
-                    title: 'Cancel Transaction',
+                    title: 'Cancel Ticket',
                     content: 'Tell us the reason why you cancel?',
                     quickRateText: controller.quickReasonCancelList,
                     onChangeDescription: (String? text) {

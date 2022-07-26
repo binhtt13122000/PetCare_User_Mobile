@@ -32,22 +32,27 @@ class SelectBranchWidget extends GetView<CreateTicketPageController> {
           ),
           Obx(
             () => DropdownButton<int>(
-              value: controller.selectBranchId.value,
+              value: controller.selectBranchIndex.value,
               items: controller.branchModelList
-                  .map((e) => DropdownMenuItem(
-                      value: e.id,
+                  .asMap()
+                  .entries
+                  .map(
+                    (e) => DropdownMenuItem(
+                      value: e.key,
                       child: Text(
-                        e.name,
+                        e.value.name,
                         style: GoogleFonts.quicksand(
                           fontWeight: FontWeight.w500,
                           color: const Color.fromARGB(255, 78, 98, 124),
                           fontSize: 16,
                         ),
-                      )))
+                      ),
+                    ),
+                  )
                   .toList(),
               onChanged: (int? value) {
                 controller
-                  ..selectBranchId.value = value!
+                  ..selectBranchIndex.value = value!
                   ..update();
               },
             ),

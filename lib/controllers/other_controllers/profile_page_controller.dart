@@ -11,7 +11,10 @@ class ProfilePageController extends GetxController {
   final FirebaseMessagingService firebaseMessagingService =
       FirebaseMessagingService.instance;
   late String userDeviceToken;
-
+  late int postQuantity;
+  late int petQuantity;
+  late int orderQuantity;
+  RxBool isShowPhoneNumber = false.obs;
   setUserDeviceToken() async {
     await firebaseMessagingService.initialize();
     userDeviceToken = firebaseMessagingService.getUserDeviceToken!;

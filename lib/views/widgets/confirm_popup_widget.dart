@@ -54,6 +54,7 @@ class ConfirmPopupWidget extends StatelessWidget {
                     child: CUSTOM_TEXT(
                       content,
                       textAlign: TextAlign.center,
+                      textOverflow: TextOverflow.clip,
                     ),
                   ),
                   submitButtonWidget(onTapSummit: onTapSubmit),
