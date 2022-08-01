@@ -264,7 +264,7 @@ class PostService {
         return getPostListByCustom(
             json.decode(response.body)['data']['content']);
       default:
-        throw Exception('Error ${response.statusCode}, cannot get species');
+        throw Exception('Error ${response.statusCode}, cannot get post');
     }
   }
 }

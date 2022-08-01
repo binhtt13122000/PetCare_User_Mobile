@@ -37,11 +37,17 @@ class PaymentForCenterServicesTransactionWebViewWidget
                   if (uri!.path == ORDER_RETURN_API_PATH) {
                     paymentForCenterServicesTransactionPageController
                       ..paymentUrl.value = ''
-                      ..isWaitingPayment.value = true
-                      ..orderModel = await OrderServices.fetchOrderIdByOrderId(
-                          orderId:
-                              paymentForCenterServicesTransactionPageController
-                                  .orderId);
+                      ..isWaitingPayment.value = true;
+
+                    await Future.delayed(
+                      const Duration(seconds: 3),
+                    );
+                    paymentForCenterServicesTransactionPageController
+                            .orderModel =
+                        await OrderServices.fetchOrderIdByOrderId(
+                            orderId:
+                                paymentForCenterServicesTransactionPageController
+                                    .orderId);
 
                     if (paymentForCenterServicesTransactionPageController
                             .orderModel.status ==

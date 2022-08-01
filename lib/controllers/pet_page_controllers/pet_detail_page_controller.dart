@@ -22,10 +22,11 @@ class PetDetailPageController extends GetxController {
   RxBool isViewPetPapers = false.obs;
   ScrollController scrollController = ScrollController();
   RxBool isOnTopScroll = false.obs;
-  RxString topTitle = 'Pet Information Page'.obs;
+  RxString topTitle = 'Pet Details Page'.obs;
   late List<PetHealthRecordModel> vaccinesList;
   late List<PetHealthRecordModel> dewormingList;
   late List<PetHealthRecordModel> removeTicksList;
+
   final RefreshController refreshController = RefreshController();
   sortDewormingList() {
     dewormingList
@@ -50,7 +51,7 @@ class PetDetailPageController extends GetxController {
             '${petModel.name} (${petModel.breedModel!.name} - ${petModel.breedModel!.speciesModel!.name})';
       } else {
         isOnTopScroll.value = false;
-        topTitle.value = 'Pet Information Page';
+        topTitle.value = 'Pet Details Page';
       }
     });
   }

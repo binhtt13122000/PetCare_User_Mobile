@@ -20,7 +20,8 @@ class PetDetailMoreOptionWidget extends GetView<PetDetailPageController> {
                     onTap: () {},
                     child: Container(
                       width: 200,
-                      height: ['NORMAL'].contains(controller.petModel.status)
+                      height: controller.petModel.specialMarkings != null &&
+                              controller.petModel.specialMarkings!.isNotEmpty
                           ? 170
                           : 110,
                       decoration: BoxDecoration(
@@ -44,13 +45,18 @@ class PetDetailMoreOptionWidget extends GetView<PetDetailPageController> {
                                 Get.toNamed(
                                     '$UPDATE_PET_PAGE_ROUTE/${controller.petModel.id}');
                               }),
-                          buttonWidget(
-                              content: 'View pet history',
-                              onTap: () {
-                                controller.isShowMoreOptionWidget.value = false;
-                                Get.toNamed(
-                                    '$PET_BLOCK_CHAIN_PAGE_ROUTE/${controller.petModel.id}');
-                              }),
+                          controller.petModel.specialMarkings != null &&
+                                  controller
+                                      .petModel.specialMarkings!.isNotEmpty
+                              ? buttonWidget(
+                                  content: 'View pet history',
+                                  onTap: () {
+                                    controller.isShowMoreOptionWidget.value =
+                                        false;
+                                    Get.toNamed(
+                                        '$PET_BLOCK_CHAIN_PAGE_ROUTE/${controller.petModel.id}');
+                                  })
+                              : const SizedBox.shrink(),
                           ['NORMAL'].contains(controller.petModel.status)
                               ? buttonWidget(
                                   content: 'Delete pet',

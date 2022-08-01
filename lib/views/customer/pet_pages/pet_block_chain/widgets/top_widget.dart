@@ -19,29 +19,7 @@ class PetBlockChainTopWidget extends GetView<PetBlockChainPageController> {
             height: 1,
             color: LIGHT_GREY_COLOR.withAlpha(30),
           ),
-          transactionIdWidget(),
         ],
-      );
-
-  Widget transactionIdWidget() => Container(
-        color: SUPPER_LIGHT_BLUE,
-        padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 20),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            CUSTOM_TEXT(
-              'Pet ID',
-              fontSize: 13,
-              color: DARK_GREY_TEXT_COLOR.withOpacity(0.7),
-            ),
-            CUSTOM_TEXT(
-              (controller.petId < 10 ? '#0' : '#') +
-                  controller.petId.toString(),
-              fontSize: 13,
-              color: DARK_GREY_TEXT_COLOR.withOpacity(0.7),
-            ),
-          ],
-        ),
       );
 
   Widget topWidget() => Padding(

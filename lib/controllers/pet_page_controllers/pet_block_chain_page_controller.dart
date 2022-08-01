@@ -6,8 +6,8 @@ import 'package:petapp_mobile/models/pet_health_records_model/pet_health_records
 import 'package:petapp_mobile/models/pet_model/pet_model.dart';
 
 class PetBlockChainPageController extends GetxController {
-  late int petId;
-  late String hashPetId;
+  int petId = -1;
+  String hashPetId = '';
   late int chainIndex;
   RxBool isWaitingLoadingData = false.obs;
   late PetChainModel? petChainModel;
@@ -15,7 +15,7 @@ class PetBlockChainPageController extends GetxController {
   late PetChainValueModel petChainValueModel;
   ScrollController scrollController = ScrollController();
   ScrollController detailScrollController = ScrollController();
-  late int chainId;
+  // late int chainId;
   RxBool isShowTimelineTitle = false.obs;
   RxBool isShowFullId = false.obs;
   RxString selectedViewType = 'Pet details'.obs;
@@ -53,15 +53,19 @@ class PetBlockChainPageController extends GetxController {
   setListPetHealthRecord() {
     petHealthRecordMap = <String, List<PetHealthRecordModel>>{};
     petHealthRecordMapKeyList = [];
-    for (var element in petChainValueModel
-        .petChainValueContentModel.petModel.petHealthRecordModelList!) {
-      if (petHealthRecordMapKeyList.contains(element.type)) {
-        petHealthRecordMap[element.type]!.add(element);
-      } else {
-        petHealthRecordMapKeyList.add(element.type);
-        petHealthRecordMap.addAll({
-          element.type: [element]
-        });
+    if (petChainValueModel
+            .petChainValueContentModel.petModel.petHealthRecordModelList !=
+        null) {
+      for (var element in petChainValueModel
+          .petChainValueContentModel.petModel.petHealthRecordModelList!) {
+        if (petHealthRecordMapKeyList.contains(element.type)) {
+          petHealthRecordMap[element.type]!.add(element);
+        } else {
+          petHealthRecordMapKeyList.add(element.type);
+          petHealthRecordMap.addAll({
+            element.type: [element]
+          });
+        }
       }
     }
   }

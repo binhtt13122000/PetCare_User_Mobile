@@ -7,6 +7,7 @@ import 'package:petapp_mobile/services/pet_services/pet_services.dart';
 import 'package:petapp_mobile/views/customer/pet_pages/pet_detail_page/widgets/health_records_widget.dart';
 import 'package:petapp_mobile/views/customer/pet_pages/pet_detail_page/widgets/pet_detail_information_widget.dart';
 import 'package:petapp_mobile/views/customer/pet_pages/pet_detail_page/widgets/services_combo_widget.dart';
+import 'package:petapp_mobile/views/customer/pet_pages/pet_detail_page/widgets/top_widget.dart';
 import 'package:petapp_mobile/views/widgets/customize_widget.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
@@ -16,8 +17,9 @@ class PetDetailBodyWidget extends GetView<PetDetailPageController> {
   @override
   Widget build(BuildContext context) =>
       GetBuilder<PetDetailPageController>(builder: (_) {
-        controller.isLoadingData.value = true;
-        controller.refreshController.refreshCompleted();
+        controller
+          ..isLoadingData.value = true
+          ..refreshController.refreshCompleted();
 
         WidgetsBinding.instance!.addPostFrameCallback((_) async {
           controller
@@ -28,75 +30,87 @@ class PetDetailBodyWidget extends GetView<PetDetailPageController> {
         });
         return Obx(
           () => controller.isLoadingData.value
-              ? Expanded(child: LOADING_WIDGET())
-              : Expanded(
-                  child: Stack(
-                    children: [
-                      Container(
-                        color: SUPPER_LIGHT_BLUE,
-                        child: SmartRefresher(
-                          controller: controller.refreshController,
-                          onRefresh: () => controller.update(),
-                          child: SingleChildScrollView(
-                            controller: controller.scrollController,
-                            child: Column(
-                              children: [
-                                Container(
-                                  color: WHITE_COLOR,
-                                  child: Column(
-                                    children: [
-                                      petDetailAvatarWidget(),
-                                      CUSTOM_TEXT(
-                                        controller.petModel.name,
-                                        fontSize: 24,
-                                        letterSpacing: 3,
-                                        fontWeight: FontWeight.w700,
-                                        padding: const EdgeInsets.only(top: 10),
+              ? Column(
+                  children: [
+                    const PetDetailTopWidget(),
+                    Expanded(child: LOADING_WIDGET()),
+                  ],
+                )
+              : Stack(
+                  children: [
+                    Column(
+                      children: [
+                        const PetDetailTopWidget(),
+                        Expanded(
+                          child: Container(
+                            color: SUPPER_LIGHT_BLUE,
+                            child: SmartRefresher(
+                              controller: controller.refreshController,
+                              onRefresh: () => controller.update(),
+                              child: SingleChildScrollView(
+                                controller: controller.scrollController,
+                                child: Column(
+                                  children: [
+                                    Container(
+                                      color: WHITE_COLOR,
+                                      child: Column(
+                                        children: [
+                                          petDetailAvatarWidget(),
+                                          CUSTOM_TEXT(
+                                            controller.petModel.name,
+                                            fontSize: 24,
+                                            letterSpacing: 3,
+                                            fontWeight: FontWeight.w700,
+                                            padding:
+                                                const EdgeInsets.only(top: 10),
+                                          ),
+                                          CUSTOM_TEXT(
+                                            '(${controller.petModel.breedModel!.name} - ${controller.petModel.breedModel!.speciesModel!.name})',
+                                            fontSize: 18,
+                                            letterSpacing: 2,
+                                            color: DARK_GREY_TEXT_COLOR
+                                                .withOpacity(0.8),
+                                            padding: const EdgeInsets.only(
+                                                bottom: 10),
+                                          ),
+                                          viewTypeWidget(),
+                                        ],
                                       ),
-                                      CUSTOM_TEXT(
-                                        '(${controller.petModel.breedModel!.name} - ${controller.petModel.breedModel!.speciesModel!.name})',
-                                        fontSize: 18,
-                                        letterSpacing: 2,
-                                        color: DARK_GREY_TEXT_COLOR
-                                            .withOpacity(0.8),
-                                        padding:
-                                            const EdgeInsets.only(bottom: 10),
-                                      ),
-                                      viewTypeWidget(),
-                                    ],
-                                  ),
+                                    ),
+                                    Obx(() {
+                                      switch (
+                                          controller.selectedViewType.value) {
+                                        case 'Health records':
+                                          return const PetDetailHeathRecordsWidget();
+                                        case 'Services combo':
+                                          return const PetDetailServicesComboWidget();
+                                        default:
+                                          return const PetDetailInformationWidget();
+                                      }
+                                    }),
+                                  ],
                                 ),
-                                Obx(() {
-                                  switch (controller.selectedViewType.value) {
-                                    case 'Health records':
-                                      return const PetDetailHeathRecordsWidget();
-                                    case 'Services combo':
-                                      return const PetDetailServicesComboWidget();
-                                    default:
-                                      return const PetDetailInformationWidget();
-                                  }
-                                }),
-                              ],
+                              ),
                             ),
                           ),
                         ),
-                      ),
-                      Obx(
-                        () => Visibility(
-                          visible: controller.isOnTopScroll.value,
-                          child: Column(
-                            children: [
-                              Container(
-                                color: WHITE_COLOR,
-                                margin: const EdgeInsets.only(top: 30),
-                                child: viewTypeWidget(),
-                              ),
-                            ],
-                          ),
+                      ],
+                    ),
+                    Obx(
+                      () => Visibility(
+                        visible: controller.isOnTopScroll.value,
+                        child: Column(
+                          children: [
+                            Container(
+                              color: WHITE_COLOR,
+                              margin: const EdgeInsets.only(top: 30),
+                              child: viewTypeWidget(),
+                            ),
+                          ],
                         ),
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
         );
       });

@@ -120,7 +120,7 @@ class PetBlockChainDetailBodyWidget
                         CUSTOM_TEXT(
                           FORMAT_DATE_TIME(
                               dateTime: DateTime.now(),
-                              pattern: DATE_PATTERN_2),
+                              pattern: DATE_TIME_PATTERN),
                           letterSpacing: 1,
                           fontSize: 15,
                           color: DARK_GREY_TEXT_COLOR.withOpacity(0.9),

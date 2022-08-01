@@ -23,12 +23,7 @@ class PetDetailPage extends GetView<PetDetailPageController> {
       backgroundColor: WHITE_COLOR,
       body: Stack(
         children: [
-          Column(
-            children: const [
-              PetDetailTopWidget(),
-              PetDetailBodyWidget(),
-            ],
-          ),
+          const PetDetailBodyWidget(),
           const PetDetailMoreOptionWidget(),
           Obx(
             () => controller.isShowConfirmPopup.value

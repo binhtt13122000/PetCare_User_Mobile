@@ -147,6 +147,7 @@ class OrderServices {
         'Content-Type': 'application/json; charset=UTF-8',
       },
     );
+    print(response.body);
     switch (response.statusCode) {
       case 200:
       case 201:
@@ -173,8 +174,12 @@ class OrderServices {
     final queryParameters = {
       'message': message,
       'locale': locale,
-      'returnUrl': 'http://$API_SERVER_PATH$ORDER_RETURN_API_PATH'
+      'returnUrl': 'https://$API_SERVER_PATH$ORDER_RETURN_API_PATH'
     };
+
+    // final response2 = await http.post(Uri.parse(
+    //     'https://0842-171-250-113-73.ap.ngrok.io/v1/api/auth/demo-noti?userId=1'));
+    // print(response2.body);
 
     final response = await http.post(
       Uri.https(API_SERVER_PATH, ORDER_PAYMENT_API_PATH, queryParameters),
@@ -199,6 +204,10 @@ class OrderServices {
       case 200:
       case 201:
       case 202:
+        final pattern = RegExp('.{1,800}'); // 800 is the size of each chunk
+        pattern
+            .allMatches(jsonDecode(response.body)['url'])
+            .forEach((match) => print(match.group(0)));
         return jsonDecode(response.body)['url'];
       default:
         throw Exception('Error ${response.statusCode}, cannot payment');

@@ -10,11 +10,12 @@ class PetBlockChainDetailPage extends GetView<PetBlockChainPageController> {
 
   @override
   Widget build(BuildContext context) {
-    if (Get.parameters['chainId'] != null) {
-      controller
-        ..chainId = int.parse(Get.parameters['chainId']!)
-        ..chainIndex = int.parse(Get.parameters['chainId']!);
-    }
+    //String? chainIndex = Get.parameters['chainId'];
+    // if (chainIndex != null) {
+    //   controller
+    //       // ..chainId = 0
+    //       .chainIndex = int.parse(chainIndex);
+    // }
     controller
       ..petChainValueModel =
           controller.petChainModel!.valueModelList[controller.chainIndex]

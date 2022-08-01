@@ -75,19 +75,13 @@ class PetGenerateQrCodeTopWidget extends GetView<GenerateQrCodeController> {
                 ),
               ),
             ),
-            //*app logo
             Expanded(
-              child: FittedBox(
-                fit: BoxFit.scaleDown,
-                child: CUSTOM_TEXT(
-                  'Pet Qr-Code Page',
-                  fontWeight: FontWeight.w700,
-                  letterSpacing: 1,
-                  textAlign: TextAlign.center,
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
-                  fontSize: 18,
-                  color: WHITE_COLOR,
-                ),
+              child: CUSTOM_TEXT(
+                'Generate QR Page',
+                textAlign: TextAlign.center,
+                fontSize: 18,
+                fontWeight: FontWeight.w700,
+                letterSpacing: 2,
               ),
             ),
           ],
