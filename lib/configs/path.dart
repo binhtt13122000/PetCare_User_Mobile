@@ -36,6 +36,7 @@ const VNPAY_PNG = 'vnpay.png';
 const HEARTS_PNG = 'hearts.png';
 const FONDOS_BACKGROUND_PNG = 'fondos_background.png';
 const QR_PNG = 'qr.png';
+const APP_LOGO_PNG = 'app_logo.png';
 
 //*icons
 const ICON_PATH = 'assets/icons/';
@@ -106,7 +107,8 @@ const PET_WITH_CAKE_PNG = 'pet_with_cake.png';
 // const GRAPHL_SERVER = 'http://10.0.2.2:8080';
 
 const API_SERVER_PATH = 'binhtt.tech';
-const GRAPHL_SERVER_PATH = 'https://advanced-shrimp-11.hasura.app';
+
+const GRAPHL_SERVER_PATH = 'https://binhtt.tech/express';
 
 //*sale transaction
 const SALE_TRANSACTION_RETURN_API_PATH =

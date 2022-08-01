@@ -40,9 +40,9 @@ class ActionPageController extends GetxController {
   }
 
   ActionPageController() {
-    startTimer();
-    pageController.addListener(() {
-      selectedImageIndex.value = pageController.page!.toInt();
-    });
+    // startTimer();
+    // pageController.addListener(() {
+    //   selectedImageIndex.value = pageController.page!.toInt();
+    // });
   }
 }

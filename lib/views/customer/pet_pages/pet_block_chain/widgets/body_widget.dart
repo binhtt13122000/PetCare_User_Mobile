@@ -14,20 +14,47 @@ class PetBlockChainBodyWidget extends GetView<PetBlockChainPageController> {
   @override
   Widget build(BuildContext context) {
     return Expanded(
-      child: controller.petChainModel != null
-          ? SingleChildScrollView(
-              controller: controller.scrollController,
-              child: Column(
-                children: [
-                  petGeneralInformation(),
-                  vaccinationsTimeLineWidget(),
-                ],
-              ))
-          : Center(
-              child: CUSTOM_TEXT('No data'),
-            ),
+      child: Column(
+        children: [
+          petIdWidget(),
+          Expanded(
+            child: controller.petChainModel != null
+                ? SingleChildScrollView(
+                    controller: controller.scrollController,
+                    child: Column(
+                      children: [
+                        petGeneralInformation(),
+                        vaccinationsTimeLineWidget(),
+                      ],
+                    ))
+                : Center(
+                    child: CUSTOM_TEXT('No data'),
+                  ),
+          ),
+        ],
+      ),
     );
   }
+
+  Widget petIdWidget() => Container(
+        color: SUPPER_LIGHT_BLUE,
+        padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 20),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            CUSTOM_TEXT(
+              'Pet ID',
+              fontSize: 13,
+              color: DARK_GREY_TEXT_COLOR.withOpacity(0.7),
+            ),
+            CUSTOM_TEXT(
+              (controller.petId < 10 ? '#' : '#') + controller.petId.toString(),
+              fontSize: 13,
+              color: DARK_GREY_TEXT_COLOR.withOpacity(0.7),
+            ),
+          ],
+        ),
+      );
 
   Widget petDetailAvatarWidget() => Stack(
         children: [

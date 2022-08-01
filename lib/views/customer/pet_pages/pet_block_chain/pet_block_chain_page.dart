@@ -14,13 +14,12 @@ class PetBlockChainPage extends GetView<PetBlockChainPageController> {
 
   @override
   Widget build(BuildContext context) {
-    if (Get.parameters['petId'] != null) {
-      if (int.tryParse(Get.parameters['petId'] ?? "") != null) {
-        controller.petId = int.parse(Get.parameters['petId']!);
-        controller.hashPetId = "";
+    String? petId = Get.parameters['petId'];
+    if (petId != null) {
+      if (int.tryParse(petId) != null) {
+        controller.petId = int.parse(petId);
       } else {
-        controller.hashPetId = Get.parameters['petId'] ?? "";
-        controller.petId = 0;
+        controller.hashPetId = petId;
       }
     }
     return Scaffold(
@@ -45,7 +44,6 @@ class PetBlockChainPage extends GetView<PetBlockChainPageController> {
                   } else {
                     Get.replace(HOME_PAGE_ROUTE);
                   }
-                  // controller.hashPetId = "";
                 } else {
                   controller
                     ..petModel = await PetService.fetchPetById(
@@ -54,7 +52,6 @@ class PetBlockChainPage extends GetView<PetBlockChainPageController> {
                         await PetChainService.fetchPetChainByPetId(
                             petId: controller.petId.toString())
                     ..isWaitingLoadingData.value = false;
-                  // controller.hashPetId = "";
                 }
                 controller.isWaitingLoadingData.value = false;
               });

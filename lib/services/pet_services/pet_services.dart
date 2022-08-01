@@ -214,12 +214,14 @@ class PetService {
         'Content-Type': 'application/json; charset=UTF-8',
       },
     );
+    print(Uri.https(API_SERVER_PATH, '$PET_API_PATH/$petId').path);
     switch (response.statusCode) {
       case 200:
       case 201:
       case 202:
         return PetModel.fromJson(json.decode(response.body)['data']);
       default:
+        print(response.body);
         throw Exception('Error ${response.statusCode}, cannot get pet');
     }
   }
