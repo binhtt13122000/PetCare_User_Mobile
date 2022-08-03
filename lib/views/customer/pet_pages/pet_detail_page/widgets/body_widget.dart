@@ -24,6 +24,7 @@ class PetDetailBodyWidget extends GetView<PetDetailPageController> {
         WidgetsBinding.instance!.addPostFrameCallback((_) async {
           controller
             ..petModel = await PetService.fetchPetById(
+              jwt: controller.accountModel.jwtToken,
               petId: controller.petId.toString(),
             )
             ..isLoadingData.value = false;

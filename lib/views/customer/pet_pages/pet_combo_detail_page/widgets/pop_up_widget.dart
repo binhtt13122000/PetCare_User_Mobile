@@ -103,6 +103,8 @@ class PetComboDetailPopupWidget extends GetView<PetComboDetailPageController> {
                                                 .value = true;
                                           await PetComboDetailServices
                                               .updatePetComboDetail(
+                                            jwt: controller
+                                                .accountModel.jwtToken,
                                             id: controller
                                                 .selectedPetComboDetailModel.id,
                                             realTime: DateTime.now(),

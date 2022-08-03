@@ -21,14 +21,17 @@ class BreedingTransactionDetailBreedingServicesForMalePetWidget
         WidgetsBinding.instance!.addPostFrameCallback((_) async {
           controller.orderId ??=
               await OrderServices.fetchOrderByBreedingTransactionId(
+                  jwt: controller.accountModel.jwtToken,
                   breedingTransactionId: controller.breedingTransactionId);
           if (controller.orderId != null) {
             controller.orderModel = await OrderServices.fetchOrderIdByOrderId(
+                jwt: controller.accountModel.jwtToken,
                 orderId: controller.orderId!);
           }
           controller
             ..breedingTransactionModel =
                 await BreedingTransactionService.fetchBreedingTransactionById(
+                    jwt: controller.accountModel.jwtToken,
                     breedingTransactionId: controller.breedingTransactionId)
             ..sortComboList()
             ..isWaitingLoadingDataInBreedingTab.value = false

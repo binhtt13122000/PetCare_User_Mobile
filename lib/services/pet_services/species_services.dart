@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:petapp_mobile/configs/path.dart';
 import 'package:petapp_mobile/models/species_model/species_model.dart';
@@ -15,11 +16,13 @@ class SpeciesService {
 
   static Future<SpeciesModel> fetchSpeciesById({
     required int speciesId,
+    required String jwt,
   }) async {
     final response = await http.get(
       Uri.https(API_SERVER_PATH, '$SPECIES_API_PATH/$speciesId'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
+        HttpHeaders.authorizationHeader: 'Bearer ' + jwt,
       },
     );
     switch (response.statusCode) {
@@ -32,13 +35,16 @@ class SpeciesService {
     }
   }
 
-  static Future<List<SpeciesModel>> fetchSpeciesList(
-      {bool isActive = true}) async {
+  static Future<List<SpeciesModel>> fetchSpeciesList({
+    bool isActive = true,
+    required String jwt,
+  }) async {
     Map<String, dynamic> parameters = {'isActive': isActive.toString()};
     final response = await http.get(
       Uri.https(API_SERVER_PATH, SPECIES_API_PATH, parameters),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
+        HttpHeaders.authorizationHeader: 'Bearer ' + jwt,
       },
     );
     switch (response.statusCode) {

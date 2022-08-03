@@ -28,9 +28,11 @@ class PetComboDetailPage extends GetView<PetComboDetailPageController> {
     controller.isWaitLoadingData.value = true;
     WidgetsBinding.instance!.addPostFrameCallback((_) async {
       TicketModel? ticketModel = await TicketServices.fetchTicketByCustomerId(
+          jwt: controller.accountModel.jwtToken,
           customerId: controller.accountModel.customerModel.id);
       controller
         ..petComboModel = await PetComboServices.fetchPetComboById(
+            jwt: controller.accountModel.jwtToken,
             petComboId: Get.parameters['petComboId']!)
         ..petComboStatus.value =
             controller.petComboModel.isCompleted ? 'Completed' : 'Not completed'
@@ -125,6 +127,7 @@ class PetComboDetailPage extends GetView<PetComboDetailPageController> {
 
                       controller.ticketId.value =
                           await TicketServices.createTicket(
+                                jwt: controller.accountModel.jwtToken,
                                 createdTime: DateTime.now(),
                                 meetingDate: controller.bookingServicesDate,
                                 startTime: controller

@@ -22,6 +22,7 @@ class OrderDetailBodyWidget extends GetView<OrderDetailPageController> {
         WidgetsBinding.instance!.addPostFrameCallback((_) async {
           controller
             ..orderModel = await OrderServices.fetchOrderIdByOrderId(
+                jwt: controller.accountModel.jwtToken,
                 orderId: controller.orderId)
             ..isLoadingData.value = false;
         });

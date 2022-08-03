@@ -6,9 +6,9 @@ import 'package:petapp_mobile/models/transaction_fees_model/transaction_fees_mod
 import 'package:petapp_mobile/utilities/utilities.dart';
 import 'package:petapp_mobile/views/widgets/customize_widget.dart';
 
-class CreatePostSaleTransactionFeesWidget
+class CreatePostTransactionFeesWidget
     extends GetView<CreatePostPageController> {
-  const CreatePostSaleTransactionFeesWidget({Key? key}) : super(key: key);
+  const CreatePostTransactionFeesWidget({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -109,8 +109,7 @@ class CreatePostSaleTransactionFeesWidget
                             : FORMAT_MONEY(price: transactionFeesModel.min),
                         fontSize: 12,
                         textAlign: TextAlign.center,
-                        color: controller
-                                    .selectedPurchaseTransactionFeesId.value ==
+                        color: controller.selectedTransactionFeesId.value ==
                                 transactionFeesModel.id
                             ? PRIMARY_COLOR
                             : DARK_GREY_TEXT_COLOR,
@@ -128,8 +127,7 @@ class CreatePostSaleTransactionFeesWidget
                             : FORMAT_MONEY(price: transactionFeesModel.max),
                         fontSize: 12,
                         textAlign: TextAlign.center,
-                        color: controller
-                                    .selectedPurchaseTransactionFeesId.value ==
+                        color: controller.selectedTransactionFeesId.value ==
                                 transactionFeesModel.id
                             ? PRIMARY_COLOR
                             : DARK_GREY_TEXT_COLOR,
@@ -145,8 +143,7 @@ class CreatePostSaleTransactionFeesWidget
                           FORMAT_MONEY(price: transactionFeesModel.price),
                           fontSize: 12,
                           textAlign: TextAlign.center,
-                          color: controller.selectedPurchaseTransactionFeesId
-                                      .value ==
+                          color: controller.selectedTransactionFeesId.value ==
                                   transactionFeesModel.id
                               ? PRIMARY_COLOR
                               : DARK_GREY_TEXT_COLOR,
@@ -157,9 +154,8 @@ class CreatePostSaleTransactionFeesWidget
                   SizedBox(
                     width: 65,
                     child: Visibility(
-                      visible:
-                          controller.selectedPurchaseTransactionFeesId.value ==
-                              transactionFeesModel.id,
+                      visible: controller.selectedTransactionFeesId.value ==
+                          transactionFeesModel.id,
                       child: const Icon(
                         Icons.verified,
                         color: PRIMARY_COLOR,

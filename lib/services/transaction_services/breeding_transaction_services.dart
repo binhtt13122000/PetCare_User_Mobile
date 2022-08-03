@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:petapp_mobile/models/breeding_transaction_model/breeding_transaction_model.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
@@ -17,6 +19,7 @@ class BreedingTransactionService {
   static Future<int> createBreedingTransaction({
     required DateTime createdTime,
     required String placeMeeting,
+    required String jwt,
     required DateTime meetingTime,
     required int sellerReceive,
     required int transactionTotal,
@@ -36,6 +39,7 @@ class BreedingTransactionService {
       Uri.https(API_SERVER_PATH, BREEDING_TRANSACTION_API_PATH),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
+        HttpHeaders.authorizationHeader: 'Bearer ' + jwt,
       },
       body: jsonEncode({
         'createdTime': createdTime.toIso8601String(),
@@ -73,6 +77,7 @@ class BreedingTransactionService {
 
   static Future<bool> bookingBreedingServices({
     required int breedingTransactionId,
+    required String jwt,
     required int branchId,
     required DateTime bookingTime,
   }) async {
@@ -81,6 +86,7 @@ class BreedingTransactionService {
           API_SERVER_PATH, BREEDING_TRANSACTION_BOOKING_SERVICES_API_PATH),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
+        HttpHeaders.authorizationHeader: 'Bearer ' + jwt,
       },
       body: jsonEncode({
         'id': breedingTransactionId,
@@ -102,12 +108,14 @@ class BreedingTransactionService {
     required int id,
     required int star,
     required String review,
+    required String jwt,
   }) async {
     final response = await http.put(
       Uri.https(API_SERVER_PATH,
           BREADING_TRANSACTION_REVIEW_FOR_TRANSACTION_API_PATH),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
+        HttpHeaders.authorizationHeader: 'Bearer ' + jwt,
       },
       body: jsonEncode({'id': id, 'review': review, 'star': star}),
     );
@@ -123,6 +131,7 @@ class BreedingTransactionService {
 
   static Future<int> reviewForBranch({
     required int id,
+    required String jwt,
     required int star,
     required String review,
   }) async {
@@ -131,6 +140,7 @@ class BreedingTransactionService {
           API_SERVER_PATH, BREADING_TRANSACTION_REVIEW_FOR_BRANCH_API_PATH),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
+        HttpHeaders.authorizationHeader: 'Bearer ' + jwt,
       },
       body: jsonEncode({'id': id, 'review': review, 'star': star}),
     );
@@ -145,6 +155,7 @@ class BreedingTransactionService {
   }
 
   static Future<String> quickPayment({
+    required String jwt,
     required int id,
     required DateTime paymentForMalePetOwnerTime,
   }) async {
@@ -159,6 +170,7 @@ class BreedingTransactionService {
       ),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
+        HttpHeaders.authorizationHeader: 'Bearer ' + jwt,
       },
       body: jsonBody,
     );
@@ -174,6 +186,7 @@ class BreedingTransactionService {
 
   static Future<String> quickPaymentForBranch({
     required int id,
+    required String jwt,
     required DateTime paymentForBranchTime,
   }) async {
     String jsonBody = jsonEncode({
@@ -188,6 +201,7 @@ class BreedingTransactionService {
       ),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
+        HttpHeaders.authorizationHeader: 'Bearer ' + jwt,
       },
       body: jsonBody,
     );
@@ -203,6 +217,7 @@ class BreedingTransactionService {
 
   static Future<String> pickUpMalePet({
     required int id,
+    required String jwt,
     required DateTime pickupMalePetTime,
   }) async {
     String jsonBody = jsonEncode({
@@ -216,6 +231,7 @@ class BreedingTransactionService {
       ),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
+        HttpHeaders.authorizationHeader: 'Bearer ' + jwt,
       },
       body: jsonBody,
     );
@@ -236,6 +252,7 @@ class BreedingTransactionService {
     required int transactionTotal,
     required String paymentMethod,
     String? message,
+    required String jwt,
     required String locale,
   }) async {
     final queryParameters = {
@@ -257,6 +274,7 @@ class BreedingTransactionService {
           queryParameters),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
+        HttpHeaders.authorizationHeader: 'Bearer ' + jwt,
       },
       body: jsonBody,
     );
@@ -275,6 +293,7 @@ class BreedingTransactionService {
     required String? petOwnerMaleId,
     required String page,
     required String limit,
+    required String jwt,
   }) async {
     final Map<String, dynamic> parameters = <String, dynamic>{
       'petOwnerFemaleId': petOwnerFemaleId,
@@ -286,6 +305,7 @@ class BreedingTransactionService {
       Uri.https(API_SERVER_PATH, BREEDING_TRANSACTION_API_PATH, parameters),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
+        HttpHeaders.authorizationHeader: 'Bearer ' + jwt,
       },
     );
     switch (response.statusCode) {
@@ -301,12 +321,14 @@ class BreedingTransactionService {
 
   static Future<BreedingTransactionModel> fetchBreedingTransactionById({
     required int breedingTransactionId,
+    required String jwt,
   }) async {
     final response = await http.get(
       Uri.https(API_SERVER_PATH,
           '$BREEDING_TRANSACTION_API_PATH/$breedingTransactionId'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
+        HttpHeaders.authorizationHeader: 'Bearer ' + jwt,
       },
     );
     switch (response.statusCode) {
@@ -323,12 +345,14 @@ class BreedingTransactionService {
 
   static Future<bool> cancelTransaction({
     required int id,
+    required String jwt,
     required String reasonCancel,
   }) async {
     final response = await http.put(
       Uri.https(API_SERVER_PATH, '$BREEDING_TRANSACTION_API_PATH/cancel'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
+        HttpHeaders.authorizationHeader: 'Bearer ' + jwt,
       },
       body: jsonEncode({
         'id': id,
@@ -348,12 +372,14 @@ class BreedingTransactionService {
 
   static Future<bool> cancelBreeding({
     required int id,
+    required String jwt,
     required String reasonCancel,
   }) async {
     final response = await http.put(
       Uri.https(API_SERVER_PATH, '$BREEDING_TRANSACTION_API_PATH/cancel-breed'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
+        HttpHeaders.authorizationHeader: 'Bearer ' + jwt,
       },
       body: jsonEncode({
         'id': id,

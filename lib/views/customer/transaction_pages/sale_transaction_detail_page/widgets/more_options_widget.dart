@@ -271,6 +271,7 @@ class SaleTransactionMoreOptionWidget
 
               cancelContent += controller.cancelDescription.value;
               await SaleTransactionService.updateSaleTransaction(
+                  jwt: controller.accountModel.jwtToken,
                   id: controller.saleTransactionModel.id,
                   meetingTime: controller.saleTransactionModel.meetingTime,
                   placeMeeting: controller.saleTransactionModel.placeMeeting,

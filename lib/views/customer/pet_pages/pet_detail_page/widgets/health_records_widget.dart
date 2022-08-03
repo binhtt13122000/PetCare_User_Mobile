@@ -20,15 +20,21 @@ class PetDetailHeathRecordsWidget extends GetView<PetDetailPageController> {
           controller
             ..vaccinesList =
                 await PetHealthRecordsServices.fetchPetHealthRecordList(
-                    petId: controller.petId.toString(), type: 'VACCINE')
+                    jwt: controller.accountModel.jwtToken,
+                    petId: controller.petId.toString(),
+                    type: 'VACCINE')
             ..sortVaccinesList()
             ..dewormingList =
                 await PetHealthRecordsServices.fetchPetHealthRecordList(
-                    petId: controller.petId.toString(), type: 'HELMINTHIC')
+                    jwt: controller.accountModel.jwtToken,
+                    petId: controller.petId.toString(),
+                    type: 'HELMINTHIC')
             ..sortDewormingList()
             ..removeTicksList =
                 await PetHealthRecordsServices.fetchPetHealthRecordList(
-                    petId: controller.petId.toString(), type: 'TICKS')
+                    jwt: controller.accountModel.jwtToken,
+                    petId: controller.petId.toString(),
+                    type: 'TICKS')
             ..sortRemoveTicksList()
             ..isLoadingHealthRecord.value = false;
         });

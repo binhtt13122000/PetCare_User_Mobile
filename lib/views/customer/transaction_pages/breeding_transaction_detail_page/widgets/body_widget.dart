@@ -30,6 +30,7 @@ class BreedingTransactionDetailBodyWidget
           controller
             ..breedingTransactionModel =
                 await BreedingTransactionService.fetchBreedingTransactionById(
+                    jwt: controller.accountModel.jwtToken,
                     breedingTransactionId: controller.breedingTransactionId)
             ..sortComboList()
             ..isReloadAll = false

@@ -178,6 +178,7 @@ class PaymentForCenterServicesTransactionBottomWidget
         child: InkWell(
           onTap: () async {
             controller.paymentUrl.value = await OrderServices.payment(
+              jwt: controller.accountModel.jwtToken,
               message: controller.accountModel.customerModel.lastName +
                   'payment ${controller.orderModel.provisionalTotal - controller.discountAmount.value}',
               locale: 'vi',

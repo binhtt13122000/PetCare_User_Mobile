@@ -24,6 +24,7 @@ class CreateRequestWidget extends GetView<ChattingDetailPageController> {
                   WidgetsBinding.instance!.addPostFrameCallback((_) async {
                     controller
                       ..pets = await PetService.fetchPetListToCreatePost(
+                          jwt: controller.accountModel.jwtToken,
                           customerId: controller.accountModel.customerModel.id,
                           type: controller.chatRoomModel!.type,
                           speciesId: controller

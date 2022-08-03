@@ -25,9 +25,11 @@ class PaymentForCenterServicesTransactionBodyWidget
           WidgetsBinding.instance!.addPostFrameCallback((_) async {
             controller
               ..orderModel = await OrderServices.fetchOrderIdByOrderId(
+                  jwt: controller.accountModel.jwtToken,
                   orderId: controller.orderId)
               ..promotionModels =
                   await PromotionServices.fetchPromotionByBranchId(
+                      jwt: controller.accountModel.jwtToken,
                       branchId: controller.orderModel.branchId)
               ..isLoadingData.value = false;
           });

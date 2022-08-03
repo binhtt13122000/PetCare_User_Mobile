@@ -30,6 +30,7 @@ class BreedingTransactionListWidget
                     ..breedingTransactionModelList =
                         await BreedingTransactionService
                             .fetchBreedingTransactionList(
+                      jwt: controller.accountModel.jwtToken,
                       petOwnerFemaleId: controller
                                   .selectedBreedingTransactionType.value ==
                               'Transaction role: [BUYER]'
@@ -45,7 +46,9 @@ class BreedingTransactionListWidget
                     )
                     ..accountModel.customerModel =
                         await CustomerService.fetchCustomerById(
-                            controller.accountModel.customerModel.id);
+                      controller.accountModel.customerModel.id,
+                      jwt: controller.accountModel.jwtToken,
+                    );
                   Get.find<AuthController>().accountModel.customerModel =
                       controller.accountModel.customerModel;
                   controller.isLoadingBreedingTransaction.value = false;

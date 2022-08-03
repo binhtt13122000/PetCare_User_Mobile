@@ -1,7 +1,10 @@
 import 'package:get/get.dart';
+import 'package:petapp_mobile/controllers/other_controllers/auth_controller.dart';
+import 'package:petapp_mobile/models/account_model/account_model.dart';
 import 'package:petapp_mobile/models/order_model/order_model.dart';
 
 class OrderDetailPageController extends GetxController {
+  AccountModel accountModel = Get.find<AuthController>().accountModel;
   RxBool isShowNotificationPopup = false.obs;
   bool isSuccessNotification = true;
   String notificationContent = '';

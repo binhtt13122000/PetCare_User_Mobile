@@ -25,7 +25,9 @@ class VaccineListPage extends GetView<VaccineListPageController> {
                     controller
                       ..vaccinesList = await PetHealthRecordsServices
                           .fetchPetHealthRecordList(
-                              petId: Get.parameters['petId']!, type: 'VACCINE')
+                              jwt: controller.accountModel.jwtToken,
+                              petId: Get.parameters['petId']!,
+                              type: 'VACCINE')
                       ..setMapVaccines()
                       // ..selectedVaccine.value =
                       //     controller.selectedVaccine.value.isEmpty

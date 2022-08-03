@@ -32,6 +32,7 @@ class PetsManagementBodyWidget extends GetView<PetManagementPageController> {
               WidgetsBinding.instance!.addPostFrameCallback((_) async {
                 controller.petList = await PetService.fetchPetListByCustomerId(
                   controller.accountModel.customerModel.id,
+                  jwt: controller.accountModel.jwtToken,
                   type: controller.petStatus,
                   name: controller.searchText.value,
                 );

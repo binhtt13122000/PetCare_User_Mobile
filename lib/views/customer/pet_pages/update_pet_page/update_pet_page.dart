@@ -28,6 +28,7 @@ class UpdatePetPage extends GetView<UpdatePetPageController> {
 
     WidgetsBinding.instance!.addPostFrameCallback((_) async {
       controller.petModel = await PetService.fetchPetById(
+        jwt: controller.accountModel.jwtToken,
         petId: controller.petId.toString(),
       );
 
@@ -138,6 +139,7 @@ class UpdatePetPage extends GetView<UpdatePetPageController> {
                         ..isShowConfirmPopup.value = false
                         ..isWaitingUpdatePet.value = true;
                       await PetService.updatePet(
+                        jwt: controller.accountModel.jwtToken,
                         id: controller.petId,
                         ownerId: controller.accountModel.customerModel.id,
                         avatarFile: null,

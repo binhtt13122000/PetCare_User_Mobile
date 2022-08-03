@@ -26,8 +26,12 @@ class CreateTicketBodyWidget extends GetView<CreateTicketPageController> {
         WidgetsBinding.instance!.addPostFrameCallback((_) async {
           controller
             ..centerServicesModelList =
-                await CenterServicesServices.fetchCenterServicesList()
-            ..branchModelList = await BranchServices.fetchBranchList()
+                await CenterServicesServices.fetchCenterServicesList(
+              jwt: controller.accountModel.jwtToken,
+            )
+            ..branchModelList = await BranchServices.fetchBranchList(
+              jwt: controller.accountModel.jwtToken,
+            )
             ..selectBranchIndex.value = controller.selectBranchIndex.value != -1
                 ? controller.selectBranchIndex.value
                 : 0;
@@ -106,6 +110,7 @@ class CreateTicketBodyWidget extends GetView<CreateTicketPageController> {
                                 controller
                                   ..ticketModelList = await TicketServices
                                       .fetchTicketListByBranch(
+                                    jwt: controller.accountModel.jwtToken,
                                     branchId: controller
                                         .branchModelList[
                                             controller.selectBranchIndex.value]

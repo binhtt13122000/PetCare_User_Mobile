@@ -38,6 +38,7 @@ class ChattingDetailPage extends GetView<ChattingDetailPageController> {
     WidgetsBinding.instance!.addPostFrameCallback((_) async {
       if (controller.chatRoomId != null) {
         controller.chatRoomModel = await ChatServices.fetchChatRoomById(
+            jwt: controller.accountModel.jwtToken,
             chatRoomId: controller.chatRoomId!);
 
         //*location
@@ -59,6 +60,7 @@ class ChattingDetailPage extends GetView<ChattingDetailPageController> {
             controller.chatRoomModel!.description ?? '';
         controller.messageModelList
             .addAll(await ChatServices.fetchMessageListByChatRoomId(
+          jwt: controller.accountModel.jwtToken,
           chatRoomId: controller.chatRoomId!,
           limit: controller.limitMessageRange,
           skip: controller.messageModelList.length,
@@ -71,6 +73,7 @@ class ChattingDetailPage extends GetView<ChattingDetailPageController> {
                   controller.accountModel.customerModel.id
               ? controller.chatRoomModel!.sellerId
               : controller.chatRoomModel!.buyerId,
+          jwt: controller.accountModel.jwtToken,
         );
 
         controller.postModel = await PostService.fetchPostById(
@@ -84,6 +87,7 @@ class ChattingDetailPage extends GetView<ChattingDetailPageController> {
         controller.anotherChatRoomMember =
             await CustomerService.fetchCustomerById(
           int.parse(controller.sellerId!),
+          jwt: controller.accountModel.jwtToken,
         );
         controller.postModel = await PostService.fetchPostById(
             jwt: controller.accountModel.jwtToken,

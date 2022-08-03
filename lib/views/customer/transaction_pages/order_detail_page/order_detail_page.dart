@@ -62,6 +62,7 @@ class OrderDetailPage extends GetView<OrderDetailPageController> {
                         quickRateList: controller.quickCancelList,
                       );
                       await OrderServices.cancelOrder(
+                        jwt: controller.accountModel.jwtToken,
                         orderId: controller.orderId,
                         reasonCancel: reasonText,
                         cancelTime: DateTime.now(),
@@ -130,6 +131,7 @@ class OrderDetailPage extends GetView<OrderDetailPageController> {
                         quickRateList: controller.quickFeedBackList,
                       );
                       await OrderServices.review(
+                          jwt: controller.accountModel.jwtToken,
                           transactionId: controller.orderModel.id,
                           star: controller.selectedStar.value,
                           review: reviewText);

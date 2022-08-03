@@ -253,6 +253,7 @@ class ChattingDetailBottomWidget extends GetView<ChattingDetailPageController> {
                           if (controller.mediaList.isNotEmpty) {
                             for (var element in controller.mediaList) {
                               String? tmpUrl = await ChatServices.uploadMedia(
+                                  jwt: controller.accountModel.jwtToken,
                                   mediaFilePath: element.path);
                               if (tmpUrl != null) {
                                 if (controller.chatRoomModel != null) {

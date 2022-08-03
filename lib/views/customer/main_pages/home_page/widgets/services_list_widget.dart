@@ -28,7 +28,9 @@ class HomeServicesListWidget extends GetView<HomePageController> {
             WidgetsBinding.instance!.addPostFrameCallback((_) async {
               controller
                 ..servicesList =
-                    await CenterServicesServices.fetchCenterServicesList()
+                    await CenterServicesServices.fetchCenterServicesList(
+                  jwt: controller.accountModel.jwtToken,
+                )
                 ..isWaitingLoadingServicesList.value = false;
             });
             return Obx(() => controller.isWaitingLoadingServicesList.value

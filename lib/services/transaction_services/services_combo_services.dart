@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:petapp_mobile/configs/path.dart';
 import 'package:petapp_mobile/models/services_combo_model/services_combo_model.dart';
@@ -14,11 +15,14 @@ class ServicesComboModelServices {
     return servicesComboModelList;
   }
 
-  static Future<List<ServicesComboModel>> fetchServicesComboList() async {
+  static Future<List<ServicesComboModel>> fetchServicesComboList({
+    required String jwt,
+  }) async {
     final response = await http.get(
       Uri.https(API_SERVER_PATH, SERVICES_COMBO_API_PATH),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
+        HttpHeaders.authorizationHeader: 'Bearer ' + jwt,
       },
     );
     switch (response.statusCode) {
@@ -32,8 +36,10 @@ class ServicesComboModelServices {
     }
   }
 
-  static Future<List<ServicesComboModel>> fetchServicesComboListByType(
-      {required String serviceType}) async {
+  static Future<List<ServicesComboModel>> fetchServicesComboListByType({
+    required String serviceType,
+    required String jwt,
+  }) async {
     final response = await http.get(
       Uri.https(
         API_SERVER_PATH,
@@ -41,6 +47,7 @@ class ServicesComboModelServices {
       ),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
+        HttpHeaders.authorizationHeader: 'Bearer ' + jwt,
       },
     );
     switch (response.statusCode) {
@@ -54,12 +61,15 @@ class ServicesComboModelServices {
     }
   }
 
-  static Future<ServicesComboModel> fetchServicesComboById(
-      {required int id}) async {
+  static Future<ServicesComboModel> fetchServicesComboById({
+    required int id,
+    required String jwt,
+  }) async {
     final response = await http.get(
       Uri.https(API_SERVER_PATH, '$SERVICES_COMBO_API_PATH/$id'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
+        HttpHeaders.authorizationHeader: 'Bearer ' + jwt,
       },
     );
     switch (response.statusCode) {

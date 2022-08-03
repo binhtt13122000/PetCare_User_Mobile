@@ -249,8 +249,10 @@ class PostListTopWidget extends GetView<PostListPageController> {
   Widget speciesWidget() {
     controller.isShowLoadingPetSpecies.value = true;
     WidgetsBinding.instance!.addPostFrameCallback((timeStamp) async {
-      controller.species =
-          await SpeciesService.fetchSpeciesList(isActive: true);
+      controller.species = await SpeciesService.fetchSpeciesList(
+        isActive: true,
+        jwt: controller.accountModel.jwtToken,
+      );
       controller.isShowLoadingPetSpecies.value = false;
     });
     return Padding(

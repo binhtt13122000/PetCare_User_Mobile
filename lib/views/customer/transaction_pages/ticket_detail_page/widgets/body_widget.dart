@@ -17,8 +17,10 @@ class TicketDetailBodyWidget extends GetView<TicketDetailPageController> {
     return GetBuilder<TicketDetailPageController>(builder: (_) {
       controller.isLoadingData.value = true;
       WidgetsBinding.instance!.addPostFrameCallback((_) async {
-        controller.ticketModel =
-            await TicketServices.fetchTicketById(ticketId: controller.ticketId);
+        controller.ticketModel = await TicketServices.fetchTicketById(
+          ticketId: controller.ticketId,
+          jwt: controller.accountModel.jwtToken,
+        );
         controller.isLoadingData.value = false;
       });
       return Obx(

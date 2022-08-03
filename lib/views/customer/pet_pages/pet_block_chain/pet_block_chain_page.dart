@@ -34,9 +34,11 @@ class PetBlockChainPage extends GetView<PetBlockChainPageController> {
                 if (controller.hashPetId.isNotEmpty) {
                   controller.petChainModel =
                       await PetChainService.fetchPetChainByHashPetId(
+                          jwt: controller.accountModel.jwtToken,
                           petId: controller.hashPetId);
                   if (controller.petChainModel!.valueModelList.isNotEmpty) {
                     controller.petModel = await PetService.fetchPetById(
+                        jwt: controller.accountModel.jwtToken,
                         petId: controller.petChainModel!.valueModelList.first
                             .petChainValueContentModel.petModel.id
                             .toString());
@@ -47,9 +49,11 @@ class PetBlockChainPage extends GetView<PetBlockChainPageController> {
                 } else {
                   controller
                     ..petModel = await PetService.fetchPetById(
+                        jwt: controller.accountModel.jwtToken,
                         petId: controller.petId.toString())
                     ..petChainModel =
                         await PetChainService.fetchPetChainByPetId(
+                            jwt: controller.accountModel.jwtToken,
                             petId: controller.petId.toString())
                     ..isWaitingLoadingData.value = false;
                 }

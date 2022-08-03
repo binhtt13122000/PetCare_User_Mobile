@@ -1,12 +1,15 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:petapp_mobile/configs/path.dart';
 import 'package:http/http.dart' as http;
 import 'package:petapp_mobile/models/transaction_fees_model/transaction_fees_model.dart';
 
 class TransactionFeesServices {
-  static Future<List<TransactionFeesModel>> fetchTransactionFreesList(
-      {required String transactionType}) async {
+  static Future<List<TransactionFeesModel>> fetchTransactionFreesList({
+    required String transactionType,
+    required String jwt,
+  }) async {
     Map<String, String> parameters = {
       'type': transactionType,
     };
@@ -14,6 +17,7 @@ class TransactionFeesServices {
       Uri.https(API_SERVER_PATH, TRANSACTION_FEES_API_PATH, parameters),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
+        HttpHeaders.authorizationHeader: 'Bearer ' + jwt,
       },
     );
     switch (response.statusCode) {

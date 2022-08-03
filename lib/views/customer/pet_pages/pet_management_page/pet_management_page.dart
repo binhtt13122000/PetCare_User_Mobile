@@ -41,6 +41,7 @@ class PetManagementPage extends GetView<PetManagementPageController> {
                         ..isShowConfirmPopup.value = false
                         ..isWaitingDeletePet.value = true;
                       await PetService.deletePetByPetId(
+                          jwt: controller.accountModel.jwtToken,
                           petId: controller.selectedPetModel.id);
 
                       controller

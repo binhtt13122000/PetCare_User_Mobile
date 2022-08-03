@@ -10,11 +10,13 @@ class AuthService {
   static Future<String> signOut({
     required int accountId,
     required String deviceToken,
+    required String jwt,
   }) async {
     final response = await http.post(
       Uri.https(API_SERVER_PATH, '$AUTH_API_PATH/logout'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
+        HttpHeaders.authorizationHeader: 'Bearer ' + jwt,
       },
       body: jsonEncode({
         'id': accountId,

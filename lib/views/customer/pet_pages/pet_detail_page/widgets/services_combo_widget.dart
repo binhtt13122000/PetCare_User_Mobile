@@ -20,6 +20,7 @@ class PetDetailServicesComboWidget extends GetView<PetDetailPageController> {
           controller
             ..petComboModelList =
                 await PetComboServices.fetchListPetComboByPetId(
+                    jwt: controller.accountModel.jwtToken,
                     petId: controller.petId)
             ..isLoadingPetCombo.value = false;
         });

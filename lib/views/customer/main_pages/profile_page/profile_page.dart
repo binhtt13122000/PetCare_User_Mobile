@@ -33,7 +33,9 @@ class ProfilePage extends GetView<ProfilePageController> {
             WidgetsBinding.instance!.addPostFrameCallback((_) async {
               controller.accountModel.customerModel =
                   await CustomerService.fetchCustomerById(
-                      controller.accountModel.customerModel.id);
+                controller.accountModel.customerModel.id,
+                jwt: controller.accountModel.jwtToken,
+              );
 
               Get.find<AuthController>().accountModel.customerModel =
                   controller.accountModel.customerModel;
@@ -47,9 +49,11 @@ class ProfilePage extends GetView<ProfilePageController> {
               List<PetModel> petModelList =
                   await PetService.fetchPetListByCustomerId(
                 controller.accountModel.customerModel.id,
+                jwt: controller.accountModel.jwtToken,
               );
               List<OrderModel> orderModelList = await OrderServices
                   .fetchListCenterServicesTransactionByCustomerId(
+                jwt: controller.accountModel.jwtToken,
                 page: 1,
                 limit: 99,
                 customerId: controller.accountModel.customerModel.id,

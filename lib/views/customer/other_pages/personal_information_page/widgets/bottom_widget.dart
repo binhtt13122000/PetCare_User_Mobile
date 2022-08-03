@@ -20,6 +20,7 @@ class PersonalInformationBottomWidget
         onTap: () async {
           controller.isLoadingUpdateProfile.value = true;
           CustomerModel? customerModel = await CustomerService.updateProfile(
+            jwt: controller.accountModel.jwtToken,
             id: controller.accountModel.customerModel.id,
             email: controller.email.value,
             firstName: controller.firstName.value,

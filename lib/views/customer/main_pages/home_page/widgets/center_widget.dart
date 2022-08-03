@@ -25,7 +25,9 @@ class HomeCenterWidget extends GetView<HomePageController> {
             controller.isWaitingLoadingBranchList.value = true;
             WidgetsBinding.instance!.addPostFrameCallback((_) async {
               controller
-                ..branchModelList = await BranchServices.fetchBranchList()
+                ..branchModelList = await BranchServices.fetchBranchList(
+                  jwt: controller.accountModel.jwtToken,
+                )
                 ..isWaitingLoadingBranchList.value = false;
             });
             return Obx(() => controller.isWaitingLoadingBranchList.value

@@ -22,7 +22,9 @@ class DewormingHistoryPage extends GetView<DewormingHistoryPageController> {
                 controller
                   ..dewormingList =
                       await PetHealthRecordsServices.fetchPetHealthRecordList(
-                          petId: Get.parameters['petId']!, type: 'HELMINTHIC')
+                          jwt: controller.accountModel.jwtToken,
+                          petId: Get.parameters['petId']!,
+                          type: 'HELMINTHIC')
                   ..sortDewormingList()
                   ..isWaitingLoadingData.value = false;
               });

@@ -112,6 +112,7 @@ class BreedingTransactionDetailBreedingServicesBottomWidget
                       ..isShowConfirmPopup.value = false
                       ..isWaitingLoading.value = true;
                     await BreedingTransactionService.pickUpMalePet(
+                        jwt: controller.accountModel.jwtToken,
                         id: controller.breedingTransactionModel.id,
                         pickupMalePetTime: DateTime.now());
                     controller
@@ -242,6 +243,7 @@ class BreedingTransactionDetailBreedingServicesBottomWidget
               onTap: () async {
                 controller.isWaitingLoading.value = true;
                 await BreedingTransactionService.quickPaymentForBranch(
+                    jwt: controller.accountModel.jwtToken,
                     id: controller.breedingTransactionModel.id,
                     paymentForBranchTime: DateTime.now());
                 controller

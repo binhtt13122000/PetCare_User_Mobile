@@ -22,7 +22,9 @@ class RemoveTickHistoryPage extends GetView<RemoveTicksHistoryPageController> {
                 controller
                   ..dewormingList =
                       await PetHealthRecordsServices.fetchPetHealthRecordList(
-                          petId: Get.parameters['petId']!, type: 'TICKS')
+                          jwt: controller.accountModel.jwtToken,
+                          petId: Get.parameters['petId']!,
+                          type: 'TICKS')
                   ..sortDewormingList()
                   ..isWaitingLoadingData.value = false;
               });

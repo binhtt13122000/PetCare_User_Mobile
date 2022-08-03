@@ -46,6 +46,7 @@ class UpdatePostPage extends GetView<UpdatePostPageController> {
           controller
             ..listPurchaseTransactionFees =
                 await TransactionFeesServices.fetchTransactionFreesList(
+                    jwt: controller.accountModel.jwtToken,
                     transactionType: controller.postModel.type)
             ..isShowMainLoading.value = false;
         });

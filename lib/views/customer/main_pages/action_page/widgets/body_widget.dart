@@ -19,6 +19,7 @@ class ActionPageBodyWidget extends GetView<ActionPageController> {
 
       WidgetsBinding.instance!.addPostFrameCallback((_) async {
         TicketModel? ticketModel = await TicketServices.fetchTicketByCustomerId(
+            jwt: controller.accountModel.jwtToken,
             customerId: controller.accountModel.customerModel.id);
         controller
           ..ticketModel = ticketModel

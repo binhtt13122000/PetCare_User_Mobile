@@ -54,6 +54,7 @@ class ProfileTabWidget extends GetView<ProfilePageController> {
                                     await FirebaseAuth.instance.signOut();
                                     await AuthService.signOut(
                                         accountId: controller.accountModel.id,
+                                        jwt: controller.accountModel.jwtToken,
                                         deviceToken:
                                             controller.userDeviceToken);
                                     Get.deleteAll();

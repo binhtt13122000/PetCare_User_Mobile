@@ -21,12 +21,15 @@ class SelectPetWidget extends GetView<CreatePostPageController> {
 
       WidgetsBinding.instance!.addPostFrameCallback((_) async {
         if (controller.isShowPetFilter) {
-          controller.species = await SpeciesService.fetchSpeciesList();
+          controller.species = await SpeciesService.fetchSpeciesList(
+            jwt: controller.accountModel.jwtToken,
+          );
           controller.selectedSpeciesId.value == -1
               ? controller.selectedSpeciesId.value = controller.species[0].id
               : null;
           controller
             ..pets = await PetService.fetchPetListToCreatePost(
+              jwt: controller.accountModel.jwtToken,
               customerId: controller.accountModel.customerModel.id,
               speciesId: controller.selectedSpeciesId.value,
               type: controller.selectedPostType.value,
@@ -37,6 +40,7 @@ class SelectPetWidget extends GetView<CreatePostPageController> {
         } else {
           controller
             ..pets = await PetService.fetchPetListToCreatePost(
+              jwt: controller.accountModel.jwtToken,
               customerId: controller.accountModel.customerModel.id,
               type: controller.selectedPostType.value,
               gender:

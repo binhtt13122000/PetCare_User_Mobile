@@ -1,11 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
+import 'package:petapp_mobile/controllers/other_controllers/auth_controller.dart';
+import 'package:petapp_mobile/models/account_model/account_model.dart';
 import 'package:petapp_mobile/models/pet_chain_model/pet_chain_model.dart';
 import 'package:petapp_mobile/models/pet_chain_value_model/pet_chain_value_model.dart';
 import 'package:petapp_mobile/models/pet_health_records_model/pet_health_records_model.dart';
 import 'package:petapp_mobile/models/pet_model/pet_model.dart';
 
 class PetBlockChainPageController extends GetxController {
+  AccountModel accountModel = Get.find<AuthController>().accountModel;
   int petId = -1;
   String hashPetId = '';
   late int chainIndex;

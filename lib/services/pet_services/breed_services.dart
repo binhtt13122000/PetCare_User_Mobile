@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:petapp_mobile/configs/path.dart';
 import 'package:petapp_mobile/models/breed_model/breed_model.dart';
@@ -15,11 +16,13 @@ class BreedService {
 
   static Future<BreedModel> fetchBreedById({
     required int breedId,
+    required String jwt,
   }) async {
     final response = await http.get(
       Uri.https(API_SERVER_PATH, '$BREED_API_PATH/$breedId'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
+        HttpHeaders.authorizationHeader: 'Bearer ' + jwt,
       },
     );
     switch (response.statusCode) {
@@ -34,11 +37,13 @@ class BreedService {
 
   static Future<List<BreedModel>> fetchBreedListBySpeciesId({
     required int speciesId,
+    required String jwt,
   }) async {
     final response = await http.get(
       Uri.https(API_SERVER_PATH, '$BREED_API_PATH/species/$speciesId'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
+        HttpHeaders.authorizationHeader: 'Bearer ' + jwt,
       },
     );
     switch (response.statusCode) {

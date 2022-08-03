@@ -24,6 +24,7 @@ class ChattingListBodyWidget extends GetView<ChattingListPageController> {
               controller.isLoadingRoom.value = true;
               controller.chatRoomList =
                   await ChatServices.fetchChatRoomListByCustomerId(
+                      jwt: controller.accountModel.jwtToken,
                       customerId: controller.accountModel.customerModel.id,
                       roomType:
                           controller.selectedChatRoomType.value == 'Opened Room'

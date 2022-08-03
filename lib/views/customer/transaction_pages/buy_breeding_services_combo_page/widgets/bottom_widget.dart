@@ -177,6 +177,7 @@ class BuyBreedingServicesComboBottomWidget
               if (controller.selectPetServicesComboIndex.value != -1) {
                 controller.isWaitLoadingDataForeground.value = true;
                 await PetComboServices.quickPayment(
+                    jwt: controller.accountModel.jwtToken,
                     registerTime: controller
                         .breedingTransactionModel.timeToCheckBreeding!
                         .add(const Duration(days: 10)),

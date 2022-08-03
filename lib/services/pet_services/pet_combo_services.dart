@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:petapp_mobile/configs/path.dart';
 import 'package:http/http.dart' as http;
@@ -15,11 +16,13 @@ class PetComboServices {
 
   static Future<List<PetComboModel>> fetchListPetComboByPetId({
     required int petId,
+    required String jwt,
   }) async {
     final response = await http.get(
       Uri.https(API_SERVER_PATH, '$PET_COMBO_API_PATH/pet/$petId'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
+        HttpHeaders.authorizationHeader: 'Bearer ' + jwt,
       },
     );
     switch (response.statusCode) {
@@ -35,11 +38,13 @@ class PetComboServices {
 
   static Future<PetComboModel> fetchPetComboById({
     required String petComboId,
+    required String jwt,
   }) async {
     final response = await http.get(
       Uri.https(API_SERVER_PATH, '$PET_COMBO_API_PATH/$petComboId'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
+        HttpHeaders.authorizationHeader: 'Bearer ' + jwt,
       },
     );
     switch (response.statusCode) {
@@ -62,6 +67,7 @@ class PetComboServices {
     required int point,
     String paymentMethod = 'VNPAY',
     required DateTime dateOfBreeding,
+    required String jwt,
   }) async {
     final response = await http.post(
       Uri.https(
@@ -70,6 +76,7 @@ class PetComboServices {
       ),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
+        HttpHeaders.authorizationHeader: 'Bearer ' + jwt,
       },
       body: jsonEncode({
         'registerTime': registerTime.toIso8601String(),
@@ -107,6 +114,7 @@ class PetComboServices {
     required int branchId,
     required int customerId,
     required int petId,
+    required String jwt,
   }) async {
     final queryParameters = {
       'message': message,
@@ -118,6 +126,7 @@ class PetComboServices {
       Uri.https(API_SERVER_PATH, PET_COMBO_API_PATH, queryParameters),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
+        HttpHeaders.authorizationHeader: 'Bearer ' + jwt,
       },
       body: jsonEncode({
         'orderTotal': orderTotal,

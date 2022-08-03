@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:petapp_mobile/configs/path.dart';
 import 'package:petapp_mobile/models/branch_model/branch_model.dart';
@@ -14,11 +15,14 @@ class BranchServices {
     return branchList;
   }
 
-  static Future<List<BranchModel>> fetchBranchList() async {
+  static Future<List<BranchModel>> fetchBranchList({
+    required String jwt,
+  }) async {
     final response = await http.get(
       Uri.https(API_SERVER_PATH, '/v1/api/branches'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
+        HttpHeaders.authorizationHeader: 'Bearer ' + jwt,
       },
     );
     switch (response.statusCode) {

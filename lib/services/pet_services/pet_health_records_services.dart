@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:petapp_mobile/configs/path.dart';
 import 'package:http/http.dart' as http;
@@ -18,6 +19,7 @@ class PetHealthRecordsServices {
   static Future<List<PetHealthRecordModel>> fetchPetHealthRecordList({
     required String petId,
     required String type,
+    required String jwt,
   }) async {
     Map<String, dynamic> parameters = {
       'petId': petId,
@@ -28,6 +30,7 @@ class PetHealthRecordsServices {
       Uri.https(API_SERVER_PATH, PET_HEALTH_RECORD_API_PATH, parameters),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
+        HttpHeaders.authorizationHeader: 'Bearer ' + jwt,
       },
     );
     switch (response.statusCode) {

@@ -106,6 +106,7 @@ class CreateTicketPage extends GetView<CreateTicketPageController> {
                       }
 
                       controller.ticketId = await TicketServices.createTicket(
+                        jwt: controller.accountModel.jwtToken,
                         createdTime: DateTime.now(),
                         meetingDate: controller.bookingServicesDate,
                         startTime: controller

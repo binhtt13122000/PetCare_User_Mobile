@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:petapp_mobile/models/sale_transaction_model/sale_transaction_model.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
@@ -23,6 +25,7 @@ class SaleTransactionService {
     required DateTime meetingTime,
     required String placeMeeting,
     required int sellerReceive,
+    required String jwt,
     required int transactionFee,
     required int transactionTotal,
     required String? description,
@@ -38,6 +41,7 @@ class SaleTransactionService {
       Uri.https(API_SERVER_PATH, '/v1/api/sale-transactions'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
+        HttpHeaders.authorizationHeader: 'Bearer ' + jwt,
       },
       body: jsonEncode({
         'createdTime': createdTime.toIso8601String(),
@@ -74,6 +78,7 @@ class SaleTransactionService {
     required int id,
     required DateTime meetingTime,
     required String placeMeeting,
+    required String jwt,
     DateTime? transactionTime,
     int star = 0,
     String? review,
@@ -87,6 +92,7 @@ class SaleTransactionService {
       Uri.https(API_SERVER_PATH, SALE_TRANSACTION_API_PATH),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
+        HttpHeaders.authorizationHeader: 'Bearer ' + jwt,
       },
       body: jsonEncode({
         'id': id,
@@ -116,6 +122,7 @@ class SaleTransactionService {
   static Future<String> payment({
     required int id,
     required DateTime transactionTime,
+    required String jwt,
     required int transactionTotal,
     required String paymentMethod,
     String? message,
@@ -139,6 +146,7 @@ class SaleTransactionService {
           API_SERVER_PATH, 'v1/api/sale-transactions/payment', queryParameters),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
+        HttpHeaders.authorizationHeader: 'Bearer ' + jwt,
       },
       body: jsonBody,
     );
@@ -155,6 +163,7 @@ class SaleTransactionService {
   static Future<List<SaleTransactionModel>> fetchSaleTransactionList({
     required String? buyerId,
     required String? sellerId,
+    required String jwt,
     required String page,
     required String limit,
   }) async {
@@ -168,6 +177,7 @@ class SaleTransactionService {
       Uri.https(API_SERVER_PATH, SALE_TRANSACTION_API_PATH, parameters),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
+        HttpHeaders.authorizationHeader: 'Bearer ' + jwt,
       },
     );
     switch (response.statusCode) {
@@ -183,12 +193,14 @@ class SaleTransactionService {
 
   static Future<SaleTransactionModel> fetchSaleTransactionById({
     required int saleTransactionId,
+    required String jwt,
   }) async {
     final response = await http.get(
       Uri.https(
           API_SERVER_PATH, '$SALE_TRANSACTION_API_PATH/$saleTransactionId'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
+        HttpHeaders.authorizationHeader: 'Bearer ' + jwt,
       },
     );
     switch (response.statusCode) {

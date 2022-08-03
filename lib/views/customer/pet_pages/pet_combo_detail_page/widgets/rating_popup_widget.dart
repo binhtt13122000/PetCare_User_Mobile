@@ -220,6 +220,7 @@ class PetComboDetailRatingPopupWidget
                   : controller.reviewContent;
 
               await PetComboDetailServices.updatePetComboDetail(
+                  jwt: controller.accountModel.jwtToken,
                   id: controller.selectedPetComboDetailModel.id,
                   star: controller.selectedStar.value,
                   review: reviewContent);

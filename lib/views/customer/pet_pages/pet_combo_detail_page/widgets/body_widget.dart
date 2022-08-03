@@ -66,6 +66,7 @@ class PetComboDetailBodyWidget extends GetView<PetComboDetailPageController> {
               WidgetsBinding.instance!.addPostFrameCallback((_) async {
                 controller
                   ..petComboModel = await PetComboServices.fetchPetComboById(
+                      jwt: controller.accountModel.jwtToken,
                       petComboId: controller.petComboModel.id.toString())
                   ..petComboStatus.value = controller.petComboModel.isCompleted
                       ? 'Completed'
