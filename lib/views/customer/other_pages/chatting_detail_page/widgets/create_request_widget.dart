@@ -134,7 +134,7 @@ class CreateRequestWidget extends GetView<ChattingDetailPageController> {
                   (controller.chatRoomModel!.status == 'REQUESTED'
                       ? '[UPDATED]'
                       : '[CREATED]') +
-                  '. Transaction place: ${controller.transactionLocation.value}. Transaction time: ${FORMAT_DATE_TIME(dateTime: controller.transactionTime!, pattern: DATE_TIME_PATTERN)}. ' +
+                  '. Transaction place: ${controller.transactionLocation.value}. Transaction date: ${FORMAT_DATE_TIME(dateTime: controller.transactionTime!, pattern: DATE_PATTERN)}. ' +
                   controller.description.value;
               controller.chatRoomModel!
                 ..transactionPlace = controller.transactionLocation.value

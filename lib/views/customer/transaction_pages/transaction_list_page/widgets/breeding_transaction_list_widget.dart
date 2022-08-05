@@ -204,6 +204,12 @@ class BreedingTransactionListWidget
           timeTitle = 'Finished breeding time';
           timeValue = breedingTransactionModel.dateOfBreeding!;
           break;
+        case 'BREEDING_EXPIRED':
+          displayStatus = 'Breeding has been expired';
+          statusColor = RED_COLOR;
+          timeTitle = 'Created time';
+          timeValue = breedingTransactionModel.createdTime;
+          break;
         default:
           displayStatus = 'Transaction is completed';
           statusColor = GREEN_COLOR;
@@ -245,7 +251,7 @@ class BreedingTransactionListWidget
           break;
         case 'BREEDING_FINISHED':
           displayStatus = 'Waiting for pickup pet';
-          statusColor = GREEN_COLOR;
+          statusColor = YELLOW_COLOR;
           timeTitle = 'Finished breeding time';
           timeValue = breedingTransactionModel.dateOfBreeding!;
           break;
@@ -261,6 +267,12 @@ class BreedingTransactionListWidget
           statusColor = GREEN_COLOR;
           timeTitle = 'Payment time';
           timeValue = DateTime.now();
+          break;
+        case 'BREEDING_EXPIRED':
+          displayStatus = 'Breeding has been expired';
+          statusColor = RED_COLOR;
+          timeTitle = 'Created time';
+          timeValue = breedingTransactionModel.createdTime;
           break;
         case 'EXPIRED':
           displayStatus = 'Transaction has been expired';

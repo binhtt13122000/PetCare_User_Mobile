@@ -173,13 +173,11 @@ class VaccineListPageBodyWidget extends GetView<VaccineListPageController> {
                             fontSize: 15,
                             fontWeight: FontWeight.w700,
                           ),
-                          CUSTOM_TEXT(
-                            ' (' +
-                                (petHealthRecordModel.vaccineType ?? '') +
-                                ')',
-                          ),
                         ],
                       ),
+                CUSTOM_TEXT(
+                  '(' + (petHealthRecordModel.vaccineType ?? '') + ')',
+                ),
                 const SizedBox(height: 5),
                 CUSTOM_TEXT(
                   'Injected at ' +

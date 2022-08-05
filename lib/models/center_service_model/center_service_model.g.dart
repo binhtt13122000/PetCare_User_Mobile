@@ -19,6 +19,7 @@ CenterServiceModel _$CenterServiceModelFromJson(Map<String, dynamic> json) =>
           ?.map(
               (e) => CenterServiceFeeModel.fromJson(e as Map<String, dynamic>))
           .toList(),
+      type: json['type'] as String,
     );
 
 Map<String, dynamic> _$CenterServiceModelToJson(CenterServiceModel instance) =>
@@ -30,6 +31,7 @@ Map<String, dynamic> _$CenterServiceModelToJson(CenterServiceModel instance) =>
       'status': instance.status,
       'unit': instance.unit,
       'estimatedTime': instance.estimatedTime,
+      'type': instance.type,
       'serviceFees':
           instance.centerServiceFeeModelList?.map((e) => e.toJson()).toList(),
     };

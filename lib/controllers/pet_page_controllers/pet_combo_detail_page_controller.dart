@@ -9,9 +9,11 @@ import 'package:petapp_mobile/models/ticket_time_model/ticket_time_model.dart';
 import 'package:petapp_mobile/utilities/utilities.dart';
 
 class PetComboDetailPageController extends GetxController {
+  RxBool isShowBranchDetail = false.obs;
   RxBool isShowSuccessfullyPopup = false.obs;
   AccountModel accountModel = Get.find<AuthController>().accountModel;
   RxInt ticketId = (-1).obs;
+  RxList showDescriptionIndexList = [].obs;
   RxBool isShowConfirmPopup = false.obs;
   RxBool isShowCalendar = false.obs;
   RxString tmpMeetingTimeText = FORMAT_DATE_TIME(

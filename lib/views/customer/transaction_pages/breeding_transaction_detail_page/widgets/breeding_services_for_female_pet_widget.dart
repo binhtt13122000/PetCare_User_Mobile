@@ -147,7 +147,7 @@ class BreedingTransactionDetailBreedingServicesForFemalePetWidget
               padding: const EdgeInsets.only(top: 20),
               child: InkWell(
                 onTap: () => Get.toNamed(
-                    '$BOOKING_BREEDING_SERVICE_PAGE_ROUTE/${controller.breedingTransactionId}'),
+                    '$CREATE_TICKET_PAGE_ROUTE?breedingTransactionId=${controller.breedingTransactionId}'),
                 child: Container(
                   padding:
                       const EdgeInsets.symmetric(horizontal: 20, vertical: 7),

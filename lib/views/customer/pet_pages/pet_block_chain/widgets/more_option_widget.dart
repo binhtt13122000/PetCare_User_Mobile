@@ -2,11 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:petapp_mobile/configs/route.dart';
 import 'package:petapp_mobile/configs/theme.dart';
-import 'package:petapp_mobile/controllers/pet_page_controllers/pet_detail_page_controller.dart';
+import 'package:petapp_mobile/controllers/pet_page_controllers/pet_block_chain_page_controller.dart';
 import 'package:petapp_mobile/views/widgets/customize_widget.dart';
 
-class PetDetailMoreOptionWidget extends GetView<PetDetailPageController> {
-  const PetDetailMoreOptionWidget({Key? key}) : super(key: key);
+class PetBlockChainMoreOptionWidget
+    extends GetView<PetBlockChainPageController> {
+  const PetBlockChainMoreOptionWidget({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) => Obx(
@@ -20,11 +21,7 @@ class PetDetailMoreOptionWidget extends GetView<PetDetailPageController> {
                     onTap: () {},
                     child: Container(
                       width: 200,
-                      height: controller.petModel.specialMarkings != null &&
-                              controller.petModel.specialMarkings!.isNotEmpty &&
-                              controller.petModel.status == 'NORMAL'
-                          ? 170
-                          : 110,
+                      height: 70,
                       decoration: BoxDecoration(
                         color: WHITE_COLOR,
                         borderRadius: BorderRadius.circular(10),
@@ -40,33 +37,12 @@ class PetDetailMoreOptionWidget extends GetView<PetDetailPageController> {
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
                           buttonWidget(
-                              content: 'Update information',
+                              content: 'Generate QR code',
                               onTap: () {
                                 controller.isShowMoreOptionWidget.value = false;
                                 Get.toNamed(
-                                    '$UPDATE_PET_PAGE_ROUTE/${controller.petModel.id}');
+                                    '$PET_GENERATE_QR_CODE_ROUTE/${controller.petId}');
                               }),
-                          controller.petModel.specialMarkings != null &&
-                                  controller
-                                      .petModel.specialMarkings!.isNotEmpty
-                              ? buttonWidget(
-                                  content: 'View pet history',
-                                  onTap: () {
-                                    controller.isShowMoreOptionWidget.value =
-                                        false;
-                                    Get.toNamed(
-                                        '$PET_BLOCK_CHAIN_PAGE_ROUTE/${controller.petModel.id}');
-                                  })
-                              : const SizedBox.shrink(),
-                          ['NORMAL'].contains(controller.petModel.status)
-                              ? buttonWidget(
-                                  content: 'Delete pet',
-                                  onTap: () {
-                                    controller.isShowConfirmPopup.value = true;
-                                  },
-                                  isImportant: true,
-                                )
-                              : const SizedBox.shrink(),
                         ],
                       ),
                     ),

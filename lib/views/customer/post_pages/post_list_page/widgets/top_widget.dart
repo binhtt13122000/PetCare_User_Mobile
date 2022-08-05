@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:petapp_mobile/configs/enum_config.dart';
 import 'package:petapp_mobile/configs/path.dart';
+import 'package:petapp_mobile/configs/route.dart';
 import 'package:petapp_mobile/configs/theme.dart';
 import 'package:petapp_mobile/controllers/main_page_controllers/home_page_controller.dart';
 import 'package:petapp_mobile/controllers/post_page_controllers/post_list_page_controller.dart';
@@ -50,21 +51,24 @@ class PostListTopWidget extends GetView<PostListPageController> {
         ),
       );
 
-  Widget filterWidget() => Container(
-        height: 35,
-        width: 35,
-        decoration: BoxDecoration(
-            border: Border.all(
-              color: const Color.fromARGB(255, 156, 175, 202),
-              width: 1,
+  Widget filterWidget() => InkWell(
+        onTap: () => Get.toNamed(POSTS_FILTER_PAGE_ROUTE),
+        child: Container(
+          height: 35,
+          width: 35,
+          decoration: BoxDecoration(
+              border: Border.all(
+                color: const Color.fromARGB(255, 156, 175, 202),
+                width: 1,
+              ),
+              borderRadius: BorderRadius.circular(10),
+              color: WHITE_COLOR),
+          child: Center(
+            child: SvgPicture.asset(
+              ICON_PATH + FILTER_SVG,
+              height: 18,
+              color: const Color.fromARGB(255, 102, 116, 136),
             ),
-            borderRadius: BorderRadius.circular(10),
-            color: WHITE_COLOR),
-        child: Center(
-          child: SvgPicture.asset(
-            ICON_PATH + FILTER_SVG,
-            height: 18,
-            color: const Color.fromARGB(255, 102, 116, 136),
           ),
         ),
       );

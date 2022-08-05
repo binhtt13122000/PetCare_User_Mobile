@@ -142,7 +142,8 @@ class PetComboDetailPage extends GetView<PetComboDetailPageController> {
                                 customerId:
                                     controller.accountModel.customerModel.id,
                                 servicesIdList: [
-                                  controller.selectedPetComboDetailModel.id
+                                  controller
+                                      .selectedPetComboDetailModel.serviceId
                                 ],
                                 type: 'COMBO',
                               ) ??

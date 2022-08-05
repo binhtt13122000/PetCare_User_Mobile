@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:petapp_mobile/configs/theme.dart';
+import 'package:petapp_mobile/controllers/transaction_page_controllers/breeding_transaction_detail_page_controller.dart';
 import 'package:petapp_mobile/controllers/transaction_page_controllers/center_services_transaction_detail_page_controller.dart';
 import 'package:petapp_mobile/controllers/transaction_page_controllers/payment_for_center_services_transaction_page_controller.dart';
 import 'package:petapp_mobile/views/widgets/customize_widget.dart';
@@ -30,9 +31,14 @@ class PaymentForCenterServicesTransactionTopWidget
           children: [
             //*back button
             InkWell(
-              onTap: () => Get
-                ..back()
-                ..put(OrderDetailPageController()).update(),
+              onTap: () {
+                Get
+                  ..back()
+                  ..put(OrderDetailPageController()).update();
+                Get.put(BreedingTransactionDetailPageController())
+                  ..isShowBottomWidget.value = false
+                  ..update();
+              },
               child: Container(
                 height: 35,
                 width: 35,

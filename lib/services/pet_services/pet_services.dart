@@ -74,7 +74,7 @@ class PetService {
     }
   }
 
-  static Future<int> deletePetByPetId({
+  static Future deletePetByPetId({
     required int petId,
     required String jwt,
   }) async {
@@ -85,13 +85,13 @@ class PetService {
         HttpHeaders.authorizationHeader: 'Bearer ' + jwt,
       },
     );
+    print(response.body);
     switch (response.statusCode) {
       case 200:
       case 201:
       case 202:
-        return jsonDecode(response.body)['data']['id'];
+
       default:
-        throw Exception('Error ${response.statusCode}, cannot not delete pet');
     }
   }
 

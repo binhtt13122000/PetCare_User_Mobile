@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:petapp_mobile/configs/theme.dart';
 import 'package:petapp_mobile/controllers/main_page_controllers/action_page_controller.dart';
 import 'package:petapp_mobile/controllers/transaction_page_controllers/create_ticket_page_controller.dart';
+import 'package:petapp_mobile/views/widgets/customize_widget.dart';
 
 class CreateTicketTopWidget extends GetView<CreateTicketPageController> {
   const CreateTicketTopWidget({Key? key}) : super(key: key);
@@ -19,9 +20,32 @@ class CreateTicketTopWidget extends GetView<CreateTicketPageController> {
               margin: const EdgeInsets.only(top: 20),
               color: LIGHT_GREY_COLOR.withOpacity(0.1),
             ),
-            Container(
-              height: 16,
-              color: SUPPER_LIGHT_BLUE,
+            controller.breedingTransactionId == null
+                ? Container(
+                    height: 16,
+                    color: SUPPER_LIGHT_BLUE,
+                  )
+                : transactionIdWidget(),
+          ],
+        ),
+      );
+
+  Widget transactionIdWidget() => Container(
+        color: SUPPER_LIGHT_BLUE,
+        padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 20),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            CUSTOM_TEXT(
+              'Breeding transaction ID',
+              fontSize: 13,
+              color: DARK_GREY_TEXT_COLOR.withOpacity(0.7),
+            ),
+            CUSTOM_TEXT(
+              (controller.breedingTransactionId! < 10 ? '#0' : '#') +
+                  controller.breedingTransactionId.toString(),
+              fontSize: 13,
+              color: DARK_GREY_TEXT_COLOR.withOpacity(0.7),
             ),
           ],
         ),
@@ -59,7 +83,7 @@ class CreateTicketTopWidget extends GetView<CreateTicketPageController> {
             ),
             Expanded(
               child: Text(
-                'Create Ticket Page',
+                'Booking Ticket Page',
                 textAlign: TextAlign.center,
                 style: GoogleFonts.quicksand(
                   color: const Color.fromARGB(255, 62, 68, 87),

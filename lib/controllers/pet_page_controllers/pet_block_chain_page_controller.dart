@@ -15,6 +15,7 @@ class PetBlockChainPageController extends GetxController {
   RxBool isWaitingLoadingData = false.obs;
   late PetChainModel? petChainModel;
   late PetModel petModel;
+  RxBool isShowMoreOptionWidget = false.obs;
   late PetChainValueModel petChainValueModel;
   ScrollController scrollController = ScrollController();
   ScrollController detailScrollController = ScrollController();

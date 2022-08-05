@@ -63,7 +63,7 @@ class ActionPageBodyWidget extends GetView<ActionPageController> {
                             () => buttonWidget(
                               name: controller.ticketId.value != -1
                                   ? 'View Current Ticket'
-                                  : 'Create Ticket',
+                                  : 'Booking Ticket',
                               onTap: () => Get.toNamed(controller
                                           .ticketId.value !=
                                       -1

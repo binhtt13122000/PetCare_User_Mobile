@@ -23,7 +23,6 @@ class AddServicesWidget extends GetView<CreateTicketPageController> {
                       width: 300,
                       margin: const EdgeInsets.only(top: 10),
                       decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
                           border: Border.all(
                             color: LIGHT_GREY_COLOR.withOpacity(0.3),
                           ),
@@ -36,10 +35,12 @@ class AddServicesWidget extends GetView<CreateTicketPageController> {
                                   .asMap()
                                   .entries
                                   .map(
-                                    (e) => centerCervicesItemWidget(
-                                      index: e.key,
-                                      centerServiceModel: e.value,
-                                    ),
+                                    (e) => e.value.type != 'BREED'
+                                        ? centerCervicesItemWidget(
+                                            index: e.key,
+                                            centerServiceModel: e.value,
+                                          )
+                                        : const SizedBox.shrink(),
                                   )
                                   .toList()),
                         ),
