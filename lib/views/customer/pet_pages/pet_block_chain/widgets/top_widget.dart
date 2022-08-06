@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:petapp_mobile/configs/path.dart';
-import 'package:petapp_mobile/configs/route.dart';
 import 'package:petapp_mobile/configs/theme.dart';
 import 'package:petapp_mobile/controllers/pet_page_controllers/pet_block_chain_page_controller.dart';
 import 'package:petapp_mobile/controllers/pet_page_controllers/pet_detail_page_controller.dart';
@@ -73,8 +72,7 @@ class PetBlockChainTopWidget extends GetView<PetBlockChainPageController> {
             //*more options
             controller.hashPetId.isEmpty
                 ? InkWell(
-                    onTap: () => Get.toNamed(
-                        '$PET_GENERATE_QR_CODE_ROUTE/${controller.petId}'),
+                    onTap: () => controller.isShowMoreOptionWidget.value = true,
                     child: Container(
                         height: 35,
                         width: 35,

@@ -26,6 +26,7 @@ class PetGenerateQrCodePage extends GetView<GenerateQrCodeController> {
               WidgetsBinding.instance!.addPostFrameCallback((timeStamp) async {
                 controller.petDeepLink.value =
                     await PetGenerateQrCodeService.fetchDeepLinkFromPetId(
+                        jwt: controller.accountModel.jwtToken,
                         petId: controller.petId.toString());
                 controller.isWaitingLoadingData.value = false;
                 controller.startTimer();

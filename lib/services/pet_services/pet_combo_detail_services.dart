@@ -3,14 +3,14 @@ import 'package:dio/dio.dart';
 import 'package:petapp_mobile/configs/path.dart';
 
 class PetComboDetailServices {
-  static Future<bool> updatePetComboDetail({
-    required int id,
-    DateTime? realTime,
-    bool isCompleted = true,
-    int star = 0,
-    String review = '',
-    bool isAllCompleted = false,
-  }) async {
+  static Future<bool> updatePetComboDetail(
+      {required int id,
+      DateTime? realTime,
+      bool isCompleted = true,
+      int star = 0,
+      String review = '',
+      bool isAllCompleted = false,
+      required String jwt}) async {
     try {
       Map<String, dynamic> jsonData = {
         'id': id,
@@ -29,6 +29,7 @@ class PetComboDetailServices {
               data: formData,
               options: Options(headers: <String, String>{
                 HttpHeaders.contentTypeHeader: 'multipart/form-data',
+                HttpHeaders.authorizationHeader: 'Bearer ' + jwt,
               }));
       switch (response.statusCode) {
         case 200:

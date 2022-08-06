@@ -26,11 +26,29 @@ class CreateTicketBodyWidget extends GetView<CreateTicketPageController> {
         WidgetsBinding.instance!.addPostFrameCallback((_) async {
           controller
             ..centerServicesModelList =
-                await CenterServicesServices.fetchCenterServicesList()
-            ..branchModelList = await BranchServices.fetchBranchList()
+                await CenterServicesServices.fetchCenterServicesList(
+              jwt: controller.accountModel.jwtToken,
+            )
+            ..branchModelList = await BranchServices.fetchBranchList(
+              jwt: controller.accountModel.jwtToken,
+            )
             ..selectBranchIndex.value = controller.selectBranchIndex.value != -1
                 ? controller.selectBranchIndex.value
                 : 0;
+          if (controller.breedingTransactionId != null) {
+            int index = 0;
+            do {
+              if (controller.centerServicesModelList[index].name ==
+                  'Check Before Breeding') {
+                controller
+                  ..selectCenterServicesIndexList.add(index)
+                  ..totalEstimateTime.value =
+                      controller.centerServicesModelList[index].estimatedTime;
+                break;
+              }
+              index++;
+            } while (index < controller.centerServicesModelList.length);
+          }
 
           controller
             ..isLoadingData.value = false
@@ -106,6 +124,7 @@ class CreateTicketBodyWidget extends GetView<CreateTicketPageController> {
                                 controller
                                   ..ticketModelList = await TicketServices
                                       .fetchTicketListByBranch(
+                                    jwt: controller.accountModel.jwtToken,
                                     branchId: controller
                                         .branchModelList[
                                             controller.selectBranchIndex.value]
@@ -358,20 +377,24 @@ class CreateTicketBodyWidget extends GetView<CreateTicketPageController> {
                 ),
               ),
             ),
-            InkWell(
-              onTap: () => controller
-                ..selectCenterServicesIndexList.remove(index)
-                ..totalEstimateTime -=
-                    controller.centerServicesModelList[index].estimatedTime
-                ..update(),
-              child: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 7),
-                color: WHITE_COLOR.withOpacity(0.7),
-                height: 40,
-                child: SvgPicture.asset(
-                  ICON_PATH + CLOSE_SVG,
-                  color: RED_COLOR,
-                  height: 10,
+            Visibility(
+              visible: controller.centerServicesModelList[index].name !=
+                  'Check Before Breeding',
+              child: InkWell(
+                onTap: () => controller
+                  ..selectCenterServicesIndexList.remove(index)
+                  ..totalEstimateTime -=
+                      controller.centerServicesModelList[index].estimatedTime
+                  ..update(),
+                child: Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 7),
+                  color: WHITE_COLOR.withOpacity(0.7),
+                  height: 40,
+                  child: SvgPicture.asset(
+                    ICON_PATH + CLOSE_SVG,
+                    color: RED_COLOR,
+                    height: 10,
+                  ),
                 ),
               ),
             ),

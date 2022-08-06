@@ -25,9 +25,10 @@ class BuyBreedingServicesComboPage
       controller
         ..petServicesComboModelList =
             await ServicesComboModelServices.fetchServicesComboListByType(
-                serviceType: 'BREED')
+                jwt: controller.accountModel.jwtToken, serviceType: 'BREED')
         ..breedingTransactionModel =
             await BreedingTransactionService.fetchBreedingTransactionById(
+                jwt: controller.accountModel.jwtToken,
                 breedingTransactionId: controller.breedingTransactionId)
         ..selectPetServicesComboIndex.value = -1
         ..totalPrice.value = 0

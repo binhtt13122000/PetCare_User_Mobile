@@ -97,6 +97,7 @@ class PetComboDetailCreateRequestWidget
                                     controller
                                       ..ticketModelList = await TicketServices
                                           .fetchTicketListByBranch(
+                                        jwt: controller.accountModel.jwtToken,
                                         branchId:
                                             controller.petComboModel.branchId,
                                         bookingTime:

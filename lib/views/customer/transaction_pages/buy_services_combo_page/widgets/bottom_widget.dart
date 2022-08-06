@@ -52,6 +52,7 @@ class BuyServicesComboBottomWidget
 
               controller.centerServicesTransactionId =
                   await OrderServices.createCenterServicesTransaction(
+                      jwt: controller.accountModel.jwtToken,
                       provisionalTotal: controller.petServicesComboModel.price,
                       orderTotal: controller.petServicesComboModel.price,
                       customerId: controller.accountModel.customerModel.id,

@@ -23,13 +23,16 @@ class CenterServicesTransactionListWidget
         controller
           ..orderModelList = await OrderServices
               .fetchListCenterServicesTransactionByCustomerId(
+            jwt: controller.accountModel.jwtToken,
             page: controller.page,
             limit: controller.limit,
             customerId: controller.accountModel.customerModel.id,
           )
           ..accountModel.customerModel =
               await CustomerService.fetchCustomerById(
-                  controller.accountModel.customerModel.id);
+            controller.accountModel.customerModel.id,
+            jwt: controller.accountModel.jwtToken,
+          );
         Get.find<AuthController>().accountModel.customerModel =
             controller.accountModel.customerModel;
         controller.isLoadingCenterServicesTransaction.value = false;

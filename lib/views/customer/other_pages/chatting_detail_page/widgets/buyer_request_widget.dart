@@ -47,6 +47,7 @@ class BuyerRequestWidget extends GetView<ChattingDetailPageController> {
                                 .addPostFrameCallback((_) async {
                               controller
                                 ..femalePet = await PetService.fetchPetById(
+                                    jwt: controller.accountModel.jwtToken,
                                     petId: controller.chatRoomModel!.petId!
                                         .toString())
                                 ..isShowLoadingPet.value = false;
@@ -166,6 +167,7 @@ class BuyerRequestWidget extends GetView<ChattingDetailPageController> {
               ..isWaitLoadingData.value = true;
             int transactionId = controller.chatRoomModel!.type == 'SALE'
                 ? await SaleTransactionService.createSaleTransaction(
+                    jwt: controller.accountModel.jwtToken,
                     createdTime: DateTime.now(),
                     meetingTime: controller.chatRoomModel!.transactionTime!,
                     placeMeeting: controller.chatRoomModel!.transactionPlace!,
@@ -181,6 +183,7 @@ class BuyerRequestWidget extends GetView<ChattingDetailPageController> {
                     point: controller.postModel.transactionTotal ~/ 1000,
                   )
                 : await BreedingTransactionService.createBreedingTransaction(
+                    jwt: controller.accountModel.jwtToken,
                     createdTime: DateTime.now(),
                     meetingTime: controller.chatRoomModel!.transactionTime!,
                     placeMeeting: controller.chatRoomModel!.transactionPlace!,

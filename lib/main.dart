@@ -71,6 +71,7 @@ import 'package:petapp_mobile/views/customer/pet_pages/vaccine_block_chain_list_
 import 'package:petapp_mobile/views/customer/pet_pages/vaccine_list_page/vaccine_list_page.dart';
 import 'package:petapp_mobile/views/customer/post_pages/create_post_page/create_post_page.dart';
 import 'package:petapp_mobile/views/customer/post_pages/post_detail_page/post_detail_page.dart';
+import 'package:petapp_mobile/views/customer/post_pages/post_filter_page/post_filter_page.dart';
 import 'package:petapp_mobile/views/customer/post_pages/post_list_page/post_list_page.dart';
 import 'package:petapp_mobile/views/customer/post_pages/post_management_page/post_management_page.dart';
 import 'package:petapp_mobile/views/customer/post_pages/update_post_page/update_post_page.dart';
@@ -385,10 +386,10 @@ class _MainAppState extends State<MainApp> {
           page: () => const PostListPage(),
           binding: PostsListPageBinding(),
         ),
-        // GetPage(
-        //   name: PURCHASE_POSTS_FILTER_PAGE_ROUTE,
-        //   page: () => const PurchasePostsFilterPage(),
-        // ),
+        GetPage(
+          name: POSTS_FILTER_PAGE_ROUTE,
+          page: () => const PostsFilterPage(),
+        ),
         GetPage(
           name: NOTIFICATION_PAGE_ROUTE,
           page: () => const NotificationPage(),

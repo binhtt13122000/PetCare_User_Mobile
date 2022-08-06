@@ -27,6 +27,7 @@ class BookingBreedingServicesBottomWidget
           onTap: () async {
             controller.isWaitingSendRequest.value = true;
             await BreedingTransactionService.bookingBreedingServices(
+                jwt: controller.accountModel.jwtToken,
                 breedingTransactionId: controller.breedingTransactionId,
                 branchId: controller
                     .branchModelList[controller.selectBranchIndex.value].id,

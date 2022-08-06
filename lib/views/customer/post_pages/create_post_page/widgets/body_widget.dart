@@ -277,8 +277,7 @@ class CreatePostBodyWidget extends GetView<CreatePostPageController> {
                         in controller.listPurchaseTransactionFees) {
                       if (element.min <= intReceivedMoney &&
                           element.max > intReceivedMoney) {
-                        controller.selectedPurchaseTransactionFeesId.value =
-                            element.id;
+                        controller.selectedTransactionFeesId.value = element.id;
                         controller.price.value =
                             intReceivedMoney + element.price;
                         break;
@@ -287,7 +286,7 @@ class CreatePostBodyWidget extends GetView<CreatePostPageController> {
                   } else {
                     controller
                       ..price.value = 0
-                      ..selectedPurchaseTransactionFeesId.value = -1;
+                      ..selectedTransactionFeesId.value = -1;
                   }
                 }
               },

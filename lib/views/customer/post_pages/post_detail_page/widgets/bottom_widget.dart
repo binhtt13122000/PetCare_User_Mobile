@@ -106,6 +106,7 @@ class PostDetailBottomWidget extends GetView<PostDetailPageController> {
                         onTap: () async {
                           String? chatRoomId =
                               await ChatServices.fetchChatRoomId(
+                                  jwt: controller.accountModel.jwtToken,
                                   buyerId:
                                       controller.accountModel.customerModel.id,
                                   postId: controller.postModel.id);

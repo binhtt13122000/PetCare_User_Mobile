@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:petapp_mobile/configs/path.dart';
 import 'package:petapp_mobile/models/ticket_model/ticket_model.dart';
@@ -14,6 +15,7 @@ class TicketServices {
     required int customerId,
     required List<int> servicesIdList,
     required String type,
+    required String jwt,
   }) async {
     List<Map<String, int>> servicesIdJsonList = [];
     for (var element in servicesIdList) {
@@ -43,9 +45,11 @@ class TicketServices {
       Uri.https(API_SERVER_PATH, TICKET_API_PATH),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
+        HttpHeaders.authorizationHeader: 'Bearer ' + jwt,
       },
       body: jsonBody,
     );
+    print(response.body);
     switch (response.statusCode) {
       case 200:
       case 201:
@@ -59,6 +63,7 @@ class TicketServices {
   static Future<int?> updateTicket({
     required int ticketId,
     String? reasonCancel,
+    required String jwt,
     required String status,
   }) async {
     String jsonBody = jsonEncode({
@@ -70,6 +75,7 @@ class TicketServices {
       Uri.https(API_SERVER_PATH, TICKET_API_PATH),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
+        HttpHeaders.authorizationHeader: 'Bearer ' + jwt,
       },
       body: jsonBody,
     );
@@ -83,8 +89,11 @@ class TicketServices {
     }
   }
 
-  static Future<List<TicketModel>> fetchTicketListByBranch(
-      {required int branchId, required DateTime bookingTime}) async {
+  static Future<List<TicketModel>> fetchTicketListByBranch({
+    required int branchId,
+    required DateTime bookingTime,
+    required String jwt,
+  }) async {
     Map<String, dynamic> parameters = {
       'date': bookingTime
           .subtract(Duration(
@@ -101,6 +110,7 @@ class TicketServices {
           API_SERVER_PATH, '$TICKET_BRANCHES_API_PATH/$branchId', parameters),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
+        HttpHeaders.authorizationHeader: 'Bearer ' + jwt,
       },
     );
 
@@ -115,12 +125,15 @@ class TicketServices {
     }
   }
 
-  static Future<TicketModel?> fetchTicketByCustomerId(
-      {required int customerId}) async {
+  static Future<TicketModel?> fetchTicketByCustomerId({
+    required int customerId,
+    required String jwt,
+  }) async {
     final response = await http.get(
       Uri.https(API_SERVER_PATH, '$TICKET_CUSTOMER_API_PATH/$customerId'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
+        HttpHeaders.authorizationHeader: 'Bearer ' + jwt,
       },
     );
 
@@ -134,11 +147,15 @@ class TicketServices {
     }
   }
 
-  static Future<TicketModel> fetchTicketById({required int ticketId}) async {
+  static Future<TicketModel> fetchTicketById({
+    required int ticketId,
+    required String jwt,
+  }) async {
     final response = await http.get(
       Uri.https(API_SERVER_PATH, '$TICKET_API_PATH/$ticketId'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
+        HttpHeaders.authorizationHeader: 'Bearer ' + jwt,
       },
     );
 

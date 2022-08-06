@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:petapp_mobile/controllers/other_controllers/auth_controller.dart';
+import 'package:petapp_mobile/models/account_model/account_model.dart';
 import 'package:petapp_mobile/models/pet_combo_model/pet_combo_model.dart';
 import 'package:petapp_mobile/models/pet_health_records_model/pet_health_records_model.dart';
 import 'package:petapp_mobile/models/pet_model/pet_model.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class PetDetailPageController extends GetxController {
+  AccountModel accountModel = Get.find<AuthController>().accountModel;
   late int petId;
   RxBool isShowNotificationPopup = false.obs;
   RxBool isWaitingDeletePet = false.obs;

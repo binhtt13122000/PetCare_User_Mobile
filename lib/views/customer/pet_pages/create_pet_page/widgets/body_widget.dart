@@ -22,7 +22,9 @@ class CreatePetBodyWidget extends GetView<CreatePetPageController> {
   Widget build(BuildContext context) {
     controller.isLoadingData.value = true;
     WidgetsBinding.instance!.addPostFrameCallback((_) async {
-      controller.species = await SpeciesService.fetchSpeciesList();
+      controller.species = await SpeciesService.fetchSpeciesList(
+        jwt: controller.accountModel.jwtToken,
+      );
       controller.selectedSpeciesId.value = controller.species[0].id;
       controller.isLoadingData.value = false;
     });
@@ -628,6 +630,7 @@ class CreatePetBodyWidget extends GetView<CreatePetPageController> {
         controller.isLoadingBreedData.value = true;
         WidgetsBinding.instance!.addPostFrameCallback((_) async {
           controller.breeds = await BreedService.fetchBreedListBySpeciesId(
+              jwt: controller.accountModel.jwtToken,
               speciesId: controller.selectedSpeciesId.value);
           controller.selectedBreedsId.value = controller.breeds[0].id;
           controller.isLoadingBreedData.value = false;

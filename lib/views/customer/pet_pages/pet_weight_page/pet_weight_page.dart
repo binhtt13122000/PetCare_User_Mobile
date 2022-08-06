@@ -22,6 +22,7 @@ class PetWeightPage extends GetView<PetWeightPageController> {
 
             WidgetsBinding.instance!.addPostFrameCallback((_) async {
               controller.petModel = await PetService.fetchPetById(
+                  jwt: controller.accountModel.jwtToken,
                   petId: Get.parameters['petId']!);
               controller.isLoadingData.value = false;
             });

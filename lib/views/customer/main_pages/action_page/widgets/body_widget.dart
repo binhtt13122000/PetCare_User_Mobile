@@ -19,6 +19,7 @@ class ActionPageBodyWidget extends GetView<ActionPageController> {
 
       WidgetsBinding.instance!.addPostFrameCallback((_) async {
         TicketModel? ticketModel = await TicketServices.fetchTicketByCustomerId(
+            jwt: controller.accountModel.jwtToken,
             customerId: controller.accountModel.customerModel.id);
         controller
           ..ticketModel = ticketModel
@@ -62,7 +63,7 @@ class ActionPageBodyWidget extends GetView<ActionPageController> {
                             () => buttonWidget(
                               name: controller.ticketId.value != -1
                                   ? 'View Current Ticket'
-                                  : 'Create Ticket',
+                                  : 'Booking Ticket',
                               onTap: () => Get.toNamed(controller
                                           .ticketId.value !=
                                       -1

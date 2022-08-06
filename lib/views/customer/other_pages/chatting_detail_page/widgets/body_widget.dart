@@ -27,6 +27,7 @@ class ChattingDetailBodyWidget extends GetView<ChattingDetailPageController> {
                 controller.isLoadingMoreChat = true;
                 List<MessageModel> messageModelList =
                     await ChatServices.fetchMessageListByChatRoomId(
+                  jwt: controller.accountModel.jwtToken,
                   chatRoomId: controller.chatRoomModel!.id,
                   limit: controller.limitMessageRange,
                   skip: controller.messageModelList.length,

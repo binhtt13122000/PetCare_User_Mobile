@@ -73,8 +73,10 @@ class ChattingDetailPageController extends GetxController {
       messageModelList.add(messageModel);
       sortListMessage();
       update();
-      chatRoomModel =
-          await ChatServices.fetchChatRoomById(chatRoomId: messageModel.room!);
+      chatRoomModel = await ChatServices.fetchChatRoomById(
+        chatRoomId: messageModel.room!,
+        jwt: accountModel.jwtToken,
+      );
       if (!isJoinedRoom) {
         socket.emit('joinRoom', messageModel.room);
         isJoinedRoom = true;

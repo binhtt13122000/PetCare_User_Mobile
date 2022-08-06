@@ -145,6 +145,7 @@ class PostService {
     required List<String> filesPath,
     required int branchId,
     required String jwt,
+    required int transactionFeeId,
   }) async {
     try {
       FormData formData;
@@ -161,6 +162,7 @@ class PostService {
         'petId': petId,
         'customerId': customerId,
         'branchId': branchId,
+        'transactionFeeId': transactionFeeId,
       });
       for (var element in filesPath) {
         formData.files.add(

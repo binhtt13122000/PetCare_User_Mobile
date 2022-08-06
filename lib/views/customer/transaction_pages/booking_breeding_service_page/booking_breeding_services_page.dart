@@ -25,7 +25,9 @@ class BookingBreedingServicesPage
 
     WidgetsBinding.instance!.addPostFrameCallback((_) async {
       controller
-        ..branchModelList = await BranchServices.fetchBranchList()
+        ..branchModelList = await BranchServices.fetchBranchList(
+          jwt: controller.accountModel.jwtToken,
+        )
         ..selectBranchIndex.value = 0
         ..isLoadingData.value = false;
     });

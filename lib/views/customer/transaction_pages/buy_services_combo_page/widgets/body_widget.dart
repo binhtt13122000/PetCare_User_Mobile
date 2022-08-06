@@ -25,10 +25,16 @@ class BuyServicesComboBodyWidget
             controller.isWaitLoadingData.value = true;
             WidgetsBinding.instance!.addPostFrameCallback((timeStamp) async {
               controller
-                ..speciesModelList = await SpeciesService.fetchSpeciesList()
-                ..branchModelList = await BranchServices.fetchBranchList()
+                ..speciesModelList = await SpeciesService.fetchSpeciesList(
+                  jwt: controller.accountModel.jwtToken,
+                )
+                ..branchModelList = await BranchServices.fetchBranchList(
+                  jwt: controller.accountModel.jwtToken,
+                )
                 ..petServicesComboModelList =
-                    await ServicesComboModelServices.fetchServicesComboList()
+                    await ServicesComboModelServices.fetchServicesComboList(
+                  jwt: controller.accountModel.jwtToken,
+                )
                 ..totalPrice.value =
                     controller.petServicesComboModelList[0].price
                 ..isWaitLoadingData.value = false;
@@ -60,6 +66,7 @@ class BuyServicesComboBodyWidget
                                                 .fetchPetListByCustomerId(
                                           controller
                                               .accountModel.customerModel.id,
+                                          jwt: controller.accountModel.jwtToken,
                                         );
                                         if (controller
                                             .petModelList.isNotEmpty) {

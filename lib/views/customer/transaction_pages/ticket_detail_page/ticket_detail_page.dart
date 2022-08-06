@@ -88,6 +88,7 @@ class TicketDetailPage extends GetView<TicketDetailPageController> {
                         quickRateList: controller.selectReasonCancelList,
                       );
                       await TicketServices.updateTicket(
+                          jwt: controller.accountModel.jwtToken,
                           ticketId: controller.ticketModel.id,
                           status: 'CANCELED',
                           reasonCancel: reasonText);

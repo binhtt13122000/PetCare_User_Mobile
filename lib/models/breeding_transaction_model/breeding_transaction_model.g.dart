@@ -63,6 +63,9 @@ BreedingTransactionModel _$BreedingTransactionModelFromJson(
           ? null
           : BranchModel.fromJson(
               json['breedingBranch'] as Map<String, dynamic>),
+      orderModel: json['order'] == null
+          ? null
+          : OrderModel.fromJson(json['order'] as Map<String, dynamic>),
       dateOfFinish: json['dateOfFinish'] == null
           ? null
           : DateTime.parse(json['dateOfFinish'] as String),
@@ -96,6 +99,7 @@ Map<String, dynamic> _$BreedingTransactionModelToJson(
       'timeToCheckBreeding': instance.timeToCheckBreeding?.toIso8601String(),
       'isSuccess': instance.isSuccess,
       'dateOfFinish': instance.dateOfFinish?.toIso8601String(),
+      'order': instance.orderModel?.toJson(),
       'petCombos': instance.petComboModelList?.map((e) => e.toJson()).toList(),
       'breedingBranch': instance.breedingBranchModel?.toJson(),
       'branch': instance.branchModel?.toJson(),

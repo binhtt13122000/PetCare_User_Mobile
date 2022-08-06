@@ -11,7 +11,7 @@ import 'package:petapp_mobile/views/customer/post_pages/create_post_page/widgets
 import 'package:petapp_mobile/views/customer/post_pages/create_post_page/widgets/description_widget.dart';
 import 'package:petapp_mobile/views/customer/post_pages/create_post_page/widgets/loading_widget.dart';
 import 'package:petapp_mobile/views/customer/post_pages/create_post_page/widgets/media_picker_widget.dart';
-import 'package:petapp_mobile/views/customer/post_pages/create_post_page/widgets/sale_transaction_fees.dart';
+import 'package:petapp_mobile/views/customer/post_pages/create_post_page/widgets/transaction_fees.dart';
 import 'package:petapp_mobile/views/customer/post_pages/create_post_page/widgets/select_pet_widget.dart';
 import 'package:petapp_mobile/views/customer/post_pages/create_post_page/widgets/select_branch_widget.dart';
 import 'package:petapp_mobile/views/customer/post_pages/create_post_page/widgets/top_widget.dart';
@@ -41,8 +41,11 @@ class CreatePostPage extends GetView<CreatePostPageController> {
                   controller
                     ..listPurchaseTransactionFees =
                         await TransactionFeesServices.fetchTransactionFreesList(
+                            jwt: controller.accountModel.jwtToken,
                             transactionType: controller.selectedPostType.value)
-                    ..branchModelList = await BranchServices.fetchBranchList()
+                    ..branchModelList = await BranchServices.fetchBranchList(
+                      jwt: controller.accountModel.jwtToken,
+                    )
                     ..isShowMainLoading.value = false;
                 });
 
@@ -72,7 +75,7 @@ class CreatePostPage extends GetView<CreatePostPageController> {
                   )
                 : const SizedBox.shrink(),
           ),
-          const CreatePostSaleTransactionFeesWidget(),
+          const CreatePostTransactionFeesWidget(),
           Obx(
             () => Visibility(
               visible: controller.isShowCalendar.value,

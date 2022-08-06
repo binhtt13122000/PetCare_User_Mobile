@@ -31,6 +31,8 @@ class CreatePostBottomWidget extends GetView<CreatePostPageController> {
                       controller.selectBranchIndex.value != -1) {
                     controller.isShowLoadingWidget.value = true;
                     await PostService.createPost(
+                      transactionFeeId:
+                          controller.selectedTransactionFeesId.value,
                       title: controller.title.value.trim(),
                       jwt: controller.accountModel.jwtToken,
                       sellerReceive: int.parse(controller.receivedMoney.value),

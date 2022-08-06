@@ -279,6 +279,7 @@ class SaleTransactionReviewPopupWidget
               reviewContent += controller.reviewContent;
 
               await SaleTransactionService.updateSaleTransaction(
+                jwt: controller.accountModel.jwtToken,
                 id: controller.saleTransactionModel.id,
                 meetingTime: controller.saleTransactionModel.meetingTime,
                 placeMeeting: controller.saleTransactionModel.placeMeeting,

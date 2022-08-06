@@ -8,6 +8,7 @@ import 'package:petapp_mobile/models/ticket_time_model/ticket_time_model.dart';
 import 'package:petapp_mobile/utilities/utilities.dart';
 
 class CreateTicketPageController extends GetxController {
+  int? breedingTransactionId;
   RxInt selectBranchIndex = (-1).obs;
   AccountModel accountModel = Get.find<AuthController>().accountModel;
   RxBool isLoadingData = false.obs;
@@ -25,6 +26,7 @@ class CreateTicketPageController extends GetxController {
   RxBool isWaitingSendTicket = false.obs;
   RxBool isShowSuccessfullyPopup = false.obs;
   int? ticketId;
+  RxBool isShowBranchDetail = false.obs;
   RxBool isShowConfirmPopup = false.obs;
   RxBool isShowCalendar = false.obs;
   RxString tmpMeetingTimeText = FORMAT_DATE_TIME(

@@ -28,6 +28,7 @@ class SaleTransactionListWidget extends GetView<TransactionListPageController> {
                   controller
                     ..saleTransactionModelList =
                         await SaleTransactionService.fetchSaleTransactionList(
+                      jwt: controller.accountModel.jwtToken,
                       buyerId: controller.selectedSaleTransactionType.value ==
                               'Transaction role: [BUYER]'
                           ? controller.accountModel.customerModel.id.toString()
@@ -41,7 +42,9 @@ class SaleTransactionListWidget extends GetView<TransactionListPageController> {
                     )
                     ..accountModel.customerModel =
                         await CustomerService.fetchCustomerById(
-                            controller.accountModel.customerModel.id);
+                      controller.accountModel.customerModel.id,
+                      jwt: controller.accountModel.jwtToken,
+                    );
                   Get.find<AuthController>().accountModel.customerModel =
                       controller.accountModel.customerModel;
                   controller.isLoadingSaleTransaction.value = false;

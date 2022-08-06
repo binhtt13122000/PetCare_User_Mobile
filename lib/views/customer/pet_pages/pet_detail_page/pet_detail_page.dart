@@ -6,7 +6,6 @@ import 'package:petapp_mobile/controllers/pet_page_controllers/pet_management_pa
 import 'package:petapp_mobile/services/pet_services/pet_services.dart';
 import 'package:petapp_mobile/views/customer/pet_pages/pet_detail_page/widgets/body_widget.dart';
 import 'package:petapp_mobile/views/customer/pet_pages/pet_detail_page/widgets/more_option_widget.dart';
-import 'package:petapp_mobile/views/customer/pet_pages/pet_detail_page/widgets/top_widget.dart';
 import 'package:petapp_mobile/views/widgets/confirm_popup_widget.dart';
 import 'package:petapp_mobile/views/widgets/customize_widget.dart';
 import 'package:petapp_mobile/views/widgets/notification_popup_widget.dart';
@@ -39,6 +38,7 @@ class PetDetailPage extends GetView<PetDetailPageController> {
                         ..isShowConfirmPopup.value = false
                         ..isWaitingDeletePet.value = true;
                       await PetService.deletePetByPetId(
+                          jwt: controller.accountModel.jwtToken,
                           petId: controller.petModel.id);
 
                       controller

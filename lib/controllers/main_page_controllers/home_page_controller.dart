@@ -55,7 +55,7 @@ class HomePageController extends GetxController {
     services.add(
       ServiceModel(
           id: 4,
-          name: 'Breeding',
+          name: 'Combo',
           imageUrl: IMAGE_PATH + PET_BABY_PNG,
           description: 'description',
           status: 1),

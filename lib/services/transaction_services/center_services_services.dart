@@ -1,15 +1,19 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:petapp_mobile/configs/path.dart';
 import 'package:http/http.dart' as http;
 import 'package:petapp_mobile/models/center_service_model/center_service_model.dart';
 
 class CenterServicesServices {
-  static Future<List<CenterServiceModel>> fetchCenterServicesList() async {
+  static Future<List<CenterServiceModel>> fetchCenterServicesList({
+    required String jwt,
+  }) async {
     final response = await http.get(
       Uri.https(API_SERVER_PATH, CENTER_SERVICES_API),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
+        HttpHeaders.authorizationHeader: 'Bearer ' + jwt,
       },
     );
 

@@ -16,8 +16,12 @@ class PetService {
     return petList;
   }
 
-  static Future<List<PetModel>> fetchPetListByCustomerId(int customerId,
-      {String? type, String? name}) async {
+  static Future<List<PetModel>> fetchPetListByCustomerId(
+    int customerId, {
+    String? type,
+    String? name,
+    required String jwt,
+  }) async {
     Map<String, dynamic> parameters = {
       'customerId': customerId.toString(),
       'type': type,
@@ -27,6 +31,7 @@ class PetService {
       Uri.https(API_SERVER_PATH, '/v1/api/pets', parameters),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
+        HttpHeaders.authorizationHeader: 'Bearer ' + jwt,
       },
     );
     switch (response.statusCode) {
@@ -39,11 +44,13 @@ class PetService {
     }
   }
 
-  static Future<List<PetModel>> fetchPetListToCreatePost(
-      {required int customerId,
-      int? speciesId,
-      String? type,
-      String? gender}) async {
+  static Future<List<PetModel>> fetchPetListToCreatePost({
+    required int customerId,
+    int? speciesId,
+    String? type,
+    String? gender,
+    required String jwt,
+  }) async {
     Map<String, String?> parameters = {
       'customerId': customerId.toString(),
       'speciesId': speciesId != null ? speciesId.toString() : "",
@@ -54,6 +61,7 @@ class PetService {
       Uri.https(API_SERVER_PATH, '/v1/api/pets/fetch-pet', parameters),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
+        HttpHeaders.authorizationHeader: 'Bearer ' + jwt,
       },
     );
     switch (response.statusCode) {
@@ -66,37 +74,41 @@ class PetService {
     }
   }
 
-  static Future<int> deletePetByPetId({required int petId}) async {
+  static Future deletePetByPetId({
+    required int petId,
+    required String jwt,
+  }) async {
     final response = await http.delete(
       Uri.https(API_SERVER_PATH, '$PET_API_PATH/$petId'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
+        HttpHeaders.authorizationHeader: 'Bearer ' + jwt,
       },
     );
+    print(response.body);
     switch (response.statusCode) {
       case 200:
       case 201:
       case 202:
-        return jsonDecode(response.body)['data']['id'];
+
       default:
-        throw Exception('Error ${response.statusCode}, cannot not delete pet');
     }
   }
 
-  static Future createPet({
-    required int ownerId,
-    required String avatarFilePath,
-    required String name,
-    required bool isSeed,
-    required String gender,
-    required DateTime dob,
-    String? description,
-    required int breedId,
-    required String status,
-    String? color,
-    String? specialMarkings,
-    String? vaccineDescription,
-  }) async {
+  static Future createPet(
+      {required int ownerId,
+      required String avatarFilePath,
+      required String name,
+      required bool isSeed,
+      required String gender,
+      required DateTime dob,
+      String? description,
+      required int breedId,
+      required String status,
+      String? color,
+      String? specialMarkings,
+      String? vaccineDescription,
+      required String jwt}) async {
     try {
       FormData formData;
       formData = FormData.fromMap({
@@ -119,6 +131,7 @@ class PetService {
               data: formData,
               options: Options(headers: <String, String>{
                 HttpHeaders.contentTypeHeader: 'multipart/form-data',
+                HttpHeaders.authorizationHeader: 'Bearer ' + jwt,
               }));
 
       return response.statusCode;
@@ -127,22 +140,22 @@ class PetService {
     }
   }
 
-  static Future<bool> updatePet({
-    required int id,
-    required int ownerId,
-    required File? avatarFile,
-    required String avatarFilePath,
-    required String name,
-    required bool isSeed,
-    required String gender,
-    required DateTime dob,
-    String? description,
-    required int breedId,
-    required String status,
-    String? color,
-    String? specialMarkings,
-    String? vaccineDescription,
-  }) async {
+  static Future<bool> updatePet(
+      {required int id,
+      required int ownerId,
+      required File? avatarFile,
+      required String avatarFilePath,
+      required String name,
+      required bool isSeed,
+      required String gender,
+      required DateTime dob,
+      String? description,
+      required int breedId,
+      required String status,
+      String? color,
+      String? specialMarkings,
+      String? vaccineDescription,
+      required String jwt}) async {
     try {
       FormData formData;
 
@@ -173,6 +186,7 @@ class PetService {
           data: formData,
           options: Options(headers: <String, String>{
             HttpHeaders.contentTypeHeader: 'multipart/form-data',
+            HttpHeaders.authorizationHeader: 'Bearer ' + jwt,
           }));
 
       return true;
@@ -186,6 +200,7 @@ class PetService {
     required int customerId,
     required String postType,
     int? speciesId,
+    required String jwt,
   }) async {
     final Map<String, dynamic> parameters = {
       'customerId': customerId,
@@ -195,6 +210,7 @@ class PetService {
       Uri.https(API_SERVER_PATH, PET_TO_CREATE_POST_API_PATH, parameters),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
+        HttpHeaders.authorizationHeader: 'Bearer ' + jwt,
       },
     );
     switch (response.statusCode) {
@@ -207,11 +223,15 @@ class PetService {
     }
   }
 
-  static Future<PetModel> fetchPetById({required String petId}) async {
+  static Future<PetModel> fetchPetById({
+    required String petId,
+    required String jwt,
+  }) async {
     final response = await http.get(
       Uri.https(API_SERVER_PATH, '$PET_API_PATH/$petId'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
+        HttpHeaders.authorizationHeader: 'Bearer ' + jwt,
       },
     );
     print(Uri.https(API_SERVER_PATH, '$PET_API_PATH/$petId').path);

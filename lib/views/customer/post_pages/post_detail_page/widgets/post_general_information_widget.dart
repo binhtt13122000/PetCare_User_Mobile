@@ -346,8 +346,13 @@ class PostDetailGeneralInformationWidget
                     controller.postModel.petModel!.specialMarkings != null
                         ? 'Available'
                         : 'Not available',
+                    textAlign: TextAlign.center,
                     style: GoogleFonts.quicksand(
-                        fontSize: 13,
+                        fontSize:
+                            controller.postModel.petModel!.specialMarkings !=
+                                    null
+                                ? 13
+                                : 10,
                         color: DARK_GREY_TEXT_COLOR.withOpacity(0.9),
                         fontWeight: FontWeight.w500),
                   ),

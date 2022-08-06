@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:petapp_mobile/configs/route.dart';
 import 'package:petapp_mobile/configs/theme.dart';
 import 'package:petapp_mobile/controllers/transaction_page_controllers/create_ticket_page_controller.dart';
+import 'package:petapp_mobile/services/transaction_services/breeding_transaction_services.dart';
 import 'package:petapp_mobile/services/transaction_services/ticket_services.dart';
 import 'package:petapp_mobile/utilities/utilities.dart';
 import 'package:petapp_mobile/views/customer/transaction_pages/create_ticket_page/widgets/add_services_widget.dart';
@@ -20,6 +21,10 @@ class CreateTicketPage extends GetView<CreateTicketPageController> {
 
   @override
   Widget build(BuildContext context) {
+    if (Get.parameters['breedingTransactionId'] != null) {
+      controller.breedingTransactionId =
+          int.parse(Get.parameters['breedingTransactionId']!);
+    }
     return Scaffold(
       backgroundColor: WHITE_COLOR,
       body: Stack(
@@ -106,6 +111,7 @@ class CreateTicketPage extends GetView<CreateTicketPageController> {
                       }
 
                       controller.ticketId = await TicketServices.createTicket(
+                        jwt: controller.accountModel.jwtToken,
                         createdTime: DateTime.now(),
                         meetingDate: controller.bookingServicesDate,
                         startTime: controller
@@ -123,6 +129,18 @@ class CreateTicketPage extends GetView<CreateTicketPageController> {
                         servicesIdList: servicesIdList,
                         type: 'SERVICE',
                       );
+                      if (controller.breedingTransactionId != null) {
+                        await BreedingTransactionService
+                            .bookingBreedingServices(
+                                jwt: controller.accountModel.jwtToken,
+                                breedingTransactionId:
+                                    controller.breedingTransactionId!,
+                                branchId: controller
+                                    .branchModelList[
+                                        controller.selectBranchIndex.value]
+                                    .id,
+                                bookingTime: controller.bookingServicesDate);
+                      }
                       controller
                         ..isWaitingSendTicket.value = false
                         ..isShowSuccessfullyPopup.value = true;

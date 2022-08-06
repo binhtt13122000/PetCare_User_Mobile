@@ -20,13 +20,17 @@ class ChatServices {
     return chatRoomModelList;
   }
 
-  static Future<List<ChatRoomModel>> fetchChatRoomListByCustomerId(
-      {required int customerId, required String roomType}) async {
+  static Future<List<ChatRoomModel>> fetchChatRoomListByCustomerId({
+    required int customerId,
+    required String roomType,
+    required String jwt,
+  }) async {
     final Map<String, String> parameters = {'type': roomType};
     final response = await http.get(
       Uri.https(API_SERVER_PATH, '/v1/api/rooms/user/$customerId', parameters),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
+        HttpHeaders.authorizationHeader: 'Bearer ' + jwt,
       },
     );
     switch (response.statusCode) {
@@ -40,12 +44,15 @@ class ChatServices {
     }
   }
 
-  static Future<ChatRoomModel> fetchChatRoomById(
-      {required String chatRoomId}) async {
+  static Future<ChatRoomModel> fetchChatRoomById({
+    required String chatRoomId,
+    required String jwt,
+  }) async {
     final response = await http.get(
       Uri.https(API_SERVER_PATH, '/v1/api/rooms/$chatRoomId'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
+        HttpHeaders.authorizationHeader: 'Bearer ' + jwt,
       },
     );
     switch (response.statusCode) {
@@ -60,12 +67,16 @@ class ChatServices {
     }
   }
 
-  static Future<String?> fetchChatRoomId(
-      {required int buyerId, required int postId}) async {
+  static Future<String?> fetchChatRoomId({
+    required int buyerId,
+    required int postId,
+    required String jwt,
+  }) async {
     final response = await http.get(
       Uri.https(API_SERVER_PATH, '/v1/api/rooms/buyer/$buyerId/post/$postId'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
+        HttpHeaders.authorizationHeader: 'Bearer ' + jwt,
       },
     );
     switch (response.statusCode) {
@@ -78,10 +89,12 @@ class ChatServices {
     }
   }
 
-  static Future<List<MessageModel>> fetchMessageListByChatRoomId(
-      {required String chatRoomId,
-      required int skip,
-      required int limit}) async {
+  static Future<List<MessageModel>> fetchMessageListByChatRoomId({
+    required String chatRoomId,
+    required int skip,
+    required int limit,
+    required String jwt,
+  }) async {
     Map<String, String> parameters = {
       'skip': skip.toString(),
       'limit': limit.toString(),
@@ -91,6 +104,7 @@ class ChatServices {
           API_SERVER_PATH, '/v1/api/messages/room/$chatRoomId', parameters),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
+        HttpHeaders.authorizationHeader: 'Bearer ' + jwt,
       },
     );
     switch (response.statusCode) {
@@ -113,9 +127,8 @@ class ChatServices {
     return messageList;
   }
 
-  static Future<String?> uploadMedia({
-    required String mediaFilePath,
-  }) async {
+  static Future<String?> uploadMedia(
+      {required String mediaFilePath, required String jwt}) async {
     try {
       FormData formData = FormData.fromMap({});
       formData.files.add(
@@ -129,6 +142,7 @@ class ChatServices {
               data: formData,
               options: Options(headers: <String, String>{
                 HttpHeaders.contentTypeHeader: 'multipart/form-data',
+                HttpHeaders.authorizationHeader: 'Bearer ' + jwt,
               }));
 
       switch (response.statusCode) {

@@ -22,14 +22,17 @@ class BreedingTransactionDetailBreedingServicesForFemalePetWidget
         WidgetsBinding.instance!.addPostFrameCallback((_) async {
           controller.orderId ??=
               await OrderServices.fetchOrderByBreedingTransactionId(
+                  jwt: controller.accountModel.jwtToken,
                   breedingTransactionId: controller.breedingTransactionId);
           if (controller.orderId != null) {
             controller.orderModel = await OrderServices.fetchOrderIdByOrderId(
+                jwt: controller.accountModel.jwtToken,
                 orderId: controller.orderId!);
           }
           controller
             ..breedingTransactionModel =
                 await BreedingTransactionService.fetchBreedingTransactionById(
+                    jwt: controller.accountModel.jwtToken,
                     breedingTransactionId: controller.breedingTransactionId)
             ..sortComboList()
             ..isWaitingLoadingDataInBreedingTab.value = false
@@ -144,7 +147,7 @@ class BreedingTransactionDetailBreedingServicesForFemalePetWidget
               padding: const EdgeInsets.only(top: 20),
               child: InkWell(
                 onTap: () => Get.toNamed(
-                    '$BOOKING_BREEDING_SERVICE_PAGE_ROUTE/${controller.breedingTransactionId}'),
+                    '$CREATE_TICKET_PAGE_ROUTE?breedingTransactionId=${controller.breedingTransactionId}'),
                 child: Container(
                   padding:
                       const EdgeInsets.symmetric(horizontal: 20, vertical: 7),

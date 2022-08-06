@@ -15,7 +15,7 @@ import 'package:petapp_mobile/models/transaction_fees_model/transaction_fees_mod
 class CreatePostPageController extends GetxController {
   RxBool isShowPurchaseTransactionFees = false.obs;
   late List<TransactionFeesModel> listPurchaseTransactionFees;
-  RxInt selectedPurchaseTransactionFeesId = (-1).obs;
+  RxInt selectedTransactionFeesId = (-1).obs;
   RxBool isShowMainLoading = false.obs;
   RxBool isLoadingBranch = false.obs;
   RxBool isShowLoadingPet = false.obs;

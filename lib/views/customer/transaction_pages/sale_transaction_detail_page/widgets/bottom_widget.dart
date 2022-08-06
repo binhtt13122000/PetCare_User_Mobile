@@ -174,6 +174,7 @@ class SaleTransactionDetailBottomWidget
             child: InkWell(
               onTap: () async {
                 controller.paymentUrl.value = await SaleTransactionService.payment(
+                    jwt: controller.accountModel.jwtToken,
                     id: controller.saleTransactionModel.id,
                     transactionTime: DateTime.now(),
                     transactionTotal: controller

@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:petapp_mobile/configs/theme.dart';
 import 'package:petapp_mobile/controllers/main_page_controllers/action_page_controller.dart';
+import 'package:petapp_mobile/controllers/transaction_page_controllers/breeding_transaction_detail_page_controller.dart';
 import 'package:petapp_mobile/controllers/transaction_page_controllers/ticket_detail_page_controller.dart';
 import 'package:petapp_mobile/views/widgets/customize_widget.dart';
 
@@ -32,7 +33,8 @@ class TicketDetailTopWidget extends GetView<TicketDetailPageController> {
             InkWell(
               onTap: () => Get
                 ..back()
-                ..put(ActionPageController()).update(),
+                ..put(ActionPageController()).update()
+                ..put(BreedingTransactionDetailPageController()).update(),
               child: Container(
                 height: 35,
                 width: 35,

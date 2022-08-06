@@ -12,6 +12,7 @@ class CenterServiceModel {
   final bool status;
   final String unit;
   final int estimatedTime;
+  final String type;
   @JsonKey(name: 'serviceFees')
   List<CenterServiceFeeModel>? centerServiceFeeModelList;
   @JsonKey(ignore: true)
@@ -26,6 +27,7 @@ class CenterServiceModel {
     required this.unit,
     required this.estimatedTime,
     this.centerServiceFeeModelList,
+    required this.type,
   }) {
     int hours = estimatedTime ~/ 60;
     int minutes = estimatedTime % 60;

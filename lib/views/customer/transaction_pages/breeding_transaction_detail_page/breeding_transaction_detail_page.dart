@@ -67,9 +67,11 @@ class BreedingTransactionDetailPage
                       );
                       controller.breedingTransactionModel.status == 'CREATED'
                           ? await BreedingTransactionService.cancelTransaction(
+                              jwt: controller.accountModel.jwtToken,
                               id: controller.breedingTransactionId,
                               reasonCancel: reasonText)
                           : await BreedingTransactionService.cancelBreeding(
+                              jwt: controller.accountModel.jwtToken,
                               id: controller.breedingTransactionId,
                               reasonCancel: reasonText);
 
@@ -137,6 +139,7 @@ class BreedingTransactionDetailPage
                         quickRateList: controller.quickFeedBackList,
                       );
                       await BreedingTransactionService.reviewForTransaction(
+                        jwt: controller.accountModel.jwtToken,
                         id: controller.breedingTransactionModel.id,
                         star: controller.selectedStar.value,
                         review: reviewText,

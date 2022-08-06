@@ -6,6 +6,7 @@ import 'package:petapp_mobile/controllers/pet_page_controllers/pet_block_chain_p
 import 'package:petapp_mobile/services/pet_services/pet_chain_services.dart';
 import 'package:petapp_mobile/services/pet_services/pet_services.dart';
 import 'package:petapp_mobile/views/customer/pet_pages/pet_block_chain/widgets/body_widget.dart';
+import 'package:petapp_mobile/views/customer/pet_pages/pet_block_chain/widgets/more_option_widget.dart';
 import 'package:petapp_mobile/views/customer/pet_pages/pet_block_chain/widgets/top_widget.dart';
 import 'package:petapp_mobile/views/widgets/customize_widget.dart';
 
@@ -34,9 +35,11 @@ class PetBlockChainPage extends GetView<PetBlockChainPageController> {
                 if (controller.hashPetId.isNotEmpty) {
                   controller.petChainModel =
                       await PetChainService.fetchPetChainByHashPetId(
+                          jwt: controller.accountModel.jwtToken,
                           petId: controller.hashPetId);
                   if (controller.petChainModel!.valueModelList.isNotEmpty) {
                     controller.petModel = await PetService.fetchPetById(
+                        jwt: controller.accountModel.jwtToken,
                         petId: controller.petChainModel!.valueModelList.first
                             .petChainValueContentModel.petModel.id
                             .toString());
@@ -47,9 +50,11 @@ class PetBlockChainPage extends GetView<PetBlockChainPageController> {
                 } else {
                   controller
                     ..petModel = await PetService.fetchPetById(
+                        jwt: controller.accountModel.jwtToken,
                         petId: controller.petId.toString())
                     ..petChainModel =
                         await PetChainService.fetchPetChainByPetId(
+                            jwt: controller.accountModel.jwtToken,
                             petId: controller.petId.toString())
                     ..isWaitingLoadingData.value = false;
                 }
@@ -92,6 +97,7 @@ class PetBlockChainPage extends GetView<PetBlockChainPageController> {
               ),
             ),
           ),
+          const PetBlockChainMoreOptionWidget(),
         ],
       ),
     );

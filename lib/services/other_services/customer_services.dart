@@ -7,11 +7,15 @@ import 'dart:io';
 import 'package:http/http.dart' as http;
 
 class CustomerService {
-  static Future<CustomerModel> fetchCustomerById(int customerId) async {
+  static Future<CustomerModel> fetchCustomerById(
+    int customerId, {
+    required String jwt,
+  }) async {
     final response = await http.get(
       Uri.https(API_SERVER_PATH, '$CUSTOMER_API_PATH/$customerId'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
+        HttpHeaders.authorizationHeader: 'Bearer ' + jwt,
       },
     );
     switch (response.statusCode) {
@@ -24,16 +28,16 @@ class CustomerService {
     }
   }
 
-  static Future<CustomerModel?> updateProfile({
-    required int id,
-    required String email,
-    required String firstName,
-    required String lastName,
-    required String address,
-    required String gender,
-    required String avatarFilePath,
-    required File? avatarFile,
-  }) async {
+  static Future<CustomerModel?> updateProfile(
+      {required int id,
+      required String email,
+      required String firstName,
+      required String lastName,
+      required String address,
+      required String gender,
+      required String avatarFilePath,
+      required File? avatarFile,
+      required String jwt}) async {
     try {
       FormData formData;
       formData = FormData.fromMap({
@@ -62,6 +66,7 @@ class CustomerService {
               data: formData,
               options: Options(headers: <String, String>{
                 HttpHeaders.contentTypeHeader: 'multipart/form-data',
+                HttpHeaders.authorizationHeader: 'Bearer ' + jwt,
               }));
 
       switch (response.statusCode) {

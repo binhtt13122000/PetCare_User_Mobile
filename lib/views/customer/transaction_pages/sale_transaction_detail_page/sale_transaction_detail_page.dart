@@ -30,6 +30,7 @@ class SaleTransactionDetailPage
         WidgetsBinding.instance!.addPostFrameCallback((_) async {
           controller.saleTransactionModel =
               await SaleTransactionService.fetchSaleTransactionById(
+                  jwt: controller.accountModel.jwtToken,
                   saleTransactionId: controller.transactionId);
 
           controller.isLoading.value = false;

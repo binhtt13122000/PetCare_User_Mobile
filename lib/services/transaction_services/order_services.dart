@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:petapp_mobile/configs/path.dart';
 import 'package:http/http.dart' as http;
@@ -18,6 +19,7 @@ class OrderServices {
 
   static Future<int?> fetchOrderByBreedingTransactionId({
     required int breedingTransactionId,
+    required String jwt,
   }) async {
     final response = await http.get(
       Uri.https(
@@ -26,6 +28,7 @@ class OrderServices {
       ),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
+        HttpHeaders.authorizationHeader: 'Bearer ' + jwt,
       },
     );
     switch (response.statusCode) {
@@ -42,11 +45,13 @@ class OrderServices {
     required int orderId,
     required String reasonCancel,
     required DateTime cancelTime,
+    required String jwt,
   }) async {
     final response = await http.put(
       Uri.https(API_SERVER_PATH, ORDER_CANCEL_API_PATH),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
+        HttpHeaders.authorizationHeader: 'Bearer ' + jwt,
       },
       body: jsonEncode({
         'id': orderId,
@@ -72,6 +77,7 @@ class OrderServices {
     required String? description,
     required DateTime registerTime,
     String status = 'WAITING',
+    required String jwt,
     required List<OrderDetailModel> orderDetails,
   }) async {
     List<Map<String, dynamic>> orderDetailsJsonMapList = [];
@@ -96,6 +102,7 @@ class OrderServices {
       ),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
+        HttpHeaders.authorizationHeader: 'Bearer ' + jwt,
       },
       body: jsonEncode(jsonBodyMap),
     );
@@ -114,6 +121,7 @@ class OrderServices {
     required int page,
     required int limit,
     required int customerId,
+    required String jwt,
   }) async {
     Map<String, dynamic> parameters = <String, dynamic>{
       'page': page.toString(),
@@ -124,6 +132,7 @@ class OrderServices {
       Uri.https(API_SERVER_PATH, ORDER_API_PATH, parameters),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
+        HttpHeaders.authorizationHeader: 'Bearer ' + jwt,
       },
     );
     switch (response.statusCode) {
@@ -140,14 +149,15 @@ class OrderServices {
 
   static Future<OrderModel> fetchOrderIdByOrderId({
     required int orderId,
+    required String jwt,
   }) async {
     final response = await http.get(
       Uri.https(API_SERVER_PATH, '$ORDER_API_PATH/$orderId'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
+        HttpHeaders.authorizationHeader: 'Bearer ' + jwt,
       },
     );
-    print(response.body);
     switch (response.statusCode) {
       case 200:
       case 201:
@@ -170,6 +180,7 @@ class OrderServices {
     required int provisionalTotal,
     required int branchId,
     required int customerId,
+    required String jwt,
   }) async {
     final queryParameters = {
       'message': message,
@@ -185,6 +196,7 @@ class OrderServices {
       Uri.https(API_SERVER_PATH, ORDER_PAYMENT_API_PATH, queryParameters),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
+        HttpHeaders.authorizationHeader: 'Bearer ' + jwt,
       },
       body: jsonEncode({
         'provisionalTotal': provisionalTotal,
@@ -218,11 +230,13 @@ class OrderServices {
     required int transactionId,
     required int star,
     required String review,
+    required String jwt,
   }) async {
     final response = await http.put(
       Uri.https(API_SERVER_PATH, '$ORDER_API_PATH/review'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
+        HttpHeaders.authorizationHeader: 'Bearer ' + jwt,
       },
       body: jsonEncode({
         'id': transactionId,

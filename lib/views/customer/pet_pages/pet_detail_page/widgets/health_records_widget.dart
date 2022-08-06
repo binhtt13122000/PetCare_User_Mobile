@@ -20,15 +20,21 @@ class PetDetailHeathRecordsWidget extends GetView<PetDetailPageController> {
           controller
             ..vaccinesList =
                 await PetHealthRecordsServices.fetchPetHealthRecordList(
-                    petId: controller.petId.toString(), type: 'VACCINE')
+                    jwt: controller.accountModel.jwtToken,
+                    petId: controller.petId.toString(),
+                    type: 'VACCINE')
             ..sortVaccinesList()
             ..dewormingList =
                 await PetHealthRecordsServices.fetchPetHealthRecordList(
-                    petId: controller.petId.toString(), type: 'HELMINTHIC')
+                    jwt: controller.accountModel.jwtToken,
+                    petId: controller.petId.toString(),
+                    type: 'HELMINTHIC')
             ..sortDewormingList()
             ..removeTicksList =
                 await PetHealthRecordsServices.fetchPetHealthRecordList(
-                    petId: controller.petId.toString(), type: 'TICKS')
+                    jwt: controller.accountModel.jwtToken,
+                    petId: controller.petId.toString(),
+                    type: 'TICKS')
             ..sortRemoveTicksList()
             ..isLoadingHealthRecord.value = false;
         });
@@ -42,7 +48,7 @@ class PetDetailHeathRecordsWidget extends GetView<PetDetailPageController> {
                   vaccineItemWidget(),
                   dewormingItemWidget(),
                   removeTicksItemWidget(),
-                  healthRecordItemWidget(title: 'Weight'),
+                  // healthRecordItemWidget(title: 'Weight'),
                 ]),
         );
       });
@@ -457,15 +463,19 @@ class PetDetailHeathRecordsWidget extends GetView<PetDetailPageController> {
                     backgroundColor: GREEN_COLOR,
                     maxRadius: 5,
                   ),
-                  CUSTOM_TEXT(
-                    vaccine.vaccineModel!.name,
-                    padding: const EdgeInsets.only(left: 15),
-                    color: DARK_GREY_TEXT_COLOR.withOpacity(0.95),
-                  ),
-                  CUSTOM_TEXT(
-                    ' (${vaccine.vaccineType!})',
-                    color: DARK_GREY_TEXT_COLOR.withOpacity(0.7),
-                    fontSize: 13,
+                  Column(
+                    children: [
+                      CUSTOM_TEXT(
+                        vaccine.vaccineModel!.name,
+                        padding: const EdgeInsets.only(left: 15),
+                        color: DARK_GREY_TEXT_COLOR.withOpacity(0.95),
+                      ),
+                      CUSTOM_TEXT(
+                        ' (${vaccine.vaccineType!})',
+                        color: DARK_GREY_TEXT_COLOR.withOpacity(0.7),
+                        fontSize: 12,
+                      ),
+                    ],
                   ),
                 ],
               ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -66,6 +67,7 @@ class PetComboDetailBodyWidget extends GetView<PetComboDetailPageController> {
               WidgetsBinding.instance!.addPostFrameCallback((_) async {
                 controller
                   ..petComboModel = await PetComboServices.fetchPetComboById(
+                      jwt: controller.accountModel.jwtToken,
                       petComboId: controller.petComboModel.id.toString())
                   ..petComboStatus.value = controller.petComboModel.isCompleted
                       ? 'Completed'
@@ -214,13 +216,62 @@ class PetComboDetailBodyWidget extends GetView<PetComboDetailPageController> {
                         pattern: DATE_TIME_PATTERN)
                     : 'N/A'),
           ),
-          textCardWidget(
-            keyText: 'Description',
-            valueText: (petComboDetailModel
-                        .centerServiceModel.description?.isNotEmpty ??
-                    false)
-                ? petComboDetailModel.centerServiceModel.description!
-                : 'N/A',
+          Obx(
+            () => Column(
+              children: [
+                Visibility(
+                  visible: controller.showDescriptionIndexList.contains(index),
+                  child: Html(
+                      data: petComboDetailModel
+                                      .centerServiceModel.description !=
+                                  null &&
+                              petComboDetailModel
+                                  .centerServiceModel.description!.isNotEmpty
+                          ? petComboDetailModel.centerServiceModel.description
+                          : 'N/A'),
+                ),
+                InkWell(
+                  onTap: () =>
+                      controller.showDescriptionIndexList.contains(index)
+                          ? controller.showDescriptionIndexList.remove(index)
+                          : controller.showDescriptionIndexList.add(index),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            controller.showDescriptionIndexList.contains(index)
+                                ? 'Hide description'
+                                : 'View description',
+                            style: GoogleFonts.quicksand(
+                              fontSize: 13,
+                              fontWeight: FontWeight.w600,
+                              color: PRIMARY_COLOR,
+                              letterSpacing: 2,
+                            ),
+                          ),
+                          const SizedBox(width: 5),
+                          Icon(
+                            controller.showDescriptionIndexList.contains(index)
+                                ? Icons.keyboard_double_arrow_up_outlined
+                                : Icons.keyboard_double_arrow_down_outlined,
+                            size: 18,
+                            color: PRIMARY_COLOR,
+                          )
+                        ],
+                      ),
+                      Container(
+                        height: 1,
+                        width: 150,
+                        color: PRIMARY_COLOR,
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
           ),
           Visibility(
             visible: controller.selectServicesStatus.value == 'Available' ||
@@ -256,7 +307,7 @@ class PetComboDetailBodyWidget extends GetView<PetComboDetailPageController> {
           ),
           Visibility(
             visible: controller.selectServicesStatus.value == 'Waiting' &&
-                controller.ticketId.value != -1,
+                controller.ticketId.value == -1,
             child: Padding(
               padding: const EdgeInsets.only(top: 10),
               child: InkWell(
@@ -381,34 +432,147 @@ class PetComboDetailBodyWidget extends GetView<PetComboDetailPageController> {
         ),
       );
 
-  Widget branchInformationWidget() => Container(
-        margin: const EdgeInsets.only(top: 10),
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
-        color: WHITE_COLOR,
-        child: Column(
-          children: [
-            CUSTOM_TEXT(
-              'Branch perform services',
-              fontWeight: FontWeight.w700,
-              fontSize: 16,
-              letterSpacing: 2,
-              padding: const EdgeInsets.only(bottom: 10),
-            ),
-            textCardWidget(
-                keyText: 'Name',
-                valueText: controller.petComboModel.branchModel!.name,
-                isImportantValue: true),
-            textCardWidget(
-                keyText: 'Address',
-                valueText: controller.petComboModel.branchModel!.address!),
-            textCardWidget(
-                keyText: 'Phone number',
-                valueText: controller.petComboModel.branchModel!.phoneNumber),
-            textCardWidget(
-                keyText: 'Email',
-                valueText:
-                    controller.petComboModel.branchModel!.email ?? 'N/A'),
-          ],
+  Widget branchInformationWidget() => Obx(
+        () => Container(
+          margin: const EdgeInsets.only(top: 10),
+          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+          color: WHITE_COLOR,
+          child: Column(
+            children: [
+              CUSTOM_TEXT(
+                'Branch perform services',
+                fontWeight: FontWeight.w700,
+                fontSize: 16,
+                letterSpacing: 2,
+                padding: const EdgeInsets.only(bottom: 10),
+              ),
+              textCardWidget(
+                  keyText: 'Name',
+                  valueText: controller.petComboModel.branchModel!.name,
+                  isImportantValue: true),
+              Column(
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      CUSTOM_TEXT(
+                        'Branch address',
+                        padding: const EdgeInsets.only(right: 15),
+                        color: DARK_GREY_TEXT_COLOR.withOpacity(0.95),
+                      ),
+                      Expanded(
+                        child: CUSTOM_TEXT(
+                          controller.petComboModel.branchModel!.address ??
+                              'N/A',
+                          textAlign: TextAlign.end,
+                          color: DARK_GREY_TEXT_COLOR.withOpacity(0.95),
+                          textOverflow: controller.isShowBranchDetail.value
+                              ? TextOverflow.clip
+                              : TextOverflow.ellipsis,
+                        ),
+                      ),
+                    ],
+                  ),
+                  Visibility(
+                    visible: controller.isShowBranchDetail.value,
+                    child: Column(
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            CUSTOM_TEXT(
+                              'Phone number',
+                              padding: const EdgeInsets.only(right: 15),
+                              color: DARK_GREY_TEXT_COLOR.withOpacity(0.95),
+                            ),
+                            Expanded(
+                              child: CUSTOM_TEXT(
+                                controller
+                                    .petComboModel.branchModel!.phoneNumber,
+                                textAlign: TextAlign.end,
+                                color: DARK_GREY_TEXT_COLOR.withOpacity(0.95),
+                                textOverflow:
+                                    controller.isShowBranchDetail.value
+                                        ? TextOverflow.clip
+                                        : TextOverflow.ellipsis,
+                              ),
+                            ),
+                          ],
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            CUSTOM_TEXT(
+                              'Email',
+                              padding: const EdgeInsets.only(right: 15),
+                              color: DARK_GREY_TEXT_COLOR.withOpacity(0.95),
+                            ),
+                            Expanded(
+                              child: CUSTOM_TEXT(
+                                controller.petComboModel.branchModel!.email ??
+                                    'N/A',
+                                textAlign: TextAlign.end,
+                                color: DARK_GREY_TEXT_COLOR.withOpacity(0.95),
+                                textOverflow:
+                                    controller.isShowBranchDetail.value
+                                        ? TextOverflow.clip
+                                        : TextOverflow.ellipsis,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 5,
+                  ),
+                  Row(
+                    children: [
+                      const Spacer(),
+                      InkWell(
+                        onTap: () => controller.isShowBranchDetail.value =
+                            !controller.isShowBranchDetail.value,
+                        child: Column(children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              CUSTOM_TEXT(
+                                controller.isShowBranchDetail.value
+                                    ? 'Hide branch details'
+                                    : 'View branch details',
+                                color: PRIMARY_COLOR,
+                                fontSize: 13,
+                                letterSpacing: 2,
+                              ),
+                              const SizedBox(width: 5),
+                              Icon(
+                                controller.isShowBranchDetail.value
+                                    ? Icons.keyboard_double_arrow_up_outlined
+                                    : Icons.keyboard_double_arrow_down_outlined,
+                                size: 18,
+                                color: PRIMARY_COLOR,
+                              ),
+                            ],
+                          ),
+                          Container(
+                            height: 1,
+                            width: 180,
+                            color: PRIMARY_COLOR,
+                            margin: const EdgeInsets.only(top: 2),
+                          ),
+                        ]),
+                      ),
+                      const Spacer(),
+                    ],
+                  ),
+                ],
+              ),
+            ],
+          ),
         ),
       );
 

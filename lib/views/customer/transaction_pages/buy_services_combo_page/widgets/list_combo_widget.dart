@@ -39,6 +39,7 @@ class BuyServicesComboListComboWidget
             controller
               ..petServicesComboModel =
                   await ServicesComboModelServices.fetchServicesComboById(
+                      jwt: controller.accountModel.jwtToken,
                       id: controller
                           .petServicesComboModelList[
                               controller.selectPetServicesComboIndex.value]

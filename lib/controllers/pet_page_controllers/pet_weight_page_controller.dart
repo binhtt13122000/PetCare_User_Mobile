@@ -1,8 +1,11 @@
 import 'package:get/get.dart';
+import 'package:petapp_mobile/controllers/other_controllers/auth_controller.dart';
+import 'package:petapp_mobile/models/account_model/account_model.dart';
 import 'package:petapp_mobile/models/pet_model/pet_model.dart';
 import 'package:petapp_mobile/models/weight_record_model/weight_record_model.dart';
 
 class PetWeightPageController extends GetxController {
+  AccountModel accountModel = Get.find<AuthController>().accountModel;
   late PetModel petModel;
   RxBool isLoadingData = false.obs;
   RxList<WeightRecordModel> recordsTime = [
