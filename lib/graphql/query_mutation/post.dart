@@ -1,16 +1,15 @@
 // ignore_for_file: constant_identifier_names
 
-const FETCH_PURCHASE_POST_LIST = r'''
-query MyQuery($ltPrice: Int, $gtePrice: Int, $gender: [pet_gender_enum!], $isSeed: [Boolean!], $breedName: order_by, $price: order_by, $speciesId: Int, $status: post_status_enum, $breeds: [Int!], $customerId: Int = 0, $lteDob: timestamp = "", $gteDob: timestamp = "", $limit: Int = 8, $offset: Int = 0) {
-  post(where: {pet: {breed: {species: {id: {_eq: $speciesId}}, id: {_in: $breeds}}, gender: {_in: $gender}, isSeed: {_in: $isSeed}, dob: {_lte: $lteDob, _gte: $gteDob}}, transactionTotal: {_lt: $ltPrice}, _and: {transactionTotal: {_gte: $gtePrice}, status: {_eq: $status}, customerId: {_neq: $customerId}}}, order_by: {pet: {breed: {name: $breedName}}, transactionTotal: $price}, limit: $limit, offset: $offset) {
-    description
-    createTime
-    petId
+const FETCH_ALL_PURCHASE_POST_LIST_WITHOUT_SPECIES = r'''
+query MyQuery($ltPrice: Int, $gtePrice: Int, $gender: [pet_gender_enum!], $isSeed: [Boolean!], $breedName: order_by, $price: order_by, $status: post_status_enum, $customerId: Int, $lteDob: timestamp = "", $gteDob: timestamp = "", $limit: Int = 8, $offset: Int = 0, $title: String, $post_type: [post_type_enum!]) {
+  post(where: {pet: {gender: {_in: $gender}, isSeed: {_in: $isSeed}, dob: {_lte: $lteDob, _gte: $gteDob}}, transactionTotal: {_lt: $ltPrice}, _and: {transactionTotal: {_gte: $gtePrice}, status: {_eq: $status}, type: {_in: $post_type}, customerId: {_neq: $customerId}}, title: {_ilike: $title}, type: {_in: $post_type}}, order_by: {pet: {breed: {name: $breedName}}, transactionTotal: $price}, limit: $limit, offset: $offset) {
     id
+    petId
+    createTime
+    description
     transactionTotal
     status
     sellerReceive
-    
     type
     shopFee
     title
@@ -23,8 +22,6 @@ query MyQuery($ltPrice: Int, $gtePrice: Int, $gender: [pet_gender_enum!], $isSee
       lng
       email
       phoneNumber
-      
-      
       address
       isActive
     }
@@ -35,10 +32,8 @@ query MyQuery($ltPrice: Int, $gtePrice: Int, $gender: [pet_gender_enum!], $isSee
       lastName
       address
       gender
-      
       point
       email
-      
     }
     pet {
       avatar
@@ -66,24 +61,18 @@ query MyQuery($ltPrice: Int, $gtePrice: Int, $gender: [pet_gender_enum!], $isSee
       id
       url
       type
-    }
-  }
-  post_aggregate(where: {pet: {breed: {species: {id: {_eq: $speciesId}}, id: {_in: $breeds}}, gender: {_in: $gender}, isSeed: {_in: $isSeed}, dob: {_lte: $lteDob, _gte: $gteDob}}, transactionTotal: {_lt: $ltPrice}, _and: {transactionTotal: {_gte: $gtePrice}, status: {_eq: $status}, customerId: {_neq: $customerId}}}, order_by: {pet: {breed: {name: $breedName}}, transactionTotal: $price}) {
-    aggregate {
-      count
     }
   }
 }
 ''';
 
-const FETCH_ALL_PURCHASE_POST_LIST_WITHOUT_SPECIES = r'''
-query MyQuery($ltPrice: Int, $gtePrice: Int, $gender: [pet_gender_enum!], $isSeed: [Boolean!], $breedName: order_by, $price: order_by, $status: post_status_enum, $customerId: Int, $lteDob: timestamp = "", $gteDob: timestamp = "", $limit: Int = 8, $offset: Int = 0, $title: String) {
-  post(where: {pet: {gender: {_in: $gender}, isSeed: {_in: $isSeed}, dob: {_lte: $lteDob, _gte: $gteDob}}, transactionTotal: {_lt: $ltPrice}, _and: {transactionTotal: {_gte: $gtePrice}, status: {_eq: $status}, customerId: {_neq: $customerId}}, title: {_ilike: $title}}, order_by: {pet: {breed: {name: $breedName}}, transactionTotal: $price}, limit: $limit, offset: $offset) {
-    
-    id
-    petId
-    createTime
+const FETCH_PURCHASE_POST_LIST = r'''
+query MyQuery($ltPrice: Int, $gtePrice: Int, $gender: [pet_gender_enum!], $isSeed: [Boolean!], $price: order_by, $speciesId: Int, $status: post_status_enum, $breeds: [Int!], $customerId: Int = 0, $lteDob: timestamp = "", $gteDob: timestamp = "", $limit: Int = 8, $offset: Int = 0, $title: String, $post_type: [post_type_enum!]) {
+  post(where: {pet: {breed: {species: {id: {_eq: $speciesId}}, id: {_in: $breeds}}, gender: {_in: $gender}, isSeed: {_in: $isSeed}, dob: {_lte: $lteDob, _gte: $gteDob}}, transactionTotal: {_lt: $ltPrice}, _and: {transactionTotal: {_gte: $gtePrice}, status: {_eq: $status}, customerId: {_neq: $customerId}},title: {_ilike: $title}, type: {_in: $post_type}}, order_by: {transactionTotal: $price}, limit: $limit, offset: $offset) {
     description
+    createTime
+    petId
+    id
     transactionTotal
     status
     sellerReceive
@@ -99,8 +88,6 @@ query MyQuery($ltPrice: Int, $gtePrice: Int, $gender: [pet_gender_enum!], $isSee
       lng
       email
       phoneNumber
-      
-      
       address
       isActive
     }
@@ -111,10 +98,8 @@ query MyQuery($ltPrice: Int, $gtePrice: Int, $gender: [pet_gender_enum!], $isSee
       lastName
       address
       gender
-      
       point
       email
-      
     }
     pet {
       avatar
@@ -142,19 +127,14 @@ query MyQuery($ltPrice: Int, $gtePrice: Int, $gender: [pet_gender_enum!], $isSee
       id
       url
       type
-    }
-  }
-  post_aggregate(where: {pet: {gender: {_in: $gender}, isSeed: {_in: $isSeed}, dob: {_lte: $lteDob, _gte: $gteDob}}, transactionTotal: {_lt: $ltPrice}, _and: {transactionTotal: {_gte: $gtePrice}, status: {_eq: $status}, customerId: {_neq: $customerId}}}, order_by: {pet: {breed: {name: $breedName}}, transactionTotal: $price}) {
-    aggregate {
-      count
     }
   }
 }
 ''';
 
 const FETCH_PURCHASE_POST_LIST_WITHOUT_BREED = r'''
-query MyQuery($ltPrice: Int, $gtePrice: Int, $gender: [pet_gender_enum!], $isSeed: [Boolean!], $breedName: order_by, $price: order_by, $speciesId: Int, $status: post_status_enum, $customerId: Int, $gteDob: timestamp = "", $lteDob: timestamp = "", $limit: Int = 8, $offset: Int = 0, $title: String) {
-  post(where: {pet: {breed: {species: {id: {_eq: $speciesId}}}, gender: {_in: $gender}, isSeed: {_in: $isSeed}, dob: {_gte: $gteDob, _lte: $lteDob}}, transactionTotal: {_lt: $ltPrice}, _and: {transactionTotal: {_gte: $gtePrice}, status: {_eq: $status}, customerId: {_neq: $customerId}}, title: {_ilike: $title}}, order_by: {pet: {breed: {name: $breedName}}, transactionTotal: $price}, limit: $limit, offset: $offset) {
+query MyQuery($ltPrice: Int, $gtePrice: Int, $gender: [pet_gender_enum!], $isSeed: [Boolean!], $price: order_by, $speciesId: Int, $status: post_status_enum, $customerId: Int, $gteDob: timestamp = "", $lteDob: timestamp = "", $limit: Int = 8, $offset: Int = 0, $title: String, $post_type: [post_type_enum!]) {
+  post(where: {pet: {breed: {species: {id: {_eq: $speciesId}}}, gender: {_in: $gender}, isSeed: {_in: $isSeed}, dob: {_gte: $gteDob, _lte: $lteDob}}, transactionTotal: {_lt: $ltPrice}, _and: {transactionTotal: {_gte: $gtePrice}, status: {_eq: $status}, customerId: {_neq: $customerId}}, title: {_ilike: $title}, type: {_in: $post_type}}, order_by: {transactionTotal: $price}, limit: $limit, offset: $offset) {
     createTime
     description
     petId
@@ -175,8 +155,6 @@ query MyQuery($ltPrice: Int, $gtePrice: Int, $gender: [pet_gender_enum!], $isSee
       lng
       email
       phoneNumber
-      
-      
       address
       isActive
     }
@@ -218,11 +196,6 @@ query MyQuery($ltPrice: Int, $gtePrice: Int, $gender: [pet_gender_enum!], $isSee
       id
       url
       type
-    }
-  }
-  post_aggregate(where: {pet: {breed: {species: {id: {_eq: $speciesId}}}, gender: {_in: $gender}, isSeed: {_in: $isSeed}, dob: {_gte: $gteDob, _lte: $lteDob}}, transactionTotal: {_lt: $ltPrice}, _and: {transactionTotal: {_gte: $gtePrice}, status: {_eq: $status}, customerId: {_neq: $customerId}}}, order_by: {pet: {breed: {name: $breedName}}, transactionTotal: $price}) {
-    aggregate {
-      count
     }
   }
 }
@@ -342,7 +315,6 @@ query MyQuery($_postId: Int) {
       id
       isActive
       lastName
-      
       phoneNumber
       point
       

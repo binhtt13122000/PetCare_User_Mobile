@@ -3,7 +3,6 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:petapp_mobile/configs/theme.dart';
 import 'package:petapp_mobile/controllers/post_page_controllers/post_list_page_controller.dart';
-import 'package:petapp_mobile/controllers/post_page_controllers/post_management_page_controller.dart';
 
 class PostFilterTopWidget extends GetView<PostListPageController> {
   const PostFilterTopWidget({Key? key}) : super(key: key);
@@ -32,9 +31,7 @@ class PostFilterTopWidget extends GetView<PostListPageController> {
         child: Row(
           children: [
             InkWell(
-              onTap: () => Get
-                ..back()
-                ..find<PostManagementPageController>().update(),
+              onTap: () => Get.back(),
               child: Container(
                 height: 35,
                 width: 35,
@@ -61,7 +58,7 @@ class PostFilterTopWidget extends GetView<PostListPageController> {
               child: Padding(
                 padding: const EdgeInsets.only(right: 35),
                 child: Text(
-                  'Create Post Page',
+                  'Post Filter Page',
                   textAlign: TextAlign.center,
                   style: GoogleFonts.quicksand(
                     color: const Color.fromARGB(255, 62, 68, 87),
