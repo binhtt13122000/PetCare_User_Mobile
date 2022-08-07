@@ -30,28 +30,25 @@ class PostListBodyWidget extends GetView<PostListPageController> {
           late QueryOptions queryOptions;
           if (controller.selectedSpeciesId.value == -1) {
             queryOptions = QueryOptions(
-                document: gql(FETCH_ALL_PURCHASE_POST_LIST_WITHOUT_SPECIES),
-                variables: {
-                  'offset': controller.offset,
-                  'limit': controller.limit,
-                  'lteDob': controller.lteDob.value,
-                  'gteDob': controller.gteDob.value,
-                  'customerId': controller.accountModel.customerModel.id,
-                  'ltPrice': controller.ltPrice.value,
-                  'gtePrice': controller.gtePrice.value,
-                  'gender': controller.selectedGenderList,
-                  'isSeed': const [true, false],
-                  'breedName': controller.orderByBreed.isNotEmpty
-                      ? controller.orderByBreed.value
-                      : null,
-                  'price': controller.orderByPrice.isNotEmpty
-                      ? controller.orderByPrice.value
-                      : null,
-                  'status': 'PUBLISHED',
-                  'title': '%${controller.searchText.value}%'
-                },
-                cacheRereadPolicy: CacheRereadPolicy.ignoreAll,
-                fetchPolicy: FetchPolicy.networkOnly);
+              document: gql(FETCH_ALL_PURCHASE_POST_LIST_WITHOUT_SPECIES),
+              variables: {
+                'offset': controller.offset,
+                'limit': controller.limit,
+                'lteDob': controller.lteDob.value,
+                'gteDob': controller.gteDob.value,
+                'customerId': controller.accountModel.customerModel.id,
+                'ltPrice': controller.ltPrice.value,
+                'gtePrice': controller.gtePrice.value,
+                'gender': controller.selectedGenderList,
+                'isSeed': const [true, false],
+                'price': controller.orderByPrice.isNotEmpty
+                    ? controller.orderByPrice.value
+                    : null,
+                'status': 'PUBLISHED',
+                'post_type': controller.selectedPostType,
+                'title': '%${controller.searchText.value}%'
+              },
+            );
           } else {
             if (controller
                         .selectedBreedMap[controller.selectedSpeciesId.value] !=
@@ -59,57 +56,51 @@ class PostListBodyWidget extends GetView<PostListPageController> {
                 controller.selectedBreedMap[controller.selectedSpeciesId.value]!
                     .isNotEmpty) {
               queryOptions = QueryOptions(
-                  document: gql(FETCH_PURCHASE_POST_LIST),
-                  variables: {
-                    'offset': controller.offset,
-                    'limit': controller.limit,
-                    'lteDob': controller.lteDob.value,
-                    'gteDob': controller.gteDob.value,
-                    'customerId': controller.accountModel.customerModel.id,
-                    'speciesId': controller.selectedSpeciesId.value,
-                    'ltPrice': controller.ltPrice.value,
-                    'gtePrice': controller.gtePrice.value,
-                    'gender': controller.selectedGenderList,
-                    'isSeed': const [true, false],
-                    'breedName': controller.orderByBreed.isNotEmpty
-                        ? controller.orderByBreed.value
-                        : null,
-                    'price': controller.orderByPrice.isNotEmpty
-                        ? controller.orderByPrice.value
-                        : null,
-                    'status': 'PUBLISHED',
-                    'breeds': [
-                      ...?controller
-                          .selectedBreedMap[controller.selectedSpeciesId.value]
-                    ]
-                  },
-                  cacheRereadPolicy: CacheRereadPolicy.ignoreAll,
-                  fetchPolicy: FetchPolicy.networkOnly);
+                document: gql(FETCH_PURCHASE_POST_LIST),
+                //document: gql(FETCH_PURCHASE_POST_LIST_WITHOUT_BREED),
+                variables: {
+                  'offset': controller.offset,
+                  'limit': controller.limit,
+                  'lteDob': controller.lteDob.value,
+                  'gteDob': controller.gteDob.value,
+                  'customerId': controller.accountModel.customerModel.id,
+                  'speciesId': controller.selectedSpeciesId.value,
+                  'ltPrice': controller.ltPrice.value,
+                  'gtePrice': controller.gtePrice.value,
+                  'gender': controller.selectedGenderList,
+                  'isSeed': const [true, false],
+                  'price': controller.orderByPrice.isNotEmpty
+                      ? controller.orderByPrice.value
+                      : null,
+                  'status': 'PUBLISHED',
+                  'post_type': controller.selectedPostType,
+                  'title': '%${controller.searchText.value}%',
+                  'breeds': controller
+                      .selectedBreedMap[controller.selectedSpeciesId.value],
+                },
+              );
             } else {
               queryOptions = QueryOptions(
-                  document: gql(FETCH_PURCHASE_POST_LIST_WITHOUT_BREED),
-                  variables: {
-                    'offset': controller.offset,
-                    'limit': controller.limit,
-                    'lteDob': controller.lteDob.value,
-                    'gteDob': controller.gteDob.value,
-                    'customerId': controller.accountModel.customerModel.id,
-                    'speciesId': controller.selectedSpeciesId.value,
-                    'ltPrice': controller.ltPrice.value,
-                    'gtePrice': controller.gtePrice.value,
-                    'gender': controller.selectedGenderList,
-                    'isSeed': const [true, false],
-                    'breedName': controller.orderByBreed.isNotEmpty
-                        ? controller.orderByBreed.value
-                        : null,
-                    'price': controller.orderByPrice.isNotEmpty
-                        ? controller.orderByPrice.value
-                        : null,
-                    'status': 'PUBLISHED',
-                    'title': '%${controller.searchText.value}%'
-                  },
-                  cacheRereadPolicy: CacheRereadPolicy.ignoreAll,
-                  fetchPolicy: FetchPolicy.networkOnly);
+                document: gql(FETCH_PURCHASE_POST_LIST_WITHOUT_BREED),
+                variables: {
+                  'offset': controller.offset,
+                  'limit': controller.limit,
+                  'lteDob': controller.lteDob.value,
+                  'gteDob': controller.gteDob.value,
+                  'customerId': controller.accountModel.customerModel.id,
+                  'speciesId': controller.selectedSpeciesId.value,
+                  'ltPrice': controller.ltPrice.value,
+                  'gtePrice': controller.gtePrice.value,
+                  'gender': controller.selectedGenderList,
+                  'isSeed': const [true, false],
+                  'price': controller.orderByPrice.isNotEmpty
+                      ? controller.orderByPrice.value
+                      : null,
+                  'status': 'PUBLISHED',
+                  'post_type': controller.selectedPostType,
+                  'title': '%${controller.searchText.value}%'
+                },
+              );
             }
           }
           QueryResult queryResult = await CLIENT_TO_QUERY().query(queryOptions);

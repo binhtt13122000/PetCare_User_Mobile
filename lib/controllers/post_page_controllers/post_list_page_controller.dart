@@ -11,20 +11,21 @@ import 'package:petapp_mobile/models/species_model/species_model.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class PostListPageController extends GetxController {
+  RxList<String> selectedPostType = ['BREED', 'SALE'].obs;
   RxBool isLoadingData = false.obs;
   String loadingType = LoadingType.INIT.name;
   RefreshController refreshController =
       RefreshController(initialRefresh: false);
   int offset = 0;
   final int limit = 8;
-
+  bool isRefreshBreed = false;
   RxList<PostModel> postList = <PostModel>[].obs;
   RxList<PostModelHasura> postHasuraList = <PostModelHasura>[].obs;
   RxString searchText = ''.obs;
 
   AccountModel accountModel = Get.find<AuthController>().accountModel;
 
-  List<dynamic> selectedGenderList = ['MALE', 'FEMALE'];
+  List<String> selectedGenderList = ['MALE', 'FEMALE'];
   RxBool isShowLoadingPurchasePost = false.obs;
 
   RxMap<int, RxList<int>> selectedBreedMap = <int, RxList<int>>{}.obs;

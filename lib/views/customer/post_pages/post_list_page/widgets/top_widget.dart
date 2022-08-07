@@ -297,6 +297,7 @@ class PostListTopWidget extends GetView<PostListPageController> {
                         : speciesModel.id
                 ..loadingType = LoadingType.INIT.name
                 ..offset = 0
+                ..isRefreshBreed = true
                 ..update();
             },
             child: Container(
