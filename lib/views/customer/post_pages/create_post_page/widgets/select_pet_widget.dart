@@ -423,7 +423,7 @@ class SelectPetWidget extends GetView<CreatePostPageController> {
                         width: 20,
                         height: 45,
                         decoration: BoxDecoration(
-                            color: controller.selectBranchIndex.value == index
+                            color: controller.selectedPetIndex.value == index
                                 ? PRIMARY_COLOR
                                 : Colors.transparent,
                             borderRadius: BorderRadius.circular(4)),
@@ -459,7 +459,7 @@ class SelectPetWidget extends GetView<CreatePostPageController> {
                           textAlign: TextAlign.center,
                           style: GoogleFonts.quicksand(
                             fontWeight: FontWeight.w500,
-                            color: controller.selectBranchIndex.value == index
+                            color: controller.selectedPetIndex.value == index
                                 ? PRIMARY_COLOR
                                 : const Color.fromARGB(255, 121, 128, 141),
                             fontSize: 16,

@@ -2,10 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:petapp_mobile/configs/theme.dart';
 import 'package:petapp_mobile/controllers/transaction_page_controllers/ticket_detail_page_controller.dart';
+import 'package:petapp_mobile/models/pet_model/pet_model.dart';
 import 'package:petapp_mobile/models/service_ticket_model/service_ticket_model.dart';
+import 'package:petapp_mobile/services/pet_services/pet_services.dart';
 import 'package:petapp_mobile/services/transaction_services/ticket_services.dart';
 import 'package:petapp_mobile/utilities/utilities.dart';
 import 'package:petapp_mobile/views/customer/transaction_pages/ticket_detail_page/widgets/bottom_widget.dart';
+import 'package:petapp_mobile/views/customer/transaction_pages/ticket_detail_page/widgets/services_details_widget.dart';
 import 'package:petapp_mobile/views/widgets/customize_widget.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
@@ -21,6 +24,16 @@ class TicketDetailBodyWidget extends GetView<TicketDetailPageController> {
           ticketId: controller.ticketId,
           jwt: controller.accountModel.jwtToken,
         );
+        var petIdList = controller.ticketModel.serviceTicketMap.keys;
+        for (var element in petIdList) {
+          controller.selectShowMorePetList.add(element);
+
+          PetModel petModel = await PetService.fetchPetById(
+              petId: element.toString(), jwt: controller.accountModel.jwtToken);
+          controller.ticketModel.serviceTicketWithPetModelMap.addAll(
+              {petModel: controller.ticketModel.serviceTicketMap[element]!});
+        }
+
         controller.isLoadingData.value = false;
       });
       return Obx(
@@ -39,7 +52,8 @@ class TicketDetailBodyWidget extends GetView<TicketDetailPageController> {
                             child: Column(
                               children: [
                                 ticketTimeWidget(),
-                                servicesBookingWidget(),
+                                const TicketDetailsServicesDetailsWidget(),
+                                //servicesBookingWidget(),
                                 estimateTimeWidget(),
                                 Container(
                                   height: 1,
@@ -305,8 +319,8 @@ class TicketDetailBodyWidget extends GetView<TicketDetailPageController> {
   Widget centerServicesItemWidget(
       {required ServiceTicketModel serviceTicketModel}) {
     String timeText = '';
-    int hours = serviceTicketModel.centerServiceModel.estimatedTime ~/ 60;
-    int minutes = serviceTicketModel.centerServiceModel.estimatedTime % 60;
+    int hours = serviceTicketModel.centerServiceModel!.estimatedTime ~/ 60;
+    int minutes = serviceTicketModel.centerServiceModel!.estimatedTime % 60;
 
     if (hours > 0 && minutes > 0) {
       timeText = '$hours hours $minutes minutes';
@@ -336,10 +350,10 @@ class TicketDetailBodyWidget extends GetView<TicketDetailPageController> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       CUSTOM_TEXT(
-                        serviceTicketModel.centerServiceModel.name +
+                        serviceTicketModel.centerServiceModel!.name +
                             (timeText.length > 10 ||
                                     serviceTicketModel
-                                            .centerServiceModel.name.length >
+                                            .centerServiceModel!.name.length >
                                         20
                                 ? ''
                                 : ' ($timeText)'),
@@ -348,7 +362,7 @@ class TicketDetailBodyWidget extends GetView<TicketDetailPageController> {
                       ),
                       Visibility(
                         visible: timeText.length > 10 ||
-                            serviceTicketModel.centerServiceModel.name.length >
+                            serviceTicketModel.centerServiceModel!.name.length >
                                 20,
                         child: CUSTOM_TEXT(
                           '($timeText)',

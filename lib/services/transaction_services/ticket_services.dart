@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:petapp_mobile/configs/path.dart';
+import 'package:petapp_mobile/models/service_ticket_model/service_ticket_model.dart';
 import 'package:petapp_mobile/models/ticket_model/ticket_model.dart';
 import 'package:http/http.dart' as http;
 
@@ -13,14 +14,41 @@ class TicketServices {
     required int endTime,
     required int branchId,
     required int customerId,
-    required List<int> servicesIdList,
+    required List<ServiceTicketModel> serviceTickets,
     required String type,
     required String jwt,
   }) async {
-    List<Map<String, int>> servicesIdJsonList = [];
-    for (var element in servicesIdList) {
-      servicesIdJsonList.add({'serviceId': element});
+    List<dynamic> servicesTicketsJsonList = [];
+    for (var element in serviceTickets) {
+      Map<String, dynamic> tmpJson = {
+        'serviceId': element.serviceId,
+        'petId': element.petId
+      };
+      servicesTicketsJsonList.add(tmpJson);
+      // servicesTicketsJsonList.add(element.toJson());
     }
+
+    Map<String, dynamic> jsonABC = {
+      'createdTime': createdTime.toIso8601String(),
+      'meetingDate': meetingDate
+          .subtract(Duration(
+            hours: meetingDate.hour,
+            microseconds: meetingDate.microsecond,
+            milliseconds: meetingDate.millisecond,
+            minutes: meetingDate.minute,
+            seconds: meetingDate.second,
+          ))
+          .toIso8601String(),
+      'startTime': startTime,
+      'endTime': endTime,
+      'branchId': branchId,
+      'customerId': customerId,
+      'status': 'CREATED',
+      'type': type,
+      'serviceTickets': servicesTicketsJsonList,
+    };
+
+    print(jsonABC);
 
     String jsonBody = jsonEncode({
       'createdTime': createdTime.toIso8601String(),
@@ -39,7 +67,7 @@ class TicketServices {
       'customerId': customerId,
       'status': 'CREATED',
       'type': type,
-      'serviceTickets': servicesIdJsonList,
+      'serviceTickets': servicesTicketsJsonList,
     });
     final response = await http.post(
       Uri.https(API_SERVER_PATH, TICKET_API_PATH),

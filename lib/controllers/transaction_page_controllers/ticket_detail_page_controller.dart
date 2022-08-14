@@ -4,6 +4,7 @@ import 'package:petapp_mobile/models/account_model/account_model.dart';
 import 'package:petapp_mobile/models/ticket_model/ticket_model.dart';
 
 class TicketDetailPageController extends GetxController {
+  RxList<int> selectShowMorePetList = <int>[].obs;
   AccountModel accountModel = Get.find<AuthController>().accountModel;
   //*Notification
   RxBool isShowNotificationPopup = false.obs;

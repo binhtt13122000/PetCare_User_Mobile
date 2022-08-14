@@ -67,14 +67,14 @@ class PetDetailInformationWidget extends GetView<PetDetailPageController> {
                       pattern: DATE_PATTERN,
                     ),
                   ),
-                  textCardWidgetWithInfoIcon(
+                  textCardWidget(
                     keyText: 'Age range',
                     valueText: controller.petModel.ageRange,
                   ),
-                  textCardWidget(
-                    keyText: 'Weight',
-                    valueText: '7.5 Kilogram',
-                  ),
+                  // textCardWidget(
+                  //   keyText: 'Weight',
+                  //   valueText: '7.5 Kilogram',
+                  // ),
                   textCardWidget(
                     keyText: 'Color',
                     valueText: controller.petModel.color != null &&

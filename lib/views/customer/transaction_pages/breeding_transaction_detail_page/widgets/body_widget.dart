@@ -190,7 +190,7 @@ class BreedingTransactionDetailBodyWidget
             ],
           ),
           Container(
-            height: 233,
+            height: 260,
             margin: const EdgeInsets.only(left: 0),
             child: Center(
               child: Image.asset(

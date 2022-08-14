@@ -3,11 +3,21 @@ import 'package:petapp_mobile/controllers/other_controllers/auth_controller.dart
 import 'package:petapp_mobile/models/account_model/account_model.dart';
 import 'package:petapp_mobile/models/branch_model/branch_model.dart';
 import 'package:petapp_mobile/models/center_service_model/center_service_model.dart';
+import 'package:petapp_mobile/models/pet_model/pet_model.dart';
 import 'package:petapp_mobile/models/ticket_model/ticket_model.dart';
 import 'package:petapp_mobile/models/ticket_time_model/ticket_time_model.dart';
 import 'package:petapp_mobile/utilities/utilities.dart';
 
 class CreateTicketPageController extends GetxController {
+  RxBool isLoadingServices = false.obs;
+  Map<int, List<CenterServiceModel>> mapCenterServices = {};
+  RxList<int> selectShowMorePetList = <int>[].obs;
+  RxInt countServices = 0.obs;
+  int selectPetIndex = -1;
+  RxList<int> selectPetIndexList = <int>[].obs;
+  RxBool isShowPetList = false.obs;
+  Map<int, RxList<int>> selectServicesMap = <int, RxList<int>>{};
+  late List<PetModel> pets;
   int? breedingTransactionId;
   RxInt selectBranchIndex = (-1).obs;
   AccountModel accountModel = Get.find<AuthController>().accountModel;
@@ -20,10 +30,10 @@ class CreateTicketPageController extends GetxController {
   RxInt selectedTicketTimeIndex = (-1).obs;
   RxInt totalEstimateTime = 0.obs;
   RxBool isLoadingTicketList = false.obs;
-  RxList<int> selectCenterServicesIndexList = <int>[].obs;
+  //5RxList<int> selectCenterServicesIndexList = <int>[].obs;
   late List<CenterServiceModel> centerServicesModelList;
   RxBool isShowAddServices = false.obs;
-  RxBool isWaitingSendTicket = false.obs;
+  RxBool isLoadingForeground = false.obs;
   RxBool isShowSuccessfullyPopup = false.obs;
   int? ticketId;
   RxBool isShowBranchDetail = false.obs;
@@ -43,6 +53,7 @@ class CreateTicketPageController extends GetxController {
 
   void setTicketTimeModelList() {
     ticketTimeModelList = [];
+
     if (ticketModelList.isNotEmpty) {
       if (ticketModelList[0].startTime > totalEstimateTime.value) {
         int tmpStartTime = 0;

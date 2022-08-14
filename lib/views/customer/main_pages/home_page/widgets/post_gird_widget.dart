@@ -44,7 +44,7 @@ class HomePostGirdsWidget extends GetView<HomePageController> {
                         : Expanded(
                             child: SmartRefresher(
                               controller: controller.refreshController,
-                              enablePullUp: true,
+                              enablePullUp: false,
                               onRefresh: () async {
                                 controller
                                   ..loadingType = LoadingType.REFRESH.name
@@ -57,7 +57,8 @@ class HomePostGirdsWidget extends GetView<HomePageController> {
                               },
                               child: controller.postList.isEmpty
                                   ? NO_DATA_WIDGET(
-                                      content: 'Sorry, no post data found.')
+                                      content:
+                                          'Sorry, no post available at this time.')
                                   : SingleChildScrollView(
                                       child: Column(
                                         children: [

@@ -543,7 +543,7 @@ class BreedingTransactionDetailWidget
                 ],
               ),
               Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
                     'Meeting place',
@@ -554,13 +554,20 @@ class BreedingTransactionDetailWidget
                       letterSpacing: 0.5,
                     ),
                   ),
-                  Text(
-                    controller.breedingTransactionModel.placeMeeting,
-                    style: GoogleFonts.quicksand(
-                      fontSize: 15,
-                      fontWeight: FontWeight.w500,
-                      color: const Color.fromARGB(255, 77, 82, 105),
-                      letterSpacing: 0.5,
+                  const SizedBox(
+                    width: 10,
+                  ),
+                  Expanded(
+                    child: Text(
+                      controller.breedingTransactionModel.placeMeeting,
+                      textAlign: TextAlign.end,
+                      overflow: TextOverflow.clip,
+                      style: GoogleFonts.quicksand(
+                        fontSize: 15,
+                        fontWeight: FontWeight.w500,
+                        color: const Color.fromARGB(255, 77, 82, 105),
+                        letterSpacing: 0.5,
+                      ),
                     ),
                   ),
                 ],

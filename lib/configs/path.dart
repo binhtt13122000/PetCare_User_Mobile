@@ -179,3 +179,7 @@ const POST_API_PATH = '/v1/api/posts';
 //*pet chain
 const PET_CHAIN_API = '/v1/api/pets/chain';
 const PET_CHAIN_HASH_API = '/v1/api/pets/chain/hash';
+
+//*sale transaction
+const SALE_TRANSACTION_QUICK_PAYMENT_API =
+    '/v1/api/sale-transactions/quick-payment';

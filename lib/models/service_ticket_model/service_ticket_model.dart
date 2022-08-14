@@ -4,17 +4,19 @@ part 'service_ticket_model.g.dart';
 
 @JsonSerializable(explicitToJson: true)
 class ServiceTicketModel {
-  final int id;
+  final int? id;
   final int serviceId;
-  final int ticketId;
+  final int? ticketId;
+  final int petId;
   @JsonKey(name: 'service')
-  final CenterServiceModel centerServiceModel;
+  final CenterServiceModel? centerServiceModel;
 
   ServiceTicketModel({
-    required this.id,
+    this.id,
     required this.serviceId,
-    required this.ticketId,
-    required this.centerServiceModel,
+    this.ticketId,
+    this.centerServiceModel,
+    required this.petId,
   });
 
   factory ServiceTicketModel.fromJson(Map<String, dynamic> json) =>

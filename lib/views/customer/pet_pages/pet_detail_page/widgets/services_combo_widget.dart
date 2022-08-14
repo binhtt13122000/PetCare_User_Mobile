@@ -76,7 +76,7 @@ class PetDetailServicesComboWidget extends GetView<PetDetailPageController> {
       );
 
   Widget petComboItemWidget({required PetComboModel petComboModel}) => Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 20),
         child: InkWell(
           onTap: () =>
               Get.toNamed('$PET_COMBO_DETAIL_PAGE_ROUTE/${petComboModel.id}'),
@@ -95,7 +95,6 @@ class PetDetailServicesComboWidget extends GetView<PetDetailPageController> {
             child: Column(
               children: [
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     CUSTOM_TEXT(
                       '#${petComboModel.id}',
@@ -103,12 +102,14 @@ class PetDetailServicesComboWidget extends GetView<PetDetailPageController> {
                       letterSpacing: 1,
                       fontSize: 15,
                     ),
-                    CUSTOM_TEXT(
-                      petComboModel.servicesComboModel!.name,
-                      color: PRIMARY_COLOR,
-                      fontWeight: FontWeight.w700,
-                      letterSpacing: 1,
-                      fontSize: 17,
+                    Expanded(
+                      child: CUSTOM_TEXT(
+                        petComboModel.servicesComboModel!.name,
+                        color: DARK_GREY_TEXT_COLOR.withOpacity(0.9),
+                        fontWeight: FontWeight.w700,
+                        letterSpacing: 1,
+                        textAlign: TextAlign.center,
+                      ),
                     ),
                   ],
                 ),
@@ -210,10 +211,10 @@ class PetDetailServicesComboWidget extends GetView<PetDetailPageController> {
         child: Column(
           children: [
             CUSTOM_TEXT(
-              'Your pet doesn\'t have any services combo yet! Buy one now.',
+              'Your pet doesn\'t have any \nservices combo yet! Buy one now.',
               textAlign: TextAlign.center,
               textOverflow: TextOverflow.clip,
-              letterSpacing: 2,
+              letterSpacing: 1.5,
               padding: const EdgeInsets.symmetric(
                 horizontal: 30,
               ),
@@ -232,7 +233,7 @@ class PetDetailServicesComboWidget extends GetView<PetDetailPageController> {
                     borderRadius: BorderRadius.circular(10),
                   ),
                   child: CUSTOM_TEXT(
-                    'BUY A PET SERVICES COMBO',
+                    'Buy A Pet Services Combo',
                     color: WHITE_COLOR,
                     letterSpacing: 1,
                     fontWeight: FontWeight.w700,

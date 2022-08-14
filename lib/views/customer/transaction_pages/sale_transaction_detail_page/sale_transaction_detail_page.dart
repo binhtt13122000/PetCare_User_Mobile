@@ -6,11 +6,10 @@ import 'package:petapp_mobile/services/transaction_services/sale_transaction_ser
 import 'package:petapp_mobile/views/customer/transaction_pages/sale_transaction_detail_page/widgets/body_widget.dart';
 import 'package:petapp_mobile/views/customer/transaction_pages/sale_transaction_detail_page/widgets/bottom_widget.dart';
 import 'package:petapp_mobile/views/customer/transaction_pages/sale_transaction_detail_page/widgets/more_options_widget.dart';
-import 'package:petapp_mobile/views/customer/transaction_pages/sale_transaction_detail_page/widgets/popup_widget.dart';
 import 'package:petapp_mobile/views/customer/transaction_pages/sale_transaction_detail_page/widgets/review_popup_widget.dart';
 import 'package:petapp_mobile/views/customer/transaction_pages/sale_transaction_detail_page/widgets/top_widget.dart';
-import 'package:petapp_mobile/views/customer/transaction_pages/sale_transaction_detail_page/widgets/web_view.dart';
 import 'package:petapp_mobile/views/widgets/customize_widget.dart';
+import 'package:petapp_mobile/views/widgets/notification_popup_widget.dart';
 
 class SaleTransactionDetailPage
     extends GetView<SaleTransactionDetailPageController> {
@@ -56,10 +55,28 @@ class SaleTransactionDetailPage
                 ),
               ],
             ),
-            const SaleTransactionDetailWebViewWidget(),
-            const SaleTransactionPopupWidget(),
+            Obx(
+              () => controller.isShowPopup.value
+                  ? NotificationPopupWidget(
+                      onTapBackground: () {},
+                      onTapOk: () => controller
+                        ..isShowPopup.value = false
+                        ..update(),
+                      content: controller.isPaymentSuccess
+                          ? 'Payment for transaction #${controller.transactionId} successfully'
+                          : 'Payment for transaction #${controller.transactionId} failed',
+                      isSuccessNotification: controller.isPaymentSuccess,
+                    )
+                  : const SizedBox.shrink(),
+            ),
             const SaleTransactionReviewPopupWidget(),
             const SaleTransactionMoreOptionWidget(),
+            Obx(
+              () => controller.isLoadingForeground.value
+                  ? Container(
+                      color: DARK_GREY_TRANSPARENT, child: LOADING_WIDGET())
+                  : const SizedBox.shrink(),
+            ),
           ],
         );
       }),
