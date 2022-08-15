@@ -7,10 +7,15 @@ import 'package:petapp_mobile/models/center_service_model/center_service_model.d
 
 class CenterServicesServices {
   static Future<List<CenterServiceModel>> fetchCenterServicesList({
+    int? speciesId,
     required String jwt,
   }) async {
+    Map<String, dynamic> parameters = {};
+    if (speciesId != null) {
+      parameters.addAll({'speciesId': speciesId.toString()});
+    }
     final response = await http.get(
-      Uri.https(API_SERVER_PATH, CENTER_SERVICES_API),
+      Uri.https(API_SERVER_PATH, CENTER_SERVICES_API, parameters),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
         HttpHeaders.authorizationHeader: 'Bearer ' + jwt,

@@ -647,23 +647,23 @@ class ChattingDetailTopWidget extends GetView<ChattingDetailPageController> {
                 ),
               ),
             ),
-            InkWell(
-              onTap: () => Get.back(),
-              child: Container(
-                height: 35,
-                width: 35,
-                decoration: BoxDecoration(
-                  color: Colors.transparent,
-                  borderRadius: BorderRadius.circular(100),
-                ),
-                alignment: Alignment.center,
-                child: const Icon(
-                  Icons.call,
-                  color: WHITE_COLOR,
-                  size: 25,
-                ),
-              ),
-            ),
+            // InkWell(
+            //   onTap: () => Get.back(),
+            //   child: Container(
+            //     height: 35,
+            //     width: 35,
+            //     decoration: BoxDecoration(
+            //       color: Colors.transparent,
+            //       borderRadius: BorderRadius.circular(100),
+            //     ),
+            //     alignment: Alignment.center,
+            //     child: const Icon(
+            //       Icons.call,
+            //       color: WHITE_COLOR,
+            //       size: 25,
+            //     ),
+            //   ),
+            // ),
             Padding(
               padding: const EdgeInsets.only(left: 10),
               child: InkWell(

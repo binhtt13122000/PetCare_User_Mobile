@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -7,6 +8,7 @@ import 'package:petapp_mobile/configs/theme.dart';
 import 'package:petapp_mobile/controllers/transaction_page_controllers/sale_transaction_detail_page_controller.dart';
 import 'package:petapp_mobile/services/transaction_services/sale_transaction_services.dart';
 import 'package:petapp_mobile/views/widgets/customize_widget.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class SaleTransactionMoreOptionWidget
     extends GetView<SaleTransactionDetailPageController> {
@@ -37,8 +39,8 @@ class SaleTransactionMoreOptionWidget
                                   height:
                                       controller.saleTransactionModel.status ==
                                               'CREATED'
-                                          ? 240
-                                          : 160,
+                                          ? 130
+                                          : 60,
                                   decoration: BoxDecoration(
                                     color: WHITE_COLOR,
                                     borderRadius: BorderRadius.circular(10),
@@ -47,27 +49,32 @@ class SaleTransactionMoreOptionWidget
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceEvenly,
                                     children: [
+                                      // buttonWidget(
+                                      //     content: 'View post detail',
+                                      //     onTap: () {}),
+                                      // buttonWidget(
+                                      //     content: controller
+                                      //                 .saleTransactionModel
+                                      //                 .buyerId ==
+                                      //             controller.accountModel
+                                      //                 .customerModel.id
+                                      //         ? 'View seller profile'
+                                      //         : 'View buyer profile',
+                                      //     onTap: () {}),
                                       buttonWidget(
-                                          content: 'View post detail',
-                                          onTap: () {}),
-                                      buttonWidget(
-                                          content: controller
-                                                      .saleTransactionModel
-                                                      .buyerId ==
-                                                  controller.accountModel
-                                                      .customerModel.id
-                                              ? 'View seller profile'
-                                              : 'View buyer profile',
-                                          onTap: () {}),
-                                      buttonWidget(
-                                          content: controller
-                                                      .saleTransactionModel
-                                                      .buyerId ==
-                                                  controller.accountModel
-                                                      .customerModel.id
-                                              ? 'Report seller'
-                                              : 'Report buyer',
-                                          onTap: () {}),
+                                          content: 'Scan pet profile QR',
+                                          onTap: () async {
+                                            String url =
+                                                await FlutterBarcodeScanner
+                                                    .scanBarcode(
+                                                        "#FFA337f4",
+                                                        "Cancel",
+                                                        false,
+                                                        ScanMode.QR);
+                                            await launchUrl(Uri.parse(url),
+                                                mode: LaunchMode
+                                                    .externalApplication);
+                                          }),
                                       controller.saleTransactionModel.status ==
                                                   'CREATED' &&
                                               controller.saleTransactionModel

@@ -125,29 +125,29 @@ class PetComboDetailPage extends GetView<PetComboDetailPageController> {
                         ..isShowConfirmPopup.value = false
                         ..isWaitLoadingDataForeGround.value = true;
 
-                      controller.ticketId.value =
-                          await TicketServices.createTicket(
-                                jwt: controller.accountModel.jwtToken,
-                                createdTime: DateTime.now(),
-                                meetingDate: controller.bookingServicesDate,
-                                startTime: controller
-                                    .ticketTimeModelList[controller
-                                        .selectedTicketTimeIndex.value]
-                                    .startTime,
-                                endTime: controller
-                                    .ticketTimeModelList[controller
-                                        .selectedTicketTimeIndex.value]
-                                    .endTime,
-                                branchId: controller.petComboModel.branchId,
-                                customerId:
-                                    controller.accountModel.customerModel.id,
-                                servicesIdList: [
-                                  controller
-                                      .selectedPetComboDetailModel.serviceId
-                                ],
-                                type: 'COMBO',
-                              ) ??
-                              -1;
+                      // controller.ticketId.value =
+                      //     await TicketServices.createTicket(
+                      //           jwt: controller.accountModel.jwtToken,
+                      //           createdTime: DateTime.now(),
+                      //           meetingDate: controller.bookingServicesDate,
+                      //           startTime: controller
+                      //               .ticketTimeModelList[controller
+                      //                   .selectedTicketTimeIndex.value]
+                      //               .startTime,
+                      //           endTime: controller
+                      //               .ticketTimeModelList[controller
+                      //                   .selectedTicketTimeIndex.value]
+                      //               .endTime,
+                      //           branchId: controller.petComboModel.branchId,
+                      //           customerId:
+                      //               controller.accountModel.customerModel.id,
+                      //           servicesIdList: [
+                      //             controller
+                      //                 .selectedPetComboDetailModel.serviceId
+                      //           ],
+                      //           type: 'COMBO',
+                      //         ) ??
+                      //         -1;
 
                       controller
                         ..isWaitLoadingDataForeGround.value = false

@@ -23,16 +23,21 @@ class CreateTicketBottomWidget extends GetView<CreateTicketPageController> {
           child: InkWell(
             onTap: () async {
               if (controller.selectedTicketTimeIndex.value != -1 &&
-                  controller.selectCenterServicesIndexList.isNotEmpty) {
+                      controller.countServices > 0
+                  //&&
+                  //controller.selectCenterServicesIndexList.isNotEmpty
+                  ) {
                 controller.isShowConfirmPopup.value = true;
               }
             },
-            child: Obx(
-              () => Container(
+            child: Obx(() {
+              return Container(
                 height: 40,
                 decoration: BoxDecoration(
                   color: controller.selectedTicketTimeIndex.value != -1 &&
-                          controller.selectCenterServicesIndexList.isNotEmpty
+                          controller.countServices > 0
+                      //&&
+                      //controller.selectCenterServicesIndexList.isNotEmpty
                       ? PRIMARY_COLOR
                       : PRIMARY_COLOR.withOpacity(0.3),
                   borderRadius: BorderRadius.circular(5),
@@ -55,8 +60,8 @@ class CreateTicketBottomWidget extends GetView<CreateTicketPageController> {
                     )
                   ],
                 ),
-              ),
-            ),
+              );
+            }),
           ),
         ),
       ],

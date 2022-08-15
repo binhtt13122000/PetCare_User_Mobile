@@ -493,9 +493,10 @@ class SaleTransactionDetailBodyWidget
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Metting place',
+                    'Meeting place',
                     style: GoogleFonts.quicksand(
                       fontSize: 15,
                       fontWeight: FontWeight.w500,
@@ -503,13 +504,19 @@ class SaleTransactionDetailBodyWidget
                       letterSpacing: 0.5,
                     ),
                   ),
-                  Text(
-                    controller.saleTransactionModel.placeMeeting,
-                    style: GoogleFonts.quicksand(
-                      fontSize: 15,
-                      fontWeight: FontWeight.w500,
-                      color: const Color.fromARGB(255, 77, 82, 105),
-                      letterSpacing: 0.5,
+                  const SizedBox(
+                    width: 12,
+                  ),
+                  Expanded(
+                    child: Text(
+                      controller.saleTransactionModel.placeMeeting,
+                      textAlign: TextAlign.end,
+                      style: GoogleFonts.quicksand(
+                        fontSize: 15,
+                        fontWeight: FontWeight.w500,
+                        color: const Color.fromARGB(255, 77, 82, 105),
+                        letterSpacing: 0.5,
+                      ),
                     ),
                   ),
                 ],

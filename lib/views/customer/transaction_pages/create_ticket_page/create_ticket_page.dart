@@ -3,12 +3,14 @@ import 'package:get/get.dart';
 import 'package:petapp_mobile/configs/route.dart';
 import 'package:petapp_mobile/configs/theme.dart';
 import 'package:petapp_mobile/controllers/transaction_page_controllers/create_ticket_page_controller.dart';
+import 'package:petapp_mobile/models/service_ticket_model/service_ticket_model.dart';
 import 'package:petapp_mobile/services/transaction_services/breeding_transaction_services.dart';
 import 'package:petapp_mobile/services/transaction_services/ticket_services.dart';
 import 'package:petapp_mobile/utilities/utilities.dart';
 import 'package:petapp_mobile/views/customer/transaction_pages/create_ticket_page/widgets/add_services_widget.dart';
 import 'package:petapp_mobile/views/customer/transaction_pages/create_ticket_page/widgets/body_widget.dart';
 import 'package:petapp_mobile/views/customer/transaction_pages/create_ticket_page/widgets/pick_time_widget.dart';
+import 'package:petapp_mobile/views/customer/transaction_pages/create_ticket_page/widgets/select_pet_widget.dart';
 import 'package:petapp_mobile/views/customer/transaction_pages/create_ticket_page/widgets/top_widget.dart';
 import 'package:petapp_mobile/views/widgets/calendar_widget.dart';
 import 'package:petapp_mobile/views/widgets/confirm_popup_widget.dart';
@@ -37,6 +39,9 @@ class CreateTicketPage extends GetView<CreateTicketPageController> {
           ),
           const PickTimeWidget(),
           const AddServicesWidget(),
+          Obx(() => controller.isShowPetList.value
+              ? const CreateTicketSelectPetWidget()
+              : const SizedBox.shrink()),
           Obx(
             () => controller.isShowCalendar.value
                 ? CalendarWidget(
@@ -102,14 +107,20 @@ class CreateTicketPage extends GetView<CreateTicketPageController> {
                     onTapSubmit: () async {
                       controller
                         ..isShowConfirmPopup.value = false
-                        ..isWaitingSendTicket.value = true;
-                      List<int> servicesIdList = [];
-                      for (var element
-                          in controller.selectCenterServicesIndexList) {
-                        servicesIdList.add(
-                            controller.centerServicesModelList[element].id);
-                      }
+                        ..isLoadingForeground.value = true;
+                      List<ServiceTicketModel> serviceTicketModelList = [];
 
+                      for (var petIndex in controller.selectPetIndexList) {
+                        for (var servicesIndex
+                            in controller.selectServicesMap[petIndex]!) {
+                          serviceTicketModelList.add(
+                            ServiceTicketModel(
+                                serviceId: controller
+                                    .centerServicesModelList[servicesIndex].id,
+                                petId: controller.pets[petIndex].id),
+                          );
+                        }
+                      }
                       controller.ticketId = await TicketServices.createTicket(
                         jwt: controller.accountModel.jwtToken,
                         createdTime: DateTime.now(),
@@ -126,7 +137,7 @@ class CreateTicketPage extends GetView<CreateTicketPageController> {
                             .branchModelList[controller.selectBranchIndex.value]
                             .id,
                         customerId: controller.accountModel.customerModel.id,
-                        servicesIdList: servicesIdList,
+                        serviceTickets: serviceTicketModelList,
                         type: 'SERVICE',
                       );
                       if (controller.breedingTransactionId != null) {
@@ -142,7 +153,7 @@ class CreateTicketPage extends GetView<CreateTicketPageController> {
                                 bookingTime: controller.bookingServicesDate);
                       }
                       controller
-                        ..isWaitingSendTicket.value = false
+                        ..isLoadingForeground.value = false
                         ..isShowSuccessfullyPopup.value = true;
                     })
                 : const SizedBox.shrink(),
@@ -160,7 +171,7 @@ class CreateTicketPage extends GetView<CreateTicketPageController> {
           ),
           Obx(
             () => Visibility(
-              visible: controller.isWaitingSendTicket.value,
+              visible: controller.isLoadingForeground.value,
               child: Container(
                 color: DARK_GREY_TRANSPARENT,
                 child: LOADING_WIDGET(),

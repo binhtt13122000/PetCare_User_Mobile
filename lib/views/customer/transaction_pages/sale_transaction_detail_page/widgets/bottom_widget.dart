@@ -173,16 +173,32 @@ class SaleTransactionDetailBottomWidget
             padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
             child: InkWell(
               onTap: () async {
-                controller.paymentUrl.value = await SaleTransactionService.payment(
-                    jwt: controller.accountModel.jwtToken,
-                    id: controller.saleTransactionModel.id,
-                    transactionTime: DateTime.now(),
-                    transactionTotal: controller
-                        .saleTransactionModel.postModel!.transactionTotal,
-                    locale: 'vi',
-                    paymentMethod: 'VNPAY',
-                    message:
-                        'Customer #0${controller.accountModel.customerModel.id} payment for sale transaction #0${controller.saleTransactionModel.id}');
+                // controller.paymentUrl.value = await SaleTransactionService.payment(
+                //     jwt: controller.accountModel.jwtToken,
+                //     id: controller.saleTransactionModel.id,
+                //     transactionTime: DateTime.now(),
+                //     transactionTotal: controller
+                //         .saleTransactionModel.postModel!.transactionTotal,
+                //     locale: 'vi',
+                //     paymentMethod: 'VNPAY',
+                //     message:
+                //         'Customer #0${controller.accountModel.customerModel.id} payment for sale transaction #0${controller.saleTransactionModel.id}');
+
+                controller
+                  ..isLoadingForeground.value = true
+                  ..isPaymentSuccess = await SaleTransactionService.quickPayment(
+                      jwt: controller.accountModel.jwtToken,
+                      id: controller.saleTransactionModel.id,
+                      transactionTime: DateTime.now(),
+                      transactionTotal: controller
+                          .saleTransactionModel.postModel!.transactionTotal,
+                      locale: 'vi',
+                      paymentMethod: 'VNPAY',
+                      message:
+                          'Customer #${controller.accountModel.customerModel.id} + payment for sale transaction #${controller.saleTransactionModel.id}')
+                  ..isLoadingForeground.value = false
+                  //..update()
+                  ..isShowPopup.value = true;
               },
               child: Container(
                 height: 45,

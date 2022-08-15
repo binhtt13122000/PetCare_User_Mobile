@@ -160,6 +160,45 @@ class SaleTransactionService {
     }
   }
 
+  static Future<bool> quickPayment({
+    required int id,
+    required DateTime transactionTime,
+    required String jwt,
+    required int transactionTotal,
+    required String paymentMethod,
+    String? message,
+    required String locale,
+  }) async {
+    String jsonBody = jsonEncode({
+      'id': id,
+      'transactionTime': transactionTime.toIso8601String(),
+      'transactionTotal': transactionTotal,
+      'paymentMethod': paymentMethod,
+      'point': transactionTotal ~/ 1000,
+      'message': 'Thank for your payment!'
+    });
+    final response = await http.post(
+      Uri.https(
+        API_SERVER_PATH,
+        SALE_TRANSACTION_QUICK_PAYMENT_API,
+      ),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+        HttpHeaders.authorizationHeader: 'Bearer ' + jwt,
+      },
+      body: jsonBody,
+    );
+    print(response.body);
+    switch (response.statusCode) {
+      case 200:
+      case 201:
+      case 202:
+        return true;
+      default:
+        return false;
+    }
+  }
+
   static Future<List<SaleTransactionModel>> fetchSaleTransactionList({
     required String? buyerId,
     required String? sellerId,

@@ -61,7 +61,7 @@ class ChattingDetailPageController extends GetxController {
   @override
   void onInit() async {
     socket = io.io(
-        'http://$API_SERVER_PATH',
+        'https://$API_SERVER_PATH',
         io.OptionBuilder()
             .setTransports(['websocket']) // for Flutter or Dart VM
             .setExtraHeaders({'foo': 'bar'}) // optional

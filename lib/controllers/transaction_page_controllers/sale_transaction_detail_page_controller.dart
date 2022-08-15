@@ -9,7 +9,8 @@ class SaleTransactionDetailPageController extends GetxController {
   late SaleTransactionModel saleTransactionModel;
   RxBool isLoading = false.obs;
   AccountModel accountModel = Get.find<AuthController>().accountModel;
-  RxString paymentUrl = ''.obs;
+  //RxString paymentUrl = ''.obs;
+  RxBool isLoadingForeground = false.obs;
   RxBool isShowPopup = false.obs;
   RxBool isShowReviewPopup = false.obs;
   RxInt selectedStar = 0.obs;
@@ -21,6 +22,7 @@ class SaleTransactionDetailPageController extends GetxController {
   RxString cancelDescription = ''.obs;
   RxBool isShowCancelResultPopup = false.obs;
   late int transactionId;
+  bool isPaymentSuccess = false;
   updateRatingText() {
     switch (selectedStar.value) {
       case 0:

@@ -106,9 +106,10 @@ class PetDetailHeathRecordsWidget extends GetView<PetDetailPageController> {
                     ? Padding(
                         padding: const EdgeInsets.only(top: 20, bottom: 10),
                         child: CUSTOM_TEXT(
-                          'Your pet has no remove\nticks data at the moment',
+                          'Your pet has no remove\nticks data at the moment!',
                           color: DARK_GREY_TEXT_COLOR.withOpacity(0.6),
                           textAlign: TextAlign.center,
+                          fontSize: 14,
                         ),
                       )
                     : Column(
@@ -172,7 +173,8 @@ class PetDetailHeathRecordsWidget extends GetView<PetDetailPageController> {
                                             CrossAxisAlignment.start,
                                         children: [
                                           CUSTOM_TEXT(
-                                            'The next time',
+                                            'Suggest next time',
+                                            fontSize: 15,
                                           ),
                                           CUSTOM_TEXT(
                                             '(Should be remove\nticks every 3 months)',
@@ -266,9 +268,10 @@ class PetDetailHeathRecordsWidget extends GetView<PetDetailPageController> {
                     ? Padding(
                         padding: const EdgeInsets.only(top: 20, bottom: 10),
                         child: CUSTOM_TEXT(
-                          'Your pet has no deworming\ndata at the moment',
+                          'Your pet has no deworming\ndata at the moment!',
                           color: DARK_GREY_TEXT_COLOR.withOpacity(0.6),
                           textAlign: TextAlign.center,
+                          fontSize: 14,
                         ),
                       )
                     : Column(
@@ -332,7 +335,8 @@ class PetDetailHeathRecordsWidget extends GetView<PetDetailPageController> {
                                             CrossAxisAlignment.start,
                                         children: [
                                           CUSTOM_TEXT(
-                                            'The next time',
+                                            'Suggest next time',
+                                            fontSize: 15,
                                           ),
                                           CUSTOM_TEXT(
                                             '(Should be dewormed\nevery 3 months)',
@@ -425,16 +429,17 @@ class PetDetailHeathRecordsWidget extends GetView<PetDetailPageController> {
                     ? Padding(
                         padding: const EdgeInsets.only(top: 20, bottom: 10),
                         child: CUSTOM_TEXT(
-                          'Your pet has no vaccinations\ndata at the moment',
+                          'Your pet has no vaccinations\ndata at the moment!',
                           color: DARK_GREY_TEXT_COLOR.withOpacity(0.6),
                           textAlign: TextAlign.center,
+                          fontSize: 14,
                         ),
                       )
                     : Container(
                         padding: const EdgeInsets.only(top: 10),
                         height: controller.vaccinesList.length >= 3
                             ? 90
-                            : controller.vaccinesList.length * 30,
+                            : controller.vaccinesList.length * 50,
                         child: SingleChildScrollView(
                           child: Column(
                             children: controller.vaccinesList
@@ -464,6 +469,7 @@ class PetDetailHeathRecordsWidget extends GetView<PetDetailPageController> {
                     maxRadius: 5,
                   ),
                   Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       CUSTOM_TEXT(
                         vaccine.vaccineModel!.name,
@@ -471,7 +477,8 @@ class PetDetailHeathRecordsWidget extends GetView<PetDetailPageController> {
                         color: DARK_GREY_TEXT_COLOR.withOpacity(0.95),
                       ),
                       CUSTOM_TEXT(
-                        ' (${vaccine.vaccineType!})',
+                        '(${vaccine.vaccineType!})',
+                        padding: const EdgeInsets.only(left: 15),
                         color: DARK_GREY_TEXT_COLOR.withOpacity(0.7),
                         fontSize: 12,
                       ),
@@ -525,7 +532,7 @@ class PetDetailHeathRecordsWidget extends GetView<PetDetailPageController> {
                 Padding(
                   padding: const EdgeInsets.only(top: 20, bottom: 10),
                   child: CUSTOM_TEXT(
-                    'No data available at the moment',
+                    'No data available at the moment!',
                     color: DARK_GREY_TEXT_COLOR.withOpacity(0.6),
                   ),
                 ),

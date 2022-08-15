@@ -6,11 +6,13 @@ import 'package:petapp_mobile/configs/path.dart';
 import 'package:petapp_mobile/configs/theme.dart';
 import 'package:petapp_mobile/controllers/transaction_page_controllers/create_ticket_page_controller.dart';
 import 'package:petapp_mobile/services/other_services/branch_services.dart';
+import 'package:petapp_mobile/services/pet_services/pet_services.dart';
 import 'package:petapp_mobile/services/transaction_services/center_services_services.dart';
 import 'package:petapp_mobile/services/transaction_services/ticket_services.dart';
 import 'package:petapp_mobile/utilities/utilities.dart';
 import 'package:petapp_mobile/views/customer/transaction_pages/create_ticket_page/widgets/bottom_widget.dart';
 import 'package:petapp_mobile/views/customer/transaction_pages/create_ticket_page/widgets/select_branch_widget.dart';
+import 'package:petapp_mobile/views/customer/transaction_pages/create_ticket_page/widgets/select_services_widget.dart';
 import 'package:petapp_mobile/views/widgets/customize_widget.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
@@ -25,6 +27,12 @@ class CreateTicketBodyWidget extends GetView<CreateTicketPageController> {
 
         WidgetsBinding.instance!.addPostFrameCallback((_) async {
           controller
+            ..pets = await PetService.fetchPetListByCustomerId(
+              controller.accountModel.customerModel.id,
+              jwt: controller.accountModel.jwtToken,
+              type: '',
+              name: '',
+            )
             ..centerServicesModelList =
                 await CenterServicesServices.fetchCenterServicesList(
               jwt: controller.accountModel.jwtToken,
@@ -41,15 +49,15 @@ class CreateTicketBodyWidget extends GetView<CreateTicketPageController> {
               if (controller.centerServicesModelList[index].name ==
                   'Check Before Breeding') {
                 controller
-                  ..selectCenterServicesIndexList.add(index)
-                  ..totalEstimateTime.value =
-                      controller.centerServicesModelList[index].estimatedTime;
+                        //..selectCenterServicesIndexList.add(index)
+                        .totalEstimateTime
+                        .value =
+                    controller.centerServicesModelList[index].estimatedTime;
                 break;
               }
               index++;
             } while (index < controller.centerServicesModelList.length);
           }
-
           controller
             ..isLoadingData.value = false
             ..isInitData = false;
@@ -119,8 +127,11 @@ class CreateTicketBodyWidget extends GetView<CreateTicketPageController> {
                             WidgetsBinding.instance!
                                 .addPostFrameCallback((_) async {
                               if (controller.selectBranchIndex.value != -1 &&
-                                  controller.selectCenterServicesIndexList
-                                      .isNotEmpty) {
+                                      controller.countServices.value > 0
+                                  //&&
+                                  // controller.selectCenterServicesIndexList
+                                  //     .isNotEmpty
+                                  ) {
                                 controller
                                   ..ticketModelList = await TicketServices
                                       .fetchTicketListByBranch(
@@ -263,50 +274,62 @@ class CreateTicketBodyWidget extends GetView<CreateTicketPageController> {
                 ],
               ),
             ),
-            Obx(
-              () => Column(
-                children: controller.selectCenterServicesIndexList
-                    .asMap()
-                    .entries
-                    .map((e) => centerServicesItemWidget(index: e.value))
-                    .toList(),
-              ),
+            const CreateTicketSelectPetWidget(),
+            // Obx(
+            //   () => Column(
+            //     children: controller.selectCenterServicesIndexList
+            //         .asMap()
+            //         .entries
+            //         .map((e) => centerServicesItemWidget(index: e.value))
+            //         .toList(),
+            //   ),
+            // ),
+            const SizedBox(
+              height: 10,
             ),
             Obx(
               () => Visibility(
-                visible: controller.selectCenterServicesIndexList.length < 3,
+                visible: controller.countServices.value < 5,
                 child: Padding(
-                  padding: const EdgeInsets.only(left: 30, right: 42, top: 10),
-                  child: InkWell(
-                    onTap: () => controller.isShowAddServices.value = true,
-                    child: DottedBorder(
-                      color: PRIMARY_COLOR.withOpacity(0.7),
-                      strokeWidth: 1,
-                      radius: const Radius.circular(5),
-                      borderType: BorderType.RRect,
-                      dashPattern: const [5, 5],
-                      child: Container(
-                        padding: const EdgeInsets.symmetric(vertical: 5),
-                        margin: const EdgeInsets.all(3),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(5),
-                          color: PRIMARY_COLOR.withOpacity(0.05),
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            CUSTOM_TEXT(
-                              'Add Services',
-                              color: PRIMARY_COLOR,
-                              letterSpacing: 1,
-                            ),
-                            const SizedBox(width: 10),
-                            SvgPicture.asset(
-                              ICON_PATH + ADD_SVG,
-                              height: 18,
-                              color: PRIMARY_COLOR,
-                            ),
-                          ],
+                  padding: const EdgeInsets.only(top: 10, left: 10),
+                  child: SizedBox(
+                    width: 300,
+                    child: InkWell(
+                      onTap: () {
+                        // controller.isShowAddServices.value = true
+                        controller.isShowPetList.value = true;
+                      },
+                      child: DottedBorder(
+                        color: PRIMARY_COLOR.withOpacity(0.7),
+                        strokeWidth: 1,
+                        radius: const Radius.circular(5),
+                        borderType: BorderType.RRect,
+                        dashPattern: const [5, 5],
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(vertical: 5),
+                          margin: const EdgeInsets.all(3),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(5),
+                            color: PRIMARY_COLOR.withOpacity(0.05),
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              CUSTOM_TEXT(
+                                controller.selectPetIndexList.isEmpty
+                                    ? 'Add Using Services Pet'
+                                    : 'Add More Pet',
+                                color: PRIMARY_COLOR,
+                                letterSpacing: 1,
+                              ),
+                              const SizedBox(width: 10),
+                              SvgPicture.asset(
+                                ICON_PATH + ADD_SVG,
+                                height: 18,
+                                color: PRIMARY_COLOR,
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ),
@@ -330,77 +353,84 @@ class CreateTicketBodyWidget extends GetView<CreateTicketPageController> {
     } else {
       timeText = '$minutes minutes';
     }
-    return Padding(
-      padding: const EdgeInsets.only(right: 42, left: 30, top: 5, bottom: 5),
-      child: Container(
-        height: 40,
-        alignment: Alignment.center,
-        decoration: BoxDecoration(
-          color: PRIMARY_COLOR,
-          borderRadius: BorderRadius.circular(5),
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 10),
-                child: FittedBox(
-                  fit: BoxFit.scaleDown,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      CUSTOM_TEXT(
-                        controller.centerServicesModelList[index].name +
-                            (timeText.length > 10 ||
-                                    controller.centerServicesModelList[index]
-                                            .name.length >
-                                        20
-                                ? ''
-                                : ' ($timeText)'),
-                        color: WHITE_COLOR,
-                        textAlign: TextAlign.center,
+    return Column(
+      children: [
+        Padding(
+          padding:
+              const EdgeInsets.only(right: 42, left: 30, top: 5, bottom: 5),
+          child: Container(
+            height: 40,
+            alignment: Alignment.center,
+            decoration: BoxDecoration(
+              color: PRIMARY_COLOR,
+              borderRadius: BorderRadius.circular(5),
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 10),
+                    child: FittedBox(
+                      fit: BoxFit.scaleDown,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          CUSTOM_TEXT(
+                            controller.centerServicesModelList[index].name +
+                                (timeText.length > 10 ||
+                                        controller
+                                                .centerServicesModelList[index]
+                                                .name
+                                                .length >
+                                            20
+                                    ? ''
+                                    : ' ($timeText)'),
+                            color: WHITE_COLOR,
+                            textAlign: TextAlign.center,
+                          ),
+                          Visibility(
+                            visible: timeText.length > 10 ||
+                                controller.centerServicesModelList[index].name
+                                        .length >
+                                    20,
+                            child: CUSTOM_TEXT(
+                              '($timeText)',
+                              color: WHITE_COLOR,
+                              textAlign: TextAlign.center,
+                            ),
+                          ),
+                        ],
                       ),
-                      Visibility(
-                        visible: timeText.length > 10 ||
-                            controller.centerServicesModelList[index].name
-                                    .length >
-                                20,
-                        child: CUSTOM_TEXT(
-                          '($timeText)',
-                          color: WHITE_COLOR,
-                          textAlign: TextAlign.center,
-                        ),
-                      ),
-                    ],
+                    ),
                   ),
                 ),
-              ),
-            ),
-            Visibility(
-              visible: controller.centerServicesModelList[index].name !=
-                  'Check Before Breeding',
-              child: InkWell(
-                onTap: () => controller
-                  ..selectCenterServicesIndexList.remove(index)
-                  ..totalEstimateTime -=
-                      controller.centerServicesModelList[index].estimatedTime
-                  ..update(),
-                child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 7),
-                  color: WHITE_COLOR.withOpacity(0.7),
-                  height: 40,
-                  child: SvgPicture.asset(
-                    ICON_PATH + CLOSE_SVG,
-                    color: RED_COLOR,
-                    height: 10,
+                Visibility(
+                  visible: controller.centerServicesModelList[index].name !=
+                      'Check Before Breeding',
+                  child: InkWell(
+                    onTap: () => controller
+                      //..selectCenterServicesIndexList.remove(index)
+                      ..totalEstimateTime -= controller
+                          .centerServicesModelList[index].estimatedTime
+                      ..update(),
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 7),
+                      color: WHITE_COLOR.withOpacity(0.7),
+                      height: 40,
+                      child: SvgPicture.asset(
+                        ICON_PATH + CLOSE_SVG,
+                        color: RED_COLOR,
+                        height: 10,
+                      ),
+                    ),
                   ),
                 ),
-              ),
+              ],
             ),
-          ],
+          ),
         ),
-      ),
+      ],
     );
   }
 

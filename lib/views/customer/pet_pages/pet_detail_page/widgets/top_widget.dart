@@ -37,7 +37,8 @@ class PetDetailTopWidget extends GetView<PetDetailPageController> {
               color: DARK_GREY_TEXT_COLOR.withOpacity(0.6),
             ),
             CUSTOM_TEXT(
-              (controller.petId < 10 ? '#' : '#') + controller.petId.toString(),
+              (controller.petId < 10 ? '#0' : '#') +
+                  controller.petId.toString(),
               fontSize: 13,
               color: DARK_GREY_TEXT_COLOR.withOpacity(0.7),
             ),
