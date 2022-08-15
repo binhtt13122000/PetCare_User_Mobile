@@ -24,7 +24,11 @@ class PetDetailMoreOptionWidget extends GetView<PetDetailPageController> {
                               controller.petModel.specialMarkings!.isNotEmpty &&
                               controller.petModel.status == 'NORMAL'
                           ? 170
-                          : 110,
+                          : controller.petModel.specialMarkings != null &&
+                                  controller
+                                      .petModel.specialMarkings!.isNotEmpty
+                              ? 110
+                              : 50,
                       decoration: BoxDecoration(
                         color: WHITE_COLOR,
                         borderRadius: BorderRadius.circular(10),

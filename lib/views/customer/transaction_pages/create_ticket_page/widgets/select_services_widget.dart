@@ -446,35 +446,39 @@ class CreateTicketSelectPetWidget extends GetView<CreateTicketPageController> {
                   ),
                 ),
               ),
-              InkWell(
-                onTap: () {
-                  for (var element in controller.selectServicesMap[petIndex]!) {
-                    controller.totalEstimateTime -= controller
-                        .centerServicesModelList[element].estimatedTime;
-                  }
-                  controller
-                    ..countServices -=
-                        controller.selectServicesMap[petIndex]!.length
-                    ..selectPetIndexList.remove(petIndex)
-                    ..selectServicesMap.remove(petIndex)
-                    ..selectShowMorePetList.remove(petIndex);
+              Visibility(
+                visible: controller.pets[petIndex].id != controller.petId,
+                child: InkWell(
+                  onTap: () {
+                    for (var element
+                        in controller.selectServicesMap[petIndex]!) {
+                      controller.totalEstimateTime -= controller
+                          .centerServicesModelList[element].estimatedTime;
+                    }
+                    controller
+                      ..countServices -=
+                          controller.selectServicesMap[petIndex]!.length
+                      ..selectPetIndexList.remove(petIndex)
+                      ..selectServicesMap.remove(petIndex)
+                      ..selectShowMorePetList.remove(petIndex);
 
-                  if (controller.countServices.value == 0) {
-                    controller.selectedTicketTimeIndex.value = -1;
-                  }
-                  controller.update();
-                },
-                child: ClipRRect(
-                  borderRadius:
-                      const BorderRadius.horizontal(right: Radius.circular(9)),
-                  child: Container(
-                    width: 23,
-                    alignment: Alignment.center,
-                    color: RED_COLOR.withOpacity(0.8),
-                    child: SvgPicture.asset(
-                      ICON_PATH + CLOSE_SVG,
-                      color: WHITE_COLOR,
-                      height: 10,
+                    if (controller.countServices.value == 0) {
+                      controller.selectedTicketTimeIndex.value = -1;
+                    }
+                    controller.update();
+                  },
+                  child: ClipRRect(
+                    borderRadius: const BorderRadius.horizontal(
+                        right: Radius.circular(9)),
+                    child: Container(
+                      width: 23,
+                      alignment: Alignment.center,
+                      color: RED_COLOR.withOpacity(0.8),
+                      child: SvgPicture.asset(
+                        ICON_PATH + CLOSE_SVG,
+                        color: WHITE_COLOR,
+                        height: 10,
+                      ),
                     ),
                   ),
                 ),

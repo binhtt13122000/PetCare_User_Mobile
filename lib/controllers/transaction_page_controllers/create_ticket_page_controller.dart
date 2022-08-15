@@ -9,6 +9,8 @@ import 'package:petapp_mobile/models/ticket_time_model/ticket_time_model.dart';
 import 'package:petapp_mobile/utilities/utilities.dart';
 
 class CreateTicketPageController extends GetxController {
+  int? petId;
+  int? serviceId;
   RxBool isLoadingServices = false.obs;
   Map<int, List<CenterServiceModel>> mapCenterServices = {};
   RxList<int> selectShowMorePetList = <int>[].obs;

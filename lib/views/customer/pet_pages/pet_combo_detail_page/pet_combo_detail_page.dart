@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:petapp_mobile/configs/route.dart';
 import 'package:petapp_mobile/configs/theme.dart';
 import 'package:petapp_mobile/controllers/pet_page_controllers/pet_combo_detail_page_controller.dart';
+import 'package:petapp_mobile/models/service_ticket_model/service_ticket_model.dart';
 import 'package:petapp_mobile/models/ticket_model/ticket_model.dart';
 import 'package:petapp_mobile/services/transaction_services/ticket_services.dart';
 import 'package:petapp_mobile/utilities/utilities.dart';
@@ -11,6 +12,7 @@ import 'package:petapp_mobile/services/pet_services/pet_combo_services.dart';
 import 'package:petapp_mobile/views/customer/pet_pages/pet_combo_detail_page/widgets/create_ticket_widget.dart';
 import 'package:petapp_mobile/views/customer/pet_pages/pet_combo_detail_page/widgets/notification_popup_widget.dart';
 import 'package:petapp_mobile/views/customer/pet_pages/pet_combo_detail_page/widgets/pet_services_list_status.dart';
+import 'package:petapp_mobile/views/customer/pet_pages/pet_combo_detail_page/widgets/pick_time_widget.dart';
 import 'package:petapp_mobile/views/customer/pet_pages/pet_combo_detail_page/widgets/pop_up_widget.dart';
 import 'package:petapp_mobile/views/customer/pet_pages/pet_combo_detail_page/widgets/rating_popup_widget.dart';
 import 'package:petapp_mobile/views/customer/pet_pages/pet_combo_detail_page/widgets/top_widget.dart';
@@ -112,6 +114,7 @@ class PetComboDetailPage extends GetView<PetComboDetailPageController> {
                   )
                 : const SizedBox.shrink(),
           ),
+          const PetComboPickTimeWidget(),
           Obx(
             () => controller.isShowConfirmPopup.value
                 ? ConfirmPopupWidget(
@@ -125,29 +128,32 @@ class PetComboDetailPage extends GetView<PetComboDetailPageController> {
                         ..isShowConfirmPopup.value = false
                         ..isWaitLoadingDataForeGround.value = true;
 
-                      // controller.ticketId.value =
-                      //     await TicketServices.createTicket(
-                      //           jwt: controller.accountModel.jwtToken,
-                      //           createdTime: DateTime.now(),
-                      //           meetingDate: controller.bookingServicesDate,
-                      //           startTime: controller
-                      //               .ticketTimeModelList[controller
-                      //                   .selectedTicketTimeIndex.value]
-                      //               .startTime,
-                      //           endTime: controller
-                      //               .ticketTimeModelList[controller
-                      //                   .selectedTicketTimeIndex.value]
-                      //               .endTime,
-                      //           branchId: controller.petComboModel.branchId,
-                      //           customerId:
-                      //               controller.accountModel.customerModel.id,
-                      //           servicesIdList: [
-                      //             controller
-                      //                 .selectedPetComboDetailModel.serviceId
-                      //           ],
-                      //           type: 'COMBO',
-                      //         ) ??
-                      //         -1;
+                      controller.ticketId.value =
+                          await TicketServices.createTicket(
+                                jwt: controller.accountModel.jwtToken,
+                                createdTime: DateTime.now(),
+                                meetingDate: controller.bookingServicesDate,
+                                startTime: controller
+                                    .ticketTimeModelList[controller
+                                        .selectedTicketTimeIndex.value]
+                                    .startTime,
+                                endTime: controller
+                                    .ticketTimeModelList[controller
+                                        .selectedTicketTimeIndex.value]
+                                    .endTime,
+                                branchId: controller.petComboModel.branchId,
+                                customerId:
+                                    controller.accountModel.customerModel.id,
+                                serviceTickets: [
+                                  ServiceTicketModel(
+                                      serviceId: controller
+                                          .selectedPetComboDetailModel
+                                          .serviceId,
+                                      petId: controller.petComboModel.petId)
+                                ],
+                                type: 'COMBO',
+                              ) ??
+                              -1;
 
                       controller
                         ..isWaitLoadingDataForeGround.value = false
