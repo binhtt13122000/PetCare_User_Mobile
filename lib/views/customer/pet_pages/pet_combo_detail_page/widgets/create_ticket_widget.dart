@@ -21,7 +21,7 @@ class PetComboDetailCreateRequestWidget
                     onTap: () {},
                     child: Container(
                       width: 330,
-                      height: 340,
+                      height: 360,
                       decoration: BoxDecoration(
                         color: WHITE_COLOR,
                         borderRadius: BorderRadius.circular(10),

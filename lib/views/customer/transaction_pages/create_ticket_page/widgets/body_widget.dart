@@ -5,6 +5,8 @@ import 'package:get/get.dart';
 import 'package:petapp_mobile/configs/path.dart';
 import 'package:petapp_mobile/configs/theme.dart';
 import 'package:petapp_mobile/controllers/transaction_page_controllers/create_ticket_page_controller.dart';
+import 'package:petapp_mobile/models/center_service_model/center_service_model.dart';
+import 'package:petapp_mobile/models/pet_model/pet_model.dart';
 import 'package:petapp_mobile/services/other_services/branch_services.dart';
 import 'package:petapp_mobile/services/pet_services/pet_services.dart';
 import 'package:petapp_mobile/services/transaction_services/center_services_services.dart';
@@ -44,19 +46,58 @@ class CreateTicketBodyWidget extends GetView<CreateTicketPageController> {
                 ? controller.selectBranchIndex.value
                 : 0;
           if (controller.breedingTransactionId != null) {
-            int index = 0;
+            int petIndex = 0;
+            PetModel? petModel;
+
             do {
-              if (controller.centerServicesModelList[index].name ==
-                  'Check Before Breeding') {
+              if (controller.petId! == controller.pets[petIndex].id) {
+                petModel = controller.pets[petIndex];
+                break;
+              }
+              petIndex++;
+            } while (petIndex < controller.centerServicesModelList.length);
+
+            int speciesId = petModel!.breedModel!.speciesId!;
+            List<CenterServiceModel> centerServicesModelList =
+                await CenterServicesServices.fetchCenterServicesList(
+              jwt: controller.accountModel.jwtToken,
+              speciesId: speciesId,
+            );
+            controller.mapCenterServices
+                .addAll({speciesId: centerServicesModelList});
+
+            int? servicesId;
+
+            for (var element in controller.mapCenterServices[speciesId]!) {
+              if (element.name == 'Check Before Breeding') {
+                servicesId = element.id;
+                break;
+              }
+            }
+
+            int serviceIndex = 0;
+
+            do {
+              if (controller.centerServicesModelList[serviceIndex].id ==
+                  servicesId) {
                 controller
                         //..selectCenterServicesIndexList.add(index)
                         .totalEstimateTime
                         .value =
-                    controller.centerServicesModelList[index].estimatedTime;
+                    controller
+                        .centerServicesModelList[serviceIndex].estimatedTime;
                 break;
               }
-              index++;
-            } while (index < controller.centerServicesModelList.length);
+              serviceIndex++;
+            } while (serviceIndex < controller.centerServicesModelList.length);
+
+            controller
+              ..selectPetIndexList.add(petIndex)
+              ..selectServicesMap.addAll({
+                petIndex: <int>[serviceIndex].obs,
+              })
+              ..selectShowMorePetList.add(petIndex)
+              ..countServices.value = 1;
           }
           controller
             ..isLoadingData.value = false

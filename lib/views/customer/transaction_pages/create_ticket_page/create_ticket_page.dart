@@ -27,6 +27,12 @@ class CreateTicketPage extends GetView<CreateTicketPageController> {
       controller.breedingTransactionId =
           int.parse(Get.parameters['breedingTransactionId']!);
     }
+    if (Get.parameters['petId'] != null) {
+      controller.petId = int.parse(Get.parameters['petId']!);
+    }
+    if (Get.parameters['serviceId'] != null) {
+      controller.serviceId = int.parse(Get.parameters['serviceId']!);
+    }
     return Scaffold(
       backgroundColor: WHITE_COLOR,
       body: Stack(
