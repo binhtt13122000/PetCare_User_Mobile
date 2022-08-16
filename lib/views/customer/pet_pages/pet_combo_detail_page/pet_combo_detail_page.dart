@@ -1,19 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:petapp_mobile/configs/route.dart';
 import 'package:petapp_mobile/configs/theme.dart';
 import 'package:petapp_mobile/controllers/pet_page_controllers/pet_combo_detail_page_controller.dart';
-import 'package:petapp_mobile/models/service_ticket_model/service_ticket_model.dart';
 import 'package:petapp_mobile/models/ticket_model/ticket_model.dart';
+import 'package:petapp_mobile/services/pet_services/pet_combo_detail_services.dart';
 import 'package:petapp_mobile/services/transaction_services/ticket_services.dart';
 import 'package:petapp_mobile/utilities/utilities.dart';
 import 'package:petapp_mobile/views/customer/pet_pages/pet_combo_detail_page/widgets/body_widget.dart';
 import 'package:petapp_mobile/services/pet_services/pet_combo_services.dart';
 import 'package:petapp_mobile/views/customer/pet_pages/pet_combo_detail_page/widgets/create_ticket_widget.dart';
-import 'package:petapp_mobile/views/customer/pet_pages/pet_combo_detail_page/widgets/notification_popup_widget.dart';
 import 'package:petapp_mobile/views/customer/pet_pages/pet_combo_detail_page/widgets/pet_services_list_status.dart';
 import 'package:petapp_mobile/views/customer/pet_pages/pet_combo_detail_page/widgets/pick_time_widget.dart';
-import 'package:petapp_mobile/views/customer/pet_pages/pet_combo_detail_page/widgets/pop_up_widget.dart';
 import 'package:petapp_mobile/views/customer/pet_pages/pet_combo_detail_page/widgets/rating_popup_widget.dart';
 import 'package:petapp_mobile/views/customer/pet_pages/pet_combo_detail_page/widgets/top_widget.dart';
 import 'package:petapp_mobile/views/widgets/calendar_widget.dart';
@@ -58,8 +55,7 @@ class PetComboDetailPage extends GetView<PetComboDetailPageController> {
           ),
           const PetServicesListStatusBarWidget(),
           const PetComboDetailRatingPopupWidget(),
-          const PetComboDetailPopupWidget(),
-          const PetComboDetailNotificationPopupWidget(),
+          //const PetComboDetailNotificationPopupWidget(),
           const PetComboDetailCreateRequestWidget(),
           Obx(
             () => controller.isShowCalendar.value
@@ -121,54 +117,37 @@ class PetComboDetailPage extends GetView<PetComboDetailPageController> {
                     onTapBackground: () {
                       controller.isShowConfirmPopup.value = false;
                     },
-                    title: 'Booking Ticket',
-                    content: 'Are you sure to booking ticket?',
+                    title: 'Confirm Success',
+                    content:
+                        'Are you sure to mark services ${controller.selectedPetComboDetailModel.centerServiceModel.name}  to completed?',
                     onTapSubmit: () async {
                       controller
                         ..isShowConfirmPopup.value = false
                         ..isWaitLoadingDataForeGround.value = true;
-
-                      controller.ticketId.value =
-                          await TicketServices.createTicket(
-                                jwt: controller.accountModel.jwtToken,
-                                createdTime: DateTime.now(),
-                                meetingDate: controller.bookingServicesDate,
-                                startTime: controller
-                                    .ticketTimeModelList[controller
-                                        .selectedTicketTimeIndex.value]
-                                    .startTime,
-                                endTime: controller
-                                    .ticketTimeModelList[controller
-                                        .selectedTicketTimeIndex.value]
-                                    .endTime,
-                                branchId: controller.petComboModel.branchId,
-                                customerId:
-                                    controller.accountModel.customerModel.id,
-                                serviceTickets: [
-                                  ServiceTicketModel(
-                                      serviceId: controller
-                                          .selectedPetComboDetailModel
-                                          .serviceId,
-                                      petId: controller.petComboModel.petId)
-                                ],
-                                type: 'COMBO',
-                              ) ??
-                              -1;
-
+                      await PetComboDetailServices.updatePetComboDetail(
+                        jwt: controller.accountModel.jwtToken,
+                        id: controller.selectedPetComboDetailModel.id,
+                        realTime: DateTime.now(),
+                        isCompleted: true,
+                        isAllCompleted: false,
+                      );
                       controller
+                        ..notificationTitle = 'Mark completed for services '
                         ..isWaitLoadingDataForeGround.value = false
-                        ..isShowSuccessfullyPopup.value = true;
+                        ..isShowNotificationPopup.value = true;
                     })
                 : const SizedBox.shrink(),
           ),
           Obx(
-            () => controller.isShowSuccessfullyPopup.value
+            () => controller.isShowNotificationPopup.value
                 ? NotificationPopupWidget(
                     onTapBackground: () {},
-                    onTapOk: () => Get.offNamed(
-                        '$TICKET_DETAIL_PAGE_ROUTE/${controller.ticketId}'),
-                    content:
-                        'Create booking services ticket successfully! \nRemember to come by appointment.',
+                    onTapOk: () {
+                      controller
+                        ..isShowNotificationPopup.value = false
+                        ..update();
+                    },
+                    content: controller.notificationTitle + ' successfully.',
                   )
                 : const SizedBox.shrink(),
           ),

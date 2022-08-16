@@ -9,8 +9,25 @@ class PetDetailMoreOptionWidget extends GetView<PetDetailPageController> {
   const PetDetailMoreOptionWidget({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) => Obx(
-        () => controller.isShowMoreOptionWidget.value
+  Widget build(BuildContext context) => Obx(() {
+        double heightWidget = 170;
+        if (controller.isShowMoreOptionWidget.value) {
+          switch (controller.petModel.status) {
+            case 'NORMAL':
+              heightWidget = controller.petModel.specialMarkings != null &&
+                      controller.petModel.specialMarkings!.isNotEmpty
+                  ? 170
+                  : 110;
+              break;
+            default:
+              heightWidget = controller.petModel.specialMarkings != null &&
+                      controller.petModel.specialMarkings!.isNotEmpty
+                  ? 110
+                  : 50;
+              break;
+          }
+        }
+        return controller.isShowMoreOptionWidget.value
             ? InkWell(
                 onTap: () => controller.isShowMoreOptionWidget.value = false,
                 child: Container(
@@ -20,15 +37,7 @@ class PetDetailMoreOptionWidget extends GetView<PetDetailPageController> {
                     onTap: () {},
                     child: Container(
                       width: 200,
-                      height: controller.petModel.specialMarkings != null &&
-                              controller.petModel.specialMarkings!.isNotEmpty &&
-                              controller.petModel.status == 'NORMAL'
-                          ? 170
-                          : controller.petModel.specialMarkings != null &&
-                                  controller
-                                      .petModel.specialMarkings!.isNotEmpty
-                              ? 110
-                              : 50,
+                      height: heightWidget,
                       decoration: BoxDecoration(
                         color: WHITE_COLOR,
                         borderRadius: BorderRadius.circular(10),
@@ -77,8 +86,8 @@ class PetDetailMoreOptionWidget extends GetView<PetDetailPageController> {
                   ),
                 ),
               )
-            : const SizedBox.shrink(),
-      );
+            : const SizedBox.shrink();
+      });
 
   Widget buttonWidget(
           {required content,

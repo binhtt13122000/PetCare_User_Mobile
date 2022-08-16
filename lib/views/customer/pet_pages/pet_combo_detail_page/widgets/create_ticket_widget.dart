@@ -395,7 +395,7 @@ class PetComboDetailCreateRequestWidget
                       child: InkWell(
                         onTap: () {
                           if (controller.selectedTicketTimeIndex.value != -1) {
-                            controller.isShowConfirmPopup.value = true;
+                            // controller.isShowConfirmPopup.value = true;
                           }
                         },
                         child: Container(

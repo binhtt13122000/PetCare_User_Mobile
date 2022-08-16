@@ -10,11 +10,10 @@ import 'package:petapp_mobile/utilities/utilities.dart';
 
 class PetComboDetailPageController extends GetxController {
   RxBool isShowBranchDetail = false.obs;
-  RxBool isShowSuccessfullyPopup = false.obs;
+  //RxBool isShowSuccessfullyPopup = false.obs;
   AccountModel accountModel = Get.find<AuthController>().accountModel;
   RxInt ticketId = (-1).obs;
   RxList showDescriptionIndexList = [].obs;
-  RxBool isShowConfirmPopup = false.obs;
   RxBool isShowCalendar = false.obs;
   RxString tmpMeetingTimeText = FORMAT_DATE_TIME(
           dateTime: DateTime.now().add(const Duration(days: 1)),
@@ -34,7 +33,7 @@ class PetComboDetailPageController extends GetxController {
   RxBool isWaitLoadingPetServicesList = false.obs;
   RxBool isWaitLoadingDataForeGround = false.obs;
   RxBool isShowServicesStatusBarWidget = false.obs;
-  RxBool isShowPopup = false.obs;
+  RxBool isShowConfirmPopup = false.obs;
   RxBool isShowNotificationPopup = false.obs;
   String notificationTitle = '';
   RxBool isShowRatingPopup = false.obs;

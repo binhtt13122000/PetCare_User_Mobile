@@ -12,7 +12,7 @@ class VaccineListPageController extends GetxController {
   RxList<int> showDescriptionIndexList = <int>[].obs;
   late Map<String, List<PetHealthRecordModel>> vaccinesMap;
   late List<String> vaccinesMapKeys;
-
+  RxBool isShowDescription = false.obs;
   setMapVaccines() {
     vaccinesMapKeys = ['All vaccines'];
     vaccinesMap = {'All vaccines': vaccinesList};

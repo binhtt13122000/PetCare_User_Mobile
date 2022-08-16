@@ -189,7 +189,7 @@ class ProfilePageTopWidget extends GetView<ProfilePageController> {
           Padding(
             padding: const EdgeInsets.only(right: 12, top: 12, bottom: 12),
             child: InkWell(
-              onTap: (() {}),
+              onTap: () => Get.toNamed(PERSONAl_INFORMATION_PAGE_ROUTE),
               child: Container(
                 height: 35,
                 width: 120,

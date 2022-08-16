@@ -278,9 +278,10 @@ class PetBlockChainDetailHeathRecordsWidget
                     ? Padding(
                         padding: const EdgeInsets.only(top: 20, bottom: 10),
                         child: CUSTOM_TEXT(
-                          'Your pet has no vaccinations\ndata at the moment',
+                          'Your pet has no vaccinations\ndata at the moment!',
                           color: DARK_GREY_TEXT_COLOR.withOpacity(0.6),
                           textAlign: TextAlign.center,
+                          fontSize: 14,
                         ),
                       )
                     : Container(
@@ -290,7 +291,7 @@ class PetBlockChainDetailHeathRecordsWidget
                                 3
                             ? 90
                             : controller.petHealthRecordMap['VACCINE']!.length *
-                                30,
+                                50,
                         child: SingleChildScrollView(
                           child: Column(
                             children: controller.petHealthRecordMap['VACCINE']!
@@ -319,12 +320,21 @@ class PetBlockChainDetailHeathRecordsWidget
                     backgroundColor: GREEN_COLOR,
                     maxRadius: 5,
                   ),
-                  CUSTOM_TEXT(vaccine.vaccineModel!.name,
-                      padding: const EdgeInsets.only(left: 15)),
-                  CUSTOM_TEXT(
-                    ' (${vaccine.vaccineType!})',
-                    color: DARK_GREY_TEXT_COLOR.withOpacity(0.7),
-                    fontSize: 15,
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      CUSTOM_TEXT(
+                        vaccine.vaccineModel!.name,
+                        padding: const EdgeInsets.only(left: 15),
+                        color: DARK_GREY_TEXT_COLOR.withOpacity(0.95),
+                      ),
+                      CUSTOM_TEXT(
+                        '(${vaccine.vaccineType!})',
+                        padding: const EdgeInsets.only(left: 15),
+                        color: DARK_GREY_TEXT_COLOR.withOpacity(0.7),
+                        fontSize: 12,
+                      ),
+                    ],
                   ),
                 ],
               ),
@@ -332,7 +342,7 @@ class PetBlockChainDetailHeathRecordsWidget
             CUSTOM_TEXT(
               FORMAT_DATE_TIME(
                   dateTime: vaccine.dateOfInjection, pattern: DATE_PATTERN_2),
-              color: DARK_GREY_TEXT_COLOR.withOpacity(0.7),
+              color: DARK_GREY_TEXT_COLOR.withOpacity(0.85),
               fontSize: 15,
             ),
           ],

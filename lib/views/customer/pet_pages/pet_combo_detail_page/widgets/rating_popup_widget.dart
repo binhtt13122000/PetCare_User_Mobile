@@ -223,7 +223,10 @@ class PetComboDetailRatingPopupWidget
                   jwt: controller.accountModel.jwtToken,
                   id: controller.selectedPetComboDetailModel.id,
                   star: controller.selectedStar.value,
-                  review: reviewContent);
+                  realTime: controller.selectedPetComboDetailModel.realTime!,
+                  isCompleted: true,
+                  review: reviewContent,
+                  isAllCompleted: false);
 
               controller
                 ..selectedStar.value = 0

@@ -15,6 +15,7 @@ class ActionPageController extends GetxController {
   RxInt selectedImageIndex = 0.obs;
   int nextTime = 5;
   final PageController pageController = PageController();
+  //late Timer timer;
 
   List<String> imagePathList = [
     PET_GROOMING_PNG,
@@ -23,6 +24,7 @@ class ActionPageController extends GetxController {
   ];
 
   startTimer() {
+    // timer =
     Timer.periodic(
       Duration(seconds: nextTime),
       (timer) {
@@ -38,6 +40,10 @@ class ActionPageController extends GetxController {
       },
     );
   }
+
+  // cancelTimer() {
+  //   timer.cancel();
+  // }
 
   ActionPageController() {
     // startTimer();

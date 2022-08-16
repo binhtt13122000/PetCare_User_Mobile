@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:petapp_mobile/configs/theme.dart';
-import 'package:petapp_mobile/controllers/pet_page_controllers/pet_management_page_controller.dart';
+import 'package:petapp_mobile/controllers/pet_page_controllers/pet_detail_page_controller.dart';
 import 'package:petapp_mobile/controllers/pet_page_controllers/update_pet_page_controller.dart';
 import 'package:petapp_mobile/views/widgets/customize_widget.dart';
 
@@ -52,13 +52,9 @@ class UpdatePetTopWidget extends GetView<UpdatePetPageController> {
           children: [
             InkWell(
               onTap: () {
-                Get.back();
-                PetManagementPageController petManagementPageController =
-                    Get.find<PetManagementPageController>();
-                !(petManagementPageController.isBlank == null ||
-                        petManagementPageController.isBlank!)
-                    ? petManagementPageController.update()
-                    : null;
+                Get
+                  ..back()
+                  ..put(PetDetailPageController()).update();
               },
               child: Container(
                 height: 35,

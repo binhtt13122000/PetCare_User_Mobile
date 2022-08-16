@@ -17,13 +17,17 @@ class SignInVerificationBottomWidget extends GetView<SignInPageController> {
           padding: const EdgeInsets.only(left: 12, right: 12),
           child: InkWell(
             onTap: () async {
-              if (controller.otp.value.length == 6 &&
+              if (controller.countPin.value == 6 &&
                   controller.countDownTime.value > 0) {
                 controller.isLoadingOTP.value = true;
+                String smsCode = '';
+                for (var element in controller.pin) {
+                  smsCode += element;
+                }
                 PhoneAuthCredential phoneAuthCredential =
                     PhoneAuthProvider.credential(
                         verificationId: controller.verificationId,
-                        smsCode: controller.otp.value);
+                        smsCode: smsCode);
                 AccountModel? accountModel = await controller
                     .signInWithPhoneAuthCredential(phoneAuthCredential);
                 if (accountModel != null) {
@@ -43,13 +47,13 @@ class SignInVerificationBottomWidget extends GetView<SignInPageController> {
             child: Container(
               height: 40,
               decoration: BoxDecoration(
-                color: controller.otp.value.length == 6 &&
+                color: controller.countPin.value == 6 &&
                         controller.countDownTime.value > 0
                     ? PRIMARY_COLOR.withOpacity(0.9)
                     : PRIMARY_COLOR.withOpacity(0.3),
                 borderRadius: BorderRadius.circular(5),
                 border: Border.all(
-                  color: controller.otp.value.length == 6 &&
+                  color: controller.countPin.value == 6 &&
                           controller.countDownTime.value > 0
                       ? PRIMARY_COLOR
                       : PRIMARY_COLOR.withOpacity(0.1),

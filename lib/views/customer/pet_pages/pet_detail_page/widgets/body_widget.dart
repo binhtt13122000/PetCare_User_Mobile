@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:petapp_mobile/configs/route.dart';
 import 'package:petapp_mobile/configs/theme.dart';
 import 'package:petapp_mobile/controllers/pet_page_controllers/pet_detail_page_controller.dart';
 import 'package:petapp_mobile/services/pet_services/pet_services.dart';
@@ -208,6 +209,8 @@ class PetDetailBodyWidget extends GetView<PetDetailPageController> {
                   //     ? controller.avatarFilePath.value =
                   //         controller.avatarFile!.path
                   //     : null;
+                  Get.toNamed(
+                      '$UPDATE_PET_PAGE_ROUTE/${controller.petModel.id}');
                 },
                 child: const CircleAvatar(
                   backgroundColor: Color.fromARGB(210, 193, 204, 233),

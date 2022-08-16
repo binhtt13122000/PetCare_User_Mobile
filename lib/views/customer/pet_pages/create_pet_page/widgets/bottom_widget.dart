@@ -27,7 +27,7 @@ class CreatePetBottomWidget extends GetView<CreatePetPageController> {
                       controller.avatarUrl.value.isNotEmpty &&
                       controller.dayOfBirthText.value.isNotEmpty) {
                     controller.isWaitingCreatePet.value = true;
-                    await PetService.createPet(
+                    controller.isSuccessCreate = await PetService.createPet(
                       jwt: controller.accountModel.jwtToken,
                       ownerId: controller.accountModel.customerModel.id,
                       avatarFilePath: controller.avatarUrl.value,

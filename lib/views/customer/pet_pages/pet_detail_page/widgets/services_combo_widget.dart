@@ -63,7 +63,7 @@ class PetDetailServicesComboWidget extends GetView<PetDetailPageController> {
                           color: PRIMARY_COLOR,
                           borderRadius: BorderRadius.circular(5),
                         ),
-                        child: CUSTOM_TEXT('BUY MORE PET SERVICES COMBO',
+                        child: CUSTOM_TEXT('Buy Pet Services Combo',
                             color: WHITE_COLOR, letterSpacing: 1, fontSize: 15),
                       ),
                     ),

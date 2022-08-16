@@ -116,12 +116,19 @@ class UpdatePetPage extends GetView<UpdatePetPageController> {
             () => controller.isShowSuccessfullyPopup.value
                 ? NotificationPopupWidget(
                     onTapBackground: () {},
-                    onTapOk: () => Get
-                      ..back()
-                      ..find<PetDetailPageController>().update(),
-                    content:
-                        'Update pet ${controller.petName.value} successfully.',
-                    isSuccessNotification: true,
+                    onTapOk: () {
+                      if (controller.isUpdatePetSuccess) {
+                        Get
+                          ..back()
+                          ..find<PetDetailPageController>().update();
+                      } else {
+                        controller.isShowSuccessfullyPopup.value = false;
+                      }
+                    },
+                    content: controller.isUpdatePetSuccess
+                        ? 'Update pet ${controller.petName.value} successfully.'
+                        : 'Update pet ${controller.petName} failed, pet name already used.\n Please try another name.',
+                    isSuccessNotification: controller.isUpdatePetSuccess,
                   )
                 : const SizedBox.shrink(),
           ),
@@ -138,21 +145,21 @@ class UpdatePetPage extends GetView<UpdatePetPageController> {
                       controller
                         ..isShowConfirmPopup.value = false
                         ..isWaitingUpdatePet.value = true;
-                      await PetService.updatePet(
+                      controller.isUpdatePetSuccess =
+                          await PetService.updatePet(
                         jwt: controller.accountModel.jwtToken,
                         id: controller.petId,
-                        ownerId: controller.accountModel.customerModel.id,
-                        avatarFile: null,
-                        avatarFilePath: controller.petModel.avatar,
+                        // ownerId: controller.accountModel.customerModel.id,
+                        avatarFilePath: controller.avatarFilePath.value,
                         name: controller.petName.value,
                         isSeed: controller.selectedFertility.value == 'YES',
                         gender: controller.selectedGender.value,
                         dob: controller.dateOfBirthTime!,
-                        breedId: controller.petModel.breedId!,
-                        status: 'NORMAL',
+                        // breedId: controller.petModel.breedId!,
+                        // status: 'NORMAL',
                         description: controller.description.value,
                         color: controller.color.value,
-                        specialMarkings: controller.petModel.specialMarkings,
+                        //  specialMarkings: controller.petModel.specialMarkings,
                       );
 
                       controller

@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:petapp_mobile/configs/theme.dart';
-import 'package:petapp_mobile/controllers/other_controllers/auth_controller.dart';
 import 'package:petapp_mobile/controllers/other_controllers/personal_information_page_controller.dart';
-import 'package:petapp_mobile/models/customer_model/customer_model.dart';
-import 'package:petapp_mobile/services/other_services/customer_services.dart';
 import 'package:petapp_mobile/views/widgets/customize_widget.dart';
 
 class PersonalInformationBottomWidget
@@ -17,29 +14,31 @@ class PersonalInformationBottomWidget
   }
 
   Widget saveWidget() => InkWell(
-        onTap: () async {
-          controller.isLoadingUpdateProfile.value = true;
-          CustomerModel? customerModel = await CustomerService.updateProfile(
-            jwt: controller.accountModel.jwtToken,
-            id: controller.accountModel.customerModel.id,
-            email: controller.email.value,
-            firstName: controller.firstName.value,
-            lastName: controller.lastName.value,
-            address: controller.address.value,
-            gender: controller.selectedGender.value,
-            avatarFilePath: controller.avatarFilePath.value,
-            avatarFile: controller.avatarFile,
-          );
+        onTap: () {
+          controller.isShowConfirmPopup.value = true;
+          // CustomerModel? customerModel = await CustomerService.updateProfile(
+          //   jwt: controller.accountModel.jwtToken,
+          //   id: controller.accountModel.customerModel.id,
+          //   email: controller.email.value,
+          //   firstName: controller.firstName.value,
+          //   lastName: controller.lastName.value,
+          //   address: controller.address.value,
+          //   gender: controller.selectedGender.value,
+          //   avatarFilePath: controller.avatarFilePath.value,
+          //   bankBranch: controller.bankBranch.value,
+          //   bankCode: controller.bankCode.value,
+          //   bankName: controller.bankName.value,
+          // );
 
-          if (customerModel != null) {
-            Get.find<AuthController>().accountModel.customerModel =
-                customerModel;
-            controller
-              ..accountModel.customerModel = customerModel
-              ..update();
-          }
+          // if (customerModel != null) {
+          //   Get.find<AuthController>().accountModel.customerModel =
+          //       customerModel;
+          //   controller
+          //     ..accountModel.customerModel = customerModel
+          //     ..update();
+          // }
 
-          controller.isLoadingUpdateProfile.value = false;
+          // controller.isLoadingUpdateProfile.value = false;
         },
         child: Container(
           alignment: Alignment.bottomCenter,
@@ -59,7 +58,7 @@ class PersonalInformationBottomWidget
                 border: Border.all(color: PRIMARY_COLOR)),
             alignment: Alignment.center,
             child: CUSTOM_TEXT(
-              'SAVE',
+              'Update Profile',
               fontWeight: FontWeight.w700,
               color: WHITE_COLOR,
               letterSpacing: 2,
