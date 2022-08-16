@@ -154,29 +154,20 @@ class VaccineListPageBodyWidget extends GetView<VaccineListPageController> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 controller.selectedVaccine.value != 'All vaccines'
-                    ? Row(
-                        children: [
-                          CUSTOM_TEXT(
-                            'Type: ',
-                            fontSize: 15,
-                          ),
-                          CUSTOM_TEXT(
-                            petHealthRecordModel.vaccineType ?? '',
-                            fontWeight: FontWeight.w700,
-                          ),
-                        ],
+                    ? CUSTOM_TEXT(
+                        petHealthRecordModel.vaccineType ?? '',
+                        fontWeight: FontWeight.w700,
                       )
-                    : Row(
-                        children: [
-                          CUSTOM_TEXT(
-                            petHealthRecordModel.vaccineModel!.name,
-                            fontSize: 15,
-                            fontWeight: FontWeight.w700,
-                          ),
-                        ],
+                    : CUSTOM_TEXT(
+                        petHealthRecordModel.vaccineModel!.name,
+                        fontSize: 15,
+                        fontWeight: FontWeight.w700,
                       ),
-                CUSTOM_TEXT(
-                  '(' + (petHealthRecordModel.vaccineType ?? '') + ')',
+                Visibility(
+                  visible: controller.selectedVaccine.value == 'All vaccines',
+                  child: CUSTOM_TEXT(
+                    '(' + (petHealthRecordModel.vaccineType ?? '') + ')',
+                  ),
                 ),
                 const SizedBox(height: 5),
                 CUSTOM_TEXT(
@@ -316,63 +307,107 @@ class VaccineListPageBodyWidget extends GetView<VaccineListPageController> {
 
   Widget vaccineInformationWidget() =>
       Obx(() => controller.selectedVaccine.value != 'All vaccines'
-          ? Column(
+          ? Row(
               children: [
-                const SizedBox(
-                  height: 10,
+                Expanded(
+                  child: Column(
+                    children: [
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          SizedBox(
+                            width: 150,
+                            child: CUSTOM_TEXT(
+                              'Vaccine origin',
+                            ),
+                          ),
+                          Expanded(
+                            child: CUSTOM_TEXT(
+                              controller
+                                  .vaccinesMap[
+                                      controller.selectedVaccine.value]![0]
+                                  .vaccineModel!
+                                  .origin,
+                              textOverflow: TextOverflow.clip,
+                              textAlign: TextAlign.right,
+                              letterSpacing: 1,
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      InkWell(
+                        onTap: () => controller.isShowDescription.value =
+                            !controller.isShowDescription.value,
+                        child: SizedBox(
+                          width: 200,
+                          child: Column(
+                            children: [
+                              Visibility(
+                                visible: controller.isShowDescription.value,
+                                child: Align(
+                                    alignment: Alignment.topLeft,
+                                    child: Column(
+                                      children: [
+                                        Html(
+                                            data: controller
+                                                    .vaccinesMap[controller
+                                                        .selectedVaccine
+                                                        .value]![0]
+                                                    .vaccineModel!
+                                                    .description ??
+                                                'N/A'),
+                                      ],
+                                    )),
+                              ),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    controller.isShowDescription.value
+                                        ? 'Hide description'
+                                        : 'View description',
+                                    style: GoogleFonts.quicksand(
+                                      fontSize: 13,
+                                      fontWeight: FontWeight.w600,
+                                      color: PRIMARY_COLOR,
+                                      letterSpacing: 1,
+                                    ),
+                                  ),
+                                  const SizedBox(width: 5),
+                                  Icon(
+                                    controller.isShowDescription.value
+                                        ? Icons
+                                            .keyboard_double_arrow_up_outlined
+                                        : Icons
+                                            .keyboard_double_arrow_down_outlined,
+                                    size: 18,
+                                    color: PRIMARY_COLOR,
+                                  )
+                                ],
+                              ),
+                              Container(
+                                height: 1,
+                                width: 140,
+                                color: PRIMARY_COLOR,
+                                margin: const EdgeInsets.only(
+                                  top: 2,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    SizedBox(
-                      width: 150,
-                      child: CUSTOM_TEXT(
-                        'Vaccine origin',
-                      ),
-                    ),
-                    Expanded(
-                      child: CUSTOM_TEXT(
-                        controller
-                            .vaccinesMap[controller.selectedVaccine.value]![0]
-                            .vaccineModel!
-                            .origin,
-                        textOverflow: TextOverflow.clip,
-                        textAlign: TextAlign.right,
-                        letterSpacing: 1,
-                        fontWeight: FontWeight.w700,
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    SizedBox(
-                      width: 150,
-                      child: CUSTOM_TEXT(
-                        'Description',
-                      ),
-                    ),
-                    Expanded(
-                      child: CUSTOM_TEXT(
-                        controller
-                                .vaccinesMap[controller.selectedVaccine.value]![
-                                    0]
-                                .vaccineModel!
-                                .description ??
-                            '',
-                        textOverflow: TextOverflow.clip,
-                        textAlign: TextAlign.right,
-                        letterSpacing: 1,
-                      ),
-                    ),
-                  ],
-                )
               ],
             )
           : const SizedBox.shrink());

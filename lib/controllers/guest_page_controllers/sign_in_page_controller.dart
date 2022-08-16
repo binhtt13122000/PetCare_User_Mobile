@@ -18,6 +18,8 @@ class SignInPageController extends GetxController {
   RxBool isInvalidOTP = false.obs;
   late String signInPhoneNumber;
   //!new
+  List<String> pin = ['', '', '', '', '', ''].obs;
+  RxInt countPin = 0.obs;
 
   RxBool isWaitingSignIn = false.obs;
   RxBool isLoadingOTP = false.obs;

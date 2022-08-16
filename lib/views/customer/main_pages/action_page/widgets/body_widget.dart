@@ -210,7 +210,10 @@ class ActionPageBodyWidget extends GetView<ActionPageController> {
       Padding(
         padding: const EdgeInsets.symmetric(vertical: 8),
         child: InkWell(
-          onTap: onTap,
+          onTap: () {
+            //  controller.cancelTimer();
+            onTap.call();
+          },
           child: Container(
             height: 40,
             decoration: BoxDecoration(

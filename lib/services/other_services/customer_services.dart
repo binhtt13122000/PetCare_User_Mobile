@@ -36,7 +36,11 @@ class CustomerService {
       required String address,
       required String gender,
       required String avatarFilePath,
-      required File? avatarFile,
+      required String bankName,
+      required String bankCode,
+      required String bankBranch,
+
+      // required File? avatarFile,
       required String jwt}) async {
     try {
       FormData formData;
@@ -47,19 +51,31 @@ class CustomerService {
         'lastName': lastName,
         'address': address,
         'gender': gender,
-        'bankName': "",
-        'bankCode': "",
-        'bankBranch': "",
-        'avatar': avatarFilePath,
+        'bankName': bankName,
+        'bankCode': bankCode,
+        'bankBranch': bankBranch,
+        //'avatar': avatarFilePath,
       });
-      avatarFile == null
-          ? null
-          : formData.files.add(
-              MapEntry(
-                'file',
-                await MultipartFile.fromFile(avatarFilePath),
-              ),
-            );
+      print({
+        'id': id,
+        'email': email,
+        'firstName': firstName,
+        'lastName': lastName,
+        'address': address,
+        'gender': gender,
+        'bankName': bankName,
+        'bankCode': bankCode,
+        'bankBranch': bankBranch,
+        //'avatar': avatarFilePath,
+      });
+      if (avatarFilePath.isNotEmpty) {
+        formData.files.add(
+          MapEntry(
+            'file',
+            await MultipartFile.fromFile(avatarFilePath),
+          ),
+        );
+      }
 
       Response response =
           await Dio().put('https://$API_SERVER_PATH$CUSTOMER_API_PATH',

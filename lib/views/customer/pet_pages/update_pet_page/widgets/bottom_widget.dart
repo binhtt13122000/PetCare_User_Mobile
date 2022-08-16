@@ -37,7 +37,7 @@ class UpdatePetBottomWidget extends GetView<UpdatePetPageController> {
                           : PRIMARY_COLOR.withOpacity(0.5),
                     ),
                     child: CUSTOM_TEXT(
-                      'Update Pet',
+                      'Update Pet Profile',
                       textAlign: TextAlign.center,
                       color: WHITE_COLOR,
                       fontWeight: FontWeight.w700,

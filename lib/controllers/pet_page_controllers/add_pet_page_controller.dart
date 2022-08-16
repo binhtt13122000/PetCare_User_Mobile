@@ -7,7 +7,7 @@ import 'package:petapp_mobile/models/species_model/species_model.dart';
 
 class CreatePetPageController extends GetxController {
   AccountModel accountModel = Get.find<AuthController>().accountModel;
-
+  late bool isSuccessCreate;
   RxBool isShowSuccessfullyPopup = false.obs;
   RxBool isWaitingCreatePet = false.obs;
   RxBool isLoadingData = false.obs;

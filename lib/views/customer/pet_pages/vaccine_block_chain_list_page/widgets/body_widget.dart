@@ -92,14 +92,13 @@ class VaccineBlockChainListPageBodyWidget
       durationUnit = '';
     }
 
-    // Color backgroundColor = const Color.fromRGBO(163, 55, 244, 1);
     Color backgroundColor = Colors.primaries[index].withOpacity(0.8);
 
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Container(
-          width: 100,
+          width: 80,
           height: 30,
           alignment: Alignment.center,
           margin: const EdgeInsets.symmetric(horizontal: 15),
@@ -112,30 +111,6 @@ class VaccineBlockChainListPageBodyWidget
             fit: BoxFit.scaleDown,
             child: Row(
               children: [
-                // Expanded(
-                //   child: CUSTOM_TEXT(
-                //     durationText,
-                //     textAlign: TextAlign.right,
-                //     fontWeight: FontWeight.w700,
-                //     color: WHITE_COLOR,
-                //     fontSize: 15,
-                //   ),
-                // ),
-                // Container(
-                //   width: 80,
-                //   padding: const EdgeInsets.only(right: 10),
-                //   child: FittedBox(
-                //     fit: BoxFit.scaleDown,
-                //     child: CUSTOM_TEXT(
-                //       durationUnit,
-                //       fontSize: 14,
-                //       textAlign: TextAlign.start,
-                //       color: WHITE_COLOR,
-                //       fontWeight: FontWeight.w700,
-                //     ),
-                //   ),
-                // ),
-
                 CUSTOM_TEXT(
                   durationText,
                   textAlign: TextAlign.center,
@@ -180,32 +155,21 @@ class VaccineBlockChainListPageBodyWidget
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 controller.selectedVaccine.value != 'All vaccines'
-                    ? Row(
-                        children: [
-                          CUSTOM_TEXT(
-                            'Type: ',
-                            fontSize: 15,
-                          ),
-                          CUSTOM_TEXT(
-                            petHealthRecordModel.vaccineType ?? '',
-                            fontWeight: FontWeight.w700,
-                          ),
-                        ],
+                    ? CUSTOM_TEXT(
+                        petHealthRecordModel.vaccineType ?? '',
+                        fontWeight: FontWeight.w700,
                       )
-                    : Row(
-                        children: [
-                          CUSTOM_TEXT(
-                            petHealthRecordModel.vaccineModel!.name,
-                            fontSize: 15,
-                            fontWeight: FontWeight.w700,
-                          ),
-                          CUSTOM_TEXT(
-                            ' (' +
-                                (petHealthRecordModel.vaccineType ?? '') +
-                                ')',
-                          ),
-                        ],
+                    : CUSTOM_TEXT(
+                        petHealthRecordModel.vaccineModel!.name,
+                        fontSize: 15,
+                        fontWeight: FontWeight.w700,
                       ),
+                Visibility(
+                  visible: controller.selectedVaccine.value == 'All vaccines',
+                  child: CUSTOM_TEXT(
+                    '(' + (petHealthRecordModel.vaccineType ?? '') + ')',
+                  ),
+                ),
                 const SizedBox(height: 5),
                 CUSTOM_TEXT(
                   'Injected at ' +

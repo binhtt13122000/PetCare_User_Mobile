@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:petapp_mobile/configs/path.dart';
 import 'package:petapp_mobile/configs/theme.dart';
 import 'package:petapp_mobile/controllers/other_controllers/personal_information_page_controller.dart';
 import 'package:petapp_mobile/utilities/utilities.dart';
@@ -44,12 +43,179 @@ class PersonalInformationBodyWidget
                 color: const Color.fromARGB(255, 247, 248, 250),
               ),
               addressWidget(),
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+                child: Column(
+                  children: [
+                    bankNameWidget(),
+                    bankBranchWidget(),
+                    bankCodeWidget(),
+                  ],
+                ),
+              ),
             ],
           ),
         ),
       ],
     );
   }
+
+  Widget bankCodeWidget() => Padding(
+        padding: const EdgeInsets.only(bottom: 12),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              height: 45,
+              padding: const EdgeInsets.only(
+                right: 30,
+              ),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Text(
+                    'Bank code',
+                    style: GoogleFonts.quicksand(
+                      fontWeight: FontWeight.w500,
+                      color: const Color.fromARGB(255, 61, 78, 100),
+                      fontSize: 16,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Expanded(
+              child: CUSTOM_REQUIRED_TEXT_FIELD(
+                hintText: 'Type your bank code here...',
+                maxLength: 30,
+                onChange: (String? text) {
+                  controller.bankCode.value = text ?? '';
+                },
+                checkEmptyString: <bool>() {
+                  return controller.bankCode.value.isEmpty;
+                },
+                checkErrorText: <bool>() {
+                  return false;
+                },
+                onDelete: () {
+                  controller.bankCode.value = '';
+                },
+                errorText: 'Field first name is required!',
+                initText: controller.bankCode.value,
+                countText: <String>() {
+                  return controller.bankCode.value.length.toString() + '/30';
+                },
+              ),
+            ),
+          ],
+        ),
+      );
+
+  Widget bankBranchWidget() => Padding(
+        padding: const EdgeInsets.only(bottom: 12),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              height: 45,
+              padding: const EdgeInsets.only(
+                right: 15,
+              ),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Text(
+                    'Bank branch',
+                    style: GoogleFonts.quicksand(
+                      fontWeight: FontWeight.w500,
+                      color: const Color.fromARGB(255, 61, 78, 100),
+                      fontSize: 16,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Expanded(
+              child: CUSTOM_REQUIRED_TEXT_FIELD(
+                hintText: 'Type your bank branch here...',
+                maxLength: 30,
+                onChange: (String? text) {
+                  controller.bankBranch.value = text ?? '';
+                },
+                checkEmptyString: <bool>() {
+                  return controller.bankBranch.value.isEmpty;
+                },
+                checkErrorText: <bool>() {
+                  return false;
+                },
+                onDelete: () {
+                  controller.bankBranch.value = '';
+                },
+                errorText: '',
+                initText: controller.bankBranch.value,
+                countText: <String>() {
+                  return controller.bankBranch.value.length.toString() + '/30';
+                },
+              ),
+            ),
+          ],
+        ),
+      );
+
+  Widget bankNameWidget() => Padding(
+        padding: const EdgeInsets.only(bottom: 12),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              height: 45,
+              padding: const EdgeInsets.only(
+                right: 25,
+              ),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Text(
+                    'Bank name',
+                    style: GoogleFonts.quicksand(
+                      fontWeight: FontWeight.w500,
+                      color: const Color.fromARGB(255, 61, 78, 100),
+                      fontSize: 16,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Expanded(
+              child: CUSTOM_REQUIRED_TEXT_FIELD(
+                hintText: 'Type your bank name here...',
+                maxLength: 30,
+                onChange: (String? text) {
+                  controller.bankName.value = text ?? '';
+                },
+                checkEmptyString: <bool>() {
+                  return controller.bankName.value.isEmpty;
+                },
+                checkErrorText: <bool>() {
+                  return false;
+                },
+                onDelete: () {
+                  controller.bankName.value = '';
+                },
+                errorText: '',
+                initText: controller.bankName.value,
+                countText: <String>() {
+                  return controller.bankName.value.length.toString() + '/30';
+                },
+              ),
+            ),
+          ],
+        ),
+      );
 
   Widget avatarWidget() => Stack(
         children: [
@@ -64,28 +230,29 @@ class PersonalInformationBodyWidget
               maxRadius: 50,
               minRadius: 50,
               backgroundColor: Colors.transparent,
-              child: controller.avatarFilePath.value.isEmpty
+              child: (controller.accountModel.customerModel.avatar == null ||
+                          controller
+                              .accountModel.customerModel.avatar!.isEmpty) &&
+                      controller.avatarFilePath.value.isEmpty
                   ? CircleAvatar(
                       backgroundColor: PRIMARY_COLOR.withOpacity(0.7),
-                      backgroundImage:
-                          const AssetImage(IMAGE_PATH + GUEST_AVATAR_PNG),
                       maxRadius: 46,
                       minRadius: 46,
                       child: Text(
                         controller.avatarCharacter.value,
                         style: GoogleFonts.quicksand(
                           color: WHITE_COLOR,
-                          fontSize: 23,
+                          fontSize: 27,
                           fontWeight: FontWeight.w600,
                         ),
                       ),
                     )
-                  : controller.avatarFile == null
+                  : controller.avatarFilePath.value.isEmpty
                       ? CircleAvatar(
                           maxRadius: 46,
                           minRadius: 46,
-                          backgroundImage:
-                              NetworkImage(controller.avatarFilePath.value),
+                          backgroundImage: NetworkImage(
+                              controller.accountModel.customerModel.avatar!),
                         )
                       : CircleAvatar(
                           maxRadius: 46,
@@ -163,12 +330,12 @@ class PersonalInformationBodyWidget
                   return controller.email.value.isEmpty;
                 },
                 checkErrorText: <bool>() {
-                  return controller.email.value.isEmpty;
+                  return false;
                 },
                 onDelete: () {
                   controller.email.value = '';
                 },
-                errorText: 'Field first name is required!',
+                errorText: '',
                 initText: controller.email.value,
                 countText: <String>() {
                   return controller.email.value.length.toString() + '/30';
@@ -268,26 +435,26 @@ class PersonalInformationBodyWidget
               ),
             ),
             CUSTOM_REQUIRED_TEXT_FIELD(
-              hintText: 'Type your last name here...',
+              hintText: 'Type your address here...',
               maxLength: 200,
               height: 80,
               maxLines: 3,
               onChange: (String? text) {
-                controller.lastName.value = text ?? '';
+                controller.address.value = text ?? '';
               },
               checkEmptyString: <bool>() {
-                return controller.lastName.value.isEmpty;
+                return controller.address.value.isEmpty;
               },
               checkErrorText: <bool>() {
-                return controller.lastName.value.isEmpty;
+                return false;
               },
               onDelete: () {
-                controller.lastName.value = '';
+                controller.address.value = '';
               },
-              errorText: 'Field last name is required!',
-              initText: controller.lastName.value,
+              errorText: '',
+              initText: controller.address.value,
               countText: <String>() {
-                return controller.lastName.value.length.toString() + '/200';
+                return controller.address.value.length.toString() + '/200';
               },
             ),
           ],

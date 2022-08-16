@@ -73,11 +73,19 @@ class CreatePetPage extends GetView<CreatePetPageController> {
             () => controller.isShowSuccessfullyPopup.value
                 ? NotificationPopupWidget(
                     onTapBackground: () {},
-                    onTapOk: () => Get
-                      ..back()
-                      ..find<PetManagementPageController>().update(),
-                    content: 'Create pet ${controller.petName} successfully',
-                    isSuccessNotification: true,
+                    onTapOk: () {
+                      if (controller.isSuccessCreate) {
+                        Get
+                          ..back()
+                          ..find<PetManagementPageController>().update();
+                      } else {
+                        controller.isShowSuccessfullyPopup.value = false;
+                      }
+                    },
+                    content: controller.isSuccessCreate
+                        ? 'Create pet ${controller.petName} successfully.'
+                        : 'Create pet ${controller.petName} failed, pet name already used.\n Please try another name.',
+                    isSuccessNotification: controller.isSuccessCreate,
                   )
                 : const SizedBox.shrink(),
           ),

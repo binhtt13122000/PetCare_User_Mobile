@@ -50,13 +50,17 @@ class PetService {
     String? type,
     String? gender,
     required String jwt,
+    int? breedId,
   }) async {
-    Map<String, String?> parameters = {
+    Map<String, dynamic> parameters = {
       'customerId': customerId.toString(),
       'speciesId': speciesId != null ? speciesId.toString() : "",
       'type': type,
       'gender': gender,
     };
+    if (breedId != null) {
+      parameters.addAll({'breedId': breedId});
+    }
     final response = await http.get(
       Uri.https(API_SERVER_PATH, '/v1/api/pets/fetch-pet', parameters),
       headers: <String, String>{
@@ -95,7 +99,7 @@ class PetService {
     }
   }
 
-  static Future createPet(
+  static Future<bool> createPet(
       {required int ownerId,
       required String avatarFilePath,
       required String name,
@@ -126,35 +130,34 @@ class PetService {
         'file': await MultipartFile.fromFile(avatarFilePath),
       });
 
-      Response response =
-          await Dio().post('https://$API_SERVER_PATH/v1/api/pets',
-              data: formData,
-              options: Options(headers: <String, String>{
-                HttpHeaders.contentTypeHeader: 'multipart/form-data',
-                HttpHeaders.authorizationHeader: 'Bearer ' + jwt,
-              }));
+      await Dio().post('https://$API_SERVER_PATH/v1/api/pets',
+          data: formData,
+          options: Options(headers: <String, String>{
+            HttpHeaders.contentTypeHeader: 'multipart/form-data',
+            HttpHeaders.authorizationHeader: 'Bearer ' + jwt,
+          }));
 
-      return response.statusCode;
-    } on DioError catch (e) {
-      return e.response!.statusCode;
+      return true;
+    } on DioError catch (_) {
+      return false;
     }
   }
 
   static Future<bool> updatePet(
       {required int id,
-      required int ownerId,
-      required File? avatarFile,
+      //required int ownerId,
+      //required File? avatarFile,
       required String avatarFilePath,
       required String name,
       required bool isSeed,
       required String gender,
       required DateTime dob,
       String? description,
-      required int breedId,
-      required String status,
+      // required int breedId,
+      //required String status,
       String? color,
-      String? specialMarkings,
-      String? vaccineDescription,
+      //String? specialMarkings,
+      //String? vaccineDescription,
       required String jwt}) async {
     try {
       FormData formData;
@@ -166,14 +169,26 @@ class PetService {
         'gender': gender,
         'description': description ?? '',
         'isSeed': isSeed,
-        'status': status,
+        //'status': status,
         'color': color ?? '',
-        'breedId': breedId,
-        'specialMarkings': specialMarkings ?? '',
-        'avatar': avatarFilePath,
+        //'breedId': breedId,
+        //'specialMarkings': specialMarkings ?? '',
+        //'avatar': avatarFilePath,
       });
-
-      if (avatarFile != null) {
+      print({
+        'id': id,
+        'name': name,
+        'dob': dob,
+        'gender': gender,
+        'description': description ?? '',
+        'isSeed': isSeed,
+        //'status': status,
+        'color': color ?? '',
+        //'breedId': breedId,
+        //'specialMarkings': specialMarkings ?? '',
+        //'avatar': avatarFilePath,
+      });
+      if (avatarFilePath.isNotEmpty) {
         formData.files.add(
           MapEntry(
             'file',

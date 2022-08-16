@@ -132,13 +132,21 @@ class PetComboDetailBodyWidget extends GetView<PetComboDetailPageController> {
                         padding: const EdgeInsets.only(top: 200, bottom: 1000),
                         child: LOADING_WIDGET(),
                       )
-                    : Column(
-                        children: filterPetComboDetailModelList
-                            .asMap()
-                            .entries
-                            .map((e) => petServicesComboItemWidget(
-                                petComboDetailModel: e.value, index: e.key + 1))
-                            .toList());
+                    : filterPetComboDetailModelList.isNotEmpty
+                        ? Column(
+                            children: filterPetComboDetailModelList
+                                .asMap()
+                                .entries
+                                .map((e) => petServicesComboItemWidget(
+                                    petComboDetailModel: e.value,
+                                    index: e.key + 1))
+                                .toList())
+                        : SizedBox(
+                            height: 300,
+                            child: NO_DATA_WIDGET(
+                                content:
+                                    'No services available in this status.'),
+                          );
               });
             })
           ],
@@ -281,7 +289,7 @@ class PetComboDetailBodyWidget extends GetView<PetComboDetailPageController> {
               child: InkWell(
                 onTap: () async => controller
                   ..selectedPetComboDetailModel = petComboDetailModel
-                  ..isShowPopup.value = true,
+                  ..isShowConfirmPopup.value = true,
                 child: Container(
                   padding:
                       const EdgeInsets.symmetric(vertical: 5, horizontal: 10),

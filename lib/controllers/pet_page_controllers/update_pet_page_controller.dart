@@ -12,7 +12,7 @@ class UpdatePetPageController extends GetxController {
   RxBool isLoadingData = false.obs;
   RxBool isFirstInputPetName = true.obs;
   RxString petName = ''.obs;
-  File? avatar;
+  File? avatarFile;
   RxString selectedGender = 'MALE'.obs;
   RxString selectedFertility = 'YES'.obs;
   DateTime? dateOfBirthTime;
@@ -25,4 +25,6 @@ class UpdatePetPageController extends GetxController {
   late int petId;
   late PetModel petModel;
   RxBool isShowConfirmPopup = false.obs;
+  RxString avatarFilePath = ''.obs;
+  late bool isUpdatePetSuccess;
 }

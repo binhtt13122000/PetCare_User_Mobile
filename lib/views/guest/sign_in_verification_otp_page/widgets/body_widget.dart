@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:petapp_mobile/configs/path.dart';
@@ -16,7 +17,7 @@ class SignInVerificationOTPBodyWidget extends GetView<SignInPageController> {
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             decorateWidget(),
-            otpWidget(),
+            otpWidget(context: context),
           ],
         ),
       );
@@ -27,23 +28,128 @@ class SignInVerificationOTPBodyWidget extends GetView<SignInPageController> {
         fit: BoxFit.cover,
       );
 
-  Widget otpWidget() => Column(
+  Widget otpWidget({required BuildContext context}) => Column(
         children: [
           verificationOTPTitleWidget(),
           SizedBox(
-            height: 75,
+            height: 40,
             child: Obx(
               () => Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  otpTextFieldWidget(),
+                  //otpTextFieldWidget(),
+                  Expanded(
+                    child: Form(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: controller.pin
+                            .asMap()
+                            .entries
+                            .map((e) =>
+                                pinFieldWidget(index: e.key, context: context))
+                            .toList(),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(
+                    width: 10,
+                  ),
                   countDownWidget(),
                 ],
               ),
             ),
           ),
+          Obx(
+            () => Visibility(
+              visible: controller.isInvalidOTP.value,
+              child: Padding(
+                padding: const EdgeInsets.only(right: 70),
+                child: Text(
+                  'Invalid OTP. Please try again!',
+                  style: GoogleFonts.quicksand(
+                    fontWeight: FontWeight.w500,
+                    color: const Color.fromARGB(255, 255, 83, 83),
+                    fontSize: 10,
+                    letterSpacing: 1,
+                    height: 2,
+                  ),
+                ),
+              ),
+            ),
+          ),
+          const SizedBox(
+            height: 30,
+          ),
         ],
       );
+
+  Widget pinFieldWidget({required int index, required BuildContext context}) {
+    // TextEditingController textEditingController = TextEditingController();
+    return SizedBox(
+      // height: 50,
+      width: 35,
+      child: TextFormField(
+        //controller: textEditingController,
+        // onSaved: (value) {
+        //   if (value!.isEmpty
+        //       // && controller.pin[index].isNotEmpty
+        //       ) {
+        //     controller.countPin.value--;
+        //   } else if (value.isNotEmpty
+        //       // && controller.pin[index].isEmpty
+        //       ) {
+        //     controller.countPin.value++;
+        //   }
+        //   controller.countPin.value += 1;
+        //   controller.pin[index] = value;
+        // },
+        cursorColor: PRIMARY_COLOR,
+
+        maxLength: 1,
+        decoration: InputDecoration(
+            hintText: '',
+            isCollapsed: true,
+            counterText: '',
+            focusColor: PRIMARY_COLOR,
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(5),
+              borderSide: const BorderSide(),
+            ),
+            contentPadding: const EdgeInsets.symmetric(vertical: 10)),
+
+        style: GoogleFonts.quicksand(
+          fontWeight: FontWeight.w700,
+          color: PRIMARY_COLOR,
+        ),
+        keyboardType: TextInputType.number,
+        inputFormatters: [
+          LengthLimitingTextInputFormatter(1),
+          FilteringTextInputFormatter.digitsOnly,
+        ],
+        textAlign: TextAlign.center,
+        onChanged: (value) {
+          bool isBack = false;
+          if (value.isEmpty && controller.pin[index].isNotEmpty) {
+            controller.countPin.value--;
+          } else if (value.isNotEmpty && controller.pin[index].isEmpty) {
+            controller.countPin.value++;
+          } else if (value.isEmpty && controller.pin[index].isEmpty) {
+            isBack = true;
+          }
+
+          controller.pin[index] = value;
+
+          if (value.isNotEmpty) {
+            FocusScope.of(context).nextFocus();
+          } else if (isBack) {
+            //  FocusScope.of(context).previousFocus();
+          }
+          //print(value);
+          controller.isInvalidOTP.value = false;
+        },
+      ),
+    );
+  }
 
   Widget verificationOTPTitleWidget() => Align(
         alignment: Alignment.topLeft,
@@ -154,70 +260,72 @@ class SignInVerificationOTPBodyWidget extends GetView<SignInPageController> {
         ),
       );
 
-  Widget otpTextFieldWidget() => Expanded(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            SizedBox(
-              height: 45,
-              child: TextFormField(
-                cursorColor: PRIMARY_COLOR,
-                initialValue: controller.otp.value,
-                maxLength: 6,
-                style: GoogleFonts.quicksand(
-                  fontWeight: FontWeight.w500,
-                  color: const Color.fromARGB(255, 78, 98, 124),
-                  fontSize: 16,
-                ),
-                keyboardType: const TextInputType.numberWithOptions(
-                    decimal: false, signed: false),
-                decoration: InputDecoration(
-                  counterText: '',
-                  suffixIcon: Align(
-                    widthFactor: 1,
-                    heightFactor: 1,
-                    child: Text(
-                      (controller.otp.value.length).toString() + '/6',
-                      style: GoogleFonts.quicksand(
-                        fontWeight: FontWeight.w500,
-                        color: const Color.fromARGB(255, 78, 98, 124),
-                        fontSize: 13,
-                      ),
-                    ),
-                  ),
-                  enabledBorder: const OutlineInputBorder(
-                    borderSide: BorderSide(
-                      color: Color.fromARGB(255, 136, 154, 180),
-                    ),
-                  ),
-                  focusedBorder: const OutlineInputBorder(
-                    borderSide: BorderSide(
-                      color: Color.fromARGB(255, 136, 154, 180),
-                    ),
-                  ),
-                ),
-                onChanged: (String? value) {
-                  controller.otp.value = value ?? '';
-                  controller.isInvalidOTP.value = false;
-                },
-              ),
-            ),
-            Expanded(
-              child: Visibility(
-                visible: controller.isInvalidOTP.value,
-                child: Text(
-                  'Invalid OTP. Please try again!',
-                  style: GoogleFonts.quicksand(
-                    fontWeight: FontWeight.w500,
-                    color: const Color.fromARGB(255, 255, 83, 83),
-                    fontSize: 10,
-                    letterSpacing: 1,
-                    height: 2,
-                  ),
-                ),
-              ),
-            ),
-          ],
-        ),
-      );
+  // Widget otpTextFieldWidget() => Expanded(
+  //       child: Column(
+  //         crossAxisAlignment: CrossAxisAlignment.start,
+  //         children: [
+  //           SizedBox(
+  //             height: 45,
+  //             child: TextFormField(
+  //               cursorColor: PRIMARY_COLOR,
+  //               initialValue: controller.otp.value,
+  //               maxLength: 6,
+  //               style: GoogleFonts.quicksand(
+  //                 fontWeight: FontWeight.w500,
+  //                 color: const Color.fromARGB(255, 78, 98, 124),
+  //                 fontSize: 16,
+  //               ),
+  //               keyboardType: const TextInputType.numberWithOptions(
+  //                   decimal: false, signed: false),
+  //               decoration: InputDecoration(
+  //                 counterText: '',
+  //                 suffixIcon: Align(
+  //                   widthFactor: 1,
+  //                   heightFactor: 1,
+  //                   child: Text(
+  //                     (controller.otp.value.length).toString() + '/6',
+  //                     style: GoogleFonts.quicksand(
+  //                       fontWeight: FontWeight.w500,
+  //                       color: const Color.fromARGB(255, 78, 98, 124),
+  //                       fontSize: 13,
+  //                     ),
+  //                   ),
+  //                 ),
+  //                 enabledBorder: const OutlineInputBorder(
+  //                   borderSide: BorderSide(
+  //                     color: Color.fromARGB(255, 136, 154, 180),
+  //                   ),
+  //                 ),
+  //                 focusedBorder: const OutlineInputBorder(
+  //                   borderSide: BorderSide(
+  //                     color: Color.fromARGB(255, 136, 154, 180),
+  //                   ),
+  //                 ),
+  //               ),
+  //               onChanged: (String? value) {
+  //                 controller.otp.value = value ?? '';
+  //                 controller.isInvalidOTP.value = false;
+  //               },
+  //             ),
+  //           ),
+  //           Obx(
+  //             () => Expanded(
+  //               child: Visibility(
+  //                 visible: controller.isInvalidOTP.value,
+  //                 child: Text(
+  //                   'Invalid OTP. Please try again!',
+  //                   style: GoogleFonts.quicksand(
+  //                     fontWeight: FontWeight.w500,
+  //                     color: const Color.fromARGB(255, 255, 83, 83),
+  //                     fontSize: 10,
+  //                     letterSpacing: 1,
+  //                     height: 2,
+  //                   ),
+  //                 ),
+  //               ),
+  //             ),
+  //           ),
+  //         ],
+  //       ),
+  //     );
 }

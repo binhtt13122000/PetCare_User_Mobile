@@ -26,7 +26,7 @@ class AddServicesWidget extends GetView<CreateTicketPageController> {
                           .breedModel!.speciesId,
                     );
 
-                    listHeight = centerServicesModelList.length * 39;
+                    listHeight = centerServicesModelList.length * 38;
                     if (listHeight > 500) {
                       listHeight = 500;
                     }
@@ -37,7 +37,7 @@ class AddServicesWidget extends GetView<CreateTicketPageController> {
                   });
                 } else {
                   listHeight =
-                      controller.mapCenterServices[speciesId]!.length * 39;
+                      controller.mapCenterServices[speciesId]!.length * 38;
                   if (listHeight > 500) {
                     listHeight = 500;
                   }
