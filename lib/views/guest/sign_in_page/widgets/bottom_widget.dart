@@ -31,8 +31,10 @@ class SignInBottomWidget extends GetView<SignInPageController> {
                       controller.selectedAreaCode + controller.phoneNumber.value
                   ..isUsedPhoneNumber.value =
                       await AuthService.checkPhoneNumber(
-                          phoneNumber:
-                              controller.signInPhoneNumber.replaceAll(' ', ''));
+                    phoneNumber:
+                        controller.signInPhoneNumber.replaceAll(' ', ''),
+                    isCustomer: true,
+                  );
                 if (controller.isUsedPhoneNumber.value) {
                   await controller.auth.verifyPhoneNumber(
                       phoneNumber:

@@ -64,6 +64,8 @@ class SaleTransactionMoreOptionWidget
                                       buttonWidget(
                                           content: 'Scan pet profile QR',
                                           onTap: () async {
+                                            controller.isShowMoreOptions.value =
+                                                false;
                                             String url =
                                                 await FlutterBarcodeScanner
                                                     .scanBarcode(

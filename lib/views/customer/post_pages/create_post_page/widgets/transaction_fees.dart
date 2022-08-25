@@ -23,7 +23,7 @@ class CreatePostTransactionFeesWidget
                 child: InkWell(
                   onTap: () {},
                   child: Container(
-                    height: 230,
+                    height: 240,
                     width: 330,
                     decoration: BoxDecoration(
                       color: WHITE_COLOR,

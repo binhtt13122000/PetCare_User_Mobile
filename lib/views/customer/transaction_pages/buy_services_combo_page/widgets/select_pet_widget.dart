@@ -265,7 +265,8 @@ class BuyServicesComboSelectPetWidget
           InkWell(
             onTap: () => controller
               ..isShowPetDropdownList.value = false
-              ..selectedPetIndex.value = index,
+              ..selectedPetIndex.value = index
+              ..selectPetServicesComboIndex.value = -1,
             child: Container(
               height: 50,
               width: 200,

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:petapp_mobile/configs/theme.dart';
 import 'package:petapp_mobile/controllers/pet_page_controllers/pet_combo_detail_page_controller.dart';
+import 'package:petapp_mobile/models/service_ticket_model/service_ticket_model.dart';
 import 'package:petapp_mobile/services/transaction_services/ticket_services.dart';
 import 'package:petapp_mobile/views/widgets/customize_widget.dart';
 
@@ -21,7 +22,7 @@ class PetComboDetailCreateRequestWidget
                     onTap: () {},
                     child: Container(
                       width: 330,
-                      height: 360,
+                      height: 340,
                       decoration: BoxDecoration(
                         color: WHITE_COLOR,
                         borderRadius: BorderRadius.circular(10),
@@ -393,9 +394,40 @@ class PetComboDetailCreateRequestWidget
                   Obx(
                     () => Expanded(
                       child: InkWell(
-                        onTap: () {
+                        onTap: () async {
                           if (controller.selectedTicketTimeIndex.value != -1) {
-                            // controller.isShowConfirmPopup.value = true;
+                            controller
+                              ..isShowCreateTicketPopup.value = false
+                              ..isWaitLoadingDataForeGround.value = true
+                              ..ticketId.value =
+                                  await TicketServices.createTicket(
+                                jwt: controller.accountModel.jwtToken,
+                                createdTime: DateTime.now(),
+                                meetingDate: controller.bookingServicesDate,
+                                startTime: controller
+                                    .ticketTimeModelList[controller
+                                        .selectedTicketTimeIndex.value]
+                                    .startTime,
+                                endTime: controller
+                                    .ticketTimeModelList[controller
+                                        .selectedTicketTimeIndex.value]
+                                    .endTime,
+                                branchId: controller.petComboModel.branchId,
+                                customerId:
+                                    controller.accountModel.customerModel.id,
+                                serviceTickets: <ServiceTicketModel>[
+                                  ServiceTicketModel(
+                                      serviceId: controller
+                                          .selectedPetComboDetailModel
+                                          .serviceId,
+                                      petId: controller.petComboModel.petId)
+                                ],
+                                type: 'SERVICE',
+                              )
+                              ..isWaitLoadingDataForeGround.value = false
+                              ..notificationTitle =
+                                  'Create ticket for pet ${controller.petComboModel.petModel!.name} '
+                              ..isShowNotificationPopup.value = true;
                           }
                         },
                         child: Container(

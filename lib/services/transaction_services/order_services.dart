@@ -216,10 +216,10 @@ class OrderServices {
       case 200:
       case 201:
       case 202:
-        final pattern = RegExp('.{1,800}'); // 800 is the size of each chunk
-        pattern
-            .allMatches(jsonDecode(response.body)['url'])
-            .forEach((match) => print(match.group(0)));
+        // final pattern = RegExp('.{1,800}'); // 800 is the size of each chunk
+        // pattern
+        //     .allMatches(jsonDecode(response.body)['url'])
+        //     .forEach((match) => print(match.group(0)));
         return jsonDecode(response.body)['url'];
       default:
         throw Exception('Error ${response.statusCode}, cannot payment');

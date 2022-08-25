@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_html/flutter_html.dart';
 import 'package:get/get.dart';
 import 'package:petapp_mobile/configs/route.dart';
 import 'package:petapp_mobile/configs/theme.dart';
@@ -8,6 +9,7 @@ import 'package:petapp_mobile/models/order_model/order_model.dart';
 import 'package:petapp_mobile/models/pet_model/pet_model.dart';
 import 'package:petapp_mobile/models/post_model/post_model.dart';
 import 'package:petapp_mobile/services/other_services/customer_services.dart';
+import 'package:petapp_mobile/services/other_services/policy_services.dart';
 import 'package:petapp_mobile/services/pet_services/pet_services.dart';
 import 'package:petapp_mobile/services/post_services/post_services.dart';
 import 'package:petapp_mobile/services/transaction_services/order_services.dart';
@@ -41,6 +43,7 @@ class ProfilePage extends GetView<ProfilePageController> {
                   controller.accountModel.customerModel;
               List<PostModel> postModelList =
                   await PostService.fetchPostListByCustomerId(
+                title: '',
                 customerId: controller.accountModel.customerModel.id,
                 limit: 99,
                 jwt: controller.accountModel.jwtToken,
@@ -97,6 +100,48 @@ class ProfilePage extends GetView<ProfilePageController> {
               child: Container(
                 color: DARK_GREY_TRANSPARENT,
                 child: LOADING_WIDGET(),
+              ),
+            ),
+          ),
+          Obx(
+            () => Visibility(
+              visible: controller.isShowPolicy.value,
+              child: InkWell(
+                onTap: () => controller.isShowPolicy.value = false,
+                child: Container(
+                  alignment: Alignment.center,
+                  color: DARK_GREY_TRANSPARENT,
+                  child: GetBuilder<ProfilePageController>(builder: (_) {
+                    WidgetsBinding.instance!.addPostFrameCallback((_) async {
+                      controller
+                        ..policy = await PolicyServices.fetchPolicy()
+                        ..isLoadingPolicy.value = false;
+                    });
+                    return Obx(
+                      () => Container(
+                        height: 500,
+                        width: 300,
+                        decoration: BoxDecoration(
+                          color: WHITE_COLOR,
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: controller.isLoadingPolicy.value
+                            ? LOADING_WIDGET()
+                            : SingleChildScrollView(
+                                child: Column(
+                                  children: [
+                                    CUSTOM_TEXT('PRIVACY POLICY',
+                                        fontWeight: FontWeight.w700,
+                                        padding: const EdgeInsets.only(top: 20),
+                                        color: PRIMARY_COLOR),
+                                    Html(data: controller.policy),
+                                  ],
+                                ),
+                              ),
+                      ),
+                    );
+                  }),
+                ),
               ),
             ),
           ),

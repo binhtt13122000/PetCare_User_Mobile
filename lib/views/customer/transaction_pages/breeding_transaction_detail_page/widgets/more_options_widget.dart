@@ -27,11 +27,12 @@ class BreedingTransactionDetailMoreOptionWidget
                             onTap: () {},
                             child: Container(
                               width: 200,
-                              height: ['CREATED', 'BREEDING_REQUESTED']
-                                      .contains(controller
-                                          .breedingTransactionModel.status)
-                                  ? 240
-                                  : 160,
+                              // height: ['CREATED', 'BREEDING_REQUESTED']
+                              //         .contains(controller
+                              //             .breedingTransactionModel.status)
+                              //     ? 240
+                              //     : 160,
+                              height: 60,
                               decoration: BoxDecoration(
                                 color: WHITE_COLOR,
                                 borderRadius: BorderRadius.circular(10),
@@ -40,27 +41,27 @@ class BreedingTransactionDetailMoreOptionWidget
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceEvenly,
                                 children: [
-                                  buttonWidget(
-                                      content: 'View post detail',
-                                      onTap: () {}),
-                                  buttonWidget(
-                                      content: controller
-                                                  .breedingTransactionModel
-                                                  .ownerPetFemaleId ==
-                                              controller
-                                                  .accountModel.customerModel.id
-                                          ? 'View seller profile'
-                                          : 'View buyer profile',
-                                      onTap: () {}),
-                                  buttonWidget(
-                                      content: controller
-                                                  .breedingTransactionModel
-                                                  .ownerPetFemaleId ==
-                                              controller
-                                                  .accountModel.customerModel.id
-                                          ? 'Report seller'
-                                          : 'Report buyer',
-                                      onTap: () {}),
+                                  // buttonWidget(
+                                  //     content: 'View post detail',
+                                  //     onTap: () {}),
+                                  // buttonWidget(
+                                  //     content: controller
+                                  //                 .breedingTransactionModel
+                                  //                 .ownerPetFemaleId ==
+                                  //             controller
+                                  //                 .accountModel.customerModel.id
+                                  //         ? 'View seller profile'
+                                  //         : 'View buyer profile',
+                                  //     onTap: () {}),
+                                  // buttonWidget(
+                                  //     content: controller
+                                  //                 .breedingTransactionModel
+                                  //                 .ownerPetFemaleId ==
+                                  //             controller
+                                  //                 .accountModel.customerModel.id
+                                  //         ? 'Report seller'
+                                  //         : 'Report buyer',
+                                  //     onTap: () {}),
                                   ['CREATED', 'BREEDING_REQUESTED'].contains(
                                               controller
                                                   .breedingTransactionModel

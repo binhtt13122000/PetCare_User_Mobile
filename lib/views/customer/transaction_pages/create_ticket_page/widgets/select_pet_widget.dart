@@ -15,7 +15,7 @@ class CreateTicketSelectPetWidget extends GetView<CreateTicketPageController> {
     ScrollController scrollController = ScrollController();
     late double dropDownHeight;
 
-    switch (controller.pets.length) {
+    switch (controller.countPet) {
       case 1:
         dropDownHeight = 52;
         break;
@@ -75,9 +75,11 @@ class CreateTicketSelectPetWidget extends GetView<CreateTicketPageController> {
                           .asMap()
                           .entries
                           .map(
-                            (e) => petItemInDropdownListWidget(
-                              index: e.key,
-                            ),
+                            (e) => controller.pets[e.key].status == 'NORMAL'
+                                ? petItemInDropdownListWidget(
+                                    index: e.key,
+                                  )
+                                : const SizedBox.shrink(),
                           )
                           .toList()),
                 ),

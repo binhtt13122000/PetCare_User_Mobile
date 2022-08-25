@@ -119,7 +119,7 @@ class ChattingDetailPage extends GetView<ChattingDetailPageController> {
                             onTapOk: () => controller
                                 .isShowFailedNotificationPopup.value = false,
                             content:
-                                'Approve for buyer request failed. This post already has a transaction.',
+                                'Approve for buyer request failed.\nThis post already has a transaction.',
                             isSuccessNotification: false,
                           )
                         : const SizedBox.shrink(),

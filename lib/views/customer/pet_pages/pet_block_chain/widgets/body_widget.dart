@@ -241,6 +241,27 @@ class PetBlockChainBodyWidget extends GetView<PetBlockChainPageController> {
 
     Color backgroundColor = Colors.primaries[index].withOpacity(0.8);
 
+    late final String chainStatusText;
+    late final Color chainColor;
+
+    switch (petChainValueModel.type) {
+      case 'UPDATE':
+        chainColor = BLUE_COLOR;
+        chainStatusText = 'Update information';
+        break;
+      case 'CREATE':
+        chainColor = GREEN_COLOR;
+        chainStatusText = 'Init data';
+        break;
+      case 'CHANGE_OWNER':
+        chainColor = YELLOW_COLOR;
+        chainStatusText = 'Change owner';
+        break;
+      default:
+        chainColor = YELLOW_COLOR;
+        chainStatusText = petChainValueModel.type;
+    }
+
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -333,14 +354,10 @@ class PetBlockChainBodyWidget extends GetView<PetBlockChainPageController> {
                       color: DARK_GREY_TEXT_COLOR.withOpacity(0.7),
                     ),
                     CUSTOM_TEXT(
-                      petChainValueModel.type == 'UPDATE'
-                          ? 'Update information'
-                          : 'Create pet',
+                      chainStatusText,
                       textOverflow: TextOverflow.clip,
                       fontSize: 15,
-                      color: petChainValueModel.type == 'UPDATE'
-                          ? BLUE_COLOR
-                          : GREEN_COLOR,
+                      color: chainColor,
                     ),
                   ],
                 ),

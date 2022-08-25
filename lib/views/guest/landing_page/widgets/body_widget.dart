@@ -4,8 +4,9 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:petapp_mobile/configs/path.dart';
 import 'package:petapp_mobile/configs/route.dart';
 import 'package:petapp_mobile/configs/theme.dart';
+import 'package:petapp_mobile/controllers/guest_page_controllers/landing_page_controller.dart';
 
-class GuestLandingBodyWidget extends GetView {
+class GuestLandingBodyWidget extends GetView<GuestLandingPageController> {
   const GuestLandingBodyWidget({Key? key}) : super(key: key);
 
   @override
@@ -102,42 +103,47 @@ class GuestLandingBodyWidget extends GetView {
                     ),
                   ),
                 ),
-                Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 12, vertical: 20),
-                  child: RichText(
-                    textAlign: TextAlign.center,
-                    text: TextSpan(
-                      text: 'By sign in or register, you agree to ',
-                      style: GoogleFonts.quicksand(
-                        color: const Color.fromARGB(255, 109, 119, 143),
-                        fontSize: 10,
-                        letterSpacing: 1.5,
-                        fontWeight: FontWeight.w600,
+                InkWell(
+                  onTap: () => controller
+                    ..isShowPolicy.value = true
+                    ..isLoadingData.value = true,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 12, vertical: 20),
+                    child: RichText(
+                      textAlign: TextAlign.center,
+                      text: TextSpan(
+                        text: 'By sign in or register, you agree to ',
+                        style: GoogleFonts.quicksand(
+                          color: const Color.fromARGB(255, 109, 119, 143),
+                          fontSize: 10,
+                          letterSpacing: 1.5,
+                          fontWeight: FontWeight.w600,
+                        ),
+                        children: const [
+                          TextSpan(
+                            text: 'the Terms \nof Service',
+                            style: TextStyle(
+                              fontWeight: FontWeight.w700,
+                              color: PRIMARY_COLOR,
+                            ),
+                          ),
+                          TextSpan(
+                            text: ' and ',
+                            style: TextStyle(
+                              fontWeight: FontWeight.w600,
+                              color: Color.fromARGB(255, 109, 119, 143),
+                            ),
+                          ),
+                          TextSpan(
+                            text: 'Privacy Policy',
+                            style: TextStyle(
+                              fontWeight: FontWeight.w700,
+                              color: PRIMARY_COLOR,
+                            ),
+                          ),
+                        ],
                       ),
-                      children: const [
-                        TextSpan(
-                          text: 'the Terms \nof Service',
-                          style: TextStyle(
-                            fontWeight: FontWeight.w700,
-                            color: PRIMARY_COLOR,
-                          ),
-                        ),
-                        TextSpan(
-                          text: ' and ',
-                          style: TextStyle(
-                            fontWeight: FontWeight.w600,
-                            color: Color.fromARGB(255, 109, 119, 143),
-                          ),
-                        ),
-                        TextSpan(
-                          text: 'Privacy Policy',
-                          style: TextStyle(
-                            fontWeight: FontWeight.w700,
-                            color: PRIMARY_COLOR,
-                          ),
-                        ),
-                      ],
                     ),
                   ),
                 ),

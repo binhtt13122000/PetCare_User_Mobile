@@ -92,178 +92,195 @@ class PetBlockChainDetailBodyWidget
         ),
       );
 
-  Widget petChainWidget() => Column(
-        children: [
-          Container(
-            color: WHITE_COLOR,
-            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 20),
-            child: Column(
-              children: [
-                CUSTOM_TEXT(
-                  'Record Information',
-                  letterSpacing: 1.5,
-                  padding: const EdgeInsets.only(bottom: 10),
-                  color: DARK_GREY_TEXT_COLOR.withOpacity(0.95),
-                  fontWeight: FontWeight.w700,
-                ),
-                Column(
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        CUSTOM_TEXT(
-                          'Record time',
-                          letterSpacing: 1,
-                          fontSize: 14,
-                          color: DARK_GREY_TEXT_COLOR.withOpacity(0.9),
-                        ),
-                        CUSTOM_TEXT(
-                          FORMAT_DATE_TIME(
-                              dateTime: DateTime.now(),
-                              pattern: DATE_TIME_PATTERN),
+  Widget petChainWidget() {
+    late final String chainStatusText;
+    late final Color chainColor;
+
+    switch (controller.petChainValueModel.type) {
+      case 'UPDATE':
+        chainColor = BLUE_COLOR;
+        chainStatusText = 'Update information';
+        break;
+      case 'CREATE':
+        chainColor = GREEN_COLOR;
+        chainStatusText = 'Init data';
+        break;
+      case 'CHANGE_OWNER':
+        chainColor = YELLOW_COLOR;
+        chainStatusText = 'Change owner';
+        break;
+      default:
+        chainColor = YELLOW_COLOR;
+        chainStatusText = controller.petChainValueModel.type;
+    }
+    return Column(
+      children: [
+        Container(
+          color: WHITE_COLOR,
+          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 20),
+          child: Column(
+            children: [
+              CUSTOM_TEXT(
+                'Record Information',
+                letterSpacing: 1.5,
+                padding: const EdgeInsets.only(bottom: 10),
+                color: DARK_GREY_TEXT_COLOR.withOpacity(0.95),
+                fontWeight: FontWeight.w700,
+              ),
+              Column(
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      CUSTOM_TEXT(
+                        'Record time',
+                        letterSpacing: 1,
+                        fontSize: 14,
+                        color: DARK_GREY_TEXT_COLOR.withOpacity(0.9),
+                      ),
+                      CUSTOM_TEXT(
+                        FORMAT_DATE_TIME(
+                            dateTime: DateTime.now(),
+                            pattern: DATE_TIME_PATTERN),
+                        letterSpacing: 1,
+                        fontSize: 15,
+                        color: DARK_GREY_TEXT_COLOR.withOpacity(0.9),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 5,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      CUSTOM_TEXT(
+                        'Type',
+                        letterSpacing: 1,
+                        color: DARK_GREY_TEXT_COLOR.withOpacity(0.9),
+                        fontSize: 14,
+                      ),
+                      CUSTOM_TEXT(
+                        chainStatusText,
+                        letterSpacing: 1,
+                        fontSize: 15,
+                        color: chainColor,
+                      ),
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 5,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      CUSTOM_TEXT(
+                        'Content',
+                        letterSpacing: 1,
+                        color: DARK_GREY_TEXT_COLOR.withOpacity(0.9),
+                        fontSize: 14,
+                        padding: const EdgeInsets.only(right: 85),
+                      ),
+                      Expanded(
+                        child: CUSTOM_TEXT(
+                          controller.petChainValueModel
+                              .petChainValueContentModel.write,
                           letterSpacing: 1,
                           fontSize: 15,
                           color: DARK_GREY_TEXT_COLOR.withOpacity(0.9),
+                          textOverflow: TextOverflow.clip,
+                          textAlign: TextAlign.end,
                         ),
-                      ],
-                    ),
-                    const SizedBox(
-                      height: 5,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        CUSTOM_TEXT(
-                          'Type',
-                          letterSpacing: 1,
-                          color: DARK_GREY_TEXT_COLOR.withOpacity(0.9),
-                          fontSize: 14,
-                        ),
-                        CUSTOM_TEXT(
-                          controller.petChainValueModel.type == 'UPDATE'
-                              ? 'Update pet information'
-                              : 'Create pet information',
-                          letterSpacing: 1,
-                          fontSize: 15,
-                          color: controller.petChainValueModel.type == 'UPDATE'
-                              ? BLUE_COLOR
-                              : GREEN_COLOR,
-                        ),
-                      ],
-                    ),
-                    const SizedBox(
-                      height: 5,
-                    ),
-                    Row(
+                      ),
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 5,
+                  ),
+                  Obx(
+                    () => Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        CUSTOM_TEXT(
-                          'Content',
-                          letterSpacing: 1,
-                          color: DARK_GREY_TEXT_COLOR.withOpacity(0.9),
-                          fontSize: 14,
-                          padding: const EdgeInsets.only(right: 85),
-                        ),
+                        CUSTOM_TEXT('Chain ID',
+                            letterSpacing: 1,
+                            fontSize: 14,
+                            color: DARK_GREY_TEXT_COLOR.withOpacity(0.9),
+                            padding: const EdgeInsets.only(right: 80)),
                         Expanded(
                           child: CUSTOM_TEXT(
-                            controller.petChainValueModel
-                                .petChainValueContentModel.write,
+                            '#' + controller.petChainValueModel.txId,
                             letterSpacing: 1,
                             fontSize: 15,
                             color: DARK_GREY_TEXT_COLOR.withOpacity(0.9),
-                            textOverflow: TextOverflow.clip,
-                            textAlign: TextAlign.end,
+                            textOverflow: controller.isShowFullId.value
+                                ? TextOverflow.clip
+                                : TextOverflow.ellipsis,
                           ),
                         ),
                       ],
                     ),
-                    const SizedBox(
-                      height: 5,
-                    ),
-                    Obx(
-                      () => Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                  ),
+                  const SizedBox(
+                    height: 5,
+                  ),
+                  Obx(
+                    () => InkWell(
+                      onTap: () => controller.isShowFullId.value =
+                          !controller.isShowFullId.value,
+                      child: Column(
                         children: [
-                          CUSTOM_TEXT('Chain ID',
-                              letterSpacing: 1,
-                              fontSize: 14,
-                              color: DARK_GREY_TEXT_COLOR.withOpacity(0.9),
-                              padding: const EdgeInsets.only(right: 80)),
-                          Expanded(
-                            child: CUSTOM_TEXT(
-                              '#' + controller.petChainValueModel.txId,
-                              letterSpacing: 1,
-                              fontSize: 15,
-                              color: DARK_GREY_TEXT_COLOR.withOpacity(0.9),
-                              textOverflow: controller.isShowFullId.value
-                                  ? TextOverflow.clip
-                                  : TextOverflow.ellipsis,
-                            ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                controller.isShowFullId.value
+                                    ? 'Hide full ID'
+                                    : 'View full ID',
+                                style: GoogleFonts.quicksand(
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w500,
+                                  color: PRIMARY_COLOR.withOpacity(0.75),
+                                  letterSpacing: 2,
+                                ),
+                              ),
+                              const SizedBox(width: 5),
+                              Icon(
+                                controller.isShowFullId.value
+                                    ? Icons.keyboard_double_arrow_up_outlined
+                                    : Icons.keyboard_double_arrow_down_outlined,
+                                size: 18,
+                                color: PRIMARY_COLOR.withOpacity(0.75),
+                              )
+                            ],
                           ),
+                          Container(
+                            height: 1,
+                            margin: const EdgeInsets.only(top: 2),
+                            width: 115,
+                            color: PRIMARY_COLOR.withOpacity(0.75),
+                          )
                         ],
                       ),
                     ),
-                    const SizedBox(
-                      height: 5,
-                    ),
-                    Obx(
-                      () => InkWell(
-                        onTap: () => controller.isShowFullId.value =
-                            !controller.isShowFullId.value,
-                        child: Column(
-                          children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(
-                                  controller.isShowFullId.value
-                                      ? 'Hide full ID'
-                                      : 'View full ID',
-                                  style: GoogleFonts.quicksand(
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.w500,
-                                    color: PRIMARY_COLOR.withOpacity(0.75),
-                                    letterSpacing: 2,
-                                  ),
-                                ),
-                                const SizedBox(width: 5),
-                                Icon(
-                                  controller.isShowFullId.value
-                                      ? Icons.keyboard_double_arrow_up_outlined
-                                      : Icons
-                                          .keyboard_double_arrow_down_outlined,
-                                  size: 18,
-                                  color: PRIMARY_COLOR.withOpacity(0.75),
-                                )
-                              ],
-                            ),
-                            Container(
-                              height: 1,
-                              margin: const EdgeInsets.only(top: 2),
-                              width: 115,
-                              color: PRIMARY_COLOR.withOpacity(0.75),
-                            )
-                          ],
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
+                  ),
+                ],
+              ),
+            ],
           ),
-          Container(
-            height: 1,
-            color: LIGHT_GREY_COLOR.withAlpha(30),
-          ),
-          Container(
-            height: 16,
-            color: SUPPER_LIGHT_BLUE,
-          ),
-        ],
-      );
+        ),
+        Container(
+          height: 1,
+          color: LIGHT_GREY_COLOR.withAlpha(30),
+        ),
+        Container(
+          height: 16,
+          color: SUPPER_LIGHT_BLUE,
+        ),
+      ],
+    );
+  }
 
   Widget avatarWidget({required String url}) => Stack(
         children: [

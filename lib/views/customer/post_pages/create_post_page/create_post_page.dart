@@ -113,6 +113,9 @@ class CreatePostPage extends GetView<CreatePostPageController> {
                         controller.tmpMeetingTimeText.value
                     ..isShowCalendar.value = false;
                 },
+                maxDate: DateTime.now().add(
+                  const Duration(days: 5),
+                ),
                 isAvailableOkButton: <bool>() =>
                     controller.tmpMeetingTimeText.value.isNotEmpty,
                 minDate: DateTime.now(),

@@ -3,7 +3,6 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:petapp_mobile/configs/path.dart';
-import 'package:petapp_mobile/configs/route.dart';
 import 'package:petapp_mobile/configs/theme.dart';
 import 'package:petapp_mobile/controllers/transaction_page_controllers/sale_transaction_detail_page_controller.dart';
 import 'package:petapp_mobile/services/transaction_services/sale_transaction_services.dart';
@@ -97,51 +96,46 @@ class SaleTransactionDetailBottomWidget
             ),
             child: Row(
               children: [
-                InkWell(
-                  onTap: () => Get.toNamed(
-                      CENTER_SERVICES_TRANSACTION_PAYMENT_METHOD_PAGE_ROUTE),
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 20,
-                    ),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Image.asset(
-                          IMAGE_PATH + VISA_PNG,
-                          height: 28,
+                Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 12,
+                  ),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Image.asset(
+                        IMAGE_PATH + VNPAY_PNG,
+                        height: 28,
+                      ),
+                      const SizedBox(
+                        width: 10,
+                      ),
+                      Text(
+                        '****98',
+                        textAlign: TextAlign.center,
+                        style: GoogleFonts.quicksand(
+                          textStyle: const TextStyle(color: PRIMARY_DARK_COLOR),
+                          fontWeight: FontWeight.w600,
+                          fontSize: 18,
+                          height: 1,
                         ),
-                        const SizedBox(
-                          width: 10,
-                        ),
-                        Text(
-                          '****89',
-                          textAlign: TextAlign.center,
-                          style: GoogleFonts.quicksand(
-                            textStyle:
-                                const TextStyle(color: PRIMARY_DARK_COLOR),
-                            fontWeight: FontWeight.w600,
-                            fontSize: 18,
-                            height: 1,
-                          ),
-                        ),
-                        const SizedBox(
-                          width: 40,
-                        ),
-                        SvgPicture.asset(
-                          ICON_PATH + UP_ARROW_SVG,
-                          height: 14,
-                        ),
-                        const SizedBox(
-                          width: 20,
-                        ),
-                        Container(
-                          height: 30,
-                          width: 1.5,
-                          color: LIGHT_GREY_COLOR.withAlpha(60),
-                        ),
-                      ],
-                    ),
+                      ),
+                      const SizedBox(
+                        width: 10,
+                      ),
+                      SvgPicture.asset(
+                        ICON_PATH + UP_ARROW_SVG,
+                        height: 14,
+                      ),
+                      const SizedBox(
+                        width: 10,
+                      ),
+                      Container(
+                        height: 30,
+                        width: 1.5,
+                        color: LIGHT_GREY_COLOR.withAlpha(60),
+                      ),
+                    ],
                   ),
                 ),
                 Expanded(
