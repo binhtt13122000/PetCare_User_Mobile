@@ -6,6 +6,7 @@ import 'package:petapp_mobile/controllers/transaction_page_controllers/center_se
 import 'package:petapp_mobile/services/transaction_services/order_services.dart';
 import 'package:petapp_mobile/utilities/utilities.dart';
 import 'package:petapp_mobile/views/customer/transaction_pages/order_detail_page/widgets/bottom_widget.dart';
+import 'package:petapp_mobile/views/customer/transaction_pages/order_detail_page/widgets/top_widget.dart';
 import 'package:petapp_mobile/views/widgets/customize_widget.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
@@ -28,45 +29,59 @@ class OrderDetailBodyWidget extends GetView<OrderDetailPageController> {
         });
         return Obx(
           () => controller.isLoadingData.value
-              ? LOADING_WIDGET()
-              : Container(
-                  color: SUPPER_LIGHT_BLUE,
-                  child: Column(
-                    children: [
-                      Expanded(
-                        child: SmartRefresher(
-                          controller: RefreshController(),
-                          onRefresh: () => controller.update(),
-                          child: SingleChildScrollView(
-                            child: Column(
-                              children: [
-                                transactionInformationWidget(),
-                                branchInformationWidget(),
-                                listServices(),
-                                priceWidget(width: width),
-                              ],
+              ? Column(
+                  children: [
+                    const OrderDetailTopWidget(),
+                    LOADING_WIDGET(),
+                  ],
+                )
+              : Column(
+                  children: [
+                    const OrderDetailTopWidget(),
+                    Expanded(
+                      child: Container(
+                        color: SUPPER_LIGHT_BLUE,
+                        child: Column(
+                          children: [
+                            Expanded(
+                              child: SmartRefresher(
+                                controller: RefreshController(),
+                                onRefresh: () => controller.update(),
+                                child: SingleChildScrollView(
+                                  child: Column(
+                                    children: [
+                                      transactionInformationWidget(),
+                                      branchInformationWidget(),
+                                      listServices(),
+                                      priceWidget(width: width),
+                                    ],
+                                  ),
+                                ),
+                              ),
                             ),
-                          ),
+                            Visibility(
+                                visible: controller.orderModel.status ==
+                                        'WAITING' ||
+                                    (controller.orderModel.status ==
+                                            'SUCCESS' &&
+                                        (controller.orderModel.star == null ||
+                                            controller.orderModel.star! == 0)),
+                                child:
+                                    const CenterServicesTransactionDetailBottomWidget()),
+                            Visibility(
+                              visible: controller.orderModel.star != null &&
+                                  controller.orderModel.star! > 0,
+                              child: CUSTOM_TEXT(
+                                'You have submitted a review for this transaction',
+                                fontSize: 12,
+                                color: DARK_GREY_TEXT_COLOR.withOpacity(0.7),
+                              ),
+                            ),
+                          ],
                         ),
                       ),
-                      Visibility(
-                          visible: controller.orderModel.status == 'WAITING' ||
-                              (controller.orderModel.status == 'SUCCESS' &&
-                                  (controller.orderModel.star == null ||
-                                      controller.orderModel.star! == 0)),
-                          child:
-                              const CenterServicesTransactionDetailBottomWidget()),
-                      Visibility(
-                        visible: controller.orderModel.star != null &&
-                            controller.orderModel.star! > 0,
-                        child: CUSTOM_TEXT(
-                          'You have submitted a review for this transaction',
-                          fontSize: 12,
-                          color: DARK_GREY_TEXT_COLOR.withOpacity(0.7),
-                        ),
-                      ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
         );
       }),

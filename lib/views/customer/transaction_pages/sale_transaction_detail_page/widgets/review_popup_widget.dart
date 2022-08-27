@@ -170,7 +170,7 @@ class SaleTransactionReviewPopupWidget
               children: [
                 quickRateTextWidget(content: 'Followed instructions'),
                 quickRateTextWidget(content: 'Good price'),
-                quickRateTextWidget(content: 'Enthusiastic staff'),
+                quickRateTextWidget(content: 'Friendly seller'),
                 quickRateTextWidget(content: 'Punctuality'),
               ],
             ),

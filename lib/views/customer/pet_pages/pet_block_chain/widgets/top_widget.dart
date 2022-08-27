@@ -70,10 +70,13 @@ class PetBlockChainTopWidget extends GetView<PetBlockChainPageController> {
               ),
             ),
             //*more options
-            controller.hashPetId.isEmpty
-                ? InkWell(
-                    onTap: () => controller.isShowMoreOptionWidget.value = true,
-                    child: Container(
+            Obx(
+              () => controller.hashPetId.isEmpty &&
+                      !controller.isWaitingLoadingData.value
+                  ? InkWell(
+                      onTap: () =>
+                          controller.isShowMoreOptionWidget.value = true,
+                      child: Container(
                         height: 35,
                         width: 35,
                         decoration: BoxDecoration(
@@ -92,11 +95,13 @@ class PetBlockChainTopWidget extends GetView<PetBlockChainPageController> {
                           ICON_PATH + ELLIPSIS_SVG,
                           height: 15,
                           color: const Color.fromARGB(255, 61, 78, 100),
-                        )),
-                  )
-                : const SizedBox(
-                    width: 35,
-                  ),
+                        ),
+                      ),
+                    )
+                  : const SizedBox(
+                      width: 35,
+                    ),
+            ),
           ],
         ),
       );

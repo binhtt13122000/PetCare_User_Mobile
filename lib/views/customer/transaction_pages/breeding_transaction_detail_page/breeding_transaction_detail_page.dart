@@ -121,10 +121,10 @@ class BreedingTransactionDetailPage
                     title: 'Rate Your Experience',
                     content: 'Tell us your services experience?',
                     quickRateText: const [
-                      'The seller did not come',
-                      'I\'m busy',
-                      'Sick pet',
-                      'Pet is not correct',
+                      'Followed instructions',
+                      'Good price'
+                          'Friendly seller'
+                          'Punctuality',
                     ],
                     onChangeDescription: (String? text) {
                       controller.reviewContent.value = text ?? '';

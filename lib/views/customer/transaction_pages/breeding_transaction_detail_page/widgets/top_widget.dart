@@ -97,29 +97,46 @@ class BreedingTransactionDetailTopWidget
                     fontWeight: FontWeight.w700),
               ),
             ),
-            InkWell(
-              onTap: () => controller.isShowMoreOptions.value = true,
-              child: Container(
-                height: 35,
-                width: 35,
-                decoration: BoxDecoration(
-                  color: WHITE_COLOR,
-                  borderRadius: BorderRadius.circular(100),
-                  boxShadow: [
-                    BoxShadow(
-                      color: DARK_GREY_COLOR.withOpacity(0.1),
-                      blurRadius: 5,
-                      offset: const Offset(2, 2),
-                    ),
-                  ],
-                ),
-                alignment: Alignment.center,
-                child: SvgPicture.asset(
-                  ICON_PATH + ELLIPSIS_SVG,
-                  color: DARK_GREY_TEXT_COLOR,
-                  height: 16,
-                ),
-              ),
+            Obx(
+              () => controller.isWaitingLoading.value
+                  ? const SizedBox(
+                      width: 35,
+                    )
+                  : controller.accountModel.customerModel.id ==
+                              controller
+                                  .breedingTransactionModel.ownerPetFemaleId &&
+                          [
+                            'CREATED',
+                            'BREEDING_REQUESTED',
+                          ].contains(controller.breedingTransactionModel.status)
+                      ? InkWell(
+                          onTap: () =>
+                              controller.isShowMoreOptions.value = true,
+                          child: Container(
+                            height: 35,
+                            width: 35,
+                            decoration: BoxDecoration(
+                              color: WHITE_COLOR,
+                              borderRadius: BorderRadius.circular(100),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: DARK_GREY_COLOR.withOpacity(0.1),
+                                  blurRadius: 5,
+                                  offset: const Offset(2, 2),
+                                ),
+                              ],
+                            ),
+                            alignment: Alignment.center,
+                            child: SvgPicture.asset(
+                              ICON_PATH + ELLIPSIS_SVG,
+                              color: DARK_GREY_TEXT_COLOR,
+                              height: 16,
+                            ),
+                          ),
+                        )
+                      : const SizedBox(
+                          width: 35,
+                        ),
             ),
           ],
         ),

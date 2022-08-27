@@ -95,31 +95,38 @@ class PostDetailMainImageWidget extends GetView<PostDetailPageController> {
         ),
       );
 
-  Widget moreInformationButtonBackgroundWidget() => Positioned(
-        right: 15,
-        top: 30,
-        child: InkWell(
-          onTap: () => controller.isShowMoreOptionWidget.value = true,
-          child: CircleAvatar(
-            radius: 20,
-            backgroundColor: WHITE_COLOR.withOpacity(0.5),
-            child: GRADIENT_WIDGET(
-              child: SvgPicture.asset(
-                ICON_PATH + ELLIPSIS_SVG,
-                height: 15,
-                color: DARK_GREY_COLOR,
-              ),
-              gradient: const LinearGradient(
-                colors: [
-                  Color.fromARGB(255, 123, 41, 255),
-                  Color.fromARGB(255, 5, 209, 73),
-                ],
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-              ),
-            ),
-          ),
-        ),
+  Widget moreInformationButtonBackgroundWidget() => Obx(
+        () => controller.isLoadingData.value
+            ? const SizedBox.shrink()
+            : controller.postModel.status == 'REQUESTED'
+                ? Positioned(
+                    right: 15,
+                    top: 30,
+                    child: InkWell(
+                      onTap: () =>
+                          controller.isShowMoreOptionWidget.value = true,
+                      child: CircleAvatar(
+                        radius: 20,
+                        backgroundColor: WHITE_COLOR.withOpacity(0.5),
+                        child: GRADIENT_WIDGET(
+                          child: SvgPicture.asset(
+                            ICON_PATH + ELLIPSIS_SVG,
+                            height: 15,
+                            color: DARK_GREY_COLOR,
+                          ),
+                          gradient: const LinearGradient(
+                            colors: [
+                              Color.fromARGB(255, 123, 41, 255),
+                              Color.fromARGB(255, 5, 209, 73),
+                            ],
+                            begin: Alignment.topLeft,
+                            end: Alignment.bottomRight,
+                          ),
+                        ),
+                      ),
+                    ),
+                  )
+                : const SizedBox.shrink(),
       );
 
   Widget moreInformationButtonForegroundWidget() => Positioned(

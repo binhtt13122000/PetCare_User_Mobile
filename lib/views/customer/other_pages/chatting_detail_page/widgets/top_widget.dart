@@ -136,7 +136,7 @@ class ChattingDetailTopWidget extends GetView<ChattingDetailPageController> {
                 ? Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      endChatWidget(),
+                      // endChatWidget(),
                       createTransactionRequestButtonWidget(),
                     ],
                   )
@@ -214,7 +214,7 @@ class ChattingDetailTopWidget extends GetView<ChattingDetailPageController> {
         onTap: () => controller.isShowCreateRequest.value = true,
         child: Container(
           height: 35,
-          width: 230,
+          width: 320,
           decoration: BoxDecoration(
             color: const Color.fromARGB(255, 60, 202, 190),
             borderRadius: BorderRadius.circular(100),

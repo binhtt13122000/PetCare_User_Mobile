@@ -141,7 +141,6 @@ class TicketServices {
         HttpHeaders.authorizationHeader: 'Bearer ' + jwt,
       },
     );
-
     switch (response.statusCode) {
       case 200:
       case 201:

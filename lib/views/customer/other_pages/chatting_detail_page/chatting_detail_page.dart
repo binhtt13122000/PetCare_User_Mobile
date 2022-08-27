@@ -170,6 +170,17 @@ class ChattingDetailPage extends GetView<ChattingDetailPageController> {
                       ),
                     ),
                   ),
+                  Obx(
+                    () => controller.isShowNotificationPopup.value
+                        ? NotificationPopupWidget(
+                            onTapBackground: () {},
+                            onTapOk: () => controller
+                              ..isShowNotificationPopup.value = false,
+                            isSuccessNotification: false,
+                            content: 'Something went wrong.',
+                          )
+                        : const SizedBox.shrink(),
+                  ),
                   Obx(() => controller.isWaitLoadingData.value
                       ? Container(
                           child: LOADING_WIDGET(),

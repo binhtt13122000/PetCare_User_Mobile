@@ -21,7 +21,7 @@ class TicketDetailPageController extends GetxController {
     'I\'m busy',
     'Change services',
     'Change branch',
-    'Pet is good'
+    'Pet is still good'
   ];
   RxList<String> selectReasonCancelList = <String>[].obs;
   RxBool isWaitingUpdateTicket = false.obs;

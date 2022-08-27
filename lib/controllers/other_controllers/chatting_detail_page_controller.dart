@@ -16,6 +16,7 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:socket_io_client/socket_io_client.dart' as io;
 
 class ChattingDetailPageController extends GetxController {
+  RxBool isShowNotificationPopup = false.obs;
   List<File> mediaList = [];
   ChatRoomModel? chatRoomModel;
   late PostModel postModel;
@@ -53,7 +54,6 @@ class ChattingDetailPageController extends GetxController {
   String? postId;
   RefreshController refreshController =
       RefreshController(initialRefresh: false);
-
   TextEditingController transactionLocationTextEditingController =
       TextEditingController();
   TextEditingController descriptionTextEditingController =
@@ -69,52 +69,56 @@ class ChattingDetailPageController extends GetxController {
     socket.on('joinedRoom', (data) {});
     socket.on('leftRoom', (data) {});
     socket.on('chatToClient', (data) async {
-      MessageModel messageModel = MessageModel.fromJson(data);
-      messageModelList.add(messageModel);
-      sortListMessage();
-      update();
-      chatRoomModel = await ChatServices.fetchChatRoomById(
-        chatRoomId: messageModel.room!,
-        jwt: accountModel.jwtToken,
-      );
-      if (!isJoinedRoom) {
-        socket.emit('joinRoom', messageModel.room);
-        isJoinedRoom = true;
-      }
-      if (!isShowCreateRequest.value &&
-          accountModel.customerModel.id == chatRoomModel!.buyerId) {
-        //!location
-        transactionLocationTextEditingController.text =
-            chatRoomModel!.transactionPlace ?? '';
-        transactionLocation.value = chatRoomModel!.transactionPlace ?? '';
-        //!time
-        transactionTime = chatRoomModel!.transactionTime;
-        tmpTransactionTime = transactionTime;
-        if (transactionTime != null) {
-          transactionTimeText.value = FORMAT_DATE_TIME(
-              dateTime: transactionTime!, pattern: DATE_PATTERN_2);
-        }
-        //!description
-        descriptionTextEditingController.text =
-            chatRoomModel!.description ?? '';
-        description.value = chatRoomModel!.description ?? '';
+      if (data['error'] != null && data['error'].toString().isNotEmpty) {
+        print(data.toString());
       } else {
-        transactionLocationTextEditingController.text =
-            chatRoomModel!.transactionPlace ?? '';
-        transactionLocation.value = chatRoomModel!.transactionPlace ?? '';
-        //!time
-        transactionTime = chatRoomModel!.transactionTime;
-        tmpTransactionTime = transactionTime;
-        if (transactionTime != null) {
-          transactionTimeText.value = FORMAT_DATE_TIME(
-              dateTime: transactionTime!, pattern: DATE_PATTERN_2);
+        MessageModel messageModel = MessageModel.fromJson(data);
+        messageModelList.add(messageModel);
+        sortListMessage();
+        //update();
+        chatRoomModel = await ChatServices.fetchChatRoomById(
+          chatRoomId: messageModel.room!,
+          jwt: accountModel.jwtToken,
+        );
+        if (!isJoinedRoom) {
+          socket.emit('joinRoom', messageModel.room);
+          isJoinedRoom = true;
         }
-        //!description
-        descriptionTextEditingController.text =
-            chatRoomModel!.description ?? '';
-        description.value = chatRoomModel!.description ?? '';
+        if (!isShowCreateRequest.value &&
+            accountModel.customerModel.id == chatRoomModel!.buyerId) {
+          //!location
+          transactionLocationTextEditingController.text =
+              chatRoomModel!.transactionPlace ?? '';
+          transactionLocation.value = chatRoomModel!.transactionPlace ?? '';
+          //!time
+          transactionTime = chatRoomModel!.transactionTime;
+          tmpTransactionTime = transactionTime;
+          if (transactionTime != null) {
+            transactionTimeText.value = FORMAT_DATE_TIME(
+                dateTime: transactionTime!, pattern: DATE_PATTERN_2);
+          }
+          //!description
+          descriptionTextEditingController.text =
+              chatRoomModel!.description ?? '';
+          description.value = chatRoomModel!.description ?? '';
+        } else {
+          transactionLocationTextEditingController.text =
+              chatRoomModel!.transactionPlace ?? '';
+          transactionLocation.value = chatRoomModel!.transactionPlace ?? '';
+          //!time
+          transactionTime = chatRoomModel!.transactionTime;
+          tmpTransactionTime = transactionTime;
+          if (transactionTime != null) {
+            transactionTimeText.value = FORMAT_DATE_TIME(
+                dateTime: transactionTime!, pattern: DATE_PATTERN_2);
+          }
+          //!description
+          descriptionTextEditingController.text =
+              chatRoomModel!.description ?? '';
+          description.value = chatRoomModel!.description ?? '';
+        }
+        update();
       }
-      update();
     });
     // scrollController.addListener(() async {
     //   if (scrollController.position.pixels ==

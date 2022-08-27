@@ -10,9 +10,12 @@ import 'package:petapp_mobile/models/branch_model/branch_model.dart';
 import 'package:petapp_mobile/models/pet_model/pet_model.dart';
 import 'package:petapp_mobile/models/species_model/species_model.dart';
 import 'package:flutter_quill/flutter_quill.dart' as quill;
+import 'package:petapp_mobile/models/ticket_model/ticket_model.dart';
 import 'package:petapp_mobile/models/transaction_fees_model/transaction_fees_model.dart';
 
 class CreatePostPageController extends GetxController {
+  List<int> petIdInTicket = [];
+  late TicketModel? ticketModel;
   RxBool isShowPurchaseTransactionFees = false.obs;
   late List<TransactionFeesModel> listPurchaseTransactionFees;
   RxInt selectedTransactionFeesId = (-1).obs;
