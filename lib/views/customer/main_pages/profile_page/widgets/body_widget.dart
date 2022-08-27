@@ -68,6 +68,13 @@ class ProfilePageBodyWidget extends GetView<ProfilePageController> {
                     onTap: () {},
                   ),
                   buttonCartWidget(
+                    iconData: Icons.menu_book,
+                    title: 'Privacy Policy',
+                    onTap: () => controller
+                      ..isShowPolicy.value = true
+                      ..isLoadingPolicy.value = true,
+                  ),
+                  buttonCartWidget(
                     iconData: Icons.help_outline_outlined,
                     title: 'About us',
                     onTap: () {},

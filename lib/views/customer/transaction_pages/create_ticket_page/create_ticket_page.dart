@@ -146,7 +146,8 @@ class CreateTicketPage extends GetView<CreateTicketPageController> {
                         serviceTickets: serviceTicketModelList,
                         type: 'SERVICE',
                       );
-                      if (controller.breedingTransactionId != null) {
+                      if (controller.breedingTransactionId != null &&
+                          controller.ticketId != -1) {
                         await BreedingTransactionService
                             .bookingBreedingServices(
                                 jwt: controller.accountModel.jwtToken,
@@ -168,10 +169,21 @@ class CreateTicketPage extends GetView<CreateTicketPageController> {
             () => controller.isShowSuccessfullyPopup.value
                 ? NotificationPopupWidget(
                     onTapBackground: () {},
-                    onTapOk: () => Get.offNamed(
-                        '$TICKET_DETAIL_PAGE_ROUTE/${controller.ticketId}'),
-                    content:
-                        'Create booking services ticket successfully! \nRemember to come by appointment.',
+                    isSuccessNotification: controller.ticketId != -1,
+                    onTapOk: () {
+                      if (controller.ticketId != -1) {
+                        Get.offNamed(
+                            '$TICKET_DETAIL_PAGE_ROUTE/${controller.ticketId}');
+                      } else {
+                        controller
+                          ..isShowSuccessfullyPopup.value = false
+                          ..isLoadingTicketList.value = true
+                          ..update();
+                      }
+                    },
+                    content: controller.ticketId != -1
+                        ? 'Booking services ticket successfully! \nRemember to come by appointment.'
+                        : 'Booking services ticket failed! \nPlease try another booking time.',
                   )
                 : const SizedBox.shrink(),
           ),

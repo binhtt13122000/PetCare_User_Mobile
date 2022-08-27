@@ -48,10 +48,21 @@ class SelectPetWidget extends GetView<CreatePostPageController> {
             )
             ..isShowPetDropdownList.value = true;
         }
+        if (controller.pets.length - controller.petIdInTicket.length > 0) {
+          int index = 0;
 
-        controller
-          ..selectedPetIndex.value = controller.pets.isNotEmpty ? 0 : -1
-          ..isShowLoadingPet.value = false;
+          for (var element in controller.pets) {
+            if (!controller.petIdInTicket.contains(element.id)) {
+              controller.selectedPetIndex.value = index;
+              break;
+            }
+            index++;
+          }
+        } else {
+          controller.selectedPetIndex.value = -1;
+        }
+
+        controller.isShowLoadingPet.value = false;
       });
       return Obx(() => controller.isShowLoadingPet.value
           ? LOADING_WIDGET(size: 40)
@@ -213,7 +224,9 @@ class SelectPetWidget extends GetView<CreatePostPageController> {
                       children: [
                         Row(
                           children: [
-                            controller.pets.isNotEmpty
+                            controller.pets.length -
+                                        controller.petIdInTicket.length >
+                                    0
                                 ? petItemWidget(
                                     petModel: controller.pets[
                                         controller.selectedPetIndex.value],
@@ -265,7 +278,7 @@ class SelectPetWidget extends GetView<CreatePostPageController> {
                         ),
                       ],
                     ),
-                    controller.pets.isNotEmpty
+                    controller.pets.length - controller.petIdInTicket.length > 0
                         ? petItemDropdownListWidget()
                         : const SizedBox.shrink()
                   ]),
@@ -280,7 +293,7 @@ class SelectPetWidget extends GetView<CreatePostPageController> {
     ScrollController scrollController = ScrollController();
     late double dropDownHeight;
 
-    switch (controller.pets.length) {
+    switch (controller.pets.length - controller.petIdInTicket.length) {
       case 1:
         dropDownHeight = 52;
         break;
@@ -316,25 +329,20 @@ class SelectPetWidget extends GetView<CreatePostPageController> {
               ),
               borderRadius: BorderRadius.circular(10),
             ),
-            child: RawScrollbar(
+            child: SingleChildScrollView(
               controller: scrollController,
-              isAlwaysShown: true,
-              thumbColor: PRIMARY_COLOR.withOpacity(0.7),
-              thickness: 2.5,
-              radius: const Radius.circular(5),
-              child: SingleChildScrollView(
-                controller: scrollController,
-                child: Column(
-                    children: controller.pets
-                        .asMap()
-                        .entries
-                        .map(
-                          (e) => petItemInDropdownListWidget(
-                            index: e.key,
-                          ),
-                        )
-                        .toList()),
-              ),
+              child: Column(
+                  children: controller.pets
+                      .asMap()
+                      .entries
+                      .map(
+                        (e) => controller.petIdInTicket.contains(e.value.id)
+                            ? const SizedBox.shrink()
+                            : petItemInDropdownListWidget(
+                                index: e.key,
+                              ),
+                      )
+                      .toList()),
             ),
           ),
         ],

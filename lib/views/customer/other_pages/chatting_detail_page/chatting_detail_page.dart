@@ -119,7 +119,7 @@ class ChattingDetailPage extends GetView<ChattingDetailPageController> {
                             onTapOk: () => controller
                                 .isShowFailedNotificationPopup.value = false,
                             content:
-                                'Approve for buyer request failed. This post already has a transaction.',
+                                'Approve for buyer request failed.\nThis post already has a transaction.',
                             isSuccessNotification: false,
                           )
                         : const SizedBox.shrink(),
@@ -169,6 +169,17 @@ class ChattingDetailPage extends GetView<ChattingDetailPageController> {
                         minDate: DateTime.now(),
                       ),
                     ),
+                  ),
+                  Obx(
+                    () => controller.isShowNotificationPopup.value
+                        ? NotificationPopupWidget(
+                            onTapBackground: () {},
+                            onTapOk: () => controller
+                              ..isShowNotificationPopup.value = false,
+                            isSuccessNotification: false,
+                            content: 'Something went wrong.',
+                          )
+                        : const SizedBox.shrink(),
                   ),
                   Obx(() => controller.isWaitLoadingData.value
                       ? Container(

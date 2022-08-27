@@ -74,9 +74,15 @@ class AuthService {
 
   static Future<bool> checkPhoneNumber({
     required String phoneNumber,
+    bool isCustomer = false,
   }) async {
+    var parameters = <String, dynamic>{};
+    if (isCustomer) {
+      parameters.addAll({'role': 'CUSTOMER'});
+    }
     final response = await http.get(
-      Uri.https(API_SERVER_PATH, '/v1/api/auth/phone-number/$phoneNumber'),
+      Uri.https(API_SERVER_PATH, '/v1/api/auth/phone-number/$phoneNumber',
+          parameters),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },

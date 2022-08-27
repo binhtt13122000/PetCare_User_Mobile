@@ -52,8 +52,6 @@ class PostService {
         {
           'id': postId,
           'status': postStatus,
-          'reasonReject': null,
-          'rejectTime': null,
         },
       ),
     );
@@ -211,6 +209,7 @@ class PostService {
     required int page,
     required int limit,
     String? type,
+    required String title,
     required String jwt,
   }) async {
     Map<String, dynamic> parameters = {
@@ -219,7 +218,9 @@ class PostService {
       'orderName': 'createTime',
       'orderType': 'DESC',
       'customerId': customerId.toString(),
+      'title': title.isNotEmpty ? title : '%%',
     };
+
     type != null && type.isNotEmpty ? parameters.addAll({'type': type}) : null;
     final response = await http.get(
       Uri.https(API_SERVER_PATH, '/v1/api/posts/fetch-post', parameters),

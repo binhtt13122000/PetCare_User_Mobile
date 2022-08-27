@@ -28,7 +28,6 @@ class PetBlockChainPage extends GetView<PetBlockChainPageController> {
       body: Stack(
         children: [
           Column(children: [
-            const PetBlockChainTopWidget(),
             GetBuilder<PetBlockChainPageController>(builder: (_) {
               controller.isWaitingLoadingData.value = true;
               WidgetsBinding.instance!.addPostFrameCallback((timeStamp) async {
@@ -61,7 +60,14 @@ class PetBlockChainPage extends GetView<PetBlockChainPageController> {
                 controller.isWaitingLoadingData.value = false;
               });
               return Obx(() => controller.isWaitingLoadingData.value
-                  ? Expanded(child: LOADING_WIDGET())
+                  ? Expanded(
+                      child: Column(
+                        children: [
+                          const PetBlockChainTopWidget(),
+                          Expanded(child: LOADING_WIDGET()),
+                        ],
+                      ),
+                    )
                   : const PetBlockChainBodyWidget());
             })
           ]),

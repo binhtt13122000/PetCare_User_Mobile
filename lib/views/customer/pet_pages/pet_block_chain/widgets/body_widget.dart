@@ -6,6 +6,7 @@ import 'package:petapp_mobile/configs/theme.dart';
 import 'package:petapp_mobile/controllers/pet_page_controllers/pet_block_chain_page_controller.dart';
 import 'package:petapp_mobile/models/pet_chain_value_model/pet_chain_value_model.dart';
 import 'package:petapp_mobile/utilities/utilities.dart';
+import 'package:petapp_mobile/views/customer/pet_pages/pet_block_chain/widgets/top_widget.dart';
 import 'package:petapp_mobile/views/widgets/customize_widget.dart';
 
 class PetBlockChainBodyWidget extends GetView<PetBlockChainPageController> {
@@ -16,6 +17,7 @@ class PetBlockChainBodyWidget extends GetView<PetBlockChainPageController> {
     return Expanded(
       child: Column(
         children: [
+          const PetBlockChainTopWidget(),
           petIdWidget(),
           Expanded(
             child: controller.petChainModel != null
@@ -241,6 +243,27 @@ class PetBlockChainBodyWidget extends GetView<PetBlockChainPageController> {
 
     Color backgroundColor = Colors.primaries[index].withOpacity(0.8);
 
+    late final String chainStatusText;
+    late final Color chainColor;
+
+    switch (petChainValueModel.type) {
+      case 'UPDATE':
+        chainColor = BLUE_COLOR;
+        chainStatusText = 'Update information';
+        break;
+      case 'CREATE':
+        chainColor = GREEN_COLOR;
+        chainStatusText = 'Init data';
+        break;
+      case 'CHANGE_OWNER':
+        chainColor = YELLOW_COLOR;
+        chainStatusText = 'Change owner';
+        break;
+      default:
+        chainColor = YELLOW_COLOR;
+        chainStatusText = petChainValueModel.type;
+    }
+
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -333,14 +356,10 @@ class PetBlockChainBodyWidget extends GetView<PetBlockChainPageController> {
                       color: DARK_GREY_TEXT_COLOR.withOpacity(0.7),
                     ),
                     CUSTOM_TEXT(
-                      petChainValueModel.type == 'UPDATE'
-                          ? 'Update information'
-                          : 'Create pet',
+                      chainStatusText,
                       textOverflow: TextOverflow.clip,
                       fontSize: 15,
-                      color: petChainValueModel.type == 'UPDATE'
-                          ? BLUE_COLOR
-                          : GREEN_COLOR,
+                      color: chainColor,
                     ),
                   ],
                 ),

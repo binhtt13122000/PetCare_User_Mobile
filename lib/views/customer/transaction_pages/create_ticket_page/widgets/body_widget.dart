@@ -45,6 +45,11 @@ class CreateTicketBodyWidget extends GetView<CreateTicketPageController> {
             ..selectBranchIndex.value = controller.selectBranchIndex.value != -1
                 ? controller.selectBranchIndex.value
                 : 0;
+          for (var element in controller.pets) {
+            if (element.status == 'NORMAL') {
+              controller.countPet++;
+            }
+          }
           if (controller.breedingTransactionId != null) {
             int petIndex = 0;
             PetModel? petModel;
@@ -330,7 +335,9 @@ class CreateTicketBodyWidget extends GetView<CreateTicketPageController> {
             ),
             Obx(
               () => Visibility(
-                visible: controller.countServices.value < 5,
+                visible: controller.countServices.value < 5 &&
+                    controller.countPet > 0 &&
+                    controller.selectPetIndexList.length < controller.countPet,
                 child: Padding(
                   padding: const EdgeInsets.only(top: 10, left: 10),
                   child: SizedBox(
@@ -376,6 +383,14 @@ class CreateTicketBodyWidget extends GetView<CreateTicketPageController> {
                     ),
                   ),
                 ),
+              ),
+            ),
+            Visibility(
+              visible: controller.countPet == 0 && controller.petId == null,
+              child: CUSTOM_TEXT(
+                'No pet available!',
+                color: PINK_COLOR,
+                letterSpacing: 1,
               ),
             ),
           ],

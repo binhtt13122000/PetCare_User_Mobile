@@ -10,6 +10,7 @@ import 'package:petapp_mobile/utilities/utilities.dart';
 import 'package:petapp_mobile/views/customer/transaction_pages/breeding_transaction_detail_page/widgets/bottom_widget.dart';
 import 'package:petapp_mobile/views/customer/transaction_pages/breeding_transaction_detail_page/widgets/breeding_services_for_female_pet_widget.dart';
 import 'package:petapp_mobile/views/customer/transaction_pages/breeding_transaction_detail_page/widgets/breeding_services_for_male_pet_widget.dart';
+import 'package:petapp_mobile/views/customer/transaction_pages/breeding_transaction_detail_page/widgets/top_widget.dart';
 import 'package:petapp_mobile/views/customer/transaction_pages/breeding_transaction_detail_page/widgets/transaction_detail_widget.dart';
 import 'package:petapp_mobile/views/widgets/customize_widget.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
@@ -39,12 +40,22 @@ class BreedingTransactionDetailBodyWidget
 
         return Obx(
           () => controller.isWaitingLoadingInitData.value
-              ? Expanded(child: LOADING_WIDGET())
+              ? Expanded(
+                  child: Column(
+                  children: [
+                    const BreedingTransactionDetailTopWidget(),
+                    Expanded(
+                      child: LOADING_WIDGET(),
+                    ),
+                  ],
+                ))
               : Expanded(
                   child: Container(
                     color: SUPPER_LIGHT_BLUE,
                     child: Column(
                       children: [
+                        const BreedingTransactionDetailTopWidget(),
+
                         Expanded(
                           child: SmartRefresher(
                             controller: RefreshController(),

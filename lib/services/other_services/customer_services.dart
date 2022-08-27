@@ -56,18 +56,7 @@ class CustomerService {
         'bankBranch': bankBranch,
         //'avatar': avatarFilePath,
       });
-      print({
-        'id': id,
-        'email': email,
-        'firstName': firstName,
-        'lastName': lastName,
-        'address': address,
-        'gender': gender,
-        'bankName': bankName,
-        'bankCode': bankCode,
-        'bankBranch': bankBranch,
-        //'avatar': avatarFilePath,
-      });
+
       if (avatarFilePath.isNotEmpty) {
         formData.files.add(
           MapEntry(

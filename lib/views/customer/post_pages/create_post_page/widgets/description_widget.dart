@@ -85,10 +85,13 @@ class DescriptionWidget extends GetView<CreatePostPageController> {
                   ),
                 ),
                 Expanded(
-                  child: SingleChildScrollView(
-                    child: quill.QuillEditor.basic(
-                      controller: controller.quillController,
-                      readOnly: false,
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: SingleChildScrollView(
+                      child: quill.QuillEditor.basic(
+                        controller: controller.quillController,
+                        readOnly: false,
+                      ),
                     ),
                   ),
                 ),

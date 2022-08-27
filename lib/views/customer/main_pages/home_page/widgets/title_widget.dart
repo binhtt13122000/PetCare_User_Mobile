@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:petapp_mobile/configs/route.dart';
 import 'package:petapp_mobile/configs/theme.dart';
 import 'package:petapp_mobile/controllers/main_page_controllers/home_page_controller.dart';
 import 'package:petapp_mobile/models/services_model/services_model.dart';
@@ -25,13 +26,15 @@ class HomeTitleWidget extends GetView<HomePageController> {
                 (e) => serviceItemWidget(
                     service: e.value,
                     onTap: () async {
-                      if (e.value.name != 'Scan QR') {
-                        controller.selectedServiceIndex.value = e.value.id;
-                      } else {
+                      if (e.value.name == 'Combo') {
+                        Get.toNamed(BUY_SERVICES_COMBO_PAGE_ROUTE);
+                      } else if (e.value.name == 'Scan QR') {
                         String url = await FlutterBarcodeScanner.scanBarcode(
                             "#FFA337f4", "Cancel", false, ScanMode.QR);
                         await launchUrl(Uri.parse(url),
                             mode: LaunchMode.externalApplication);
+                      } else {
+                        controller.selectedServiceIndex.value = e.value.id;
                       }
                     }),
               )

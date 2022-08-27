@@ -52,15 +52,20 @@ class PetService {
     required String jwt,
     int? breedId,
   }) async {
-    Map<String, dynamic> parameters = {
+    Map<String, String?> parameters = {
       'customerId': customerId.toString(),
-      'speciesId': speciesId != null ? speciesId.toString() : "",
-      'type': type,
+      'type': type ?? 'NORMAL',
       'gender': gender,
     };
     if (breedId != null) {
-      parameters.addAll({'breedId': breedId});
+      parameters.addAll({'breedId': breedId.toString()});
+    } else if (speciesId != null) {
+      parameters.addAll({
+        'speciesId': speciesId.toString(),
+      });
     }
+    print(parameters);
+
     final response = await http.get(
       Uri.https(API_SERVER_PATH, '/v1/api/pets/fetch-pet', parameters),
       headers: <String, String>{
@@ -68,6 +73,7 @@ class PetService {
         HttpHeaders.authorizationHeader: 'Bearer ' + jwt,
       },
     );
+
     switch (response.statusCode) {
       case 200:
       case 201:

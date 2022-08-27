@@ -112,7 +112,10 @@ class BreedingTransactionDetailBreedingServicesForFemalePetWidget
     late String content;
     switch (controller.breedingTransactionModel.status) {
       case 'CREATED':
-        content = 'Use our reproductive health\n services, booking one now!';
+        content = controller.breedingTransactionModel.femalePetModel.breedModel!
+                .speciesModel!.isBreeding
+            ? 'Use our reproductive health\n services, booking one now!'
+            : 'Sorry, our branch has not supported breeding for ${controller.breedingTransactionModel.femalePetModel.breedModel!.speciesModel!.name} species yet!';
         break;
       case 'CANCELED':
         content =
@@ -142,7 +145,9 @@ class BreedingTransactionDetailBreedingServicesForFemalePetWidget
             padding: const EdgeInsets.symmetric(horizontal: 35),
           ),
           Visibility(
-            visible: controller.breedingTransactionModel.status == 'CREATED',
+            visible: controller.breedingTransactionModel.status == 'CREATED' &&
+                controller.breedingTransactionModel.femalePetModel.breedModel!
+                    .speciesModel!.isBreeding,
             child: Padding(
               padding: const EdgeInsets.only(top: 20),
               child: InkWell(

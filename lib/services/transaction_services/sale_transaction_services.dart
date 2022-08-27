@@ -188,7 +188,6 @@ class SaleTransactionService {
       },
       body: jsonBody,
     );
-    print(response.body);
     switch (response.statusCode) {
       case 200:
       case 201:

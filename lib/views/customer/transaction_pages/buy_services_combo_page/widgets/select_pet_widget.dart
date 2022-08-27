@@ -243,12 +243,12 @@ class BuyServicesComboSelectPetWidget
                 : Row(
                     children: [
                       Expanded(
-                          child: CUSTOM_TEXT(
-                        ' - Select Pet - ',
-                        textAlign: TextAlign.center,
-                        fontWeight: FontWeight.w700,
-                        color: DARK_GREY_TEXT_COLOR.withOpacity(0.8),
-                      )),
+                        child: CUSTOM_TEXT(
+                          ' - Select Pet - ',
+                          textAlign: TextAlign.center,
+                          color: DARK_GREY_TEXT_COLOR.withOpacity(0.8),
+                        ),
+                      ),
                       const Icon(
                         Icons.arrow_drop_down,
                         color: PRIMARY_COLOR,
@@ -265,7 +265,8 @@ class BuyServicesComboSelectPetWidget
           InkWell(
             onTap: () => controller
               ..isShowPetDropdownList.value = false
-              ..selectedPetIndex.value = index,
+              ..selectedPetIndex.value = index
+              ..selectPetServicesComboIndex.value = -1,
             child: Container(
               height: 50,
               width: 200,

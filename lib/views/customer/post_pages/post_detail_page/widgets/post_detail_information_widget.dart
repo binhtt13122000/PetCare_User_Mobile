@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -7,6 +6,7 @@ import 'package:petapp_mobile/configs/path.dart';
 import 'package:petapp_mobile/configs/theme.dart';
 import 'package:petapp_mobile/controllers/post_page_controllers/post_detail_page_controller.dart';
 import 'package:petapp_mobile/utilities/utilities.dart';
+import 'package:petapp_mobile/views/widgets/customize_widget.dart';
 
 class PostDetailInformationWidget extends GetView<PostDetailPageController> {
   const PostDetailInformationWidget({Key? key}) : super(key: key);
@@ -131,7 +131,7 @@ class PostDetailInformationWidget extends GetView<PostDetailPageController> {
                   width: 180,
                   child: Column(
                     children: [
-                      Html(data: controller.postModel.description ?? ''),
+                      //Html(data: controller.postModel.description ?? ''),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
@@ -167,9 +167,16 @@ class PostDetailInformationWidget extends GetView<PostDetailPageController> {
                 ),
               ),
               controller.isShowDescription.value
-                  ? Html(
-                      data: controller.postModel.description ?? 'N/A',
+                  ? CUSTOM_TEXT(
+                      controller.postModel.description ?? '',
+                      textOverflow: TextOverflow.clip,
                     )
+                  // quill.QuillEditor.basic(
+                  //     controller: quill.QuillController(
+                  //         document: quill.Document.fromJson(jsonDecode('')),
+                  //         selection: const TextSelection.collapsed(offset: 0)),
+                  //     readOnly: false,
+                  //   )
                   : const SizedBox.shrink(),
             ],
           ),

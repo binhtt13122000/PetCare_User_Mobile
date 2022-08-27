@@ -53,6 +53,23 @@ class RegisterPhoneNumberPageBottomWidget
                           ..isLoadingPhoneCredential.value = false;
                       },
                       codeAutoRetrievalTimeout: (verificationId) {});
+                  // await controller.auth.verifyPhoneNumber(
+                  //     phoneNumber:
+                  //         controller.registerPhoneNumber.replaceAll(' ', ''),
+                  //     verificationCompleted: (phoneAuthCredential) async {},
+                  //     verificationFailed: (verificationFailed) async {},
+                  //     codeSent: (verificationId, resendingToken) async {
+                  //       controller
+                  //         ..verificationId = verificationId
+                  //         ..resendingToken = resendingToken;
+
+                  //       Get.toNamed(REGISTER_OTP_PAGE_ROUTE);
+
+                  //       controller
+                  //         ..startTimer()
+                  //         ..isLoadingPhoneCredential.value = false;
+                  //     },
+                  //     codeAutoRetrievalTimeout: (verificationId) {});
                 } else {
                   controller.isLoadingPhoneCredential.value = false;
                 }

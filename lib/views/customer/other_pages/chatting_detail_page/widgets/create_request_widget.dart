@@ -29,7 +29,7 @@ class CreateRequestWidget extends GetView<ChattingDetailPageController> {
                           type: controller.chatRoomModel!.type,
                           speciesId: controller
                               .postModel.petModel!.breedModel!.speciesId,
-                          breedId: controller.postModel.branchModel!.id,
+                          breedId: controller.postModel.petModel!.breedId,
                           gender: 'FEMALE')
                       ..selectedPetIndex.value =
                           controller.pets.isNotEmpty ? 0 : -1

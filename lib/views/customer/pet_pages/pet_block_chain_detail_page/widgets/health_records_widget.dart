@@ -17,7 +17,7 @@ class PetBlockChainDetailHeathRecordsWidget
         vaccineItemWidget(),
         dewormingItemWidget(),
         removeTicksItemWidget(),
-        healthRecordItemWidget(title: 'Weight'),
+        //healthRecordItemWidget(title: 'Weight'),
       ]);
 
   Widget removeTicksItemWidget() => Padding(

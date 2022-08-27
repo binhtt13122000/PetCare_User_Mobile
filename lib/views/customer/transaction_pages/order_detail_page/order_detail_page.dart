@@ -6,7 +6,6 @@ import 'package:petapp_mobile/services/transaction_services/order_services.dart'
 import 'package:petapp_mobile/utilities/utilities.dart';
 import 'package:petapp_mobile/views/customer/transaction_pages/order_detail_page/widgets/body_widget.dart';
 import 'package:petapp_mobile/views/customer/transaction_pages/order_detail_page/widgets/more_options_widget.dart';
-import 'package:petapp_mobile/views/customer/transaction_pages/order_detail_page/widgets/top_widget.dart';
 import 'package:petapp_mobile/views/widgets/cancel_popup_widget.dart';
 import 'package:petapp_mobile/views/widgets/customize_widget.dart';
 import 'package:petapp_mobile/views/widgets/notification_popup_widget.dart';
@@ -29,7 +28,7 @@ class OrderDetailPage extends GetView<OrderDetailPageController> {
             padding: const EdgeInsets.only(top: 30),
             child: Column(
               children: const [
-                OrderDetailTopWidget(),
+                // OrderDetailTopWidget(),
                 OrderDetailBodyWidget(),
               ],
             ),
@@ -43,10 +42,10 @@ class OrderDetailPage extends GetView<OrderDetailPageController> {
                     title: 'Cancel Transaction',
                     content: 'Tell us the reason why you cancel?',
                     quickRateText: const [
-                      'The seller did not come',
-                      'I\'m busy',
-                      'Sick pet',
-                      'Pet is not correct',
+                      'Wrong price',
+                      'Wrong services',
+                      'Wrong pet',
+                      'Wrong combo',
                     ],
                     onChangeDescription: (String? text) {
                       controller.cancelDescription.value = text ?? '';
@@ -113,10 +112,10 @@ class OrderDetailPage extends GetView<OrderDetailPageController> {
                     title: 'Rate Your Experience',
                     content: 'Tell us your services experience?',
                     quickRateText: const [
-                      'The seller did not come',
-                      'I\'m busy',
-                      'Sick pet',
-                      'Pet is not correct',
+                      'Good services',
+                      'Right process',
+                      'Enthusiastic staff',
+                      'Punctuality',
                     ],
                     onChangeDescription: (String? text) {
                       controller.reviewContent.value = text ?? '';

@@ -7,7 +7,7 @@ import 'package:petapp_mobile/models/ticket_model/ticket_model.dart';
 import 'package:http/http.dart' as http;
 
 class TicketServices {
-  static Future<int?> createTicket({
+  static Future<int> createTicket({
     required DateTime createdTime,
     required DateTime meetingDate,
     required int startTime,
@@ -27,28 +27,6 @@ class TicketServices {
       servicesTicketsJsonList.add(tmpJson);
       // servicesTicketsJsonList.add(element.toJson());
     }
-
-    Map<String, dynamic> jsonABC = {
-      'createdTime': createdTime.toIso8601String(),
-      'meetingDate': meetingDate
-          .subtract(Duration(
-            hours: meetingDate.hour,
-            microseconds: meetingDate.microsecond,
-            milliseconds: meetingDate.millisecond,
-            minutes: meetingDate.minute,
-            seconds: meetingDate.second,
-          ))
-          .toIso8601String(),
-      'startTime': startTime,
-      'endTime': endTime,
-      'branchId': branchId,
-      'customerId': customerId,
-      'status': 'CREATED',
-      'type': type,
-      'serviceTickets': servicesTicketsJsonList,
-    };
-
-    print(jsonABC);
 
     String jsonBody = jsonEncode({
       'createdTime': createdTime.toIso8601String(),
@@ -77,14 +55,13 @@ class TicketServices {
       },
       body: jsonBody,
     );
-    print(response.body);
     switch (response.statusCode) {
       case 200:
       case 201:
       case 202:
         return jsonDecode(response.body)['data']['id'];
       default:
-        return null;
+        return -1;
     }
   }
 
@@ -164,7 +141,6 @@ class TicketServices {
         HttpHeaders.authorizationHeader: 'Bearer ' + jwt,
       },
     );
-
     switch (response.statusCode) {
       case 200:
       case 201:

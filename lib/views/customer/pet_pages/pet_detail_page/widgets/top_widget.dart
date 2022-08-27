@@ -102,25 +102,26 @@ class PetDetailTopWidget extends GetView<PetDetailPageController> {
                       onTap: () =>
                           controller.isShowMoreOptionWidget.value = true,
                       child: Container(
-                          height: 35,
-                          width: 35,
-                          decoration: BoxDecoration(
-                            color: WHITE_COLOR,
-                            borderRadius: BorderRadius.circular(100),
-                            boxShadow: [
-                              BoxShadow(
-                                color: DARK_GREY_COLOR.withOpacity(0.1),
-                                blurRadius: 5,
-                                offset: const Offset(2, 2),
-                              ),
-                            ],
-                          ),
-                          alignment: Alignment.center,
-                          child: SvgPicture.asset(
-                            ICON_PATH + ELLIPSIS_SVG,
-                            height: 15,
-                            color: const Color.fromARGB(255, 61, 78, 100),
-                          )),
+                        height: 35,
+                        width: 35,
+                        decoration: BoxDecoration(
+                          color: WHITE_COLOR,
+                          borderRadius: BorderRadius.circular(100),
+                          boxShadow: [
+                            BoxShadow(
+                              color: DARK_GREY_COLOR.withOpacity(0.1),
+                              blurRadius: 5,
+                              offset: const Offset(2, 2),
+                            ),
+                          ],
+                        ),
+                        alignment: Alignment.center,
+                        child: SvgPicture.asset(
+                          ICON_PATH + ELLIPSIS_SVG,
+                          height: 15,
+                          color: const Color.fromARGB(255, 61, 78, 100),
+                        ),
+                      ),
                     )
                   : const SizedBox(
                       width: 35,

@@ -4,6 +4,7 @@ import 'package:petapp_mobile/configs/theme.dart';
 import 'package:petapp_mobile/controllers/post_page_controllers/create_post_page_controller.dart';
 import 'package:petapp_mobile/controllers/post_page_controllers/post_management_page_controller.dart';
 import 'package:petapp_mobile/services/other_services/branch_services.dart';
+import 'package:petapp_mobile/services/transaction_services/ticket_services.dart';
 import 'package:petapp_mobile/services/transaction_services/transaction_fees_services.dart';
 import 'package:petapp_mobile/utilities/utilities.dart';
 import 'package:petapp_mobile/views/customer/post_pages/create_post_page/widgets/body_widget.dart';
@@ -46,7 +47,21 @@ class CreatePostPage extends GetView<CreatePostPageController> {
                     ..branchModelList = await BranchServices.fetchBranchList(
                       jwt: controller.accountModel.jwtToken,
                     )
-                    ..isShowMainLoading.value = false;
+                    ..ticketModel =
+                        await TicketServices.fetchTicketByCustomerId(
+                            jwt: controller.accountModel.jwtToken,
+                            customerId:
+                                controller.accountModel.customerModel.id);
+
+                  if (controller.ticketModel != null) {
+                    for (var element
+                        in controller.ticketModel!.serviceTicketModelList!) {
+                      if (!controller.petIdInTicket.contains(element.petId)) {
+                        controller.petIdInTicket.add(element.petId);
+                      }
+                    }
+                  }
+                  controller.isShowMainLoading.value = false;
                 });
 
                 return Obx(
@@ -113,6 +128,9 @@ class CreatePostPage extends GetView<CreatePostPageController> {
                         controller.tmpMeetingTimeText.value
                     ..isShowCalendar.value = false;
                 },
+                maxDate: DateTime.now().add(
+                  const Duration(days: 5),
+                ),
                 isAvailableOkButton: <bool>() =>
                     controller.tmpMeetingTimeText.value.isNotEmpty,
                 minDate: DateTime.now(),

@@ -6,6 +6,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:petapp_mobile/bindings/guest_page_bindings/landing_page_binding.dart';
 import 'package:petapp_mobile/bindings/main_page_bindings/action_page_binding.dart';
 import 'package:petapp_mobile/bindings/pet_page_bindings/generate_qr_code_binding.dart';
 import 'package:petapp_mobile/bindings/pet_page_bindings/pet_block_chain_page_binding.dart';
@@ -180,65 +181,65 @@ Future main() async {
 }
 
 onSelectNotification(String? type, String? metaData) async {
-  if (type == null) {
-    return;
-  }
-  switch (type) {
-    case "CONFIRM_POST":
-    case "REJECT_POST":
-      if (metaData != null) {
-        var id = int.tryParse(metaData);
-        id != null
-            ? Get.toNamed('$POST_DETAIL_PAGE_ROUTE/$id')
-            : Get.toNamed(POST_MANAGEMENT_PAGE_ROUTE);
-      }
-      break;
-    case "NEW_REQUEST":
-    case "UPDATE_REQUEST":
-    case "CANCELED_REQUEST":
-    case "REJECT_REQUEST":
-    case "APPROVE_REQUEST":
-    case "NEW_ROOM_CREATED":
-      if (metaData != null) {
-        Get.toNamed('$CHATTING_DETAIL_PAGE_ROUTE/$metaData');
-      }
-      break;
-    case "CREATED_TICKET":
-      if (metaData != null) {
-        var id = int.tryParse(metaData);
-        id != null
-            ? Get.toNamed('$TICKET_DETAIL_PAGE_ROUTE/$id')
-            : Get.toNamed(HOME_PAGE_ROUTE);
-      }
-      break;
-    case "SUCCESS_SALE_TRANSACTION":
-      if (metaData != null) {
-        var id = int.tryParse(metaData);
-        id != null
-            ? Get.toNamed('$SALE_TRANSACTION_DETAIL_PAGE_ROUTE/$id')
-            : Get.toNamed(TRANSACTION_PAGE_ROUTE);
-      }
-      break;
-    case "SUCCESS_BREEDING_TRANSACTION":
-      if (metaData != null) {
-        var id = int.tryParse(metaData);
-        id != null
-            ? Get.toNamed('$BREEDING_TRANSACTION_DETAIL_PAGE_ROUTE/$id')
-            : Get.toNamed(TRANSACTION_PAGE_ROUTE);
-      }
-      break;
-    case 'AVAILABLE_SERVICE_IN_COMBO':
-      if (metaData != null) {
-        var id = int.tryParse(metaData);
-        id != null
-            ? Get.toNamed('$PET_COMBO_DETAIL_PAGE_ROUTE/$id')
-            : Get.toNamed(PET_MANAGEMENT_PAGE_ROUTE);
-      }
-      break;
-    default:
-      Get.toNamed(HOME_PAGE_ROUTE);
-      break;
-  }
+  // if (type == null) {
+  //   return;
+  // }
+  // switch (type) {
+  //   case "CONFIRM_POST":
+  //   case "REJECT_POST":
+  //     if (metaData != null) {
+  //       var id = int.tryParse(metaData);
+  //       id != null
+  //           ? Get.toNamed('$POST_DETAIL_PAGE_ROUTE/$id')
+  //           : Get.toNamed(POST_MANAGEMENT_PAGE_ROUTE);
+  //     }
+  //     break;
+  //   case "NEW_REQUEST":
+  //   case "UPDATE_REQUEST":
+  //   case "CANCELED_REQUEST":
+  //   case "REJECT_REQUEST":
+  //   case "APPROVE_REQUEST":
+  //   case "NEW_ROOM_CREATED":
+  //     if (metaData != null) {
+  //       Get.toNamed('$CHATTING_DETAIL_PAGE_ROUTE/$metaData');
+  //     }
+  //     break;
+  //   case "CREATED_TICKET":
+  //     if (metaData != null) {
+  //       var id = int.tryParse(metaData);
+  //       id != null
+  //           ? Get.toNamed('$TICKET_DETAIL_PAGE_ROUTE/$id')
+  //           : Get.toNamed(HOME_PAGE_ROUTE);
+  //     }
+  //     break;
+  //   case "SUCCESS_SALE_TRANSACTION":
+  //     if (metaData != null) {
+  //       var id = int.tryParse(metaData);
+  //       id != null
+  //           ? Get.toNamed('$SALE_TRANSACTION_DETAIL_PAGE_ROUTE/$id')
+  //           : Get.toNamed(TRANSACTION_PAGE_ROUTE);
+  //     }
+  //     break;
+  //   case "SUCCESS_BREEDING_TRANSACTION":
+  //     if (metaData != null) {
+  //       var id = int.tryParse(metaData);
+  //       id != null
+  //           ? Get.toNamed('$BREEDING_TRANSACTION_DETAIL_PAGE_ROUTE/$id')
+  //           : Get.toNamed(TRANSACTION_PAGE_ROUTE);
+  //     }
+  //     break;
+  //   case 'AVAILABLE_SERVICE_IN_COMBO':
+  //     if (metaData != null) {
+  //       var id = int.tryParse(metaData);
+  //       id != null
+  //           ? Get.toNamed('$PET_COMBO_DETAIL_PAGE_ROUTE/$id')
+  //           : Get.toNamed(PET_MANAGEMENT_PAGE_ROUTE);
+  //     }
+  //     break;
+  //   default:
+  //     Get.toNamed(HOME_PAGE_ROUTE);
+  //     break;
+  // }
 }
 
 Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
@@ -349,6 +350,7 @@ class _MainAppState extends State<MainApp> {
         GetPage(
           name: LANDING_PAGE_ROUTE,
           page: () => const GuestLandingPage(),
+          binding: GuestLandingPageBinding(),
         ),
         //*Login page
         GetPage(

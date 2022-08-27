@@ -486,7 +486,7 @@ class PaymentForCenterServicesTransactionBodyWidget
                           ),
                         ),
                         Container(
-                          width: 210,
+                          width: 220,
                           height: 90,
                           padding: const EdgeInsets.only(left: 20),
                           decoration: BoxDecoration(
@@ -703,52 +703,55 @@ class PaymentForCenterServicesTransactionBodyWidget
                       controller.orderModel.provisionalTotal ||
                   controller.accountModel.customerModel.point <
                       promotionModel.point,
-              child: Row(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.symmetric(
-                        vertical: 30, horizontal: 10),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Container(
-                          width: 7,
-                          height: 90,
-                          decoration: BoxDecoration(
-                            color: WHITE_COLOR.withOpacity(0.7),
-                            borderRadius: const BorderRadius.horizontal(
-                              left: Radius.circular(5),
+              child: Padding(
+                padding: const EdgeInsets.only(bottom: 10),
+                child: Row(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 25, horizontal: 10),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Container(
+                            width: 7,
+                            height: 90,
+                            decoration: BoxDecoration(
+                              color: WHITE_COLOR.withOpacity(0.7),
+                              borderRadius: const BorderRadius.horizontal(
+                                left: Radius.circular(5),
+                              ),
                             ),
                           ),
-                        ),
-                        Container(
-                          width: 210,
-                          height: 90,
-                          padding: const EdgeInsets.only(left: 20),
-                          decoration: BoxDecoration(
-                            color: WHITE_COLOR.withOpacity(0.7),
-                            borderRadius: const BorderRadius.horizontal(
-                              right: Radius.circular(20),
+                          Container(
+                            width: 220,
+                            height: 90,
+                            padding: const EdgeInsets.only(left: 20),
+                            decoration: BoxDecoration(
+                              color: WHITE_COLOR.withOpacity(0.7),
+                              borderRadius: const BorderRadius.horizontal(
+                                right: Radius.circular(20),
+                              ),
                             ),
                           ),
-                        ),
-                        Container(
-                          width: 60,
-                          height: 90,
-                          alignment: Alignment.center,
-                          decoration: BoxDecoration(
-                            color: WHITE_COLOR.withOpacity(0.7),
-                            borderRadius: const BorderRadius.horizontal(
-                              left: Radius.circular(20),
-                              right: Radius.circular(5),
+                          Container(
+                            width: 60,
+                            height: 90,
+                            alignment: Alignment.center,
+                            decoration: BoxDecoration(
+                              color: WHITE_COLOR.withOpacity(0.7),
+                              borderRadius: const BorderRadius.horizontal(
+                                left: Radius.circular(20),
+                                right: Radius.circular(5),
+                              ),
                             ),
-                          ),
-                        )
-                      ],
+                          )
+                        ],
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
           ],

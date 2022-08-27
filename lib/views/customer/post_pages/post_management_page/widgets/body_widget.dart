@@ -36,6 +36,7 @@ class PostsManagementBodyWidget extends GetView<PostManagementPageController> {
                       jwt: controller.accountModel.jwtToken,
                       limit: 99,
                       page: 1,
+                      title: controller.searchText.value,
                       type: controller.selectPostType.value == 'All type'
                           ? null
                           : controller.selectPostType.value.toUpperCase())
