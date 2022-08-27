@@ -593,7 +593,7 @@ class BreedingTransactionDetailWidget
                                           .ownerPetFemaleId ==
                                       controller.accountModel.customerModel.id
                                   ? 'Payment time'
-                                  : 'Buyer payment time',
+                                  : 'Payment time',
                               style: GoogleFonts.quicksand(
                                 fontSize: 15,
                                 fontWeight: FontWeight.w500,

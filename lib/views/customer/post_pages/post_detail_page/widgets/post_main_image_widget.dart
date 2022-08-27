@@ -129,17 +129,21 @@ class PostDetailMainImageWidget extends GetView<PostDetailPageController> {
                 : const SizedBox.shrink(),
       );
 
-  Widget moreInformationButtonForegroundWidget() => Positioned(
-        right: 26.7,
-        top: 40.8,
-        child: InkWell(
-          onTap: () => controller.isShowMoreOptionWidget.value = true,
-          child: SvgPicture.asset(
-            ICON_PATH + ELLIPSIS_SVG,
-            height: 15,
-            color: WHITE_COLOR,
-          ),
-        ),
+  Widget moreInformationButtonForegroundWidget() => Obx(
+        () => controller.isLoadingData.value
+            ? Positioned(
+                right: 26.7,
+                top: 40.8,
+                child: InkWell(
+                  onTap: () => controller.isShowMoreOptionWidget.value = true,
+                  child: SvgPicture.asset(
+                    ICON_PATH + ELLIPSIS_SVG,
+                    height: 15,
+                    color: WHITE_COLOR,
+                  ),
+                ),
+              )
+            : const SizedBox.shrink(),
       );
 
   Widget imageIndexWidget() => Obx(

@@ -37,7 +37,7 @@ class PostService {
     return postList;
   }
 
-  static Future<int?> updatePostStatusByPostId({
+  static Future<bool> updatePostStatusByPostId({
     required int postId,
     required String postStatus,
     required String jwt,
@@ -60,9 +60,9 @@ class PostService {
       case 200:
       case 201:
       case 202:
-        return json.decode(response.body)['data']['id'];
+        return true;
       default:
-        throw Exception('Error ${response.statusCode}, cannot cancel post');
+        return false;
     }
   }
 
@@ -127,7 +127,7 @@ class PostService {
     }
   }
 
-  static Future createPost({
+  static Future<bool> createPost({
     required String title,
     required int sellerReceive,
     required int shopFee,
@@ -177,9 +177,16 @@ class PostService {
                 HttpHeaders.contentTypeHeader: 'multipart/form-data',
                 HttpHeaders.authorizationHeader: 'Bearer ' + jwt,
               }));
-      return response.statusCode;
-    } on DioError catch (e) {
-      return e.response!.statusCode;
+      switch (response.statusCode) {
+        case 200:
+        case 201:
+        case 202:
+          return true;
+        default:
+          return false;
+      }
+    } on DioError {
+      return false;
     }
   }
 

@@ -30,7 +30,7 @@ class CreatePostBottomWidget extends GetView<CreatePostPageController> {
                       controller.meetingTimeText.value.isNotEmpty &&
                       controller.selectBranchIndex.value != -1) {
                     controller.isShowLoadingWidget.value = true;
-                    await PostService.createPost(
+                    controller.isCreateSuccess = await PostService.createPost(
                       // description: controller.quillController.document
                       //     .toDelta()
                       //     .toJson()

@@ -24,4 +24,5 @@ class PostDetailPageController extends GetxController {
   RefreshController refreshController =
       RefreshController(initialRefresh: false);
   late int postId;
+  late bool isSuccessNotification;
 }

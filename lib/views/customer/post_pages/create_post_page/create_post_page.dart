@@ -85,8 +85,11 @@ class CreatePostPage extends GetView<CreatePostPageController> {
                       ..back()
                       ..find<PostManagementPageController>().update(),
                     content:
-                        'Create ${controller.selectedPostType.value == 'SALE' ? 'sale' : 'breeding'} post for pet ${controller.pets[controller.selectedPetIndex.value].name} successfully.',
-                    isSuccessNotification: true,
+                        'Create ${controller.selectedPostType.value == 'SALE' ? 'sale' : 'breeding'} post for pet ${controller.pets[controller.selectedPetIndex.value].name} ' +
+                            (controller.isCreateSuccess
+                                ? 'success'
+                                : 'failed.\nYour pet status is not available to create post.'),
+                    isSuccessNotification: controller.isCreateSuccess,
                   )
                 : const SizedBox.shrink(),
           ),

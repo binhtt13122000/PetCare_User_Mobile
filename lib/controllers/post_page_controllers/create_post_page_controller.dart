@@ -14,6 +14,7 @@ import 'package:petapp_mobile/models/ticket_model/ticket_model.dart';
 import 'package:petapp_mobile/models/transaction_fees_model/transaction_fees_model.dart';
 
 class CreatePostPageController extends GetxController {
+  late bool isCreateSuccess;
   List<int> petIdInTicket = [];
   late TicketModel? ticketModel;
   RxBool isShowPurchaseTransactionFees = false.obs;
