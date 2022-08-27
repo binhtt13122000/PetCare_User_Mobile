@@ -6,6 +6,7 @@ import 'package:petapp_mobile/configs/theme.dart';
 import 'package:petapp_mobile/controllers/pet_page_controllers/pet_block_chain_page_controller.dart';
 import 'package:petapp_mobile/models/pet_chain_value_model/pet_chain_value_model.dart';
 import 'package:petapp_mobile/utilities/utilities.dart';
+import 'package:petapp_mobile/views/customer/pet_pages/pet_block_chain/widgets/top_widget.dart';
 import 'package:petapp_mobile/views/widgets/customize_widget.dart';
 
 class PetBlockChainBodyWidget extends GetView<PetBlockChainPageController> {
@@ -16,6 +17,7 @@ class PetBlockChainBodyWidget extends GetView<PetBlockChainPageController> {
     return Expanded(
       child: Column(
         children: [
+          const PetBlockChainTopWidget(),
           petIdWidget(),
           Expanded(
             child: controller.petChainModel != null

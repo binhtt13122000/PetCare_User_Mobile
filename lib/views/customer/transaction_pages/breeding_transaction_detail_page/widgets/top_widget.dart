@@ -13,8 +13,9 @@ class BreedingTransactionDetailTopWidget
   const BreedingTransactionDetailTopWidget({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) => Padding(
+  Widget build(BuildContext context) => Container(
         padding: const EdgeInsets.only(top: 30),
+        color: WHITE_COLOR,
         child: Column(
           children: [
             topTitleWidget(),
@@ -98,7 +99,7 @@ class BreedingTransactionDetailTopWidget
               ),
             ),
             Obx(
-              () => controller.isWaitingLoading.value
+              () => controller.isWaitingLoadingInitData.value
                   ? const SizedBox(
                       width: 35,
                     )

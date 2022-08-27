@@ -8,7 +8,6 @@ import 'package:petapp_mobile/views/customer/transaction_pages/breeding_transact
 import 'package:petapp_mobile/views/customer/transaction_pages/breeding_transaction_detail_page/widgets/confirm_pop_up_widget.dart';
 import 'package:petapp_mobile/views/customer/transaction_pages/breeding_transaction_detail_page/widgets/more_options_widget.dart';
 import 'package:petapp_mobile/views/customer/transaction_pages/breeding_transaction_detail_page/widgets/popup_widget.dart';
-import 'package:petapp_mobile/views/customer/transaction_pages/breeding_transaction_detail_page/widgets/top_widget.dart';
 import 'package:petapp_mobile/views/customer/transaction_pages/breeding_transaction_detail_page/widgets/view_detail_popup_widget.dart';
 import 'package:petapp_mobile/views/customer/transaction_pages/breeding_transaction_detail_page/widgets/view_tab_widget.dart';
 import 'package:petapp_mobile/views/customer/transaction_pages/breeding_transaction_detail_page/widgets/web_view.dart';
@@ -34,7 +33,6 @@ class BreedingTransactionDetailPage
         children: [
           Column(
             children: const [
-              BreedingTransactionDetailTopWidget(),
               BreedingTransactionDetailBodyWidget(),
             ],
           ),
