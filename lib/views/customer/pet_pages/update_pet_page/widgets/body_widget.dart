@@ -214,7 +214,11 @@ class UpdatePetBodyWidget extends GetView<UpdatePetPageController> {
               child: Padding(
                 padding: const EdgeInsets.only(top: 8),
                 child: InkWell(
-                  onTap: () => controller.isShowCalendar.value = true,
+                  onTap: () {
+                    controller.isShowCalendar.value =
+                        controller.petModel.specialMarkings == null ||
+                            controller.petModel.specialMarkings!.isEmpty;
+                  },
                   child: Container(
                     height: 45,
                     padding: const EdgeInsets.all(10),
@@ -253,9 +257,13 @@ class UpdatePetBodyWidget extends GetView<UpdatePetPageController> {
                                   ),
                           ),
                         ),
-                        const Icon(
+                        Icon(
                           Icons.calendar_month_rounded,
-                          color: PRIMARY_COLOR,
+                          color: controller.petModel.specialMarkings != null &&
+                                  controller
+                                      .petModel.specialMarkings!.isNotEmpty
+                              ? const Color.fromARGB(255, 162, 176, 194)
+                              : PRIMARY_COLOR,
                         ),
                       ],
                     ),
@@ -271,9 +279,14 @@ class UpdatePetBodyWidget extends GetView<UpdatePetPageController> {
         padding: const EdgeInsets.only(top: 5),
         child: Obx(
           () => InkWell(
-            onTap: () => controller.selectedGender.value == 'MALE'
-                ? controller.selectedGender.value = 'FEMALE'
-                : controller.selectedGender.value = 'MALE',
+            onTap: () {
+              if (controller.petModel.specialMarkings == null ||
+                  controller.petModel.specialMarkings!.isEmpty) {
+                controller.selectedGender.value == 'MALE'
+                    ? controller.selectedGender.value = 'FEMALE'
+                    : controller.selectedGender.value = 'MALE';
+              }
+            },
             child: Row(
               children: [
                 Container(
@@ -282,7 +295,11 @@ class UpdatePetBodyWidget extends GetView<UpdatePetPageController> {
                   alignment: Alignment.center,
                   decoration: BoxDecoration(
                     color: controller.selectedGender.value == 'MALE'
-                        ? const Color.fromARGB(255, 99, 194, 238)
+                        ? controller.petModel.specialMarkings == null ||
+                                controller.petModel.specialMarkings!.isEmpty
+                            ? const Color.fromARGB(255, 99, 194, 238)
+                            : const Color.fromARGB(255, 99, 194, 238)
+                                .withOpacity(0.5)
                         : const Color.fromARGB(255, 237, 240, 243),
                     borderRadius: const BorderRadius.horizontal(
                       left: Radius.circular(7),
@@ -323,7 +340,11 @@ class UpdatePetBodyWidget extends GetView<UpdatePetPageController> {
                   alignment: Alignment.center,
                   decoration: BoxDecoration(
                     color: controller.selectedGender.value == 'FEMALE'
-                        ? const Color.fromARGB(255, 240, 128, 171)
+                        ? controller.petModel.specialMarkings == null ||
+                                controller.petModel.specialMarkings!.isEmpty
+                            ? const Color.fromARGB(255, 240, 128, 171)
+                            : const Color.fromARGB(255, 240, 128, 171)
+                                .withOpacity(0.5)
                         : const Color.fromARGB(255, 237, 240, 243),
                     borderRadius: const BorderRadius.horizontal(
                         right: Radius.circular(7)),

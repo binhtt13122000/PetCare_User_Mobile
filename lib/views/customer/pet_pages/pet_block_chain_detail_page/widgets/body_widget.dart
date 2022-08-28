@@ -101,6 +101,10 @@ class PetBlockChainDetailBodyWidget
         chainColor = BLUE_COLOR;
         chainStatusText = 'Update information';
         break;
+      case 'UPDATE_MYSELF':
+        chainColor = BLUE_COLOR;
+        chainStatusText = 'Self update info';
+        break;
       case 'CREATE':
         chainColor = GREEN_COLOR;
         chainStatusText = 'Init data';
@@ -109,10 +113,19 @@ class PetBlockChainDetailBodyWidget
         chainColor = YELLOW_COLOR;
         chainStatusText = 'Change owner';
         break;
+      case 'HAVE_BREED':
+        chainColor = PINK_COLOR;
+        chainStatusText = 'Have breeding';
+        break;
+      case 'HAVE_PREGNANT':
+        chainColor = PINK_COLOR;
+        chainStatusText = 'Have pregnant';
+        break;
       default:
         chainColor = YELLOW_COLOR;
         chainStatusText = controller.petChainValueModel.type;
     }
+
     return Column(
       children: [
         Container(

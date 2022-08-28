@@ -163,7 +163,7 @@ class GuestLandingBodyWidget extends GetView<GuestLandingPageController> {
               height: 300,
             ),
             Text(
-              'Welcom to iU Petshop!',
+              'Welcome to iU Petshop!',
               style: GoogleFonts.quicksand(
                 color: PRIMARY_COLOR,
                 fontSize: 23,
