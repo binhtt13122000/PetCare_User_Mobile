@@ -279,38 +279,47 @@ class CreateTicketSelectPetWidget extends GetView<CreateTicketPageController> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 10),
-                    child: FittedBox(
-                      fit: BoxFit.scaleDown,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          CUSTOM_TEXT(
-                            controller.centerServicesModelList[index].name +
-                                (timeText.length > 10 ||
-                                        controller
-                                                .centerServicesModelList[index]
-                                                .name
-                                                .length >
-                                            20
-                                    ? ''
-                                    : ' ($timeText)'),
-                            color: WHITE_COLOR,
-                            textAlign: TextAlign.center,
-                          ),
-                          Visibility(
-                            visible: timeText.length > 10 ||
-                                controller.centerServicesModelList[index].name
-                                        .length >
-                                    20,
-                            child: CUSTOM_TEXT(
-                              '($timeText)',
+                  child: InkWell(
+                    onTap: () {
+                      controller
+                        ..selectCenterServiceModel =
+                            controller.centerServicesModelList[index]
+                        ..isShowCenterServices.value = true;
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 10),
+                      child: FittedBox(
+                        fit: BoxFit.scaleDown,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            CUSTOM_TEXT(
+                              controller.centerServicesModelList[index].name +
+                                  (timeText.length > 10 ||
+                                          controller
+                                                  .centerServicesModelList[
+                                                      index]
+                                                  .name
+                                                  .length >
+                                              20
+                                      ? ''
+                                      : ' ($timeText)'),
                               color: WHITE_COLOR,
                               textAlign: TextAlign.center,
                             ),
-                          ),
-                        ],
+                            Visibility(
+                              visible: timeText.length > 10 ||
+                                  controller.centerServicesModelList[index].name
+                                          .length >
+                                      20,
+                              child: CUSTOM_TEXT(
+                                '($timeText)',
+                                color: WHITE_COLOR,
+                                textAlign: TextAlign.center,
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ),

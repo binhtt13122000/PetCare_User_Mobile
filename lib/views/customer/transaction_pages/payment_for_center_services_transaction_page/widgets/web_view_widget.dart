@@ -4,6 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:petapp_mobile/configs/path.dart';
 import 'package:petapp_mobile/configs/theme.dart';
+import 'package:petapp_mobile/controllers/pet_page_controllers/pet_detail_page_controller.dart';
 import 'package:petapp_mobile/controllers/transaction_page_controllers/breeding_transaction_detail_page_controller.dart';
 import 'package:petapp_mobile/controllers/transaction_page_controllers/center_services_transaction_detail_page_controller.dart';
 import 'package:petapp_mobile/controllers/transaction_page_controllers/payment_for_center_services_transaction_page_controller.dart';
@@ -61,7 +62,8 @@ class PaymentForCenterServicesTransactionWebViewWidget
                             ..back()
                             ..put(OrderDetailPageController()).update()
                             ..put(BreedingTransactionDetailPageController())
-                                .update();
+                                .update()
+                            ..put(PetDetailPageController()).update();
                         }
                         ..notificationContent =
                             'Payment for transaction #${paymentForCenterServicesTransactionPageController.orderId} successfully.'

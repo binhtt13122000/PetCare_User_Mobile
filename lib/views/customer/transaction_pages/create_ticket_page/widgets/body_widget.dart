@@ -128,8 +128,10 @@ class CreateTicketBodyWidget extends GetView<CreateTicketPageController> {
             children: [
               Expanded(
                 child: SmartRefresher(
+                  enablePullUp: false,
+                  enablePullDown: false,
                   controller: RefreshController(),
-                  onRefresh: () => controller.update(),
+                  //onRefresh: () => controller.update(),
                   child: SingleChildScrollView(
                     child: Column(
                       children: [

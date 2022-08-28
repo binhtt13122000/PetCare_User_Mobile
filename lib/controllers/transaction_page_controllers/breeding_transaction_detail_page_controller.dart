@@ -4,6 +4,7 @@ import 'package:petapp_mobile/controllers/other_controllers/auth_controller.dart
 import 'package:petapp_mobile/models/account_model/account_model.dart';
 import 'package:petapp_mobile/models/breeding_transaction_model/breeding_transaction_model.dart';
 import 'package:petapp_mobile/models/order_model/order_model.dart';
+import 'package:petapp_mobile/models/ticket_model/ticket_model.dart';
 
 class BreedingTransactionDetailPageController extends GetxController {
   //*notification popup
@@ -11,6 +12,7 @@ class BreedingTransactionDetailPageController extends GetxController {
   bool isSuccessNotification = true;
   String notificationContent = '';
   Function()? onTapNotification;
+  TicketModel? ticketModel;
   //*normal
   AccountModel accountModel = Get.find<AuthController>().accountModel;
   late int breedingTransactionId;

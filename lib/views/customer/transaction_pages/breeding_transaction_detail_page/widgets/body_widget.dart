@@ -6,6 +6,7 @@ import 'package:petapp_mobile/configs/path.dart';
 import 'package:petapp_mobile/configs/theme.dart';
 import 'package:petapp_mobile/controllers/transaction_page_controllers/breeding_transaction_detail_page_controller.dart';
 import 'package:petapp_mobile/services/transaction_services/breeding_transaction_services.dart';
+import 'package:petapp_mobile/services/transaction_services/ticket_services.dart';
 import 'package:petapp_mobile/utilities/utilities.dart';
 import 'package:petapp_mobile/views/customer/transaction_pages/breeding_transaction_detail_page/widgets/bottom_widget.dart';
 import 'package:petapp_mobile/views/customer/transaction_pages/breeding_transaction_detail_page/widgets/breeding_services_for_female_pet_widget.dart';
@@ -33,6 +34,9 @@ class BreedingTransactionDetailBodyWidget
                 await BreedingTransactionService.fetchBreedingTransactionById(
                     jwt: controller.accountModel.jwtToken,
                     breedingTransactionId: controller.breedingTransactionId)
+            ..ticketModel = await TicketServices.fetchTicketByCustomerId(
+                jwt: controller.accountModel.jwtToken,
+                customerId: controller.accountModel.customerModel.id)
             ..sortComboList()
             ..isReloadAll = false
             ..isWaitingLoadingInitData.value = false;

@@ -11,6 +11,7 @@ import 'package:petapp_mobile/views/customer/transaction_pages/create_ticket_pag
 import 'package:petapp_mobile/views/customer/transaction_pages/create_ticket_page/widgets/body_widget.dart';
 import 'package:petapp_mobile/views/customer/transaction_pages/create_ticket_page/widgets/pick_time_widget.dart';
 import 'package:petapp_mobile/views/customer/transaction_pages/create_ticket_page/widgets/select_pet_widget.dart';
+import 'package:petapp_mobile/views/customer/transaction_pages/create_ticket_page/widgets/services_detail.dart';
 import 'package:petapp_mobile/views/customer/transaction_pages/create_ticket_page/widgets/top_widget.dart';
 import 'package:petapp_mobile/views/widgets/calendar_widget.dart';
 import 'package:petapp_mobile/views/widgets/confirm_popup_widget.dart';
@@ -187,6 +188,7 @@ class CreateTicketPage extends GetView<CreateTicketPageController> {
                   )
                 : const SizedBox.shrink(),
           ),
+          const CreateTicketServicesDetailWidget(),
           Obx(
             () => Visibility(
               visible: controller.isLoadingForeground.value,

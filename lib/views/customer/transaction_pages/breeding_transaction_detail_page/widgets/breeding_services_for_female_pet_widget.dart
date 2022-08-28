@@ -110,25 +110,30 @@ class BreedingTransactionDetailBreedingServicesForFemalePetWidget
 
   Widget noHaveDataWidget() {
     late String content;
-    switch (controller.breedingTransactionModel.status) {
-      case 'CREATED':
-        content = controller.breedingTransactionModel.femalePetModel.breedModel!
-                .speciesModel!.isBreeding
-            ? 'Use our reproductive health\n services, booking one now!'
-            : 'Sorry, our branch has not supported breeding for ${controller.breedingTransactionModel.femalePetModel.breedModel!.speciesModel!.name} species yet!';
-        break;
-      case 'CANCELED':
-        content =
-            'This breeding transaction have been canceled, you can buy more breeding services!';
-        break;
-      case 'EXPIRED':
-        content =
-            'This breeding transaction have been expired, you can buy more breeding services!';
-        break;
-      default:
-        content =
-            'This breeding transaction have been completed, you can buy more breeding services!';
+    if (controller.ticketModel != null) {
+      content = 'You already have a ticket\ncan not booking more.';
+    } else {
+      switch (controller.breedingTransactionModel.status) {
+        case 'CREATED':
+          content = controller.breedingTransactionModel.femalePetModel
+                  .breedModel!.speciesModel!.isBreeding
+              ? 'Use our reproductive health\n services, booking one now!'
+              : 'Sorry, our branch has not supported breeding for ${controller.breedingTransactionModel.femalePetModel.breedModel!.speciesModel!.name} species yet!';
+          break;
+        case 'CANCELED':
+          content =
+              'This breeding transaction have been canceled, you can buy more breeding services!';
+          break;
+        case 'EXPIRED':
+          content =
+              'This breeding transaction have been expired, you can buy more breeding services!';
+          break;
+        default:
+          content =
+              'This breeding transaction have been completed, you can buy more breeding services!';
+      }
     }
+
     return Container(
       color: WHITE_COLOR,
       padding: EdgeInsets.symmetric(
@@ -147,7 +152,8 @@ class BreedingTransactionDetailBreedingServicesForFemalePetWidget
           Visibility(
             visible: controller.breedingTransactionModel.status == 'CREATED' &&
                 controller.breedingTransactionModel.femalePetModel.breedModel!
-                    .speciesModel!.isBreeding,
+                    .speciesModel!.isBreeding &&
+                controller.ticketModel == null,
             child: Padding(
               padding: const EdgeInsets.only(top: 20),
               child: InkWell(
@@ -804,7 +810,7 @@ class BreedingTransactionDetailBreedingServicesForFemalePetWidget
         if (durationUnitNum < 15) {
           durationUnitNum--;
         }
-        durationUnit = durationUnitNum.toString();
+        durationUnit = durationUnitNum == 0 ? '1' : durationUnitNum.toString();
         suffixDurationText = ' months';
       } else if (durationDays > 0) {
         prefixDurationText = 'Next ';

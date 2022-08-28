@@ -62,6 +62,27 @@ class PostDetailGeneralInformationWidget
                     ],
                   ),
                 ),
+                Visibility(
+                  visible: controller.postModel.status == 'REQUESTED',
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      CUSTOM_TEXT(
+                        'Meeting time: ',
+                        color: DARK_GREY_TEXT_COLOR.withOpacity(0.8),
+                      ),
+                      Expanded(
+                        child: CUSTOM_TEXT(
+                          FORMAT_DATE_TIME(
+                              dateTime: controller.postModel.meetingTime!,
+                              pattern: DATE_PATTERN_2),
+                          color: DARK_GREY_TEXT_COLOR.withOpacity(0.95),
+                          textOverflow: TextOverflow.clip,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
                 informationCartList(),
               ],
             ),
@@ -343,7 +364,9 @@ class PostDetailGeneralInformationWidget
                     ),
                   ),
                   Text(
-                    controller.postModel.petModel!.specialMarkings != null
+                    controller.postModel.petModel!.specialMarkings != null &&
+                            controller
+                                .postModel.petModel!.specialMarkings!.isNotEmpty
                         ? 'Available'
                         : 'Not available',
                     textAlign: TextAlign.center,

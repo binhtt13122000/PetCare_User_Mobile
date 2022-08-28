@@ -25,8 +25,15 @@ class AddServicesWidget extends GetView<CreateTicketPageController> {
                       speciesId: controller.pets[controller.selectPetIndex]
                           .breedModel!.speciesId,
                     );
+                    int length = 0;
+                    for (var element in centerServicesModelList) {
+                      if (element.speciesId == speciesId &&
+                          element.type != 'BREED') {
+                        length++;
+                      }
+                    }
 
-                    listHeight = centerServicesModelList.length * 38;
+                    listHeight = length * 60;
                     if (listHeight > 500) {
                       listHeight = 500;
                     }
@@ -36,8 +43,14 @@ class AddServicesWidget extends GetView<CreateTicketPageController> {
                       ..isLoadingServices.value = false;
                   });
                 } else {
-                  listHeight =
-                      controller.mapCenterServices[speciesId]!.length * 38;
+                  int length = controller.mapCenterServices[speciesId]!.length;
+                  for (var element
+                      in controller.mapCenterServices[speciesId]!) {
+                    if (element.type == 'BREED') {
+                      length--;
+                    }
+                  }
+                  listHeight = length * 60;
                   if (listHeight > 500) {
                     listHeight = 500;
                   }

@@ -9,6 +9,9 @@ import 'package:petapp_mobile/models/ticket_time_model/ticket_time_model.dart';
 import 'package:petapp_mobile/utilities/utilities.dart';
 
 class CreateTicketPageController extends GetxController {
+  late CenterServiceModel selectCenterServiceModel;
+  RxBool isShowCenterServices = false.obs;
+  RxBool isViewDescription = false.obs;
   int countPet = 0;
   int? petId;
   int? serviceId;

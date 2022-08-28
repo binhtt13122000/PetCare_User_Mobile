@@ -483,12 +483,12 @@ class SelectPetWidget extends GetView<CreatePostPageController> {
           index != controller.pets.length
               ? Container(
                   height: 4,
-                  width: 200,
+                  width: 250,
                   color: const Color.fromARGB(255, 247, 248, 250),
                   alignment: Alignment.center,
                   child: Container(
                     height: 1,
-                    width: 190,
+                    width: 250,
                     decoration: const BoxDecoration(
                       color: Color.fromARGB(255, 179, 187, 202),
                     ),
